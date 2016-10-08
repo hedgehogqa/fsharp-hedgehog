@@ -1,0 +1,7 @@
+source https://www.nuget.org/api/v2/
+
+nuget FAKE 4.41.1
+
+nuget FSharp.Core 4.0.0.1
+nuget FSharpPlus 1.0.0-CI00018
+nuget FSharpx.Collections 1.15.2

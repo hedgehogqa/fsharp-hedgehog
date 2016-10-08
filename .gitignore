@@ -38,3 +38,9 @@ Thumbs.db
 
 #dotCover
 *.dotCover
+
+# FAKE - F# Make
+.fake/
+
+# Paket - dependency management for .NET and Mono projects
+.paket/paket.exe
