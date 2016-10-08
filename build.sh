@@ -13,4 +13,4 @@ if ! test -f .paket/paket.bootstrapper.run || find .paket/paket.bootstrapper.run
 fi
 
 $MONO .paket/paket.exe restore
-$MONO packages/FAKE/tools/FAKE.exe
+$MONO packages/FAKE/tools/FAKE.exe $@
