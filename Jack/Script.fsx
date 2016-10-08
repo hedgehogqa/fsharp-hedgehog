@@ -1,11 +1,11 @@
 ﻿#r "./packages/FSharpx.Collections/lib/net40/FSharpx.Collections.dll"
 #r "./packages/FsControl/lib/net40/FsControl.dll"
 
-#load "src/Seed.fs"
-#load "src/Tree.fs"
-#load "src/Shrink.fs"
-#load "src/Random.fs"
-#load "src/Gen.fs"
+#load "Seed.fs"
+#load "Tree.fs"
+#load "Shrink.fs"
+#load "Random.fs"
+#load "Gen.fs"
 
 open System
 open Jack
