@@ -1,5 +1,5 @@
-﻿#r "packages/FSharpx.Collections.1.15.2/lib/net40/FSharpx.Collections.dll"
-#r "packages/FsControl.2.0.0-CI00093/lib/net40/FsControl.dll"
+﻿#r "./packages/FSharpx.Collections/lib/net40/FSharpx.Collections.dll"
+#r "./packages/FsControl/lib/net40/FsControl.dll"
 
 #load "src/Seed.fs"
 #load "src/Tree.fs"
