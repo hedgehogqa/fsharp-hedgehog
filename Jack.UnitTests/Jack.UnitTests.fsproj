@@ -47,6 +47,13 @@
     <Compile Include="Library1.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jack\Jack.fsproj">
+      <Name>Jack</Name>
+      <Project>{b338b8c4-1c98-4f42-9c45-56bd7ef2ad0a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
