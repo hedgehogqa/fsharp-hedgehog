@@ -1,14 +1,11 @@
-#!/bin/bash
-.paket/paket.bootstrapper.exe
-exit_code=$?
-if [ $exit_code -ne 0 ]; then
-  exit $exit_code
+#!/bin/sh -eu
+
+if [ -z "${COMSPEC-}" ]; then
+  MONO="mono"
+else
+  MONO=""
 fi
 
-.paket/paket.exe restore
-exit_code=$?
-if [ $exit_code -ne 0 ]; then
-  exit $exit_code
-fi
-
-packages/FAKE/tools/FAKE.exe
+$MONO .paket/paket.bootstrapper.exe
+$MONO .paket/paket.exe restore
+$MONO packages/FAKE/tools/FAKE.exe
