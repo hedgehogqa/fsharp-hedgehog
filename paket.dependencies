@@ -8,3 +8,4 @@ nuget FSharpPlus 1.0.0-CI00018
 nuget FSharpx.Collections 1.15.2
 
 nuget xunit.core 2.1.0
+nuget Unquote 3.1.2
