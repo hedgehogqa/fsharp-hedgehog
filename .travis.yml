@@ -1,0 +1,10 @@
+language: csharp
+
+sudo: false
+
+script:
+  - ./validate.sh && ./build.sh
+
+branches:
+  only:
+    - master
