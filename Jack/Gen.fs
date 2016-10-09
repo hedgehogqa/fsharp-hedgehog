@@ -17,8 +17,8 @@ module Gen =
     let create (shrink : 'a -> LazyList<'a>) (random : Random<'a>) : Gen<'a> =
         Random.map (Tree.unfold id shrink) random |> ofRandom
 
-    let result (x : 'a) : Gen<'a> =
-        Tree.result x |> Random.result |> ofRandom
+    let constant (x : 'a) : Gen<'a> =
+        Tree.singleton x |> Random.constant |> ofRandom
 
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
@@ -27,7 +27,7 @@ module Gen =
         mapRandom (Random.map f) g
 
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
-       mapTree (Tree.map f) g
+        mapTree (Tree.map f) g
 
     let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
         Random <| fun seed0 size ->
@@ -44,13 +44,13 @@ module Gen =
 
     type Builder internal () =
         member __.Return(a) =
-            result a
+            constant a
         member __.ReturnFrom(g) =
             g
         member __.Bind(m, k) =
             bind m k
         member __.Zero() =
-            result ()
+            constant ()
 
     let private gen = Builder ()
 

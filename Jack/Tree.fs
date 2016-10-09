@@ -21,7 +21,7 @@ module Tree =
         xs
 
     /// Create a tree with a single outcome and no shrinks.
-    let result (x : 'a) : Tree<'a> =
+    let singleton (x : 'a) : Tree<'a> =
         Node (x, LazyList.empty)
 
     /// Map over a tree.

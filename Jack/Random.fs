@@ -18,7 +18,7 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let result (x : 'a) : Random<'a> =
+    let constant (x : 'a) : Random<'a> =
         Random <| fun _ _ ->
             x
 
