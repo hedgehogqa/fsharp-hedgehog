@@ -46,6 +46,7 @@
     <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
+    <Compile Include="Property.fs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
