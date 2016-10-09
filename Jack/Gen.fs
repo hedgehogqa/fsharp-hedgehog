@@ -1,5 +1,4 @@
-﻿#light
-namespace Jack
+﻿namespace Jack
 
 open FSharpx.Collections
 
