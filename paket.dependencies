@@ -6,3 +6,5 @@ nuget xunit.runner.console 2.1.0
 nuget FSharp.Core 4.0.0.1
 nuget FSharpPlus 1.0.0-CI00018
 nuget FSharpx.Collections 1.15.2
+
+nuget xunit.core 2.1.0
