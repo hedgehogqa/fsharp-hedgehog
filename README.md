@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jystic/dotnet-jack.svg?branch=master)](https://travis-ci.org/jystic/dotnet-jack)
+
 # dotnet-jack
 
 Testing library in the spirit of Hughes & Classen's Haskell QuickCheck,
