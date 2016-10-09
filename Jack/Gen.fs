@@ -27,13 +27,17 @@ module Gen =
         mapRandom (Random.map f) g
 
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
-        mapTree (Tree.map f) g
+       mapTree (Tree.map f) g
 
     let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
-        Random.bind m <| fun ta ->
-            Tree.map k ta
-            |> Random.promoteTree
-            |> Random.map Tree.join
+        Random <| fun seed0 size ->
+          let seed1, seed2 =
+              Seed.split seed0
+
+          let run (seed : Seed) (random : Random<'x>) : 'x =
+              Random.run seed size random
+
+          Tree.bind (run seed1 m) (run seed2 << k)
 
     let bind (m0 : Gen<'a>) (k0 : 'a -> Gen<'b>) : Gen<'b> =
         bindRandom (toRandom m0) (toRandom << k0) |> ofRandom

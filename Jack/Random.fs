@@ -47,15 +47,6 @@ module Random =
                     loop seed2 (k - 1) (x :: acc)
             loop seed0 times []
 
-    /// Randomly generates a function which can be used to evaluate random generators.
-    let delay () : Random<Random<'a> -> 'a> =
-        Random unsafeRun
-
-    /// Promotes a tree of random generators to a random generator of trees.
-    let promoteTree (tree : Tree<Random<'a>>) : Random<Tree<'a>> =
-        bind (delay ()) <| fun eval ->
-            result (Tree.map eval tree)
-
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Random<'a>) : Random<'a> =
         Random <| fun seed size ->
