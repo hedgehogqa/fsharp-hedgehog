@@ -6,10 +6,17 @@
 #load "Shrink.fs"
 #load "Random.fs"
 #load "Gen.fs"
+#load "Property.fs"
 
 open System
 open Jack
 open FSharpx.Collections
+
+Property.check <| forAll {
+    let! x = Gen.choose 1 100
+    let! y = Gen.elements [ "a"; "b"; "c"; "d" ]
+    return! x < 50 || y = "a"
+}
 
 Gen.printSample <| gen {
     let! x = Gen.choose 0 10
