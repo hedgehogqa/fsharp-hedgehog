@@ -9,7 +9,6 @@
 //    Comm ACM, 31(6), Jun 1988, pp742-749.
 //
 
-#light
 namespace Jack
 
 /// Splittable random number generator.
