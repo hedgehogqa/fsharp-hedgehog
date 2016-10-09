@@ -7,3 +7,4 @@ NUGET
       FsControl (>= 2.0.0-CI00075)
     FSharpx.Collections (1.15.2)
       FSharp.Core
+    xunit.runner.console (2.1)
