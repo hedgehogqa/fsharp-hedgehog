@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Library1.fs" />
+    <Compile Include="ShrinkTests.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
