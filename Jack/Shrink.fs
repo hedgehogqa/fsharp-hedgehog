@@ -23,7 +23,7 @@ module LazyList =
 module Shrink =
     /// Permutes a list by removing 'k' consecutive elements from it:
     ///
-    /// <c>removes 2 [1,2,3,4,5,6] = [[3,4,5,6],[1,2,5,6],[1,2,3,4]]</c>
+    /// <c>removes 2 [1;2;3;4;5;6] = [[3;4;5;6];[1;2;5;6];[1;2;3;4]]</c>
     ///
     let removes (k0 : int) (xs0 : List<'a>) : LazyList<List<'a>> =
         let rec loop (k : int) (n : int) (xs : List<'a>) : LazyList<List<'a>> =
