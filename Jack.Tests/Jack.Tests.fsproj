@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="ShrinkTests.fs" />
-    <None Include="Script.fsx" />
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
