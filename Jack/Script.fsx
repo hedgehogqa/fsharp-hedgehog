@@ -8,9 +8,7 @@
 #load "Gen.fs"
 #load "Property.fs"
 
-open System
 open Jack
-open FSharpx.Collections
 
 Property.check <| forAll {
     let! x = Gen.choose 1 100
