@@ -1,6 +1,7 @@
 ﻿namespace Jack
 
 open FSharpx.Collections
+open Jack.Numeric
 
 /// A generator for values and shrink trees of type 'a.
 type Gen<'a> =
@@ -13,20 +14,14 @@ module Gen =
     let toRandom (Gen r : Gen<'a>) : Random<Tree<'a>> =
         r
 
+    let delay (f : unit -> Gen<'a>) : Gen<'a> =
+        Random.delay (toRandom << f) |> ofRandom
+
     let create (shrink : 'a -> LazyList<'a>) (random : Random<'a>) : Gen<'a> =
         Random.map (Tree.unfold id shrink) random |> ofRandom
 
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
-
-    let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
-        toRandom g |> f |> ofRandom
-
-    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
-        mapRandom (Random.map f) g
-
-    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
-        mapTree (Tree.map f) g
 
     let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
         Random <| fun seed0 size ->
@@ -41,6 +36,37 @@ module Gen =
     let bind (m0 : Gen<'a>) (k0 : 'a -> Gen<'b>) : Gen<'b> =
         bindRandom (toRandom m0) (toRandom << k0) |> ofRandom
 
+    let apply (gf : Gen<'a -> 'b>) (gx : Gen<'a>) : Gen<'b> =
+        bind gf <| fun f ->
+        bind gx <| fun x ->
+        constant (f x)
+
+    let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
+        toRandom g |> f |> ofRandom
+
+    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
+        mapRandom (Random.map f) g
+
+    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
+        mapTree (Tree.map f) g
+
+    let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
+        bind gx <| fun x ->
+        bind gy <| fun y ->
+        constant (f x y)
+
+    let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
+        bind gx <| fun x ->
+        bind gy <| fun y ->
+        bind gz <| fun z ->
+        constant (f x y z)
+
+    let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
+        map2 (fun x y -> x, y) gx gy
+
+    let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
+        map3 (fun x y z -> x, y, z) gx gy gz
+
     type Builder internal () =
         member __.Return(a) =
             constant a
@@ -48,10 +74,30 @@ module Gen =
             g
         member __.Bind(m, k) =
             bind m k
-        member __.Zero() =
-            constant ()
 
     let private gen = Builder ()
+
+    //
+    // Combinators - Shrinking
+    //
+
+    /// Prevent a 'Gen' from shrinking.
+    let noShrink (g : Gen<'a>) : Gen<'a> =
+        let drop (Node (x, _)) =
+            Node (x, LazyList.empty)
+        mapTree drop g
+
+    /// Apply an additional shrinker to all generated trees.
+    let shrinkLazy (f : 'a -> LazyList<'a>) (g : Gen<'a>) : Gen<'a> =
+        mapTree (Tree.expand f) g
+
+    /// Apply an additional shrinker to all generated trees.
+    let shrink (f : 'a -> List<'a>) (g : Gen<'a>) : Gen<'a>  =
+        shrinkLazy (LazyList.ofList << f) g
+
+    //
+    // Combinators - Size
+    //
 
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Gen<'a>) : Gen<'a> =
@@ -69,19 +115,242 @@ module Gen =
             resize (f n) g
 
     //
-    // Combinators
+    // Combinators - Numeric
     //
 
-    /// Generates a random element in the given inclusive range.
-    let inline choose (lo : ^a) (hi : ^a) : Gen<'a> =
-        create (Shrink.towards lo) (Random.choose lo hi)
+    /// Generates a random number in the given inclusive range.
+    let inline range (lo : ^a) (hi : ^a) : Gen<'a> =
+        create (Shrink.towards lo) (Random.range lo hi)
 
-    /// Randomly selects one of the values in the array.
-    /// <i>The input array must be non-empty.</i>
-    let elements (xs : List<'a>) : Gen<'a> = gen {
-        let! ix = choose 0 (List.length xs - 1)
-        return List.item ix xs
+    /// Generates a random number from the whole range of the numeric type.
+    let inline bounded () : Gen<'a> =
+        let lo = minValue ()
+        let hi = maxValue ()
+        let zero = LanguagePrimitives.GenericZero
+
+        create (Shrink.towards zero) (Random.range lo hi)
+
+    /// Generates a random number in the given inclusive range, but smaller
+    /// numbers are generated more often than bigger ones.
+    let inline sizedRange (lo : ^a) (hi : ^a) : Gen<'a> =
+        create (Shrink.towards lo) (Random.sizedRange lo hi)
+
+    /// Generates a random number from the whole range of the numeric type, but
+    /// smaller numbers are generated more often than bigger ones.
+    let inline sizedBounded () : Gen<'a> =
+        let lo = minValue ()
+        let hi = maxValue ()
+        let zero = LanguagePrimitives.GenericZero
+
+        create (Shrink.towards zero) (Random.sizedRange lo hi)
+
+    //
+    // Combinators - Choice
+    //
+
+    let private crashEmpty (arg : string) : 'b =
+        invalidArg arg (sprintf "'%s' must have at least one element" arg)
+
+    /// Randomly selects one of the values in the list.
+    /// <i>The input list must be non-empty.</i>
+    let item (xs0 : seq<'a>) : Gen<'a> = gen {
+        let xs = Array.ofSeq xs0
+        if Array.isEmpty xs then
+            return crashEmpty "xs"
+        else
+            let! ix = range 0 (Array.length xs - 1)
+            return Array.item ix xs
     }
+
+    /// Uses a weighted distribution to randomly select one of the gens in the list.
+    /// <i>The input list must be non-empty.</i>
+    let frequency (xs0 : seq<int * Gen<'a>>) : Gen<'a> = gen {
+        let xs =
+            List.ofSeq xs0
+
+        let total =
+            List.sum (List.map fst xs)
+
+        let rec pick n = function
+            | [] ->
+                crashEmpty "xs"
+            | (k, y) :: ys ->
+                if n <= k then
+                    y
+                else
+                    pick (n - k) ys
+
+        let! n = range 1 total
+        return! pick n xs
+    }
+
+    /// Randomly selects one of the gens in the list.
+    /// <i>The input list must be non-empty.</i>
+    let choice (xs0 : seq<Gen<'a>>) : Gen<'a> = gen {
+        let xs = Array.ofSeq xs0
+        if Array.isEmpty xs then
+            return crashEmpty "xs" xs
+        else
+            let! ix = range 0 (Array.length xs - 1)
+            return! Array.item ix xs
+    }
+
+    /// Randomly selects from one of the gens in either the non-recursive or the
+    /// recursive list. When a selection is made from the recursive list, the size
+    /// is halved. When the size gets to one or less, selections are no longer made
+    /// from the recursive list.
+    /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i>
+    let choiceRec (nonrecs : seq<Gen<'a>>) (recs : seq<Gen<'a>>) : Gen<'a> =
+        sized <| fun n ->
+            if n <= 1 then
+                choice nonrecs
+            else
+                let halve x = x / 2
+                choice <| Seq.append nonrecs (Seq.map (scale halve) recs)
+
+    //
+    // Combinators - Collections
+    //
+
+    let private atLeast (n : int) (xs : List<'a>) : bool =
+        n = 0 || not (List.isEmpty (List.skip (n - 1) xs))
+
+    /// Generates a list between 'n' and 'm' in length.
+    let list' (n : int) (m : int) (g : Gen<'a>) : Gen<List<'a>> =
+        ofRandom <| random {
+            let! k = Random.range n m
+            let! xs = Random.replicate k (toRandom g)
+            return Shrink.sequenceList xs
+                |> Tree.filter (atLeast (min n m))
+        }
+
+    /// Generates a list of random length. The maximum length depends on the
+    /// size parameter.
+    let list (g : Gen<'a>) : Gen<List<'a>> =
+        sized (fun size -> list' 0 size g)
+
+    /// Generates a non-empty list of random length. The maximum length depends
+    /// on the size parameter.
+    let list1 (g : Gen<'a>) : Gen<List<'a>> =
+        sized (fun size -> list' 1 size g)
+
+    /// Generates an array between 'n' and 'm' in length.
+    let array' (n : int) (m : int) (g : Gen<'a>) : Gen<array<'a>> =
+        list' n m g |> map Array.ofList
+
+    /// Generates an array of random length. The maximum length depends on the
+    /// size parameter.
+    let array (g : Gen<'a>) : Gen<array<'a>> =
+        list g |> map Array.ofList
+
+    /// Generates a non-empty array of random length. The maximum length
+    /// depends on the size parameter.
+    let array1 (g : Gen<'a>) : Gen<array<'a>> =
+        list1 g |> map Array.ofList
+
+    /// Generates a sequence between 'n' and 'm' in length.
+    let seq' (n : int) (m : int) (g : Gen<'a>) : Gen<seq<'a>> =
+        list' n m g |> map Seq.ofList
+
+    /// Generates a sequence of random length. The maximum length depends on
+    /// the size parameter.
+    let seq (g : Gen<'a>) : Gen<seq<'a>> =
+        list g |> map Seq.ofList
+
+    /// Generates a non-empty sequence of random length. The maximum length
+    /// depends on the size parameter.
+    let seq1 (g : Gen<'a>) : Gen<seq<'a>> =
+        list1 g |> map Seq.ofList
+
+    //
+    // Combinators - Characters
+    //
+
+    // Generates a random character in the specified range.
+    let charRange (lo : char) (hi : char) : Gen<char> =
+        range (int lo) (int hi) |> map char
+
+    /// Generates a random character.
+    let char : Gen<char> =
+        let lo = System.Char.MinValue
+        let hi = System.Char.MaxValue
+        sizedRange (int lo) (int hi) |> map char
+
+    // Generates a random digit.
+    let digit : Gen<char> =
+        charRange '0' '9'
+
+    // Generates a random lowercase character.
+    let lower : Gen<char> =
+        charRange 'a' 'z'
+
+    // Generates a random uppercase character.
+    let upper : Gen<char> =
+        charRange 'A' 'Z'
+
+    // Generates a random alpha character.
+    let alpha : Gen<char> =
+        choice [lower; upper]
+
+    // Generates a random alpha-numeric character.
+    let alphaNum : Gen<char> =
+        choice [lower; upper; digit]
+
+    /// Generates a random string using the specified character generator.
+    let string' (g : Gen<char>) : Gen<string> =
+        array g |> map (fun xs -> new System.String(xs))
+
+    /// Generates a random string.
+    let string : Gen<string> =
+        choice [alphaNum; char] |> string'
+
+    //
+    // Combinators - Primitives
+    //
+
+    /// Generates a random boolean.
+    let bool : Gen<bool> =
+        item [false; true]
+
+    /// Generates a random byte.
+    let byte : Gen<byte> =
+        sizedBounded ()
+
+    /// Generates a random signed byte.
+    let sbyte : Gen<sbyte> =
+        sizedBounded ()
+
+    /// Generates a random signed 16-bit integer.
+    let int16 : Gen<int16> =
+        sizedBounded ()
+
+    /// Generates a random unsigned 16-bit integer.
+    let uint16 : Gen<uint16> =
+        sizedBounded ()
+
+    /// Generates a random signed 32-bit integer.
+    let int : Gen<int> =
+        sizedBounded ()
+
+    /// Generates a random unsigned 32-bit integer.
+    let uint32 : Gen<uint32> =
+        sizedBounded ()
+
+    /// Generates a random signed 64-bit integer.
+    let int64 : Gen<int64> =
+        sizedBounded ()
+
+    /// Generates a random unsigned 64-bit integer.
+    let uint64 : Gen<uint64> =
+        sizedBounded ()
+
+    /// Generates a random 64-bit floating point number.
+    let double : Gen<double> =
+        create Shrink.double Random.sizedDouble
+
+    /// Generates a random 64-bit floating point number.
+    let float : Gen<float> =
+        double |> map float
 
     //
     // Sampling
@@ -105,7 +374,7 @@ module Gen =
         |> Random.run seed 30
 
     let printSample (g : Gen<'a>) : unit =
-        let forest = List.take 5 (sampleTree 10 10 g)
+        let forest = sampleTree 10 5 g
         for tree in forest do
             printfn "=== Outcome ==="
             printfn "%A" <| Tree.outcome tree
@@ -117,3 +386,8 @@ module Gen =
 [<AutoOpen>]
 module GenBuilder =
     let gen = Gen.Builder ()
+
+[<AutoOpen>]
+module GenOperators =
+    let (<!>) = Gen.map
+    let (<*>) = Gen.apply

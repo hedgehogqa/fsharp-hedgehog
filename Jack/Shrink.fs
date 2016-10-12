@@ -49,11 +49,12 @@ module Shrink =
     ///
     let inline halves (n : ^a) : LazyList<'a> =
         let go x =
-            let zero = LanguagePrimitives.GenericZero
+            let zero : ^a = LanguagePrimitives.GenericZero
             if x = zero then
                 None
             else
-                let two = LanguagePrimitives.GenericOne + LanguagePrimitives.GenericOne
+                let one : ^a = LanguagePrimitives.GenericOne
+                let two : ^a = one + one
                 let x' = x / two
                 Some (x, x')
         LazyList.unfold go n
@@ -97,11 +98,26 @@ module Shrink =
         if destination = x then
             LazyList.empty
         else
-            let two = LanguagePrimitives.GenericOne + LanguagePrimitives.GenericOne
+            let one : ^a = LanguagePrimitives.GenericOne
+            let two : ^a = one + one
 
             /// We need to halve our operands before subtracting them as they may be using
             /// the full range of the type (i.e. 'MinValue' and 'MaxValue' for 'Int32')
-            let diff = (x / two) - (destination / two)
+            let diff : ^a = (x / two) - (destination / two)
 
             LazyList.consNub destination <|
             LazyList.map (fun y -> x - y) (halves diff)
+
+    /// Shrink a floating point number.
+    let double (x : double) : LazyList<double> =
+        let positive =
+            if x < 0.0 then
+                LazyList.singleton (-x)
+            else
+                LazyList.empty
+
+        let integrals =
+            towards 0I (bigint x)
+            |> LazyList.map double
+
+        LazyList.append positive integrals

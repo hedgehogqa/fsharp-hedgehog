@@ -122,9 +122,9 @@ module Property =
         check' 100 p
 
 [<AutoOpen>]
-module ForAll =
+module ForAllBuilder =
     type Builder internal () =
-        member __.ReturnFrom(b : bool) : Property =
+        member __.Return(b : bool) : Property =
             Property.ofBool b
         member __.ReturnFrom(p : Property) : Property =
             p
