@@ -39,3 +39,17 @@ let ``halves Produces a list containing the results of halving a number`` n =
                  | 0 -> None
                  | _ -> Some (x, x / 2))
     expected =! actual
+
+[<Theory>]
+[<InlineData(   1)>]
+[<InlineData(   2)>]
+[<InlineData(   3)>]
+[<InlineData(  30)>]
+[<InlineData( 128)>]
+[<InlineData( 256)>]
+[<InlineData( 512)>]
+[<InlineData(1024)>]
+let ``list produces a smaller permutation of the input list`` n =
+    let xs = [ 1 .. n ]
+    let actual = Shrink.list xs |> LazyList.toList
+    test <@ actual |> List.forall (fun xs' -> xs.Length > xs'.Length) @>
