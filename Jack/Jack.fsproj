@@ -45,6 +45,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />
     <Compile Include="Random.fs" />
