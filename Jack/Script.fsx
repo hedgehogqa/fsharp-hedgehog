@@ -66,6 +66,18 @@ Property.check <| forAll {
 }
 
 //
+// reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
+//
+
+Property.check <| forAll {
+    let! xs = Gen.list Gen.int
+    return xs
+            |> List.rev
+            |> List.rev
+            = xs
+}
+
+//
 // Printing Samples
 //
 
