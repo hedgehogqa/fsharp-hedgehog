@@ -10,6 +10,7 @@
 #load "Property.fs"
 
 open Jack
+open System
 
 //
 // Combinators
@@ -75,6 +76,37 @@ Property.check <| forAll {
             |> List.rev
             |> List.rev
             = xs
+}
+
+//
+// Conditional Generators
+//
+
+let genLeapYear =
+    Gen.range 2000 3000 |> Gen.suchThat DateTime.IsLeapYear
+
+Gen.printSample genLeapYear
+
+//
+// Conditional Properties
+//
+
+// Fails due to integer overflow
+Property.check <| forAll {
+    let! x = Gen.int
+    let! y = Gen.int
+    if x > 0 && y > 0 then
+        return x * y > 0
+}
+
+//
+// Lazy Properties
+//
+
+Property.check <| forAll {
+    let! n = Gen.int
+    if n <> 0 then
+        return 1 / n = 1 / n
 }
 
 //

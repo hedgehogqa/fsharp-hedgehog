@@ -67,6 +67,36 @@ module Gen =
     let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
         map3 (fun x y z -> x, y, z) gx gy gz
 
+    /// More or less the same logic as suchThatMaybe from QuickCheck, except
+    /// modified to ensure that the shrinks also obey the predicate.
+    let private tryRandom (p : 'a -> bool) (r0 : Random<Tree<'a>>) : Random<Option<Tree<'a>>> =
+        let rec tryN k = function
+            | 0 ->
+                Random.constant None
+            | n ->
+                let r = Random.resize (2 * k + n) r0
+                Random.bind r <| fun x ->
+                    if p (Tree.outcome x) then
+                        Tree.filter p x |> Some |> Random.constant
+                    else
+                        tryN (k + 1) (n - 1)
+
+        Random.sized (tryN 0 << max 1)
+
+    /// Generates a value that satisfies a predicate.
+    let suchThat (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
+        let rec loop () =
+            Random.bind (toRandom g |> tryRandom p) <| fun ox ->
+                match ox with
+                | None ->
+                    Random.sized <| fun n ->
+                        Random.resize (n + 1) (Random.delay loop)
+                | Some x ->
+                    Random.constant x
+
+        loop ()
+        |> ofRandom
+
     type Builder internal () =
         member __.Return(a) =
             constant a
