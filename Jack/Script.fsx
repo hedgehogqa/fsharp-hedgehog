@@ -78,6 +78,22 @@ Property.check <| forAll {
 }
 
 //
+// Conditional Properties
+//
+
+fun (x, y) -> (x > 0 && y > 0) ==> (x * y > 0)
+|> Property.forAll (Gen.zip Gen.int Gen.int)
+|> Property.check
+
+//
+// Lazy Properties
+//
+
+fun n -> n <> 0 ==> lazy (1 / n = 1 / n)
+|> Property.forAll Gen.int
+|> Property.check
+
+//
 // Printing Samples
 //
 

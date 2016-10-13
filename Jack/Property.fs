@@ -43,6 +43,13 @@ module Property =
         else
             Failure [] |> ofResult
 
+    let private convert (value : 'T) =
+        match box value with
+        | :? Lazy<bool> as b -> ofBool b.Value
+        | :? Property   as p -> p
+        | :? bool       as b -> ofBool b
+        | _                  -> ofBool true
+
     let mapGen (f : Gen<Result> -> Gen<Result>) (Property x : Property) : Property =
         Property <| f x
 
@@ -54,6 +61,15 @@ module Property =
             counterexample (sprintf "%A" x) (f x) |> toGen
         Gen.bind gen prepend |> ofGen
 
+    //
+    // Conditional Properties
+    //
+
+    let implies (x : bool) (candidate : 'TProperty) =
+        if x then
+            convert candidate
+        else
+            convert ()
 
     //
     // Runner
@@ -132,3 +148,7 @@ module ForAllBuilder =
             Property.forAll m k
 
     let forAll = Builder ()
+
+[<AutoOpen>]
+module PropertyOperators =
+    let (==>) = Property.implies
