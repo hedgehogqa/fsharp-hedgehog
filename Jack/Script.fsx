@@ -83,7 +83,7 @@ Property.check <| forAll {
 //
 
 let genLeapYear =
-    Gen.range 2000 3000 |> Gen.suchThat DateTime.IsLeapYear
+    Gen.range 2000 3000 |> Gen.filter DateTime.IsLeapYear
 
 Gen.printSample genLeapYear
 
