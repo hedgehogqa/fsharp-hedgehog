@@ -53,3 +53,29 @@ let ``list produces a smaller permutation of the input list`` n =
     let xs = [ 1 .. n ]
     let actual = Shrink.list xs |> LazyList.toList
     test <@ actual |> List.forall (fun xs' -> xs.Length > xs'.Length) @>
+
+[<Theory>]
+[<InlineData(   2,   1)>]
+[<InlineData(   3,   1)>]
+[<InlineData(  30,   1)>]
+[<InlineData( 128,  64)>]
+[<InlineData( 256, 128)>]
+[<InlineData( 512, 256)>]
+[<InlineData(1024, 512)>]
+let ``towards shrinks by edging towards a destination number`` x0 destination =
+    let actual =
+        x0
+        |> Shrink.towards destination
+        |> LazyList.toList
+    test <@ actual |> List.forall (fun x1 -> x1 < x0 && x1 >= destination) @>
+
+[<Theory>]
+[<InlineData(   1,    1)>]
+[<InlineData(  30,   30)>]
+[<InlineData(1024, 1024)>]
+let ``towards returns empty list when run out of shrinks`` x0 destination =
+    let actual =
+        x0
+        |> Shrink.towards destination
+        |> LazyList.toList
+    test <@ actual |> List.isEmpty @>
