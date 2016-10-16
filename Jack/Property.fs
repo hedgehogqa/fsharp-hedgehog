@@ -13,7 +13,8 @@ type Result<'a> =
 type Property<'a> =
     | Property of Gen<Report * Result<'a>>
 
-module Tuple =
+[<AutoOpen>]
+module private Tuple =
     let first (f : 'a -> 'c) (x : 'a, y : 'b) : 'c * 'b =
         f x, y
 
@@ -74,7 +75,6 @@ module Report =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Property =
-    open Tuple
 
     let ofGen (x : Gen<Report * Result<'a>>) : Property<'a> =
         Property x
@@ -216,7 +216,6 @@ module Property =
 
 [<AutoOpen>]
 module PropertyBuilder =
-    open Tuple
 
     type Builder internal () =
         member __.For(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
