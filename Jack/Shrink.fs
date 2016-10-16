@@ -108,16 +108,15 @@ module Shrink =
             LazyList.consNub destination <|
             LazyList.map (fun y -> x - y) (halves diff)
 
-    /// Shrink a floating point number.
-    let double (x : double) : LazyList<double> =
+    /// Shrink a number.
+    let inline number x : LazyList<'a> =
         let positive =
-            if x < 0.0 then
+            if x < LanguagePrimitives.GenericZero then
                 LazyList.singleton (-x)
             else
                 LazyList.empty
 
         let integrals =
-            towards 0I (bigint x)
-            |> LazyList.map double
+            towards LanguagePrimitives.GenericZero x
 
         LazyList.append positive integrals
