@@ -16,13 +16,14 @@ open System
 // Combinators
 //
 
-Property.check <| forAll {
+Property.check <| property {
     let! x = Gen.range 1 100
-    let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq1
-    return x < 50 || Seq.length ys <= 3 || Seq.contains "a" ys
+    let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq
+    counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
+    return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
 }
 
-Property.check <| forAll {
+Property.check <| property {
     let! xs = Gen.string
     return String.length xs <= 5
 }
@@ -57,7 +58,7 @@ let rec genExp =
         Add <!> Gen.zip genExp genExp
     ]
 
-Property.check <| forAll {
+Property.check <| property {
     let! x = genExp
     match x with
     | Add (Add _, Add _) when evalExp x > 100 ->
@@ -70,7 +71,7 @@ Property.check <| forAll {
 // reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
 //
 
-Property.check <| forAll {
+Property.check <| property {
     let! xs = Gen.list Gen.int
     return xs
             |> List.rev
@@ -92,21 +93,22 @@ Gen.printSample genLeapYear
 //
 
 // Fails due to integer overflow
-Property.check <| forAll {
+Property.check <| property {
     let! x = Gen.int
     let! y = Gen.int
-    if x > 0 && y > 0 then
-        return x * y > 0
+    where (x > 0 && y > 0)
+    counterexample (sprintf "x * y = %d" <| x * y)
+    return x * y > 0
 }
 
 //
 // Lazy Properties
 //
 
-Property.check <| forAll {
+Property.check <| property {
     let! n = Gen.int
-    if n <> 0 then
-        return 1 / n = 1 / n
+    where (n <> 0)
+    return 1 / n = 1 / n
 }
 
 //
