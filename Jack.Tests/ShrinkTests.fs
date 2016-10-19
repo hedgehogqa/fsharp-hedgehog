@@ -107,3 +107,16 @@ let ``towards returns empty list when run out of shrinks`` x0 destination =
         |> Shrink.towards destination
         |> LazyList.toList
     test <@ actual |> List.isEmpty @>
+
+[<Theory>]
+[<InlineData(   1.0)>]
+[<InlineData(   2.1)>]
+[<InlineData(   3.2)>]
+[<InlineData(  30.3)>]
+[<InlineData( 128.4)>]
+[<InlineData( 256.5)>]
+[<InlineData( 512.6)>]
+[<InlineData(1024.7)>]
+let ``double shrinks a floating point number`` x =
+    let actual = Shrink.double x |> LazyList.toList
+    test <@ actual |> List.forall (fun x' -> x' < x) @>
