@@ -55,6 +55,34 @@ let ``list produces a smaller permutation of the input list`` n =
     test <@ actual |> List.forall (fun xs' -> xs.Length > xs'.Length) @>
 
 [<Theory>]
+[<InlineData(   1)>]
+[<InlineData(   2)>]
+[<InlineData(   3)>]
+[<InlineData(  30)>]
+[<InlineData( 128)>]
+[<InlineData( 256)>]
+[<InlineData( 512)>]
+[<InlineData(1024)>]
+let ``elems shrinks each element in input list using a supplied shrinker`` n =
+    let xs = [ 1..n ]
+    let shrinker =
+        fun x ->
+            test <@ List.contains x xs @>
+            LazyList.singleton x
+
+    let actual =
+        xs
+        |> Shrink.elems shrinker
+        |> LazyList.toList
+
+    let expected =
+        seq {
+            for i in 1..n do
+                yield [ 1..n ]
+        }
+    Seq.toList expected =! actual
+
+[<Theory>]
 [<InlineData(   2,   1)>]
 [<InlineData(   3,   1)>]
 [<InlineData(  30,   1)>]
@@ -79,3 +107,16 @@ let ``towards returns empty list when run out of shrinks`` x0 destination =
         |> Shrink.towards destination
         |> LazyList.toList
     test <@ actual |> List.isEmpty @>
+
+[<Theory>]
+[<InlineData(   1.0)>]
+[<InlineData(   2.1)>]
+[<InlineData(   3.2)>]
+[<InlineData(  30.3)>]
+[<InlineData( 128.4)>]
+[<InlineData( 256.5)>]
+[<InlineData( 512.6)>]
+[<InlineData(1024.7)>]
+let ``double shrinks a floating point number`` x =
+    let actual = Shrink.double x |> LazyList.toList
+    test <@ actual |> List.forall (fun x' -> x' < x) @>
