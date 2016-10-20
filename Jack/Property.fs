@@ -208,7 +208,7 @@ module Property =
                 (renderTests tests)
                 (renderShrinks nshrinks)
                 (renderDiscards discards)
-            List.map (printfn "%s") (Report.toList report) |> ignore
+            List.iter (printfn "%s") (Report.toList report)
             false
 
     let check (p : Property<unit>) : bool =
