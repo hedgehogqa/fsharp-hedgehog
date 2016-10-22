@@ -175,7 +175,6 @@ type FailedException (tests : int<tests>, discards : int<discards>, shrinks : in
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Report =
-    open Pretty
 
     let render (report : Report) : string =
         match report.status with
