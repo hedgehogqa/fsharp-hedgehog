@@ -1,6 +1,7 @@
 ﻿namespace Jack
 
 open FSharpx.Collections
+open System
 
 type Journal =
     | Journal of List<string>
@@ -46,6 +47,9 @@ module Journal =
 
     let empty : Journal =
         List.empty |> ofList
+
+    let singleton (x : string) : Journal =
+        List.singleton x |> ofList
 
     let map (f : List<string> -> List<string>) (xs : Journal) : Journal =
         toList xs |> f |> ofList
@@ -150,7 +154,7 @@ module private Pretty =
 
 [<AbstractClass>]
 type JackException (message : string) =
-    inherit System.Exception (message)
+    inherit Exception (message)
 
 type GaveUpException (tests : int<tests>, discards : int<discards>) =
     inherit JackException (renderGaveUp tests discards)
@@ -202,11 +206,25 @@ module Property =
     let toGen (Property x : Property<'a>) : Gen<Journal * Result<'a>> =
         x
 
+    let tryFinally (m : Property<'a>) (after : unit -> unit) : Property<'a> =
+        Gen.tryFinally (toGen m) after |> ofGen
+
     let tryWith (m : Property<'a>) (k : exn -> Property<'a>) : Property<'a> =
         Gen.tryWith (toGen m) (toGen << k) |> ofGen
 
     let delay (f : unit -> Property<'a>) : Property<'a> =
         Gen.delay (toGen << f) |> ofGen
+
+    let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
+            'a :> IDisposable and
+            'a : null =
+        let k' = delay <| fun () -> k x
+        tryFinally k' <| fun () ->
+            match x with
+            | null ->
+                ()
+            | _ ->
+                x.Dispose ()
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
         Gen.map (second <| Result.filter p) (toGen m) |> ofGen
@@ -229,6 +247,9 @@ module Property =
         else
             failure
 
+    let counterexample (msg : string) : Property<unit> =
+        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
+
     let private mapGen
             (f : Gen<Journal * Result<'a>> -> Gen<Journal * Result<'b>>)
             (x : Property<'a>) : Property<'b> =
@@ -236,9 +257,6 @@ module Property =
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
         (mapGen << Gen.map << second << Result.map) f x
-
-    let counterexample (msg : string) (x : Property<'a>) : Property<'a> =
-        (mapGen << Gen.map << first << Journal.addFailure) msg x
 
     let private bindGen
             (m : Gen<Journal * Result<'a>>)
@@ -257,7 +275,7 @@ module Property =
 
     let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         let prepend (x : 'a) =
-            counterexample (sprintf "%A" x) (k x) |> toGen
+            bind (counterexample (sprintf "%A" x)) (fun _ -> k x) |> toGen
         Gen.bind gen prepend |> ofGen
 
     //
@@ -337,17 +355,25 @@ module Property =
 
 [<AutoOpen>]
 module PropertyBuilder =
+    let rec private loop (p : unit -> bool) (m : Property<unit>) : Property<unit> =
+        if p () then
+            Property.bind m (fun _ -> loop p m)
+        else
+            Property.success ()
 
     type Builder internal () =
         member __.For(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
             Property.bind m k
 
         member __.For(xs : seq<'a>, k : 'a -> Property<unit>) : Property<unit> =
-            let join m n =
-                Property.bind m (fun _ -> n)
-            let init =
-                Property.success ()
-            xs |> Seq.map k |> Seq.fold join init
+            let xse = xs.GetEnumerator ()
+            Property.using xse <| fun xse ->
+                let mv = xse.MoveNext
+                let kc = Property.delay (fun () -> k xse.Current)
+                loop mv kc
+
+        member __.While(p : unit -> bool, m : Property<unit>) : Property<unit> =
+            loop p m
 
         member __.Yield(x : 'a) : Property<'a> =
             Property.success x
@@ -355,8 +381,16 @@ module PropertyBuilder =
         member __.Combine(m : Property<unit>, n : Property<'a>) : Property<'a> =
             Property.bind m (fun _ -> n)
 
+        member __.TryFinally(m : Property<'a>, after : unit -> unit) : Property<'a> =
+            Property.tryFinally m after
+
         member __.TryWith(m : Property<'a>, k : exn -> Property<'a>) : Property<'a> =
             Property.tryWith m k
+
+        member __.Using(x : 'a, k : 'a -> Property<'b>) : Property<'b> when
+                'a :> IDisposable and
+                'a : null =
+            Property.using x k
 
         member __.Bind(m : Gen<'a>, k : 'a -> Property<'b>) : Property<'b> =
             Property.forAll m k
@@ -376,7 +410,8 @@ module PropertyBuilder =
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
             Property.bind m <| fun x ->
-                Property.counterexample (f x) (Property.success x)
+            Property.bind (Property.counterexample (f x)) <| fun _ ->
+            Property.success x
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
         member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =
