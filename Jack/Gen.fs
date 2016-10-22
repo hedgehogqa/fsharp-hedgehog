@@ -17,6 +17,9 @@ module Gen =
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         Random.delay (toRandom << f) |> ofRandom
 
+    let tryWith (m : Gen<'a>) (k : exn -> Gen<'a>) : Gen<'a> =
+        Random.tryWith (toRandom m) (toRandom << k) |> ofRandom
+
     let create (shrink : 'a -> LazyList<'a>) (random : Random<'a>) : Gen<'a> =
         Random.map (Tree.unfold id shrink) random |> ofRandom
 

@@ -36,6 +36,13 @@ module Tree =
     let join (xss : Tree<Tree<'a>>) : Tree<'a> =
         bind xss id
 
+    /// Turns a tree, in to a tree of trees. Useful for testing Jack itself as
+    /// it allows you to observe the shrinks for a value inside a property,
+    /// while still allowing the property to shrink to a minimal
+    /// counterexample.
+    let rec duplicate (Node (_, ys) as x : Tree<'a>) : Tree<Tree<'a>> =
+        Node (x, LazyList.map duplicate ys)
+
     /// Fold over a tree.
     let rec fold (f : 'a -> 'x -> 'b) (g : LazyList<'b> -> 'x) (Node (x, xs) : Tree<'a>) : 'b =
         f x (foldForest f g xs)
