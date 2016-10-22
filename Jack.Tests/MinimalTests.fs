@@ -1,6 +1,5 @@
 module Jack.Tests.MinimalTests
 
-open FSharpx.Collections
 open Jack
 open Swensen.Unquote
 open Xunit
