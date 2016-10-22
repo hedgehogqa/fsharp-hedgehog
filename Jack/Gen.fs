@@ -17,6 +17,9 @@ module Gen =
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         Random.delay (toRandom << f) |> ofRandom
 
+    let tryFinally (m : Gen<'a>) (after : unit -> unit) : Gen<'a> =
+        Random.tryFinally (toRandom m) after |> ofRandom
+
     let tryWith (m : Gen<'a>) (k : exn -> Gen<'a>) : Gen<'a> =
         Random.tryWith (toRandom m) (toRandom << k) |> ofRandom
 

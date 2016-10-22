@@ -18,9 +18,15 @@ module Random =
         unsafeRun seed (max 1 size) r
 
     let delay (f : unit -> Random<'a>) : Random<'a> =
-        let g = lazy (f ())
         Random <| fun seed size ->
-            unsafeRun seed size (g.Force())
+            f () |> unsafeRun seed size
+
+    let tryFinally (r : Random<'a>) (after : unit -> unit) : Random<'a> =
+        Random <| fun seed size ->
+            try
+                unsafeRun seed size r
+            finally
+                after ()
 
     let tryWith (r : Random<'a>) (k : exn -> Random<'a>) : Random<'a> =
         Random <| fun seed size ->
