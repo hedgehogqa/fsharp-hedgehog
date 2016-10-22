@@ -23,9 +23,9 @@ type Status =
     | OK
 
 type Report = {
-    tests : int<tests>
-    discards : int<discards>
-    status : Status
+    Tests : int<tests>
+    Discards : int<discards>
+    Status : Status
 }
 
 [<AutoOpen>]
@@ -177,22 +177,22 @@ type FailedException (tests : int<tests>, discards : int<discards>, shrinks : in
 module Report =
 
     let render (report : Report) : string =
-        match report.status with
+        match report.Status with
         | OK ->
-            renderOK report.tests
+            renderOK report.Tests
         | GaveUp ->
-            renderGaveUp report.tests report.discards
+            renderGaveUp report.Tests report.Discards
         | Failed (shrinks, journal) ->
-            renderFailed report.tests report.discards shrinks journal
+            renderFailed report.Tests report.Discards shrinks journal
 
     let tryRaise (report : Report) : unit =
-        match report.status with
+        match report.Status with
         | OK ->
             ()
         | GaveUp ->
-            raise <| GaveUpException (report.tests, report.discards)
+            raise <| GaveUpException (report.Tests, report.Discards)
         | Failed (shrinks, journal)  ->
-            raise <| FailedException (report.tests, report.discards, shrinks, journal)
+            raise <| FailedException (report.Tests, report.Discards, shrinks, journal)
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Property =
@@ -290,22 +290,22 @@ module Property =
 
         let rec loop seed size tests discards =
             if tests = n then
-                { tests = tests
-                  discards = discards
-                  status = OK }
+                { Tests = tests
+                  Discards = discards
+                  Status = OK }
             elif discards >= 100<discards> then
-                { tests = tests
-                  discards = discards
-                  status = GaveUp }
+                { Tests = tests
+                  Discards = discards
+                  Status = GaveUp }
             else
                 let seed1, seed2 = Seed.split seed
                 let result = Random.run seed1 size random
 
                 match snd (Tree.outcome result) with
                 | Failure ->
-                    { tests = tests + 1<tests>
-                      discards = discards
-                      status = takeSmallest result 0<shrinks> }
+                    { Tests = tests + 1<tests>
+                      Discards = discards
+                      Status = takeSmallest result 0<shrinks> }
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
