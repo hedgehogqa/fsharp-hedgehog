@@ -21,18 +21,6 @@ let shrinkExp : Exp -> List<Exp> = function
 let genName =
     Gen.item ["a"; "b"; "c"; "d"]
 
-#nowarn "40"
-let rec genExp : Gen<Exp> =
-    Gen.delay <| fun _ ->
-    Gen.shrink shrinkExp <| // comment this out to see the property fail
-    Gen.choiceRec [
-        Lit <!> Gen.range 0 10
-        Var <!> genName
-    ] [
-        Lam <!> Gen.zip genName genExp
-        App <!> Gen.zip genExp genExp
-    ]
-
 // a vaguely interesting predicate which checks that a certain sub-expression
 // cannot be found anywhere in the expression.
 let rec noAppLit10 : Exp -> bool = function
@@ -61,6 +49,18 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
         None
     else
         Seq.tryPick (tryFindSmallest p) xs <|> Some x
+
+#nowarn "40"
+let rec genExp : Gen<Exp> =
+    Gen.delay <| fun _ ->
+    Gen.shrink shrinkExp <| // comment this out to see the property fail
+    Gen.choiceRec [
+        Lit <!> Gen.range 0 10
+        Var <!> genName
+    ] [
+        Lam <!> Gen.zip genName genExp
+        App <!> Gen.zip genExp genExp
+    ]
 
 // FIXME This test takes quite some time to run, it would be good to profile
 // FIXME this and find out where the hotspots are. I have a much more complex
