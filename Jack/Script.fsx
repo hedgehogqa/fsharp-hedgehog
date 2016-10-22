@@ -16,14 +16,14 @@ open System
 // Combinators
 //
 
-Property.check <| property {
+Property.print <| property {
     let! x = Gen.range 1 100
     let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq
     counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
 }
 
-Property.check <| property {
+Property.print <| property {
     let! xs = Gen.string
     return String.length xs <= 5
 }
@@ -58,7 +58,7 @@ let rec genExp =
         Add <!> Gen.zip genExp genExp
     ]
 
-Property.check <| property {
+Property.print <| property {
     let! x = genExp
     match x with
     | Add (Add _, Add _) when evalExp x > 100 ->
@@ -71,7 +71,7 @@ Property.check <| property {
 // reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
 //
 
-Property.check <| property {
+Property.print <| property {
     let! xs = Gen.list Gen.int
     return xs
             |> List.rev
@@ -93,7 +93,7 @@ Gen.printSample genLeapYear
 //
 
 // Fails due to integer overflow
-Property.check <| property {
+Property.print <| property {
     let! x = Gen.int
     let! y = Gen.int
     where (x > 0 && y > 0)
@@ -105,7 +105,7 @@ Property.check <| property {
 // Lazy Properties
 //
 
-Property.check <| property {
+Property.print <| property {
     let! n = Gen.int
     where (n <> 0)
     return 1 / n = 1 / n

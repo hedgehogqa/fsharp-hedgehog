@@ -4,8 +4,6 @@ NUGET
     FAKE (4.41.1)
     FsControl (2.0.0-CI00093)
     FSharp.Core (4.0.0.1)
-    FSharpPlus (1.0.0-CI00018)
-      FsControl (>= 2.0.0-CI00075)
     FSharpx.Collections (1.15.2)
       FSharp.Core
     Microsoft.NETCore.Platforms (1.0.1) - framework: dnxcore50

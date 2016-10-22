@@ -4,7 +4,7 @@ source https://www.nuget.org/api/v2/
 nuget FAKE 4.41.1
 nuget xunit.runner.console 2.1.0
 
-nuget FSharpPlus 1.0.0-CI00018
+nuget FsControl 2.0.0-CI00093
 nuget FSharpx.Collections 1.15.2
 
 nuget xunit.core 2.1.0

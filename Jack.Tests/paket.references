@@ -2,4 +2,5 @@ xunit.runner.console
 xunit.core
 Unquote
 
+FsControl
 FSharpx.Collections

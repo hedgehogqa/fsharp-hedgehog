@@ -22,6 +22,13 @@ module Random =
         Random <| fun seed size ->
             unsafeRun seed size (g.Force())
 
+    let tryWith (r : Random<'a>) (k : exn -> Random<'a>) : Random<'a> =
+        Random <| fun seed size ->
+            try
+                unsafeRun seed size r
+            with
+                x -> unsafeRun seed size (k x)
+
     let constant (x : 'a) : Random<'a> =
         Random <| fun _ _ ->
             x
