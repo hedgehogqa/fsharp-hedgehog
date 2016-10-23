@@ -71,28 +71,12 @@ type MaxValue =
     static member inline MaxValue ((_:'a*'b*'c*'d*'e*'f*'g*'h), _:MaxValue) = (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
 type FromBigInt =
-    inherit Default1
-    static member inline FromBigInt (_:^R        , _:Default4  ) = fun (x:bigint) -> Explicit.Invoke x         :^R
-    static member inline FromBigInt (_:^R        , _:Default3  ) = fun (x:bigint) -> Implicit.Invoke (int64 x) :^R
-    static member inline FromBigInt (_:^R        , _:Default2  ) = fun (x:bigint) -> Implicit.Invoke x         :^R
-    static member inline FromBigInt (_:^R        , _:Default1  ) = fun (x:bigint) -> (^R: (static member FromBigInt: _ -> ^R) x)
-    static member inline FromBigInt (_:Default1  , _:Default1  ) = fun (x:bigint) -> (^R: (static member FromBigInt: _ -> ^R) x)
     static member        FromBigInt (_:int32     , _:FromBigInt) = fun (x:bigint) -> int             x
     static member        FromBigInt (_:int64     , _:FromBigInt) = fun (x:bigint) -> int64           x
     static member        FromBigInt (_:nativeint , _:FromBigInt) = fun (x:bigint) -> nativeint  (int x)
     static member        FromBigInt (_:unativeint, _:FromBigInt) = fun (x:bigint) -> unativeint (int x)
     static member        FromBigInt (_:bigint    , _:FromBigInt) = fun (x:bigint) ->                 x
     static member        FromBigInt (_:float     , _:FromBigInt) = fun (x:bigint) -> float           x
-#if NOTNET35
-    static member        FromBigInt (_:sbyte     , _:FromBigInt) = fun (x:bigint) -> sbyte           x
-    static member        FromBigInt (_:int16     , _:FromBigInt) = fun (x:bigint) -> int16           x
-    static member        FromBigInt (_:byte      , _:FromBigInt) = fun (x:bigint) -> byte            x
-    static member        FromBigInt (_:uint16    , _:FromBigInt) = fun (x:bigint) -> uint16          x
-    static member        FromBigInt (_:uint32    , _:FromBigInt) = fun (x:bigint) -> uint32          x
-    static member        FromBigInt (_:uint64    , _:FromBigInt) = fun (x:bigint) -> uint64          x
-    static member        FromBigInt (_:float32   , _:FromBigInt) = fun (x:bigint) -> float32         x
-    static member        FromBigInt (_:decimal   , _:FromBigInt) = fun (x:bigint) -> decimal         x
-#else
     static member        FromBigInt (_:sbyte     , _:FromBigInt) = fun (x:bigint) -> sbyte      (int x)
     static member        FromBigInt (_:int16     , _:FromBigInt) = fun (x:bigint) -> int16      (int x)
     static member        FromBigInt (_:byte      , _:FromBigInt) = fun (x:bigint) -> byte       (int x)
@@ -101,33 +85,24 @@ type FromBigInt =
     static member        FromBigInt (_:uint64    , _:FromBigInt) = fun (x:bigint) -> uint64     (int64 x)
     static member        FromBigInt (_:float32   , _:FromBigInt) = fun (x:bigint) -> float32    (int x)
     static member        FromBigInt (_:decimal   , _:FromBigInt) = fun (x:bigint) -> decimal    (int x)
-#endif
 
     static member inline Invoke (x:bigint)   :'Num    =
         let inline call_2 (a:^a, b:^b) = ((^a or ^b) : (static member FromBigInt: _*_ -> _) b, a)
         let inline call (a:'a) = fun (x:'x) -> call_2 (a, Unchecked.defaultof<'r>) x :'r
         call Unchecked.defaultof<FromBigInt> x
 
-open System.Runtime.CompilerServices
-
-[<Extension; Sealed>]
 type ToBigInt =
-    [<Extension>]static member        ToBigInt (x:sbyte     ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:int16     ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:int32     ) = bigint      x
-    [<Extension>]static member        ToBigInt (x:int64     ) = bigint      x
-    [<Extension>]static member        ToBigInt (x:nativeint ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:byte      ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:uint16    ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:unativeint) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:bigint    ) =             x
-#if NOTNET35
-    [<Extension>]static member        ToBigInt (x:uint32    ) = bigint      x
-    [<Extension>]static member        ToBigInt (x:uint64    ) = bigint      x
-#else
-    [<Extension>]static member        ToBigInt (x:uint32    ) = bigint (int x)
-    [<Extension>]static member        ToBigInt (x:uint64    ) = bigint (int64 x)
-#endif
+    static member        ToBigInt (x:sbyte     ) = bigint (int x)
+    static member        ToBigInt (x:int16     ) = bigint (int x)
+    static member        ToBigInt (x:int32     ) = bigint      x
+    static member        ToBigInt (x:int64     ) = bigint      x
+    static member        ToBigInt (x:nativeint ) = bigint (int x)
+    static member        ToBigInt (x:byte      ) = bigint (int x)
+    static member        ToBigInt (x:uint16    ) = bigint (int x)
+    static member        ToBigInt (x:unativeint) = bigint (int x)
+    static member        ToBigInt (x:bigint    ) =             x
+    static member        ToBigInt (x:uint32    ) = bigint (int x)
+    static member        ToBigInt (x:uint64    ) = bigint (int64 x)
 
     static member inline Invoke    (x:'Integral) :bigint =
         let inline call_2 (a:^a, b:^b) = ((^a or ^b) : (static member ToBigInt: _ -> _) b)
