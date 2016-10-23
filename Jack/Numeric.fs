@@ -1,7 +1,8 @@
 ﻿namespace Jack
 
 //
-// The handful of ad-hoc polymorphic things we need from FsControl.
+// The handful of ad-hoc polymorphic things we need from FsControl, copied from
+// https://github.com/gmpl/FsControl/blob/f125b96d252080f722a1ff7a9efcfaf53420a339/FsControl.Core/Numeric.fs
 //
 
 open System
