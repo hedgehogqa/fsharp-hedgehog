@@ -1,5 +1,4 @@
 ﻿#r "../packages/FSharpx.Collections/lib/net40/FSharpx.Collections.dll"
-#r "../packages/FsControl/lib/net40/FsControl.dll"
 
 #load "Numeric.fs"
 #load "Seed.fs"
