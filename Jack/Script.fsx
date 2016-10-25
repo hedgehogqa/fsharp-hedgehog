@@ -153,18 +153,18 @@ Gen.printSample <| gen {
 
 Gen.byte
 |> Gen.map int
-|> Gen.two
+|> Gen.tuple
 |> Gen.map (fun (ma, mi) -> Version (ma, mi))
 |> Gen.printSample
 
 Gen.byte
 |> Gen.map int
-|> Gen.three
+|> Gen.tuple3
 |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
 |> Gen.printSample
 
 Gen.byte
 |> Gen.map int
-|> Gen.four
+|> Gen.tuple4
 |> Gen.map (fun (ma, mi, bu, re) -> Version (ma, mi, bu, re))
 |> Gen.printSample
