@@ -83,9 +83,14 @@ module Gen =
     let zip4 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
         map4 (fun x y z w -> x, y, z, w) gx gy gz gw
 
-    let tuple  (g : Gen<'a>) : Gen<'a * 'a>           = zip  g g
-    let tuple3 (g : Gen<'a>) : Gen<'a * 'a * 'a>      = zip3 g g g
-    let tuple4 (g : Gen<'a>) : Gen<'a * 'a * 'a * 'a> = zip4 g g g g
+    let tuple  (g : Gen<'a>) : Gen<'a * 'a> =
+        zip g g
+
+    let tuple3 (g : Gen<'a>) : Gen<'a * 'a * 'a> =
+        zip3 g g g
+
+    let tuple4 (g : Gen<'a>) : Gen<'a * 'a * 'a * 'a> =
+        zip4 g g g g
 
     type Builder internal () =
         member __.Return(a) =
