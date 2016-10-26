@@ -145,3 +145,25 @@ Gen.printSample <| gen {
     let! w = Gen.string' Gen.alphaNum
     return sprintf "%A + %s + %f + %s" x y z w
 }
+
+//
+// Printing Samples ― Complex Types
+//
+
+Gen.byte
+|> Gen.map int
+|> Gen.tuple
+|> Gen.map (fun (ma, mi) -> Version (ma, mi))
+|> Gen.printSample
+
+Gen.byte
+|> Gen.map int
+|> Gen.tuple3
+|> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
+|> Gen.printSample
+
+Gen.byte
+|> Gen.map int
+|> Gen.tuple4
+|> Gen.map (fun (ma, mi, bu, re) -> Version (ma, mi, bu, re))
+|> Gen.printSample

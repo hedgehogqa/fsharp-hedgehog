@@ -67,11 +67,30 @@ module Gen =
         bind gz <| fun z ->
         constant (f x y z)
 
+    let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
+        bind gx <| fun x ->
+        bind gy <| fun y ->
+        bind gz <| fun z ->
+        bind gw <| fun w ->
+        constant (f x y z w)
+
     let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
         map2 (fun x y -> x, y) gx gy
 
     let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
         map3 (fun x y z -> x, y, z) gx gy gz
+
+    let zip4 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
+        map4 (fun x y z w -> x, y, z, w) gx gy gz gw
+
+    let tuple  (g : Gen<'a>) : Gen<'a * 'a> =
+        zip g g
+
+    let tuple3 (g : Gen<'a>) : Gen<'a * 'a * 'a> =
+        zip3 g g g
+
+    let tuple4 (g : Gen<'a>) : Gen<'a * 'a * 'a * 'a> =
+        zip4 g g g g
 
     type Builder internal () =
         member __.Return(a) =
