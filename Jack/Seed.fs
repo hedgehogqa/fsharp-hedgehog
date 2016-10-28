@@ -26,7 +26,7 @@ module Seed =
             failwith msg
 
     /// Create a new 'Seed' from a 32-bit integer.
-    let ofInt32 (s0 : int) : Seed =
+    let private ofInt32 (s0 : int) : Seed =
         // We want a non-negative number, but we can't just take the abs
         // of s0 as -Int32.MinValue == Int32.MinValue.
         let s = s0 &&& Int32.MaxValue
@@ -47,11 +47,11 @@ module Seed =
         Random().Next() |> ofInt32
 
     /// The possible range of values returned from 'next'.
-    let range : int * int =
+    let private range : int * int =
         1, 2147483562
     
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (Seed (s1, s2)) : int * Seed =
+    let private next (Seed (s1, s2)) : int * Seed =
         // TODO remove crashUnless
         crashUnless (s1 >= 0) "s1 >= 0"
         let k    = s1 / 53668
