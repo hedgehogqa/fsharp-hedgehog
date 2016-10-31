@@ -167,3 +167,12 @@ Gen.byte
 |> Gen.tuple4
 |> Gen.map (fun (ma, mi, bu, re) -> Version (ma, mi, bu, re))
 |> Gen.printSample
+
+//
+// Printing Samples ― System.Net.IPAddress
+//
+
+Gen.printSample <| gen {
+    let! addr = Gen.byte |> Gen.array' 4 4
+    return System.Net.IPAddress addr
+}
