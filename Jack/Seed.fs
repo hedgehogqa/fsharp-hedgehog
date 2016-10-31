@@ -13,11 +13,19 @@ namespace Jack
 
 /// Splittable random number generator.
 type Seed =
-    | Seed of int * int
+    internal { Value : int64
+               Gamma : int64 }
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Seed =
     open System
+
+    /// A predefined gamma value's needed for initializing the "root"
+    /// instances of SplittableRandom that is, instances not produced
+    /// by splitting an already existing instance. We choose: the odd
+    /// integer closest to 2^64/φ, where φ = (1 + √5)/2 is the golden
+    /// ratio, and call it GOLDEN_GAMMA.
+    let [<Literal>] private goldenGamma : int64 = 0x9e3779b97f4a7c15L
 
     let private crashUnless (cond : bool) (msg : string) : unit =
         if cond then
@@ -32,41 +40,70 @@ module Seed =
         let s = s0 &&& Int32.MaxValue
 
         // TODO remove crashUnless
-
-        // The integer variables s1 and s2 must be initialized to values
-        // in the range [1, 2147483562] and [1, 2147483398] respectively. [1]
         crashUnless (s >= 0) "s >= 0"
-        let q, s1 = Math.DivRem(s, 2147483562)
-        crashUnless (q >= 0) "q >= 0"
-        let s2 = q % 2147483398
+
+        { Value = int64 s
+          Gamma = goldenGamma }
+
+    /// Mix the bits of a 64-bit arg to produce a result, computing a
+    /// bijective function on 64-bit values.
+    let private mix64 (s0 : int64) : int64 =
+        let s = s0
+        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdL
+        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53L
+        s ^^^ (s >>> 33)
+
+    /// Mix the bits of a 64-bit arg to produce a result, computing a
+    /// bijective function on 64-bit values.
+    let private mix64variant13 (s0 : int64) : int64 =
+        let s = s0
+        let s = (s ^^^ (s >>> 30)) * 0xbf58476d1ce4e5b9L
+        let s = (s ^^^ (s >>> 27)) * 0x94d049bb133111ebL
+        s ^^^ (s >>> 31)
+
+    let private bitCount (s0 : int64) : int =
+        let s = s0 - ((s0 >>> 1) &&& 0x5555555555555555L)
+        let s = (s &&& 0x3333333333333333L) + ((s >>> 2) &&& 0x3333333333333333L)
+        let s = (s + (s >>> 4)) &&& 0x0f0f0f0f0f0f0f0fL
+        let s = s + (s >>> 8)
+        let s = s + (s >>> 16)
+        let s = s + (s >>> 32)
+        (int s) &&& 0x7f
+
+    /// Mix the bits of a 64-bit arg to produce a result, computing a
+    /// bijective function on 64-bit values.
+    let private mixGamma (g0 : int64) : int64 =
+        let g = mix64variant13 g0 ||| 1L
+        let n = bitCount (g ^^^ (g >>> 1))
+        if n < 24 then g ^^^ 0xaaaaaaaaaaaaaaaaL
+        else g
     
-        Seed (s1 + 1, s2 + 1)
-    
-    /// Create a new 'Seed' using 'System.Random' to seed the generator.
+    /// Create a new random 'Seed'.
     let random () : Seed =
-        Random().Next() |> ofInt32
+        let s = System.DateTimeOffset.UtcNow.Ticks + 2L * goldenGamma
+        { Value = mix64 s
+          Gamma = mixGamma s + goldenGamma }
 
     /// The possible range of values returned from 'next'.
     let range : int * int =
         1, 2147483562
     
+    /// Mix the bits of a 64-bit arg to produce a result, computing a
+    /// bijective function on 64-bit values.
+    let private mix32 (s0 : int64) : int =
+        let s = s0
+        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdL
+        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53L
+        (int) (s >>> 32)
+
+    let private nextSeed (s0 : Seed) : Seed =
+        { s0 with Value = s0.Value + s0.Gamma }
+
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (Seed (s1, s2)) : int * Seed =
-        // TODO remove crashUnless
-        crashUnless (s1 >= 0) "s1 >= 0"
-        let k    = s1 / 53668
-        let s1'  = 40014 * (s1 - k * 53668) - k * 12211
-        let s1'' = if s1' < 0 then s1' + 2147483563 else s1'
-    
-        crashUnless (s2 >= 0) "s2 >= 0"
-        let k'   = s2 / 52774
-        let s2'  = 40692 * (s2 - k' * 52774) - k' * 3791
-        let s2'' = if s2' < 0 then s2' + 2147483399 else s2'
-    
-        let z    = s1'' - s2''
-        let z'   = if z < 1 then z + 2147483562 else z
-    
-        z', Seed (s1'', s2'')
+    let next (s0 : Seed) : int * Seed =
+        let s = nextSeed s0
+        let n = mix32 s.Value
+        n, nextSeed s
     
     /// Generate a random bigint in the specified range.
     let rec nextBigInt (lo : bigint) (hi : bigint) (seed : Seed) : bigint * Seed =
@@ -106,13 +143,8 @@ module Seed =
             lo + v % k, seedN
 
     /// Splits a random number generator in to two.
-    let split (Seed (s1, s2) as seed) : Seed * Seed =
-        let (Seed (t1, t2)) = snd (next seed)
-    
-        // no statistical foundation for this!
-        let new_s1 = if s1 = 2147483562 then 1 else s1 + 1
-        let new_s2 = if s2 = 1 then 2147483398 else s2 - 1
-        let left   = Seed (new_s1, t2)
-        let right  = Seed (t1, new_s2)
-    
-        left, right
+    let split (s0 : Seed) : Seed * Seed =
+        let s1 = nextSeed s0
+        let s2 = nextSeed s1
+        { s0 with Value = mix64 s1.Value },
+        { s1 with Value = mix64 s2.Value }
