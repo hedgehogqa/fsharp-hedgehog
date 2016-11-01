@@ -1,12 +1,30 @@
 ﻿//
-// This is a port of GHC's System.Random implementation.
+// This is a port of "Fast Splittable Pseudorandom Number Generators"
+// by Steele et. al. [1].
 //
-// This implementation uses the Portable Combined Generator of L'Ecuyer for
-// 32-bit computers [1], transliterated by Lennart Augustsson.
+// The paper's algorithm provides decent randomness for most purposes
+// but sacrifices cryptographic-quality randomness in favor of speed.
+// The original implementation is tested with DieHarder and BigCrush;
+// see the paper for details.
 //
-// 1. Pierre L'Ecuyer
-//    Efficient and portable combined random number generators
-//    Comm ACM, 31(6), Jun 1988, pp742-749.
+// This implementation is a port from the paper, and also taking into
+// account the SplittableRandom.java source code in OpenJDK v8u40-b25
+// as well as splittable_random.ml in Jane Street's standard library
+// overlay (kernel) v113.33.03, and Random.fs in FsCheck v3, which is
+// the initial motivation of doing this port [2] although the idea of
+// doing this port is for having it as the default, splittable random
+// generator in dotnet-jack [3] – QuickCheck with shrinking for free.
+//
+// Other than the choice of initial seed for 'ofRandomSeed' this port
+// should be faithful. Currently, we have not rerun the DieHarder, or
+// BigCrush tests on this implementation.
+//
+// 1. Guy L. Steele, Jr., Doug Lea, Christine H. Flood
+//    Fast splittable pseudorandom number generators
+//    Comm ACM, 49(10), Oct 2014, pp453-472.
+//
+// 2. https://github.com/fscheck/FsCheck/issues/198
+// 3. https://github.com/jystic/dotnet-jack/issues/26
 //
 
 namespace Jack
