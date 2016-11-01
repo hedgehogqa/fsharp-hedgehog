@@ -101,10 +101,6 @@ module Seed =
         let s = System.DateTimeOffset.UtcNow.Ticks + 2L * goldenGamma
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
-
-    /// The possible range of values returned from 'next'.
-    let range : int * int =
-        1, 2147483562
     
     /// Mix the bits of a 64-bit arg to produce a result, computing a
     /// bijective function on 64-bit values.
@@ -128,37 +124,29 @@ module Seed =
         if lo > hi then
             nextBigInt hi lo seed
         else
-            //
-            // Probabilities of the most likely and least likely result will differ
-            // at most by a factor of (1 +- 1/q). Assuming Seed is uniform, of
-            // course.
-            //
-            // On average, log q / log b more random values will be generated than
-            // the minimum.
-            //
-    
-            let genlo, genhi = range
-            let b = bigint genhi - bigint genlo + 1I
-    
-            let q = 1000I
-            let k = hi - lo + 1I
-            let magtgt = k * q
-    
-            // Generate random values until we exceed the target magnitude.
-            let rec loop mag v0 seed0 =
-                if mag >= magtgt then
-                    v0, seed0
+            let s1 = nextSeed seed
+            let mutable r = bigint (mix32 s1.Value)
+            if (lo < hi) then
+                let n = hi - lo
+                let m = n - (bigint 1)
+                if (n &&& m) = (bigint 0) then (r &&& m) + lo, s1
+                elif n > (bigint 0) then
+                    let mutable u = r >>> 1
+                    let mutable s = nextSeed s1
+                    while u + m - (r <- u % n
+                                   r)
+                          < bigint 0 do
+                        u <- bigint (mix32 s.Value >>> 1)
+                        r <- r + lo
+                        s <- nextSeed s
+                    r, s
                 else
-                    let x, seed1 = next seed0
-                    let v1 = v0 * b + (bigint x - bigint genlo)
-                    loop (mag * b) v1 seed1
-    
-            let v, seedN = loop 1I 0I seed
-
-            // TODO remove crashUnless
-            crashUnless (v >= 0I) "v >= 0I"
-            crashUnless (k >= 0I) "k >= 0I"
-            lo + v % k, seedN
+                    let mutable s = nextSeed s1
+                    while (r < lo || r >= hi) do
+                        r <- bigint (mix32 s.Value)
+                        s <- nextSeed s
+                    r, s
+            else r, s1
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
