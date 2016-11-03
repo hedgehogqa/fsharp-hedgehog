@@ -114,39 +114,32 @@ module Seed =
         { s0 with Value = s0.Value + s0.Gamma }
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (s0 : Seed) : int64 * Seed =
+    let next (s0 : Seed) : bigint * Seed =
         let s = nextSeed s0
         let n = mix64 s.Value
-        n, nextSeed s
+        bigint n, nextSeed s
 
     /// Generate a random bigint in the specified range.
     let rec nextBigInt (lo : bigint) (hi : bigint) (seed : Seed) : bigint * Seed =
         if lo > hi then
             nextBigInt hi lo seed
         else
-            let m = hi - lo
-            let n = m + bigint.One
-            let r, seed = next seed
-            let mutable candidate' = bigint r
-            let mutable s' = seed
-            let mutable result = System.Nullable<_>()
-            if (n > bigint 0) then
+            let hilo = hi - lo + bigint.One
+
+            let mutable candidate, seed' = next seed
+            let mutable result = Nullable<bigint>()
+
+            if (hilo > bigint.Zero) then
                 while not result.HasValue do
-                    let pcand = bigint (int64 (uint64 candidate' >>> 1))
-                    let offset = pcand % n
-                    if pcand + m - offset < bigint 0 then
-                        let r, seed = next seed
-                        candidate' <- bigint r
-                        s' <- seed
-                    else result <- System.Nullable<_>(lo + offset)
+                    result <- Nullable<bigint>(lo + candidate % hilo)
             else
                 while not result.HasValue do
-                    if candidate' < lo || candidate' >= hi then
-                        let r, seed = next seed
-                        candidate' <- bigint r
-                        s' <- seed
-                    else result <- System.Nullable<_> candidate'
-            result.Value, s'
+                    if candidate < lo || candidate >= hi then
+                        let candidate', seed'' = next seed'
+                        candidate <- candidate'
+                        seed' <- seed''
+                    else result <- Nullable<bigint> candidate
+            result.Value, seed'
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
