@@ -124,22 +124,13 @@ module Seed =
         if lo > hi then
             nextBigInt hi lo seed
         else
-            let hilo = hi - lo + bigint.One
-
-            let mutable candidate, seed' = next seed
-            let mutable result = Nullable<bigint>()
-
-            if (hilo > bigint.Zero) then
-                while not result.HasValue do
-                    result <- Nullable<bigint>(lo + candidate % hilo)
-            else
-                while not result.HasValue do
-                    if candidate < lo || candidate >= hi then
-                        let candidate', seed'' = next seed'
-                        candidate <- candidate'
-                        seed' <- seed''
-                    else result <- Nullable<bigint> candidate
-            result.Value, seed'
+            let rec loop hilo (v0, seed0) =
+                if hilo > bigint.Zero then
+                    lo + v0 % hilo, seed0
+                else if v0 < lo || v0 >= hi then
+                    loop hilo (next seed0)
+                else v0, seed0
+            loop <| hi - lo + bigint.One <| next seed
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
