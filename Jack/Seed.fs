@@ -63,16 +63,12 @@ module Seed =
         { Value = int64 s
           Gamma = goldenGamma }
 
-    /// Mix the bits of a 64-bit arg to produce a result, computing a
-    /// bijective function on 64-bit values.
     let private mix64 (s0 : int64) : int64 =
         let s = s0
         let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdL
         let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53L
         s ^^^ (s >>> 33)
 
-    /// Mix the bits of a 64-bit arg to produce a result, computing a
-    /// bijective function on 64-bit values.
     let private mix64variant13 (s0 : int64) : int64 =
         let s = s0
         let s = (s ^^^ (s >>> 30)) * 0xbf58476d1ce4e5b9L
@@ -88,8 +84,6 @@ module Seed =
         let s = s + (s >>> 32)
         (int s) &&& 0x7f
 
-    /// Mix the bits of a 64-bit arg to produce a result, computing a
-    /// bijective function on 64-bit values.
     let private mixGamma (g0 : int64) : int64 =
         let g = mix64variant13 g0 ||| 1L
         let n = bitCount (g ^^^ (g >>> 1))
@@ -101,7 +95,7 @@ module Seed =
         let s = System.DateTimeOffset.UtcNow.Ticks + 2L * goldenGamma
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
-    
+
     let private nextSeed (s0 : Seed) : Seed =
         { s0 with Value = s0.Value + s0.Gamma }
 
