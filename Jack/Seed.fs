@@ -89,15 +89,15 @@ module Seed =
         let n = bitCount (g ^^^ (g >>> 1))
         if n < 24 then g ^^^ 0xaaaaaaaaaaaaaaaaL
         else g
+
+    let private nextSeed (s0 : Seed) : Seed =
+        { s0 with Value = s0.Value + s0.Gamma }
     
     /// Create a new random 'Seed'.
     let random () : Seed =
         let s = System.DateTimeOffset.UtcNow.Ticks + 2L * goldenGamma
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
-
-    let private nextSeed (s0 : Seed) : Seed =
-        { s0 with Value = s0.Value + s0.Gamma }
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
     let next (s0 : Seed) : bigint * Seed =
