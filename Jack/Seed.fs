@@ -102,14 +102,6 @@ module Seed =
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
     
-    /// Mix the bits of a 64-bit arg to produce a result, computing a
-    /// bijective function on 64-bit values.
-    let private mix32 (s0 : int64) : int =
-        let s = s0
-        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdL
-        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53L
-        (int) (s >>> 32)
-
     let private nextSeed (s0 : Seed) : Seed =
         { s0 with Value = s0.Value + s0.Gamma }
 
