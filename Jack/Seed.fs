@@ -100,8 +100,8 @@ module Seed =
           Gamma = mixGamma s + goldenGamma }
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (s : Seed) : bigint * Seed =
-        bigint (mix64 s.Value), nextSeed s
+    let next (s : Seed) : int64 * Seed =
+        mix64 s.Value, nextSeed s
 
     /// Generate a random bigint in the specified range.
     let rec nextBigInt (lo : bigint) (hi : bigint) (seed : Seed) : bigint * Seed =
@@ -109,6 +109,7 @@ module Seed =
             nextBigInt hi lo seed
         else
             let rec loop hilo (v0, seed0) =
+                let v0 = bigint (v0 : int64)
                 // hilo is the size of the exclusive range: 'hi - lo + 1'.
                 if hilo > bigint.Zero then
                     // The range is a positive number – return a
