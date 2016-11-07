@@ -109,9 +109,17 @@ module Seed =
             nextBigInt hi lo seed
         else
             let rec loop hilo (v0, seed0) =
+                // hilo is the size of the exclusive range: 'hi - lo + 1'.
                 if hilo > bigint.Zero then
+                    // The range is a positive number – return a
+                    // number in range using modular arithmetic:
+                    // - http://codereview.stackexchange.com/a/29110/10541
+                    // - http://stackoverflow.com/a/1202706/467754
                     lo + v0 % hilo, seed0
                 else if v0 < lo || v0 >= hi then
+                    // The range is a negative number – this shouldn't
+                    // happen (unless there is an arithmetic overflow)
+                    // so in this case keep going.
                     loop hilo (next seed0)
                 else v0, seed0
             loop <| hi - lo + bigint.One <| next seed
