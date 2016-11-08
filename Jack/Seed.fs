@@ -99,6 +99,10 @@ module Seed =
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
 
+    /// The possible range of values returned from 'next'.
+    let range : int64 * int64 =
+        -9223372036854775808L, 9223372036854775807L
+
     /// Returns the next pseudo-random number in the sequence, and a new seed.
     let next (s : Seed) : int64 * Seed =
         mix64 s.Value, nextSeed s
@@ -108,22 +112,37 @@ module Seed =
         if lo > hi then
             nextBigInt hi lo seed
         else
-            let rec loop hilo (v0, seed0) =
-                let v0 = bigint (v0 : int64)
-                // hilo is the size of the exclusive range: 'hi - lo + 1'.
-                if hilo > bigint.Zero then
-                    // The range is a positive number – return a
-                    // number in range using modular arithmetic:
-                    // - http://codereview.stackexchange.com/a/29110/10541
-                    // - http://stackoverflow.com/a/1202706/467754
-                    lo + v0 % hilo, seed0
-                else if v0 < lo || v0 >= hi then
-                    // The range is a negative number – this shouldn't
-                    // happen (unless there is an arithmetic overflow)
-                    // so in this case keep going.
-                    loop hilo (next seed0)
-                else v0, seed0
-            loop <| hi - lo + bigint.One <| next seed
+            //
+            // Probabilities of the most likely and least likely result will differ
+            // at most by a factor of (1 +- 1/q). Assuming Seed is uniform, of
+            // course.
+            //
+            // On average, log q / log b more random values will be generated than
+            // the minimum.
+            //
+
+            let genlo, genhi = range
+            let b = bigint genhi - bigint genlo + 1I
+
+            let q = 1000I
+            let k = hi - lo + 1I
+            let magtgt = k * q
+
+            // Generate random values until we exceed the target magnitude.
+            let rec loop mag v0 seed0 =
+                if mag >= magtgt then
+                    v0, seed0
+                else
+                    let x, seed1 = next seed0
+                    let v1 = v0 * b + (bigint x - bigint genlo)
+                    loop (mag * b) v1 seed1
+
+            let v, seedN = loop 1I 0I seed
+
+            // TODO remove crashUnless
+            crashUnless (v >= 0I) "v >= 0I"
+            crashUnless (k >= 0I) "k >= 0I"
+            lo + v % k, seedN
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
