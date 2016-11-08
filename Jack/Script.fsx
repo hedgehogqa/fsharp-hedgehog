@@ -28,45 +28,6 @@ Property.print <| property {
 }
 
 //
-// Hutton's Razor
-//
-
-type Exp =
-  | Lit of int
-  | Add of Exp * Exp
-
-let rec evalExp = function
-    | Lit x ->
-        x
-    | Add (x, y) ->
-        evalExp x + evalExp y
-
-let shrinkExp = function
-    | Lit _ ->
-        []
-    | Add (x, y) ->
-        [x; y]
-
-#nowarn "40"
-let rec genExp =
-    Gen.delay <| fun _ ->
-    Gen.shrink shrinkExp <|
-    Gen.choiceRec [
-        Lit <!> Gen.int
-    ] [
-        Add <!> Gen.zip genExp genExp
-    ]
-
-Property.print <| property {
-    let! x = genExp
-    match x with
-    | Add (Add _, Add _) when evalExp x > 100 ->
-        return false
-    | _ ->
-        return true
-}
-
-//
 // reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
 //
 
@@ -175,4 +136,43 @@ Gen.byte
 Gen.printSample <| gen {
     let! addr = Gen.byte |> Gen.array' 4 4
     return System.Net.IPAddress addr
+}
+
+//
+// Hutton's Razor
+//
+
+type Exp =
+  | Lit of int
+  | Add of Exp * Exp
+
+let rec evalExp = function
+    | Lit x ->
+        x
+    | Add (x, y) ->
+        evalExp x + evalExp y
+
+let shrinkExp = function
+    | Lit _ ->
+        []
+    | Add (x, y) ->
+        [x; y]
+
+#nowarn "40"
+let rec genExp =
+    Gen.delay <| fun _ ->
+    Gen.shrink shrinkExp <|
+    Gen.choiceRec [
+        Lit <!> Gen.int
+    ] [
+        Add <!> Gen.zip genExp genExp
+    ]
+
+Property.print <| property {
+    let! x = genExp
+    match x with
+    | Add (Add _, Add _) when evalExp x > 100 ->
+        return false
+    | _ ->
+        return true
 }
