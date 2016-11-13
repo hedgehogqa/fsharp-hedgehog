@@ -2,9 +2,6 @@ REDIRECTS: ON
 NUGET
   remote: https://www.nuget.org/api/v2
     FAKE (4.41.1)
-    FSharp.Core (4.0.0.1)
-    FSharpx.Collections (1.15.2)
-      FSharp.Core
     Microsoft.NETCore.Platforms (1.0.1) - framework: dnxcore50
     Microsoft.NETCore.Targets (1.0.1) - framework: dnxcore50
     System.Collections (4.0.11) - framework: dnxcore50
@@ -133,3 +130,8 @@ NUGET
       xunit.abstractions (>= 2.0) - framework: dnxcore50
       xunit.extensibility.core (2.1) - framework: >= net45, dnx451, dnxcore50, monoandroid, monotouch, xamarinios, winv4.5, wpv8.0, wpav8.1
     xunit.runner.console (2.1)
+GITHUB
+  remote: fsprojects/FSharpx.Collections
+    src/FSharpx.Collections/Collections.fs (e2722ce571f4926586ae907413b4a5511f0ef74e)
+    src/FSharpx.Collections/LazyList.fs (e2722ce571f4926586ae907413b4a5511f0ef74e)
+    src/FSharpx.Collections/LazyList.fsi (e2722ce571f4926586ae907413b4a5511f0ef74e)

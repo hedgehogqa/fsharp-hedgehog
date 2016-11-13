@@ -45,3 +45,4 @@ Thumbs.db
 # Paket - dependency management for .NET and Mono projects
 .paket/paket.bootstrapper.run
 .paket/paket.exe
+paket-files
