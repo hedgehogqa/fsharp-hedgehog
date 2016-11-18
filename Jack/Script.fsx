@@ -1,12 +1,15 @@
-﻿#r "../packages/FSharpx.Collections/lib/net40/FSharpx.Collections.dll"
-
-#load "Numeric.fs"
-#load "Seed.fs"
-#load "Tree.fs"
-#load "Shrink.fs"
-#load "Random.fs"
-#load "Gen.fs"
-#load "Property.fs"
+﻿#if INTERACTIVE
+#load "../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/Collections.fs"
+      "../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fsi"
+      "../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fs"
+      "Numeric.fs"
+      "Seed.fs"
+      "Tree.fs"
+      "Random.fs"
+      "Shrink.fs"
+      "Gen.fs"
+      "Property.fs"
+#endif
 
 open Jack
 open System
