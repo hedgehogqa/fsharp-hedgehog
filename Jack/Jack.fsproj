@@ -45,6 +45,18 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\paket-files\fsprojects\FSharpx.Collections\src\FSharpx.Collections\Collections.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Collections.fs</Link>
+    </Compile>
+    <Compile Include="..\paket-files\fsprojects\FSharpx.Collections\src\FSharpx.Collections\LazyList.fsi">
+      <Paket>True</Paket>
+      <Link>paket-files/LazyList.fsi</Link>
+    </Compile>
+    <Compile Include="..\paket-files\fsprojects\FSharpx.Collections\src\FSharpx.Collections\LazyList.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/LazyList.fs</Link>
+    </Compile>
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />
@@ -58,15 +70,4 @@
     <Compile Include="Script.fsx" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
-      <ItemGroup>
-        <Reference Include="FSharpx.Collections">
-          <HintPath>..\packages\FSharpx.Collections\lib\net40\FSharpx.Collections.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
 </Project>
