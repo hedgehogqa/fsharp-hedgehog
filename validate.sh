@@ -8,6 +8,7 @@ find_windows_endings () {
     --exclude-dir='packages' \
     --exclude-dir='bin' \
     --exclude-dir='obj' \
+    --exclude-dir='img' \
     $@
 }
 
