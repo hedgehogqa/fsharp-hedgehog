@@ -20,7 +20,32 @@ A modern property-based testing tool, in the spirit of John Hughes & Koen Classe
 
 ### Getting Started
 
-TODO
+The standard "hello-world" property shown in most property-based testing tools is:
+
+```
+reverse (reverse xs) = xs, ∀xs :: [α]
+```
+
+which means that "the reverse of the reverse of a list, is the list itself - for all lists of type `a`".
+
+One way to use `dotnet-jack` to check the above property is to use the `property` computation expression:
+
+```f#
+property { let! xs = Gen.list Gen.int
+           return List.rev (List.rev xs) = xs }
+```
+
+and to test the above property on 100 random lists of integers, pipe it into `Property.print`:
+
+```f#
+property { let! xs = Gen.list Gen.int
+           return List.rev (List.rev xs) = xs }
+|> Property.print
+
++++ OK, passed 100 tests.
+val it : unit = ()
+>
+```
 
 ### Generators
 
