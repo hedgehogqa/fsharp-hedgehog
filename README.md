@@ -10,9 +10,10 @@ A modern property-based testing tool, in the spirit of John Hughes & Koen Classe
 
 ## Highlights
 
-* TODO
-* TODO
-* TODO
+* Shrinking is baked into the `Gen` type, so you get it for free.
+* Simplified model; just generators and properties.
+* Adequate randomness based on the SplitMix algorithm.
+* Convenient syntax for both generators and properties with **not only** `gen` but also `property` expressions.
 
 ## At a glance
 
