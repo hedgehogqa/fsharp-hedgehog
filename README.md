@@ -17,7 +17,22 @@ A modern property-based testing tool, in the spirit of John Hughes & Koen Classe
 
 ## At a glance
 
-`dotnet-jack` is a lightweight, but powerful, property-based testing tool. The key improvement being that shrinking is baked in to the `Gen` monad, so you get it for free.
+`dotnet-jack` is a lightweight, but powerful, property-based testing tool. The key improvement being that shrinking is baked in to the `Gen` type, so you get it for free.
+
+```f#
+property {
+    let! x = Gen.range 1 100
+    let! ys = Gen.item [ "a"; "b"; "c"; "d" ] |> Gen.seq
+    counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
+    return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
+}
+|> Property.print
+
+*** Failed! Falsifiable (after 6 tests and 9 shrinks):
+25
+["b"; "b"; "b"; "b"]
+tryHead ys = Some "b"
+```
 
 ### Getting Started
 
@@ -44,8 +59,6 @@ property { let! xs = Gen.list Gen.int
 |> Property.print
 
 +++ OK, passed 100 tests.
-val it : unit = ()
->
 ```
 
 ### Generators
