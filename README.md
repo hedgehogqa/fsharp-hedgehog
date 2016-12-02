@@ -15,7 +15,7 @@ An alternative property-based testing system for F#, in the spirit of John Hughe
   * You can guarantee that shrinking satisfies the same invariants as generation.
 * Simplified model; just generators and properties.
 * Adequate randomness based on the SplitMix algorithm.
-* Convenient syntax for both generators and properties with *not only* `gen` but also `property` expressions.
+* Convenient syntax for both generators and properties with not only `gen` but also `property` expressions.
 
 ## At a glance
 
