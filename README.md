@@ -2,7 +2,7 @@
 
 # dotnet-jack
 
-A modern property-based testing tool, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf). The key improvement is that shrinking is baked into the `Gen` monad, so you get it for free.
+A modern property-based testing tool, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf). The key improvement is that shrinking comes for free.
 
 ![](https://github.com/moodmosaic/dotnet-jack/raw/master/img/dice.jpg)
 
@@ -10,13 +10,29 @@ A modern property-based testing tool, in the spirit of John Hughes & Koen Classe
 
 ## Highlights
 
-* TODO
-* TODO
-* TODO
+* Shrinking is baked into the `Gen` type, so you get it for free.
+* Simplified model; just generators and properties.
+* Adequate randomness based on the SplitMix algorithm.
+* Convenient syntax for both generators and properties with **not only** `gen` but also `property` expressions.
 
 ## At a glance
 
-`dotnet-jack` is a lightweight, but powerful, property-based testing tool. The key improvement being that shrinking is baked in to the `Gen` monad, so you get it for free.
+`dotnet-jack` is a lightweight, but powerful, property-based testing tool. The key improvement being that shrinking is baked in to the `Gen` type, so you get it for free.
+
+```f#
+property {
+    let! x = Gen.range 1 100
+    let! ys = Gen.item [ "a"; "b"; "c"; "d" ] |> Gen.seq
+    counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
+    return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
+}
+|> Property.print
+
+*** Failed! Falsifiable (after 6 tests and 9 shrinks):
+25
+["b"; "b"; "b"; "b"]
+tryHead ys = Some "b"
+```
 
 ### Getting Started
 
@@ -43,8 +59,6 @@ property { let! xs = Gen.list Gen.int
 |> Property.print
 
 +++ OK, passed 100 tests.
-val it : unit = ()
->
 ```
 
 ### Generators
