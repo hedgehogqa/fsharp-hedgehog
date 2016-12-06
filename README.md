@@ -179,7 +179,7 @@ The above example, is the standard "hello-world" property, but instead of the cl
 
 ---
 
-*As a matter of fact, here's the above example written using another property-based testing tool, FsCheck:*
+*As a matter of fact, here's the above example written using another property-based testing system, FsCheck:*
 
 ```f#
 let version =
@@ -203,7 +203,7 @@ You can find out more about integrated vs type-based shrinking in [this](http://
 
 ### Getting Started
 
-The standard "hello-world" property shown in most property-based testing tools is:
+The standard "hello-world" property shown in most property-based testing systems is:
 
 ```
 reverse (reverse xs) = xs, ∀xs :: [α]
