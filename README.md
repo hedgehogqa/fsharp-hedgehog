@@ -236,10 +236,6 @@ TODO
 
 TODO
 
-## Limitations
-
-TODO
-
 ## NuGet
 
 There isn't much here yet, but `dotnet-jack` can be published on NuGet once it's in a usable state.
