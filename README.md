@@ -2,7 +2,7 @@
 
 # dotnet-jack
 
-A modern property-based testing tool, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf). The key improvement is that shrinking comes for free.
+An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf). The key improvement is that shrinking comes for free.
 
 ![](https://github.com/moodmosaic/dotnet-jack/raw/master/img/dice.jpg)
 
@@ -10,10 +10,12 @@ A modern property-based testing tool, in the spirit of John Hughes & Koen Classe
 
 ## Highlights
 
-* Shrinking is baked into the `Gen` type, so you get it for free.
+* Shrinking is baked into the `Gen` type, so you get it for free. This is not a trivial distinction. Integrating shrinking into generation has two large benefits:
+  * Shrinking composes nicely, and you can shrink anything you can generate regardless of whether there is a defined shrinker for the type produced.
+  * You can guarantee that shrinking satisfies the same invariants as generation.
 * Simplified model; just generators and properties.
 * Adequate randomness based on the SplitMix algorithm.
-* Convenient syntax for both generators and properties with **not only** `gen` but also `property` expressions.
+* Convenient syntax for both generators and properties with *not only* `gen` but also `property` expressions.
 
 ## At a glance
 
@@ -173,7 +175,7 @@ property { let! xs = Gen.list version
 [0.0.0; 0.0.1]
 ```
 
-The above example, is the standard "hello-world" property, but instead of the classic list of integers, we're using a list of type System.Version, demonstrating that automatic shrikning works with 'foreign' types too.
+The above example, is the standard "hello-world" property, but instead of the classic list of integers, we're using a list of type System.Version, demonstrating that integrated shrikning works with 'foreign' types too.
 
 ---
 
@@ -197,6 +199,7 @@ Falsifiable, after 2 tests (0 shrinks) (StdGen (783880299,296237326)):
 Original:
 [183.211.153; 129.237.113; 242.27.80]
 ```
+You can find out more about integrated vs type-based shrinking in [this](http://hypothesis.works/articles/integrated-shrinking/) blog post.
 
 ### Getting Started
 
