@@ -156,7 +156,7 @@ Gen.byte
 .
 ```
 
-#### 👉 Automatic shrinking is an important quality of Jack
+#### 👉 Integrated shrinking is an important quality of Jack
 
 When a property fails (because Jack found a counter-example), the randomly-generated data usually contains "noise". Therefore Jack simplifies counter-examples before reporting them:
 
