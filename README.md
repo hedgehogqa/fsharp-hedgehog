@@ -15,7 +15,7 @@ An alternative property-based testing system for F#, in the spirit of John Hughe
   * You can guarantee that shrinking satisfies the same invariants as generation.
 * Simplified model; just generators and properties.
 * Adequate randomness based on the SplitMix algorithm.
-* Convenient syntax for both generators and properties with *not only* `gen` but also `property` expressions.
+* Convenient syntax for both generators and properties with not only `gen` but also `property` expressions.
 
 ## At a glance
 
@@ -156,7 +156,7 @@ Gen.byte
 .
 ```
 
-#### 👉 Automatic shrinking is an important quality of Jack
+#### 👉 Integrated shrinking is an important quality of Jack
 
 When a property fails (because Jack found a counter-example), the randomly-generated data usually contains "noise". Therefore Jack simplifies counter-examples before reporting them:
 
@@ -179,7 +179,7 @@ The above example, is the standard "hello-world" property, but instead of the cl
 
 ---
 
-*As a matter of fact, here's the above example written using another property-based testing tool, FsCheck:*
+*As a matter of fact, here's the above example written using another property-based testing system, FsCheck:*
 
 ```f#
 let version =
@@ -203,7 +203,7 @@ You can find out more about integrated vs type-based shrinking in [this](http://
 
 ### Getting Started
 
-The standard "hello-world" property shown in most property-based testing tools is:
+The standard "hello-world" property shown in most property-based testing systems is:
 
 ```
 reverse (reverse xs) = xs, ∀xs :: [α]
@@ -442,10 +442,6 @@ let ipAddressGen : Gen<IPAddress> =
 ```
 
 ### Properties
-
-TODO
-
-## Limitations
 
 TODO
 
