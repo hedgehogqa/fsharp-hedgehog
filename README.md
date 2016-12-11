@@ -230,7 +230,216 @@ property { let! xs = Gen.list Gen.int
 
 ### Generators
 
-TODO
+Jack's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:
+
+```f#
+Gen.alphaNum
+```
+
+This generator is of type `Gen<char>`, which means that Jack can take this generator and produce characters, like so:
+
+```f#
+Gen.alphaNum |> Gen.printSample;;
+
+=== Outcome ===
+'3'
+=== Shrinks ===
+'l'
+'L'
+'0'
+'2'
+.
+=== Outcome ===
+'3'
+=== Shrinks ===
+'b'
+'B'
+'0'
+'2'
+.
+=== Outcome ===
+'3'
+=== Shrinks ===
+'x'
+'X'
+'0'
+'2'
+.
+=== Outcome ===
+'4'
+=== Shrinks ===
+'y'
+'Y'
+'0'
+'2'
+'3'
+.
+=== Outcome ===
+'t'
+=== Shrinks ===
+'a'
+'j'
+'o'
+'r'
+'s'
+.
+```
+
+Now that we've seen a generator in action, it can be interesting to see how it's created. We'll keep using `Gen.alphaNum` as an example:
+
+```f#
+let alphaNum : Gen<char> =
+    choice [lower; upper; digit]
+```
+
+The `lower`, `upper`, and `digit` functions are also generators. They can be defined as:
+
+```f#
+let lower : Gen<char> =
+    charRange 'a' 'z'
+
+let upper : Gen<char> =
+    charRange 'A' 'Z'
+
+let digit : Gen<char> =
+    charRange '0' '9'
+```
+
+Note that `charRange` is also a generator, which can be defined as:
+
+```f#
+let charRange (lo : char) (hi : char) : Gen<char> =
+    range (int lo) (int hi) |> map char
+```
+
+So `range` is also a generator, and so on and so forth.
+
+#### 👉 Generators can also be created using the `gen` expression
+
+Jack supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type System.Net.IPAddress:
+
+```f#
+open System.Net
+
+let ipAddressGen : Gen<IPAddress> =
+    gen { let! x = Gen.byte |> Gen.array' 4 4
+          return IPAddress x }
+
+ipAddressGen |> Gen.printSample;;
+
+=== Outcome ===
+12.6.28.32
+=== Shrinks ===
+0.6.28.32
+6.6.28.32
+9.6.28.32
+11.6.28.32
+12.0.28.32
+12.3.28.32
+12.5.28.32
+12.6.0.32
+12.6.14.32
+12.6.21.32
+12.6.25.32
+12.6.27.32
+12.6.28.0
+12.6.28.16
+12.6.28.24
+12.6.28.28
+12.6.28.30
+12.6.28.31
+.
+=== Outcome ===
+21.22.0.32
+=== Shrinks ===
+0.22.0.32
+11.22.0.32
+16.22.0.32
+19.22.0.32
+20.22.0.32
+21.0.0.32
+21.11.0.32
+21.17.0.32
+21.20.0.32
+21.21.0.32
+21.22.0.0
+21.22.0.16
+21.22.0.24
+21.22.0.28
+21.22.0.30
+21.22.0.31
+.
+=== Outcome ===
+26.1.8.27
+=== Shrinks ===
+0.1.8.27
+13.1.8.27
+20.1.8.27
+23.1.8.27
+25.1.8.27
+26.0.8.27
+26.1.0.27
+26.1.4.27
+26.1.6.27
+26.1.7.27
+26.1.8.0
+26.1.8.14
+26.1.8.21
+26.1.8.24
+26.1.8.26
+.
+=== Outcome ===
+16.6.3.13
+=== Shrinks ===
+0.6.3.13
+8.6.3.13
+12.6.3.13
+14.6.3.13
+15.6.3.13
+16.0.3.13
+16.3.3.13
+16.5.3.13
+16.6.0.13
+16.6.2.13
+16.6.3.0
+16.6.3.7
+16.6.3.10
+16.6.3.12
+.
+=== Outcome ===
+27.19.20.17
+=== Shrinks ===
+0.19.20.17
+14.19.20.17
+21.19.20.17
+24.19.20.17
+26.19.20.17
+27.0.20.17
+27.10.20.17
+27.15.20.17
+27.17.20.17
+27.18.20.17
+27.19.0.17
+27.19.10.17
+27.19.15.17
+27.19.18.17
+27.19.19.17
+27.19.20.0
+27.19.20.9
+27.19.20.13
+27.19.20.15
+27.19.20.16
+```
+The above System.Net.IPAddress generator, without using the `gen` expression, can be defined as:
+
+```f#
+open System.Net
+
+let ipAddressGen : Gen<IPAddress> =
+    Gen.byte
+    |> Gen.array' 4 4
+    |> Gen.map IPAddress
+```
 
 ### Properties
 
