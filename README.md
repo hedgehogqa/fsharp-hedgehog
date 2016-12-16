@@ -2,7 +2,9 @@
 
 # dotnet-jack
 
-An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf). The key improvement is that shrinking comes for free.
+An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
+
+The key improvement is that shrinking comes for free — instead of generating a random value and using a shrinking function after the fact, we generate the random value and all the possible shrinks in a rose tree, all at once.
 
 ![](https://github.com/moodmosaic/dotnet-jack/raw/master/img/dice.jpg)
 
@@ -211,7 +213,7 @@ reverse (reverse xs) = xs, ∀xs :: [α]
 
 which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".
 
-One way to use `dotnet-jack` to check the above property is to use the `property` computation expression:
+One way to use Jack to check the above property is to use the `property` computation expression:
 
 ```f#
 property { let! xs = Gen.list Gen.int
@@ -447,12 +449,12 @@ TODO
 
 ## NuGet
 
-There isn't much here yet, but `dotnet-jack` can be published on NuGet once it's in a usable state.
+There isn't much here yet, but Jack can be published on NuGet once it's in a usable state.
 
 ## Versioning
 
-`dotnet-jack` follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
+Jack follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
 
 ## Credits
 
-The idea behind `dotnet-jack` originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.
+The idea behind the F# version of Jack originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.
