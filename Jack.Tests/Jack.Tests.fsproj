@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="GenTests.fs" />
     <Compile Include="ShrinkTests.fs" />
     <Compile Include="MinimalTests.fs" />
     <Content Include="App.config" />
