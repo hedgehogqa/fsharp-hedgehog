@@ -456,6 +456,15 @@ module Gen =
         gen { let! bs = byte |> array' 16 16
               return System.Guid bs }
 
+    let dateTime : Gen<System.DateTime> =
+        gen { let! y = range 1753 9999
+              let! m = range 1 12
+              let! d = range 1 (System.DateTime.DaysInMonth (y, m))
+              let! h = range 0 23
+              let! min = range 0 59
+              let! sec = range 0 59
+              return System.DateTime (y, m, d, h, min, sec) }
+
     //
     // Sampling
     //
