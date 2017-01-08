@@ -93,12 +93,30 @@ module Gen =
         zip4 g g g g
 
     type Builder internal () =
+        let rec loop p m =
+            if p () then
+                bind m (fun _ -> loop p m)
+            else
+                constant ()
+
         member __.Return(a) =
             constant a
         member __.ReturnFrom(g) =
             g
         member __.Bind(m, k) =
             bind m k
+        member __.For(xs, k) =
+            let xse = (xs :> seq<'a>).GetEnumerator ()
+            using xse <| fun xse ->
+                let mv = xse.MoveNext
+                let kc = delay (fun () -> k xse.Current)
+                loop mv kc
+        member __.Combine(m, n) =
+            bind m (fun () -> n)
+        member __.Delay(f) =
+            delay f
+        member __.Zero() =
+            constant ()
 
     let private gen = Builder ()
 
