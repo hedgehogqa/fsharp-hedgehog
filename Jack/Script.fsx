@@ -156,6 +156,12 @@ Gen.printSample <| gen {
 }
 
 //
+// Printing Samples ― System.Guid
+//
+
+Gen.printSample <| Gen.guid
+
+//
 // Hutton's Razor
 //
 
