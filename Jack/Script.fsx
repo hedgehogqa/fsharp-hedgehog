@@ -98,6 +98,20 @@ Property.print <| property {
         return k <> 5
 }
 
+let gs =
+    [ (fun x -> x + 1)
+      (fun x -> x * 2)
+      (fun x -> x / 3) ]
+    |> List.map Gen.constant
+
+Gen.printSample <| gen {
+    let mutable x = 10
+    for g in gs do
+        let! f = g
+        x <- f x
+    return x
+}
+
 //
 // Printing Samples
 //
