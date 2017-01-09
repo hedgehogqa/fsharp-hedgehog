@@ -452,10 +452,16 @@ module Gen =
     let float : Gen<float> =
         double |> map float
 
+    //
+    // Combinators - Constructed
+    //
+
+    /// Generates a random globally unique identifier.
     let guid : Gen<System.Guid> =
         gen { let! bs = byte |> array' 16 16
               return System.Guid bs }
 
+    /// Generates a random instant in time expressed as a date and time of day.
     let dateTime : Gen<System.DateTime> =
         let yMin = System.DateTime.MinValue.Year
         let yMax = System.DateTime.MaxValue.Year
