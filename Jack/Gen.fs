@@ -457,7 +457,9 @@ module Gen =
               return System.Guid bs }
 
     let dateTime : Gen<System.DateTime> =
-        gen { let! y = range 1753 9999
+        let yMin = System.DateTime.MinValue.Year
+        let yMax = System.DateTime.MaxValue.Year
+        gen { let! y = create (Shrink.towards 2000) (Random.range yMin yMax)
               let! m = range 1 12
               let! d = range 1 (System.DateTime.DaysInMonth (y, m))
               let! h = range 0 23
