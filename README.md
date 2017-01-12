@@ -12,22 +12,22 @@ The key improvement is that shrinking comes for free — instead of generating a
 
 ## Table of Contents
 
-* [Highlights]()
-* [Getting Started]()
-  * [At a glance]()
-   * [Integrated shrinking is an important quality of Jack]()
-* [Generators]()
-  * [Generators can also be created using the gen expression]()
-* [Properties]()
-  * [Properties can also be created using the property expression]()
-  * [Custom Operations]()
-    * [counterexample]()
-    * [where]()
-* [NuGet]()
-* [Versioning]()
-* [Limitations]()
-* [Credits]()
-* [License]()
+* [Highlights](#highlights)
+* [Getting Started](#getting-started)
+  * [At a glance](#at-a-glance)
+  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-jack)
+* [Generators](#generators)
+  * [The `gen` expression](#-generators-can-also-be-created-using-the-gen-expression)
+* [Properties](#properties)
+  * [The `property` expression](#-properties-can-also-be-created-using-the-property-expression)
+  * [Custom Operations](#custom-operations)
+    * [`counterexample`](#counterexample)
+    * [`where`](#where)
+* [NuGet](#nuget)
+* [Versioning](#versioning)
+* [Limitations](#limitations)
+* [Credits](#credits)
+* [License](https://github.com/moodmosaic/dotnet-jack/blob/master/LICENSE)
 
 ## Highlights
 
