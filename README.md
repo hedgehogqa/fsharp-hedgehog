@@ -10,6 +10,25 @@ The key improvement is that shrinking comes for free — instead of generating a
 
 *Jack's love of dice has brought him here, where he has taken on the form of an F# library, in order to help you gamble with your properties.*
 
+## Table of Contents
+
+* [Highlights](#highlights)
+* [Getting Started](#getting-started)
+  * [At a glance](#at-a-glance)
+  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-jack)
+* [Generators](#generators)
+  * [The `gen` expression](#-generators-can-also-be-created-using-the-gen-expression)
+* [Properties](#properties)
+  * [The `property` expression](#-properties-can-also-be-created-using-the-property-expression)
+  * [Custom Operations](#custom-operations)
+    * [`counterexample`](#counterexample)
+    * [`where`](#where)
+* [NuGet](#nuget)
+* [Versioning](#versioning)
+* [Limitations](#limitations)
+* [Credits](#credits)
+* [License](https://github.com/moodmosaic/dotnet-jack/blob/master/LICENSE)
+
 ## Highlights
 
 * Shrinking is baked into the `Gen` type, so you get it for free. This is not a trivial distinction. Integrating shrinking into generation has two large benefits:
