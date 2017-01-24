@@ -26,6 +26,8 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [NuGet](#nuget)
 * [Versioning](#versioning)
 * [Limitations](#limitations)
+* [Integrations](#integrations)
+  * [Regex-constrained strings](#regex-constrained-strings)
 * [Credits](#credits)
 * [License](https://github.com/moodmosaic/dotnet-jack/blob/master/LICENSE)
 
@@ -676,6 +678,63 @@ Some of the features you'd expect from a property-based testing system are still
 Jack doesn't have an Arbitrary type class, by design. The main purpose of the Arbitrary class is to link the generator with a shrink function — this isn't required with Jack so Arbitrary has been eliminated.
 
 This library is still very new, and we wouldn't be surprised if some of the combinators are still a bit buggy.
+
+## Integrations
+
+Use your favorite tools with Jack.
+
+Powerful integrations that help you and your team build properties in an easier way.
+
+### Regex-constrained strings
+
+In Haskell, there's the [quickcheck-regex](https://hackage.haskell.org/package/quickcheck-regex) package, by [Audrey (唐鳳) Tang](https://www.linkedin.com/in/tangaudrey), which allows to write and execute this:
+
+```haskell
+generate (matching "[xX][0-9a-z]")
+// Prints -> "''UVBw"
+```
+
+It exports a `matching` function that turns a Regular Expression into a [DFA](https://en.wikipedia.org/wiki/Deterministic_finite_automaton)/[NFA](https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton) finite-state machine and then into a generator of strings matching that regex:
+
+```haskell
+matching :: String -> Gen String
+```
+
+A similar generator in F# with Jack can be written as shown below:
+
+```f#
+open Jack
+open Fare
+
+/// Curried version of Regex.IsMatch, for indicating
+/// whether a given regular expression finds a match
+/// in the input string.
+let matches candidate pattern =
+    System.Text.RegularExpressions.Regex.IsMatch (candidate, pattern)
+
+/// Generates a string that is guaranteed to
+/// match the regular expression passed in.
+let fromRegex (pattern : string) : Gen<string> =
+    Gen.sized (fun size ->
+        let xeger = Xeger pattern
+        [ for i in 1..size -> xeger.Generate () ]
+        |> Gen.item)
+```
+
+The `fromRegex` function uses the [.NET port](https://www.nuget.org/packages/Fare/) of [dk.brics.automaton](http://www.brics.dk/automaton/) and [xeger](https://code.google.com/p/xeger/).
+
+Here's a way to use it:
+
+
+```f#
+let pattern = "^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"
+
+Property.print <| property { let! s = fromRegex pattern
+                             return matches s pattern }
+
+>
++++ OK, passed 100 tests.
+```
 
 ## Credits
 
