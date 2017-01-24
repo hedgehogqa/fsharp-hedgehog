@@ -29,7 +29,7 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [Integrations](#integrations)
   * [Regex-constrained strings](#regex-constrained-strings)
 * [Credits](#credits)
-* [License](https://github.com/moodmosaic/dotnet-jack/blob/master/LICENSE)
+* [License](https://github.com/jystic/dotnet-jack/blob/master/LICENSE)
 
 ## Highlights
 
