@@ -27,7 +27,7 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [Versioning](#versioning)
 * [Limitations](#limitations)
 * [Credits](#credits)
-* [License](https://github.com/moodmosaic/dotnet-jack/blob/master/LICENSE)
+* [License](https://github.com/jystic/dotnet-jack/blob/master/LICENSE)
 
 ## Highlights
 
