@@ -452,6 +452,10 @@ module Gen =
     let float : Gen<float> =
         double |> map float
 
+    let guid : Gen<System.Guid> =
+        gen { let! bs = byte |> array' 16 16
+              return System.Guid bs }
+
     //
     // Combinators - Constructed
     //
