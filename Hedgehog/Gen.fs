@@ -1,7 +1,7 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
 open FSharpx.Collections
-open Jack.Numeric
+open Hedgehog.Numeric
 
 /// A generator for values and shrink trees of type 'a.
 type Gen<'a> =

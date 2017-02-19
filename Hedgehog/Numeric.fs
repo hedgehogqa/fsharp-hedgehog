@@ -1,4 +1,4 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
 //
 // The handful of ad-hoc polymorphic things we need from FsControl, copied from

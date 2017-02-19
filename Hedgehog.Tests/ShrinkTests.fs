@@ -1,7 +1,7 @@
-﻿module Jack.Tests.ShrinkTests
+﻿module Hedgehog.Tests.ShrinkTests
 
 open FSharpx.Collections
-open Jack
+open Hedgehog
 open Swensen.Unquote
 open Xunit
 

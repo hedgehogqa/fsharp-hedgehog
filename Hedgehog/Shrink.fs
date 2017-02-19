@@ -1,4 +1,4 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
 open FSharpx.Collections
 

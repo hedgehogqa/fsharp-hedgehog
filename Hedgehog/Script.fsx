@@ -11,7 +11,7 @@
       "Property.fs"
 #endif
 
-open Jack
+open Hedgehog
 open System
 
 //
