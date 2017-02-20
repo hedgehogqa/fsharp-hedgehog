@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jystic/dotnet-jack.svg?branch=master)](https://travis-ci.org/jystic/dotnet-jack)
 
-# dotnet-Hedgehog
+# dotnet-hedgehog
 
 An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
 
@@ -13,7 +13,7 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [Highlights](#highlights)
 * [Getting Started](#getting-started)
   * [At a glance](#at-a-glance)
-  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-Hedgehog)
+  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-hedgehog)
 * [Generators](#generators)
   * [The `gen` expression](#-generators-can-also-be-created-using-the-gen-expression)
 * [Properties](#properties)
