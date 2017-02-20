@@ -8,8 +8,6 @@ The key improvement is that shrinking comes for free — instead of generating a
 
 ![](https://github.com/moodmosaic/dotnet-jack/raw/master/img/dice.jpg)
 
-*Hedgehog's love of dice has brought him here, where he has taken on the form of an F# library, in order to help you gamble with your properties.*
-
 ## Table of Contents
 
 * [Highlights](#highlights)
