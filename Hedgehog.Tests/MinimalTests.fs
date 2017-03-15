@@ -1,6 +1,6 @@
-module Jack.Tests.MinimalTests
+module Hedgehog.Tests.MinimalTests
 
-open Jack
+open Hedgehog
 open Swensen.Unquote
 open Xunit
 

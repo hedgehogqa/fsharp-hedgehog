@@ -27,7 +27,7 @@
 // 3. https://github.com/jystic/dotnet-jack/issues/26
 //
 
-namespace Jack
+namespace Hedgehog
 
 /// Splittable random number generator.
 type Seed =

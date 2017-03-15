@@ -1,6 +1,6 @@
-﻿module Jack.Tests.GenTests
+﻿module Hedgehog.Tests.GenTests
 
-open Jack
+open Hedgehog
 open Swensen.Unquote
 open Xunit
 

@@ -1,6 +1,6 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
-open Jack.Numeric
+open Hedgehog.Numeric
 
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.

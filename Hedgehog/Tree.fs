@@ -1,4 +1,4 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
 open FSharpx.Collections
 
@@ -36,7 +36,7 @@ module Tree =
     let join (xss : Tree<Tree<'a>>) : Tree<'a> =
         bind xss id
 
-    /// Turns a tree, in to a tree of trees. Useful for testing Jack itself as
+    /// Turns a tree, in to a tree of trees. Useful for testing Hedgehog itself as
     /// it allows you to observe the shrinks for a value inside a property,
     /// while still allowing the property to shrink to a minimal
     /// counterexample.

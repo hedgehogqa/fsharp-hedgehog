@@ -1,4 +1,4 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 
 open FSharpx.Collections
 open System
@@ -153,17 +153,17 @@ module private Pretty =
         sb.ToString(0, sb.Length - 1) // exclude extra newline
 
 [<AbstractClass>]
-type JackException (message : string) =
+type HedgehogException (message : string) =
     inherit Exception (message)
 
 type GaveUpException (tests : int<tests>, discards : int<discards>) =
-    inherit JackException (renderGaveUp tests discards)
+    inherit HedgehogException (renderGaveUp tests discards)
 
     member __.Tests =
         tests
 
 type FailedException (tests : int<tests>, discards : int<discards>, shrinks : int<shrinks>, journal : Journal) =
-    inherit JackException (renderFailed tests discards shrinks journal)
+    inherit HedgehogException (renderFailed tests discards shrinks journal)
 
     member __.Tests =
         tests

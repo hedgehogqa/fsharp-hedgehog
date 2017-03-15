@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jystic/dotnet-jack.svg?branch=master)](https://travis-ci.org/jystic/dotnet-jack)
 
-# dotnet-jack
+# dotnet-hedgehog
 
 An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
 
@@ -8,14 +8,12 @@ The key improvement is that shrinking comes for free — instead of generating a
 
 ![](https://github.com/moodmosaic/dotnet-jack/raw/master/img/dice.jpg)
 
-*Jack's love of dice has brought him here, where he has taken on the form of an F# library, in order to help you gamble with your properties.*
-
 ## Table of Contents
 
 * [Highlights](#highlights)
 * [Getting Started](#getting-started)
   * [At a glance](#at-a-glance)
-  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-jack)
+  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-hedgehog)
 * [Generators](#generators)
   * [The `gen` expression](#-generators-can-also-be-created-using-the-gen-expression)
 * [Properties](#properties)
@@ -42,9 +40,9 @@ The key improvement is that shrinking comes for free — instead of generating a
 
 ## At a glance
 
-Given any generator of type α, Jack not only generates *random values* of type α, but also *shrinks* α into smaller values.
+Given any generator of type α, Hedgehog not only generates *random values* of type α, but also *shrinks* α into smaller values.
 
-Jack comes with built-in generators for primitive types, so here's how it would generate a couple of integers and shrink them:
+Hedgehog comes with built-in generators for primitive types, so here's how it would generate a couple of integers and shrink them:
 
 ```f#
 Gen.int
@@ -86,7 +84,7 @@ Gen.int
 .
 ```
 
-But Jack can also take on complex types, and shrink them for free:
+But Hedgehog can also take on complex types, and shrink them for free:
 
 ```f#
 Gen.byte
@@ -179,9 +177,9 @@ Gen.byte
 .
 ```
 
-#### 👉 Integrated shrinking is an important quality of Jack
+#### 👉 Integrated shrinking is an important quality of Hedgehog
 
-When a property fails (because Jack found a counter-example), the randomly-generated data usually contains "noise". Therefore Jack simplifies counter-examples before reporting them:
+When a property fails (because Hedgehog found a counter-example), the randomly-generated data usually contains "noise". Therefore Hedgehog simplifies counter-examples before reporting them:
 
 ```f#
 let version =
@@ -234,7 +232,7 @@ reverse (reverse xs) = xs, ∀xs :: [α]
 
 which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".
 
-One way to use Jack to check the above property is to use the `property` computation expression:
+One way to use Hedgehog to check the above property is to use the `property` computation expression:
 
 ```f#
 property { let! xs = Gen.list Gen.int
@@ -253,13 +251,13 @@ property { let! xs = Gen.list Gen.int
 
 ### Generators
 
-Jack's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:
+Hedgehog's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:
 
 ```f#
 Gen.alphaNum
 ```
 
-This generator is of type `Gen<char>`, which means that Jack can take this generator and produce characters, like so:
+This generator is of type `Gen<char>`, which means that Hedgehog can take this generator and produce characters, like so:
 
 ```f#
 Gen.alphaNum |> Gen.printSample;;
@@ -339,7 +337,7 @@ So `range` is also a generator, and so on and so forth.
 
 #### 👉 Generators can also be created using the `gen` expression
 
-Jack supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type System.Net.IPAddress:
+Hedgehog supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type System.Net.IPAddress:
 
 ```f#
 open System.Net
@@ -466,7 +464,7 @@ let ipAddressGen : Gen<IPAddress> =
 
 ### Properties
 
-Using Jack, the programmer writes assertions about logical properties that a function should fulfill.
+Using Hedgehog, the programmer writes assertions about logical properties that a function should fulfill.
 
 Take [`List.rev`](https://msdn.microsoft.com/visualfsharpdocs/conceptual/list.rev%5b%27t%5d-function-%5bfsharp%5d) as an example, which is a function that returns a new list with the elements in reverse order:
 
@@ -498,7 +496,7 @@ fun xs -> List.rev (List.rev xs) = xs;;
 val it : xs:'a list -> bool when 'a : equality = <fun:clo@33>
 ```
 
-Jack will then attempt to generate a test case that *falsifies* the assertion. In order to do that, it needs to know which generator to use, to feed `xs` with random values.
+Hedgehog will then attempt to generate a test case that *falsifies* the assertion. In order to do that, it needs to know which generator to use, to feed `xs` with random values.
 
 #### A generator for lists of integers
 
@@ -597,7 +595,7 @@ val it : unit = ()
 >
 ```
 
-The test now fails. — Notice how Jack reports back the minimal counter-example. This process is called shrinking.
+The test now fails. — Notice how Hedgehog reports back the minimal counter-example. This process is called shrinking.
 
 ### Custom Operations
 
@@ -662,11 +660,11 @@ indicates that 95 test cases satisfying the condition were found, and that the p
 
 ## NuGet
 
-There isn't much here yet, but Jack can be published on NuGet once it's in a usable state.
+There isn't much here yet, but Hedgehog can be published on NuGet once it's in a usable state.
 
 ## Versioning
 
-Jack follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
+Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
 
 ## Limitations
 
@@ -675,13 +673,13 @@ Some of the features you'd expect from a property-based testing system are still
 * Generating functions
 * Model-based testing
 
-Jack doesn't have an Arbitrary type class, by design. The main purpose of the Arbitrary class is to link the generator with a shrink function — this isn't required with Jack so Arbitrary has been eliminated.
+Hedgehog doesn't have an Arbitrary type class, by design. The main purpose of the Arbitrary class is to link the generator with a shrink function — this isn't required with Hedgehog so Arbitrary has been eliminated.
 
 This library is still very new, and we wouldn't be surprised if some of the combinators are still a bit buggy.
 
 ## Integrations
 
-Use your favorite tools with Jack.
+Use your favorite tools with Hedgehog.
 
 Powerful integrations that help you and your team build properties in an easier way.
 
@@ -700,10 +698,10 @@ It exports a `matching` function that turns a Regular Expression into a [DFA](ht
 matching :: String -> Gen String
 ```
 
-A similar generator in F# with Jack can be written as shown below:
+A similar generator in F# with Hedgehog can be written as shown below:
 
 ```f#
-open Jack
+open Hedgehog
 open Fare
 
 /// Curried version of Regex.IsMatch, for indicating
@@ -738,4 +736,4 @@ Property.print <| property { let! s = fromRegex pattern
 
 ## Credits
 
-The idea behind the F# version of Jack originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.
+The idea behind the F# version of Hedgehog originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.

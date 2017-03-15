@@ -1,8 +1,8 @@
-﻿namespace Jack
+﻿namespace Hedgehog
 open System.Reflection
 open System.Runtime.CompilerServices
 
-[<assembly: AssemblyTitle("Jack")>]
+[<assembly: AssemblyTitle("Hedgehog")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
