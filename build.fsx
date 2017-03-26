@@ -9,7 +9,7 @@ Target "Build" <| fun _ ->
     |> ignore
 
 Target "Test" (fun _ ->
-    !! "*/bin/Release/*Hedgehog.*Tests.dll"
+    !! "**/bin/Release/*Hedgehog.*Tests.dll"
     |> xUnit2 (fun p -> { p with Parallel = ParallelMode.All }))
 
 Target "NuGet" (fun _ ->
