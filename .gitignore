@@ -39,6 +39,9 @@ Thumbs.db
 #dotCover
 *.dotCover
 
+# Hedgehog NuGet Package output directory
+.nuget
+
 # FAKE - F# Make
 .fake/
 
