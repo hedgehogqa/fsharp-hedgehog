@@ -668,7 +668,10 @@ PM> Install-Package Hedgehog
 
 ## Versioning
 
-Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
+Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+
+According to [semantic versioning specification](http://semver.org/spec/v2.0.0.html#spec-item-4
+), until version 1.0.0 is released, major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
 
 ## Limitations
 
