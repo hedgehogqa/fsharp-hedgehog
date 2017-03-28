@@ -660,7 +660,11 @@ indicates that 95 test cases satisfying the condition were found, and that the p
 
 ## NuGet
 
-There isn't much here yet, but Hedgehog can be published on NuGet once it's in a usable state.
+To install Hedgehog, run the following command in the [Package Manager Console](https://docs.nuget.org/docs/start-here/using-the-package-manager-console)
+
+```
+PM> Install-Package Hedgehog
+```
 
 ## Versioning
 
