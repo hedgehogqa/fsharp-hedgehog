@@ -660,11 +660,18 @@ indicates that 95 test cases satisfying the condition were found, and that the p
 
 ## NuGet
 
-There isn't much here yet, but Hedgehog can be published on NuGet once it's in a usable state.
+To install Hedgehog, run the following command in the [Package Manager Console](https://docs.nuget.org/docs/start-here/using-the-package-manager-console)
+
+```
+PM> Install-Package Hedgehog
+```
 
 ## Versioning
 
-Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) once it’s in a usable state.
+Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+
+According to [semantic versioning specification](http://semver.org/spec/v2.0.0.html#spec-item-4
+), until version 1.0.0 is released, major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
 
 ## Limitations
 
