@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/hedgehogqa/dotnet-hedgehog.svg?branch=master)](https://travis-ci.org/hedgehogqa/dotnet-hedgehog)
+[![Build Status](https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master)](https://travis-ci.org/hedgehogqa/fsharp-hedgehog)
 
-# dotnet-hedgehog
+# fsharp-hedgehog
 
 [Hedgehog](http://hedgehog.qa/) is a modern property-based testing system, in the spirit of QuickCheck. Hedgehog offers a simplified model for writing properies with not only `gen` but also `property` expressions. Hedgehog does shrinking automatically, which means it can shrink anything it can generate. Hedgehog has adequate randomness based on the SplitMix algorithm.
 
-![](https://github.com/hedgehogqa/dotnet-hedgehog/raw/master/img/dice.jpg)
+![](https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/dice.jpg)
 
 ## Installing
 
@@ -17,8 +17,8 @@ PM> Install-Package Hedgehog
 ## Contribute
 
 There are many ways to [contribute](CONTRIBUTING.md) to Hedgehog.
-* [Submit bugs](https://github.com/hedgehogqa/dotnet-hedgehog/issues) and help us verify fixes as they are checked in.
-* Review the [source code changes](https://github.com/hedgehogqa/dotnet-hedgehog/pulls).
+* [Submit bugs](https://github.com/hedgehogqa/fsharp-hedgehog/issues) and help us verify fixes as they are checked in.
+* Review the [source code changes](https://github.com/hedgehogqa/fsharp-hedgehog/pulls).
 * Engage with other Hedgehog users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/hedgehogqa).
 * Join the [#hedgehogqa](http://twitter.com/#!/search/realtime/%23hedgehogqa) discussion on Twitter.
 * [Contribute bug fixes](CONTRIBUTING.md).
@@ -31,18 +31,18 @@ This project has adopted the [Code of Conduct for Open Source Projects](http://c
 
 ## Building
 
-In order to build dotnet-hedgehog, ensure that you have [Git](http://git-scm.com/downloads) and [F#](http://fsharp.org/) installed.
+In order to build fsharp-hedgehog, ensure that you have [Git](http://git-scm.com/downloads) and [F#](http://fsharp.org/) installed.
 
 Clone a copy of the repo:
 
 ```
-git clone https://github.com/hedgehogqa/dotnet-hedgehog.git
+git clone https://github.com/hedgehogqa/fsharp-hedgehog.git
 ```
 
-Change to the dotnet-hedgehog directory:
+Change to the fsharp-hedgehog directory:
 
 ```
-cd dotnet-hedgehog
+cd fsharp-hedgehog
 ```
 
 Use one of the following to build and test:

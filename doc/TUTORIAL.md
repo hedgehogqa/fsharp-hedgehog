@@ -17,7 +17,7 @@
 * [Integrations](#integrations)
   * [Regex-constrained strings](#regex-constrained-strings)
 * [Credits](#credits)
-* [License](https://github.com/jystic/dotnet-jack/blob/master/LICENSE)
+* [License](https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE)
 
 ## Highlights
 

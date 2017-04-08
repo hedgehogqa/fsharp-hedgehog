@@ -2,7 +2,7 @@
 
 ## 1. Search for Duplicates
 
-[Search the existing issues](https://github.com/hedgehogqa/dotnet-hedgehog/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
+[Search the existing issues](https://github.com/hedgehogqa/fsharp-hedgehog/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
 
 ## 2. Do you have a question?
 
@@ -19,7 +19,7 @@ When logging a bug, please be sure to include the following:
 ## 4. Do you have a suggestion?
 
 We also accept suggestions in the issue tracker.
-Be sure to [search](https://github.com/hedgehogqa/dotnet-hedgehog/issues?utf8=%E2%9C%93&q=is%3Aissue) first.
+Be sure to [search](https://github.com/hedgehogqa/fsharp-hedgehog/issues?utf8=%E2%9C%93&q=is%3Aissue) first.
 
 In general, things we find useful when reviewing suggestions are:
 * A description of the problem you're trying to solve
