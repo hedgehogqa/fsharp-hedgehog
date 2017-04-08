@@ -11,10 +11,10 @@ copyright
 summary
     An alternative property-based testing system for F#, in the spirit of QuickCheck. The key improvement is that shrinking comes for free.
 licenseurl
-    https://raw.githubusercontent.com/hedgehogqa/dotnet-hedgehog/master/LICENSE
+    https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/LICENSE
 projecturl
-    https://github.com/hedgehogqa/dotnet-hedgehog
+    https://github.com/hedgehogqa/fsharp-hedgehog
 iconUrl
-    https://github.com/hedgehogqa/dotnet-hedgehog/raw/master/img/SQUARE_hedgehog_300x300.png
+    https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/SQUARE_hedgehog_300x300.png
 tags
     fsharp, f#, testing
