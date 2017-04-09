@@ -1,12 +1,14 @@
-[![Build Status](https://travis-ci.org/hedgehogqa/dotnet-hedgehog.svg?branch=master)](https://travis-ci.org/hedgehogqa/dotnet-hedgehog)
+[![Build Status](https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master)](https://travis-ci.org/hedgehogqa/fsharp-hedgehog)
 
-# dotnet-hedgehog
+# fsharp-hedgehog
 
 An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
 
 The key improvement is that shrinking comes for free — instead of generating a random value and using a shrinking function after the fact, we generate the random value and all the possible shrinks in a rose tree, all at once.
 
-![](https://github.com/hedgehogqa/dotnet-hedgehog/raw/master/img/dice.jpg)
+<p align="center">
+  <img src="https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog.png" alt="Hedgehog logo">
+</p>
 
 ## Table of Contents
 
@@ -27,7 +29,7 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [Integrations](#integrations)
   * [Regex-constrained strings](#regex-constrained-strings)
 * [Credits](#credits)
-* [License](https://github.com/jystic/dotnet-jack/blob/master/LICENSE)
+* [License](https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE)
 
 ## Highlights
 
