@@ -1,6 +1,8 @@
 redirects: on
 source https://www.nuget.org/api/v2/
 
+nuget FSharp.Core 4.0.0.1
+
 nuget FAKE 4.41.1
 nuget xunit.runner.console 2.1.0
 
