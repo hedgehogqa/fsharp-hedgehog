@@ -1,8 +1,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Hedgehog", "src\Hedgehog\Hedgehog.fsproj", "{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog", "src\Hedgehog\Hedgehog.fsproj", "{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.Tests", "tests\Hedgehog.Tests\Hedgehog.Tests.fsproj", "{788F88B7-5516-4F89-8652-20F14576E1DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{76532829-C6DB-48F1-ABA8-835E3B718023}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
