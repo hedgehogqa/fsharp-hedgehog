@@ -1,7 +1,15 @@
 redirects: on
 source https://www.nuget.org/api/v2/
 
-nuget FSharp.Core 4.0.0.1
+// We want to depend on FSharp.Core 4.0.0.1, but not require
+// that version in the generated nuget package (see paket.template).
+//
+// If we just specify "FSharp.Core 4.0.0.1" then the nuget package
+// has an dependency on that *exact* version.
+//
+// So, we specify 4.0.0.1 as a minimum bound, and set lowest_matching
+// so it won't be updated automatically to a newer one by 'paket update'.
+nuget FSharp.Core >= 4.0.0.1 lowest_matching: true
 
 nuget FAKE 4.41.1
 nuget xunit.runner.console 2.1.0
