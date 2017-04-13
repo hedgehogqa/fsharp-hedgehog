@@ -2,6 +2,7 @@ REDIRECTS: ON
 NUGET
   remote: https://www.nuget.org/api/v2
     FAKE (4.41.1)
+    FSharp.Core (4.0.0.1)
     Microsoft.NETCore.Platforms (1.0.1) - framework: dnxcore50
     Microsoft.NETCore.Targets (1.0.1) - framework: dnxcore50
     System.Collections (4.0.11) - framework: dnxcore50
