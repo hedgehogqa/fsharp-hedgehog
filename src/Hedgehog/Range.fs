@@ -18,8 +18,8 @@ module Range =
     //
     // Combinators - Range
     //
-    /// Get the origin of a range. This might be the mid-point or the lower bound,
-    /// depending on what the range represents.
+    /// Get the origin of a range. This might be the mid-point or the lower
+    /// bound, depending on what the range represents.
     ///
     /// The 'bounds' of a range are scaled around this value when using the
     /// 'linear' family of combinators.
@@ -70,3 +70,63 @@ module Range =
         let zero = LanguagePrimitives.GenericZero
 
         constantFrom zero lo hi
+
+    //
+    // Combinators - Linear
+    //
+
+    [<AutoOpen>]
+    module Internal =
+        // The functions in this module where initially marked as internal
+        // but then the F# compiler complained with the following message:
+        //
+        // The value 'linearFrom' was marked inline but its implementation
+        // makes use of an internal or private function which is not
+        // sufficiently accessible.
+
+        /// Truncate a value so it stays within some range.
+        let clamp (x : 'a) (y : 'a) (n : 'a) =
+            if x > y then
+                min x (max y n)
+            else
+                min y (max x n)
+
+        /// Scale an integral linearly with the size parameter.
+        let inline scaleLinear (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+            let sz =
+                max 0 (min 99 sz0)
+
+            let z =
+                toBigInt z0
+
+            let n =
+                toBigInt n0
+
+            let diff =
+                ((n - z) * bigint sz) / (bigint 99)
+
+            fromBigInt (z + diff)
+
+    /// Construct a range which scales the bounds relative to the size
+    /// parameter.
+    let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
+        Range (z, fun sz ->
+            let x_sized =
+                clamp x y (scaleLinear sz z x)
+            let y_sized =
+                clamp x y (scaleLinear sz z y)
+            x_sized, y_sized)
+
+    /// Construct a range which scales the second bound relative to the size
+    /// parameter.
+    let inline linear (x : 'a) : ('a -> Range<'a>) =
+      linearFrom x x
+
+    /// Construct a range which is scaled relative to the size parameter and
+    /// uses the full range of a data type.
+    let inline linearBounded () : Range<'a> =
+        let lo = minValue ()
+        let hi = maxValue ()
+        let zero = LanguagePrimitives.GenericZero
+
+        linearFrom zero lo hi

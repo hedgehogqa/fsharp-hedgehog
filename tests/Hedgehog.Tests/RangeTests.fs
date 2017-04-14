@@ -136,3 +136,65 @@ let ``constantBounded bounds returns correct result - Int64 range`` sz =
     (Int64.MinValue, Int64.MaxValue) =!
         x
 
+[<Fact>]
+let ``linear scales the second bound relative to the size - example 1`` () =
+    let actual =
+        Range.bounds 0 <| Range.linear 0 10
+    (0, 0) =!
+        actual
+
+[<Fact>]
+let ``linear scales the second bound relative to the size - example 2`` () =
+    let actual =
+        Range.bounds 50 <| Range.linear 0 10
+    (0, 5) =!
+        actual
+
+[<Fact>]
+let ``linear scales the second bound relative to the size - example 3`` () =
+    let actual =
+        Range.bounds 99 <| Range.linear 0 10
+    (0, 10) =!
+        actual
+
+[<Fact>]
+let ``linearFrom scales the bounds relative to the size - example 1`` () =
+    let actual =
+        Range.bounds 0 <| Range.linearFrom 0 -10 10
+    (0, 0) =!
+        actual
+
+[<Fact>]
+let ``linearFrom scales the bounds relative to the size - example 2`` () =
+    let actual =
+        Range.bounds 50 <| Range.linearFrom 0 -10 20
+    (-5, 10) =!
+        actual
+
+[<Fact>]
+let ``linearFrom scales the bounds relative to the size - example 3`` () =
+    let actual =
+        Range.bounds 99 <| Range.linearFrom 0 -10 20
+    (-10, 20) =!
+        actual
+
+[<Fact>]
+let ``linearBounded uses the full range of a data type - example 1`` () =
+    let actual =
+        Range.bounds 0 <| (Range.linearBounded () : Range<sbyte>)
+    (-0y, 0y) =!
+        actual
+
+[<Fact>]
+let ``linearBounded uses the full range of a data type - example 2`` () =
+    let actual =
+        Range.bounds 50 <| (Range.linearBounded () : Range<sbyte>)
+    (-64y, 64y) =!
+        actual
+
+[<Fact>]
+let ``linearBounded uses the full range of a data type - example 3`` () =
+    let actual =
+        Range.bounds 99 <| (Range.linearBounded () : Range<sbyte>)
+    (-128y, 127y) =!
+        actual
