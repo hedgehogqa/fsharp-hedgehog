@@ -1,5 +1,7 @@
 ﻿namespace Hedgehog
 
+open Hedgehog.Numeric
+
 /// A range describes the bounds of a number to generate, which may or may not
 /// be dependent on a 'Size'.
 type Range<'a> =
@@ -42,3 +44,29 @@ module Range =
         let (x, y) =
             bounds sz range
         max x y
+
+    //
+    // Combinators - Constant
+    //
+
+    /// Construct a range which represents a constant single value.
+    let singleton (x : 'a) : Range<'a> =
+        Range (x, fun _ -> x, x)
+
+    /// Construct a range which is unaffected by the size parameter with a
+    /// origin point which may differ from the bounds.
+    let constantFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
+        Range (z, fun _ -> x, y)
+
+    /// Construct a range which is unaffected by the size parameter.
+    let constant (x : 'a) : ('a -> Range<'a>) =
+        constantFrom x x
+
+    /// Construct a range which is unaffected by the size parameter using the
+    /// full range of a data type.
+    let inline constantBounded () : Range<'a> =
+        let lo = minValue ()
+        let hi = maxValue ()
+        let zero = LanguagePrimitives.GenericZero
+
+        constantFrom zero lo hi
