@@ -107,6 +107,7 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="RangeTests.fs" />
     <Compile Include="GenTests.fs" />
     <Compile Include="ShrinkTests.fs" />
     <Compile Include="MinimalTests.fs" />
