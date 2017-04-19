@@ -5,6 +5,7 @@
       "Numeric.fs"
       "Seed.fs"
       "Tree.fs"
+      "Range.fs"
       "Random.fs"
       "Shrink.fs"
       "Gen.fs"
@@ -19,7 +20,7 @@ open System
 //
 
 Property.print <| property {
-    let! x = Gen.range 1 100
+    let! x = Gen.int <| Range.constant 1 100
     let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq
     counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
@@ -35,7 +36,7 @@ Property.print <| property {
 //
 
 Property.print <| property {
-    let! xs = Gen.list Gen.int
+    let! xs = Gen.list <| Gen.bounded ()
     return xs
             |> List.rev
             |> List.rev
@@ -47,7 +48,7 @@ Property.print <| property {
 //
 
 let genLeapYear =
-    Gen.range 2000 3000 |> Gen.filter DateTime.IsLeapYear
+    Gen.int <| Range.constant 2000 3000 |> Gen.filter DateTime.IsLeapYear
 
 Gen.printSample genLeapYear
 
@@ -57,8 +58,8 @@ Gen.printSample genLeapYear
 
 // Fails due to integer overflow
 Property.print <| property {
-    let! x = Gen.int
-    let! y = Gen.int
+    let! x = Gen.int <| Range.constantBounded ()
+    let! y = Gen.int <| Range.constantBounded ()
     where (x > 0 && y > 0)
     counterexample (sprintf "x * y = %d" <| x * y)
     return x * y > 0
@@ -69,7 +70,7 @@ Property.print <| property {
 //
 
 Property.print <| property {
-    let! n = Gen.int
+    let! n = Gen.int <| Range.constantBounded ()
     where (n <> 0)
     return 1 / n = 1 / n
 }
@@ -92,7 +93,7 @@ Property.print <| property {
     let mutable n = 0
     while n < 10 do
         n <- n + 1
-        let! k = Gen.range 0 n
+        let! k = Gen.int <| Range.constant 0 n
         return! Property.counterexample (sprintf "n = %d" n)
         return! Property.counterexample (sprintf "k = %d" k)
         return k <> 5
@@ -117,7 +118,7 @@ Gen.printSample <| gen {
 //
 
 Gen.printSample <| gen {
-    let! x = Gen.range 0 10
+    let! x = Gen.int <| Range.constant 0 10
     let! y = Gen.item [ "x"; "y"; "z"; "w" ]
     let! z = Gen.double
     let! w = Gen.string' Gen.alphaNum
@@ -128,19 +129,22 @@ Gen.printSample <| gen {
 // Printing Samples ― Complex Types
 //
 
-Gen.byte
+Range.constantBounded ()
+|> Gen.byte
 |> Gen.map int
 |> Gen.tuple
 |> Gen.map (fun (ma, mi) -> Version (ma, mi))
 |> Gen.printSample
 
-Gen.byte
+Range.constantBounded ()
+|> Gen.byte
 |> Gen.map int
 |> Gen.tuple3
 |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
 |> Gen.printSample
 
-Gen.byte
+Range.constantBounded ()
+|> Gen.byte
 |> Gen.map int
 |> Gen.tuple4
 |> Gen.map (fun (ma, mi, bu, re) -> Version (ma, mi, bu, re))
@@ -151,7 +155,7 @@ Gen.byte
 //
 
 Gen.printSample <| gen {
-    let! addr = Gen.byte |> Gen.array' 4 4
+    let! addr = Gen.array' 4 4 <| Gen.bounded ()
     return System.Net.IPAddress addr
 }
 
@@ -186,7 +190,7 @@ let rec genExp =
     Gen.delay <| fun _ ->
     Gen.shrink shrinkExp <|
     Gen.choiceRec [
-        Lit <!> Gen.int
+        Lit <!> Gen.bounded ()
     ] [
         Add <!> Gen.zip genExp genExp
     ]

@@ -2,6 +2,10 @@
 
 open Hedgehog.Numeric
 
+/// Tests are parameterized by the `Size` of the randomly-generated data,
+/// the meaning of which depends on the particular generator used.
+type Size = int
+
 /// A range describes the bounds of a number to generate, which may or may not
 /// be dependent on a 'Size'.
 type Range<'a> =

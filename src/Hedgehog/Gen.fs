@@ -162,30 +162,15 @@ module Gen =
     //
 
     /// Generates a random number in the given inclusive range.
-    let inline range (lo : ^a) (hi : ^a) : Gen<'a> =
-        create (Shrink.towards lo) (Random.range lo hi)
+    let inline integral (range : Range<'a>) : Gen<'a> =
+        create (Shrink.towards <| Range.origin range) (Random.integral range)
 
     /// Generates a random number from the whole range of the numeric type.
     let inline bounded () : Gen<'a> =
-        let lo = minValue ()
-        let hi = maxValue ()
         let zero = LanguagePrimitives.GenericZero
+        let range = Range.constantBounded ()
 
-        create (Shrink.towards zero) (Random.range lo hi)
-
-    /// Generates a random number in the given inclusive range, but smaller
-    /// numbers are generated more often than bigger ones.
-    let inline sizedRange (lo : ^a) (hi : ^a) : Gen<'a> =
-        create (Shrink.towards lo) (Random.sizedRange lo hi)
-
-    /// Generates a random number from the whole range of the numeric type, but
-    /// smaller numbers are generated more often than bigger ones.
-    let inline sizedBounded () : Gen<'a> =
-        let lo = minValue ()
-        let hi = maxValue ()
-        let zero = LanguagePrimitives.GenericZero
-
-        create (Shrink.towards zero) (Random.sizedRange lo hi)
+        create (Shrink.towards zero) (Random.integral range)
 
     //
     // Combinators - Choice
@@ -201,7 +186,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs"
         else
-            let! ix = range 0 (Array.length xs - 1)
+            let! ix = integral <| Range.constant 0 (Array.length xs - 1)
             return Array.item ix xs
     }
 
@@ -223,7 +208,7 @@ module Gen =
                 else
                     pick (n - k) ys
 
-        let! n = range 1 total
+        let! n = integral <| Range.constant 1 total
         return! pick n xs
     }
 
@@ -234,7 +219,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs" xs
         else
-            let! ix = range 0 (Array.length xs - 1)
+            let! ix = integral <| Range.constant 0 (Array.length xs - 1)
             return! Array.item ix xs
     }
 
@@ -315,28 +300,30 @@ module Gen =
     let private atLeast (n : int) (xs : List<'a>) : bool =
         n = 0 || not (List.isEmpty (List.skip (n - 1) xs))
 
-    /// Generates a list between 'n' and 'm' in length.
-    let list' (n : int) (m : int) (g : Gen<'a>) : Gen<List<'a>> =
-        ofRandom <| random {
-            let! k = Random.range n m
-            let! xs = Random.replicate k (toRandom g)
-            return Shrink.sequenceList xs
-                |> Tree.filter (atLeast (min n m))
-        }
+    /// Generates a list using a 'Range' to determine the length.
+    let list' (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
+        ofRandom
+        <| (Random.sized
+        <| fun size -> random {
+               let! k = Random.integral range
+               let! xs = Random.replicate k (toRandom g)
+               return Shrink.sequenceList xs
+                   |> Tree.filter (atLeast (Range.lowerBound size range))
+           })
 
     /// Generates a list of random length. The maximum length depends on the
     /// size parameter.
     let list (g : Gen<'a>) : Gen<List<'a>> =
-        sized (fun size -> list' 0 size g)
+        sized (fun size -> list' (Range.constant 0 size) g)
 
     /// Generates a non-empty list of random length. The maximum length depends
     /// on the size parameter.
     let list1 (g : Gen<'a>) : Gen<List<'a>> =
-        sized (fun size -> list' 1 size g)
+        sized (fun size -> list' (Range.constant 1 size) g)
 
     /// Generates an array between 'n' and 'm' in length.
     let array' (n : int) (m : int) (g : Gen<'a>) : Gen<array<'a>> =
-        list' n m g |> map Array.ofList
+        list' (Range.constant n m) g |> map Array.ofList
 
     /// Generates an array of random length. The maximum length depends on the
     /// size parameter.
@@ -350,7 +337,7 @@ module Gen =
 
     /// Generates a sequence between 'n' and 'm' in length.
     let seq' (n : int) (m : int) (g : Gen<'a>) : Gen<seq<'a>> =
-        list' n m g |> map Seq.ofList
+        list' (Range.constant n m) g |> map Seq.ofList
 
     /// Generates a sequence of random length. The maximum length depends on
     /// the size parameter.
@@ -368,13 +355,13 @@ module Gen =
 
     // Generates a random character in the specified range.
     let charRange (lo : char) (hi : char) : Gen<char> =
-        range (int lo) (int hi) |> map char
+        integral <| Range.constant (int lo) (int hi) |> map char
 
     /// Generates a random character.
     let char : Gen<char> =
         let lo = System.Char.MinValue
         let hi = System.Char.MaxValue
-        sizedRange (int lo) (int hi) |> map char
+        charRange lo hi
 
     // Generates a random digit.
     let digit : Gen<char> =
@@ -413,36 +400,36 @@ module Gen =
         item [false; true]
 
     /// Generates a random byte.
-    let byte : Gen<byte> =
-        sizedBounded ()
+    let byte (range : Range<byte>) : Gen<byte> =
+        integral range
 
     /// Generates a random signed byte.
-    let sbyte : Gen<sbyte> =
-        sizedBounded ()
+    let sbyte (range : Range<sbyte>) : Gen<sbyte> =
+        integral range
 
     /// Generates a random signed 16-bit integer.
-    let int16 : Gen<int16> =
-        sizedBounded ()
+    let int16 (range : Range<int16>) : Gen<int16> =
+        integral range
 
     /// Generates a random unsigned 16-bit integer.
-    let uint16 : Gen<uint16> =
-        sizedBounded ()
+    let uint16 (range : Range<uint16>) : Gen<uint16> =
+        integral range
 
     /// Generates a random signed 32-bit integer.
-    let int : Gen<int> =
-        sizedBounded ()
+    let int (range : Range<int>) : Gen<int> =
+        integral range
 
     /// Generates a random unsigned 32-bit integer.
-    let uint32 : Gen<uint32> =
-        sizedBounded ()
+    let uint32 (range : Range<uint32>) : Gen<uint32> =
+        integral range
 
     /// Generates a random signed 64-bit integer.
-    let int64 : Gen<int64> =
-        sizedBounded ()
+    let int64 (range : Range<int64>) : Gen<int64> =
+        integral range
 
     /// Generates a random unsigned 64-bit integer.
-    let uint64 : Gen<uint64> =
-        sizedBounded ()
+    let uint64 (range : Range<uint64>) : Gen<uint64> =
+        integral range
 
     /// Generates a random 64-bit floating point number.
     let double : Gen<double> =
@@ -458,20 +445,29 @@ module Gen =
 
     /// Generates a random globally unique identifier.
     let guid : Gen<System.Guid> =
-        gen { let! bs = byte |> array' 16 16
+        gen { let! bs = array' 16 16 <| bounded ()
               return System.Guid bs }
 
     /// Generates a random instant in time expressed as a date and time of day.
     let dateTime : Gen<System.DateTime> =
         let yMin = System.DateTime.MinValue.Year
         let yMax = System.DateTime.MaxValue.Year
-        gen { let! y = create (Shrink.towards 2000) (Random.range yMin yMax)
-              let! m = range 1 12
-              let! d = range 1 (System.DateTime.DaysInMonth (y, m))
-              let! h = range 0 23
-              let! min = range 0 59
-              let! sec = range 0 59
-              return System.DateTime (y, m, d, h, min, sec) }
+        gen {
+            let! y =
+                integral <| Range.constantFrom 2000 yMin yMax
+            let! m =
+                integral <| Range.constant 1 12
+            let! d =
+                integral <| Range.constant 1 (System.DateTime.DaysInMonth (y, m))
+            let! h =
+                integral <| Range.constant 0 23
+            let! min =
+                integral <| Range.constant 0 59
+            let! sec =
+                integral <| Range.constant 0 59
+
+            return System.DateTime (y, m, d, h, min, sec)
+        }
 
     //
     // Sampling
