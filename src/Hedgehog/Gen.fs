@@ -317,26 +317,26 @@ module Gen =
     //
 
     // Generates a random character in the specified range.
-    let charRange (lo : char) (hi : char) : Gen<char> =
+    let char (lo : char) (hi : char) : Gen<char> =
         integral <| Range.constant (int lo) (int hi) |> map char
 
     /// Generates a random character.
-    let char : Gen<char> =
+    let charBounded : Gen<char> =
         let lo = System.Char.MinValue
         let hi = System.Char.MaxValue
-        charRange lo hi
+        char lo hi
 
     // Generates a random digit.
     let digit : Gen<char> =
-        charRange '0' '9'
+        char '0' '9'
 
     // Generates a random lowercase character.
     let lower : Gen<char> =
-        charRange 'a' 'z'
+        char 'a' 'z'
 
     // Generates a random uppercase character.
     let upper : Gen<char> =
-        charRange 'A' 'Z'
+        char 'A' 'Z'
 
     // Generates a random alpha character.
     let alpha : Gen<char> =
@@ -354,7 +354,7 @@ module Gen =
 
     /// Generates a random string.
     let string : Gen<string> =
-        choice [alphaNum; char] |> string'
+        choice [alphaNum; charBounded] |> string'
 
     //
     // Combinators - Primitives
