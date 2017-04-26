@@ -294,7 +294,7 @@ module Gen =
         n = 0 || not (List.isEmpty (List.skip (n - 1) xs))
 
     /// Generates a list using a 'Range' to determine the length.
-    let list' (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
+    let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
         ofRandom
         <| (Random.sized
         <| fun size -> random {
@@ -304,43 +304,33 @@ module Gen =
                    |> Tree.filter (atLeast (Range.lowerBound size range))
            })
 
-    /// Generates a list of random length. The maximum length depends on the
-    /// size parameter.
-    let list (g : Gen<'a>) : Gen<List<'a>> =
-        sized (fun size -> list' (Range.constant 0 size) g)
-
-    /// Generates a non-empty list of random length. The maximum length depends
-    /// on the size parameter.
-    let list1 (g : Gen<'a>) : Gen<List<'a>> =
-        sized (fun size -> list' (Range.constant 1 size) g)
-
     /// Generates an array between 'n' and 'm' in length.
     let array' (n : int) (m : int) (g : Gen<'a>) : Gen<array<'a>> =
-        list' (Range.constant n m) g |> map Array.ofList
+        list (Range.constant n m) g |> map Array.ofList
 
     /// Generates an array of random length. The maximum length depends on the
     /// size parameter.
     let array (g : Gen<'a>) : Gen<array<'a>> =
-        list g |> map Array.ofList
+        sized (fun size -> list (Range.constant 0 size) g) |> map Array.ofList
 
     /// Generates a non-empty array of random length. The maximum length
     /// depends on the size parameter.
     let array1 (g : Gen<'a>) : Gen<array<'a>> =
-        list1 g |> map Array.ofList
+        sized (fun size -> list (Range.constant 1 size) g) |> map Array.ofList
 
     /// Generates a sequence between 'n' and 'm' in length.
     let seq' (n : int) (m : int) (g : Gen<'a>) : Gen<seq<'a>> =
-        list' (Range.constant n m) g |> map Seq.ofList
+        list (Range.constant n m) g |> map Seq.ofList
 
     /// Generates a sequence of random length. The maximum length depends on
     /// the size parameter.
     let seq (g : Gen<'a>) : Gen<seq<'a>> =
-        list g |> map Seq.ofList
+        sized (fun size -> list (Range.constant 0 size) g) |> map Seq.ofList
 
     /// Generates a non-empty sequence of random length. The maximum length
     /// depends on the size parameter.
     let seq1 (g : Gen<'a>) : Gen<seq<'a>> =
-        list1 g |> map Seq.ofList
+        sized (fun size -> list (Range.constant 1 size) g) |> map Seq.ofList
 
     //
     // Combinators - Characters

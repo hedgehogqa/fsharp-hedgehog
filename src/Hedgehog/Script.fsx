@@ -36,7 +36,7 @@ Property.print <| property {
 //
 
 Property.print <| property {
-    let! xs = Gen.list <| Gen.int (Range.constantBounded ())
+    let! xs = Gen.list (Range.linear 0 100) Gen.alpha
     return xs
             |> List.rev
             |> List.rev
