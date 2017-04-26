@@ -155,7 +155,8 @@ Range.constantBounded ()
 //
 
 Gen.printSample <| gen {
-    let! addr = Gen.array' 4 4 (Gen.byte <| Range.constantBounded ())
+    let! addr =
+        Gen.array (Range.constant 4 4) (Gen.byte <| Range.constantBounded ())
     return System.Net.IPAddress addr
 }
 

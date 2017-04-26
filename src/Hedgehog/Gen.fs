@@ -304,19 +304,9 @@ module Gen =
                    |> Tree.filter (atLeast (Range.lowerBound size range))
            })
 
-    /// Generates an array between 'n' and 'm' in length.
-    let array' (n : int) (m : int) (g : Gen<'a>) : Gen<array<'a>> =
-        list (Range.constant n m) g |> map Array.ofList
-
-    /// Generates an array of random length. The maximum length depends on the
-    /// size parameter.
-    let array (g : Gen<'a>) : Gen<array<'a>> =
-        sized (fun size -> list (Range.constant 0 size) g) |> map Array.ofList
-
-    /// Generates a non-empty array of random length. The maximum length
-    /// depends on the size parameter.
-    let array1 (g : Gen<'a>) : Gen<array<'a>> =
-        sized (fun size -> list (Range.constant 1 size) g) |> map Array.ofList
+    /// Generates an array using a 'Range' to determine the length.
+    let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
+        list range g |> map Array.ofList
 
     /// Generates a sequence between 'n' and 'm' in length.
     let seq' (n : int) (m : int) (g : Gen<'a>) : Gen<seq<'a>> =
@@ -368,7 +358,9 @@ module Gen =
 
     /// Generates a random string using the specified character generator.
     let string' (g : Gen<char>) : Gen<string> =
-        array g |> map (fun xs -> new System.String(xs))
+        sized <| fun size ->
+            g |> array (Range.constant 0 size)
+        |> map System.String
 
     /// Generates a random string.
     let string : Gen<string> =
@@ -427,9 +419,10 @@ module Gen =
     //
 
     /// Generates a random globally unique identifier.
-    let guid : Gen<System.Guid> =
-        gen { let! bs = array' 16 16 (byte <| Range.constantBounded ())
-              return System.Guid bs }
+    let guid : Gen<System.Guid> = gen {
+        let! bs = array (Range.constant 16 16) (byte <| Range.constantBounded ())
+        return System.Guid bs
+    }
 
     /// Generates a random instant in time expressed as a date and time of day.
     let dateTime : Gen<System.DateTime> =
