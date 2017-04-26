@@ -420,7 +420,7 @@ module Gen =
         let yMax = System.DateTime.MaxValue.Year
         gen {
             let! y =
-                integral <| Range.constantFrom 2000 yMin yMax
+                integral <| Range.linearFrom 2000 yMin yMax
             let! m =
                 integral <| Range.constant 1 12
             let! d =
