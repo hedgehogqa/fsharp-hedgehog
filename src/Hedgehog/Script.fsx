@@ -36,7 +36,7 @@ Property.print <| property {
 //
 
 Property.print <| property {
-    let! xs = Gen.list <| Gen.bounded ()
+    let! xs = Gen.list <| Gen.int (Range.constantBounded ())
     return xs
             |> List.rev
             |> List.rev
@@ -155,7 +155,7 @@ Range.constantBounded ()
 //
 
 Gen.printSample <| gen {
-    let! addr = Gen.array' 4 4 <| Gen.bounded ()
+    let! addr = Gen.array' 4 4 (Gen.byte <| Range.constantBounded ())
     return System.Net.IPAddress addr
 }
 
@@ -190,7 +190,7 @@ let rec genExp =
     Gen.delay <| fun _ ->
     Gen.shrink shrinkExp <|
     Gen.choiceRec [
-        Lit <!> Gen.bounded ()
+        Lit <!> Gen.int (Range.constantBounded ())
     ] [
         Add <!> Gen.zip genExp genExp
     ]

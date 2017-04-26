@@ -165,13 +165,6 @@ module Gen =
     let inline integral (range : Range<'a>) : Gen<'a> =
         create (Shrink.towards <| Range.origin range) (Random.integral range)
 
-    /// Generates a random number from the whole range of the numeric type.
-    let inline bounded () : Gen<'a> =
-        let zero = LanguagePrimitives.GenericZero
-        let range = Range.constantBounded ()
-
-        create (Shrink.towards zero) (Random.integral range)
-
     //
     // Combinators - Choice
     //
@@ -445,7 +438,7 @@ module Gen =
 
     /// Generates a random globally unique identifier.
     let guid : Gen<System.Guid> =
-        gen { let! bs = array' 16 16 <| bounded ()
+        gen { let! bs = array' 16 16 (byte <| Range.constantBounded ())
               return System.Guid bs }
 
     /// Generates a random instant in time expressed as a date and time of day.
