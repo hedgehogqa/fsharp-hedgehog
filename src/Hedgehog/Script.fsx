@@ -21,7 +21,7 @@ open System
 
 Property.print <| property {
     let! x = Gen.int <| Range.constant 1 100
-    let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq
+    let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq (Range.linear 0 100)
     counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
 }

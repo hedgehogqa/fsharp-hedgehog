@@ -308,19 +308,9 @@ module Gen =
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
         list range g |> map Array.ofList
 
-    /// Generates a sequence between 'n' and 'm' in length.
-    let seq' (n : int) (m : int) (g : Gen<'a>) : Gen<seq<'a>> =
-        list (Range.constant n m) g |> map Seq.ofList
-
-    /// Generates a sequence of random length. The maximum length depends on
-    /// the size parameter.
-    let seq (g : Gen<'a>) : Gen<seq<'a>> =
-        sized (fun size -> list (Range.constant 0 size) g) |> map Seq.ofList
-
-    /// Generates a non-empty sequence of random length. The maximum length
-    /// depends on the size parameter.
-    let seq1 (g : Gen<'a>) : Gen<seq<'a>> =
-        sized (fun size -> list (Range.constant 1 size) g) |> map Seq.ofList
+    /// Generates a sequence using a 'Range' to determine the length.
+    let seq (range : Range<int>) (g : Gen<'a>) : Gen<seq<'a>> =
+        list range g |> map Seq.ofList
 
     //
     // Combinators - Characters
