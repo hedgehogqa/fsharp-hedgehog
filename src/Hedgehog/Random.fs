@@ -2,10 +2,6 @@
 
 open Hedgehog.Numeric
 
-/// Tests are parameterized by the `Size` of the randomly-generated data,
-/// the meaning of which depends on the particular generator used.
-type Size = int
-
 /// A generator for random values of type 'a
 type Random<'a> =
     | Random of (Seed -> Size -> 'a)
@@ -86,38 +82,19 @@ module Random =
           run seed newSize r
 
     /// Generates a random element in the given inclusive range.
-    let inline range (lo : ^a) (hi : ^a) : Random<'a> =
-        Random <| fun seed _ ->
+    let inline integral (range : Range<'a>) : Random<'a> =
+        Random <| fun seed size ->
+            let (lo, hi) = Range.bounds size range
             let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
             fromBigInt x
-
-    /// Generates a random number in the given inclusive range, but smaller
-    /// numbers are generated more often than bigger ones.
-    let inline sizedRange (lo0 : ^a) (hi0 : ^a) : Random<'a> =
-        sized <| fun size ->
-            let rec bits n =
-                if n = 0I then
-                    0
-                else
-                    1 + bits (n / 2I)
-
-            let lo_big = toBigInt lo0
-            let hi_big = toBigInt hi0
-
-            let b = 40 |> max (bits lo_big) |> max (bits hi_big)
-            let k = pown 2I ((size * b) / 80)
-            let lo = max lo_big (-k)
-            let hi = min hi_big k
-
-            map fromBigInt (range lo hi)
 
     /// Generates a random floating point number.
     let sizedDouble : Random<double> =
         sized <| fun size0 -> random {
             let size = bigint size0
             let precision = 9999999999999I
-            let! x = range ((-size) * precision) (size * precision)
-            let! y = range 1I precision
+            let! x = integral <| Range.constant ((-size) * precision) (size * precision)
+            let! y = integral <| Range.constant 1I precision
             return (double x / double y)
         }
 

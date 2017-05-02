@@ -55,7 +55,7 @@ let rec genExp : Gen<Exp> =
     Gen.delay <| fun _ ->
     Gen.shrink shrinkExp <| // comment this out to see the property fail
     Gen.choiceRec [
-        Lit <!> Gen.range 0 10
+        Lit <!> Gen.int (Range.constant 0 10)
         Var <!> genName
     ] [
         Lam <!> Gen.zip genName genExp

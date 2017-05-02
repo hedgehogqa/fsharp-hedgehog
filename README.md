@@ -31,6 +31,12 @@ The key improvement is that shrinking comes for free — instead of generating a
 * [Credits](#credits)
 * [License](https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE)
 
+---
+
+**Important: The samples on this README are based on [Hedgehog 0.1.0](https://www.nuget.org/packages/Hedgehog/0.1.0). See [versioning](#versioning) to learn more about Hedgehog's versioning strategy.**
+
+---
+
 ## Highlights
 
 * Shrinking is baked into the `Gen` type, so you get it for free. This is not a trivial distinction. Integrating shrinking into generation has two large benefits:

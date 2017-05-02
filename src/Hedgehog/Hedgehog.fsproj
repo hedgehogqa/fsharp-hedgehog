@@ -55,8 +55,8 @@
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />
-    <Compile Include="Random.fs" />
     <Compile Include="Range.fs" />
+    <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Property.fs" />
