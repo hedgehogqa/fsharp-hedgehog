@@ -749,6 +749,17 @@ Property.print <| property { let! s = fromRegex pattern
 +++ OK, passed 100 tests.
 ```
 
+## Limitations
+
+Some of the features you'd expect from a property-based testing system are still missing, but we'll get there eventually:
+
+* Generating functions
+* Model-based testing
+
+Jack doesn't have an Arbitrary type class, by design. The main purpose of the Arbitrary class is to link the generator with a shrink function — this isn't required with Jack so Arbitrary has been eliminated.
+
+This library is still very new, and we wouldn't be surprised if some of the combinators are still a bit buggy.
+
 ## Credits
 
 The idea behind the F# version of Hedgehog originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.
