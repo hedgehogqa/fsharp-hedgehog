@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master)](https://travis-ci.org/hedgehogqa/fsharp-hedgehog)
-
 # fsharp-hedgehog
 
 An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
