@@ -1,16 +1,5 @@
-# fsharp-hedgehog
+# Tutorial
 
-An alternative property-based testing system for F#, in the spirit of John Hughes & Koen Classen's [QuickCheck](https://web.archive.org/web/20160319204559/http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/quick.pdf).
-
-The key improvement is that shrinking comes for free — instead of generating a random value and using a shrinking function after the fact, we generate the random value and all the possible shrinks in a rose tree, all at once.
-
-<p align="center">
-  <img src="https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog.png" alt="Hedgehog logo">
-</p>
-
-## Table of Contents
-
-* [Highlights](#highlights)
 * [Getting Started](#getting-started)
   * [At a glance](#at-a-glance)
   * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-hedgehog)
@@ -21,28 +10,39 @@ The key improvement is that shrinking comes for free — instead of generating a
   * [Custom Operations](#custom-operations)
     * [`counterexample`](#counterexample)
     * [`where`](#where)
-* [NuGet](#nuget)
-* [Versioning](#versioning)
-* [Limitations](#limitations)
 * [Integrations](#integrations)
   * [Regex-constrained strings](#regex-constrained-strings)
-* [Credits](#credits)
-* [License](https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE)
 
----
+### Getting Started
 
-**Important: The samples on this README are based on [Hedgehog 0.1.0](https://www.nuget.org/packages/Hedgehog/0.1.0). See [versioning](#versioning) to learn more about Hedgehog's versioning strategy.**
+The standard "hello-world" property shown in most property-based testing systems is:
 
----
+```
+reverse (reverse xs) = xs, ∀xs :: [α]
+```
 
-## Highlights
+which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".
 
-* Shrinking is baked into the `Gen` type, so you get it for free. This is not a trivial distinction. Integrating shrinking into generation has two large benefits:
-  * Shrinking composes nicely, and you can shrink anything you can generate regardless of whether there is a defined shrinker for the type produced.
-  * You can guarantee that shrinking satisfies the same invariants as generation.
-* Simplified model; just generators and properties.
-* Adequate randomness based on the SplitMix algorithm.
-* Convenient syntax for both generators and properties with not only `gen` but also `property` expressions.
+One way to use Hedgehog to check the above property is to use the `property` computation expression:
+
+```fs
+property {
+    let! xs = Gen.list (Range.linear 0 100) <| Gen.int (Range.constant 0 1000)
+    return List.rev (List.rev xs) = xs
+    }
+```
+
+and to test the above property on 100 random lists of integers, pipe it into `Property.print`:
+
+```fs
+property {
+    let! xs = Gen.list (Range.linear 0 100) <| Gen.int (Range.constant 0 1000)
+    return List.rev (List.rev xs) = xs
+    }
+|> Property.print
+
++++ OK, passed 100 tests.
+```
 
 ## At a glance
 
@@ -50,136 +50,192 @@ Given any generator of type α, Hedgehog not only generates *random values* of t
 
 Hedgehog comes with built-in generators for primitive types, so here's how it would generate a couple of integers and shrink them:
 
-```f#
-Gen.int
+```fs
+Range.constant 0 100
+|> Gen.int
 |> Gen.printSample;;
 
 === Outcome ===
-0
+77
 === Shrinks ===
+0
+39
+58
+68
+73
+75
+76
 .
 === Outcome ===
--12
+39
 === Shrinks ===
 0
--6
--9
--11
+20
+30
+35
+37
+38
 .
 === Outcome ===
--3
-=== Shrinks ===
-0
--2
-.
-=== Outcome ===
--29
-=== Shrinks ===
-0
--15
--22
--26
--28
-.
-=== Outcome ===
-4
-=== Shrinks ===
-0
 2
-3
+=== Shrinks ===
+0
+1
+.
+=== Outcome ===
+34
+=== Shrinks ===
+0
+17
+26
+30
+32
+33
+.
+=== Outcome ===
+28
+=== Shrinks ===
+0
+14
+21
+25
+27
 .
 ```
 
 But Hedgehog can also take on complex types, and shrink them for free:
 
-```f#
-Gen.byte
+```fs
+Range.constantBounded ()
+|> Gen.byte
 |> Gen.map int
 |> Gen.tuple3
-|> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu)) // Major, Minor, Build
+|> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
 |> Gen.printSample;;
 
 === Outcome ===
-19.15.23
+60.8.252
 === Shrinks ===
-0.15.23
-10.15.23
-15.15.23
-17.15.23
-18.15.23
-19.0.23
-19.8.23
-19.12.23
-19.14.23
-19.15.0
-19.15.12
-19.15.18
-19.15.21
-19.15.22
+0.8.252
+30.8.252
+45.8.252
+53.8.252
+57.8.252
+59.8.252
+60.0.252
+60.4.252
+60.6.252
+60.7.252
+60.8.0
+60.8.126
+60.8.189
+60.8.221
+60.8.237
+60.8.245
+60.8.249
+60.8.251
 .
 === Outcome ===
-14.14.26
+238.151.174
 === Shrinks ===
-0.14.26
-7.14.26
-11.14.26
-13.14.26
-14.0.26
-14.7.26
-14.11.26
-14.13.26
-14.14.0
-14.14.13
-14.14.20
-14.14.23
-14.14.25
+0.151.174
+119.151.174
+179.151.174
+209.151.174
+224.151.174
+231.151.174
+235.151.174
+237.151.174
+238.0.174
+238.76.174
+238.114.174
+238.133.174
+238.142.174
+238.147.174
+238.149.174
+238.150.174
+238.151.0
+238.151.87
+238.151.131
+238.151.153
+238.151.164
+238.151.169
+238.151.172
+238.151.173
 .
 === Outcome ===
-5.11.10
+122.72.39
 === Shrinks ===
-0.11.10
-3.11.10
-4.11.10
-5.0.10
-5.6.10
-5.9.10
-5.10.10
-5.11.0
-5.11.5
-5.11.8
-5.11.9
+0.72.39
+61.72.39
+92.72.39
+107.72.39
+115.72.39
+119.72.39
+121.72.39
+122.0.39
+122.36.39
+122.54.39
+122.63.39
+122.68.39
+122.70.39
+122.71.39
+122.72.0
+122.72.20
+122.72.30
+122.72.35
+122.72.37
+122.72.38
 .
 === Outcome ===
-14.15.4
+9.176.80
 === Shrinks ===
-0.15.4
-7.15.4
-11.15.4
-13.15.4
-14.0.4
-14.8.4
-14.12.4
-14.14.4
-14.15.0
-14.15.2
-14.15.3
+0.176.80
+5.176.80
+7.176.80
+8.176.80
+9.0.80
+9.88.80
+9.132.80
+9.154.80
+9.165.80
+9.171.80
+9.174.80
+9.175.80
+9.176.0
+9.176.40
+9.176.60
+9.176.70
+9.176.75
+9.176.78
+9.176.79
 .
 === Outcome ===
-2.28.32
+233.193.86
 === Shrinks ===
-0.28.32
-1.28.32
-2.0.32
-2.14.32
-2.21.32
-2.25.32
-2.27.32
-2.28.0
-2.28.16
-2.28.24
-2.28.28
-2.28.30
-2.28.31
+0.193.86
+117.193.86
+175.193.86
+204.193.86
+219.193.86
+226.193.86
+230.193.86
+232.193.86
+233.0.86
+233.97.86
+233.145.86
+233.169.86
+233.181.86
+233.187.86
+233.190.86
+233.192.86
+233.193.0
+233.193.43
+233.193.65
+233.193.76
+233.193.81
+233.193.84
+233.193.85
 .
 ```
 
@@ -187,15 +243,18 @@ Gen.byte
 
 When a property fails (because Hedgehog found a counter-example), the randomly-generated data usually contains "noise". Therefore Hedgehog simplifies counter-examples before reporting them:
 
-```f#
+```fs
 let version =
-    Gen.byte
+    Range.constantBounded ()
+    |> Gen.byte
     |> Gen.map int
     |> Gen.tuple3
     |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
 
-property { let! xs = Gen.list version
-           return xs |> List.rev = xs } |> Property.print
+Property.print <| property {
+    let! xs = Gen.list (Range.linear 0 100) version
+    return xs |> List.rev = xs
+    }
 
 >
 *** Failed! Falsifiable (after 3 tests and 6 shrinks):
@@ -208,7 +267,7 @@ The above example, is the standard "hello-world" property, but instead of the cl
 
 *As a matter of fact, here's the above example written using another property-based testing system, FsCheck:*
 
-```f#
+```fs
 let version =
     Arb.generate<byte>
     |> Gen.map int
@@ -228,44 +287,17 @@ Original:
 ```
 You can find out more about integrated vs type-based shrinking in [this](http://hypothesis.works/articles/integrated-shrinking/) blog post.
 
-### Getting Started
-
-The standard "hello-world" property shown in most property-based testing systems is:
-
-```
-reverse (reverse xs) = xs, ∀xs :: [α]
-```
-
-which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".
-
-One way to use Hedgehog to check the above property is to use the `property` computation expression:
-
-```f#
-property { let! xs = Gen.list Gen.int
-           return List.rev (List.rev xs) = xs }
-```
-
-and to test the above property on 100 random lists of integers, pipe it into `Property.print`:
-
-```f#
-property { let! xs = Gen.list Gen.int
-           return List.rev (List.rev xs) = xs }
-|> Property.print
-
-+++ OK, passed 100 tests.
-```
-
 ### Generators
 
 Hedgehog's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:
 
-```f#
+```fs
 Gen.alphaNum
 ```
 
 This generator is of type `Gen<char>`, which means that Hedgehog can take this generator and produce characters, like so:
 
-```f#
+```fs
 Gen.alphaNum |> Gen.printSample;;
 
 === Outcome ===
@@ -312,160 +344,178 @@ Gen.alphaNum |> Gen.printSample;;
 .
 ```
 
-Now that we've seen a generator in action, it can be interesting to see how it's created. We'll keep using `Gen.alphaNum` as an example:
-
-```f#
-let alphaNum : Gen<char> =
-    choice [lower; upper; digit]
-```
-
-The `lower`, `upper`, and `digit` functions are also generators. They can be defined as:
-
-```f#
-let lower : Gen<char> =
-    charRange 'a' 'z'
-
-let upper : Gen<char> =
-    charRange 'A' 'Z'
-
-let digit : Gen<char> =
-    charRange '0' '9'
-```
-
-Note that `charRange` is also a generator, which can be defined as:
-
-```f#
-let charRange (lo : char) (hi : char) : Gen<char> =
-    range (int lo) (int hi) |> map char
-```
-
-So `range` is also a generator, and so on and so forth.
-
 #### 👉 Generators can also be created using the `gen` expression
 
 Hedgehog supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type System.Net.IPAddress:
 
-```f#
+```fs
 open System.Net
 
 let ipAddressGen : Gen<IPAddress> =
-    gen { let! x = Gen.byte |> Gen.array' 4 4
-          return IPAddress x }
+    gen {
+        let! addr = Gen.array (Range.constant 4 4) (Gen.byte <| Range.constantBounded())
+        return System.Net.IPAddress addr
+    }
 
 ipAddressGen |> Gen.printSample;;
 
 === Outcome ===
-12.6.28.32
+45.230.61.78
 === Shrinks ===
-0.6.28.32
-6.6.28.32
-9.6.28.32
-11.6.28.32
-12.0.28.32
-12.3.28.32
-12.5.28.32
-12.6.0.32
-12.6.14.32
-12.6.21.32
-12.6.25.32
-12.6.27.32
-12.6.28.0
-12.6.28.16
-12.6.28.24
-12.6.28.28
-12.6.28.30
-12.6.28.31
+0.230.61.78
+23.230.61.78
+34.230.61.78
+40.230.61.78
+43.230.61.78
+44.230.61.78
+45.0.61.78
+45.115.61.78
+45.173.61.78
+45.202.61.78
+45.216.61.78
+45.223.61.78
+45.227.61.78
+45.229.61.78
+45.230.0.78
+45.230.31.78
+45.230.46.78
+45.230.54.78
+45.230.58.78
+45.230.60.78
+45.230.61.0
+45.230.61.39
+45.230.61.59
+45.230.61.69
+45.230.61.74
+45.230.61.76
+45.230.61.77
 .
 === Outcome ===
-21.22.0.32
+203.224.13.253
 === Shrinks ===
-0.22.0.32
-11.22.0.32
-16.22.0.32
-19.22.0.32
-20.22.0.32
-21.0.0.32
-21.11.0.32
-21.17.0.32
-21.20.0.32
-21.21.0.32
-21.22.0.0
-21.22.0.16
-21.22.0.24
-21.22.0.28
-21.22.0.30
-21.22.0.31
+0.224.13.253
+102.224.13.253
+153.224.13.253
+178.224.13.253
+191.224.13.253
+197.224.13.253
+200.224.13.253
+202.224.13.253
+203.0.13.253
+203.112.13.253
+203.168.13.253
+203.196.13.253
+203.210.13.253
+203.217.13.253
+203.221.13.253
+203.223.13.253
+203.224.0.253
+203.224.7.253
+203.224.10.253
+203.224.12.253
+203.224.13.0
+203.224.13.127
+203.224.13.190
+203.224.13.222
+203.224.13.238
+203.224.13.246
+203.224.13.250
+203.224.13.252
 .
 === Outcome ===
-26.1.8.27
+73.112.249.182
 === Shrinks ===
-0.1.8.27
-13.1.8.27
-20.1.8.27
-23.1.8.27
-25.1.8.27
-26.0.8.27
-26.1.0.27
-26.1.4.27
-26.1.6.27
-26.1.7.27
-26.1.8.0
-26.1.8.14
-26.1.8.21
-26.1.8.24
-26.1.8.26
+0.112.249.182
+37.112.249.182
+55.112.249.182
+64.112.249.182
+69.112.249.182
+71.112.249.182
+72.112.249.182
+73.0.249.182
+73.56.249.182
+73.84.249.182
+73.98.249.182
+73.105.249.182
+73.109.249.182
+73.111.249.182
+73.112.0.182
+73.112.125.182
+73.112.187.182
+73.112.218.182
+73.112.234.182
+73.112.242.182
+73.112.246.182
+73.112.248.182
+73.112.249.0
+73.112.249.91
+73.112.249.137
+73.112.249.160
+73.112.249.171
+73.112.249.177
+73.112.249.180
+73.112.249.181
 .
 === Outcome ===
-16.6.3.13
+202.71.39.27
 === Shrinks ===
-0.6.3.13
-8.6.3.13
-12.6.3.13
-14.6.3.13
-15.6.3.13
-16.0.3.13
-16.3.3.13
-16.5.3.13
-16.6.0.13
-16.6.2.13
-16.6.3.0
-16.6.3.7
-16.6.3.10
-16.6.3.12
+0.71.39.27
+101.71.39.27
+152.71.39.27
+177.71.39.27
+190.71.39.27
+196.71.39.27
+199.71.39.27
+201.71.39.27
+202.0.39.27
+202.36.39.27
+202.54.39.27
+202.63.39.27
+202.67.39.27
+202.69.39.27
+202.70.39.27
+202.71.0.27
+202.71.20.27
+202.71.30.27
+202.71.35.27
+202.71.37.27
+202.71.38.27
+202.71.39.0
+202.71.39.14
+202.71.39.21
+202.71.39.24
+202.71.39.26
 .
 === Outcome ===
-27.19.20.17
+244.251.46.14
 === Shrinks ===
-0.19.20.17
-14.19.20.17
-21.19.20.17
-24.19.20.17
-26.19.20.17
-27.0.20.17
-27.10.20.17
-27.15.20.17
-27.17.20.17
-27.18.20.17
-27.19.0.17
-27.19.10.17
-27.19.15.17
-27.19.18.17
-27.19.19.17
-27.19.20.0
-27.19.20.9
-27.19.20.13
-27.19.20.15
-27.19.20.16
-```
-The above System.Net.IPAddress generator, without using the `gen` expression, can be defined as:
-
-```f#
-open System.Net
-
-let ipAddressGen : Gen<IPAddress> =
-    Gen.byte
-    |> Gen.array' 4 4
-    |> Gen.map IPAddress
+0.251.46.14
+122.251.46.14
+183.251.46.14
+214.251.46.14
+229.251.46.14
+237.251.46.14
+241.251.46.14
+243.251.46.14
+244.0.46.14
+244.126.46.14
+244.189.46.14
+244.220.46.14
+244.236.46.14
+244.244.46.14
+244.248.46.14
+244.250.46.14
+244.251.0.14
+244.251.23.14
+244.251.35.14
+244.251.41.14
+244.251.44.14
+244.251.45.14
+244.251.46.0
+244.251.46.7
+244.251.46.11
+244.251.46.13
+.
 ```
 
 ### Properties
@@ -474,7 +524,7 @@ Using Hedgehog, the programmer writes assertions about logical properties that a
 
 Take [`List.rev`](https://msdn.microsoft.com/visualfsharpdocs/conceptual/list.rev%5b%27t%5d-function-%5bfsharp%5d) as an example, which is a function that returns a new list with the elements in reverse order:
 
-```f#
+```fs
 List.rev [1; 2; 3];;
 
 val it : int list = [3; 2; 1]
@@ -486,7 +536,7 @@ One logical property of `List.rev` is:
 
 Here's an example assertion:
 
-```f#
+```fs
 List.rev (List.rev [1; 2; 3]) = [1; 2; 3];;
 
 val it : bool = true
@@ -496,7 +546,7 @@ val it : bool = true
 
 In the previous example `List.rev` was tested against an example value `[1; 2; 3]`. To make the assertion generic, the example value can be parameterized as *any list*:
 
-```f#
+```fs
 fun xs -> List.rev (List.rev xs) = xs;;
 
 val it : xs:'a list -> bool when 'a : equality = <fun:clo@33>
@@ -508,17 +558,17 @@ Hedgehog will then attempt to generate a test case that *falsifies* the assertio
 
 Values for `xs` need to be generated by a generator, as shown in the *Generators* sections. The following one is for lists of type integer:
 
-```f#
-let g = Gen.list Gen.int;;
+```fs
+let g = Gen.list (Range.linear 0 100) Gen.alpha;;
 
-val g : Gen<int list>
+val g : Gen<char list>
 ```
 
 Every possible value generated by the `g` generator must now be supplied to the assertion, as shown below:
 
 #### A first property
 
-```f#
+```fs
 fun xs ->
     List.rev (List.rev xs) = xs
     |> Property.ofBool
@@ -533,7 +583,7 @@ val it : Property<unit>
 
 Here's how the previous property can be rewritten:
 
-```f#
+```fs
 property {
     let! xs = g
     return List.rev (List.rev xs) = xs
@@ -542,8 +592,8 @@ property {
 
 #### Try out (see it pass)
 
-```f#
-let g = Gen.list Gen.int
+```fs
+let g = Gen.list (Range.linear 0 100) Gen.alpha
 
 property {
     let! xs = g
@@ -554,15 +604,12 @@ property {
 >
 +++ OK, passed 500 tests.
 
-val g : Gen<List<int>> = Gen (Random <fun:sized@79-2>)
-val it : unit = ()
->
 ```
 
 The above property was exercised 500 times. The default is 100, which is what `Property.print` does:
 
-```f#
-let g = Gen.list Gen.int
+```fs
+let g = Gen.list (Range.linear 0 100) Gen.alpha
 
 property {
     let! xs = g
@@ -573,32 +620,26 @@ property {
 >
 +++ OK, passed 100 tests.
 
-val g : Gen<List<int>> = Gen (Random <fun:sized@79-2>)
-val it : unit = ()
->
 ```
 
 >Outside of F# Interactive, you might want to use `Property.check` or `Property.check'`, specially if you're using Unquote with xUnit, NUnit, MSTest, or similar.
 
 #### Try out (see it fail)
 
-```f#
+```fs
 let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some (a + b)
 
-property { let! a = Gen.int
-           let! b = Gen.int
+property { let! a = Gen.int <| Range.constantBounded ()
+           let! b = Gen.int <| Range.constantBounded ()
            return tryAdd a b = Some (a + b) }
 |> Property.print;;
 
 >
-*** Failed! Falsifiable (after 16 tests and 4 shrinks):
+*** Failed! Falsifiable (after 3 tests and 24 shrinks):
 101
 
-val tryAdd : a:int -> b:int -> int option
-val it : unit = ()
->
 ```
 
 The test now fails. — Notice how Hedgehog reports back the minimal counter-example. This process is called shrinking.
@@ -611,13 +652,13 @@ The `Property` module and its `property` expression supports a few [custom opera
 
 Here's how the previous example could be written in order to carry along a friendlier message when it fails:
 
-```f#
+```fs
 let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Gen.int
-           let! b = Gen.int
+property { let! a = Gen.int <| Range.constantBounded ()
+           let! b = Gen.int <| Range.constantBounded ()
            counterexample (sprintf "The value of a was %d." a)
            return tryAdd a b = Some(a + b) }
 |> Property.print;;
@@ -627,29 +668,26 @@ property { let! a = Gen.int
 101
 The value of a was 101.
 
-val tryAdd : a:int -> b:int -> int option
-val it : unit = ()
->
 ```
 
 #### `where`
 
 Here’s how the previous example could be written so that in never fails:
 
-```f#
+```fs
 let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Gen.int
-           let! b = Gen.int
+property { let! a = Gen.int <| Range.constantBounded ()
+           let! b = Gen.int <| Range.constantBounded ()
            where (a < 100)
            return tryAdd a b = Some(a + b) }
 |> Property.print;;
 
 >
 *** Gave up after 100 discards, passed 95 tests.
->
+
 ```
 
 Essentially, the `where` custom operation discards test cases which do not satisfy the given condition.
@@ -664,32 +702,6 @@ Gave up after 100 discards, passed 95 tests.
 
 indicates that 95 test cases satisfying the condition were found, and that the property held in those 95 cases.
 
-## NuGet
-
-To install Hedgehog, run the following command in the [Package Manager Console](https://docs.nuget.org/docs/start-here/using-the-package-manager-console)
-
-```
-PM> Install-Package Hedgehog
-```
-
-## Versioning
-
-Hedgehog follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
-
-According to [semantic versioning specification](http://semver.org/spec/v2.0.0.html#spec-item-4
-), until version 1.0.0 is released, major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
-
-## Limitations
-
-Some of the features you'd expect from a property-based testing system are still missing, but we'll get there eventually:
-
-* Generating functions
-* Model-based testing
-
-Hedgehog doesn't have an Arbitrary type class, by design. The main purpose of the Arbitrary class is to link the generator with a shrink function — this isn't required with Hedgehog so Arbitrary has been eliminated.
-
-This library is still very new, and we wouldn't be surprised if some of the combinators are still a bit buggy.
-
 ## Integrations
 
 Use your favorite tools with Hedgehog.
@@ -700,20 +712,20 @@ Powerful integrations that help you and your team build properties in an easier 
 
 In Haskell, there's the [quickcheck-regex](https://hackage.haskell.org/package/quickcheck-regex) package, by [Audrey (唐鳳) Tang](https://www.linkedin.com/in/tangaudrey), which allows to write and execute this:
 
-```haskell
+```hs
 generate (matching "[xX][0-9a-z]")
 // Prints -> "''UVBw"
 ```
 
 It exports a `matching` function that turns a Regular Expression into a [DFA](https://en.wikipedia.org/wiki/Deterministic_finite_automaton)/[NFA](https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton) finite-state machine and then into a generator of strings matching that regex:
 
-```haskell
+```hs
 matching :: String -> Gen String
 ```
 
 A similar generator in F# with Hedgehog can be written as shown below:
 
-```f#
+```fs
 open Hedgehog
 open Fare
 
@@ -737,16 +749,12 @@ The `fromRegex` function uses the [.NET port](https://www.nuget.org/packages/Far
 Here's a way to use it:
 
 
-```f#
+```fs
 let pattern = "^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"
 
 Property.print <| property { let! s = fromRegex pattern
                              return matches s pattern }
 
->
 +++ OK, passed 100 tests.
+
 ```
-
-## Credits
-
-The idea behind the F# version of Hedgehog originates from [`purescript-jack`](https://github.com/jystic/purescript-jack/) in PureScript and [`disorder-jack`](https://github.com/ambiata/disorder.hs/tree/master/disorder-jack/) in Haskell.

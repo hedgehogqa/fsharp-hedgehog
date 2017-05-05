@@ -42,6 +42,8 @@ You can then load the module in F# Interactive, and run it:
 
 ```
 
+More examples can be found in the [tutorial](doc/tutorial.md).
+
  [nuget]: https://www.nuget.org/packages/Hedgehog/
  [nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat
 
