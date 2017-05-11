@@ -360,15 +360,12 @@ module Gen =
     let alphaNum : Gen<char> =
         choice [lower; upper; digit]
 
-    /// Generates a random string using the specified character generator.
-    let string' (g : Gen<char>) : Gen<string> =
+    /// Generates a random string using 'Range' to determine the length and the
+    /// specified character generator.
+    let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
         sized <| fun size ->
-            g |> array (Range.constant 0 size)
+            g |> array range
         |> map System.String
-
-    /// Generates a random string.
-    let string : Gen<string> =
-        choice [alphaNum; unicodeAll] |> string'
 
     //
     // Combinators - Primitives

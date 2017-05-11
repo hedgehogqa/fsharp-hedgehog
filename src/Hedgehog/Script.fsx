@@ -27,7 +27,7 @@ Property.print <| property {
 }
 
 Property.print <| property {
-    let! xs = Gen.string
+    let! xs = Gen.string (Range.constant 0 100) Gen.unicode
     return String.length xs <= 5
 }
 
@@ -119,9 +119,9 @@ Gen.printSample <| gen {
 
 Gen.printSample <| gen {
     let! x = Gen.int <| Range.constant 0 10
-    let! y = Gen.item [ "x"; "y"; "z"; "w" ]
+    let! y = Gen.item [ "x"; "y"; "z" ]
     let! z = Gen.double
-    let! w = Gen.string' Gen.alphaNum
+    let! w = Gen.string (Range.constant 0 100) Gen.alphaNum
     return sprintf "%A + %s + %f + %s" x y z w
 }
 
