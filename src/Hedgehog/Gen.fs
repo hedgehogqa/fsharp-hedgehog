@@ -320,8 +320,9 @@ module Gen =
     let char (lo : char) (hi : char) : Gen<char> =
         integral <| Range.constant (int lo) (int hi) |> map char
 
-    /// Generates a random character.
-    let charBounded : Gen<char> =
+    /// Generates a Unicode character, including invalid standalone surrogates:
+    /// '\000'..'\65535'
+    let unicodeAll : Gen<char> =
         let lo = System.Char.MinValue
         let hi = System.Char.MaxValue
         char lo hi
@@ -338,6 +339,19 @@ module Gen =
     let upper : Gen<char> =
         char 'A' 'Z'
 
+    /// Generates an ASCII character: '\000'..'\127'
+    let ascii : Gen<char> =
+        char '\000' '\127'
+
+    /// Generates a Latin-1 character: '\000'..'\255'
+    let latin1 : Gen<char> =
+        char '\000' '\255'
+
+    /// Generates a Unicode character, excluding invalid standalone surrogates:
+    /// '\000'..'\65535' (excluding '\55296'..'\57343')
+    let unicode : Gen<char> =
+        filter (not << System.Char.IsSurrogate) unicodeAll
+
     // Generates a random alpha character.
     let alpha : Gen<char> =
         choice [lower; upper]
@@ -346,15 +360,12 @@ module Gen =
     let alphaNum : Gen<char> =
         choice [lower; upper; digit]
 
-    /// Generates a random string using the specified character generator.
-    let string' (g : Gen<char>) : Gen<string> =
+    /// Generates a random string using 'Range' to determine the length and the
+    /// specified character generator.
+    let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
         sized <| fun size ->
-            g |> array (Range.constant 0 size)
+            g |> array range
         |> map System.String
-
-    /// Generates a random string.
-    let string : Gen<string> =
-        choice [alphaNum; charBounded] |> string'
 
     //
     // Combinators - Primitives
