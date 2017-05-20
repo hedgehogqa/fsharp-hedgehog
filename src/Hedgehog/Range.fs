@@ -2,6 +2,9 @@
 
 open Hedgehog.Numeric
 
+/// $setup
+/// >>> let x = 3
+
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.
 type Size = int
@@ -22,6 +25,7 @@ module Range =
     //
     // Combinators - Range
     //
+
     /// Get the origin of a range. This might be the mid-point or the lower
     /// bound, depending on what the range represents.
     ///
@@ -54,20 +58,62 @@ module Range =
     //
 
     /// Construct a range which represents a constant single value.
+    ///
+    /// >>> Range.bounds x <| Range.singleton 5
+    /// (5, 5)
+    ///
+    /// >>> Range.origin <| Range.singleton 5
+    /// 5
+    ///
     let singleton (x : 'a) : Range<'a> =
         Range (x, fun _ -> x, x)
 
     /// Construct a range which is unaffected by the size parameter with a
     /// origin point which may differ from the bounds.
+    ///
+    /// A range from @-10@ to @10@, with the origin at @0@:
+    ///
+    /// >>> Range.bounds x <| Range.constantFrom 0 (-10) 10
+    /// (-10, 10)
+    ///
+    /// >>> Range.origin <| Range.constantFrom 0 (-10) 10
+    /// 0
+    ///
+    /// A range from @1970@ to @2100@, with the origin at @2000@:
+    ///
+    /// >>> Range.bounds x <| Range.constantFrom 2000 1970 2100
+    /// (1970, 2100)
+    ///
+    /// >>> Range.origin <| Range.constantFrom 2000 1970 2100
+    /// 2000
+    ///
     let constantFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun _ -> x, y)
 
     /// Construct a range which is unaffected by the size parameter.
+    ///
+    /// A range from @0@ to @10@, with the origin at @0@:
+    ///
+    /// >>> Range.bounds x <| Range.constant 0 10
+    /// (0, 10)
+    ///
+    /// >>> Range.origin <| Range.constant 0 10
+    /// 0
+    ///
     let constant (x : 'a) : ('a -> Range<'a>) =
         constantFrom x x
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
+    ///
+    /// A range from @-128@ to @127@, with the origin at @0@:
+    ///
+    /// >>> Range.bounds x (Range.constantBounded () : Range<sbyte>)
+    /// (-128y, 127y)
+    ///
+    /// >>> Range.origin <| (Range.constantBounded () : Range<sbyte>)
+    /// 0y
+    ///
     let inline constantBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
@@ -89,6 +135,13 @@ module Range =
         // sufficiently accessible.
 
         /// Truncate a value so it stays within some range.
+        ///
+        /// >>> Range.Internal.clamp 5 10 15
+        /// 10
+        ///
+        /// >>> Range.Internal.clamp 5 10 0
+        /// 5
+        ///
         let clamp (x : 'a) (y : 'a) (n : 'a) =
             if x > y then
                 min x (max y n)
@@ -113,6 +166,16 @@ module Range =
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
+    ///
+    /// >>> Range.bounds 0 <| Range.linearFrom 0 (-10) 10
+    /// (0, 0)
+    ///
+    /// >>> Range.bounds 50 <| Range.linearFrom 0 (-10) 20
+    /// (-5, 10)
+    ///
+    /// >>> Range.bounds 99 <| Range.linearFrom 0 (-10) 20
+    /// (-10, 20)
+    ///
     let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let x_sized =
@@ -123,11 +186,31 @@ module Range =
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
+    ///
+    /// >>> Range.bounds 0 <| Range.linear 0 10
+    /// (0, 0)
+    ///
+    /// >>> Range.bounds 50 <| Range.linear 0 10
+    /// (0, 5)
+    ///
+    /// >>> Range.bounds 99 <| Range.linear 0 10
+    /// (0, 10)
+    ///
     let inline linear (x : 'a) : ('a -> Range<'a>) =
       linearFrom x x
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
+    ///
+    /// >>> Range.bounds 0 (Range.linearBounded () : Range<sbyte>)
+    /// (-0y, 0y)
+    ///
+    /// >>> Range.bounds 50 (Range.linearBounded () : Range<sbyte>)
+    /// (-64y, 64y)
+    ///
+    /// >>> Range.bounds 99 (Range.linearBounded () : Range<sbyte>)
+    /// (-128y, 127y)
+    ///
     let inline linearBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
