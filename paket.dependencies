@@ -21,3 +21,8 @@ github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e s
 github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fs
 
 nuget Unquote 3.1.2
+
+group Testing
+    source https://nuget.org/api/v2
+
+    nuget Doctest
