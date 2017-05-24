@@ -20,10 +20,20 @@ module LazyList =
             else
                 LazyList.cons x <| LazyList.cons y ys
 
+/// $setup
+/// >>> open FSharpx.Collections
+
 module Shrink =
-    /// Permutes a list by removing 'k' consecutive elements from it:
+    /// Produce all permutations of removing 'k' elements from a list.
     ///
-    /// <c>removes 2 [1;2;3;4;5;6] = [[3;4;5;6];[1;2;5;6];[1;2;3;4]]</c>
+    /// >>> LazyList.toList <| Shrink.removes 2 [1; 2; 3; 4; 5; 6]
+    /// [[3; 4; 5; 6]; [1; 2; 5; 6]; [1; 2; 3; 4]]
+    ///
+    /// >>> LazyList.toList <| Shrink.removes 3 [1; 2; 3; 4; 5; 6]
+    /// [[4; 5; 6]; [1; 2; 3]]
+    ///
+    /// >>> LazyList.toList <| Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
+    /// [["c"; "d"; "e"; "f"]; ["a"; "b"; "e"; "f"]; ["a"; "b"; "c"; "d"]]
     ///
     let removes (k0 : int) (xs0 : List<'a>) : LazyList<List<'a>> =
         let rec loop (k : int) (n : int) (xs : List<'a>) : LazyList<List<'a>> =
@@ -38,14 +48,16 @@ module Shrink =
                     LazyList.map (fun x -> List.append hd x) (loop k (n - k) tl)
         loop k0 (List.length xs0) xs0
 
-    /// Produces a list containing the results of halving a number over and over
-    /// again.
+    /// Produce a list containing the progressive halving of an integral.
     ///
-    /// <c>
-    /// halves 30 = [30;15;7;3;1]
-    /// halves 128 = [128;64;32;16;8;4;2;1]
-    /// halves (-10) = [-10;-5;-2;-1]
-    /// </c>
+    /// >>> LazyList.toList <| Shrink.halves 15
+    /// [15; 7; 3; 1]
+    ///
+    /// >>> LazyList.toList <| Shrink.halves 100
+    /// [100; 50; 25; 12; 6; 3; 1]
+    ///
+    /// >>> LazyList.toList <| Shrink.halves -26
+    /// [-26; -13; -6; -3; -1]
     ///
     let inline halves (n : ^a) : LazyList<'a> =
         let go x =
@@ -59,7 +71,16 @@ module Shrink =
                 Some (x, x')
         LazyList.unfold go n
 
-    /// Produce a smaller permutation of the input list.
+    /// Shrink a list by edging towards the empty list.
+    ///
+    /// >>> LazyList.toList <| Shrink.list [1; 2; 3]
+    /// [[]; [2; 3]; [1; 3]; [1; 2]]
+    ///
+    /// >>> LazyList.toList <| Shrink.list ["a"; "b"; "c"; "d"]
+    /// [[]; ["c"; "d"]; ["a"; "b"]; ["b"; "c"; "d"]; ["a"; "c"; "d"]; ["a"; "b"; "d"]; ["a"; "b"; "c"]]
+    ///
+    /// Note we always try the empty list first, as that is the optimal shrink.
+    ///
     let list (xs : List<'a>) : LazyList<List<'a>> =
         LazyList.concatMap (fun k -> removes k xs) (halves <| List.length xs)
 
@@ -93,7 +114,17 @@ module Shrink =
         sequence (fun xs ->
             elems Tree.shrinks xs) xs0
 
-    /// Shrink an integral by edging towards a destination number.
+    /// Shrink an integral number by edging towards a destination.
+    ///
+    /// >>> LazyList.toList <| Shrink.towards 0 100
+    /// [0; 50; 75; 88; 94; 97; 99]
+    ///
+    /// >>> LazyList.toList <| Shrink.towards 500 1000
+    /// [500; 750; 875; 938; 969; 985; 993; 997; 999]
+    ///
+    /// >>> LazyList.toList <| Shrink.towards -50 -26
+    /// [-50; -38; -32; -29; -27]
+    ///
     let inline towards (destination : ^a) (x : ^a) : LazyList<'a> =
         if destination = x then
             LazyList.empty
