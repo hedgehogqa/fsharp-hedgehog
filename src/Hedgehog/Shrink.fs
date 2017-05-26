@@ -139,16 +139,28 @@ module Shrink =
             LazyList.consNub destination <|
             LazyList.map (fun y -> x - y) (halves diff)
 
-    /// Shrink a floating point number.
-    let double (x : double) : LazyList<double> =
-        let positive =
-            if x < 0.0 then
-                LazyList.singleton (-x)
-            else
-                LazyList.empty
+    /// Shrink a floating-point number by edging towards a destination.
+    ///
+    /// >>> List.take 7 << LazyList.toList <| Shrink.towardsDouble 0.0 100.0
+    /// [0.0; 50.0; 75.0; 87.5; 93.75; 96.875; 98.4375]
+    ///
+    /// >>> List.take 7 << LazyList.toList <| Shrink.towardsDouble 1.0 0.5
+    /// [1.0; 0.75; 0.625; 0.5625; 0.53125; 0.515625; 0.5078125]
+    ///
+    /// Note we always try the destination first, as that is the optimal shrink.
+    ///
+    let towardsDouble (destination : double) (x : double) : LazyList<double> =
+        if destination = x then
+            LazyList.empty
+        else
+            let diff =
+                x - destination
 
-        let integrals =
-            towards 0I (bigint x)
-            |> LazyList.map double
+            let go n =
+                let x' = x - n
+                if  x' <> x then
+                    Some (x', n / 2.0)
+                else
+                    None
+            LazyList.unfold go diff
 
-        LazyList.append positive integrals

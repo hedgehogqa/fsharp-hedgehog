@@ -409,7 +409,7 @@ module Gen =
 
     /// Generates a random 64-bit floating point number.
     let double : Gen<double> =
-        create Shrink.double Random.sizedDouble
+        create (Shrink.towardsDouble 0.0) Random.sizedDouble
 
     /// Generates a random 64-bit floating point number.
     let float : Gen<float> =
