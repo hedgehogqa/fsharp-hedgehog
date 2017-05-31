@@ -107,7 +107,7 @@ module Seed =
     let next (s : Seed) : int64 * Seed =
         mix64 s.Value, nextSeed s
 
-    /// Generate a random bigint in the specified range.
+    /// Generates a random bigint in the specified range.
     let rec nextBigInt (lo : bigint) (hi : bigint) (seed : Seed) : bigint * Seed =
         if lo > hi then
             nextBigInt hi lo seed
@@ -143,6 +143,20 @@ module Seed =
             crashUnless (v >= 0I) "v >= 0I"
             crashUnless (k >= 0I) "k >= 0I"
             lo + v % k, seedN
+
+    /// Generates a random double in the specified range.
+    let rec nextDouble (lo : double) (hi : double) (seed : Seed) : double * Seed =
+        if lo > hi then
+            nextDouble hi lo seed
+        else
+            let x, seed' =
+                seed |> nextBigInt
+                    (bigint Int32.MinValue)
+                    (bigint Int32.MaxValue)
+            let scaled_x =
+                  (0.5 * lo + 0.5 * hi) + ((0.5 * hi - 0.5 * lo) / (0.5 * 4294967296.0)) * float x
+
+            scaled_x, seed'
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =

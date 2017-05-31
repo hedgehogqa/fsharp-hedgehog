@@ -81,22 +81,19 @@ module Random =
         Random <| fun seed _ ->
           run seed newSize r
 
-    /// Generates a random element in the given inclusive range.
+    /// Generates a random integral number in the given inclusive range.
     let inline integral (range : Range<'a>) : Random<'a> =
         Random <| fun seed size ->
             let (lo, hi) = Range.bounds size range
             let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
             fromBigInt x
 
-    /// Generates a random floating point number.
-    let sizedDouble : Random<double> =
-        sized <| fun size0 -> random {
-            let size = bigint size0
-            let precision = 9999999999999I
-            let! x = integral <| Range.constant ((-size) * precision) (size * precision)
-            let! y = integral <| Range.constant 1I precision
-            return (double x / double y)
-        }
+    /// Generates a random floating point number in the given inclusive range.
+    let inline double (range : Range<double>) : Random<double> =
+        Random <| fun seed size ->
+            let (lo, hi) = Range.bounds size range
+            let x, _ = Seed.nextDouble lo hi seed
+            x
 
 [<AutoOpen>]
 module RandomBuilder =

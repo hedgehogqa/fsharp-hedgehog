@@ -408,12 +408,12 @@ module Gen =
         integral range
 
     /// Generates a random 64-bit floating point number.
-    let double : Gen<double> =
-        create (Shrink.towardsDouble 0.0) Random.sizedDouble
+    let double (range : Range<double>) : Gen<double> =
+        create (Shrink.towardsDouble <| Range.origin range) (Random.double range)
 
     /// Generates a random 64-bit floating point number.
-    let float : Gen<float> =
-        double |> map float
+    let float (range : Range<float>) : Gen<float> =
+        (double range) |> map float
 
     //
     // Combinators - Constructed
