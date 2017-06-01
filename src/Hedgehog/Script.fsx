@@ -120,7 +120,7 @@ Gen.printSample <| gen {
 Gen.printSample <| gen {
     let! x = Gen.int <| Range.constant 0 10
     let! y = Gen.item [ "x"; "y"; "z" ]
-    let! z = Gen.double
+    let! z = Gen.double <| Range.constant 0.1 9.99
     let! w = Gen.string (Range.constant 0 100) Gen.alphaNum
     return sprintf "%A + %s + %f + %s" x y z w
 }
