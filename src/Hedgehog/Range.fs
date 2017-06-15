@@ -164,6 +164,22 @@ module Range =
 
             fromBigInt (z + diff)
 
+        /// Scale an integral exponentially with the size parameter.
+        let inline scaleExponential (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+            let sz =
+                clamp 0 99 sz0
+
+            let z =
+                toBigInt z0
+
+            let n =
+                toBigInt n0
+
+            let diff =
+                 (((float (abs (n - z) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - z))
+
+            fromBigInt (bigint (round (float z + diff)))
+
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
     ///
@@ -217,3 +233,76 @@ module Range =
         let zero = LanguagePrimitives.GenericZero
 
         linearFrom zero lo hi
+
+    //
+    // Combinators - Exponential
+    //
+
+    /// Construct a range which scales the bounds exponentially relative to the
+    /// size parameter.
+    ///
+    /// >>> Range.bounds 0 (Range.exponentialFrom 0 -128 512)
+    /// (0, 0)
+    ///
+    /// >>> Range.bounds 25 (Range.exponentialFrom 0 -128 512)
+    /// (-2, 4)
+    ///
+    /// >>> Range.bounds 50 (Range.exponentialFrom 0 -128 512)
+    /// (-11, 22)
+    ///
+    /// >>> Range.bounds 75 (Range.exponentialFrom 0 -128 512)
+    /// (-39, 112)
+    ///
+    /// >>> Range.bounds 99 (Range.exponentialFrom x -128 512)
+    /// (-128, 512)
+    ///
+    let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
+        Range (z, fun sz ->
+            let x_sized =
+                clamp x y (scaleExponential sz z x)
+            let y_sized =
+                clamp x y (scaleExponential sz z y)
+            x_sized, y_sized)
+
+    /// Construct a range which scales the second bound exponentially relative
+    /// to the size parameter.
+    ///
+    /// >>> Range.bounds 0 (Range.exponential 1 512)
+    /// (1, 1)
+    ///
+    /// >>> Range.bounds 11 (Range.exponential 1 512)
+    /// (1, 2)
+    ///
+    /// >>> Range.bounds 22 (Range.exponential 1 512)
+    /// (1, 4)
+    ///
+    /// >>> Range.bounds 77 (Range.exponential 1 512)
+    /// (1, 128)
+    ///
+    /// >>> Range.bounds 88 (Range.exponential 1 512)
+    /// (1, 256)
+    ///
+    /// >>> Range.bounds 99 (Range.exponential 1 512)
+    /// (1, 512)
+    ///
+    let inline exponential (x : 'a) (y : 'a) : Range<'a> =
+        exponentialFrom x x y
+
+    /// Construct a range which is scaled exponentially relative to the size
+    /// parameter and uses the full range of a data type.
+    ///
+    /// >>> Range.bounds 0 (Range.exponentialBounded () : Range<sbyte>)
+    /// (0y, 0y)
+    ///
+    /// >>> Range.bounds 50 (Range.exponentialBounded () : Range<sbyte>)
+    /// (-11y, 11y)
+    ///
+    /// >>> Range.bounds 99 (Range.exponentialBounded () : Range<sbyte>)
+    /// (-128y, 127y)
+    ///
+    let inline exponentialBounded () : Range<'a> =
+        let lo = minValue ()
+        let hi = maxValue ()
+        let zero = LanguagePrimitives.GenericZero
+
+        exponentialFrom zero lo hi
