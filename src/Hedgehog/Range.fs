@@ -142,7 +142,7 @@ module Range =
         /// >>> Range.Internal.clamp 5 10 0
         /// 5
         ///
-        let clamp (x : 'a) (y : 'a) (n : 'a) =
+        let clamp (x : 'a) (y : 'a) (n : 'a) : 'a =
             if x > y then
                 min x (max y n)
             else
