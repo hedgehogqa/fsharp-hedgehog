@@ -198,3 +198,66 @@ let ``linearBounded uses the full range of a data type - example 3`` () =
         Range.bounds 99 <| (Range.linearBounded () : Range<sbyte>)
     (-128y, 127y) =!
         actual
+
+[<Fact>]
+let ``exponential scales the second bound exponentially relative to the size - example 1`` () =
+    let actual =
+        Range.bounds 0 <| Range.exponential 1 512
+    (1, 1) =!
+        actual
+
+[<Fact>]
+let ``exponential scales the second bound exponentially relative to the size - example 2`` () =
+    let actual =
+        Range.bounds 77 <| Range.exponential 1 512
+    (1, 128) =!
+        actual
+
+[<Fact>]
+let ``exponential scales the second bound exponentially relative to the size - example 3`` () =
+    let actual =
+        Range.bounds 99 <| Range.exponential 1 512
+    (1, 512) =!
+        actual
+
+[<Fact>]
+let ``exponentialFrom scales the bounds exponentially relative to the size - example 1`` () =
+    let actual =
+        Range.bounds 0 <| Range.exponentialFrom 0 -128 512
+    (0, 0) =!
+        actual
+
+[<Fact>]
+let ``exponentialFrom scales the bounds exponentially relative to the size - example 2`` () =
+    let actual =
+        Range.bounds 50 <| Range.exponentialFrom 0 -128 512
+    (-11, 22) =!
+        actual
+
+[<Fact>]
+let ``exponentialFrom scales the bounds exponentially relative to the size - example 3`` () =
+    let actual =
+        Range.bounds 99 <| Range.exponentialFrom 3 -128 512
+    (-128, 512) =!
+        actual
+
+[<Fact>]
+let ``exponentialBounded uses the full range of a data type - example 1`` () =
+    let actual =
+        Range.bounds 0 <| (Range.exponentialBounded () : Range<sbyte>)
+    (-0y, 0y) =!
+        actual
+
+[<Fact>]
+let ``exponentialBounded uses the full range of a data type - example 2`` () =
+    let actual =
+        Range.bounds 50 <| (Range.exponentialBounded () : Range<sbyte>)
+    (-11y, 11y) =!
+        actual
+
+[<Fact>]
+let ``exponentialBounded uses the full range of a data type - example 3`` () =
+    let actual =
+        Range.bounds 99 <| (Range.exponentialBounded () : Range<sbyte>)
+    (-128y, 127y) =!
+        actual
