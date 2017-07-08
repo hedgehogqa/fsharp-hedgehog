@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog", "src\Hedgehog\Hedgehog.fsproj", "{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		paket.dependencies = paket.dependencies
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hedgehog.CSharp.Tests", "tests\Hedgehog.CSharp.Tests\Hedgehog.CSharp.Tests\Hedgehog.CSharp.Tests.csproj", "{44F27936-E49D-423C-ABF7-17A94F3AD92C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{788F88B7-5516-4F89-8652-20F14576E1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{788F88B7-5516-4F89-8652-20F14576E1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{788F88B7-5516-4F89-8652-20F14576E1DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44F27936-E49D-423C-ABF7-17A94F3AD92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44F27936-E49D-423C-ABF7-17A94F3AD92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44F27936-E49D-423C-ABF7-17A94F3AD92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44F27936-E49D-423C-ABF7-17A94F3AD92C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
