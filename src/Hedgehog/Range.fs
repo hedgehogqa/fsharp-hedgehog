@@ -72,8 +72,8 @@ module Range =
 
     /// Construct a range which is unaffected by the size parameter.
     [<CompiledName("Constant")>]
-    let constant (x : 'a) : ('a -> Range<'a>) =
-        constantFrom x x
+    let constant (x : 'a) (y : 'a) : Range<'a> =
+        constantFrom x x y
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
@@ -151,8 +151,8 @@ module Range =
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
     [<CompiledName("Linear")>]
-    let inline linear (x : 'a) : ('a -> Range<'a>) =
-      linearFrom x x
+    let inline linear (x : 'a) (y : 'a) : Range<'a> =
+      linearFrom x x y
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
