@@ -299,6 +299,9 @@ module Property =
             bind (counterexample (sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
+    [<CompiledName("ForAll")>]
+    let forAll' (gen : Gen<'a>) : Property<'a> = forAll gen success
+
     //
     // Runner
     //

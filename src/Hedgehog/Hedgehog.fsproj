@@ -61,6 +61,7 @@
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Property.fs" />
+    <Compile Include="LinqSupport.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Script.fsx" />
     <None Include="paket.references" />

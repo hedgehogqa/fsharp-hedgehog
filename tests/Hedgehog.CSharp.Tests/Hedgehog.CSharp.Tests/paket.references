@@ -2,3 +2,4 @@ xunit.assert
 xunit.core
 xunit.runner.console
 xunit.runner.visualstudio
+FSharp.Core
