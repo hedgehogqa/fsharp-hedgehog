@@ -76,6 +76,17 @@ Property.print <| property {
 }
 
 //
+// Properties that can throw an exception
+//
+
+Property.print <| property {
+    let! (x, y) = Range.constant 0 9 |> Gen.int |> Gen.tuple
+    // The exception gets rendered and added to the journal.
+    failwith "Uh oh"
+    return x + y = x + y
+}
+
+//
 // Loops
 //
 

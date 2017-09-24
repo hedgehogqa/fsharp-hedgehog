@@ -274,8 +274,10 @@ module Property =
         bindGen (toGen m) (toGen << k) |> ofGen
 
     let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
+        let handle (e : exn) =
+            Gen.constant (Journal.singleton (string e), Failure) |> ofGen
         let prepend (x : 'a) =
-            bind (counterexample (sprintf "%A" x)) (fun _ -> k x) |> toGen
+            bind (counterexample (sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
     //
