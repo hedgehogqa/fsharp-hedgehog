@@ -1,3 +1,8 @@
+## Version 0.4 (2017-09-25)
+
+- Render exceptions so they get added to the journal ([#119][119], [@moodmosaic][moodmosaic])
+- Exclude FSharp.Core NuGet dependency ([#109][109], [@ploeh][ploeh])
+
 ## Version 0.3 (2017-07-24)
 
 - Add Range exponential combinators ([#105][105], [@moodmosaic][moodmosaic])
@@ -25,9 +30,15 @@
   https://github.com/jystic
 [moodmosaic]:
   https://github.com/moodmosaic
+[ploeh]:
+  https://github.com/ploeh
 [porges]:
   https://github.com/porges
 
+[119]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/119
+[109]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/109
 [105]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/105
 [104]:
