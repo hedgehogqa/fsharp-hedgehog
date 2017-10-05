@@ -261,7 +261,7 @@ Property.print <| property {
 [0.0.0; 0.0.1]
 ```
 
-The above example, is the standard "hello-world" property, but instead of the classic list of integers, we're using a list of type System.Version, demonstrating that integrated shrikning works with 'foreign' types too.
+The above example, is the standard "hello-world" property, but instead of the classic list of integers, we're using a list of type System.Version, demonstrating that integrated shrinking works with 'foreign' types too.
 
 ---
 
