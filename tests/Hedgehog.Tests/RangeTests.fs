@@ -136,6 +136,15 @@ let ``constantBounded bounds returns correct result - Int64 range`` sz =
     (Int64.MinValue, Int64.MaxValue) =!
         x
 
+[<Theory>]
+[<InlineData(5, 10, 15, 10)>]
+[<InlineData(5, 10,  0,  5)>]
+let ``clamp truncates a value so it stays within some range `` x y n expected =
+    let actual =
+        Range.Internal.clamp x y n
+    expected =!
+        actual
+
 [<Fact>]
 let ``linear scales the second bound relative to the size - example 1`` () =
     let actual =
