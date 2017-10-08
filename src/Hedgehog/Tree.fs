@@ -67,7 +67,7 @@ module Tree =
     ///
     /// If you want to replace the shrinks altogether, try:
     ///
-    /// <c>Tree.unfold f (outcome oldTree)</c>
+    /// Tree.unfold f (outcome oldTree)
     ///
     let rec expand (f : 'a -> LazyList<'a>) (Node (x, xs) : Tree<'a>) : Tree<'a> =
         //
@@ -82,7 +82,7 @@ module Tree =
         Node (x, LazyList.append ys zs)
 
     /// Recursively discard any shrinks whose outcome does not pass the predicate.
-    /// <i>Note that the root outcome can never be discarded</i>
+    /// Note that the root outcome can never be discarded.
     let rec filter (f : 'a -> bool) (Node (x, xs) : Tree<'a>) : Tree<'a> =
         Node (x, filterForest f xs)
 
