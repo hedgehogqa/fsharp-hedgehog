@@ -42,9 +42,6 @@ Thumbs.db
 # Hedgehog NuGet Package output directory
 .nuget
 
-# Doctest - Test interactive F# examples, similar to doctest for Haskell
-Doctest
-
 # FAKE - F# Make
 .fake/
 

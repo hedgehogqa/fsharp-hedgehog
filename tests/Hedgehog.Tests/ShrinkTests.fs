@@ -16,6 +16,91 @@ let ``removes permutes a list by removing 'k' consecutive elements from it``() =
     // http://stackoverflow.com/a/17101488
     test <@ Seq.fold (&&) true (Seq.zip expected actual |> Seq.map (fun (a, b) -> a = b)) @>
 
+[<Fact>]
+let ``removes produces all permutations of removing 'k' elements from a list - example 1`` () =
+    let actual =
+        LazyList.toList <| Shrink.removes 2 [1; 2; 3; 4; 5; 6]
+    [[3; 4; 5; 6]; [1; 2; 5; 6]; [1; 2; 3; 4]] =! actual
+
+[<Fact>]
+let ``removes produces all permutations of removing 'k' elements from a list - example 2`` () =
+    let actual =
+        LazyList.toList <| Shrink.removes 3 [1; 2; 3; 4; 5; 6]
+    [[4; 5; 6]; [1; 2; 3]] =! actual
+
+[<Fact>]
+let ``removes produces all permutations of removing 'k' elements from a list - example 3`` () =
+    let actual =
+        LazyList.toList <| Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
+    [["c"; "d"; "e"; "f"]; ["a"; "b"; "e"; "f"]; ["a"; "b"; "c"; "d"]] =! actual
+
+[<Fact>]
+let ``halves produces a list containing the progressive halving of an integral - example 1`` () =
+    let actual =
+        LazyList.toList <| Shrink.halves 15
+    [15; 7; 3; 1] =! actual
+
+[<Fact>]
+let ``halves produces a list containing the progressive halving of an integral - example 2`` () =
+    let actual =
+        LazyList.toList <| Shrink.halves 100
+    [100; 50; 25; 12; 6; 3; 1] =! actual
+
+[<Fact>]
+let ``halves produces a list containing the progressive halving of an integral - example 3`` () =
+    let actual =
+        LazyList.toList <| Shrink.halves -26
+    [-26; -13; -6; -3; -1] =! actual
+
+[<Fact>]
+let ``list shrinks a list by edging towards the empty list - example 1`` () =
+    let actual =
+        LazyList.toList <| Shrink.list [1; 2; 3]
+    [[]; [2; 3]; [1; 3]; [1; 2]] =! actual
+
+[<Fact>]
+let ``list shrinks a list by edging towards the empty list - example 2`` () =
+    let actual =
+        LazyList.toList <| Shrink.list ["a"; "b"; "c"; "d"]
+    [ []
+      [ "c"; "d" ]
+      [ "a"; "b" ]
+      [ "b"; "c"; "d" ]
+      [ "a"; "c"; "d" ]
+      [ "a"; "b"; "d" ]
+      [ "a"; "b"; "c" ] ]
+    =! actual
+
+[<Fact>]
+let ``towards shrinks an integral number by edging towards a destination - exmaple 1`` () =
+    let actual =
+        LazyList.toList <| Shrink.towards 0 100
+    [0; 50; 75; 88; 94; 97; 99] =! actual
+
+[<Fact>]
+let ``towards shrinks an integral number by edging towards a destination - exmaple 2`` () =
+    let actual =
+        LazyList.toList <| Shrink.towards 500 1000
+    [500; 750; 875; 938; 969; 985; 993; 997; 999] =! actual
+
+[<Fact>]
+let ``towards shrinks an integral number by edging towards a destination - exmaple 3`` () =
+    let actual =
+        LazyList.toList <| Shrink.towards -50 -26
+    [-50; -38; -32; -29; -27] =! actual
+
+[<Fact>]
+let ``towardsDouble shrinks a floating-point number by edging towards a destination - example 1`` () =
+    let actual =
+        List.take 7 << LazyList.toList <| Shrink.towardsDouble 0.0 100.0
+    [0.0; 50.0; 75.0; 87.5; 93.75; 96.875; 98.4375] =! actual
+
+[<Fact>]
+let ``towardsDouble shrinks a floating-point number by edging towards a destination - example 2`` () =
+    let actual =
+        List.take 7 << LazyList.toList <| Shrink.towardsDouble 1.0 0.5
+    [1.0; 0.75; 0.625; 0.5625; 0.53125; 0.515625; 0.5078125] =! actual
+
 [<Theory>]
 [<InlineData(-4096)>]
 [<InlineData(-2048)>]
