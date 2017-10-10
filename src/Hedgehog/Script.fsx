@@ -65,6 +65,13 @@ Property.print <| property {
     return x * y > 0
 }
 
+// https://github.com/hedgehogqa/fsharp-hedgehog/issues/124#issuecomment-335402728
+Property.check <| property {
+  let! x = Range.exponentialBounded () |> Gen.int
+  where (x <> 0)
+  return true
+}
+
 //
 // Lazy Properties
 //

@@ -329,7 +329,7 @@ module Property =
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
-                    loop seed2 size tests (discards + 1<discards>)
+                    loop seed2 (nextSize size) tests (discards + 1<discards>)
 
         let seed = Seed.random ()
         loop seed 1 0<tests> 0<discards>
