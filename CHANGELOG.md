@@ -1,3 +1,8 @@
+## Version 0.4.1 (2017-10-10)
+
+- XML-documentation improvements ([#122][122], [@moodmosaic][moodmosaic])
+- Typo fix in doc/tutorial.md ([#121][121], [@frankshearar][frankshearar])
+
 ## Version 0.4 (2017-09-25)
 
 - Render exceptions so they get added to the journal ([#119][119], [@moodmosaic][moodmosaic])
@@ -26,6 +31,8 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[frankshearar]:
+  https://github.com/frankshearar
 [jystic]:
   https://github.com/jystic
 [moodmosaic]:
@@ -35,6 +42,10 @@
 [porges]:
   https://github.com/porges
 
+[122]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/122
+[121]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/121
 [119]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/119
 [109]:
