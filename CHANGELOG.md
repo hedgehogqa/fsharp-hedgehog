@@ -1,3 +1,7 @@
+## Version 0.4.2 (2017-10-10)
+
+- Increase size in Discard case ([#129][129], [@moodmosaic][moodmosaic])
+
 ## Version 0.4.1 (2017-10-10)
 
 - XML-documentation improvements ([#122][122], [@moodmosaic][moodmosaic])
@@ -42,6 +46,8 @@
 [porges]:
   https://github.com/porges
 
+[129]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/129
 [122]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/122
 [121]:
