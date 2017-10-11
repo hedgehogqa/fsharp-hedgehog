@@ -251,6 +251,9 @@ type ToBigInt =
     static member ToBigInt (x : uint64) =
         bigint (int64 x)
 
+    static member ToBigInt (x : double) =
+        bigint x
+
     static member inline Invoke (x :'Integral) : bigint =
         let inline call_2 (a : ^a, b : ^b) =
             ((^a or ^b) : (static member ToBigInt : _ -> _) b)
