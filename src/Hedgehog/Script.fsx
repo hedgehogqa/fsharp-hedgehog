@@ -169,6 +169,20 @@ Range.constantBounded ()
 |> Gen.printSample
 
 //
+// Printing Samples ― Prevent a generator from shrinking
+//
+
+Range.exponentialBounded ()
+|> Gen.double
+|> Gen.noShrink
+|> Gen.printSample
+
+Range.exponentialBounded ()
+|> Gen.float
+|> Gen.noShrink
+|> Gen.printSample
+
+//
 // Printing Samples ― System.Net.IPAddress
 //
 
