@@ -1,3 +1,7 @@
+## Version 0.4.3 (2017-10-12)
+
+- Add ToBigInt overload for System.Double ([#136][136], [@moodmosaic][moodmosaic])
+
 ## Version 0.4.2 (2017-10-10)
 
 - Increase size in Discard case ([#129][129], [@moodmosaic][moodmosaic])
@@ -46,6 +50,8 @@
 [porges]:
   https://github.com/porges
 
+[136]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/136
 [129]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/129
 [122]:
