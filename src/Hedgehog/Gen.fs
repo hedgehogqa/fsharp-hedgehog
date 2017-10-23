@@ -450,38 +450,6 @@ module Gen =
     // Combinators - Convenience
     //
 
-    /// Fisher-Yates shuffle / Knuth shuffle from
-    /// https://www.rosettacode.org/wiki/Knuth_shuffle#F.23
-    let private shuffle lst =
-        let arr = lst |> List.toArray
-        let swap i j =
-            let item = arr.[i]
-            arr.[i] <- arr.[j]
-            arr.[j] <- item
-        let rnd = new System.Random()
-        let ln = arr.Length
-        [0..(ln - 2)] |> Seq.iter (fun i -> swap i (rnd.Next(i, ln)))
-        arr |> Array.toList
-
-    /// Generates a permutation the specified list (shuffles its elements).
-    let permutationOf (list : 'a list) : Gen<'a list> =
-        gen { return list |> shuffle }
-
-    let private randomizeCase (s:string) =
-        let r = System.Random()
-
-        let randomizeCharCase c =
-            let f = if r.Next() % 2 = 0
-                    then System.Char.ToUpper
-                    else System.Char.ToLower
-            f c
-
-        s |> Seq.map randomizeCharCase |> System.String.Concat
-
-    /// Randomizes the case of the characters in the string.
-    let casePermutationOf (str : string) : Gen<string> =
-        gen { return str |> randomizeCase }
-
     /// Generates a character that is not whitespace.
     let notWhiteSpace : (Gen<char> -> Gen<char>) =
         filter (not << System.Char.IsWhiteSpace)
