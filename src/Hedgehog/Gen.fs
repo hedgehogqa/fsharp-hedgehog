@@ -545,7 +545,7 @@ module Gen =
     /// Generates null part of the time.
     let withNull (g : Gen<'a>) : Gen<'a> =
         g |> option |> map (fun xOpt ->
-        match xOpt with Some x -> x | None -> null)
+            match xOpt with Some x -> x | None -> null)
 
     /// Generates a value that is not null.
     let noNull (g : Gen<'a>) : Gen<'a> =
