@@ -536,32 +536,6 @@ module Gen =
     let notContains (x: 'a) : (Gen<'a list> -> Gen<'a list>) =
       filter (not << List.contains x)
 
-    /// Generates a string that is not equal to another string using
-    /// StringComparison.OrdinalIgnoreCase.
-    let iNotEqualTo (str : string) : (Gen<string> -> Gen<string>) =
-        filter <| fun s ->
-            not <| str.Equals(s, System.StringComparison.OrdinalIgnoreCase)
-
-    /// Generates a string that is not a substring of another string.
-    let notSubstringOf (str : string) : (Gen<string> -> Gen<string>) =
-      filter <| fun s -> not <| str.Contains s
-
-    /// Generates a string that is not a substring of another string using
-    /// StringComparison.OrdinalIgnoreCase.
-    let iNotSubstringOf (str : string) : (Gen<string> -> Gen<string>) =
-      filter <| fun s ->
-          str.IndexOf(s, System.StringComparison.OrdinalIgnoreCase) = -1
-
-    /// Generates a string that does not start with another string.
-    let notStartsWith (str : string) : (Gen<string> -> Gen<string>) =
-      filter <| fun s -> not <| s.StartsWith str
-
-    /// Generates a string that does not start with another string using
-    /// StringComparison.OrdinalIgnoreCase.
-    let iNotStartsWith (str : string) : (Gen<string> -> Gen<string>) =
-      filter <| fun s ->
-          not <| s.StartsWith(str, System.StringComparison.OrdinalIgnoreCase)
-
     /// Generates a 2-tuple with sorted elements.
     let sorted2 (g : Gen<'a * 'a>) : Gen<'a * 'a> =
         g |> map (fun (x1, x2) ->
