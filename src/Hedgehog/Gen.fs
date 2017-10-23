@@ -450,18 +450,6 @@ module Gen =
     // Combinators - Convenience
     //
 
-    /// Generates a character that is not whitespace.
-    let notWhiteSpace : (Gen<char> -> Gen<char>) =
-        filter (not << System.Char.IsWhiteSpace)
-
-    /// Generates a character that is not a control character.
-    let notControl : (Gen<char> -> Gen<char>) =
-        filter (not << System.Char.IsControl)
-
-    /// Generates a character that is not punctuation.
-    let notPunctuation : (Gen<char> -> Gen<char>) =
-        filter (not << System.Char.IsPunctuation)
-
     /// Shortcut for Gen.list (Range.exponential lower upper).
     let eList (lower : int) (upper : int) : (Gen<'a> -> Gen<List<'a>>) =
         list (Range.exponential lower upper)
@@ -473,30 +461,6 @@ module Gen =
     /// Shortcut for Gen.list (Range.constant lower upper).
     let cList (lower : int) (upper : int) : (Gen<'a> -> Gen<List<'a>>) =
         list (Range.constant lower upper)
-
-    /// Shortcut for Gen.array (Range.exponential lower upper).
-    let eArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
-        array (Range.exponential lower upper)
-
-    /// Shortcut for Gen.array (Range.linear lower upper).
-    let lArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
-        array (Range.linear lower upper)
-
-    /// Shortcut for Gen.array (Range.constant lower upper).
-    let cArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
-        array (Range.constant lower upper)
-
-    /// Shortcut for Gen.seq (Range.exponential lower upper).
-    let eSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
-        seq (Range.exponential lower upper)
-
-    /// Shortcut for Gen.seq (Range.linear lower upper).
-    let lSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
-        seq (Range.linear lower upper)
-
-    /// Shortcut for Gen.seq (Range.constant lower upper).
-    let cSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
-        seq (Range.constant lower upper)
 
     /// Shortcut for Gen.string (Range.exponential lower upper).
     let eString (lower : int) (upper : int) : (Gen<char> -> Gen<string>) =
