@@ -447,6 +447,267 @@ module Gen =
         }
 
     //
+    // Combinators - Convenience
+    //
+
+    /// Fisher-Yates shuffle / Knuth shuffle from
+    /// https://www.rosettacode.org/wiki/Knuth_shuffle#F.23
+    let private shuffle lst =
+        let arr = lst |> List.toArray
+        let swap i j =
+            let item = arr.[i]
+            arr.[i] <- arr.[j]
+            arr.[j] <- item
+        let rnd = new System.Random()
+        let ln = arr.Length
+        [0..(ln - 2)] |> Seq.iter (fun i -> swap i (rnd.Next(i, ln)))
+        arr |> Array.toList
+
+    /// Generates a permutation the specified list (shuffles its elements).
+    let permutationOf (list : 'a list) : Gen<'a list> =
+        gen { return list |> shuffle }
+
+    let private randomizeCase (s:string) =
+        let r = System.Random()
+
+        let randomizeCharCase c =
+            let f = if r.Next() % 2 = 0
+                    then System.Char.ToUpper
+                    else System.Char.ToLower
+            f c
+
+        s |> Seq.map randomizeCharCase |> System.String.Concat
+
+    /// Randomizes the case of the characters in the string.
+    let casePermutationOf (str : string) : Gen<string> =
+        gen { return str |> randomizeCase }
+
+    /// Generates a character that is not whitespace.
+    let notWhiteSpace : (Gen<char> -> Gen<char>) =
+        filter (not << System.Char.IsWhiteSpace)
+
+    /// Generates a character that is not a control character.
+    let notControl : (Gen<char> -> Gen<char>) =
+        filter (not << System.Char.IsControl)
+
+    /// Generates a character that is not punctuation.
+    let notPunctuation : (Gen<char> -> Gen<char>) =
+        filter (not << System.Char.IsPunctuation)
+
+    /// Shortcut for Gen.list (Range.exponential lower upper).
+    let eList (lower : int) (upper : int) : (Gen<'a> -> Gen<List<'a>>) =
+        list (Range.exponential lower upper)
+
+    /// Shortcut for Gen.list (Range.linear lower upper).
+    let lList (lower : int) (upper : int) : (Gen<'a> -> Gen<List<'a>>) =
+        list (Range.linear lower upper)
+
+    /// Shortcut for Gen.list (Range.constant lower upper).
+    let cList (lower : int) (upper : int) : (Gen<'a> -> Gen<List<'a>>) =
+        list (Range.constant lower upper)
+
+    /// Shortcut for Gen.array (Range.exponential lower upper).
+    let eArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
+        array (Range.exponential lower upper)
+
+    /// Shortcut for Gen.array (Range.linear lower upper).
+    let lArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
+        array (Range.linear lower upper)
+
+    /// Shortcut for Gen.array (Range.constant lower upper).
+    let cArray (lower : int) (upper : int) : (Gen<'a> -> Gen<array<'a>>) =
+        array (Range.constant lower upper)
+
+    /// Shortcut for Gen.seq (Range.exponential lower upper).
+    let eSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
+        seq (Range.exponential lower upper)
+
+    /// Shortcut for Gen.seq (Range.linear lower upper).
+    let lSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
+        seq (Range.linear lower upper)
+
+    /// Shortcut for Gen.seq (Range.constant lower upper).
+    let cSeq (lower : int) (upper : int) : (Gen<'a> -> Gen<seq<'a>>) =
+        seq (Range.constant lower upper)
+
+    /// Shortcut for Gen.string (Range.exponential lower upper).
+    let eString (lower : int) (upper : int) : (Gen<char> -> Gen<string>) =
+        string (Range.exponential lower upper)
+
+    /// Shortcut for Gen.string (Range.linear lower upper).
+    let lString (lower : int) (upper : int) : (Gen<char> -> Gen<string>) =
+        string (Range.linear lower upper)
+
+    /// Shortcut for Gen.string (Range.constant lower upper).
+    let cString (lower : int) (upper : int) : (Gen<char> -> Gen<string>) =
+        string (Range.constant lower upper)
+
+    /// Generates null part of the time.
+    let withNull (g : Gen<'a>) : Gen<'a> =
+        g |> option |> map (fun xOpt ->
+        match xOpt with Some x -> x | None -> null)
+
+    /// Generates a value that is not null.
+    let noNull (g : Gen<'a>) : Gen<'a> =
+        g |> filter (not << isNull)
+
+    /// Generates a value that is not equal to another value.
+    let notEqualTo (other : 'a) : (Gen<'a> -> Gen<'a>) =
+        filter ((<>) other)
+
+    /// Generates a value that is not equal to another option-wrapped value.
+    let notEqualToOpt (other : 'a option) : (Gen<'a> -> Gen<'a>) =
+        filter (fun x -> match other with Some o -> x <> o | None -> true)
+
+    /// Generates a value that is not contained in the specified list.
+    let notIn (list: 'a list) (g : Gen<'a>) : Gen<'a> =
+        g |> filter (fun x -> not <| List.contains x list)
+
+    /// Generates a list that does not contain the specified element.
+    /// Shortcut for Gen.filter (not << List.contains x)
+    let notContains (x: 'a) : (Gen<'a list> -> Gen<'a list>) =
+      filter (not << List.contains x)
+
+    /// Generates a string that is not equal to another string using
+    /// StringComparison.OrdinalIgnoreCase.
+    let iNotEqualTo (str : string) : (Gen<string> -> Gen<string>) =
+        filter <| fun s ->
+            not <| str.Equals(s, System.StringComparison.OrdinalIgnoreCase)
+
+    /// Generates a string that is not a substring of another string.
+    let notSubstringOf (str : string) : (Gen<string> -> Gen<string>) =
+      filter <| fun s -> not <| str.Contains s
+
+    /// Generates a string that is not a substring of another string using
+    /// StringComparison.OrdinalIgnoreCase.
+    let iNotSubstringOf (str : string) : (Gen<string> -> Gen<string>) =
+      filter <| fun s ->
+          str.IndexOf(s, System.StringComparison.OrdinalIgnoreCase) = -1
+
+    /// Generates a string that does not start with another string.
+    let notStartsWith (str : string) : (Gen<string> -> Gen<string>) =
+      filter <| fun s -> not <| s.StartsWith str
+
+    /// Generates a string that does not start with another string using
+    /// StringComparison.OrdinalIgnoreCase.
+    let iNotStartsWith (str : string) : (Gen<string> -> Gen<string>) =
+      filter <| fun s ->
+          not <| s.StartsWith(str, System.StringComparison.OrdinalIgnoreCase)
+
+    /// Generates a 2-tuple with sorted elements.
+    let sorted2 (g : Gen<'a * 'a>) : Gen<'a * 'a> =
+        g |> map (fun (x1, x2) ->
+            let l = [x1; x2] |> List.sort
+            (l.Item 0, l.Item 1))
+
+    /// Generates a 3-tuple with sorted elements.
+    let sorted3 (g : Gen<'a * 'a * 'a>) : Gen<'a * 'a * 'a> =
+        g |> map (fun (x1, x2, x3) ->
+            let l = [x1; x2; x3] |> List.sort
+            (l.Item 0, l.Item 1, l.Item 2))
+
+    /// Generates a 4-tuple with sorted elements.
+    let sorted4 (g : Gen<'a * 'a * 'a * 'a>) : Gen<'a * 'a * 'a * 'a> =
+        g |> map (fun (x1, x2, x3, x4) ->
+            let l = [x1; x2; x3; x4] |> List.sort
+            (l.Item 0, l.Item 1, l.Item 2, l.Item 3))
+
+    /// Generates a 2-tuple with distinct elements.
+    let distinct2 (g : Gen<'a * 'a>) : Gen<'a * 'a> =
+        g |> filter (fun (x1, x2) -> x1 <> x2)
+
+    /// Generates a 3-tuple with distinct elements.
+    let distinct3 (g : Gen<'a * 'a * 'a>) : Gen<'a * 'a * 'a> =
+        g |> filter (fun (x1, x2, x3) ->
+            [x1; x2; x3] |> List.distinct = [x1; x2; x3])
+
+    /// Generates a 4-tuple with distinct elements.
+    let distinct4 (g : Gen<'a * 'a * 'a * 'a>) : Gen<'a * 'a * 'a * 'a> =
+        g |> filter (fun (x1, x2, x3, x4) ->
+            [x1; x2; x3; x4] |> List.distinct = [x1; x2; x3; x4])
+
+    /// Generates a 2-tuple with strictly increasing elements.
+    let increasing2 (g : Gen<'a * 'a>) : Gen<'a * 'a> =
+        g |> sorted2 |> distinct2
+
+    /// Generates a 3-tuple with strictly increasing elements.
+    let increasing3 (g : Gen<'a * 'a * 'a>) : Gen<'a * 'a * 'a> =
+        g |> sorted3 |> distinct3
+
+    /// Generates a 4-tuple with strictly increasing elements.
+    let increasing4 (g : Gen<'a * 'a * 'a * 'a>) : Gen<'a * 'a * 'a * 'a> =
+        g |> sorted4 |> distinct4
+
+    /// Generates a tuple of datetimes where the range determines the minimum
+    /// and maximum number of days apart. Positive numbers means the datetimes
+    /// will be in increasing order, and vice versa.
+    let dateInterval (dayRange : Range<int>)
+            : Gen<System.DateTime * System.DateTime> =
+        gen {
+            let tickRange =
+                dayRange
+                |> Range.map (fun days ->
+                    Operators.int64 days * System.TimeSpan.TicksPerDay)
+            let! ticksApart = integral tickRange
+            let! dt1 = dateTime |> filter (fun dt ->
+                dt.Ticks + ticksApart > System.DateTime.MinValue.Ticks
+                && dt.Ticks + ticksApart < System.DateTime.MaxValue.Ticks)
+            let dt2 = dt1.AddTicks ticksApart
+            return dt1, dt2
+        }
+
+    /// Generates a list using inpGen together with a function that maps each
+    /// of the distinct elements in the list to values generated by outGen.
+    /// Distinct elements in the input list may map to the same output values.
+    /// For example, [2; 3; 2] may map to ['A'; 'B'; 'A'] or ['A'; 'A'; 'A'],
+    /// but never ['A'; 'B'; 'C']. The generated function throws if called with
+    /// values not present in the input list.
+    let withMapTo (outGen : Gen<'b>) (inpGen : Gen<'a list>)
+            : Gen<'a list * ('a -> 'b)> =
+        gen {
+            let! inputs = inpGen
+            let inputsDistinct = inputs |> List.distinct
+            let! outputs = outGen |> list (Range.singleton inputsDistinct.Length)
+            let inOutMap = List.zip inputsDistinct outputs |> Map.ofList
+            return inputs, (fun x -> inOutMap.Item x)
+        }
+
+    /// Generates a list using inpGen together with a function that maps each
+    /// of the distinct elements in the list to values generated by outGen.
+    /// Distinct elements in the input list are guaranteed to map to distinct
+    /// output values. For example, [2; 3; 2] may map to ['A'; 'B'; 'A'], but
+    /// never ['A'; 'A'; 'A'] or ['A'; 'B'; 'C']. Only use this if the output
+    /// space is large enough that the required number of distinct output values
+    /// are likely to be generated. The generated function throws if called with
+    /// values not present in the input list.
+    let withDistinctMapTo (outGen : Gen<'b>) (inpGen : Gen<'a list>)
+            : Gen<'a list * ('a -> 'b)> =
+        gen {
+          let rec distinctOutGen (xs : 'b list) (length : int) : Gen<'b list> =
+              gen {
+                  if xs.Length = length then return xs
+                  else
+                      let! x = outGen |> notIn xs
+                      return! distinctOutGen (x::xs) length
+              }
+
+          let! inputs = inpGen
+          let inputsDistinct = inputs |> List.distinct
+          let! outputs = distinctOutGen [] inputsDistinct.Length
+          let inOutMap = List.zip inputsDistinct outputs |> Map.ofList
+          return inputs, (fun x -> inOutMap.Item x)
+        }
+
+    /// Inserts the given element at a random place in the list
+    let addElement (x : 'a) (g : Gen<'a list>) : Gen<'a list> =
+        gen {
+          let! xs = g
+          let! i = integral (Range.constant 0 xs.Length)
+          let l1, l2 = xs |> List.splitAt i
+          return List.concat [l1; [x]; l2]
+        }
+
+    //
     // Sampling
     //
 
