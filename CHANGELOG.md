@@ -1,3 +1,7 @@
+## Version 0.4.4 (2017-10-31)
+
+- Correct mixGamma oddness check ([#142][142], [@moodmosaic][moodmosaic])
+
 ## Version 0.4.3 (2017-10-12)
 
 - Add ToBigInt overload for System.Double ([#136][136], [@moodmosaic][moodmosaic])
@@ -50,6 +54,8 @@
 [porges]:
   https://github.com/porges
 
+[142]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/142
 [136]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/136
 [129]:
