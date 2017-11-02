@@ -300,7 +300,8 @@ module Property =
         Gen.bind gen prepend |> ofGen
 
     [<CompiledName("ForAll")>]
-    let forAll' (gen : Gen<'a>) : Property<'a> = forAll gen success
+    let forAll' (gen : Gen<'a>) : Property<'a> =
+        forAll gen success
 
     //
     // Runner

@@ -362,49 +362,49 @@ module Gen =
 
     /// Generates a Unicode character, including invalid standalone surrogates:
     /// '\000'..'\65535'
-    [<CompiledName("CharAll")>]
+    [<CompiledName("UnicodeAll")>]
     let unicodeAll : Gen<char> =
         let lo = System.Char.MinValue
         let hi = System.Char.MaxValue
         char lo hi
 
     // Generates a random digit.
-    [<CompiledName("CharDigit")>]
+    [<CompiledName("Digit")>]
     let digit : Gen<char> =
         char '0' '9'
 
     // Generates a random lowercase character.
-    [<CompiledName("CharLower")>]
+    [<CompiledName("Lower")>]
     let lower : Gen<char> =
         char 'a' 'z'
 
     // Generates a random uppercase character.
-    [<CompiledName("CharUpper")>]
+    [<CompiledName("Upper")>]
     let upper : Gen<char> =
         char 'A' 'Z'
 
     /// Generates an ASCII character: '\000'..'\127'
-    [<CompiledName("CharAscii")>]
+    [<CompiledName("Ascii")>]
     let ascii : Gen<char> =
         char '\000' '\127'
 
     /// Generates a Latin-1 character: '\000'..'\255'
-    [<CompiledName("CharLatin1")>]
+    [<CompiledName("Latin1")>]
     let latin1 : Gen<char> =
         char '\000' '\255'
 
     /// Generates a Unicode character, excluding invalid standalone surrogates:
     /// '\000'..'\65535' (excluding '\55296'..'\57343')
-    [<CompiledName("Char")>]
+    [<CompiledName("Unicode")>]
     let unicode : Gen<char> =
         filter (not << System.Char.IsSurrogate) unicodeAll
 
     // Generates a random alpha character.
-    [<CompiledName("CharAlpha")>]
+    [<CompiledName("Alpha")>]
     let alpha : Gen<char> =
         choice [lower; upper]
 
-    [<CompiledName("CharAlphaNumeric")>]
+    [<CompiledName("AlphaNum")>]
     // Generates a random alpha-numeric character.
     let alphaNum : Gen<char> =
         choice [lower; upper; digit]
@@ -546,7 +546,6 @@ module Gen =
 
 [<AutoOpen>]
 module GenBuilder =
-    [<CompiledName("Gen")>]
     let gen = Gen.Builder ()
 
 [<AutoOpen>]

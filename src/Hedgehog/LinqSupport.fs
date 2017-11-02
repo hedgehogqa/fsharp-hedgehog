@@ -25,7 +25,7 @@ module GenLinqSupport =
         gen {
             let! a = g
             let! b = f.Invoke a
-            return proj.Invoke(a, b)
+            return proj.Invoke (a, b)
         }
 
 [<Extension>]
@@ -44,7 +44,7 @@ module PropertyLinqSupport =
     [<Extension>]
     [<CompiledName("SelectMany")>]
     let bind2 (pa : Property<'a>) (f : Func<'a, Property<'b>>) (proj : Func<'a, 'b, 'c>) : Property<'c> =
-        Property.bind pa (fun a -> Property.bind (f.Invoke a) (fun b -> Property.success (proj.Invoke(a, b))))
+        Property.bind pa (fun a -> Property.bind (f.Invoke a) (fun b -> Property.success (proj.Invoke (a, b))))
 
     // This supports simple assertions in `select`:
     [<Extension>]
@@ -64,7 +64,7 @@ module PropertyLinqSupport =
         Property.bind pa (fun a ->
             Property.bind (f.Invoke a) (fun b ->
                 try
-                    proj.Invoke(a, b)
+                    proj.Invoke (a, b)
                     Property.success ()
                 with
                 | _ -> Property.failure))
