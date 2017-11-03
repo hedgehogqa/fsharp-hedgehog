@@ -104,35 +104,5 @@ namespace Hedgehog.CSharp.Tests
                 from j in ForAll(Gen.Int32(Range.Constant(1, i)))
                 select j <= i);
         }
-
-        [Fact]
-        public void CanUseCheckForAllWithAssertions()
-        {
-            CheckForAll(
-                Gen.String(Range.Constant(1, 10), Gen.Latin1),
-                Gen.Int64(Range.Constant(1L, 10)),
-                (str, value) =>
-                {
-                    // as an example, the condition here could be much longer
-                    // and more involved than what could appear in a Linq-syntax
-                    // property...
-                    Assert.True(true, "!");
-                });
-        }
-
-        [Fact]
-        public void CanUseCheckForAllWithBooleanResults()
-        {
-            CheckForAll(
-                Gen.String(Range.Constant(1, 10), Gen.Latin1),
-                Gen.Int64(Range.Constant(1L, 10)),
-                (str, value) =>
-                {
-                    // as an example, the condition here could be much longer
-                    // and more involved than what could appear in a Linq-syntax
-                    // property...
-                    return true;
-                });
-        }
     }
 }
