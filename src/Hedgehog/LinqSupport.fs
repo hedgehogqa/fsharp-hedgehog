@@ -50,21 +50,11 @@ module PropertyLinqSupport =
     [<Extension>]
     [<CompiledName("Select")>]
     let selectUnit (p : Property<'a>) (f : Action<'a>) : Property<unit> =
-        Property.bind p (fun x ->
-            try
-                f.Invoke x
-                Property.success ()
-            with
-            | _ -> Property.failure)
+        Property.bind p (Property.fromThrowing f.Invoke)
 
     // This supports assertions as `select`:
     [<Extension>]
     [<CompiledName("SelectMany")>]
     let bind2Unit (pa : Property<'a>) (f : Func<'a, Property<'b>>) (proj : Action<'a, 'b>) : Property<unit> =
         Property.bind pa (fun a ->
-            Property.bind (f.Invoke a) (fun b ->
-                try
-                    proj.Invoke (a, b)
-                    Property.success ()
-                with
-                | _ -> Property.failure))
+            Property.bind (f.Invoke a) (fun b -> Property.fromThrowing proj.Invoke (a, b)))

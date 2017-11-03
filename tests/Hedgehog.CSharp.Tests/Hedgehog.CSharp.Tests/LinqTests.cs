@@ -105,22 +105,34 @@ namespace Hedgehog.CSharp.Tests
                 select j <= i);
         }
 
-        //[Fact]
-        //public void ShrinkTest()
-        //{
-        //    Check(
-        //        from s in ForAll(Gen.String(Range.Constant(1, 100), Gen.CharAlpha))
-        //        from s2 in ForAll(Gen.String(Range.Constant(1, 10), Gen.CharAlpha))
-        //        select Assert.DoesNotContain(s2, s));
-        //}
+        [Fact]
+        public void CanUseCheckForAllWithAssertions()
+        {
+            CheckForAll(
+                Gen.String(Range.Constant(1, 10), Gen.Latin1),
+                Gen.Int64(Range.Constant(1L, 10)),
+                (str, value) =>
+                {
+                    // as an example, the condition here could be much longer
+                    // and more involved than what could appear in a Linq-syntax
+                    // property...
+                    Assert.True(true, "!");
+                });
+        }
 
-        //[Fact]
-        //public void ShrinkTestt()
-        //{
-        //    Check(
-        //        from s in ForAll(Gen.String(Range.Constant(1, 100), Gen.CharAlpha))
-        //        from s2 in ForAll(Gen.String(Range.Constant(1, 10), Gen.CharAlpha))
-        //        select !s.Contains(s2));
-        //}
+        [Fact]
+        public void CanUseCheckForAllWithBooleanResults()
+        {
+            CheckForAll(
+                Gen.String(Range.Constant(1, 10), Gen.Latin1),
+                Gen.Int64(Range.Constant(1L, 10)),
+                (str, value) =>
+                {
+                    // as an example, the condition here could be much longer
+                    // and more involved than what could appear in a Linq-syntax
+                    // property...
+                    return true;
+                });
+        }
     }
 }
