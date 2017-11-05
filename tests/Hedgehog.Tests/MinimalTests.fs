@@ -62,10 +62,6 @@ let rec genExp : Gen<Exp> =
         App <!> Gen.zip genExp genExp
     ]
 
-// FIXME This test takes quite some time to run, it would be good to profile
-// FIXME this and find out where the hotspots are. I have a much more complex
-// FIXME version of the same test in Haskell and it finishes in a few seconds,
-// FIXME even in GHCi (the interpreter).
 [<Fact>]
 let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
     Property.check <| property {
