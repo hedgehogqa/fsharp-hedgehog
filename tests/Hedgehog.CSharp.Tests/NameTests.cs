@@ -29,13 +29,15 @@ namespace Hedgehog.CSharp.Tests
                 foreach (var member in members)
                 {
                     // Ignore special members like indexers etc.
-                    if (member is PropertyInfo p && p.IsSpecialName)
+                    var pi = member as PropertyInfo;
+                    if (pi != null && pi.IsSpecialName)
                     {
                         continue;
                     }
 
-                    if (member is MethodInfo m &&
-                        (m.IsSpecialName || m.IsConstructor || m.Name.StartsWith("get_")))
+                    var mi = member as MethodInfo;
+                    if (mi != null &&
+                        (mi.IsSpecialName || mi.IsConstructor || mi.Name.StartsWith("get_")))
                     {
                         continue;
                     }
