@@ -102,7 +102,7 @@ Property.print <| property {
         // Custom operations (i.e. counterexample) can't be used in computation
         // expressions which have control flow :( we can fake it using return!
         // however.
-        return! Property.counterexample (sprintf "x = %A" x)
+        return! Property.counterexample (fun () -> sprintf "x = %A" x)
 
         // Note, return can be used multiple times, its a bit like 'assert'.
         return x <> 'w'
@@ -112,8 +112,8 @@ Property.print <| property {
     while n < 10 do
         n <- n + 1
         let! k = Gen.int <| Range.constant 0 n
-        return! Property.counterexample (sprintf "n = %d" n)
-        return! Property.counterexample (sprintf "k = %d" k)
+        return! Property.counterexample (fun () -> sprintf "n = %d" n)
+        return! Property.counterexample (fun () -> sprintf "k = %d" k)
         return k <> 5
 }
 

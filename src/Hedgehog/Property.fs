@@ -4,7 +4,7 @@ open FSharpx.Collections
 open System
 
 type Journal =
-    | Journal of List<string>
+    | Journal of LazyList<string>
 
 type Result<'a> =
     | Failure
@@ -39,26 +39,23 @@ module private Tuple =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Journal =
-    let ofList (xs : List<string>) : Journal =
+    let ofList (xs : LazyList<string>) : Journal =
         Journal xs
 
     let toList (Journal xs : Journal) : List<string> =
-        xs
+        LazyList.toList xs
 
     let empty : Journal =
-        List.empty |> ofList
+        LazyList.empty |> ofList
 
     let singleton (x : string) : Journal =
-        List.singleton x |> ofList
+        LazyList.singleton x |> ofList
 
-    let map (f : List<string> -> List<string>) (xs : Journal) : Journal =
-        toList xs |> f |> ofList
+    let delayedSingleton (x : unit -> string) : Journal =
+        LazyList.delayed (fun () -> LazyList.singleton (x ())) |> ofList
 
-    let addFailure (msg : string) (x : Journal) : Journal =
-        map (List.cons msg) x
-
-    let append (xs : Journal) (ys : Journal) : Journal =
-        toList xs @ toList ys |> ofList
+    let append (Journal xs) (Journal ys) : Journal =
+        LazyList.append xs ys |> ofList
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Result =
@@ -247,8 +244,8 @@ module Property =
         else
             failure
 
-    let counterexample (msg : string) : Property<unit> =
-        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
+    let counterexample (msg : unit -> string) : Property<unit> =
+        Gen.constant (Journal.delayedSingleton msg, Success ()) |> ofGen
 
     let private mapGen
             (f : Gen<Journal * Result<'a>> -> Gen<Journal * Result<'b>>)
@@ -277,7 +274,7 @@ module Property =
         let handle (e : exn) =
             Gen.constant (Journal.singleton (string e), Failure) |> ofGen
         let prepend (x : 'a) =
-            bind (counterexample (sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
+            bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
     //
@@ -412,7 +409,7 @@ module PropertyBuilder =
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
             Property.bind m <| fun x ->
-            Property.bind (Property.counterexample (f x)) <| fun _ ->
+            Property.bind (Property.counterexample (fun () -> f x)) <| fun _ ->
             Property.success x
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
