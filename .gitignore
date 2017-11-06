@@ -49,3 +49,6 @@ Thumbs.db
 .paket/paket.bootstrapper.run
 .paket/paket.exe
 paket-files
+
+# Visual Studio files
+.vs/
