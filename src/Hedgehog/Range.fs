@@ -15,6 +15,7 @@ module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
         f a, g b
 
+    [<CompiledName("Map")>]
     let map (f : 'a -> 'b) (Range (z, g) : Range<'a>) : Range<'b> =
         Range (f z, fun sz ->
             bimap f f (g sz))
@@ -31,20 +32,24 @@ module Range =
     ///
     /// When using a 'Range' to generate numbers, the shrinking function will
     /// shrink towards the origin.
+    [<CompiledName("Origin")>]
     let origin (Range (z, _) : Range<'a>) : 'a =
         z
 
     /// Get the extents of a range, for a given size.
+    [<CompiledName("Bounds")>]
     let bounds (sz : Size) (Range (_, f) : Range<'a>) : 'a * 'a =
         f sz
 
     /// Get the lower bound of a range for the given size.
+    [<CompiledName("LowerBound")>]
     let lowerBound (sz : Size) (range : Range<'a>) : 'a =
         let (x, y) =
             bounds sz range
         min x y
 
     /// Get the upper bound of a range for the given size.
+    [<CompiledName("UpperBound")>]
     let upperBound (sz : Size) (range : Range<'a>) : 'a =
         let (x, y) =
             bounds sz range
@@ -55,20 +60,24 @@ module Range =
     //
 
     /// Construct a range which represents a constant single value.
+    [<CompiledName("Singleton")>]
     let singleton (x : 'a) : Range<'a> =
         Range (x, fun _ -> x, x)
 
     /// Construct a range which is unaffected by the size parameter with a
     /// origin point which may differ from the bounds.
+    [<CompiledName("ConstantFrom")>]
     let constantFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun _ -> x, y)
 
     /// Construct a range which is unaffected by the size parameter.
-    let constant (x : 'a) : ('a -> Range<'a>) =
-        constantFrom x x
+    [<CompiledName("Constant")>]
+    let constant (x : 'a) (y : 'a) : Range<'a> =
+        constantFrom x x y
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
+    [<CompiledName("ConstantBounded")>]
     let inline constantBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
@@ -130,6 +139,7 @@ module Range =
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
+    [<CompiledName("LinearFrom")>]
     let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let x_sized =
@@ -140,11 +150,13 @@ module Range =
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
-    let inline linear (x : 'a) : ('a -> Range<'a>) =
-      linearFrom x x
+    [<CompiledName("Linear")>]
+    let inline linear (x : 'a) (y : 'a) : Range<'a> =
+      linearFrom x x y
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
+    [<CompiledName("LinearBounded")>]
     let inline linearBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
@@ -158,6 +170,7 @@ module Range =
 
     /// Construct a range which scales the bounds exponentially relative to the
     /// size parameter.
+    [<CompiledName("ExponentialFrom")>]
     let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let x_sized =
@@ -168,11 +181,13 @@ module Range =
 
     /// Construct a range which scales the second bound exponentially relative
     /// to the size parameter.
+    [<CompiledName("Exponential")>]
     let inline exponential (x : 'a) (y : 'a) : Range<'a> =
         exponentialFrom x x y
 
     /// Construct a range which is scaled exponentially relative to the size
     /// parameter and uses the full range of a data type.
+    [<CompiledName("ExponentialBounded")>]
     let inline exponentialBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()

@@ -1,5 +1,9 @@
 ## Version 0.4.4 (2017-10-31)
 
+- Support for LINQ queries ([#113][113], [@porges][porges])
+
+## Version 0.4.4 (2017-10-31)
+
 - Correct mixGamma oddness check ([#142][142], [@moodmosaic][moodmosaic])
 
 ## Version 0.4.3 (2017-10-12)
@@ -66,6 +70,8 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/121
 [119]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/119
+[113]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/113
 [109]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/109
 [105]:
