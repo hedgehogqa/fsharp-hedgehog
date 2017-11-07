@@ -1,4 +1,8 @@
-## Version 0.4.4 (2017-10-31)
+## Version 0.6.0 (2017-11-07)
+
+- Make Journal store delayed strings, so they are computed on-demand ([#147][147], [@porges][porges])
+
+## Version 0.5.0 (2017-11-06)
 
 - Support for LINQ queries ([#113][113], [@porges][porges])
 
@@ -58,6 +62,8 @@
 [porges]:
   https://github.com/porges
 
+[147]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/147
 [142]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/142
 [136]:
