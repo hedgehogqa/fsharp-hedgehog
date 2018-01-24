@@ -18,5 +18,3 @@ iconUrl
     https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/SQUARE_hedgehog_300x300.png
 tags
     fsharp, f#, testing
-excludeddependencies
-    FSharp.Core

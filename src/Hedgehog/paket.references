@@ -3,3 +3,5 @@ File: LazyList.fsi
 File: LazyList.fs
 
 FSharp.Core
+
+System.Collections.Specialized

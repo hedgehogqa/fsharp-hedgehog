@@ -1,5 +1,5 @@
 FSharp.Core
-xunit.runner.console
+
+xunit
 xunit.runner.visualstudio
-xunit.core
 Unquote
