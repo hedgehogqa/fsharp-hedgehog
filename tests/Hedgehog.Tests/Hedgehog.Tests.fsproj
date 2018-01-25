@@ -2,12 +2,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RangeTests.fs" />
     <Compile Include="GenTests.fs" />
     <Compile Include="ShrinkTests.fs" />
     <Compile Include="MinimalTests.fs" />
+    <Compile Include="Entrypoint.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
