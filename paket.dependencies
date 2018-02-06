@@ -24,10 +24,6 @@ github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e s
 github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fsi
 github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fs
 
-// Build tools:
-
-nuget FAKE 4.41.1
-
 // For test projects:
 
 nuget Unquote 4.0.0
