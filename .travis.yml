@@ -1,9 +1,13 @@
 language: csharp
+dotnet: 2.1.4
 
 sudo: false
 
 script:
-  - ./validate.sh && ./build.sh
+  - ./validate.sh
+  - dotnet build
+  - dotnet test --no-build tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+  - dotnet test --no-build tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 
 branches:
   only:
