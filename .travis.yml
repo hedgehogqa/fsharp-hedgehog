@@ -5,9 +5,9 @@ sudo: false
 
 script:
   - ./validate.sh
-  - dotnet build
-  - dotnet test --no-build tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
-  - dotnet test --no-build tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+  - dotnet build -c Release
+  - dotnet test -c Release --no-build tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+  - dotnet test -c Release --no-build tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 
 branches:
   only:
