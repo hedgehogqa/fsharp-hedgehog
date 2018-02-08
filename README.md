@@ -44,8 +44,46 @@ You can then load the module in F# Interactive, and run it:
 
 More examples can be found in the [tutorial](doc/tutorial.md).
 
+## Building from source
+
+To build Hedgehog from source, you will need either the
+[.NET Core SDK or Visual Studio][net-core-sdk].
+
+With Visual Studio you can build Hedgehog and run the tests
+from inside the IDE, otherwise with the `dotnet` commandline
+tool you can execute:
+
+```sh
+dotnet build
+```
+
+The first time you run it, this will use Paket to restore all
+the packages, and then build the code.
+
+To run the tests, you can execute:
+
+```sh
+dotnet test tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+```
+
+### Building the Nuget package
+
+After building the source (for *release* configuration, i.e.
+`dotnet build -c Release`), you can produce the Nuget package with
+Paket:
+
+```sh
+.paket/paket.exe pack src/Hedgehog
+```
+
+This will produce `Hedgehog-x.y.z.w.nupkg` in `src/Hedgehog`.
+
  [nuget]: https://www.nuget.org/packages/Hedgehog/
  [nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat
 
  [travis]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog
  [travis-shield]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master
+
+ [net-core-sdk]: https://www.microsoft.com/net/download/
+
