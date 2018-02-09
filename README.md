@@ -49,6 +49,32 @@ More examples can be found in the [tutorial](doc/tutorial.md).
 To build Hedgehog from source, you will need either the
 [.NET Core SDK or Visual Studio][net-core-sdk].
 
+### Linux-specific
+
+If you are using Linux you will also need Mono installed
+(in order to run Paket). The full install sequence (for Ubuntu)
+will be something like:
+
+```sh
+# .NET Core SDK
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-get update
+
+sudo apt-get install dotnet-sdk-2.1.3
+
+# Mono
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | sudo tee /etc/apt/sources.list.d/mono-official.list
+
+sudo apt-get update
+sudo apt-get install mono-devel
+```
+
+### Building & running tests
+
 With Visual Studio you can build Hedgehog and run the tests
 from inside the IDE, otherwise with the `dotnet` commandline
 tool you can execute:
