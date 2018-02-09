@@ -1,7 +1,9 @@
-File: Collections.fs
-File: LazyList.fsi
-File: LazyList.fs
+group Build
 
-FSharp.Core
+	File: Collections.fs
+	File: LazyList.fsi
+	File: LazyList.fs
 
-System.Collections.Specialized
+	FSharp.Core
+
+	System.Collections.Specialized

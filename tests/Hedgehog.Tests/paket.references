@@ -1,5 +1,7 @@
-FSharp.Core
+group Test
 
-xunit
-xunit.runner.visualstudio
-Unquote
+	FSharp.Core
+
+	xunit
+	xunit.runner.visualstudio
+	Unquote
