@@ -14,7 +14,7 @@ namespace Hedgehog.CSharp.Tests
             , typeof(Property)
             };
 
-        public static IEnumerable<MemberInfo[]> AllPublicMembers()
+        public static IEnumerable<object[]> AllPublicMembers()
         {
             var bindingFlags =
                 BindingFlags.Public |

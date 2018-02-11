@@ -44,8 +44,72 @@ You can then load the module in F# Interactive, and run it:
 
 More examples can be found in the [tutorial](doc/tutorial.md).
 
+## Building from source
+
+To build Hedgehog from source, you will need either the
+[.NET Core SDK or Visual Studio][net-core-sdk].
+
+### Linux-specific
+
+If you are using Linux you will also need Mono installed
+(in order to run Paket). The full install sequence (for Ubuntu)
+will be something like:
+
+```sh
+# .NET Core SDK
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+sudo apt-get update
+
+sudo apt-get install dotnet-sdk-2.1.3
+
+# Mono
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | sudo tee /etc/apt/sources.list.d/mono-official.list
+
+sudo apt-get update
+sudo apt-get install mono-devel
+```
+
+### Building & running tests
+
+With Visual Studio you can build Hedgehog and run the tests
+from inside the IDE, otherwise with the `dotnet` commandline
+tool you can execute:
+
+```sh
+dotnet build
+```
+
+The first time you run it, this will use Paket to restore all
+the packages, and then build the code.
+
+To run the tests, you can execute:
+
+```sh
+dotnet test tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+```
+
+### Building the Nuget package
+
+After building the source (for *release* configuration, i.e.
+`dotnet build -c Release`), you can produce the Nuget package with
+Paket:
+
+```sh
+.paket/paket.exe pack src/Hedgehog
+```
+
+This will produce `Hedgehog-x.y.z.w.nupkg` in `src/Hedgehog`.
+
  [nuget]: https://www.nuget.org/packages/Hedgehog/
  [nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat
 
  [travis]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog
  [travis-shield]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master
+
+ [net-core-sdk]: https://www.microsoft.com/net/download/
+

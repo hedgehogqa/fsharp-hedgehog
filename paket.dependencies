@@ -1,24 +1,41 @@
 redirects: on
-source https://www.nuget.org/api/v2/
+storage: none
 
-// We want to depend on FSharp.Core 4.0.0.1, but not require
-// that version in the generated nuget package (see paket.template).
-//
-// If we just specify "FSharp.Core 4.0.0.1" then the nuget package
-// has an dependency on that *exact* version.
-//
-// So, we specify 4.0.0.1 as a minimum bound, and set lowest_matching
-// so it won't be updated automatically to a newer one by 'paket update'.
-nuget FSharp.Core >= 4.0.0.1 lowest_matching: true
+// Note: it is important that we use groups to separate
+// build & test dependencies, or else the test dependencies (Unquote)
+// force the versions of FSharp.Core to be higher.
 
-nuget FAKE 4.41.1
-nuget xunit.runner.console 2.1.0
-nuget xunit.runner.visualstudio 2.1.0 version_in_path: true
-nuget xunit.assert 2.1.0
-nuget xunit.core 2.1.0
+group Build
 
-github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/Collections.fs
-github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fsi
-github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fs
+    source https://www.nuget.org/api/v2/
 
-nuget Unquote 3.1.2
+    // We want to depend on FSharp.Core 4.1.17 (it's the earliest one
+    // that supports .NET standard), but not require that version in
+    // the generated nuget package (see paket.template).
+    //
+    // If we just specify "FSharp.Core 4.1.17" then the nuget package
+    // has an dependency on that *exact* version.
+    //
+    // So, we specify 4.1.17 as a minimum bound, and set lowest_matching
+    // so it won't be updated automatically to a newer one by 'paket update'.
+    nuget FSharp.Core >= 4.1.17 lowest_matching: true
+
+    // Similar reasoning applies here (this is used by the FSharpx collections
+    // below):
+
+    nuget System.Collections.Specialized >= 4.0.1 lowest_matching: true
+
+    // These files are imported directly into Hedgehog:
+
+    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/Collections.fs
+    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fsi
+    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fs
+
+group Test
+
+    source https://www.nuget.org/api/v2/
+
+    nuget Unquote 4.0.0
+    nuget xunit.runner.console 2.3.1
+    nuget xunit.runner.visualstudio 2.3.1
+    nuget xunit 2.3.1

@@ -1,18 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog", "src\Hedgehog\Hedgehog.fsproj", "{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.Tests", "tests\Hedgehog.Tests\Hedgehog.Tests.fsproj", "{788F88B7-5516-4F89-8652-20F14576E1DD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{76532829-C6DB-48F1-ABA8-835E3B718023}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedgehog.CSharp.Tests", "tests\Hedgehog.CSharp.Tests\Hedgehog.CSharp.Tests.csproj", "{02DECFEA-CCD3-45E3-AC9C-FC9BEFE24440}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Hedgehog", "src/Hedgehog/Hedgehog.fsproj", "{0864FFED-D0B3-4D32-BD38-DB696B7FC5F3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.Tests", "tests/Hedgehog.Tests/Hedgehog.Tests.fsproj", "{D38AB54A-D5E8-4B50-927C-472015473AFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedgehog.CSharp.Tests", "tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj", "{952547C5-7622-45C8-BB3C-4D1BA2DB747D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,18 +20,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B338B8C4-1C98-4F42-9C45-56BD7EF2AD0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{788F88B7-5516-4F89-8652-20F14576E1DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{788F88B7-5516-4F89-8652-20F14576E1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{788F88B7-5516-4F89-8652-20F14576E1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{788F88B7-5516-4F89-8652-20F14576E1DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02DECFEA-CCD3-45E3-AC9C-FC9BEFE24440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02DECFEA-CCD3-45E3-AC9C-FC9BEFE24440}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02DECFEA-CCD3-45E3-AC9C-FC9BEFE24440}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02DECFEA-CCD3-45E3-AC9C-FC9BEFE24440}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0864FFED-D0B3-4D32-BD38-DB696B7FC5F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0864FFED-D0B3-4D32-BD38-DB696B7FC5F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0864FFED-D0B3-4D32-BD38-DB696B7FC5F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0864FFED-D0B3-4D32-BD38-DB696B7FC5F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38AB54A-D5E8-4B50-927C-472015473AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38AB54A-D5E8-4B50-927C-472015473AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38AB54A-D5E8-4B50-927C-472015473AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38AB54A-D5E8-4B50-927C-472015473AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952547C5-7622-45C8-BB3C-4D1BA2DB747D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952547C5-7622-45C8-BB3C-4D1BA2DB747D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952547C5-7622-45C8-BB3C-4D1BA2DB747D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952547C5-7622-45C8-BB3C-4D1BA2DB747D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,8 @@ type
     project
 id
     Hedgehog
+version
+	0.7.0.0
 description
     Hedgehog will eat all your bugs.
 authors
@@ -18,5 +20,3 @@ iconUrl
     https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/SQUARE_hedgehog_300x300.png
 tags
     fsharp, f#, testing
-excludeddependencies
-    FSharp.Core
