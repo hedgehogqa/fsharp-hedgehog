@@ -1,3 +1,7 @@
+## Version 0.7.0 (2018-02-12)
+
+- Convert to .NET Standard ([#153][153], [@porges][porges])
+
 ## Version 0.6.0 (2017-11-07)
 
 - Make Journal store delayed strings, so they are computed on-demand ([#147][147], [@porges][porges])
@@ -62,6 +66,8 @@
 [porges]:
   https://github.com/porges
 
+[153]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/153
 [147]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/147
 [142]:
