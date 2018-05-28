@@ -88,7 +88,7 @@ module Seed =
     let private mixGamma (g0 : uint64) : uint64 =
         let g = mix64variant13 g0 ||| 1UL
         let n = bitCount (g ^^^ (g >>> 1))
-        if n >= 24UL then g ^^^ 0xaaaaaaaaaaaaaaaaUL
+        if n < 24UL then g ^^^ 0xaaaaaaaaaaaaaaaaUL
         else g
 
     let private nextSeed (s0 : Seed) : Seed =
