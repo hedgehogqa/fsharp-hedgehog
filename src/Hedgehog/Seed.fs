@@ -31,8 +31,8 @@ namespace Hedgehog
 
 /// Splittable random number generator.
 type Seed =
-    internal { Value : int64
-               Gamma : int64 }
+    internal { Value : uint64
+               Gamma : uint64 }
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Seed =
@@ -43,7 +43,8 @@ module Seed =
     /// by splitting an already existing instance. We choose: the odd
     /// integer closest to 2^64/φ, where φ = (1 + √5)/2 is the golden
     /// ratio, and call it GOLDEN_GAMMA.
-    let [<Literal>] private goldenGamma : int64 = 0x9e3779b97f4a7c15L
+    let [<Literal>] private goldenGamma : uint64 =
+        0x9e3779b97f4a7c15UL
 
     let private crashUnless (cond : bool) (msg : string) : unit =
         if cond then
@@ -60,42 +61,42 @@ module Seed =
         // TODO remove crashUnless
         crashUnless (s >= 0) "s >= 0"
 
-        { Value = int64 s
+        { Value = uint64 s
           Gamma = goldenGamma }
 
-    let private mix64 (s0 : int64) : int64 =
+    let private mix64 (s0 : uint64) : uint64 =
         let s = s0
-        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdL
-        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53L
+        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdUL
+        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53UL
         s ^^^ (s >>> 33)
 
-    let private mix64variant13 (s0 : int64) : int64 =
+    let private mix64variant13 (s0 : uint64) : uint64 =
         let s = s0
-        let s = (s ^^^ (s >>> 30)) * 0xbf58476d1ce4e5b9L
-        let s = (s ^^^ (s >>> 27)) * 0x94d049bb133111ebL
+        let s = (s ^^^ (s >>> 30)) * 0xbf58476d1ce4e5b9UL
+        let s = (s ^^^ (s >>> 27)) * 0x94d049bb133111ebUL
         s ^^^ (s >>> 31)
 
-    let private bitCount (s0 : int64) : int =
-        let s = s0 - ((s0 >>> 1) &&& 0x5555555555555555L)
-        let s = (s &&& 0x3333333333333333L) + ((s >>> 2) &&& 0x3333333333333333L)
-        let s = (s + (s >>> 4)) &&& 0x0f0f0f0f0f0f0f0fL
+    let private bitCount (s0 : uint64) : uint64 =
+        let s = s0 - ((s0 >>> 1) &&& 0x5555555555555555UL)
+        let s = (s &&& 0x3333333333333333UL) + ((s >>> 2) &&& 0x3333333333333333UL)
+        let s = (s + (s >>> 4)) &&& 0x0f0f0f0f0f0f0f0fUL
         let s = s + (s >>> 8)
         let s = s + (s >>> 16)
         let s = s + (s >>> 32)
-        (int s) &&& 0x7f
+        s &&& 0x7fUL
 
-    let private mixGamma (g0 : int64) : int64 =
-        let g = mix64variant13 g0 ||| 1L
+    let private mixGamma (g0 : uint64) : uint64 =
+        let g = mix64variant13 g0 ||| 1UL
         let n = bitCount (g ^^^ (g >>> 1))
-        if n >= 24 then g ^^^ 0xaaaaaaaaaaaaaaaaL
+        if n < 24UL then g ^^^ 0xaaaaaaaaaaaaaaaaUL
         else g
 
     let private nextSeed (s0 : Seed) : Seed =
         { s0 with Value = s0.Value + s0.Gamma }
-    
+
     /// Create a new random 'Seed'.
     let random () : Seed =
-        let s = System.DateTimeOffset.UtcNow.Ticks + 2L * goldenGamma
+        let s = uint64 System.DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma
         { Value = mix64 s
           Gamma = mixGamma s + goldenGamma }
 
@@ -104,7 +105,7 @@ module Seed =
         -9223372036854775808L, 9223372036854775807L
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (s : Seed) : int64 * Seed =
+    let next (s : Seed) : uint64 * Seed =
         mix64 s.Value, nextSeed s
 
     /// Generates a random bigint in the specified range.
