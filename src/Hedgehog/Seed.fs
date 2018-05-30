@@ -31,8 +31,8 @@ namespace Hedgehog
 
 /// Splittable random number generator.
 type Seed =
-    internal { Value : uint64
-               Gamma : uint64 }
+    { Value : uint64
+      Gamma : uint64 }
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Seed =
@@ -94,11 +94,14 @@ module Seed =
     let private nextSeed (s0 : Seed) : Seed =
         { s0 with Value = s0.Value + s0.Gamma }
 
+    /// Create a new 'Seed'.
+    let from (s : uint64) : Seed =
+        { Value = mix64 s
+          Gamma = mixGamma (s + goldenGamma) }
+
     /// Create a new random 'Seed'.
     let random () : Seed =
-        let s = uint64 System.DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma
-        { Value = mix64 s
-          Gamma = mixGamma s + goldenGamma }
+        from (uint64 System.DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma)
 
     /// The possible range of values returned from 'next'.
     let range : int64 * int64 =
