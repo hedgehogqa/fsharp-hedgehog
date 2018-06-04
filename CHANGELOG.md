@@ -1,3 +1,8 @@
+## Version 0.8.0 (2018-06-04)
+
+- Verify that Seed.from 'fixes' the γ-value ([#161][161], [@moodmosaic][moodmosaic])
+- Sync F# version of Seed with Haskell ([#160][160], [@moodmosaic][moodmosaic])
+
 ## Version 0.7.0 (2018-02-12)
 
 - Convert to .NET Standard ([#153][153], [@porges][porges])
@@ -66,6 +71,10 @@
 [porges]:
   https://github.com/porges
 
+[161]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/161
+[160]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/160
 [153]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/153
 [147]:
