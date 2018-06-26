@@ -393,11 +393,17 @@ module Gen =
     let latin1 : Gen<char> =
         char '\000' '\255'
 
-    /// Generates a Unicode character, excluding invalid standalone surrogates:
-    /// '\000'..'\65535' (excluding '\55296'..'\57343')
+    /// Generates a Unicode character, excluding noncharacters
+    /// ('\65534', '\65535') and invalid standalone surrogates
+    /// ('\000'..'\65535' excluding '\55296'..'\57343').
     [<CompiledName("Unicode")>]
     let unicode : Gen<char> =
-        filter (not << System.Char.IsSurrogate) unicodeAll
+        let isNoncharacter x = 
+               x = Operators.char 65534
+            || x = Operators.char 65535
+        unicodeAll
+        |> filter (not << isNoncharacter)
+        |> filter (not << System.Char.IsSurrogate)
 
     // Generates a random alpha character.
     [<CompiledName("Alpha")>]
