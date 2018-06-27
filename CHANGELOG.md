@@ -1,3 +1,7 @@
+## Version 0.8.1 (2018-06-27)
+
+- Unicode generator no longer generates noncharacters '\65534' and '\65535' ([#163][163], [@jwChung][jwChung])
+
 ## Version 0.8.0 (2018-06-04)
 
 - Verify that Seed.from 'fixes' the γ-value ([#161][161], [@moodmosaic][moodmosaic])
@@ -64,6 +68,8 @@
   https://github.com/frankshearar
 [jystic]:
   https://github.com/jystic
+[jwChung]:
+  https://github.com/jwChung
 [moodmosaic]:
   https://github.com/moodmosaic
 [ploeh]:
@@ -71,6 +77,8 @@
 [porges]:
   https://github.com/porges
 
+[163]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/163
 [161]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/161
 [160]:
