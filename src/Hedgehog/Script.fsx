@@ -1,7 +1,7 @@
 ﻿#if INTERACTIVE
-#load "../../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/Collections.fs"
-      "../../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fsi"
-      "../../paket-files/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fs"
+#load "../../paket-files/build/fsprojects/FSharpx.Collections/src/FSharpx.Collections/Collections.fs"
+      "../../paket-files/build/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fsi"
+      "../../paket-files/build/fsprojects/FSharpx.Collections/src/FSharpx.Collections/LazyList.fs"
       "Numeric.fs"
       "Seed.fs"
       "Tree.fs"
