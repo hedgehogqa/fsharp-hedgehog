@@ -7,6 +7,7 @@ storage: none
 
 group Build
 
+    storage: none
     source https://www.nuget.org/api/v2/
 
     // We want to depend on FSharp.Core 4.1.17 (it's the earliest one
@@ -33,6 +34,7 @@ group Build
 
 group Test
 
+    storage: none
     source https://www.nuget.org/api/v2/
 
     nuget Unquote 4.0.0
