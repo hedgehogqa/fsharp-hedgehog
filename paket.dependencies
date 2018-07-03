@@ -7,6 +7,8 @@ storage: none
 
 group Build
 
+    framework: netstandard1.6
+    storage: none
     source https://www.nuget.org/api/v2/
 
     // We want to depend on FSharp.Core 4.1.17 (it's the earliest one
@@ -33,6 +35,8 @@ group Build
 
 group Test
 
+    framework: netcore2.0
+    storage: none
     source https://www.nuget.org/api/v2/
 
     nuget Unquote 4.0.0
