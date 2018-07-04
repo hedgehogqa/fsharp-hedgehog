@@ -68,8 +68,6 @@ module Random =
         member __.Bind(m : Random<'a>, k : 'a -> Random<'b>) : Random<'b> =
             bind m k
 
-    let private random = Builder ()
-
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Random<'a>) : Random<'a> =
         Random <| fun seed size ->
