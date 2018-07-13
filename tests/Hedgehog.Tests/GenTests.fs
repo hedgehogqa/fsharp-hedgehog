@@ -31,3 +31,35 @@ let ``unicode doesn't return any noncharacter`` nonchar =
     let isNoncharacter = (=) <| Operators.char nonchar
     let actual = Gen.sample 100 100000 Gen.unicode
     [] =! List.filter isNoncharacter actual
+
+[<Fact>]
+let ``dateTime randomly generates value between max and min ticks`` () =
+    let seed0 = Seed.random()
+    let (seed1, _) = Seed.split seed0
+    let range =
+        Range.constant
+            System.DateTime.MinValue.Ticks
+            System.DateTime.MaxValue.Ticks
+    let ticks =
+        Random.integral range
+        |> Random.run seed1 0
+    let expected = System.DateTime ticks
+
+    let actual = Gen.dateTime
+
+    let result = actual |> Gen.toRandom |> Random.run seed0 0 |> Tree.outcome
+    expected =! result
+
+[<Fact>]
+let ``dateTime shrinks to correct mid-value`` () =
+    let result =
+        property {
+            let! actual = Gen.dateTime
+            System.DateTime.Now =! actual
+        }
+        |> Property.report
+        |> Report.render
+        |> (fun x -> x.Split System.Environment.NewLine)
+        |> Array.item 1
+        |> System.DateTime.Parse
+    System.DateTime (2000, 1, 1) =! result

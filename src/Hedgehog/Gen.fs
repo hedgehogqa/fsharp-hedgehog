@@ -496,23 +496,16 @@ module Gen =
     /// Generates a random instant in time expressed as a date and time of day.
     [<CompiledName("DateTime")>]
     let dateTime : Gen<System.DateTime> =
-        let yMin = System.DateTime.MinValue.Year
-        let yMax = System.DateTime.MaxValue.Year
+        let minTicks =
+            System.DateTime.MinValue.Ticks
+        let maxTicks =
+            System.DateTime.MaxValue.Ticks
         gen {
-            let! y =
-                integral <| Range.linearFrom 2000 yMin yMax
-            let! m =
-                integral <| Range.constant 1 12
-            let! d =
-                integral <| Range.constant 1 (System.DateTime.DaysInMonth (y, m))
-            let! h =
-                integral <| Range.constant 0 23
-            let! min =
-                integral <| Range.constant 0 59
-            let! sec =
-                integral <| Range.constant 0 59
-
-            return System.DateTime (y, m, d, h, min, sec)
+            let! ticks =
+                Range.constantFrom
+                    (System.DateTime (2000, 1, 1)).Ticks minTicks maxTicks
+                |> integral
+            return System.DateTime ticks
         }
 
     //
