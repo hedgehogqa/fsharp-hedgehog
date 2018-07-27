@@ -199,10 +199,10 @@ type FromBigInt =
         fun (x : bigint) -> uint16 (int x)
 
     static member FromBigInt (_ : uint32, _ : FromBigInt) =
-        fun (x : bigint) -> uint32 (int x)
+        fun (x : bigint) -> uint32 x
 
     static member FromBigInt (_ : uint64, _ : FromBigInt) =
-        fun (x : bigint) -> uint64 (int64 x)
+        fun (x : bigint) -> uint64 x
 
     static member FromBigInt (_ : float32, _ : FromBigInt) =
         fun (x : bigint) -> float32 (int x)
@@ -246,10 +246,10 @@ type ToBigInt =
         x
 
     static member ToBigInt (x : uint32) =
-        bigint (int x)
+        bigint x
 
     static member ToBigInt (x : uint64) =
-        bigint (int64 x)
+        bigint x
 
     static member ToBigInt (x : double) =
         bigint x
