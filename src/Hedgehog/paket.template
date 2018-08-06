@@ -3,7 +3,7 @@ type
 id
     Hedgehog
 version
-	0.8.1.0
+	0.8.2.0
 description
     Hedgehog will eat all your bugs.
 authors

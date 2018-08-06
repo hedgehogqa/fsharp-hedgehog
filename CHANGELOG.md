@@ -1,3 +1,8 @@
+## Version 0.8.2 (2018-08-06)
+
+- Improve UInt32 and UInt64 value generation (avoid overflows) ([#173][173], [@jwChung][jwChung])
+- Improve DateTime value generation (include milliseconds) ([#165][165], [@jwChung][jwChung])
+
 ## Version 0.8.1 (2018-06-27)
 
 - Unicode generator no longer generates noncharacters '\65534' and '\65535' ([#163][163], [@jwChung][jwChung])
@@ -77,6 +82,10 @@
 [porges]:
   https://github.com/porges
 
+[173]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/173
+[165]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/165
 [163]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/163
 [161]:
