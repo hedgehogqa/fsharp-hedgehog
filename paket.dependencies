@@ -22,17 +22,6 @@ group Build
     // so it won't be updated automatically to a newer one by 'paket update'.
     nuget FSharp.Core >= 4.1.17 lowest_matching: true
 
-    // Similar reasoning applies here (this is used by the FSharpx collections
-    // below):
-
-    nuget System.Collections.Specialized >= 4.0.1 lowest_matching: true
-
-    // These files are imported directly into Hedgehog:
-
-    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/Collections.fs
-    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fsi
-    github fsprojects/FSharpx.Collections:e2722ce571f4926586ae907413b4a5511f0ef74e src/FSharpx.Collections/LazyList.fs
-
 group Test
 
     framework: netcore2.0

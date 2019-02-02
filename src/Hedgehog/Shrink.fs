@@ -1,42 +1,38 @@
 ﻿namespace Hedgehog
 
-open FSharpx.Collections
+module SeqExtra =
+    let cons (x : 'a) (xs : seq<'a>) : seq<'a> = 
+        seq {
+            yield x
+            yield! xs
+        }
 
-module LazyList =
-    let singleton (x : 'a) : LazyList<'a> =
-        LazyList.cons x LazyList.empty
-
-    let concatMap (f : 'a -> LazyList<'b>) (xs : LazyList<'a>) : LazyList<'b> =
-        LazyList.concat <|
-        LazyList.map f xs
-
-    let consNub (x : 'a) (ys0 : LazyList<'a>) : LazyList<'a> =
-        match ys0 with
-        | LazyList.Nil ->
-            singleton x
-        | LazyList.Cons (y, ys) ->
+    let consNub (x : 'a) (ys0 : seq<'a>) : seq<'a> =
+        match Seq.tryHead ys0 with
+        | None -> Seq.singleton x
+        | Some y ->
             if x = y then
-                LazyList.cons y ys
+                ys0
             else
-                LazyList.cons x <| LazyList.cons y ys
+                cons x ys0
+
 
 module Shrink =
     /// Produce all permutations of removing 'k' elements from a list.
-    let removes (k0 : int) (xs0 : List<'a>) : LazyList<List<'a>> =
-        let rec loop (k : int) (n : int) (xs : List<'a>) : LazyList<List<'a>> =
+    let removes (k0 : int) (xs0 : List<'a>) : seq<List<'a>> =
+        let rec loop (k : int) (n : int) (xs : List<'a>) : seq<List<'a>> =
             let hd = List.take k xs
             let tl = List.skip k xs
             if k > n then
-                LazyList.empty
+                Seq.empty
             elif List.isEmpty tl then
-                LazyList.singleton List.empty
+                Seq.singleton List.empty
             else
-                LazyList.consDelayed tl <| fun _ ->
-                    LazyList.map (fun x -> List.append hd x) (loop k (n - k) tl)
+                SeqExtra.cons tl (Seq.map (fun x -> List.append hd x) (loop k (n - k) tl))
         loop k0 (List.length xs0) xs0
 
     /// Produce a list containing the progressive halving of an integral.
-    let inline halves (n : ^a) : LazyList<'a> =
+    let inline halves (n : ^a) : seq<'a> =
         let go x =
             let zero : ^a = LanguagePrimitives.GenericZero
             if x = zero then
@@ -46,36 +42,36 @@ module Shrink =
                 let two : ^a = one + one
                 let x' = x / two
                 Some (x, x')
-        LazyList.unfold go n
+        Seq.unfold go n
 
     /// Shrink a list by edging towards the empty list.
     /// Note we always try the empty list first, as that is the optimal shrink.
-    let list (xs : List<'a>) : LazyList<List<'a>> =
-        LazyList.concatMap (fun k -> removes k xs) (halves <| List.length xs)
+    let list (xs : List<'a>) : seq<List<'a>> =
+        Seq.concat <| Seq.map (fun k -> removes k xs) (halves <| List.length xs)
 
     /// Shrink each of the elements in input list using the supplied shrinking
     /// function.
-    let rec elems (shrink : 'a -> LazyList<'a>) (xs00 : List<'a>) : LazyList<List<'a>> =
+    let rec elems (shrink : 'a -> seq<'a>) (xs00 : List<'a>) : seq<List<'a>> =
         match xs00 with
         | [] ->
-            LazyList.empty
+            Seq.empty
         | x0 :: xs0 ->
-            let ys = LazyList.map (fun x1 -> x1 :: xs0) (shrink x0)
-            let zs = LazyList.map (fun xs1 -> x0 :: xs1) (elems shrink xs0)
-            LazyList.append ys zs
+            let ys = Seq.map (fun x1 -> x1 :: xs0) (shrink x0)
+            let zs = Seq.map (fun xs1 -> x0 :: xs1) (elems shrink xs0)
+            Seq.append ys zs
 
     /// Turn a list of trees in to a tree of lists, using the supplied function to
     /// merge shrinking options.
-    let rec sequence (merge : List<Tree<'a>> -> LazyList<List<Tree<'a>>>) (xs : List<Tree<'a>>) : Tree<List<'a>> =
+    let rec sequence (merge : List<Tree<'a>> -> seq<List<Tree<'a>>>) (xs : List<Tree<'a>>) : Tree<List<'a>> =
         let y = List.map Tree.outcome xs
-        let ys = LazyList.map (sequence merge) (merge xs)
+        let ys = Seq.map (sequence merge) (merge xs)
         Node (y, ys)
 
     /// Turn a list of trees in to a tree of lists, opting to shrink both the list
     /// itself and the elements in the list during traversal.
     let sequenceList (xs0 : List<Tree<'a>>) : Tree<List<'a>> =
         sequence (fun xs ->
-            LazyList.append (list xs) (elems Tree.shrinks xs)) xs0
+            Seq.append (list xs) (elems Tree.shrinks xs)) xs0
 
     /// Turn a list of trees in to a tree of lists, opting to shrink only the
     /// elements of the list (i.e. the size of the list will always be the same).
@@ -84,9 +80,9 @@ module Shrink =
             elems Tree.shrinks xs) xs0
 
     /// Shrink an integral number by edging towards a destination.
-    let inline towards (destination : ^a) (x : ^a) : LazyList<'a> =
+    let inline towards (destination : ^a) (x : ^a) : seq<'a> =
         if destination = x then
-            LazyList.empty
+            Seq.empty
         else
             let one : ^a = LanguagePrimitives.GenericOne
             let two : ^a = one + one
@@ -95,14 +91,13 @@ module Shrink =
             /// the full range of the type (i.e. 'MinValue' and 'MaxValue' for 'Int32')
             let diff : ^a = (x / two) - (destination / two)
 
-            LazyList.consNub destination <|
-            LazyList.map (fun y -> x - y) (halves diff)
+            SeqExtra.consNub destination <| Seq.map (fun y -> x - y) (halves diff)
 
     /// Shrink a floating-point number by edging towards a destination.
     /// Note we always try the destination first, as that is the optimal shrink.
-    let towardsDouble (destination : double) (x : double) : LazyList<double> =
+    let towardsDouble (destination : double) (x : double) : seq<double> =
         if destination = x then
-            LazyList.empty
+            Seq.empty
         else
             let diff =
                 x - destination
@@ -113,5 +108,6 @@ module Shrink =
                     Some (x', n / 2.0)
                 else
                     None
-            LazyList.unfold go diff
+
+            Seq.unfold go diff
 

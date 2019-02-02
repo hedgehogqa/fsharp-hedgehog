@@ -1,16 +1,17 @@
 ﻿namespace Hedgehog
 
-open FSharpx.Collections
 open System
 
+[<Struct>]
 type Journal =
-    | Journal of LazyList<string>
+    | Journal of seq<unit -> string>
 
 type Result<'a> =
     | Failure
     | Discard
     | Success of 'a
 
+[<Struct>]
 type Property<'a> =
     | Property of Gen<Journal * Result<'a>>
 
@@ -39,23 +40,23 @@ module private Tuple =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Journal =
-    let ofList (xs : LazyList<string>) : Journal =
+    let ofList (xs : seq<unit -> string>) : Journal =
         Journal xs
 
     let toList (Journal xs : Journal) : List<string> =
-        LazyList.toList xs
+        Seq.toList <| Seq.map (fun f -> f ()) xs
 
     let empty : Journal =
-        LazyList.empty |> ofList
+        Seq.empty |> ofList
 
     let singleton (x : string) : Journal =
-        LazyList.singleton x |> ofList
+        Seq.singleton (fun () -> x) |> ofList
 
-    let delayedSingleton (x : unit -> string) : Journal =
-        LazyList.delayed (fun () -> LazyList.singleton (x ())) |> ofList
+    let delayedSingleton (delayedX : unit -> string) : Journal =
+        Seq.singleton delayedX |> ofList
 
     let append (Journal xs) (Journal ys) : Journal =
-        LazyList.append xs ys |> ofList
+        Seq.append xs ys |> ofList
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Result =
@@ -309,7 +310,7 @@ module Property =
             (nshrinks : int<shrinks>) : Status =
         match x with
         | Failure ->
-            match LazyList.tryFind (Result.isFailure << snd << Tree.outcome) xs with
+            match Seq.tryFind (Result.isFailure << snd << Tree.outcome) xs with
             | None ->
                 Failed (nshrinks, journal)
             | Some tree ->

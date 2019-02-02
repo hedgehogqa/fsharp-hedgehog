@@ -450,11 +450,7 @@ NUGET
       Microsoft.NETCore.Platforms (>= 1.1)
       Microsoft.NETCore.Targets (>= 1.1)
       System.Runtime (>= 4.3)
-GITHUB
-  remote: fsprojects/FSharpx.Collections
-    src/FSharpx.Collections/Collections.fs (e2722ce571f4926586ae907413b4a5511f0ef74e)
-    src/FSharpx.Collections/LazyList.fs (e2722ce571f4926586ae907413b4a5511f0ef74e)
-    src/FSharpx.Collections/LazyList.fsi (e2722ce571f4926586ae907413b4a5511f0ef74e)
+
 GROUP Test
 STORAGE: NONE
 RESTRICTION: == netcoreapp2.0

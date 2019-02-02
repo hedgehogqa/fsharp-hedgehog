@@ -7,18 +7,6 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Hedgehog.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\build\fsprojects\FSharpx.Collections\src\FSharpx.Collections\Collections.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/Collections.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\build\fsprojects\FSharpx.Collections\src\FSharpx.Collections\LazyList.fsi">
-      <Paket>True</Paket>
-      <Link>paket-files/LazyList.fsi</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\build\fsprojects\FSharpx.Collections\src\FSharpx.Collections\LazyList.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/LazyList.fs</Link>
-    </Compile>
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />

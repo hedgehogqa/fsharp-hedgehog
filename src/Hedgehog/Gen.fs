@@ -1,9 +1,10 @@
 ﻿namespace Hedgehog
 
-open FSharpx.Collections
+open System
 open Hedgehog.Numeric
 
 /// A generator for values and shrink trees of type 'a.
+[<Struct>]
 type Gen<'a> =
     | Gen of Random<Tree<'a>>
 
@@ -29,7 +30,7 @@ module Gen =
         Random.tryWith (toRandom m) (toRandom << k) |> ofRandom
 
     [<CompiledName("Create")>]
-    let create (shrink : 'a -> LazyList<'a>) (random : Random<'a>) : Gen<'a> =
+    let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
         Random.map (Tree.unfold id shrink) random |> ofRandom
 
     [<CompiledName("Constant")>]
@@ -149,18 +150,18 @@ module Gen =
     [<CompiledName("NoShrink")>]
     let noShrink (g : Gen<'a>) : Gen<'a> =
         let drop (Node (x, _)) =
-            Node (x, LazyList.empty)
+            Node (x, Seq.empty)
         mapTree drop g
 
     /// Apply an additional shrinker to all generated trees.
     [<CompiledName("ShrinkLazy")>]
-    let shrinkLazy (f : 'a -> LazyList<'a>) (g : Gen<'a>) : Gen<'a> =
+    let shrinkLazy (f : 'a -> seq<'a>) (g : Gen<'a>) : Gen<'a> =
         mapTree (Tree.expand f) g
 
     /// Apply an additional shrinker to all generated trees.
     [<CompiledName("Shrink")>]
     let shrink (f : 'a -> List<'a>) (g : Gen<'a>) : Gen<'a>  =
-        shrinkLazy (LazyList.ofList << f) g
+        shrinkLazy (Seq.ofList << f) g
 
     //
     // Combinators - Size

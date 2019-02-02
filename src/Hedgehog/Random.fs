@@ -3,6 +3,7 @@
 open Hedgehog.Numeric
 
 /// A generator for random values of type 'a
+[<Struct>]
 type Random<'a> =
     | Random of (Seed -> Size -> 'a)
 
