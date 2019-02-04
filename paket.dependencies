@@ -39,7 +39,8 @@ group Test
     storage: none
     source https://www.nuget.org/api/v2/
 
+	nuget BenchmarkDotNet 0.11.3
     nuget Unquote 4.0.0
-    nuget xunit.runner.console 2.3.1
-    nuget xunit.runner.visualstudio 2.3.1
-    nuget xunit 2.3.1
+    nuget xunit.runner.console 2.4.1
+    nuget xunit.runner.visualstudio 2.4.1
+    nuget xunit 2.4.1
