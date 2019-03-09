@@ -32,7 +32,6 @@ module Gen =
     let create (shrink : 'a -> LazyList<'a>) (random : Random<'a>) : Gen<'a> =
         Random.map (Tree.unfold id shrink) random |> ofRandom
 
-    [<CompiledName("Constant")>]
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
 
@@ -64,7 +63,6 @@ module Gen =
     let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
         mapRandom (Random.map f) g
 
-    [<CompiledName("Map")>]
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
         mapTree (Tree.map f) g
 
@@ -550,7 +548,12 @@ module GenOperators =
     let (<!>) = Gen.map
     let (<*>) = Gen.apply
 
+open System
+
 /// In C# friendly manner, a generator for values and shrink trees of type 'a
 type Gen =
     static member Bool = Gen.bool
     static member Int32(range : Range<int>) : Gen<int> = Gen.int range
+    static member Constant(x : 'a) : Gen<'a> = Gen.constant x
+    static member Map(f : Func<'a, 'b>) (g : Gen<'a>) : Gen<'b> =
+        Gen.map f.Invoke g
