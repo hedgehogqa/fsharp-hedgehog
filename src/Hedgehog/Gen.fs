@@ -398,7 +398,7 @@ module Gen =
     /// ('\000'..'\65535' excluding '\55296'..'\57343').
     [<CompiledName("Unicode")>]
     let unicode : Gen<char> =
-        let isNoncharacter x = 
+        let isNoncharacter x =
                x = Operators.char 65534
             || x = Operators.char 65535
         unicodeAll
@@ -428,7 +428,6 @@ module Gen =
     //
 
     /// Generates a random boolean.
-    [<CompiledName("Bool")>]
     let bool : Gen<bool> =
         item [false; true]
 
@@ -453,7 +452,6 @@ module Gen =
         integral range
 
     /// Generates a random signed 32-bit integer.
-    [<CompiledName("Int32")>]
     let int (range : Range<int>) : Gen<int> =
         integral range
 
@@ -551,3 +549,8 @@ module GenBuilder =
 module GenOperators =
     let (<!>) = Gen.map
     let (<*>) = Gen.apply
+
+/// In C# friendly manner, a generator for values and shrink trees of type 'a
+type Gen =
+    static member Bool = Gen.bool
+    static member Int32(range : Range<int>) : Gen<int> = Gen.int range
