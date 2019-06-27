@@ -122,7 +122,7 @@ module Range =
             fromBigInt (z + diff)
 
         /// Scale an integral exponentially with the size parameter.
-        let inline scaleExponential (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+        let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
             let sz =
                 clamp 0 99 sz0
 
@@ -135,7 +135,9 @@ module Range =
             let diff =
                  (((float (abs (n - z) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - z))
 
-            fromBigInt (bigint (round (float z + diff)))
+            bigint (round (float z + diff))
+            |> clamp (toBigInt lo) (toBigInt hi)
+            |> fromBigInt
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
@@ -174,9 +176,9 @@ module Range =
     let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let x_sized =
-                clamp x y (scaleExponential sz z x)
+                scaleExponential x y sz z x
             let y_sized =
-                clamp x y (scaleExponential sz z y)
+                scaleExponential x y sz z y
             x_sized, y_sized)
 
     /// Construct a range which scales the second bound exponentially relative

@@ -76,3 +76,17 @@ let ``uint32 doesn't return any out-of-range value`` () =
     let gen = Gen.uint32 <| Range.constant 1ul UInt32.MaxValue
     let actual = Gen.sample 0 100 gen
     test <@ actual |> List.contains 0ul |> not @>
+
+[<Fact>]
+let ``can create exponentially bounded int64`` () =
+    Property.check <| property {
+        let! _ = Gen.int64 (Range.exponentialBounded ())
+        return true
+    }
+
+[<Fact>]
+let ``can create exponentially bounded uint64`` () =
+    Property.check <| property {
+        let! _ = Gen.uint64 (Range.exponentialBounded ())
+        return true
+    }
