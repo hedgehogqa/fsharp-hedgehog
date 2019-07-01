@@ -44,6 +44,8 @@ You can then load the module in F# Interactive, and run it:
 
 More examples can be found in the [tutorial](doc/tutorial.md).
 
+👉 For auto-generators (à la AutoFixture) and other convenience generators, check out [fsharp-hedgehog-experimental](https://github.com/cmeeren/fsharp-hedgehog-experimental/).
+
 ## Building from source
 
 To build Hedgehog from source, you will need either the
