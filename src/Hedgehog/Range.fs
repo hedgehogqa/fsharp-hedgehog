@@ -135,9 +135,8 @@ module Range =
             let diff =
                  (((float (abs (n - z) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - z))
 
-            bigint (round (float z + diff))
-            |> clamp (toBigInt lo) (toBigInt hi)
-            |> fromBigInt
+            // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
+            fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float z + diff))))
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
@@ -175,10 +174,13 @@ module Range =
     [<CompiledName("ExponentialFrom")>]
     let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
+            let scale =
+                // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
+                scaleExponential x y sz z
             let x_sized =
-                scaleExponential x y sz z x
+                scale x
             let y_sized =
-                scaleExponential x y sz z y
+                scale y
             x_sized, y_sized)
 
     /// Construct a range which scales the second bound exponentially relative

@@ -65,14 +65,14 @@ let ``dateTime shrinks to correct mid-value`` () =
     System.DateTime (2000, 1, 1) =! result
 
 [<Fact>]
-let ``can create exponentially bounded int64`` () =
+let ``int64 can create exponentially bounded integer`` () =
     Property.check <| property {
         let! _ = Gen.int64 (Range.exponentialBounded ())
         return true
     }
 
 [<Fact>]
-let ``can create exponentially bounded uint64`` () =
+let ``uint64 can create exponentially bounded integer`` () =
     Property.check <| property {
         let! _ = Gen.uint64 (Range.exponentialBounded ())
         return true
