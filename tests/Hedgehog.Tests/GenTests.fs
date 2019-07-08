@@ -1,6 +1,5 @@
 ﻿module Hedgehog.Tests.GenTests
 
-open System
 open Hedgehog
 open Swensen.Unquote
 open Xunit
@@ -64,18 +63,6 @@ let ``dateTime shrinks to correct mid-value`` () =
         |> Array.item 1
         |> System.DateTime.Parse
     System.DateTime (2000, 1, 1) =! result
-
-[<Fact>]
-let ``uint64 doesn't return any out-of-range value`` () =
-    let gen = Gen.uint64 <| Range.constant 1UL UInt64.MaxValue
-    let actual = Gen.sample 0 100 gen
-    test <@ actual |> List.contains 0UL |> not @>
-
-[<Fact>]
-let ``uint32 doesn't return any out-of-range value`` () =
-    let gen = Gen.uint32 <| Range.constant 1ul UInt32.MaxValue
-    let actual = Gen.sample 0 100 gen
-    test <@ actual |> List.contains 0ul |> not @>
 
 [<Fact>]
 let ``can create exponentially bounded int64`` () =
