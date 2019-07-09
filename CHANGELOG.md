@@ -1,3 +1,7 @@
+## Version 0.8.3 (2019-07-09)
+
+- Improve Int64 value generation (avoid overflows) ([#186][186], [@marklam][marklam])
+
 ## Version 0.8.2 (2018-08-06)
 
 - Improve UInt32 and UInt64 value generation (avoid overflows) ([#173][173], [@jwChung][jwChung])
@@ -75,6 +79,8 @@
   https://github.com/jystic
 [jwChung]:
   https://github.com/jwChung
+[marklam]:
+  https://github.com/marklam
 [moodmosaic]:
   https://github.com/moodmosaic
 [ploeh]:
