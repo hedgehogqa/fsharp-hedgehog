@@ -52,3 +52,9 @@ paket-files
 
 # Visual Studio files
 .vs/
+
+# Visual Studio Code
+.ionide/
+
+# Rider(.NET IDE from JetBrains)
+.idea/
