@@ -2,9 +2,9 @@
 
 /// A rose tree which represents a random generated outcome, and all the ways
 /// in which it can be made smaller.
-type Tree<'a> = 
+type Tree<'a> =
     | Node of 'a * seq<Tree<'a>>
-    
+
 module Tree =
     /// The generated outcome.
     let outcome (Node (x, _) : Tree<'a>) : 'a =

@@ -2,8 +2,8 @@
 
 open System
 
-module SeqExtra =
-    let cons (x : 'a) (xs : seq<'a>) : seq<'a> = 
+module Seq =
+    let cons (x : 'a) (xs : seq<'a>) : seq<'a> =
         seq {
             yield x
             yield! xs
@@ -23,15 +23,15 @@ module Shrink =
     /// Produce all permutations of removing 'k' elements from a list.
     let removes (k0 : int) (xs0 : List<'a>) : seq<List<'a>> =
         let rec loop (k : int) (n : int) (xs : List<'a>) : seq<List<'a>> =
-            let k' = Math.Min(k, xs.Length)
-            let hd = List.take k' xs
-            let tl = List.skip k' xs
+            let k1 = Math.Min(k, xs.Length)
+            let hd = List.take k1 xs
+            let tl = List.skip k1 xs
             if k > n then
                 Seq.empty
             elif List.isEmpty tl then
                 Seq.singleton List.empty
             else
-                SeqExtra.cons tl (Seq.map (fun x -> List.append hd x) (loop k (n - k) tl))
+                Seq.cons tl (Seq.map (fun x -> List.append hd x) (loop k (n - k) tl))
         loop k0 (List.length xs0) xs0
 
     /// Produce a list containing the progressive halving of an integral.
@@ -94,7 +94,7 @@ module Shrink =
             /// the full range of the type (i.e. 'MinValue' and 'MaxValue' for 'Int32')
             let diff : ^a = (x / two) - (destination / two)
 
-            SeqExtra.consNub destination <| Seq.map (fun y -> x - y) (halves diff)
+            Seq.consNub destination <| Seq.map (fun y -> x - y) (halves diff)
 
     /// Shrink a floating-point number by edging towards a destination.
     /// Note we always try the destination first, as that is the optimal shrink.

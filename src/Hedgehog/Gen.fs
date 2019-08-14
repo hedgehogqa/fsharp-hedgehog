@@ -399,7 +399,7 @@ module Gen =
     /// ('\000'..'\65535' excluding '\55296'..'\57343').
     [<CompiledName("Unicode")>]
     let unicode : Gen<char> =
-        let isNoncharacter x = 
+        let isNoncharacter x =
                x = Operators.char 65534
             || x = Operators.char 65535
         unicodeAll

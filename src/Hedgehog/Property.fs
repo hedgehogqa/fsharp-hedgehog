@@ -52,8 +52,8 @@ module Journal =
     let singleton (x : string) : Journal =
         Seq.singleton (fun () -> x) |> ofList
 
-    let delayedSingleton (delayedX : unit -> string) : Journal =
-        Seq.singleton delayedX |> ofList
+    let delayedSingleton (x : unit -> string) : Journal =
+        Seq.singleton x |> ofList
 
     let append (Journal xs) (Journal ys) : Journal =
         Seq.append xs ys |> ofList
