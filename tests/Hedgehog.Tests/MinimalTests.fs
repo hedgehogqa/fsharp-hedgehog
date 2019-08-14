@@ -83,6 +83,3 @@ let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
                 return false
             }
     }
-
-[<EntryPoint>]
-let main _ = raise <| System.Exception "Not for use, see: https://github.com/Microsoft/visualfsharp/issues/3680#issuecomment-363698804"

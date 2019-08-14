@@ -1,6 +1,5 @@
 ﻿module Hedgehog.Tests.ShrinkTests
 
-open FSharpx.Collections
 open Hedgehog
 open Swensen.Unquote
 open Xunit
@@ -10,58 +9,58 @@ let ``removes permutes a list by removing 'k' consecutive elements from it``() =
     let actual = Shrink.removes 2 [ 1; 2; 3; 4; 5; 6 ]
 
     let expected =
-        LazyList.ofList [ [ 3; 4; 5; 6 ]
-                          [ 1; 2; 5; 6 ]
-                          [ 1; 2; 3; 4 ] ]
+        Seq.ofList [ [ 3; 4; 5; 6 ]
+                     [ 1; 2; 5; 6 ]
+                     [ 1; 2; 3; 4 ] ]
     // http://stackoverflow.com/a/17101488
     test <@ Seq.fold (&&) true (Seq.zip expected actual |> Seq.map (fun (a, b) -> a = b)) @>
 
 [<Fact>]
 let ``removes produces all permutations of removing 'k' elements from a list - example 1`` () =
     let actual =
-        LazyList.toList <| Shrink.removes 2 [1; 2; 3; 4; 5; 6]
+        Seq.toList <| Shrink.removes 2 [1; 2; 3; 4; 5; 6]
     [[3; 4; 5; 6]; [1; 2; 5; 6]; [1; 2; 3; 4]] =! actual
 
 [<Fact>]
 let ``removes produces all permutations of removing 'k' elements from a list - example 2`` () =
     let actual =
-        LazyList.toList <| Shrink.removes 3 [1; 2; 3; 4; 5; 6]
+        Seq.toList <| Shrink.removes 3 [1; 2; 3; 4; 5; 6]
     [[4; 5; 6]; [1; 2; 3]] =! actual
 
 [<Fact>]
 let ``removes produces all permutations of removing 'k' elements from a list - example 3`` () =
     let actual =
-        LazyList.toList <| Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
+        Seq.toList <| Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
     [["c"; "d"; "e"; "f"]; ["a"; "b"; "e"; "f"]; ["a"; "b"; "c"; "d"]] =! actual
 
 [<Fact>]
 let ``halves produces a list containing the progressive halving of an integral - example 1`` () =
     let actual =
-        LazyList.toList <| Shrink.halves 15
+        Seq.toList <| Shrink.halves 15
     [15; 7; 3; 1] =! actual
 
 [<Fact>]
 let ``halves produces a list containing the progressive halving of an integral - example 2`` () =
     let actual =
-        LazyList.toList <| Shrink.halves 100
+        Seq.toList <| Shrink.halves 100
     [100; 50; 25; 12; 6; 3; 1] =! actual
 
 [<Fact>]
 let ``halves produces a list containing the progressive halving of an integral - example 3`` () =
     let actual =
-        LazyList.toList <| Shrink.halves -26
+        Seq.toList <| Shrink.halves -26
     [-26; -13; -6; -3; -1] =! actual
 
 [<Fact>]
 let ``list shrinks a list by edging towards the empty list - example 1`` () =
     let actual =
-        LazyList.toList <| Shrink.list [1; 2; 3]
+        Seq.toList <| Shrink.list [1; 2; 3]
     [[]; [2; 3]; [1; 3]; [1; 2]] =! actual
 
 [<Fact>]
 let ``list shrinks a list by edging towards the empty list - example 2`` () =
     let actual =
-        LazyList.toList <| Shrink.list ["a"; "b"; "c"; "d"]
+        Seq.toList <| Shrink.list ["a"; "b"; "c"; "d"]
     [ []
       [ "c"; "d" ]
       [ "a"; "b" ]
@@ -74,31 +73,31 @@ let ``list shrinks a list by edging towards the empty list - example 2`` () =
 [<Fact>]
 let ``towards shrinks an integral number by edging towards a destination - exmaple 1`` () =
     let actual =
-        LazyList.toList <| Shrink.towards 0 100
+        Seq.toList <| Shrink.towards 0 100
     [0; 50; 75; 88; 94; 97; 99] =! actual
 
 [<Fact>]
 let ``towards shrinks an integral number by edging towards a destination - exmaple 2`` () =
     let actual =
-        LazyList.toList <| Shrink.towards 500 1000
+        Seq.toList <| Shrink.towards 500 1000
     [500; 750; 875; 938; 969; 985; 993; 997; 999] =! actual
 
 [<Fact>]
 let ``towards shrinks an integral number by edging towards a destination - exmaple 3`` () =
     let actual =
-        LazyList.toList <| Shrink.towards -50 -26
+        Seq.toList <| Shrink.towards -50 -26
     [-50; -38; -32; -29; -27] =! actual
 
 [<Fact>]
 let ``towardsDouble shrinks a floating-point number by edging towards a destination - example 1`` () =
     let actual =
-        List.take 7 << LazyList.toList <| Shrink.towardsDouble 0.0 100.0
+        Seq.toList << Seq.take 7 <| Shrink.towardsDouble 0.0 100.0
     [0.0; 50.0; 75.0; 87.5; 93.75; 96.875; 98.4375] =! actual
 
 [<Fact>]
 let ``towardsDouble shrinks a floating-point number by edging towards a destination - example 2`` () =
     let actual =
-        List.take 7 << LazyList.toList <| Shrink.towardsDouble 1.0 0.5
+        Seq.toList << Seq.take 7 <| Shrink.towardsDouble 1.0 0.5
     [1.0; 0.75; 0.625; 0.5625; 0.53125; 0.515625; 0.5078125] =! actual
 
 [<Theory>]
@@ -116,7 +115,7 @@ let ``towardsDouble shrinks a floating-point number by edging towards a destinat
 [<InlineData( 8192)>]
 [<InlineData(10240)>]
 let ``halves Produces a list containing the results of halving a number`` n =
-    let actual = Shrink.halves n |> LazyList.toList
+    let actual = Shrink.halves n |> Seq.toList
 
     let expected =
         n |> List.unfold (fun x ->
@@ -136,7 +135,7 @@ let ``halves Produces a list containing the results of halving a number`` n =
 [<InlineData(1024)>]
 let ``list produces a smaller permutation of the input list`` n =
     let xs = [ 1 .. n ]
-    let actual = Shrink.list xs |> LazyList.toList
+    let actual = Shrink.list xs |> Seq.toList
     test <@ actual |> List.forall (fun xs' -> xs.Length > xs'.Length) @>
 
 [<Theory>]
@@ -153,12 +152,12 @@ let ``elems shrinks each element in input list using a supplied shrinker`` n =
     let shrinker =
         fun x ->
             test <@ List.contains x xs @>
-            LazyList.singleton x
+            Seq.singleton x
 
     let actual =
         xs
         |> Shrink.elems shrinker
-        |> LazyList.toList
+        |> Seq.toList
 
     let expected =
         seq {
@@ -179,7 +178,7 @@ let ``towards shrinks by edging towards a destination number`` x0 destination =
     let actual =
         x0
         |> Shrink.towards destination
-        |> LazyList.toList
+        |> Seq.toList
     test <@ actual |> List.forall (fun x1 -> x1 < x0 && x1 >= destination) @>
 
 [<Theory>]
@@ -190,7 +189,7 @@ let ``towards returns empty list when run out of shrinks`` x0 destination =
     let actual =
         x0
         |> Shrink.towards destination
-        |> LazyList.toList
+        |> Seq.toList
     test <@ actual |> List.isEmpty @>
 
 [<Theory>]
@@ -205,7 +204,7 @@ let ``towardsDouble shrinks by edging towards a destination number`` x0 destinat
     let actual =
         x0
         |> Shrink.towardsDouble destination
-        |> LazyList.toList
+        |> Seq.toList
     test <@ actual |> List.forall (fun x1 -> x1 < x0 && x1 >= destination) @>
 
 [<Theory>]
@@ -216,5 +215,5 @@ let ``towardsDouble returns empty list when run out of shrinks`` x0 destination 
     let actual =
         x0
         |> Shrink.towards destination
-        |> LazyList.toList
+        |> Seq.toList
     test <@ actual |> List.isEmpty @>
