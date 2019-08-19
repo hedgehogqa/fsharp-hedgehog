@@ -23,9 +23,8 @@ module Shrink =
     /// Produce all permutations of removing 'k' elements from a list.
     let removes (k0 : int) (xs0 : List<'a>) : seq<List<'a>> =
         let rec loop (k : int) (n : int) (xs : List<'a>) : seq<List<'a>> =
-            let k1 = Math.Min(k, xs.Length)
-            let hd = List.take k1 xs
-            let tl = List.skip k1 xs
+            let hd = List.take k xs
+            let tl = List.skip k xs
             if k > n then
                 Seq.empty
             elif List.isEmpty tl then
