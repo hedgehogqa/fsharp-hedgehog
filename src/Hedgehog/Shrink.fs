@@ -23,14 +23,15 @@ module Shrink =
     /// Produce all permutations of removing 'k' elements from a list.
     let removes (k0 : int) (xs0 : List<'a>) : seq<List<'a>> =
         let rec loop (k : int) (n : int) (xs : List<'a>) : seq<List<'a>> =
-            let hd = List.take k xs
-            let tl = List.skip k xs
             if k > n then
                 Seq.empty
-            elif List.isEmpty tl then
-                Seq.singleton List.empty
             else
-                Seq.cons tl (Seq.map (fun x -> List.append hd x) (loop k (n - k) tl))
+              let tl = List.skip k xs
+              if List.isEmpty tl then
+                  Seq.singleton List.empty
+              else
+                  let hd = List.take k xs
+                  Seq.cons tl (Seq.map (fun x -> List.append hd x) (loop k (n - k) tl))
         loop k0 (List.length xs0) xs0
 
     /// Produce a list containing the progressive halving of an integral.
