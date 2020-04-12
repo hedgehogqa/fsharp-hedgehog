@@ -56,8 +56,10 @@ type MinValue =
     static member MinValue (_ : DateTimeOffset, _ : MinValue) =
         DateTimeOffset.MinValue
 
+#if !FABLE_COMPILER
     static member MinValue (_ : TimeSpan, _ : MinValue) =
         TimeSpan.MinValue
+#endif
 
     static member inline Invoke () =
         let inline call_2 (a : ^a, b : ^b) =
@@ -136,8 +138,10 @@ type MaxValue =
     static member MaxValue (_ : DateTimeOffset, _ : MaxValue) =
         DateTimeOffset.MaxValue
 
+#if !FABLE_COMPILER
     static member MaxValue (_ : TimeSpan, _ : MaxValue) =
         TimeSpan.MaxValue
+#endif
 
     static member inline Invoke () =
         let inline call_2 (a : ^a, b : ^b) =
@@ -174,11 +178,13 @@ type FromBigInt =
     static member FromBigInt (_ : int64, _ : FromBigInt) =
         fun (x : bigint) -> int64 x
 
+#if !FABLE_COMPILER
     static member FromBigInt (_ : nativeint , _ : FromBigInt) =
         fun (x : bigint) -> nativeint (int x)
 
     static member FromBigInt (_ : unativeint, _ : FromBigInt) =
         fun (x : bigint) -> unativeint (int x)
+#endif
 
     static member FromBigInt (_ : bigint, _ : FromBigInt) =
         fun (x : bigint) -> x
@@ -230,8 +236,10 @@ type ToBigInt =
     static member ToBigInt (x : int64) =
         bigint x
 
+#if !FABLE_COMPILER
     static member ToBigInt (x : nativeint) =
         bigint (int x)
+#endif
 
     static member ToBigInt (x : byte) =
         bigint (int x)
@@ -239,8 +247,10 @@ type ToBigInt =
     static member ToBigInt (x : uint16) =
         bigint (int x)
 
+#if !FABLE_COMPILER
     static member ToBigInt (x : unativeint) =
         bigint (int x)
+#endif
 
     static member ToBigInt (x : bigint) =
         x
