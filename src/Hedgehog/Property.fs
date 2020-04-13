@@ -302,9 +302,7 @@ module Property =
             bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
-#if FABLE_COMPILER
-    [<CompiledName("ForAll_")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("ForAll")>]
 
 #endif    
@@ -330,9 +328,7 @@ module Property =
         | Success _ ->
             OK
 
-#if FABLE_COMPILER
-    [<CompiledName("Report_")>]
-#else    
+#if !FABLE_COMPILER
     [<CompiledName("Report")>]
 #endif    
     let report' (n : int<tests>) (p : Property<unit>) : Report =
@@ -374,9 +370,7 @@ module Property =
     let report (p : Property<unit>) : Report =
         report' 100<tests> p
 
-#if FABLE_COMPILER
-    [<CompiledName("Check_")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
 #endif    
     let check' (n : int<tests>) (p : Property<unit>) : unit =
@@ -389,18 +383,14 @@ module Property =
         |> Report.tryRaise
 
     // Overload for ease-of-use from C#
-#if FABLE_COMPILER
-    [<CompiledName("CheckIsTrue")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
 #endif    
     let checkBool (g : Property<bool>) : unit =
         bind g ofBool |> check
 
     // Overload for ease-of-use from C#
-#if FABLE_COMPILER
-    [<CompiledName("CheckIsTrue_")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
 #endif    
     let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
@@ -415,9 +405,7 @@ module Property =
         with
         | _ -> failure
 
-#if FABLE_COMPILER
-    [<CompiledName("Print_")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("Print")>]
 #endif    
     let print' (n : int<tests>) (p : Property<unit>) : unit =

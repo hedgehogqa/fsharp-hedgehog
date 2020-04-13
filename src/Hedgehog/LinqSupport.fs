@@ -48,9 +48,7 @@ module PropertyLinqSupport =
 
     // This supports simple assertions in `select`:
     [<Extension>]
-#if FABLE_COMPILER
-    [<CompiledName("SelectUnit")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("Select")>]
 #endif    
     let selectUnit (p : Property<'a>) (f : Action<'a>) : Property<unit> =
@@ -58,9 +56,7 @@ module PropertyLinqSupport =
 
     // This supports assertions as `select`:
     [<Extension>]
-#if FABLE_COMPILER
-    [<CompiledName("SelectManyUnit")>]
-#else
+#if !FABLE_COMPILER
     [<CompiledName("SelectMany")>]
 #endif    
     let bind2Unit (pa : Property<'a>) (f : Func<'a, Property<'b>>) (proj : Action<'a, 'b>) : Property<unit> =
