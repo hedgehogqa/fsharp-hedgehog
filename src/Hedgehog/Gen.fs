@@ -2,6 +2,9 @@
 
 open System
 open Hedgehog.Numeric
+#if FABLE_COMPILER
+open FableExtensions
+#endif
 
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
@@ -137,22 +140,12 @@ module Gen =
             g
         member __.Bind(m, k) =
             bind m k
-#if FABLE_COMPILER
-        member __.For(xs, k) =
-            let enumerate xs =
-                use xse = (xs :> seq<'a>).GetEnumerator ()
-                let mv = xse.MoveNext
-                let kc = delay (fun () -> k xse.Current)
-                loop mv kc
-            enumerate xs
-#else                
         member __.For(xs, k) =
             let xse = (xs :> seq<'a>).GetEnumerator ()
             using xse <| fun xse ->
                 let mv = xse.MoveNext
                 let kc = delay (fun () -> k xse.Current)
                 loop mv kc
-#endif                
         member __.Combine(m, n) =
             bind m (fun () -> n)
         member __.Delay(f) =
