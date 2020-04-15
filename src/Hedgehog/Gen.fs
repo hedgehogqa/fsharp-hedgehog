@@ -2,9 +2,6 @@
 
 open System
 open Hedgehog.Numeric
-#if FABLE_COMPILER
-open FableExtensions
-#endif
 
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]

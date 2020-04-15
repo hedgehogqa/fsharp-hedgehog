@@ -151,12 +151,7 @@ module private Pretty =
 
         List.iter (append sb) (Journal.toList journal)
 
-#if FABLE_COMPILER
-        let str = sb.ToString()
-        str.Substring(0, str.Length-1) // exclude extra newline
-#else
-        sb.ToString(0, sb.Length - 1) // exclude extra newline
-#endif        
+        sb.ToString(0, sb.Length-1) // exclude extra newline
 
 [<AbstractClass>]
 type HedgehogException (message : string) =
