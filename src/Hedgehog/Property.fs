@@ -299,7 +299,6 @@ module Property =
 
 #if !FABLE_COMPILER
     [<CompiledName("ForAll")>]
-
 #endif    
     let forAll' (gen : Gen<'a>) : Property<'a> =
         forAll gen success
