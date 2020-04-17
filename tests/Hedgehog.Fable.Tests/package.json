@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "fable-splitter -o build --commonjs"
+  },
+  "dependencies": {
+    "@babel/core": "^7.8.7",
+    "fable-compiler": "^2.4.18",
+    "fable-loader": "^2.1.8",
+    "fable-splitter": "^2.1.12"
+  }
+}
