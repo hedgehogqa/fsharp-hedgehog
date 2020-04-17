@@ -297,7 +297,9 @@ module Property =
             bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
+#if !FABLE_COMPILER
     [<CompiledName("ForAll")>]
+#endif    
     let forAll' (gen : Gen<'a>) : Property<'a> =
         forAll gen success
 
@@ -320,7 +322,9 @@ module Property =
         | Success _ ->
             OK
 
+#if !FABLE_COMPILER
     [<CompiledName("Report")>]
+#endif    
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
@@ -360,7 +364,9 @@ module Property =
     let report (p : Property<unit>) : Report =
         report' 100<tests> p
 
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
+#endif    
     let check' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.tryRaise
@@ -371,12 +377,16 @@ module Property =
         |> Report.tryRaise
 
     // Overload for ease-of-use from C#
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
+#endif    
     let checkBool (g : Property<bool>) : unit =
         bind g ofBool |> check
 
     // Overload for ease-of-use from C#
+#if !FABLE_COMPILER
     [<CompiledName("Check")>]
+#endif    
     let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
         bind g ofBool |> check' n
 
@@ -389,7 +399,9 @@ module Property =
         with
         | _ -> failure
 
+#if !FABLE_COMPILER
     [<CompiledName("Print")>]
+#endif    
     let print' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.render

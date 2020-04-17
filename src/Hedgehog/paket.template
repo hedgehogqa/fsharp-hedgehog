@@ -20,3 +20,6 @@ iconUrl
     https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png
 tags
     fsharp, f#, testing
+files
+    *.fsproj ==> fable/
+    **/*.fs ==> fable/

@@ -69,20 +69,26 @@ module Gen =
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
         mapTree (Tree.map f) g
 
+#if !FABLE_COMPILER
     [<CompiledName("Map")>]
+#endif    
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
         bind gx <| fun x ->
         bind gy <| fun y ->
         constant (f x y)
 
+#if !FABLE_COMPILER
     [<CompiledName("Map")>]
+#endif    
     let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
         bind gx <| fun x ->
         bind gy <| fun y ->
         bind gz <| fun z ->
         constant (f x y z)
 
+#if !FABLE_COMPILER
     [<CompiledName("Map")>]
+#endif    
     let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
         bind gx <| fun x ->
         bind gy <| fun y ->
@@ -94,11 +100,15 @@ module Gen =
     let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
         map2 (fun x y -> x, y) gx gy
 
+#if !FABLE_COMPILER
     [<CompiledName("Zip")>]
+#endif    
     let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
         map3 (fun x y z -> x, y, z) gx gy gz
 
+#if !FABLE_COMPILER
     [<CompiledName("Zip")>]
+#endif    
     let zip4 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
         map4 (fun x y z w -> x, y, z, w) gx gy gz gw
 
