@@ -1,7 +1,11 @@
 [<AutoOpen>]
 module Hedgehog.Fable.Tests.TestHelpers
 
+#if FABLE
 open Fable.Mocha
+#else
+open Expecto
+#endif
 
 let nameWithData name data = sprintf "%s: (%A)" name data
 

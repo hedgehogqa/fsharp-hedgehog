@@ -4,6 +4,7 @@
     "build": "fable-splitter . -o tests-js --commonjs",
     "pretest": "fable-splitter . -o tests-js --commonjs",
     "test": "mocha tests-js --timeout 10000",
+    "dotnet-expecto": "msbuild && .\\bin\\Debug\\netcoreapp3.1\\Hedgehog.Fable.Tests.exe --summary",
     "prestart": "webpack",
     "start": "webpack-dev-server"
   },

@@ -1,6 +1,11 @@
 module Hedgehog.Fable.Tests.Main
 
+#if FABLE
 open Fable.Mocha
+#else
+open Expecto
+#endif
+
 open Hedgehog
 
 let smokeTests = testList "Smoke tests" [
@@ -22,4 +27,9 @@ let allTests = testList "All tests" [
 ]
 
 [<EntryPoint>]
-let main (args: string[]) = Mocha.runTests allTests
+let main (args: string[]) = 
+#if FABLE
+    Mocha.runTests allTests
+#else
+    runTestsWithArgs defaultConfig args allTests
+#endif
