@@ -3,7 +3,9 @@
   "scripts": {
     "build": "fable-splitter . -o tests-js --commonjs",
     "pretest": "fable-splitter . -o tests-js --commonjs",
-    "test": "mocha tests-js --timeout 5000"
+    "test": "mocha tests-js --timeout 5000",
+    "prestart": "webpack",
+    "start": "webpack-dev-server"
   },
   "dependencies": {
     "fable-compiler": "^2.4.7",
@@ -15,6 +17,7 @@
     "webpack-dev-server": "^3.4.1"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
     "mocha": "^7.1.1"
   }
 }
