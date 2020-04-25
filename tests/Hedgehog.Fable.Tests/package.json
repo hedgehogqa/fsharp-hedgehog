@@ -3,7 +3,7 @@
   "scripts": {
     "build": "fable-splitter . -o tests-js --commonjs",
     "pretest": "fable-splitter . -o tests-js --commonjs",
-    "test": "mocha tests-js --timeout 5000",
+    "test": "mocha tests-js --timeout 10000",
     "prestart": "webpack",
     "start": "webpack-dev-server"
   },
