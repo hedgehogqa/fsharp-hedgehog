@@ -6,7 +6,7 @@
     "test:live": "webpack-dev-server --config ./webpack.tests.js",
     "build:test": "webpack --config webpack.tests.js",
     "pretest": "fable-splitter --config splitter.tests.js",
-    "test": "mocha ./tests-js"
+    "test": "mocha ./tests-js --timeout 10000"
   },
   "dependencies": {
     "react": "^16.13.1",
