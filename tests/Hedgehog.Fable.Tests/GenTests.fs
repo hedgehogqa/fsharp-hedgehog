@@ -1,25 +1,9 @@
-module GenTests
+module Hedgehog.Fable.Tests.GenTests
 
-open Fable.Mocha
+open MochaXUnitAdapter
 open Hedgehog
 
-let theory name testData testFun =
-    [ for data in testData do
-        testCase name <| fun _ ->
-            testFun data ]
-
-let ptheory name testData testFun =
-    [ for data in testData do
-        ptestCase name <| fun _ ->
-            testFun data ]
-
-let fact name testFun = [ testCase name testFun ]
-let pfact name testFun = [ ptestCase name testFun ]
-let xunitTests name tests = testList name (List.concat tests)
-
-let inline (=!) actual expected = Expect.equal expected actual "Should be equal"
-
-let allTests = xunitTests "Gen tests" [
+let genTests = xunitTests "Gen tests" [
     theory "dateTime creates System.DateTime instances" 
             [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
             let actual = Gen.dateTime |> Gen.sample 0 count

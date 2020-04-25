@@ -3,11 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GenTests.fs" />
-    <Compile Include="Program.fs" />
+    <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />
+    <Compile Include="Mocha.XUnit.fs" />
+    <Compile Include="RangeTests.fs" />
+    <Compile Include="GenTests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fable.Core" Version="3.1.5" />

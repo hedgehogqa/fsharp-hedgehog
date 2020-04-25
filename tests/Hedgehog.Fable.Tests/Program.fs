@@ -1,4 +1,4 @@
-module Tests
+module Hedgehog.Fable.Tests.Main
 
 open Fable.Mocha
 open Hedgehog
@@ -14,7 +14,8 @@ let smokeTests = testList "Smoke tests" [
 
 let allTests = testList "All tests" [
     smokeTests
-    GenTests.allTests
+    RangeTests.rangeTests
+    GenTests.genTests
 ]
 
 [<EntryPoint>]
