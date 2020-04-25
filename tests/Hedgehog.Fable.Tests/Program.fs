@@ -18,6 +18,7 @@ let allTests = testList "All tests" [
     GenTests.genTests
     SeedTests.seedTests
     ShrinkTests.shrinkTests
+    MinimalTests.minimalTests
 ]
 
 [<EntryPoint>]
