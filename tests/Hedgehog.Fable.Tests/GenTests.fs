@@ -11,11 +11,11 @@ let genTests = xunitTests "Gen tests" [
             |> List.length
             =! actual.Length
     
-    pfact "unicode doesn't return any surrogate" <| fun _ ->
+    fact "unicode doesn't return any surrogate" <| fun _ ->
         let actual = Gen.sample 100 100000 Gen.unicode 
         [] =! List.filter System.Char.IsSurrogate actual
 
-    ptheory "unicode doesn't return any noncharacter" 
+    theory "unicode doesn't return any noncharacter" 
             [ 65534; 65535 ] <| fun nonchar ->
             let isNoncharacter = (=) <| Operators.char nonchar
             let actual = Gen.sample 100 100000 Gen.unicode
@@ -51,13 +51,13 @@ let genTests = xunitTests "Gen tests" [
             |> System.DateTime.Parse
         System.DateTime (2000, 1, 1) =! result
 
-    fact "int64 can create exponentially bounded integer" <| fun _ ->
+    pfact "int64 can create exponentially bounded integer" <| fun _ ->
         Property.check <| property {
             let! _ = Gen.int64 (Range.exponentialBounded ())
             return true
         }
 
-    fact "uint64 can create exponentially bounded integer" <| fun _ ->
+    pfact "uint64 can create exponentially bounded integer" <| fun _ ->
         Property.check <| property {
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
@@ -69,7 +69,7 @@ let genTests = xunitTests "Gen tests" [
             return true
         }
 
-    fact "uint32 can create exponentially bounded integer" <| fun _ ->
+    pfact "uint32 can create exponentially bounded integer" <| fun _ ->
         Property.check <| property {
             let! _ = Gen.uint32 (Range.exponentialBounded ())
             return true
