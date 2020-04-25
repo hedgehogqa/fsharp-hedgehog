@@ -66,3 +66,5 @@ paket-files
 node_modules/
 .fable/
 build/
+
+tests/Hedgehog.Fable.Tests/tests-js/
