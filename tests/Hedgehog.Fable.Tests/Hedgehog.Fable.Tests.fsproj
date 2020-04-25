@@ -6,9 +6,11 @@
     <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocha.XUnit.fs" />
+    <Compile Include="TestHelpers.fs" />
     <Compile Include="RangeTests.fs" />
     <Compile Include="GenTests.fs" />
+    <Compile Include="SeedTests.fs" />
+    <Compile Include="ShrinkTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

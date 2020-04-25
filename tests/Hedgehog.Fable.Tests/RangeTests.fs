@@ -1,7 +1,6 @@
 module Hedgehog.Fable.Tests.RangeTests
 
 open System
-open MochaXUnitAdapter
 open Hedgehog
 
 let rangeTests = xunitTests "Range tests" [

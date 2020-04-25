@@ -1,4 +1,5 @@
-module Hedgehog.Fable.Tests.MochaXUnitAdapter
+[<AutoOpen>]
+module Hedgehog.Fable.Tests.TestHelpers
 
 open Fable.Mocha
 
@@ -19,3 +20,7 @@ let pfact name testFun = [ ptestCase name testFun ]
 let xunitTests name tests = testList name (List.concat tests)
 
 let inline (=!) actual expected = Expect.equal expected actual "Should be equal"
+
+[<RequireQualifiedAccess>]
+module Expect =
+    let inline isTrue value = Expect.isTrue value "Should be true"

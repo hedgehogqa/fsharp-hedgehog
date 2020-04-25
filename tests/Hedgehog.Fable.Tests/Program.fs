@@ -16,6 +16,8 @@ let allTests = testList "All tests" [
     smokeTests
     RangeTests.rangeTests
     GenTests.genTests
+    SeedTests.seedTests
+    ShrinkTests.shrinkTests
 ]
 
 [<EntryPoint>]

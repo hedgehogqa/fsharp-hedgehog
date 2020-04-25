@@ -1,6 +1,5 @@
 module Hedgehog.Fable.Tests.GenTests
 
-open MochaXUnitAdapter
 open Hedgehog
 
 let genTests = xunitTests "Gen tests" [
