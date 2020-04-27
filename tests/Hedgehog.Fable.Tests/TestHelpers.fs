@@ -1,7 +1,7 @@
 [<AutoOpen>]
 module Hedgehog.Fable.Tests.TestHelpers
 
-#if FABLE
+#if FABLE_COMPILER
 open Fable.Mocha
 #else
 open Expecto

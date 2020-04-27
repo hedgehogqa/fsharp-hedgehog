@@ -1,6 +1,6 @@
 module Hedgehog.Fable.Tests.Main
 
-#if FABLE
+#if FABLE_COMPILER
 open Fable.Mocha
 #else
 open Expecto
@@ -28,7 +28,7 @@ let allTests = testList "All tests" [
 
 [<EntryPoint>]
 let main (args: string[]) = 
-#if FABLE
+#if FABLE_COMPILER
     Mocha.runTests allTests
 #else
     runTestsWithArgs defaultConfig args allTests
