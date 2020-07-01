@@ -16,9 +16,9 @@
     <Compile Include="Gen.fs" />
     <Compile Include="Property.fs" />
     <Compile Include="LinqSupport.fs" />
-    <None Include="paket.references" />
-    <None Include="paket.template" />
     <None Include="Script.fsx" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.1.17" />
+  </ItemGroup>
 </Project>

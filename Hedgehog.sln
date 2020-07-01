@@ -4,7 +4,6 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{76532829-C6DB-48F1-ABA8-835E3B718023}"
 	ProjectSection(SolutionItems) = preProject
-		paket.dependencies = paket.dependencies
 		README.md = README.md
 	EndProjectSection
 EndProject
