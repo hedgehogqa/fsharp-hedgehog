@@ -1,7 +1,6 @@
 module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
-open Swensen.Unquote
 open Xunit
 
 type Exp =
@@ -61,27 +60,6 @@ let rec genExp : Gen<Exp> =
         Lam <!> Gen.zip genName genExp
         App <!> Gen.zip genExp genExp
     ]
-
-let isDefaultGen g =
-  let f =
-    match g with
-    | Gen (Random f) -> f
-  obj.ReferenceEquals(f, null)
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``isDefaultGen returns true for default value of Gen<Exp>``() =
-    test <@ Unchecked.defaultof<Gen<Exp>> |> isDefaultGen @>
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``isDefaultGen returns false for constant Gen<Exp> Lit 0``() =
-    test <@ 0 |> Lit |> Gen.constant |> isDefaultGen |> not @>
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``genExp is not its default value``() =
-    test <@ genExp |> isDefaultGen |> not @>
 
 [<Fact>]
 let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
