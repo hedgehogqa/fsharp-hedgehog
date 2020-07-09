@@ -2,9 +2,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyVersion>0.8.3.0</AssemblyVersion>
-    <FileVersion>0.8.3.0</FileVersion>
+    <Version>0.8.3</Version>
+    <Description>Release with confidence.</Description>
+    <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
+    <Copyright>Copyright © 2017</Copyright>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Hedgehog.XML</DocumentationFile>
+    <PackageId>Hedgehog</PackageId>
+    <PackageDescription>
+Hedgehog automatically generates a comprehensive array of test cases, exercising your software in ways human testers would never imagine.
+
+Generate hundreds of test cases automatically, exposing even the most insidious of corner cases.
+Failures are automatically simplified, giving developers coherent, intelligible error messages.
+
+To get started quickly, see the examples in
+https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
+    </PackageDescription>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
+    <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Numeric.fs" />
