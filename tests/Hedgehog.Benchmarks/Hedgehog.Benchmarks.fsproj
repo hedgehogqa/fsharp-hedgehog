@@ -10,12 +10,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="paket.references" />
+    <PackageReference Update="FSharp.Core" Version="4.6.2" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.11.3" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
     <ProjectReference Include="..\Hedgehog.Tests\Hedgehog.Tests.fsproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

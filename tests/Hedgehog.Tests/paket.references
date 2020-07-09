@@ -1,7 +1,0 @@
-group Test
-
-	FSharp.Core
-
-	xunit
-	xunit.runner.visualstudio
-	Unquote
