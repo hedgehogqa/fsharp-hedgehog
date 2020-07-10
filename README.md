@@ -51,12 +51,6 @@ More examples can be found in the [tutorial](doc/tutorial.md).
 To build Hedgehog from source, you will need either the
 [.NET Core SDK or Visual Studio][net-core-sdk].
 
-### Linux-specific
-
-If you are using Linux you will also need Mono installed
-(in order to run Paket). The full install sequence (for Ubuntu)
-will be something like [this][ubuntu-steps].
-
 ### Building & running tests
 
 With Visual Studio you can build Hedgehog and run the tests
@@ -67,9 +61,6 @@ tool you can execute:
 dotnet build
 ```
 
-The first time you run it, this will use Paket to restore all
-the packages, and then build the code.
-
 To run the tests, you can execute:
 
 ```sh
@@ -79,15 +70,11 @@ dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 
 ### Building the NuGet package
 
-After building the source (for *release* configuration, i.e.
-`dotnet build -c Release`), you can produce the NuGet package with
-Paket:
-
 ```sh
-.paket/paket.exe pack src/Hedgehog
+dotnet pack src/Hedgehog/Hedgehog.fsproj -c Release
 ```
 
-This will produce `Hedgehog-x.y.z.w.nupkg` in `src/Hedgehog`.
+This will produce `Hedgehog-x.y.z.nupkg` in `src/Hedgehog/bin/Release`.
 
  [nuget]: https://www.nuget.org/packages/Hedgehog/
  [nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat

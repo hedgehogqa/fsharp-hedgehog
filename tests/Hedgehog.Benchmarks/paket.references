@@ -1,5 +1,0 @@
-group Test
-
-	FSharp.Core
-
-	BenchmarkDotNet

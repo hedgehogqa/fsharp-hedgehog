@@ -1,7 +1,6 @@
 module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
-open Swensen.Unquote
 open Xunit
 
 type Exp =
@@ -18,6 +17,7 @@ let shrinkExp : Exp -> List<Exp> = function
     | _ ->
         []
 
+// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let genName =
     Gen.item ["a"; "b"; "c"; "d"]
 
@@ -51,6 +51,7 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
         Seq.tryPick (tryFindSmallest p) xs <|> Some x
 
 #nowarn "40"
+// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let rec genExp : Gen<Exp> =
     Gen.delay <| fun _ ->
     Gen.shrink shrinkExp <| // comment this out to see the property fail
@@ -61,27 +62,6 @@ let rec genExp : Gen<Exp> =
         Lam <!> Gen.zip genName genExp
         App <!> Gen.zip genExp genExp
     ]
-
-let isDefaultGen g =
-  let f =
-    match g with
-    | Gen (Random f) -> f
-  obj.ReferenceEquals(f, null)
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``isDefaultGen returns true for default value of Gen<Exp>``() =
-    test <@ Unchecked.defaultof<Gen<Exp>> |> isDefaultGen @>
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``isDefaultGen returns false for constant Gen<Exp> Lit 0``() =
-    test <@ 0 |> Lit |> Gen.constant |> isDefaultGen |> not @>
-
-// https://github.com/hedgehogqa/fsharp-hedgehog/pull/202/
-[<Fact>]
-let ``genExp is not its default value``() =
-    test <@ genExp |> isDefaultGen |> not @>
 
 [<Fact>]
 let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
