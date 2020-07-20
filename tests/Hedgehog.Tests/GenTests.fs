@@ -59,7 +59,7 @@ let ``dateTime shrinks to correct mid-value`` () =
         }
         |> Property.report
         |> Report.render
-        |> (fun x -> x.Split System.Environment.NewLine)
+        |> (fun x -> x.Split ([|System.Environment.NewLine|], System.StringSplitOptions.None))
         |> Array.item 1
         |> System.DateTime.Parse
     System.DateTime (2000, 1, 1) =! result
