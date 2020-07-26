@@ -88,6 +88,8 @@
 [porges]:
   https://github.com/porges
 
+[186]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/186
 [173]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/173
 [165]:
