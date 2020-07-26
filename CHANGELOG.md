@@ -1,3 +1,8 @@
+## Version 0.8.4 (2020-07-26)
+
+- Add target .NET Framework 4.5 ([#210][210], [@bender2k14][bender2k14])
+- Add target .NET Standard 2.0 ([#209][209], [@bender2k14][bender2k14])
+
 ## Version 0.8.3 (2019-07-09)
 
 - Improve Int64 value generation (avoid overflows) ([#186][186], [@marklam][marklam])
@@ -73,6 +78,8 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[bender2k14]:
+  https://github.com/bender2k14
 [frankshearar]:
   https://github.com/frankshearar
 [jystic]:
@@ -88,6 +95,10 @@
 [porges]:
   https://github.com/porges
 
+[210]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/210
+[209]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/209
 [186]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/186
 [173]:
