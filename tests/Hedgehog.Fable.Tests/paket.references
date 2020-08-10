@@ -1,4 +1,0 @@
-group FableTests
-Fable.Mocha
-Fable.Core
-Expecto
