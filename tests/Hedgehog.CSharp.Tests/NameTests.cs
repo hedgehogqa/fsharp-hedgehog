@@ -42,6 +42,13 @@ namespace Hedgehog.CSharp.Tests
                         continue;
                     }
 
+                    // Ignore static inline methods
+                    // by convention we mark them as starting with '-'
+                    if (mi != null && mi.Name.StartsWith("-"))
+                    {
+                        continue;
+                    }
+
                     yield return new [] { member };
                 }
             }

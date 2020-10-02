@@ -77,7 +77,7 @@ module Range =
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
-    [<CompiledName("ConstantBounded")>]
+    [<CompiledName("-ConstantBounded")>]
     let inline constantBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
@@ -140,7 +140,7 @@ module Range =
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
-    [<CompiledName("LinearFrom")>]
+    [<CompiledName("-LinearFrom")>]
     let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let x_sized =
@@ -151,13 +151,13 @@ module Range =
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
-    [<CompiledName("Linear")>]
+    [<CompiledName("-Linear")>]
     let inline linear (x : 'a) (y : 'a) : Range<'a> =
       linearFrom x x y
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
-    [<CompiledName("LinearBounded")>]
+    [<CompiledName("-LinearBounded")>]
     let inline linearBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
@@ -171,7 +171,7 @@ module Range =
 
     /// Construct a range which scales the bounds exponentially relative to the
     /// size parameter.
-    [<CompiledName("ExponentialFrom")>]
+    [<CompiledName("-ExponentialFrom")>]
     let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
             let scale =
@@ -185,13 +185,13 @@ module Range =
 
     /// Construct a range which scales the second bound exponentially relative
     /// to the size parameter.
-    [<CompiledName("Exponential")>]
+    [<CompiledName("-Exponential")>]
     let inline exponential (x : 'a) (y : 'a) : Range<'a> =
         exponentialFrom x x y
 
     /// Construct a range which is scaled exponentially relative to the size
     /// parameter and uses the full range of a data type.
-    [<CompiledName("ExponentialBounded")>]
+    [<CompiledName("-ExponentialBounded")>]
     let inline exponentialBounded () : Range<'a> =
         let lo = minValue ()
         let hi = maxValue ()
