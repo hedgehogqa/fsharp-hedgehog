@@ -68,5 +68,5 @@ module RangeLinqSupport =
     
     [<Extension>]
     [<CompiledName("Select")>]
-    let select (p : Range<'a>) (f : Func<'a, 'b>) : Range<'b> =
-        Range.map (fun x -> f.Invoke x) p
+    let select (r : Range<'a>) (f : Func<'a, 'b>) : Range<'b> =
+        Range.map (fun x -> f.Invoke x) r
