@@ -104,5 +104,31 @@ namespace Hedgehog.CSharp.Tests
                 from j in ForAll(Gen.Int32(Range.Constant(1, i)))
                 select j <= i);
         }
+        
+        [Fact]
+        public void CanUseSelectWithGen()
+        {
+            Gen<bool> a =
+                from i in Gen.Bool
+                select !i;
+        }
+
+        [Fact]
+        public void CanUseWhereWithGen()
+        {
+            Gen<bool> a =
+                from i in Gen.Bool
+                where i
+                select !i;
+        }
+        
+        [Fact]
+        public void CanUseSelectManyWithGen()
+        {
+            Gen<bool> a =
+                from i in Gen.Bool
+                from j in Gen.Bool
+                select !i;
+        }
     }
 }
