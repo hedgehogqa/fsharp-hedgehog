@@ -25,5 +25,7 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
-    - name: Test
-      run: dotnet test --no-build --configuration Release --verbosity normal
+    - name: Test (Hedgehog.Tests)
+      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+    - name: Test (Hedgehog.CSharp.Tests)
+      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
