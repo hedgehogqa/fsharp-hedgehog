@@ -130,5 +130,13 @@ namespace Hedgehog.CSharp.Tests
                 from j in Gen.Bool
                 select !i;
         }
+        
+        [Fact]
+        public void CanUseSelectWithRange()
+        {
+            Range<int> a =
+                from i in Range.Constant(1, 10)
+                select i + 10;
+        }
     }
 }
