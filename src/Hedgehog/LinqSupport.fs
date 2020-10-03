@@ -62,3 +62,11 @@ module PropertyLinqSupport =
     let bind2Unit (pa : Property<'a>) (f : Func<'a, Property<'b>>) (proj : Action<'a, 'b>) : Property<unit> =
         Property.bind pa (fun a ->
             Property.bind (f.Invoke a) (fun b -> Property.fromThrowing proj.Invoke (a, b)))
+
+[<Extension>]
+module RangeLinqSupport =
+    
+    [<Extension>]
+    [<CompiledName("Select")>]
+    let select (r : Range<'a>) (f : Func<'a, 'b>) : Range<'b> =
+        Range.map (fun x -> f.Invoke x) r
