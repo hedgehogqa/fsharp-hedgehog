@@ -88,3 +88,23 @@ module Tree =
     and filterForest (f : 'a -> bool) (xs : seq<Tree<'a>>) : seq<Tree<'a>> =
         Seq.filter (f << outcome) xs
         |> Seq.map (filter f)
+
+    let rec toStringList (Node (x, xs) : Tree<'a>) : string list =
+        let mapFirstDifferently f g = function
+            | [] -> []
+            | x :: xs -> (f x) :: (xs |> List.map g)
+        let mapLastDifferently f g = List.rev >> mapFirstDifferently g f >> List.rev
+        let head = (sprintf "%A" x)
+        let tail =
+            xs
+            |> Seq.map toStringList
+            |> Seq.toList
+            |> mapLastDifferently
+                (mapFirstDifferently ((+) "├-") ((+) "| "))
+                (mapFirstDifferently ((+) "└-") ((+) "  "))
+            |> List.concat
+            |> List.map ((+) " ")
+        head :: tail
+
+    let toString (t : Tree<'a>) : string =
+        toStringList t |> Seq.reduce (fun a b -> a + System.Environment.NewLine + b)
