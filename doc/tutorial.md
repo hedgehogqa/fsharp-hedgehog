@@ -639,6 +639,7 @@ property { let! a = Gen.int <| Range.constantBounded ()
 >
 *** Failed! Falsifiable (after 3 tests and 24 shrinks):
 101
+0
 
 ```
 
@@ -666,6 +667,7 @@ property { let! a = Gen.int <| Range.constantBounded ()
 >
 *** Failed! Falsifiable (after 16 tests and 5 shrinks):
 101
+0
 The value of a was 101.
 
 ```
