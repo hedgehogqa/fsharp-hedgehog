@@ -224,6 +224,7 @@ module Gen =
     }
 
     /// Uses a weighted distribution to randomly select one of the gens in the list.
+    /// This generator shrinks towards the first generator in the list.
     /// <i>The input list must be non-empty.</i>
     [<CompiledName("Frequency")>]
     let frequency (xs0 : seq<int * Gen<'a>>) : Gen<'a> = gen {
