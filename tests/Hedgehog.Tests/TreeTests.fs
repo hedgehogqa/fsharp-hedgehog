@@ -5,54 +5,75 @@ open Swensen.Unquote
 open Xunit
 
 [<Fact>]
-let ``render of singleton tree`` () =
+let ``render tree with depth 0`` () =
     Property.check <| property {
-        let! v = Gen.uint64 (Range.exponentialBounded ())
-        let tree = Tree.singleton v |> Tree.map (sprintf "%A")
-        let expected = sprintf "%A" v
-        test <@ expected = Tree.render tree @>
-    }
+        let! x0 = Gen.constant "0"
 
-[<Fact>]
-let ``renderLines of binary tree with depth 1`` () =
-    Property.check <| property {
-        let! v = Gen.uint64 (Range.exponentialBounded ())
-        let! v0 = Gen.uint64 (Range.exponentialBounded ())
-        let! v1 = Gen.uint64 (Range.exponentialBounded ())
         let tree =
-            Node (v, [ v0; v1 ] |> Seq.map Tree.singleton)
+            Node (x0, [
+            ])
             |> Tree.map (sprintf "%A")
+
         let expected = [
-            sprintf "%A" v
-            sprintf " ├-%A" v0
-            sprintf " └-%A" v1
+            sprintf "%A" x0
         ]
         test <@ expected = Tree.renderLines tree @>
     }
 
 [<Fact>]
-let ``renderLines of binary tree with depth 2`` () =
+let ``render tree with depth 1`` () =
     Property.check <| property {
-        let! v = Gen.uint64 (Range.exponentialBounded ())
-        let! v0 = Gen.uint64 (Range.exponentialBounded ())
-        let! v1 = Gen.uint64 (Range.exponentialBounded ())
-        let! v00 = Gen.uint64 (Range.exponentialBounded ())
-        let! v01 = Gen.uint64 (Range.exponentialBounded ())
-        let! v10 = Gen.uint64 (Range.exponentialBounded ())
-        let! v11 = Gen.uint64 (Range.exponentialBounded ())
-        let v0Children = Node (v0, [ v00; v01 ] |> Seq.map Tree.singleton)
-        let v1Children = Node (v1, [ v10; v11 ] |> Seq.map Tree.singleton)
+        let! x0 = Gen.constant "0"
+        let! x1 = Gen.constant "1"
+        let! x2 = Gen.constant "2"
+
         let tree =
-            Node (v, [ v0Children; v1Children ])
+            Node (x0, [
+                Node (x1, [])
+                Node (x2, [])
+            ])
             |> Tree.map (sprintf "%A")
+
         let expected = [
-            sprintf "%A" v
-            sprintf " ├-%A" v0
-            sprintf " |  ├-%A" v00
-            sprintf " |  └-%A" v01
-            sprintf " └-%A" v1
-            sprintf "    ├-%A" v10
-            sprintf "    └-%A" v11
+            sprintf "%A" x0
+            sprintf " ├-%A" x1
+            sprintf " └-%A" x2
+        ]
+        test <@ expected = Tree.renderLines tree @>
+    }
+
+[<Fact>]
+let ``render tree with depth 2`` () =
+    Property.check <| property {
+        let! x0 = Gen.constant "0"
+        let! x1 = Gen.constant "1"
+        let! x2 = Gen.constant "2"
+        let! x3 = Gen.constant "3"
+        let! x4 = Gen.constant "4"
+        let! x5 = Gen.constant "5"
+        let! x6 = Gen.constant "6"
+
+        let tree =
+            Node (x0, [
+                Node (x1, [
+                    Node (x3, [])
+                    Node (x5, [])
+                ])
+                Node (x2, [
+                    Node (x4, [])
+                    Node (x6, [])
+                ])
+            ])
+            |> Tree.map (sprintf "%A")
+
+        let expected = [
+            sprintf "%A" x0
+            sprintf " ├-%A" x1
+            sprintf " |  ├-%A" x3
+            sprintf " |  └-%A" x5
+            sprintf " └-%A" x2
+            sprintf "    ├-%A" x4
+            sprintf "    └-%A" x6
         ]
         test <@ expected = Tree.renderLines tree @>
     }
