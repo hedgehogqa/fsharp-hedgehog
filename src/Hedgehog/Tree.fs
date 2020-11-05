@@ -88,3 +88,29 @@ module Tree =
     and filterForest (f : 'a -> bool) (xs : seq<Tree<'a>>) : seq<Tree<'a>> =
         Seq.filter (f << outcome) xs
         |> Seq.map (filter f)
+
+    let rec renderList (Node (x, xs00) : Tree<string>) : List<string> =
+        // zipWith (++) (hd : repeat other)
+        let shift f g xs0 =
+            match xs0 with
+            | [] ->
+                []
+            | x :: xs ->
+                (f x) :: (List.map g xs)
+
+        let xs =
+            xs00
+            |> List.ofSeq
+            |> List.map renderList
+            |> shift
+                   (shift ((+) "├-") ((+) "| "))
+                   (shift ((+) "└-") ((+) "  "))
+            |> List.concat
+            |> List.map ((+) " ")
+
+        x :: xs
+
+    let render (t : Tree<string>) : string =
+        renderList t
+        |> Seq.reduce (fun a b ->
+            a + System.Environment.NewLine + b)
