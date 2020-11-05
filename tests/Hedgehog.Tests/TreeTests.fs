@@ -17,7 +17,7 @@ let ``render tree with depth 0`` () =
         let expected = [
             sprintf "%A" x0
         ]
-        test <@ expected = Tree.renderLines tree @>
+        test <@ expected = Tree.renderList tree @>
     }
 
 [<Fact>]
@@ -39,7 +39,7 @@ let ``render tree with depth 1`` () =
             sprintf " ├-%A" x1
             sprintf " └-%A" x2
         ]
-        test <@ expected = Tree.renderLines tree @>
+        test <@ expected = Tree.renderList tree @>
     }
 
 [<Fact>]
@@ -75,5 +75,5 @@ let ``render tree with depth 2`` () =
             sprintf "    ├-%A" x4
             sprintf "    └-%A" x6
         ]
-        test <@ expected = Tree.renderLines tree @>
+        test <@ expected = Tree.renderList tree @>
     }

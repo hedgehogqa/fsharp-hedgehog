@@ -89,7 +89,7 @@ module Tree =
         Seq.filter (f << outcome) xs
         |> Seq.map (filter f)
 
-    let rec renderLines (Node (x, xs00) : Tree<string>) : List<string> =
+    let rec renderList (Node (x, xs00) : Tree<string>) : List<string> =
         // zipWith (++) (hd : repeat other)
         let shift f g xs0 =
             match xs0 with
@@ -101,7 +101,7 @@ module Tree =
         let xs =
             xs00
             |> List.ofSeq
-            |> List.map renderLines
+            |> List.map renderList
             |> shift
                    (shift ((+) "├-") ((+) "| "))
                    (shift ((+) "└-") ((+) "  "))
@@ -111,6 +111,6 @@ module Tree =
         x :: xs
 
     let render (t : Tree<string>) : string =
-        renderLines t
+        renderList t
         |> Seq.reduce (fun a b ->
             a + System.Environment.NewLine + b)
