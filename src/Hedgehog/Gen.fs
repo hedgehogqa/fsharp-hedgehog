@@ -71,7 +71,7 @@ module Gen =
 
 #if !FABLE_COMPILER
     [<CompiledName("Map")>]
-#endif    
+#endif
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
         bind gx <| fun x ->
         bind gy <| fun y ->
@@ -79,7 +79,7 @@ module Gen =
 
 #if !FABLE_COMPILER
     [<CompiledName("Map")>]
-#endif    
+#endif
     let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
         bind gx <| fun x ->
         bind gy <| fun y ->
@@ -88,7 +88,7 @@ module Gen =
 
 #if !FABLE_COMPILER
     [<CompiledName("Map")>]
-#endif    
+#endif
     let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
         bind gx <| fun x ->
         bind gy <| fun y ->
@@ -102,13 +102,13 @@ module Gen =
 
 #if !FABLE_COMPILER
     [<CompiledName("Zip")>]
-#endif    
+#endif
     let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
         map3 (fun x y z -> x, y, z) gx gy gz
 
 #if !FABLE_COMPILER
     [<CompiledName("Zip")>]
-#endif    
+#endif
     let zip4 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
         map4 (fun x y z w -> x, y, z, w) gx gy gz gw
 
@@ -339,7 +339,7 @@ module Gen =
             ]
 
     let private atLeast (n : int) (xs : List<'a>) : bool =
-        n = 0 || not (List.isEmpty (List.skip (n - 1) xs))
+        (List.length xs) >= n
 
     /// Generates a list using a 'Range' to determine the length.
     [<CompiledName("List")>]
