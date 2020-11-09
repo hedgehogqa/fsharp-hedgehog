@@ -8,9 +8,11 @@ open Hedgehog.Numeric
 type Size = int
 
 /// A range describes the bounds of a number to generate, which may or may not
-/// be dependent on a 'Size'.
+/// be dependent on a 'Size'.  The pair returned by the function contains the
+/// lower bound on the left and the upper bound on the right.  The lower and
+/// upper bounds must contain the origin.
 type Range<'a> =
-    | Range of ('a * (Size -> 'a * 'a))
+    | Range of origin : 'a * (Size -> 'a * 'a)
 
 module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
