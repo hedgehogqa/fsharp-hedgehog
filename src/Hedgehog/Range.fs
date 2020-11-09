@@ -8,9 +8,11 @@ open Hedgehog.Numeric
 type Size = int
 
 /// A range describes the bounds of a number to generate, which may or may not
-/// be dependent on a 'Size'.  The pair returned by the function contains the
-/// lower bound on the left and the upper bound on the right.  The lower and
-/// upper bounds must contain the origin.
+/// be dependent on a 'Size'.
+///
+/// The constructor takes an origin between the lower and upper bound, and a
+/// function from 'Size' to bounds.  As the size goes towards 0, the values
+/// go towards the origin.
 type Range<'a> =
     | Range of origin : 'a * (Size -> 'a * 'a)
 
