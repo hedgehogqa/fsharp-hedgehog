@@ -89,22 +89,20 @@ module Tree =
         Seq.filter (f << outcome) xs
         |> Seq.map (filter f)
 
-    let rec renderList (Node (x, xs00) : Tree<string>) : List<string> =
-        // zipWith (++) (hd : repeat other)
-        let shift f g xs0 =
-            match xs0 with
-            | [] ->
-                []
-            | x :: xs ->
-                (f x) :: (List.map g xs)
-
+    let rec renderList (Node (x, xs0) : Tree<string>) : List<string> =
+        let mapFirstDifferently f g = function
+            | [] -> []
+            | x :: xs -> (f x) :: (xs |> List.map g)
+        let mapLastDifferently f g = List.rev >> mapFirstDifferently g f >> List.rev
         let xs =
-            xs00
-            |> List.ofSeq
-            |> List.map renderList
-            |> shift
-                   (shift ((+) "├-") ((+) "| "))
-                   (shift ((+) "└-") ((+) "  "))
+            xs0
+            |> Seq.map renderList
+            |> Seq.toList
+            |> mapLastDifferently
+                (mapFirstDifferently ((+) "├-")
+                                     ((+) "| "))
+                (mapFirstDifferently ((+) "└-")
+                                     ((+) "  "))
             |> List.concat
             |> List.map ((+) " ")
 
