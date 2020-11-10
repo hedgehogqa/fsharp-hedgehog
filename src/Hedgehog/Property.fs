@@ -128,6 +128,9 @@ module private Pretty =
     let private append (sb : StringBuilder) (msg : string) : unit =
         sb.AppendLine msg |> ignore
 
+    let private appendf (sb : StringBuilder) fmt =
+        Printf.kprintf (ignore << sb.AppendLine) fmt
+
     let renderOK (tests : int<tests>) : string =
         sprintf "+++ OK, passed %s." (renderTests tests)
 
@@ -144,16 +147,15 @@ module private Pretty =
             (journal : Journal) : string =
         let sb = StringBuilder ()
 
-        sprintf "*** Failed! Falsifiable (after %s%s%s):"
+        appendf sb "*** Failed! Falsifiable (after %s%s%s):"
             (renderTests tests)
             (renderAndShrinks shrinks)
             (renderAndDiscards discards)
-            |> append sb
-
-        sprintf "--- Seed to recheck this case: %d" seed.Value
-            |> append sb
 
         List.iter (append sb) (Journal.toList journal)
+
+        appendf sb "This failure can be reproduced by running:"
+        appendf sb "> Property.recheck (Size 0) ({ Value = %d; Gamma = %d }) prop_failure" seed.Value seed.Gamma
 
         sb.ToString(0, sb.Length - 1) // exclude extra newline
 
