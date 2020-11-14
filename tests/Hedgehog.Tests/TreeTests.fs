@@ -38,9 +38,9 @@ let ``render tree with depth 1`` () =
 
         let expected = [
             sprintf "%A" x0
-            sprintf " ├-%A" x1
-            sprintf " ├-%A" x2
-            sprintf " └-%A" x3
+            sprintf "├-%A" x1
+            sprintf "├-%A" x2
+            sprintf "└-%A" x3
         ]
         test <@ expected = Tree.renderList tree @>
     }
@@ -84,18 +84,18 @@ let ``render tree with depth 2`` () =
 
         let expected = [
             sprintf "%A" x0
-            sprintf " ├-%A" x1
-            sprintf " |  ├-%A" x4
-            sprintf " |  ├-%A" x5
-            sprintf " |  └-%A" x6
-            sprintf " ├-%A" x2
-            sprintf " |  ├-%A" x7
-            sprintf " |  ├-%A" x8
-            sprintf " |  └-%A" x9
-            sprintf " └-%A" x3
-            sprintf "    ├-%A" x10
-            sprintf "    ├-%A" x11
-            sprintf "    └-%A" x12
+            sprintf "├-%A" x1
+            sprintf "| ├-%A" x4
+            sprintf "| ├-%A" x5
+            sprintf "| └-%A" x6
+            sprintf "├-%A" x2
+            sprintf "| ├-%A" x7
+            sprintf "| ├-%A" x8
+            sprintf "| └-%A" x9
+            sprintf "└-%A" x3
+            sprintf "  ├-%A" x10
+            sprintf "  ├-%A" x11
+            sprintf "  └-%A" x12
         ]
         test <@ expected = Tree.renderList tree @>
     }
