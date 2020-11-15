@@ -104,7 +104,6 @@ module Tree =
                 (mapFirstDifferently ((+) "└-")
                                      ((+) "  "))
             |> List.concat
-            |> List.map ((+) " ")
 
         x :: xs
 
