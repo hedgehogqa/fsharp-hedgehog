@@ -128,8 +128,8 @@ module private Pretty =
     let private append (sb : StringBuilder) (msg : string) : unit =
         sb.AppendLine msg |> ignore
 
-    let private appendf (sb : StringBuilder) fmt =
-        Printf.kprintf (ignore << sb.AppendLine) fmt
+    let private appendf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
+        Printf.ksprintf (ignore << sb.AppendLine) fmt
 
     let renderOK (tests : int<tests>) : string =
         sprintf "+++ OK, passed %s." (renderTests tests)
