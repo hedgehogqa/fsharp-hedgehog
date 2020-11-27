@@ -128,8 +128,8 @@ module private Pretty =
     let private append (sb : StringBuilder) (msg : string) : unit =
         sb.AppendLine msg |> ignore
 
-    let private appendf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
-        Printf.ksprintf (ignore << sb.AppendLine) fmt
+    let private renderf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
+        Printf.ksprintf (sb.AppendLine >> ignore) fmt
 
     let renderOK (tests : int<tests>) : string =
         sprintf "+++ OK, passed %s." (renderTests tests)
@@ -148,17 +148,17 @@ module private Pretty =
             (journal : Journal) : string =
         let sb = StringBuilder ()
 
-        appendf sb "*** Failed! Falsifiable (after %s%s%s):"
+        renderf sb "*** Failed! Falsifiable (after %s%s%s):"
             (renderTests tests)
             (renderAndShrinks shrinks)
             (renderAndDiscards discards)
 
         List.iter (append sb) (Journal.toList journal)
 
-        appendf sb "This failure can be reproduced by running:"
-        appendf sb "> Property.recheck (Size %d) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
+        renderf sb "This failure can be reproduced by running:"
+        renderf sb "> Property.recheck (Size %d) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
 
-        sb.ToString(0, sb.Length - 1) // exclude extra newline
+        sb.ToString (0, sb.Length - 1) // Exclude extra newline.
 
 [<AbstractClass>]
 type HedgehogException (message : string) =
