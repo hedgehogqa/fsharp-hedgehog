@@ -156,7 +156,7 @@ module private Pretty =
         List.iter (append sb) (Journal.toList journal)
 
         renderf sb "This failure can be reproduced by running:"
-        renderf sb "> Property.recheck (Size %d) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
+        renderf sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
 
         sb.ToString (0, sb.Length - 1) // Exclude extra newline.
 
