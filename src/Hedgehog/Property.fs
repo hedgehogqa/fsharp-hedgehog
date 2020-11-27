@@ -20,7 +20,7 @@ type Property<'a> =
 [<Measure>] type shrinks
 
 type Status =
-    | Failed of Seed * int<shrinks> * Journal
+    | Failed of Size * Seed * int<shrinks> * Journal
     | GaveUp
     | OK
 
@@ -140,7 +140,8 @@ module private Pretty =
             (renderTests tests)
 
     let renderFailed
-            (seed: Seed)
+            (size : Size)
+            (seed : Seed)
             (tests : int<tests>)
             (discards : int<discards>)
             (shrinks : int<shrinks>)
@@ -155,7 +156,7 @@ module private Pretty =
         List.iter (append sb) (Journal.toList journal)
 
         appendf sb "This failure can be reproduced by running:"
-        appendf sb "> Property.recheck (Size 0) ({ Value = %A; Gamma = %A }) <property>" seed.Value seed.Gamma
+        appendf sb "> Property.recheck (Size %d) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
 
         sb.ToString(0, sb.Length - 1) // exclude extra newline
 
@@ -169,8 +170,8 @@ type GaveUpException (tests : int<tests>, discards : int<discards>) =
     member __.Tests =
         tests
 
-type FailedException (seed: Seed, tests : int<tests>, discards : int<discards>, shrinks : int<shrinks>, journal : Journal) =
-    inherit HedgehogException (renderFailed seed tests discards shrinks journal)
+type FailedException (size : Size, seed : Seed, tests : int<tests>, discards : int<discards>, shrinks : int<shrinks>, journal : Journal) =
+    inherit HedgehogException (renderFailed size seed tests discards shrinks journal)
 
     member __.Tests =
         tests
@@ -193,8 +194,8 @@ module Report =
             renderOK report.Tests
         | GaveUp ->
             renderGaveUp report.Tests report.Discards
-        | Failed (seed, shrinks, journal) ->
-            renderFailed seed report.Tests report.Discards shrinks journal
+        | Failed (size, seed, shrinks, journal) ->
+            renderFailed size seed report.Tests report.Discards shrinks journal
 
     let tryRaise (report : Report) : unit =
         match report.Status with
@@ -202,8 +203,8 @@ module Report =
             ()
         | GaveUp ->
             raise <| GaveUpException (report.Tests, report.Discards)
-        | Failed (seed, shrinks, journal)  ->
-            raise <| FailedException (seed, report.Tests, report.Discards, shrinks, journal)
+        | Failed (size, seed, shrinks, journal)  ->
+            raise <| FailedException (size, seed, report.Tests, report.Discards, shrinks, journal)
 
 module Property =
 
@@ -314,16 +315,17 @@ module Property =
     //
 
     let rec private takeSmallest
-            (seed: Seed)
+            (size : Size)
+            (seed : Seed)
             (Node ((journal, x), xs) : Tree<Journal * Result<'a>>)
             (nshrinks : int<shrinks>) : Status =
         match x with
         | Failure ->
             match Seq.tryFind (Result.isFailure << snd << Tree.outcome) xs with
             | None ->
-                Failed (seed, nshrinks, journal)
+                Failed (size, seed, nshrinks, journal)
             | Some tree ->
-                takeSmallest seed tree (nshrinks + 1<shrinks>)
+                takeSmallest size seed tree (nshrinks + 1<shrinks>)
         | Discard ->
             GaveUp
         | Success _ ->
@@ -355,7 +357,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest seed1 result 0<shrinks> }
+                      Status = takeSmallest size seed1 result 0<shrinks> }
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
