@@ -331,7 +331,7 @@ module Property =
         | Success _ ->
             OK
 
-    let private reportWithSeed' (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
+    let private reportWith' (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -363,17 +363,17 @@ module Property =
                 | Discard ->
                     loop seed2 (nextSize size) tests (discards + 1<discards>)
 
-        loop seed 1 0<tests> 0<discards>
+        loop seed size0 0<tests> 0<discards>
 
-    let private reportWithSeed (seed : Seed) (p : Property<unit>) : Report =
-        reportWithSeed' seed 100<tests> p
+    let private reportWith (size : Size) (seed : Seed) (p : Property<unit>) : Report =
+        reportWith' size seed 100<tests> p
 
 #if !FABLE_COMPILER
     [<CompiledName("Report")>]
 #endif
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        reportWithSeed' seed n p
+        reportWith' 1 seed n p
 
     [<CompiledName("Report")>]
     let report (p : Property<unit>) : Report =
@@ -417,28 +417,28 @@ module Property =
 #if !FABLE_COMPILER
     [<CompiledName("Recheck")>]
 #endif
-    let recheck' (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
-        reportWithSeed' seed n p
+    let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
+        reportWith' size seed n p
         |> Report.tryRaise
 
 #if !FABLE_COMPILER
     [<CompiledName("Recheck")>]
 #endif
-    let recheck (seed : Seed) (p : Property<unit>) : unit =
-        reportWithSeed seed p
+    let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
+        reportWith size seed p
         |> Report.tryRaise
 
 #if !FABLE_COMPILER
     [<CompiledName("Recheck")>]
 #endif
-    let recheckBool' (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
-        bind g ofBool |> recheck' seed n
+    let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
+        bind g ofBool |> recheck' size seed n
 
 #if !FABLE_COMPILER
     [<CompiledName("Recheck")>]
 #endif
-    let recheckBool (seed : Seed) (g : Property<bool>) : unit =
-        bind g ofBool |> recheck seed
+    let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
+        bind g ofBool |> recheck size seed
 
 #if !FABLE_COMPILER
     [<CompiledName("Print")>]
