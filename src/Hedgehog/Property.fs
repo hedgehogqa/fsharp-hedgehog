@@ -156,7 +156,7 @@ module private Pretty =
         List.iter (append sb) (Journal.toList journal)
 
         renderf sb "This failure can be reproduced by running:"
-        renderf sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>" size seed.Value seed.Gamma
+        renderf sb "> Property.recheck (%d : Size) (%0A) <property>" size seed
 
         sb.ToString (0, sb.Length - 1) // Exclude extra newline.
 
@@ -357,7 +357,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest size seed1 result 0<shrinks> }
+                      Status = takeSmallest size seed result 0<shrinks> }
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
