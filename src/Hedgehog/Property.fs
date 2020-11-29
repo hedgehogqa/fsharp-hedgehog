@@ -19,8 +19,16 @@ type Property<'a> =
 [<Measure>] type discards
 [<Measure>] type shrinks
 
+type FailureReport = {
+    Size : Size
+    Seed : Seed
+    Shrinks : int<shrinks>
+    Journal : Journal
+    RenderRecheck : bool
+}
+
 type Status =
-    | Failed of Size * Seed * int<shrinks> * Journal
+    | Failed of FailureReport
     | GaveUp
     | OK
 
@@ -131,32 +139,29 @@ module private Pretty =
     let private renderf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
         Printf.ksprintf (sb.AppendLine >> ignore) fmt
 
-    let renderOK (tests : int<tests>) : string =
-        sprintf "+++ OK, passed %s." (renderTests tests)
+    let renderOK (report : Report) : string =
+        sprintf "+++ OK, passed %s." (renderTests report.Tests)
 
-    let renderGaveUp (tests : int<tests>) (discards : int<discards>) : string =
+    let renderGaveUp (report : Report) : string =
         sprintf "*** Gave up after %s, passed %s."
-            (renderDiscards discards)
-            (renderTests tests)
+            (renderDiscards report.Discards)
+            (renderTests report.Tests)
 
-    let renderFailed
-            (size : Size)
-            (seed : Seed)
-            (tests : int<tests>)
-            (discards : int<discards>)
-            (shrinks : int<shrinks>)
-            (journal : Journal) : string =
+    let renderFailed (failure : FailureReport) (report : Report) : string =
         let sb = StringBuilder ()
 
         renderf sb "*** Failed! Falsifiable (after %s%s%s):"
-            (renderTests tests)
-            (renderAndShrinks shrinks)
-            (renderAndDiscards discards)
+            (renderTests report.Tests)
+            (renderAndShrinks failure.Shrinks)
+            (renderAndDiscards report.Discards)
 
-        List.iter (append sb) (Journal.toList journal)
+        List.iter (append sb) (Journal.toList failure.Journal)
 
-        renderf sb "This failure can be reproduced by running:"
-        renderf sb "> Property.recheck (%d : Size) (%0A) <property>" size seed
+        if failure.RenderRecheck then
+            renderf sb "This failure can be reproduced by running:"
+            renderf sb "> Property.recheck (%d : Size) (%0A) <property>"
+                failure.Size
+                failure.Seed
 
         sb.ToString (0, sb.Length - 1) // Exclude extra newline.
 
@@ -164,26 +169,26 @@ module private Pretty =
 type HedgehogException (message : string) =
     inherit Exception (message)
 
-type GaveUpException (tests : int<tests>, discards : int<discards>) =
-    inherit HedgehogException (renderGaveUp tests discards)
+type GaveUpException (report : Report) =
+    inherit HedgehogException (renderGaveUp report)
 
     member __.Tests =
-        tests
+        report.Tests
 
-type FailedException (size : Size, seed : Seed, tests : int<tests>, discards : int<discards>, shrinks : int<shrinks>, journal : Journal) =
-    inherit HedgehogException (renderFailed size seed tests discards shrinks journal)
+type FailedException (failure : FailureReport, report : Report) =
+    inherit HedgehogException (renderFailed failure report)
 
     member __.Tests =
-        tests
+        report.Tests
 
     member __.Discards =
-        discards
+        report.Discards
 
     member __.Shrinks =
-        shrinks
+        failure.Shrinks
 
     member __.Journal =
-        journal
+        failure.Journal
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Report =
@@ -191,20 +196,20 @@ module Report =
     let render (report : Report) : string =
         match report.Status with
         | OK ->
-            renderOK report.Tests
+            renderOK report
         | GaveUp ->
-            renderGaveUp report.Tests report.Discards
-        | Failed (size, seed, shrinks, journal) ->
-            renderFailed size seed report.Tests report.Discards shrinks journal
+            renderGaveUp report
+        | Failed failure ->
+            renderFailed failure report
 
     let tryRaise (report : Report) : unit =
         match report.Status with
         | OK ->
             ()
         | GaveUp ->
-            raise <| GaveUpException (report.Tests, report.Discards)
-        | Failed (size, seed, shrinks, journal)  ->
-            raise <| FailedException (size, seed, report.Tests, report.Discards, shrinks, journal)
+            raise <| GaveUpException (report)
+        | Failed failure  ->
+            raise <| FailedException (failure, report)
 
 module Property =
 
@@ -315,6 +320,7 @@ module Property =
     //
 
     let rec private takeSmallest
+            (renderRecheck : bool)
             (size : Size)
             (seed : Seed)
             (Node ((journal, x), xs) : Tree<Journal * Result<'a>>)
@@ -323,15 +329,15 @@ module Property =
         | Failure ->
             match Seq.tryFind (Result.isFailure << snd << Tree.outcome) xs with
             | None ->
-                Failed (size, seed, nshrinks, journal)
+                Failed { Size = size; Seed = seed; Shrinks = nshrinks; Journal = journal; RenderRecheck = renderRecheck }
             | Some tree ->
-                takeSmallest size seed tree (nshrinks + 1<shrinks>)
+                takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>)
         | Discard ->
             GaveUp
         | Success _ ->
             OK
 
-    let private reportWith' (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
+    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -357,7 +363,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest size seed result 0<shrinks> }
+                      Status = takeSmallest renderRecheck size seed result 0<shrinks> }
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
@@ -365,15 +371,15 @@ module Property =
 
         loop seed size0 0<tests> 0<discards>
 
-    let private reportWith (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith' size seed 100<tests> p
+    let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
+        reportWith' renderRecheck size seed 100<tests> p
 
 #if !FABLE_COMPILER
     [<CompiledName("Report")>]
 #endif
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        reportWith' 1 seed n p
+        reportWith' true 1 seed n p
 
     [<CompiledName("Report")>]
     let report (p : Property<unit>) : Report =
@@ -418,14 +424,14 @@ module Property =
     [<CompiledName("Recheck")>]
 #endif
     let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
-        reportWith' size seed n p
+        reportWith' false size seed n p
         |> Report.tryRaise
 
 #if !FABLE_COMPILER
     [<CompiledName("Recheck")>]
 #endif
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
-        reportWith size seed p
+        reportWith false size seed p
         |> Report.tryRaise
 
 #if !FABLE_COMPILER
