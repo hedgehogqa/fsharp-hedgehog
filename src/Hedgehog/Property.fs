@@ -159,9 +159,10 @@ module private Pretty =
 
         if failure.RenderRecheck then
             renderf sb "This failure can be reproduced by running:"
-            renderf sb "> Property.recheck (%d : Size) (%0A) <property>"
+            renderf sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
                 failure.Size
-                failure.Seed
+                failure.Seed.Value
+                failure.Seed.Gamma
 
         sb.ToString (0, sb.Length - 1) // Exclude extra newline.
 
