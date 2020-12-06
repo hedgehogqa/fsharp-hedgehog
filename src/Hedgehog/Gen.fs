@@ -43,9 +43,6 @@ module Gen =
     let bind (m0 : Gen<'a>) (k0 : 'a -> Gen<'b>) : Gen<'b> =
         bindRandom (toRandom m0) (toRandom << k0) |> ofRandom
 
-    let bindFlipped (k0 : 'a -> Gen<'b>) (m0 : Gen<'a>) : Gen<'b> =
-        bindRandom (toRandom m0) (toRandom << k0) |> ofRandom
-
     let apply (gf : Gen<'a -> 'b>) (gx : Gen<'a>) : Gen<'b> =
         bind gf <| fun f ->
         bind gx <| (f >> constant)
