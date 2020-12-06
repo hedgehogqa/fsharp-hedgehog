@@ -2,6 +2,7 @@
 
 // Import Check and ForAll:
 using static Hedgehog.Property;
+using Hedgehog.CSharp;
 
 namespace Hedgehog.CSharp.Tests
 {
@@ -104,7 +105,7 @@ namespace Hedgehog.CSharp.Tests
                 from j in ForAll(Gen.Int32(Range.Constant(1, i)))
                 select j <= i);
         }
-        
+
         [Fact]
         public void CanUseSelectWithGen()
         {
@@ -121,7 +122,7 @@ namespace Hedgehog.CSharp.Tests
                 where i
                 select !i;
         }
-        
+
         [Fact]
         public void CanUseSelectManyWithGen()
         {
@@ -130,7 +131,7 @@ namespace Hedgehog.CSharp.Tests
                 from j in Gen.Bool
                 select !i;
         }
-        
+
         [Fact]
         public void CanUseSelectWithRange()
         {

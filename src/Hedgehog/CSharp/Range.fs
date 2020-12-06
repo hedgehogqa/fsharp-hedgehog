@@ -8,9 +8,9 @@ open Hedgehog
 
 [<Extension>]
 type RangeExtensions =
-    
+
     [<Extension>]
-    member _.Select(range, mapper : Func<'T, 'U>) =
+    static member inline Select(range, mapper : Func<'T, 'U>) =
         Range.map mapper.Invoke range
 
 #endif
