@@ -10,7 +10,7 @@ open Hedgehog
 type RangeExtensions =
 
     [<Extension>]
-    static member inline Select(range, mapper : Func<'T, 'U>) =
+    static member inline Select(range : Range<'T>, mapper : Func<'T, 'TResult>) : Range<'TResult> =
         Range.map mapper.Invoke range
 
 #endif
