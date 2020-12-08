@@ -1,0 +1,19 @@
+{
+  "dockerFile": "Dockerfile",
+  "extensions": [
+    "ionide.ionide-fsharp"
+  ],
+  "settings": {
+    "[csharp]": {
+      "editor.useTabStops": false,
+      "editor.tabSize": 4
+    },
+
+    "[fsharp]": {
+      "editor.useTabStops": false,
+      "editor.tabSize": 4
+    },
+
+    "FSharp.useSdkScripts": true
+  }
+}

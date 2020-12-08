@@ -84,3 +84,34 @@ This will produce `Hedgehog-x.y.z.nupkg` in `src/Hedgehog/bin/Release`.
 
  [net-core-sdk]: https://www.microsoft.com/net/download/
  [ubuntu-steps]: https://github.com/hedgehogqa/fsharp-hedgehog/pull/153#issuecomment-364325504
+
+
+## Development Environments
+
+### Visual Studio
+
+Hedgehog can be developed in Visual Studio, once these requirements are met:
+
+- .NET Core (2.1+) and .NET Framework (4.5.1+) are installed.
+
+### Visual Studio Code
+
+Hedgehog can be developed in Visual Studio Code, with a couple of scenarios supported.
+
+#### Bare Metal
+
+Developing on bare metal is essentially the same as developing in Visual Studio, install the appropriate .NET SDK then open the project folder.
+
+#### Remote Containers
+
+Development can also be done using [Remote Development][remote-containers-doc].
+
+The steps to get this up and running are as follows:
+
+1. Install [Docker][docker-install].
+2. Install the [Remote Containers][remote-containers-ext] extension.
+3. Open the project folder, then run the `Remote-Containers: Reopen in Container` command.
+
+[remote-containers-doc]: https://code.visualstudio.com/docs/remote/containers
+[remote-containers-ext]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+[docker-install]: https://docs.docker.com/get-docker/
