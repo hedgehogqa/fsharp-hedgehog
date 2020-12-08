@@ -92,7 +92,7 @@ This will produce `Hedgehog-x.y.z.nupkg` in `src/Hedgehog/bin/Release`.
 
 Hedgehog can be developed in Visual Studio, once these requirements are met:
 
-- .NET Core (2.1+) or .NET Framework (4.5.1+) are installed.
+- .NET Core (2.1+) and .NET Framework (4.5.1+) are installed.
 
 ### Visual Studio Code
 
