@@ -56,7 +56,7 @@ module Property =
             failure
 
     let counterexample (msg : unit -> string) : Property<unit> =
-        Gen.constant (Journal.delayedSingleton msg, Success ()) |> ofGen
+        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
 
     let private mapGen
             (f : Gen<Journal * Outcome<'a>> -> Gen<Journal * Outcome<'b>>)
@@ -83,7 +83,7 @@ module Property =
 
     let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         let handle (e : exn) =
-            Gen.constant (Journal.singleton (string e), Failure) |> ofGen
+            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen

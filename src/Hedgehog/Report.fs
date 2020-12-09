@@ -77,7 +77,7 @@ module Report =
             (renderAndShrinks failure.Shrinks)
             (renderAndDiscards report.Discards)
 
-        List.iter (append sb) (Journal.toList failure.Journal)
+        Seq.iter (append sb) (Journal.eval failure.Journal)
 
         if failure.RenderRecheck then
             renderf sb "This failure can be reproduced by running:"
