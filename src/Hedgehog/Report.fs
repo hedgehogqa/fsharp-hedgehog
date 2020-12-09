@@ -24,6 +24,7 @@ type Report = {
 }
 
 module Report =
+
     open System
     open System.Text
 
@@ -55,11 +56,11 @@ module Report =
         | n ->
             sprintf " and %d shrinks" n
 
-    let private append (sb : StringBuilder) (msg : string) : unit =
+    let private appendLine (sb : StringBuilder) (msg : string) : unit =
         sb.AppendLine msg |> ignore
 
-    let private renderf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
-        Printf.ksprintf (append sb) fmt
+    let private appendLinef (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
+        Printf.ksprintf (appendLine sb) fmt
 
     let private renderOK (report : Report) : string =
         sprintf "+++ OK, passed %s." (renderTests report.Tests)
@@ -72,16 +73,16 @@ module Report =
     let private renderFailed (failure : FailureData) (report : Report) : string =
         let sb = StringBuilder ()
 
-        renderf sb "*** Failed! Falsifiable (after %s%s%s):"
+        appendLinef sb "*** Failed! Falsifiable (after %s%s%s):"
             (renderTests report.Tests)
             (renderAndShrinks failure.Shrinks)
             (renderAndDiscards report.Discards)
 
-        Seq.iter (append sb) (Journal.eval failure.Journal)
+        Seq.iter (appendLine sb) (Journal.eval failure.Journal)
 
         if failure.RenderRecheck then
-            renderf sb "This failure can be reproduced by running:"
-            renderf sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
+            appendLinef sb "This failure can be reproduced by running:"
+            appendLinef sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
                 failure.Size
                 failure.Seed.Value
                 failure.Seed.Gamma

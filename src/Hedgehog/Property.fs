@@ -35,7 +35,7 @@ module Property =
                 x.Dispose ())
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
-        Gen.map (Tuple.mapSecond <| Outcome.filter p) (toGen m) |> ofGen
+        GenTuple.mapSecond (Outcome.filter p) (toGen m) |> ofGen
 
     let ofOutcome (x : Outcome<'a>) : Property<'a> =
         (Journal.empty, x) |> Gen.constant |> ofGen
@@ -64,7 +64,7 @@ module Property =
         toGen x |> f |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        (mapGen << Gen.map << Tuple.mapSecond << Outcome.map) f x
+        (mapGen << GenTuple.mapSecond << Outcome.map) f x
 
     let private bindGen
             (m : Gen<Journal * Outcome<'a>>)
@@ -76,7 +76,7 @@ module Property =
             | Discard ->
                 Gen.constant (journal, Discard)
             | Success x ->
-                Gen.map (Tuple.mapFirst (Journal.append journal)) (k x)
+                GenTuple.mapFirst (Journal.append journal) (k x)
 
     let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         bindGen (toGen m) (toGen << k) |> ofGen
