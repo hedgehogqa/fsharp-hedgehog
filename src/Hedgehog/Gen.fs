@@ -537,7 +537,7 @@ module Gen =
               min 
                 (14L * 60L)
                 ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute)
-            let! offsetMinutes = int (Range.exponentialFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
+            let! offsetMinutes = int (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
 
