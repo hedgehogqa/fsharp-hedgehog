@@ -546,35 +546,13 @@ module Gen =
     /// Generates a random DateTime.
     [<CompiledName("DateTime")>]
     let dateTime : Gen<System.DateTime> =
-        let minTicks =
-            System.DateTime.MinValue.Ticks
-        let maxTicks =
-            System.DateTime.MaxValue.Ticks
-        gen {
-            let! ticks =
-                Range.constantFrom
-                    (System.DateTime (2000, 1, 1)).Ticks minTicks maxTicks
-                |> integral
-            return System.DateTime ticks
-        }
+        dateTimeRanged (Range.constantFrom (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue)
 
     /// Generates a random DateTimeOffset.
     [<CompiledName("DateTimeOffset")>]
     let dateTimeOffset : Gen<System.DateTimeOffset> =
-        let minTicks =
-            System.DateTimeOffset.MinValue.Ticks
-        let maxTicks =
-            System.DateTimeOffset.MaxValue.Ticks
-        gen {
-            let! ticks =
-                Range.constantFrom
-                    (System.DateTimeOffset (2000, 1, 1, 0, 0, 0, TimeSpan.Zero)).Ticks minTicks maxTicks
-                |> integral
-            let minOffsetMinutes = max (-14 * 60) (Operators.int ((maxTicks - ticks) / TimeSpan.TicksPerMinute) * -1)
-            let maxOffsetMinutes = min (14 * 60) (Operators.int ((ticks - minTicks) / TimeSpan.TicksPerMinute))
-            let! offsetMinutes = int (Range.exponentialFrom 0 minOffsetMinutes maxOffsetMinutes)
-            return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
-        }
+        dateTimeOffsetRanged (Range.constantFrom (DateTimeOffset (2000, 1, 1, 0, 0, 0, TimeSpan.Zero)) DateTimeOffset.MinValue DateTimeOffset.MaxValue)
+
 
     //
     // Sampling
