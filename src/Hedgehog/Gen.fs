@@ -529,15 +529,15 @@ module Gen =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             // Ensure there is no overflow near the edges when adding the offset
-            let minOffsetMinutes = 
+            let minOffsetMinutes =
               max 
-                (-14 * 60) 
-                (Operators.int ((DateTimeOffset.MaxValue.Ticks - ticks) / TimeSpan.TicksPerMinute) * -1)
-            let maxOffsetMinutes = 
+                (-14L * 60L)
+                ((DateTimeOffset.MaxValue.Ticks - ticks) / TimeSpan.TicksPerMinute * -1L)
+            let maxOffsetMinutes =
               min 
-                (14 * 60) 
-                (Operators.int ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute))
-            let! offsetMinutes = int (Range.exponentialFrom 0 minOffsetMinutes maxOffsetMinutes)
+                (14L * 60L)
+                ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute)
+            let! offsetMinutes = int (Range.exponentialFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
 
