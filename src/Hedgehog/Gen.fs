@@ -518,10 +518,6 @@ module Gen =
     /// Generates a random DateTime using the specified range.
     [<CompiledName("DateTimeRanged")>]
     let dateTimeRanged (range : Range<DateTime>) : Gen<System.DateTime> =
-        let minTicks =
-            System.DateTime.MinValue.Ticks
-        let maxTicks =
-            System.DateTime.MaxValue.Ticks
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             return System.DateTime ticks
@@ -530,15 +526,17 @@ module Gen =
     /// Generates a random DateTimeOffset using the specified range.
     [<CompiledName("DateTimeOffsetRanged")>]
     let dateTimeOffsetRanged (range : Range<DateTimeOffset>) : Gen<System.DateTimeOffset> =
-        let minTicks =
-            System.DateTimeOffset.MinValue.Ticks
-        let maxTicks =
-            System.DateTimeOffset.MaxValue.Ticks
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             // Ensure there is no overflow near the edges when adding the offset
-            let minOffsetMinutes = max (-14 * 60) (Operators.int ((maxTicks - ticks) / TimeSpan.TicksPerMinute) * -1)
-            let maxOffsetMinutes = min (14 * 60) (Operators.int ((ticks - minTicks) / TimeSpan.TicksPerMinute))
+            let minOffsetMinutes = 
+              max 
+                (-14 * 60) 
+                (Operators.int ((DateTimeOffset.MaxValue.Ticks - ticks) / TimeSpan.TicksPerMinute) * -1)
+            let maxOffsetMinutes = 
+              min 
+                (14 * 60) 
+                (Operators.int ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute))
             let! offsetMinutes = int (Range.exponentialFrom 0 minOffsetMinutes maxOffsetMinutes)
             return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
