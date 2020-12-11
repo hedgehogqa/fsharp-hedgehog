@@ -515,7 +515,7 @@ module Gen =
         return System.Guid bs
     }
 
-    /// Generates a random instant in time expressed as a date and time of day.
+    /// Generates a random DateTime.
     [<CompiledName("DateTime")>]
     let dateTime : Gen<System.DateTime> =
         let minTicks =
