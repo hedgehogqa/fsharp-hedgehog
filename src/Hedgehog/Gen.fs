@@ -494,6 +494,16 @@ module Gen =
     let float (range : Range<float>) : Gen<float> =
         (double range) |> map float
 
+    /// Generates a random 32-bit floating point number.
+    [<CompiledName("Single")>]
+    let single (range : Range<single>) : Gen<single> =
+      double (Range.map ExtraTopLevelOperators.double range) |> map single
+
+    /// Generates a random decimal floating-point number.
+    [<CompiledName("Decimal")>]
+    let decimal (range : Range<decimal>) : Gen<decimal> =
+      double (Range.map ExtraTopLevelOperators.double range) |> map decimal
+
     //
     // Combinators - Constructed
     //
