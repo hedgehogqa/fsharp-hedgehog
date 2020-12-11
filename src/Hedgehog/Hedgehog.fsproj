@@ -6,7 +6,7 @@
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
     <Copyright>Copyright © 2017</Copyright>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Hedgehog.XML</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>Hedgehog</PackageId>
     <PackageDescription>
 Hedgehog automatically generates a comprehensive array of test cases, exercising your software in ways human testers would never imagine.
