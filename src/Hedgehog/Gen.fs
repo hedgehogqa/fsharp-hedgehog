@@ -530,6 +530,24 @@ module Gen =
             return System.DateTime ticks
         }
 
+    /// Generates a random DateTimeOffset.
+    [<CompiledName("DateTimeOffset")>]
+    let dateTimeOffset : Gen<System.DateTimeOffset> =
+        let minTicks =
+            System.DateTimeOffset.MinValue.Ticks
+        let maxTicks =
+            System.DateTimeOffset.MaxValue.Ticks
+        gen {
+            let! ticks =
+                Range.constantFrom
+                    (System.DateTimeOffset (2000, 1, 1, 0, 0, 0, TimeSpan.Zero)).Ticks minTicks maxTicks
+                |> integral
+            let minOffsetMinutes = max (-14 * 60) (Operators.int ((maxTicks - ticks) / TimeSpan.TicksPerMinute) * -1)
+            let maxOffsetMinutes = min (14 * 60) (Operators.int ((ticks - minTicks) / TimeSpan.TicksPerMinute))
+            let! offsetMinutes = int (Range.exponentialFrom 0 minOffsetMinutes maxOffsetMinutes)
+            return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
+        }
+
     //
     // Sampling
     //
