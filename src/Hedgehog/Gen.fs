@@ -516,16 +516,16 @@ module Gen =
     }
 
     /// Generates a random DateTime using the specified range.
-    [<CompiledName("DateTimeRanged")>]
-    let dateTimeRanged (range : Range<DateTime>) : Gen<System.DateTime> =
+    [<CompiledName("DateTime")>]
+    let dateTime (range : Range<DateTime>) : Gen<System.DateTime> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             return System.DateTime ticks
         }
 
     /// Generates a random DateTimeOffset using the specified range.
-    [<CompiledName("DateTimeOffsetRanged")>]
-    let dateTimeOffsetRanged (range : Range<DateTimeOffset>) : Gen<System.DateTimeOffset> =
+    [<CompiledName("DateTimeOffset")>]
+    let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<System.DateTimeOffset> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             // Ensure there is no overflow near the edges when adding the offset
@@ -540,17 +540,6 @@ module Gen =
             let! offsetMinutes = int (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
-
-    /// Generates a random DateTime.
-    [<CompiledName("DateTime")>]
-    let dateTime : Gen<System.DateTime> =
-        dateTimeRanged (Range.constantFrom (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue)
-
-    /// Generates a random DateTimeOffset.
-    [<CompiledName("DateTimeOffset")>]
-    let dateTimeOffset : Gen<System.DateTimeOffset> =
-        dateTimeOffsetRanged (Range.constantFrom (DateTimeOffset (2000, 1, 1, 0, 0, 0, TimeSpan.Zero)) DateTimeOffset.MinValue DateTimeOffset.MaxValue)
-
 
     //
     // Sampling

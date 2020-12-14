@@ -13,7 +13,7 @@ open Xunit
 [<InlineData(256)>]
 [<InlineData(512)>]
 let ``dateTime creates System.DateTime instances`` count =
-    let actual = Gen.dateTime |> Gen.sample 0 count
+    let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue) |> Gen.sample 0 count
     actual
     |> List.distinct
     |> List.length
@@ -45,7 +45,7 @@ let ``dateTime randomly generates value between max and min ticks`` () =
         |> Random.run seed1 0
     let expected = System.DateTime ticks
 
-    let actual = Gen.dateTime
+    let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue)
 
     let result = actual |> Gen.toRandom |> Random.run seed0 0 |> Tree.outcome
     expected =! result
@@ -54,7 +54,9 @@ let ``dateTime randomly generates value between max and min ticks`` () =
 let ``dateTime shrinks to correct mid-value`` () =
     let result =
         property {
-            let! actual = Gen.dateTime
+            let! actual = 
+              Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
+              |> Gen.dateTime
             System.DateTime.Now =! actual
         }
         |> Property.report
