@@ -43,8 +43,8 @@ namespace Hedgehog.CSharp.Tests
                     }
 
                     // Ignore static inline methods
-                    // by convention we mark them as starting with '-'
-                    if (mi != null && mi.Name.StartsWith("-"))
+                    // by convention we mark them as starting with '`'
+                    if (mi != null && mi.Name.StartsWith("`"))
                     {
                         continue;
                     }
