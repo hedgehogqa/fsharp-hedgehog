@@ -70,6 +70,10 @@ dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 
 ### Building the NuGet package
 
+As of https://github.com/hedgehogqa/fsharp-hedgehog/pull/253/ a NuGet package is created automatically during build.
+
+If you want to manually create a NuGet package you can run: 
+
 ```sh
 dotnet pack src/Hedgehog/Hedgehog.fsproj -c Release
 ```
