@@ -10,9 +10,8 @@ namespace Hedgehog.CSharp.Tests
     {
         private static Type[] _publicApiTypes =
             { typeof(Hedgehog.CSharp.Gen)
-            , typeof(Hedgehog.CSharp.GenExtensions)
-            , typeof(Range)
-            , typeof(Property)
+            , typeof(Hedgehog.CSharp.Range)
+            , typeof(Hedgehog.CSharp.Property)
             };
 
         public static IEnumerable<object[]> AllPublicMembers()

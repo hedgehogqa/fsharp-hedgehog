@@ -214,27 +214,21 @@ module Report =
 
 module Property =
 
-    [<CompiledName("OfGen")>]
     let ofGen (x : Gen<Journal * Result<'a>>) : Property<'a> =
         Property x
 
-    [<CompiledName("ToGen")>]
     let toGen (Property x : Property<'a>) : Gen<Journal * Result<'a>> =
         x
 
-    [<CompiledName("TryFinally")>]
     let tryFinally (m : Property<'a>) (after : unit -> unit) : Property<'a> =
-        Gen.tryFinally (toGen m) after |> ofGen
+       Gen.tryFinally (toGen m) after |> ofGen
 
-    [<CompiledName("TryWith")>]
     let tryWith (m : Property<'a>) (k : exn -> Property<'a>) : Property<'a> =
         Gen.tryWith (toGen m) (toGen << k) |> ofGen
 
-    [<CompiledName("Delay")>]
     let delay (f : unit -> Property<'a>) : Property<'a> =
         Gen.delay (toGen << f) |> ofGen
 
-    [<CompiledName("Using")>]
     let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
             'a :> IDisposable and
             'a : null =
@@ -246,34 +240,27 @@ module Property =
             | _ ->
                 x.Dispose ()
 
-    [<CompiledName("Filter")>]
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
         Gen.map (second <| Result.filter p) (toGen m) |> ofGen
 
-    [<CompiledName("OfResult")>]
     let ofResult (x : Result<'a>) : Property<'a> =
         (Journal.empty, x) |> Gen.constant |> ofGen
 
-    [<CompiledName("Failure")>]
     let failure : Property<unit> =
         Failure |> ofResult
 
-    [<CompiledName("Discard")>]
     let discard : Property<unit> =
         Discard |> ofResult
 
-    [<CompiledName("Success")>]
     let success (x : 'a) : Property<'a> =
         Success x |> ofResult
 
-    [<CompiledName("OfBool")>]
     let ofBool (x : bool) : Property<unit> =
         if x then
             success ()
         else
             failure
 
-    [<CompiledName("CounterExample")>]
     let counterexample (msg : unit -> string) : Property<unit> =
         Gen.constant (Journal.delayedSingleton msg, Success ()) |> ofGen
 
@@ -282,7 +269,6 @@ module Property =
             (x : Property<'a>) : Property<'b> =
         toGen x |> f |> ofGen
 
-    [<CompiledName("Map")>]
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
         (mapGen << Gen.map << second << Result.map) f x
 
@@ -298,11 +284,9 @@ module Property =
             | Success x ->
                 Gen.map (first (Journal.append journal)) (k x)
 
-    [<CompiledName("Bind")>]
     let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         bindGen (toGen m) (toGen << k) |> ofGen
 
-    [<CompiledName("ForAll")>]
     let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         let handle (e : exn) =
             Gen.constant (Journal.singleton (string e), Failure) |> ofGen
@@ -310,9 +294,6 @@ module Property =
             bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
 
-#if !FABLE_COMPILER
-    [<CompiledName("ForAll")>]
-#endif
     let forAll' (gen : Gen<'a>) : Property<'a> =
         forAll gen success
 
@@ -375,48 +356,29 @@ module Property =
     let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
         reportWith' renderRecheck size seed 100<tests> p
 
-#if !FABLE_COMPILER
-    [<CompiledName("Report")>]
-#endif
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let seed = Seed.random ()
         reportWith' true 1 seed n p
 
-    [<CompiledName("Report")>]
     let report (p : Property<unit>) : Report =
         report' 100<tests> p
 
-#if !FABLE_COMPILER
-    [<CompiledName("Check")>]
-#endif
     let check' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.tryRaise
 
-    [<CompiledName("Check")>]
     let check (p : Property<unit>) : unit =
         report p
         |> Report.tryRaise
 
-    // Overload for ease-of-use from C#
-#if !FABLE_COMPILER
-    [<CompiledName("Check")>]
-#endif
     let checkBool (g : Property<bool>) : unit =
         bind g ofBool |> check
 
-    // Overload for ease-of-use from C#
-#if !FABLE_COMPILER
-    [<CompiledName("Check")>]
-#endif
     let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
         bind g ofBool |> check' n
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
-#if !FABLE_COMPILER
-    [<CompiledName("FromThrowing")>]
-#endif
     let fromThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
         try
             f x
@@ -424,41 +386,25 @@ module Property =
         with
         | _ -> failure
 
-#if !FABLE_COMPILER
-    [<CompiledName("Recheck")>]
-#endif
     let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
         reportWith' false size seed n p
         |> Report.tryRaise
 
-#if !FABLE_COMPILER
-    [<CompiledName("Recheck")>]
-#endif
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
         reportWith false size seed p
         |> Report.tryRaise
 
-#if !FABLE_COMPILER
-    [<CompiledName("Recheck")>]
-#endif
     let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
         bind g ofBool |> recheck' size seed n
 
-#if !FABLE_COMPILER
-    [<CompiledName("Recheck")>]
-#endif
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
         bind g ofBool |> recheck size seed
 
-#if !FABLE_COMPILER
-    [<CompiledName("Print")>]
-#endif
     let print' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.render
         |> printfn "%s"
 
-    [<CompiledName("Print")>]
     let print (p : Property<unit>) : unit =
         report p
         |> Report.render

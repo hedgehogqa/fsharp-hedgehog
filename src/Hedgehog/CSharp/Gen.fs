@@ -6,109 +6,137 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
-module Gen =
+[<Extension>]
+type Gen =
 
-    let FromValue (value : 'T) : Gen<'T> =
+    static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant(value)
 
-    let FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
+    static member FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
         Gen.ofRandom(random)
 
-    let Delay (func : Func<_>) : Gen<'T> =
+    static member Delay (func : Func<_>) : Gen<'T> =
         Gen.delay func.Invoke
 
-    let Create (shrink : 'T -> seq<'T>) (random : Random<'T>) : Gen<'T> =
+    static member Create (shrink : 'T -> seq<'T>) (random : Random<'T>) : Gen<'T> =
         Gen.create shrink random
 
-    let Sized (scaler : Func<Size, Gen<'T>>) : Gen<'T> =
+    static member Sized (scaler : Func<Size, Gen<'T>>) : Gen<'T> =
         Gen.sized scaler.Invoke
 
-    let inline Integral (range : Range<'T>) : Gen<'T> =
+    static member IntegralByte (range : Range<byte>) : Gen<byte> =
         Gen.integral range
 
-    let Item (sequence : seq<'T>) : Gen<'T> =
+    static member IntegralSByte (range : Range<sbyte>) : Gen<sbyte> =
+        Gen.integral range
+
+    static member IntegralInt16 (range : Range<int16>) : Gen<int16> =
+        Gen.integral range
+
+    static member IntegralUInt16 (range : Range<uint16>) : Gen<uint16> =
+        Gen.integral range
+
+    static member IntegralInt32 (range : Range<int32>) : Gen<int32> =
+        Gen.integral range
+
+    static member IntegralUInt32 (range : Range<uint32>) : Gen<uint32> =
+        Gen.integral range
+
+    static member IntegralInt64 (range : Range<int64>) : Gen<int64> =
+        Gen.integral range
+
+    static member IntegralUInt64 (range : Range<uint64>) : Gen<uint64> =
+        Gen.integral range
+
+    static member IntegralDouble (range : Range<double>) : Gen<double> =
+        Gen.integral range
+
+    static member IntegralSingle (range : Range<float>) : Gen<float> =
+        Gen.integral range
+
+    static member IntegralDecimal (range : Range<decimal>) : Gen<decimal> =
+        Gen.integral range
+
+    static member Item (sequence : seq<'T>) : Gen<'T> =
         Gen.item sequence
 
-    let Frequency (gens : seq<int * Gen<'T>>) : Gen<'T> =
+    static member Frequency (gens : seq<int * Gen<'T>>) : Gen<'T> =
         Gen.frequency gens
 
-    let Choice (gens : seq<Gen<'T>>) : Gen<'T> =
+    static member Choice (gens : seq<Gen<'T>>) : Gen<'T> =
         Gen.choice gens
 
-    let ChoiceRecursive (nonrecs : seq<Gen<'T>>) (recs : seq<Gen<'T>>) : Gen<'T> =
+    static member ChoiceRecursive (nonrecs : seq<Gen<'T>>) (recs : seq<Gen<'T>>) : Gen<'T> =
         Gen.choiceRec nonrecs recs
 
-    let Char (lo : char) (hi : char) : Gen<char> =
+    static member Char (lo : char) (hi : char) : Gen<char> =
         Gen.char lo hi
 
-    let UnicodeAll : Gen<char> =
+    static member UnicodeAll : Gen<char> =
         Gen.unicodeAll
 
-    let Digit : Gen<char> =
+    static member Digit : Gen<char> =
         Gen.digit
 
-    let Lower : Gen<char> =
+    static member Lower : Gen<char> =
         Gen.lower
 
-    let Upper : Gen<char> =
+    static member Upper : Gen<char> =
         Gen.upper
 
-    let Ascii : Gen<char> =
+    static member Ascii : Gen<char> =
         Gen.ascii
 
-    let Latin1 : Gen<char> =
+    static member Latin1 : Gen<char> =
         Gen.latin1
 
-    let Unicode : Gen<char> =
+    static member Unicode : Gen<char> =
         Gen.unicode
 
-    let Alpha : Gen<char> =
+    static member Alpha : Gen<char> =
         Gen.alpha
 
-    let AlphaNumeric : Gen<char> =
+    static member AlphaNumeric : Gen<char> =
         Gen.alphaNum
 
-    let Bool : Gen<bool> =
+    static member Bool : Gen<bool> =
         Gen.bool
 
-    let Byte (range : Range<byte>) : Gen<byte> =
+    static member Byte (range : Range<byte>) : Gen<byte> =
         Gen.byte range
 
-    let SByte (range : Range<sbyte>) : Gen<sbyte> =
+    static member SByte (range : Range<sbyte>) : Gen<sbyte> =
         Gen.sbyte range
 
-    let Int16 (range : Range<int16>) : Gen<int16> =
+    static member Int16 (range : Range<int16>) : Gen<int16> =
         Gen.int16 range
 
-    let UInt16 (range : Range<uint16>) : Gen<uint16> =
+    static member UInt16 (range : Range<uint16>) : Gen<uint16> =
         Gen.uint16 range
 
-    let Int32 (range : Range<int32>) : Gen<int32> =
+    static member Int32 (range : Range<int32>) : Gen<int32> =
         Gen.int range
 
-    let UInt32 (range : Range<uint32>) : Gen<uint32> =
+    static member UInt32 (range : Range<uint32>) : Gen<uint32> =
         Gen.uint32 range
 
-    let Int64 (range : Range<int64>) : Gen<int64> =
+    static member Int64 (range : Range<int64>) : Gen<int64> =
         Gen.int64 range
 
-    let UInt64 (range : Range<uint64>) : Gen<uint64> =
+    static member UInt64 (range : Range<uint64>) : Gen<uint64> =
         Gen.uint64 range
 
-    let Double (range : Range<double>) : Gen<double> =
+    static member Double (range : Range<double>) : Gen<double> =
         Gen.double range
 
-    let Single (range : Range<float>) : Gen<float> =
+    static member Single (range : Range<float>) : Gen<float> =
         Gen.float range
 
-    let Guid : Gen<Guid> =
+    static member Guid : Gen<Guid> =
         Gen.guid
 
-    let DateTime : Gen<DateTime> =
+    static member DateTime : Gen<DateTime> =
         Gen.dateTime
-
-[<Extension>]
-type GenExtensions =
 
     [<Extension>]
     static member inline Apply(mf : Gen<Func<'T, 'TResult>>, ma : Gen<'T>) : Gen<'TResult> =
