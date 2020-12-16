@@ -18,8 +18,8 @@ type Gen =
     static member Delay (func : Func<_>) : Gen<'T> =
         Gen.delay func.Invoke
 
-    static member Create (shrink : 'T -> seq<'T>) (random : Random<'T>) : Gen<'T> =
-        Gen.create shrink random
+    static member Create (shrink : Func<'T, seq<'T>>) (random : Random<'T>) : Gen<'T> =
+        Gen.create shrink.Invoke random
 
     static member Sized (scaler : Func<Size, Gen<'T>>) : Gen<'T> =
         Gen.sized scaler.Invoke
