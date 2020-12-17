@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;netstandard2.0;net45</TargetFrameworks>
-    <Version>0.8.4</Version>
+    <Version>0.9.0</Version>
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
     <Copyright>Copyright © 2017</Copyright>

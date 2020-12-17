@@ -1,3 +1,17 @@
+## Version 0.9.0 (2020-12-17)
+
+- Add Gen.single and Gen.decimal ([#250][250], [@cmeeren][cmeeren])
+- Add Property.recheck ([#233][233], [@adam-becker][adam-becker])
+- Remove additional space in Tree.render ([#240][240], [@TysonMN][TysonMN])
+- Improve Range documentation ([#237][237], [#235][235], [@TysonMN][TysonMN])
+- Improve Gen.list ([#231][231], [@adam-becker][adam-becker])
+- Add Tree.render ([#229][229], [@TysonMN][TysonMN])
+- Improve Gen.frequency documentation ([#230][230], [@TysonMN][TysonMN])
+- Mangle compiled name for functions that cannot be called from langs other than F# ([#219][219], [#255][255], [@mausch][mausch] / [@dharmaturtle][dharmaturtle])
+  - Explicitly instantiate static inline functions for C# callers ([#222][222], [@mausch][mausch])
+- Add missing internal conversions to bigint in Numeric.fs ([#221][221], [@mausch][mausch])
+- Add LINQ support for Range ([#220][220], [@mausch][mausch])
+
 ## Version 0.8.4 (2020-07-26)
 
 - Add target .NET Framework 4.5 ([#210][210], [@bender2k14][bender2k14])
@@ -78,6 +92,16 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[dharmaturtle]:
+  https://github.com/dharmaturtle
+[cmeeren]:
+  https://github.com/cmeeren
+[adam-becker]:
+  https://github.com/adam-becker
+[TysonMN]:
+  https://github.com/TysonMN
+[mausch]:
+  https://github.com/mausch
 [bender2k14]:
   https://github.com/bender2k14
 [frankshearar]:
@@ -95,6 +119,32 @@
 [porges]:
   https://github.com/porges
 
+[255]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/255
+[250]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/250
+[240]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/240
+[237]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/237
+[235]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/235
+[233]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/233
+[231]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/231
+[230]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/230
+[229]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/229
+[222]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/222
+[221]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/221
+[220]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/220
+[219]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/219
 [210]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/210
 [209]:
