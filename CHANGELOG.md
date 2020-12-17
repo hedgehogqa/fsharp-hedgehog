@@ -14,8 +14,8 @@
 
 ## Version 0.8.4 (2020-07-26)
 
-- Add target .NET Framework 4.5 ([#210][210], [@bender2k14][bender2k14])
-- Add target .NET Standard 2.0 ([#209][209], [@bender2k14][bender2k14])
+- Add target .NET Framework 4.5 ([#210][210], [@TysonMN][TysonMN])
+- Add target .NET Standard 2.0 ([#209][209], [@TysonMN][TysonMN])
 
 ## Version 0.8.3 (2019-07-09)
 
@@ -102,8 +102,6 @@
   https://github.com/TysonMN
 [mausch]:
   https://github.com/mausch
-[bender2k14]:
-  https://github.com/bender2k14
 [frankshearar]:
   https://github.com/frankshearar
 [jystic]:
