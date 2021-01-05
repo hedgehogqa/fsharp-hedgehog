@@ -1,0 +1,33 @@
+name: master
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Ensure no Windows line endings
+      run: ./validate.sh
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.403
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    - name: Test (Hedgehog.Tests)
+      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+    - name: Test (Hedgehog.CSharp.Tests)
+      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+    - name: Publish NuGet
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      with:
+        PROJECT_FILE_PATH: "src/Hedgehog/Hedgehog.fsproj"
+        PACKAGE_NAME: "Hedgehog"
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}

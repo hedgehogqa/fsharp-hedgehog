@@ -1,4 +1,4 @@
-fsharp-hedgehog [![NuGet][nuget-shield]][nuget] ![](https://github.com/hedgehogqa/fsharp-hedgehog/workflows/.NET%20Core/badge.svg)
+fsharp-hedgehog [![NuGet][nuget-shield]][nuget] ![](https://github.com/hedgehogqa/fsharp-hedgehog/workflows/master/badge.svg)
 ========
 
 > Hedgehog will eat all your bugs.
