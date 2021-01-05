@@ -221,7 +221,7 @@ module Property =
         x
 
     let tryFinally (m : Property<'a>) (after : unit -> unit) : Property<'a> =
-       Gen.tryFinally (toGen m) after |> ofGen
+        Gen.tryFinally (toGen m) after |> ofGen
 
     let tryWith (m : Property<'a>) (k : exn -> Property<'a>) : Property<'a> =
         Gen.tryWith (toGen m) (toGen << k) |> ofGen
