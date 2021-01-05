@@ -123,11 +123,11 @@ type Gen =
     static member UInt64 (range : Range<uint64>) : Gen<uint64> =
         Gen.uint64 range
 
+    static member Single (range : Range<single>) : Gen<single> =
+        Gen.single range
+
     static member Double (range : Range<double>) : Gen<double> =
         Gen.double range
-
-    static member Single (range : Range<float>) : Gen<float> =
-        Gen.float range
 
     static member Guid : Gen<Guid> =
         Gen.guid

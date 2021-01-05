@@ -68,7 +68,7 @@ type Range =
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
-    static member ConstantBoundedSingle : Range<float> =
+    static member ConstantBoundedSingle : Range<single> =
         Range.constantBounded ()
 
     /// Construct a range which is unaffected by the size parameter using the
@@ -127,7 +127,7 @@ type Range =
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
-    static member LinearFromSingle (z, x, y) : Range<float> =
+    static member LinearFromSingle (z, x, y) : Range<single> =
         Range.linearFrom z x y
 
     /// Construct a range which scales the bounds relative to the size
@@ -182,7 +182,7 @@ type Range =
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
-    static member LinearSingle (x, y) : Range<float> =
+    static member LinearSingle (x, y) : Range<single> =
         Range.linear x y
 
     /// Construct a range which scales the second bound relative to the size
@@ -237,7 +237,7 @@ type Range =
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
-    static member LinearBoundedSingle : Range<float> =
+    static member LinearBoundedSingle : Range<single> =
         Range.linearBounded ()
 
     /// Construct a range which is scaled relative to the size parameter and
@@ -296,7 +296,7 @@ type Range =
 
     /// Construct a range which scales the bounds exponentially relative to the
     /// size parameter.
-    static member ExponentialFromSingle (z, x, y) : Range<float> =
+    static member ExponentialFromSingle (z, x, y) : Range<single> =
         Range.exponentialFrom z x y
 
     /// Construct a range which scales the bounds exponentially relative to the
@@ -351,7 +351,7 @@ type Range =
 
     /// Construct a range which scales the second bound exponentially relative
     /// to the size parameter.
-    static member ExponentialSingle (x, y) : Range<float> =
+    static member ExponentialSingle (x, y) : Range<single> =
         Range.exponential x y
 
     /// Construct a range which scales the second bound exponentially relative
@@ -406,7 +406,7 @@ type Range =
 
     /// Construct a range which is scaled exponentially relative to the size
     /// parameter and uses the full range of a data type.
-    static member ExponentialBoundedSingle : Range<float> =
+    static member ExponentialBoundedSingle : Range<single> =
         Range.exponentialBounded ()
 
     /// Construct a range which is scaled exponentially relative to the size
