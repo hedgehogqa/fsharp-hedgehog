@@ -420,7 +420,7 @@ type Range =
         Range.exponentialBounded ()
 
     [<Extension>]
-    static member inline Select(range : Range<'T>, mapper : Func<'T, 'TResult>) : Range<'TResult> =
+    static member inline Select (range : Range<'T>, mapper : Func<'T, 'TResult>) : Range<'TResult> =
         Range.map mapper.Invoke range
 
     //
@@ -441,16 +441,16 @@ type Range =
 
     /// Get the extents of a range, for a given size.
     [<Extension>]
-    static member inline Bounds (range : Range<'T>) (sz : Size) : 'T * 'T =
+    static member inline Bounds (range : Range<'T>, sz : Size) : 'T * 'T =
         Range.bounds sz range
 
     /// Get the lower bound of a range for the given size.
     [<Extension>]
-    static member inline LowerBound (range : Range<'T>) (sz : Size) : 'T =
+    static member inline LowerBound (range : Range<'T>, sz : Size) : 'T =
         Range.lowerBound sz range
 
     /// Get the upper bound of a range for the given size.
-    static member inline UpperBound (range : Range<'T>) (sz : Size) : 'T =
+    static member inline UpperBound (range : Range<'T>, sz : Size) : 'T =
         Range.upperBound sz range
 
 #endif

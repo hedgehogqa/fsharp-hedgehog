@@ -24,13 +24,13 @@ type Property =
     static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
         Property.ofGen gen
 
-    static member FromThrowing (f : Action<'T>) (arg : 'T) : Property<unit> =
-        Property.fromThrowing f.Invoke arg
+    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property<unit> =
+        Property.fromThrowing throwingFunc.Invoke arg
 
     static member Delay (f : Func<Property<'T>>) : Property<'T> =
         Property.delay f.Invoke
 
-    static member Using (resource : 'T) (action : Func<'T, Property<'TResult>>) : Property<'TResult> =
+    static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.using resource action.Invoke
 
     static member FromOutcome (result : Result<'T>) : Property<'T> =
@@ -50,11 +50,11 @@ type Property =
         Property.toGen property
 
     [<Extension>]
-    static member TryFinally (property : Property<'T>) (onFinally : Action) : Property<'T> =
+    static member TryFinally (property : Property<'T>, onFinally : Action) : Property<'T> =
         Property.tryFinally property onFinally.Invoke
 
     [<Extension>]
-    static member TryWith (property : Property<'T>) (onError : Func<exn, Property<'T>>) : Property<'T> =
+    static member TryWith (property : Property<'T>, onError : Func<exn, Property<'T>>) : Property<'T> =
         Property.tryWith property onError.Invoke
 
     //
@@ -110,24 +110,24 @@ type Property =
         Property.print property
 
     [<Extension>]
-    static member inline Where(property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
+    static member inline Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
         Property.filter filter.Invoke property
 
     [<Extension>]
-    static member inline Select(property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
+    static member inline Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
         Property.map mapper.Invoke property
 
     [<Extension>]
-    static member inline Select(property : Property<'T>, mapper : Action<'T>) : Property<unit> =
+    static member inline Select (property : Property<'T>, mapper : Action<'T>) : Property<unit> =
         Property.bind property (Property.fromThrowing mapper.Invoke)
 
     [<Extension>]
-    static member inline SelectMany(property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
+    static member inline SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
         Property.bind property (fun a ->
             Property.map (fun b -> projection.Invoke(a, b)) (binder.Invoke(a)))
 
     [<Extension>]
-    static member inline SelectMany(property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
+    static member inline SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
         Property.bind property (fun a ->
             Property.bind (binder.Invoke a) (fun b ->
                 Property.fromThrowing projection.Invoke (a, b)))
