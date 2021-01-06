@@ -1,8 +1,6 @@
-name: .NET Core
+name: Pull Request
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     types:
       - opened
