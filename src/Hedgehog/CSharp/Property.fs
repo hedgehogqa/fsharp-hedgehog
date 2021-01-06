@@ -62,15 +62,15 @@ type Property =
     //
 
     [<Extension>]
-    static member inline Report (property : Property<unit>) : Report =
+    static member Report (property : Property<unit>) : Report =
         Property.report property
 
     [<Extension>]
-    static member inline Report (property : Property<unit>, tests : int<tests>) : Report =
+    static member Report (property : Property<unit>, tests : int<tests>) : Report =
         Property.report' tests property
 
     [<Extension>]
-    static member inline Check (property : Property<unit>) : unit =
+    static member Check (property : Property<unit>) : unit =
         Property.check property
 
     [<Extension>]
@@ -110,24 +110,24 @@ type Property =
         Property.print property
 
     [<Extension>]
-    static member inline Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
+    static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
         Property.filter filter.Invoke property
 
     [<Extension>]
-    static member inline Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
+    static member Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
         Property.map mapper.Invoke property
 
     [<Extension>]
-    static member inline Select (property : Property<'T>, mapper : Action<'T>) : Property<unit> =
+    static member Select (property : Property<'T>, mapper : Action<'T>) : Property<unit> =
         Property.bind property (Property.fromThrowing mapper.Invoke)
 
     [<Extension>]
-    static member inline SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
+    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
         Property.bind property (fun a ->
             Property.map (fun b -> projection.Invoke(a, b)) (binder.Invoke(a)))
 
     [<Extension>]
-    static member inline SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
+    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
         Property.bind property (fun a ->
             Property.bind (binder.Invoke a) (fun b ->
                 Property.fromThrowing projection.Invoke (a, b)))
