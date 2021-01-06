@@ -516,6 +516,11 @@ module Gen =
     }
 
     /// Generates a random DateTime using the specified range.
+    /// For example:
+    ///   let range =
+    ///      Range.constantFrom
+    ///          (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
+    ///   Gen.dateTime range
     [<CompiledName("DateTime")>]
     let dateTime (range : Range<DateTime>) : Gen<System.DateTime> =
         gen {
