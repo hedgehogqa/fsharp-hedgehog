@@ -7,7 +7,8 @@ open System.Runtime.CompilerServices
 open Hedgehog
 
 [<Extension>]
-type Property =
+[<AbstractClass; Sealed>]
+type Property private () =
 
     static member Failure : Property<unit> =
         Property.failure

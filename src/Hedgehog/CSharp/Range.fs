@@ -7,7 +7,8 @@ open System.Runtime.CompilerServices
 open Hedgehog
 
 [<Extension>]
-type Range =
+[<AbstractClass; Sealed>]
+type Range private () =
 
     //
     // Combinators - Constant

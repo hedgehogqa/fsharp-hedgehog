@@ -7,7 +7,8 @@ open System.Runtime.CompilerServices
 open Hedgehog
 
 [<Extension>]
-type Gen =
+[<AbstractClass; Sealed>]
+type Gen private () =
 
     static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant(value)
