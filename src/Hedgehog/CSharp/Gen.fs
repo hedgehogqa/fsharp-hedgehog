@@ -133,8 +133,11 @@ type Gen private () =
     static member Guid : Gen<Guid> =
         Gen.guid
 
-    static member DateTime : Gen<DateTime> =
-        Gen.dateTime
+    static member DateTime (range : Range<DateTime>) : Gen<DateTime> =
+        Gen.dateTime range
+
+    static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
+        Gen.dateTimeOffset range
 
     [<Extension>]
     static member Apply (genFunc : Gen<Func<'T, 'TResult>>, genArg : Gen<'T>) : Gen<'TResult> =

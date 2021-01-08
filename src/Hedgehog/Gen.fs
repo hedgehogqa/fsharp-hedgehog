@@ -324,8 +324,8 @@ module Gen =
     /// Generates a Unicode character, including invalid standalone surrogates:
     /// '\000'..'\65535'
     let unicodeAll : Gen<char> =
-        let lo = System.Char.MinValue
-        let hi = System.Char.MaxValue
+        let lo = Char.MinValue
+        let hi = Char.MaxValue
         char lo hi
 
     // Generates a random digit.
@@ -357,7 +357,7 @@ module Gen =
             || x = Operators.char 65535
         unicodeAll
         |> filter (not << isNoncharacter)
-        |> filter (not << System.Char.IsSurrogate)
+        |> filter (not << Char.IsSurrogate)
 
     // Generates a random alpha character.
     let alpha : Gen<char> =
@@ -370,9 +370,9 @@ module Gen =
     /// Generates a random string using 'Range' to determine the length and the
     /// specified character generator.
     let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
-        sized <| fun size ->
+        sized <| fun _size ->
             g |> array range
-        |> map System.String
+        |> map String
 
     //
     // Combinators - Primitives
@@ -437,26 +437,26 @@ module Gen =
     //
 
     /// Generates a random globally unique identifier.
-    let guid : Gen<System.Guid> = gen {
+    let guid : Gen<Guid> = gen {
         let! bs = array (Range.constant 16 16) (byte <| Range.constantBounded ())
-        return System.Guid bs
+        return Guid bs
     }
 
     /// Generates a random DateTime using the specified range.
     /// For example:
     ///   let range =
     ///      Range.constantFrom
-    ///          (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
+    ///          (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue
     ///   Gen.dateTime range
-    let dateTime (range : Range<DateTime>) : Gen<System.DateTime> =
+    let dateTime (range : Range<DateTime>) : Gen<DateTime> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
-            return System.DateTime ticks
+            return DateTime ticks
         }
 
     /// Generates a random DateTimeOffset using the specified range.
     [<CompiledName("DateTimeOffset")>]
-    let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<System.DateTimeOffset> =
+    let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             // Ensure there is no overflow near the edges when adding the offset
@@ -469,7 +469,7 @@ module Gen =
                 (14L * 60L)
                 ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute)
             let! offsetMinutes = int (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
-            return System.DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
+            return DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
 
     //
