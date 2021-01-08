@@ -379,7 +379,7 @@ module Property =
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
-    let fromThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
+    let ofThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
         try
             f x
             success ()

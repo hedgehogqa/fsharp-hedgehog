@@ -26,7 +26,7 @@ type Property private () =
         Property.ofGen gen
 
     static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property<unit> =
-        Property.fromThrowing throwingFunc.Invoke arg
+        Property.ofThrowing throwingFunc.Invoke arg
 
     static member Delay (f : Func<Property<'T>>) : Property<'T> =
         Property.delay f.Invoke
@@ -120,7 +120,7 @@ type Property private () =
 
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Action<'T>) : Property<unit> =
-        Property.bind property (Property.fromThrowing mapper.Invoke)
+        Property.bind property (Property.ofThrowing mapper.Invoke)
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
@@ -131,6 +131,6 @@ type Property private () =
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
         Property.bind property (fun a ->
             Property.bind (binder.Invoke a) (fun b ->
-                Property.fromThrowing projection.Invoke (a, b)))
+                Property.ofThrowing projection.Invoke (a, b)))
 
 #endif
