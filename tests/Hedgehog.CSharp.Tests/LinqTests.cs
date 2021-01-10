@@ -1,7 +1,6 @@
 ﻿using Xunit;
 
 // Import ForAll:
-using Hedgehog.CSharp;
 using static Hedgehog.CSharp.Property;
 
 namespace Hedgehog.CSharp.Tests

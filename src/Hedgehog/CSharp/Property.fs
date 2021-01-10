@@ -17,13 +17,16 @@ type Property private () =
         Property.discard
 
     static member Success (value : 'T) : Property<'T> =
-        Property.Success(value)
+        Property.success value
 
     static member FromBool (value : bool) : Property<unit> =
         Property.ofBool(value)
 
     static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
         Property.ofGen gen
+
+    static member FromResult (result : Result<'T>) : Property<'T> =
+        Property.ofResult result
 
     static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property<unit> =
         Property.ofThrowing throwingFunc.Invoke arg
@@ -33,9 +36,6 @@ type Property private () =
 
     static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.using resource action.Invoke
-
-    static member FromOutcome (result : Result<'T>) : Property<'T> =
-        Property.ofResult(result)
 
     static member CounterExample (message : Func<string>) : Property<unit> =
         Property.counterexample(message.Invoke)
