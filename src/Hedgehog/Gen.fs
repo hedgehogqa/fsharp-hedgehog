@@ -423,12 +423,10 @@ module Gen =
         (double range) |> map float
 
     /// Generates a random 32-bit floating point number.
-    [<CompiledName("Single")>]
     let single (range : Range<single>) : Gen<single> =
       double (Range.map ExtraTopLevelOperators.double range) |> map single
 
     /// Generates a random decimal floating-point number.
-    [<CompiledName("Decimal")>]
     let decimal (range : Range<decimal>) : Gen<decimal> =
       double (Range.map ExtraTopLevelOperators.double range) |> map decimal
 
@@ -455,7 +453,6 @@ module Gen =
         }
 
     /// Generates a random DateTimeOffset using the specified range.
-    [<CompiledName("DateTimeOffset")>]
     let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral

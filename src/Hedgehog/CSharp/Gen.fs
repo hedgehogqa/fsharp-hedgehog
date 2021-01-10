@@ -100,11 +100,11 @@ type Gen private () =
     static member Bool : Gen<bool> =
         Gen.bool
 
-    static member Byte (range : Range<byte>) : Gen<byte> =
-        Gen.byte range
-
     static member SByte (range : Range<sbyte>) : Gen<sbyte> =
         Gen.sbyte range
+
+    static member Byte (range : Range<byte>) : Gen<byte> =
+        Gen.byte range
 
     static member Int16 (range : Range<int16>) : Gen<int16> =
         Gen.int16 range
@@ -129,6 +129,9 @@ type Gen private () =
 
     static member Double (range : Range<double>) : Gen<double> =
         Gen.double range
+
+    static member Decimal (range : Range<decimal>) : Gen<decimal> =
+        Gen.decimal range
 
     static member Guid : Gen<Guid> =
         Gen.guid
@@ -156,16 +159,21 @@ type Gen private () =
         Gen.generateTree gen
 
     [<Extension>]
-    static member List (gen : Gen<'T>, range : Range<int>) : Gen<List<'T>> =
+    static member List (gen : Gen<'T>, range : Range<int>) : Gen<ResizeArray<'T>> =
         Gen.list range gen
+        |> Gen.map ResizeArray
 
     [<Extension>]
     static member NoShrink (gen : Gen<'T>) : Gen<'T> =
         Gen.noShrink gen
 
     [<Extension>]
-    static member Option (gen : Gen<'T>) : Gen<Option<'T>> =
-        Gen.option gen
+    static member NullReference (gen : Gen<'T>) : Gen<'T> =
+        Gen.option gen |> Gen.map (Option.defaultValue null)
+
+    [<Extension>]
+    static member NullValue (gen : Gen<_>) : Gen<_> =
+        Gen.option gen |> Gen.map (Option.defaultWith Nullable << Option.map Nullable)
 
     [<Extension>]
     static member PrintSample (gen : Gen<'T>) : unit =
@@ -176,12 +184,14 @@ type Gen private () =
         Gen.resize size gen
 
     [<Extension>]
-    static member Sample (gen : Gen<'T>, size : Size, count : int) : List<'T> =
+    static member Sample (gen : Gen<'T>, size : Size, count : int) : ResizeArray<'T> =
         Gen.sample size count gen
+        |> ResizeArray
 
     [<Extension>]
-    static member SampleTree (gen : Gen<'T>, size : Size, count : int) : List<Tree<'T>> =
+    static member SampleTree (gen : Gen<'T>, size : Size, count : int) : ResizeArray<Tree<'T>> =
         Gen.sampleTree size count gen
+        |> ResizeArray
 
     [<Extension>]
     static member Scale (gen : Gen<'T>, scaler : Func<int, int>) : Gen<'T> =
@@ -233,8 +243,8 @@ type Gen private () =
             genD
 
     [<Extension>]
-    static member Shrink (gen : Gen<'T>, shrinker : Func<'T, List<'T>>) : Gen<'T> =
-        Gen.shrink shrinker.Invoke gen
+    static member Shrink (gen : Gen<'T>, shrinker : Func<'T, ResizeArray<'T>>) : Gen<'T> =
+        Gen.shrink (shrinker.Invoke >> Seq.toList) gen
 
     [<Extension>]
     static member ShrinkLazy (gen : Gen<'T>, shrinker : Func<'T, seq<'T>>) : Gen<'T> =
