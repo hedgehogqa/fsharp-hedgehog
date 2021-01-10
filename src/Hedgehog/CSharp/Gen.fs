@@ -11,12 +11,12 @@ open Hedgehog
 type Gen private () =
 
     static member FromValue (value : 'T) : Gen<'T> =
-        Gen.constant(value)
+        Gen.constant value
 
     static member FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
-        Gen.ofRandom(random)
+        Gen.ofRandom random
 
-    static member Delay (func : Func<_>) : Gen<'T> =
+    static member Delay (func : Func<Gen<'T>>) : Gen<'T> =
         Gen.delay func.Invoke
 
     static member Create (shrink : Func<'T, seq<'T>>, random : Random<'T>) : Gen<'T> =
@@ -172,7 +172,7 @@ type Gen private () =
         Gen.option gen |> Gen.map (Option.defaultValue null)
 
     [<Extension>]
-    static member NullValue (gen : Gen<_>) : Gen<_> =
+    static member NullValue (gen : Gen<'T>) : Gen<Nullable<'T>> =
         Gen.option gen |> Gen.map (Option.defaultWith Nullable << Option.map Nullable)
 
     [<Extension>]
@@ -222,20 +222,20 @@ type Gen private () =
         Gen.map mapper.Invoke gen
 
     [<Extension>]
-    static member Select2 (genA : Gen<'T>, mapper : Func<'T, 'U, 'TResult>, genB : Gen<'U>) : Gen<'TResult> =
+    static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'TResult>, genB : Gen<'U>) : Gen<'TResult> =
         Gen.map2 (fun a b -> mapper.Invoke(a, b))
             genA
             genB
 
     [<Extension>]
-    static member Select3 (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'TResult>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'TResult> =
+    static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'TResult>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'TResult> =
         Gen.map3 (fun a b c -> mapper.Invoke(a, b, c))
             genA
             genB
             genC
 
     [<Extension>]
-    static member Select4 (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'W, 'TResult>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'TResult> =
+    static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'W, 'TResult>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'TResult> =
         Gen.map4 (fun a b c d -> mapper.Invoke(a, b, c, d))
             genA
             genB
@@ -299,11 +299,11 @@ type Gen private () =
         Gen.zip genA genB
 
     [<Extension>]
-    static member Zip3 (genA : Gen<'T>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'T * 'U * 'V> =
+    static member Zip (genA : Gen<'T>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'T * 'U * 'V> =
         Gen.zip3 genA genB genC
 
     [<Extension>]
-    static member Zip4 (genA : Gen<'T>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'T * 'U * 'V * 'W> =
+    static member Zip (genA : Gen<'T>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'T * 'U * 'V * 'W> =
         Gen.zip4 genA genB genC genD
 
 #endif
