@@ -20,7 +20,7 @@ type Property private () =
         Property.success value
 
     static member FromBool (value : bool) : Property<unit> =
-        Property.ofBool(value)
+        Property.ofBool value
 
     static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
         Property.ofGen gen
