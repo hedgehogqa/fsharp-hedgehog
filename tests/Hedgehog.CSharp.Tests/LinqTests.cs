@@ -1,7 +1,7 @@
 ﻿using Xunit;
 
-// Import Check and ForAll:
-using static Hedgehog.Property;
+// Import ForAll:
+using static Hedgehog.CSharp.Property;
 
 namespace Hedgehog.CSharp.Tests
 {
@@ -14,97 +14,117 @@ namespace Hedgehog.CSharp.Tests
         [Fact]
         public void CanUseSelectWithAssertion()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
-                select Assert.True(x || !x));
+                select Assert.True(x || !x);
+
+            property.Check();
         }
 
         [Fact]
         public void CanUseSelectWithBool()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
-                select x || !x);
+                select x || !x;
+
+            property.Check();
         }
 
         [Fact]
         public void CanSelectFromTwoWithAssertion()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
                 from y in ForAll(Gen.Bool)
-                select Assert.True((x || !x) && (y || !y)));
+                select Assert.True((x || !x) && (y || !y));
+
+            property.Check();
         }
 
         [Fact]
         public void CanSelectFromTwoWithBool()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
                 from y in ForAll(Gen.Bool)
-                select (x || !x) && (y || !y));
+                select (x || !x) && (y || !y);
+
+            property.Check();
         }
 
         [Fact]
         public void CanSelectFromThreeWithAssertion()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
                 from y in ForAll(Gen.Bool)
                 from z in ForAll(Gen.Bool)
-                select Assert.True(x || y || z || (!x || !y || !z)));
+                select Assert.True(x || y || z || (!x || !y || !z));
+
+            property.Check();
         }
 
         [Fact]
         public void CanSelectFromThreeWithBool()
         {
-            Check(
+            var property =
                 from x in ForAll(Gen.Bool)
                 from y in ForAll(Gen.Bool)
                 from z in ForAll(Gen.Bool)
-                select x || y || z || (!x || !y || !z));
+                select x || y || z || (!x || !y || !z);
+
+            property.Check();
         }
 
         [Fact]
         public void CanUseWhereWithAssertion()
         {
-            Check(20,
+            var property =
                 from x in ForAll(Gen.Bool)
                 where x == true
                 from y in ForAll(Gen.Bool)
                 where y == false
-                select Assert.True(x && !y));
+                select Assert.True(x && !y);
+
+            property.Check(20);
         }
 
         [Fact]
         public void CanUseWhereWithBool()
         {
-            Check(20,
+            var property =
                 from x in ForAll(Gen.Bool)
                 where x == true
                 from y in ForAll(Gen.Bool)
                 where y == false
-                select x && !y);
+                select x && !y;
+
+            property.Check(20);
         }
 
         [Fact]
         public void CanDependOnEarlierValuesWithAssertion()
         {
-            Check(
+            var property =
                 from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
                 from j in ForAll(Gen.Int32(Range.Constant(1, i)))
-                select Assert.True(j <= i));
+                select Assert.True(j <= i);
+
+            property.Check();
         }
 
         [Fact]
         public void CanDependOnEarlierValuesWithBool()
         {
-            Check(
+            var property =
                 from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
                 from j in ForAll(Gen.Int32(Range.Constant(1, i)))
-                select j <= i);
+                select j <= i;
+
+            property.Check();
         }
-        
+
         [Fact]
         public void CanUseSelectWithGen()
         {
@@ -121,7 +141,7 @@ namespace Hedgehog.CSharp.Tests
                 where i
                 select !i;
         }
-        
+
         [Fact]
         public void CanUseSelectManyWithGen()
         {
@@ -130,7 +150,7 @@ namespace Hedgehog.CSharp.Tests
                 from j in Gen.Bool
                 select !i;
         }
-        
+
         [Fact]
         public void CanUseSelectWithRange()
         {

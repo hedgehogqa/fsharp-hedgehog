@@ -32,7 +32,9 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Property.fs" />
-    <Compile Include="LinqSupport.fs" />
+    <Compile Include="CSharp\Gen.fs" />
+    <Compile Include="CSharp\Property.fs" />
+    <Compile Include="CSharp\Range.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>

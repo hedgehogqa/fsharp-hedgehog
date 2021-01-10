@@ -9,9 +9,9 @@ namespace Hedgehog.CSharp.Tests
     public class NameTests
     {
         private static Type[] _publicApiTypes =
-            { typeof(Gen)
-            , typeof(Range)
-            , typeof(Property)
+            { typeof(Hedgehog.CSharp.Gen)
+            , typeof(Hedgehog.CSharp.Range)
+            , typeof(Hedgehog.CSharp.Property)
             };
 
         public static IEnumerable<object[]> AllPublicMembers()
