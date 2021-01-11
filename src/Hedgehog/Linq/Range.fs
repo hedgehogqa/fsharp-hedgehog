@@ -1,4 +1,4 @@
-namespace Hedgehog.CSharp
+namespace Hedgehog.Linq
 
 #if !FABLE_COMPILER
 

@@ -20,13 +20,13 @@ so shrinks obey the invariants of generated values by construction.
 The root namespace, `Hedgehog`, includes almost
 everything you need to get started writing property tests with Hedgehog.
 
-```fs
+```fsharp
 open Hedgehog
 ```
 
 Once you have your import declaration set up, you can write a simple property:
 
-```fs
+```fsharp
 let propReverse : Property<Unit> =
     property {
         let! xs = Gen.list (Range.linear 0 100) Gen.alpha
@@ -39,12 +39,39 @@ You can then load the module in F# Interactive, and run it:
 ```
 > Property.print propReverse
 +++ OK, passed 100 tests.
-
 ```
 
 More examples can be found in the [tutorial](doc/tutorial.md).
 
 👉 For auto-generators (à la AutoFixture) and other convenience generators, check out [fsharp-hedgehog-experimental](https://github.com/cmeeren/fsharp-hedgehog-experimental/).
+
+## C#/LINQ Example
+
+Hedgehog provides an alternative namespace, meant to provide compatibility with other .NET languages. To use this, simply import the `Hedgehog.Linq` namespace. The base `Hedgehog` namespace isn't necessary in this scenario.
+
+Generators are then built with a more comfortable fluent API.
+
+```csharp
+using Hegehog.Linq;
+
+class Generators
+{
+    static void Example()
+    {
+        // This creates a generator for 10 character strings, with only alphabetical characters.
+        var stringLength = 10;
+        var stringGen = Gen.String(Gen.Alpha, Range.FromValue(stringLength));
+
+        // This creates a property that can be printed, checked, or re-checked.
+        var property =
+            from string in Property.ForAll(stringGen)
+            select Assert.AreEqual(stringLength, string.Length);
+
+        // Checking accepts an argument for the number of test cases to generate and check.
+        property.Check(tests: 30);
+    }
+}
+```
 
 ## Building from source
 
@@ -57,13 +84,13 @@ With Visual Studio you can build Hedgehog and run the tests
 from inside the IDE, otherwise with the `dotnet` command-line
 tool you can execute:
 
-```sh
+```shell
 dotnet build
 ```
 
 To run the tests, you can execute:
 
-```sh
+```shell
 dotnet test tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
 dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 ```
@@ -72,22 +99,22 @@ dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
 
 As of https://github.com/hedgehogqa/fsharp-hedgehog/pull/253/ a NuGet package is created automatically during build.
 
-If you want to manually create a NuGet package you can run: 
+If you want to manually create a NuGet package you can run:
 
-```sh
+```shell
 dotnet pack src/Hedgehog/Hedgehog.fsproj -c Release
 ```
 
 This will produce `Hedgehog-x.y.z.nupkg` in `src/Hedgehog/bin/Release`.
 
- [nuget]: https://www.nuget.org/packages/Hedgehog/
- [nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat
+[nuget]: https://www.nuget.org/packages/Hedgehog/
+[nuget-shield]: https://img.shields.io/nuget/dt/Hedgehog.svg?style=flat
 
- [travis]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog
- [travis-shield]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master
+[travis]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog
+[travis-shield]: https://travis-ci.org/hedgehogqa/fsharp-hedgehog.svg?branch=master
 
- [net-core-sdk]: https://www.microsoft.com/net/download/
- [ubuntu-steps]: https://github.com/hedgehogqa/fsharp-hedgehog/pull/153#issuecomment-364325504
+[net-core-sdk]: https://www.microsoft.com/net/download/
+[ubuntu-steps]: https://github.com/hedgehogqa/fsharp-hedgehog/pull/153#issuecomment-364325504
 
 
 ## Development Environments
