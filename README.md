@@ -92,7 +92,7 @@ To run the tests, you can execute:
 
 ```shell
 dotnet test tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
-dotnet test tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+dotnet test tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
 ```
 
 ### Building the NuGet package
