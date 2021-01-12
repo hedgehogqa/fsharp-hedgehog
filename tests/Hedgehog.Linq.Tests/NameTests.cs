@@ -4,14 +4,14 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 
-namespace Hedgehog.CSharp.Tests
+namespace Hedgehog.Linq.Tests
 {
     public class NameTests
     {
         private static Type[] _publicApiTypes =
-            { typeof(Hedgehog.CSharp.Gen)
-            , typeof(Hedgehog.CSharp.Range)
-            , typeof(Hedgehog.CSharp.Property)
+            { typeof(Hedgehog.Linq.Gen)
+            , typeof(Hedgehog.Linq.Range)
+            , typeof(Hedgehog.Linq.Property)
             };
 
         public static IEnumerable<object[]> AllPublicMembers()

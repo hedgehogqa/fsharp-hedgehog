@@ -1,9 +1,9 @@
 ﻿using Xunit;
 
 // Import ForAll:
-using static Hedgehog.CSharp.Property;
+using static Hedgehog.Linq.Property;
 
-namespace Hedgehog.CSharp.Tests
+namespace Hedgehog.Linq.Tests
 {
     /*
      * The main object here is just to make sure that the examples compile,

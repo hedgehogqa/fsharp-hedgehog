@@ -23,8 +23,8 @@ jobs:
       run: dotnet build --no-restore --configuration Release
     - name: Test (Hedgehog.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
-    - name: Test (Hedgehog.CSharp.Tests)
-      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.CSharp.Tests/Hedgehog.CSharp.Tests.csproj
+    - name: Test (Hedgehog.Linq.Tests)
+      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
     - name: Publish NuGet
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
