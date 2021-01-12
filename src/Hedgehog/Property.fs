@@ -14,11 +14,11 @@ module Property =
     let toGen (Property x : Property<'a>) : Gen<Journal * Outcome<'a>> =
         x
 
-    let tryFinally (m : Property<'a>) (after : unit -> unit) : Property<'a> =
-        Gen.tryFinally (toGen m) after |> ofGen
+    let tryFinally (after : unit -> unit) (m : Property<'a>) : Property<'a> =
+        Gen.tryFinally after (toGen m) |> ofGen
 
-    let tryWith (m : Property<'a>) (k : exn -> Property<'a>) : Property<'a> =
-        Gen.tryWith (toGen m) (toGen << k) |> ofGen
+    let tryWith (k : exn -> Property<'a>) (m : Property<'a>) : Property<'a> =
+        Gen.tryWith (toGen << k) (toGen m) |> ofGen
 
     let delay (f : unit -> Property<'a>) : Property<'a> =
         Gen.delay (toGen << f) |> ofGen
@@ -26,8 +26,8 @@ module Property =
     let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
             'a :> IDisposable and
             'a : null =
-        let k' = delay (fun () -> k x)
-        tryFinally k' (fun () ->
+        delay (fun () -> k x)
+        |> tryFinally (fun () ->
             match x with
             | null ->
                 ()
@@ -67,9 +67,9 @@ module Property =
         (mapGen << GenTuple.mapSnd << Outcome.map) f x
 
     let private bindGen
-            (m : Gen<Journal * Outcome<'a>>)
-            (k : 'a -> Gen<Journal * Outcome<'b>>) : Gen<Journal * Outcome<'b>> =
-        Gen.bind m (fun (journal, result) ->
+            (k : 'a -> Gen<Journal * Outcome<'b>>)
+            (m : Gen<Journal * Outcome<'a>>) : Gen<Journal * Outcome<'b>> =
+        m |> Gen.bind (fun (journal, result) ->
             match result with
             | Failure ->
                 Gen.constant (journal, Failure)
@@ -78,18 +78,21 @@ module Property =
             | Success x ->
                 GenTuple.mapFst (Journal.append journal) (k x))
 
-    let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
-        bindGen (toGen m) (toGen << k) |> ofGen
+    let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
+        bindGen (toGen << k) (toGen m) |> ofGen
 
-    let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
+    let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let handle (e : exn) =
             Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
-            bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
-        Gen.bind gen prepend |> ofGen
+            counterexample (fun () -> sprintf "%A" x)
+            |> bind (fun _ -> try k x with e -> handle e)
+            |> toGen
+
+        gen |> Gen.bind prepend |> ofGen
 
     let forAll' (gen : Gen<'a>) : Property<'a> =
-        forAll gen success
+        gen |> forAll success
 
     //
     // Runner
@@ -164,10 +167,10 @@ module Property =
         report' 100<tests> p
 
     let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
-        bind p ofBool |> report' n
+        p |> bind ofBool |> report' n
 
     let reportBool (p : Property<bool>) : Report =
-        bind p ofBool |> report
+        p |> bind ofBool |> report
 
     let check' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
@@ -178,10 +181,10 @@ module Property =
         |> Report.tryRaise
 
     let checkBool (g : Property<bool>) : unit =
-        bind g ofBool |> check
+        g |> bind ofBool |> check
 
     let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
-        bind g ofBool |> check' n
+        g |> bind ofBool |> check' n
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
@@ -199,10 +202,10 @@ module Property =
         reportWith false size seed p
 
     let reportRecheckBool' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<bool>) : Report =
-        bind p ofBool |> reportRecheck' size seed n
+        p |> bind ofBool |> reportRecheck' size seed n
 
     let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
-        bind p ofBool |> reportRecheck size seed
+        p |> bind ofBool |> reportRecheck size seed
 
     let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
         reportRecheck' size seed n p
@@ -213,10 +216,10 @@ module Property =
         |> Report.tryRaise
 
     let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
-        bind g ofBool |> recheck' size seed n
+        g |> bind ofBool |> recheck' size seed n
 
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        bind g ofBool |> recheck size seed
+        g |> bind ofBool |> recheck size seed
 
     let print' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
@@ -232,15 +235,15 @@ module Property =
 module PropertyBuilder =
     let rec private loop (p : unit -> bool) (m : Property<unit>) : Property<unit> =
         if p () then
-            Property.bind m (fun _ -> loop p m)
+            m |> Property.bind (fun _ -> loop p m)
         else
             Property.success ()
 
     type Builder internal () =
         member __.For(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
-            Property.bind m k
+            m |> Property.bind k
 
-        member __.For(xs : seq<'a>, k : 'a -> Property<unit>) : Property<unit> =
+        member __.For(xs : #seq<'a>, k : 'a -> Property<unit>) : Property<unit> =
             let xse = xs.GetEnumerator ()
             Property.using xse (fun xse ->
                 let mv = xse.MoveNext
@@ -254,21 +257,21 @@ module PropertyBuilder =
             Property.success x
 
         member __.Combine(m : Property<unit>, n : Property<'a>) : Property<'a> =
-            Property.bind m (fun _ -> n)
+            m |> Property.bind (fun _ -> n)
 
         member __.TryFinally(m : Property<'a>, after : unit -> unit) : Property<'a> =
-            Property.tryFinally m after
+            m |> Property.tryFinally after
 
         member __.TryWith(m : Property<'a>, k : exn -> Property<'a>) : Property<'a> =
-            Property.tryWith m k
+            m |> Property.tryWith k
 
-        member __.Using(x : 'a, k : 'a -> Property<'b>) : Property<'b> when
+        member __.Using(a : 'a, k : 'a -> Property<'b>) : Property<'b> when
                 'a :> IDisposable and
                 'a : null =
-            Property.using x k
+            Property.using a k
 
         member __.Bind(m : Gen<'a>, k : 'a -> Property<'b>) : Property<'b> =
-            Property.forAll m k
+            m |> Property.forAll k
 
         member __.Return(b : bool) : Property<unit> =
             Property.ofBool b
@@ -284,9 +287,9 @@ module PropertyBuilder =
 
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
-            Property.bind m (fun x ->
-            Property.bind (Property.counterexample (fun () -> f x)) (fun _ ->
-            Property.success x))
+            m |> Property.bind (fun x ->
+                Property.counterexample (fun () -> f x)
+                |> Property.map (fun () -> x))
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
         member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =

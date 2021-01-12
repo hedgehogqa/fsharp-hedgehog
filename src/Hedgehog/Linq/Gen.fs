@@ -201,7 +201,7 @@ type GenExtensions private () =
 
     [<Extension>]
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'U>>) : Gen<'U> =
-        Gen.bind gen binder.Invoke
+        Gen.bind binder.Invoke gen
 
     [<Extension>]
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Gen<'TResult> =
@@ -270,15 +270,11 @@ type GenExtensions private () =
 
     [<Extension>]
     static member TryFinally (gen : Gen<'T>, after : Action) : Gen<'T> =
-        Gen.tryFinally gen after.Invoke
-
-    [<Extension>]
-    static member TryWhere (gen : Gen<'T>, after : Func<exn, Gen<'T>>) : Gen<'T> =
-        Gen.tryWith gen after.Invoke
+        Gen.tryFinally after.Invoke gen
 
     [<Extension>]
     static member TryWith (gen : Gen<'T>, after : Func<exn, Gen<'T>>) : Gen<'T> =
-        Gen.tryWith gen after.Invoke
+        Gen.tryWith after.Invoke gen
 
     [<Extension>]
     static member Tuple2 (gen : Gen<'T>) : Gen<'T * 'T> =

@@ -18,14 +18,14 @@ module Random =
         Random (fun seed size ->
             f () |> unsafeRun seed size)
 
-    let tryFinally (r : Random<'a>) (after : unit -> unit) : Random<'a> =
+    let tryFinally (after : unit -> unit) (r : Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
                 unsafeRun seed size r
             finally
                 after ())
 
-    let tryWith (r : Random<'a>) (k : exn -> Random<'a>) : Random<'a> =
+    let tryWith (k : exn -> Random<'a>) (r : Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
                 unsafeRun seed size r
@@ -41,7 +41,7 @@ module Random =
             |> unsafeRun seed size
             |> f)
 
-    let bind (r : Random<'a>) (k : 'a -> Random<'b>) : Random<'b> =
+    let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
         Random (fun seed size ->
             let seed1, seed2 = Seed.split seed
             r
@@ -66,7 +66,7 @@ module Random =
         member __.ReturnFrom(m : Random<'a>) : Random<'a> =
             m
         member __.Bind(m : Random<'a>, k : 'a -> Random<'b>) : Random<'b> =
-            bind m k
+            m |> bind k
 
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Random<'a>) : Random<'a> =
