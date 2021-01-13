@@ -2,10 +2,12 @@ module Hedgehog.Fable.Tests.GenTests
 
 open Hedgehog
 
+let dtRange = Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
+
 let genTests = xunitTests "Gen tests" [
     theory "dateTime creates System.DateTime instances" 
             [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
-            let actual = Gen.dateTime |> Gen.sample 0 count
+            let actual = Gen.dateTime dtRange |> Gen.sample 0 count
             actual
             |> List.distinct
             |> List.length
@@ -33,7 +35,7 @@ let genTests = xunitTests "Gen tests" [
             |> Random.run seed1 0
         let expected = System.DateTime ticks
 
-        let actual = Gen.dateTime
+        let actual = Gen.dateTime dtRange
 
         let result = actual |> Gen.toRandom |> Random.run seed0 0 |> Tree.outcome
         expected =! result
@@ -41,7 +43,7 @@ let genTests = xunitTests "Gen tests" [
     fact "dateTime shrinks to correct mid-value" <| fun _ ->
         let result =
             property {
-                let! actual = Gen.dateTime
+                let! actual = Gen.dateTime dtRange
                 System.DateTime.Now =! actual
             }
             |> Property.report
