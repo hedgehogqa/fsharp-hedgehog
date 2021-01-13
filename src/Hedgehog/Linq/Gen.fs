@@ -146,7 +146,7 @@ type GenExtensions private () =
 
     [<Extension>]
     static member Apply (genFunc : Gen<Func<'T, 'TResult>>, genArg : Gen<'T>) : Gen<'TResult> =
-        Gen.apply (genFunc |> Gen.map (fun f -> f.Invoke)) genArg
+        Gen.apply genArg (genFunc |> Gen.map (fun f -> f.Invoke))
 
     [<Extension>]
     static member Array (gen : Gen<'T>, range : Range<int>) : Gen<'T []> =

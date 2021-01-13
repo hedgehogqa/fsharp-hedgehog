@@ -43,7 +43,7 @@ module Gen =
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
         bindRandom (toRandom m) (toRandom << k) |> ofRandom
 
-    let apply (gf : Gen<'a -> 'b>) (gx : Gen<'a>) : Gen<'b> =
+    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
         gf |> bind (fun f ->
         gx |> bind (f >> constant))
 
