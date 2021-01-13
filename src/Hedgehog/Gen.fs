@@ -518,5 +518,5 @@ module GenBuilder =
 
 [<AutoOpen>]
 module GenOperators =
-    let (<!>) = Gen.map
-    let (<*>) = Gen.apply
+    let (<!>) f g = Gen.map f g
+    let (<*>) gf g = Gen.apply g gf
