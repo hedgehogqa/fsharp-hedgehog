@@ -520,3 +520,4 @@ module GenBuilder =
 module GenOperators =
     let (<!>) f g = Gen.map f g
     let (<*>) gf g = Gen.apply g gf
+    let (>>=) g f = Gen.bind f g
