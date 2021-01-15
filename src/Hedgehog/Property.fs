@@ -363,6 +363,12 @@ module Property =
     let report (p : Property<unit>) : Report =
         report' 100<tests> p
 
+    let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
+        bind p ofBool |> report' n
+
+    let reportBool (p : Property<bool>) : Report =
+        bind p ofBool |> report
+
     let check' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.tryRaise
@@ -386,12 +392,24 @@ module Property =
         with
         | _ -> failure
 
-    let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
+    let reportRecheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
         reportWith' false size seed n p
+
+    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
+        reportWith false size seed p
+
+    let reportRecheckBool' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<bool>) : Report =
+        bind p ofBool |> reportRecheck' size seed n
+
+    let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
+        bind p ofBool |> reportRecheck size seed
+
+    let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
+        reportRecheck' size seed n p
         |> Report.tryRaise
 
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
-        reportWith false size seed p
+        reportRecheck size seed p
         |> Report.tryRaise
 
     let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
