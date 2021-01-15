@@ -4,16 +4,6 @@ open Hedgehog
 open Swensen.Unquote
 open Xunit
 
-
-[<Fact>]
-let ``Large input to ListGen sequence does not cause stack overflow`` () =
-  let n = 10000
-  Gen.constant 1
-  |> List.replicate n
-  |> ListGen.sequence
-  |> Gen.sample 0 1
-  |> ignore
-
 [<Theory>]
 [<InlineData(  8)>]
 [<InlineData( 16)>]
