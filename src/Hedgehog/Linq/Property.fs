@@ -71,6 +71,14 @@ type Property private () =
         Property.report' tests property
 
     [<Extension>]
+    static member Report (property : Property<bool>) : Report =
+        Property.reportBool property
+
+    [<Extension>]
+    static member Report (property : Property<bool>, tests : int<tests>) : Report =
+        Property.reportBool' tests property
+
+    [<Extension>]
     static member Check (property : Property<unit>) : unit =
         Property.check property
 
@@ -101,6 +109,22 @@ type Property private () =
     [<Extension>]
     static member Recheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : unit =
         Property.recheckBool' size seed tests property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<unit>, size : Size, seed : Seed) : Report =
+        Property.reportRecheck size seed property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<unit>, size : Size, seed : Seed, tests : int<tests>) : Report =
+        Property.reportRecheck' size seed tests property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
+        Property.reportRecheckBool size seed property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : Report =
+        Property.reportRecheckBool' size seed tests property
 
     [<Extension>]
     static member Print (property : Property<unit>, tests : int<tests>) : unit =
