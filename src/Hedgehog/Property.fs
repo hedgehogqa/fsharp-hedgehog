@@ -246,10 +246,14 @@ module Property =
         |> Report.render
         |> printfn "%s"
 
+    let asStringWith (n : PropertyConfig) (p : Property<unit>) : string =
+        Report.render <| reportWith n p
+
+    let asString (p : Property<unit>) : string =
+        Report.render <| report p
+
     let print (p : Property<unit>) : unit =
-        report p
-        |> Report.render
-        |> printfn "%s"
+        printfn "%s" <| asString p
 
     let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
         reportBoolWith config p
