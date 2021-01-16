@@ -502,15 +502,20 @@ module Gen =
         toRandom g
         |> Random.run seed 30
 
+    let asString (g : Gen<'a>) : string =
+        String.concat Environment.NewLine [
+            let forest = sampleTree 10 5 g
+            for tree in forest do
+                yield "=== Outcome ==="
+                yield sprintf "%A" (Tree.outcome tree)
+                yield "=== Shrinks ==="
+                for shrink in Tree.shrinks tree do
+                    yield sprintf "%A" (Tree.outcome shrink)
+                yield "."
+        ]
+
     let printSample (g : Gen<'a>) : unit =
-        let forest = sampleTree 10 5 g
-        for tree in forest do
-            printfn "=== Outcome ==="
-            printfn "%A" (Tree.outcome tree)
-            printfn "=== Shrinks ==="
-            for shrink in Tree.shrinks tree do
-                printfn "%A" (Tree.outcome shrink)
-            printfn "."
+        printfn "%s" (asString g)
 
     module Operators =
         let (<!>) f g = map f g
