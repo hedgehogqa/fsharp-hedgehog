@@ -6,21 +6,28 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
+type PropertyThrows =
+    private
+        PropertyThrows of Property<unit>
+
 [<Extension>]
 [<AbstractClass; Sealed>]
 type Property private () =
 
-    static member Failure : Property<unit> =
+    static member Failure : PropertyThrows =
         Property.failure
+        |> PropertyThrows
 
-    static member Discard : Property<unit> =
+    static member Discard : PropertyThrows =
         Property.discard
+        |> PropertyThrows
 
     static member Success (value : 'T) : Property<'T> =
         Property.success value
 
-    static member FromBool (value : bool) : Property<unit> =
+    static member FromBool (value : bool) : PropertyThrows =
         Property.ofBool value
+        |> PropertyThrows
 
     static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
         Property.ofGen gen
@@ -28,8 +35,9 @@ type Property private () =
     static member FromResult (result : Result<'T>) : Property<'T> =
         Property.ofResult result
 
-    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property<unit> =
+    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : PropertyThrows =
         Property.ofThrowing throwingFunc.Invoke arg
+        |> PropertyThrows
 
     static member Delay (f : Func<Property<'T>>) : Property<'T> =
         Property.delay f.Invoke
@@ -37,8 +45,9 @@ type Property private () =
     static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.using resource action.Invoke
 
-    static member CounterExample (message : Func<string>) : Property<unit> =
+    static member CounterExample (message : Func<string>) : PropertyThrows =
         Property.counterexample(message.Invoke)
+        |> PropertyThrows
 
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.forAll gen k.Invoke
@@ -63,11 +72,13 @@ type Property private () =
     //
 
     [<Extension>]
-    static member Report (property : Property<unit>) : Report =
+    static member Report (property : PropertyThrows) : Report =
+        let (PropertyThrows property) = property
         Property.report property
 
     [<Extension>]
-    static member Report (property : Property<unit>, tests : int<tests>) : Report =
+    static member Report (property : PropertyThrows, tests : int<tests>) : Report =
+        let (PropertyThrows property) = property
         Property.report' tests property
 
     [<Extension>]
@@ -79,11 +90,13 @@ type Property private () =
         Property.reportBool' tests property
 
     [<Extension>]
-    static member Check (property : Property<unit>) : unit =
+    static member Check (property : PropertyThrows) : unit =
+        let (PropertyThrows property) = property
         Property.check property
 
     [<Extension>]
-    static member Check (property : Property<unit>, tests : int<tests>) : unit =
+    static member Check (property : PropertyThrows, tests : int<tests>) : unit =
+        let (PropertyThrows property) = property
         Property.check' tests property
 
     [<Extension>]
@@ -95,11 +108,13 @@ type Property private () =
         Property.checkBool' tests property
 
     [<Extension>]
-    static member Recheck (property : Property<unit>, size : Size, seed : Seed) : unit =
+    static member Recheck (property : PropertyThrows, size : Size, seed : Seed) : unit =
+        let (PropertyThrows property) = property
         Property.recheck size seed property
 
     [<Extension>]
-    static member Recheck (property : Property<unit>, size : Size, seed : Seed, tests : int<tests>) : unit =
+    static member Recheck (property : PropertyThrows, size : Size, seed : Seed, tests : int<tests>) : unit =
+        let (PropertyThrows property) = property
         Property.recheck' size seed tests property
 
     [<Extension>]
@@ -111,11 +126,13 @@ type Property private () =
         Property.recheckBool' size seed tests property
 
     [<Extension>]
-    static member ReportRecheck (property : Property<unit>, size : Size, seed : Seed) : Report =
+    static member ReportRecheck (property : PropertyThrows, size : Size, seed : Seed) : Report =
+        let (PropertyThrows property) = property
         Property.reportRecheck size seed property
 
     [<Extension>]
-    static member ReportRecheck (property : Property<unit>, size : Size, seed : Seed, tests : int<tests>) : Report =
+    static member ReportRecheck (property : PropertyThrows, size : Size, seed : Seed, tests : int<tests>) : Report =
+        let (PropertyThrows property) = property
         Property.reportRecheck' size seed tests property
 
     [<Extension>]
@@ -127,11 +144,13 @@ type Property private () =
         Property.reportRecheckBool' size seed tests property
 
     [<Extension>]
-    static member Print (property : Property<unit>, tests : int<tests>) : unit =
+    static member Print (property : PropertyThrows, tests : int<tests>) : unit =
+        let (PropertyThrows property) = property
         Property.print' tests property
 
     [<Extension>]
-    static member Print (property : Property<unit>) : unit =
+    static member Print (property : PropertyThrows) : unit =
+        let (PropertyThrows property) = property
         Property.print property
 
     [<Extension>]
@@ -143,8 +162,9 @@ type Property private () =
         Property.map mapper.Invoke property
 
     [<Extension>]
-    static member Select (property : Property<'T>, mapper : Action<'T>) : Property<unit> =
+    static member Select (property : Property<'T>, mapper : Action<'T>) : PropertyThrows =
         Property.bind property (Property.ofThrowing mapper.Invoke)
+        |> PropertyThrows
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
@@ -152,9 +172,11 @@ type Property private () =
             Property.map (fun b -> projection.Invoke(a, b)) (binder.Invoke(a)))
 
     [<Extension>]
-    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property<unit> =
-        Property.bind property (fun a ->
-            Property.bind (binder.Invoke a) (fun b ->
-                Property.ofThrowing projection.Invoke (a, b)))
+    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : PropertyThrows =
+        let result =
+            Property.bind property (fun a ->
+                Property.bind (binder.Invoke a) (fun b ->
+                    Property.ofThrowing projection.Invoke (a, b)))
+        PropertyThrows result
 
 #endif
