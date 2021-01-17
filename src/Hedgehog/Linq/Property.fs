@@ -6,28 +6,22 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
-type PropertyThrows =
-    private
-        PropertyThrows of Property<unit>
+type Property = private Property of Property<unit> with
 
-[<Extension>]
-[<AbstractClass; Sealed>]
-type Property private () =
-
-    static member Failure : PropertyThrows =
+    static member Failure : Property =
         Property.failure
-        |> PropertyThrows
+        |> Property
 
-    static member Discard : PropertyThrows =
+    static member Discard : Property =
         Property.discard
-        |> PropertyThrows
+        |> Property
 
     static member Success (value : 'T) : Property<'T> =
         Property.success value
 
-    static member FromBool (value : bool) : PropertyThrows =
+    static member FromBool (value : bool) : Property =
         Property.ofBool value
-        |> PropertyThrows
+        |> Property
 
     static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
         Property.ofGen gen
@@ -35,9 +29,9 @@ type Property private () =
     static member FromResult (result : Result<'T>) : Property<'T> =
         Property.ofResult result
 
-    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : PropertyThrows =
+    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property =
         Property.ofThrowing throwingFunc.Invoke arg
-        |> PropertyThrows
+        |> Property
 
     static member Delay (f : Func<Property<'T>>) : Property<'T> =
         Property.delay f.Invoke
@@ -45,15 +39,19 @@ type Property private () =
     static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.using resource action.Invoke
 
-    static member CounterExample (message : Func<string>) : PropertyThrows =
+    static member CounterExample (message : Func<string>) : Property =
         Property.counterexample(message.Invoke)
-        |> PropertyThrows
+        |> Property
 
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.forAll gen k.Invoke
 
     static member ForAll (gen : Gen<'T>) : Property<'T> =
         Property.forAll' gen
+
+[<Extension>]
+[<AbstractClass; Sealed>]
+type PropertyExtensions private () =
 
     [<Extension>]
     static member ToGen (property : Property<'T>) : Gen<Journal * Result<'T>> =
@@ -72,13 +70,13 @@ type Property private () =
     //
 
     [<Extension>]
-    static member Report (property : PropertyThrows) : Report =
-        let (PropertyThrows property) = property
+    static member Report (property : Property) : Report =
+        let (Property property) = property
         Property.report property
 
     [<Extension>]
-    static member Report (property : PropertyThrows, tests : int<tests>) : Report =
-        let (PropertyThrows property) = property
+    static member Report (property : Property, tests : int<tests>) : Report =
+        let (Property property) = property
         Property.report' tests property
 
     [<Extension>]
@@ -90,13 +88,13 @@ type Property private () =
         Property.reportBool' tests property
 
     [<Extension>]
-    static member Check (property : PropertyThrows) : unit =
-        let (PropertyThrows property) = property
+    static member Check (property : Property) : unit =
+        let (Property property) = property
         Property.check property
 
     [<Extension>]
-    static member Check (property : PropertyThrows, tests : int<tests>) : unit =
-        let (PropertyThrows property) = property
+    static member Check (property : Property, tests : int<tests>) : unit =
+        let (Property property) = property
         Property.check' tests property
 
     [<Extension>]
@@ -108,13 +106,13 @@ type Property private () =
         Property.checkBool' tests property
 
     [<Extension>]
-    static member Recheck (property : PropertyThrows, size : Size, seed : Seed) : unit =
-        let (PropertyThrows property) = property
+    static member Recheck (property : Property, size : Size, seed : Seed) : unit =
+        let (Property property) = property
         Property.recheck size seed property
 
     [<Extension>]
-    static member Recheck (property : PropertyThrows, size : Size, seed : Seed, tests : int<tests>) : unit =
-        let (PropertyThrows property) = property
+    static member Recheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : unit =
+        let (Property property) = property
         Property.recheck' size seed tests property
 
     [<Extension>]
@@ -126,13 +124,13 @@ type Property private () =
         Property.recheckBool' size seed tests property
 
     [<Extension>]
-    static member ReportRecheck (property : PropertyThrows, size : Size, seed : Seed) : Report =
-        let (PropertyThrows property) = property
+    static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
+        let (Property property) = property
         Property.reportRecheck size seed property
 
     [<Extension>]
-    static member ReportRecheck (property : PropertyThrows, size : Size, seed : Seed, tests : int<tests>) : Report =
-        let (PropertyThrows property) = property
+    static member ReportRecheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : Report =
+        let (Property property) = property
         Property.reportRecheck' size seed tests property
 
     [<Extension>]
@@ -144,13 +142,13 @@ type Property private () =
         Property.reportRecheckBool' size seed tests property
 
     [<Extension>]
-    static member Print (property : PropertyThrows, tests : int<tests>) : unit =
-        let (PropertyThrows property) = property
+    static member Print (property : Property, tests : int<tests>) : unit =
+        let (Property property) = property
         Property.print' tests property
 
     [<Extension>]
-    static member Print (property : PropertyThrows) : unit =
-        let (PropertyThrows property) = property
+    static member Print (property : Property) : unit =
+        let (Property property) = property
         Property.print property
 
     [<Extension>]
@@ -162,9 +160,9 @@ type Property private () =
         Property.map mapper.Invoke property
 
     [<Extension>]
-    static member Select (property : Property<'T>, mapper : Action<'T>) : PropertyThrows =
+    static member Select (property : Property<'T>, mapper : Action<'T>) : Property =
         Property.bind property (Property.ofThrowing mapper.Invoke)
-        |> PropertyThrows
+        |> Property
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
@@ -172,11 +170,11 @@ type Property private () =
             Property.map (fun b -> projection.Invoke(a, b)) (binder.Invoke(a)))
 
     [<Extension>]
-    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : PropertyThrows =
+    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =
         let result =
             Property.bind property (fun a ->
                 Property.bind (binder.Invoke a) (fun b ->
                     Property.ofThrowing projection.Invoke (a, b)))
-        PropertyThrows result
+        Property result
 
 #endif
