@@ -6,7 +6,7 @@ open Xunit
 
 [<Fact>]
 let ``render tree with depth 0`` () =
-    Property.check <| property {
+    Property.check (property {
         let! x0 = Gen.constant "0"
 
         let tree =
@@ -18,11 +18,11 @@ let ``render tree with depth 0`` () =
             sprintf "%A" x0
         ]
         test <@ expected = Tree.renderList tree @>
-    }
+    })
 
 [<Fact>]
 let ``render tree with depth 1`` () =
-    Property.check <| property {
+    Property.check (property {
         let! x0 = Gen.constant "0"
         let! x1 = Gen.constant "1"
         let! x2 = Gen.constant "2"
@@ -43,11 +43,11 @@ let ``render tree with depth 1`` () =
             sprintf "└-%A" x3
         ]
         test <@ expected = Tree.renderList tree @>
-    }
+    })
 
 [<Fact>]
 let ``render tree with depth 2`` () =
-    Property.check <| property {
+    Property.check (property {
         let! x0 = Gen.constant "0"
         let! x1 = Gen.constant "1"
         let! x2 = Gen.constant "2"
@@ -98,4 +98,4 @@ let ``render tree with depth 2`` () =
             sprintf "  └-%A" x12
         ]
         test <@ expected = Tree.renderList tree @>
-    }
+    })

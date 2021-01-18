@@ -21,14 +21,14 @@ let ``dateTime creates System.DateTime instances`` count =
 
 [<Fact>]
 let ``unicode doesn't return any surrogate`` () =
-    let actual = Gen.sample 100 100000 Gen.unicode 
+    let actual = Gen.sample 100 100000 Gen.unicode
     [] =! List.filter System.Char.IsSurrogate actual
 
 [<Theory>]
 [<InlineData(65534)>]
 [<InlineData(65535)>]
 let ``unicode doesn't return any noncharacter`` nonchar =
-    let isNoncharacter = (=) <| Operators.char nonchar
+    let isNoncharacter = (=) (char nonchar)
     let actual = Gen.sample 100 100000 Gen.unicode
     [] =! List.filter isNoncharacter actual
 
@@ -54,7 +54,7 @@ let ``dateTime randomly generates value between max and min ticks`` () =
 let ``dateTime shrinks to correct mid-value`` () =
     let result =
         property {
-            let! actual = 
+            let! actual =
               Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
               |> Gen.dateTime
             System.DateTime.Now =! actual
@@ -68,14 +68,14 @@ let ``dateTime shrinks to correct mid-value`` () =
 
 [<Fact>]
 let ``int64 can create exponentially bounded integer`` () =
-    Property.check <| property {
+    Property.check (property {
         let! _ = Gen.int64 (Range.exponentialBounded ())
         return true
-    }
+    })
 
 [<Fact>]
 let ``uint64 can create exponentially bounded integer`` () =
-    Property.check <| property {
+    Property.check (property {
         let! _ = Gen.uint64 (Range.exponentialBounded ())
         return true
-    }
+    })

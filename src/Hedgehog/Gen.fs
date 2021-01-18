@@ -31,21 +31,21 @@ module Gen =
         Tree.singleton x |> Random.constant |> ofRandom
 
     let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
-        Hedgehog.Random <| fun seed0 size ->
-          let seed1, seed2 =
-              Seed.split seed0
+        Hedgehog.Random (fun seed0 size ->
+            let seed1, seed2 =
+                Seed.split seed0
 
-          let run (seed : Seed) (random : Random<'x>) : 'x =
-              Random.run seed size random
+            let run (seed : Seed) (random : Random<'x>) : 'x =
+                Random.run seed size random
 
-          Tree.bind (run seed1 m) (run seed2 << k)
+            Tree.bind (run seed1 m) (run seed2 << k))
 
     let bind (m0 : Gen<'a>) (k0 : 'a -> Gen<'b>) : Gen<'b> =
         bindRandom (toRandom m0) (toRandom << k0) |> ofRandom
 
     let apply (gf : Gen<'a -> 'b>) (gx : Gen<'a>) : Gen<'b> =
-        bind gf <| fun f ->
-        bind gx <| (f >> constant)
+        bind gf (fun f ->
+        bind gx (f >> constant))
 
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
@@ -57,22 +57,22 @@ module Gen =
         mapTree (Tree.map f) g
 
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
-        bind gx <| fun x ->
-        bind gy <| fun y ->
-        constant (f x y)
+        bind gx (fun x ->
+        bind gy (fun y ->
+        constant (f x y)))
 
     let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
-        bind gx <| fun x ->
-        bind gy <| fun y ->
-        bind gz <| fun z ->
-        constant (f x y z)
+        bind gx (fun x ->
+        bind gy (fun y ->
+        bind gz (fun z ->
+        constant (f x y z))))
 
     let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
-        bind gx <| fun x ->
-        bind gy <| fun y ->
-        bind gz <| fun z ->
-        bind gw <| fun w ->
-        constant (f x y z w)
+        bind gx (fun x ->
+        bind gy (fun y ->
+        bind gz (fun z ->
+        bind gw (fun w ->
+        constant (f x y z w)))))
 
     let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
         map2 (fun x y -> x, y) gx gy
@@ -107,10 +107,10 @@ module Gen =
             bind m k
         member __.For(xs, k) =
             let xse = (xs :> seq<'a>).GetEnumerator ()
-            using xse <| fun xse ->
+            using xse (fun xse ->
                 let mv = xse.MoveNext
                 let kc = delay (fun () -> k xse.Current)
-                loop mv kc
+                loop mv kc)
         member __.Combine(m, n) =
             bind m (fun () -> n)
         member __.Delay(f) =
@@ -154,8 +154,8 @@ module Gen =
     /// Adjust the size parameter, by transforming it with the given
     /// function.
     let scale (f : int -> int) (g : Gen<'a>) : Gen<'a> =
-        sized <| fun n ->
-            resize (f n) g
+        sized (fun n ->
+            resize (f n) g)
 
     //
     // Combinators - Numeric
@@ -163,7 +163,7 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
-        create (Shrink.towards <| Range.origin range) (Random.integral range)
+        create (Shrink.towards (Range.origin range)) (Random.integral range)
 
     //
     // Combinators - Choice
@@ -179,7 +179,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs"
         else
-            let! ix = integral <| Range.constant 0 (Array.length xs - 1)
+            let! ix = integral (Range.constant 0 (Array.length xs - 1))
             return Array.item ix xs
     }
 
@@ -202,7 +202,7 @@ module Gen =
                 else
                     pick (n - k) ys
 
-        let! n = integral <| Range.constant 1 total
+        let! n = integral (Range.constant 1 total)
         return! pick n xs
     }
 
@@ -213,7 +213,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs" xs
         else
-            let! ix = integral <| Range.constant 0 (Array.length xs - 1)
+            let! ix = integral (Range.constant 0 (Array.length xs - 1))
             return! Array.item ix xs
     }
 
@@ -223,12 +223,15 @@ module Gen =
     /// from the recursive list.
     /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i>
     let choiceRec (nonrecs : seq<Gen<'a>>) (recs : seq<Gen<'a>>) : Gen<'a> =
-        sized <| fun n ->
+        sized (fun n ->
             if n <= 1 then
                 choice nonrecs
             else
-                let halve x = x / 2
-                choice <| Seq.append nonrecs (Seq.map (scale halve) recs)
+                recs
+                |> Seq.map (scale (fun x -> x / 2))
+                |> Seq.append nonrecs
+                |> choice
+        )
 
     //
     // Combinators - Conditional
@@ -242,42 +245,45 @@ module Gen =
                 Random.constant None
             | n ->
                 let r = Random.resize (2 * k + n) r0
-                Random.bind r <| fun x ->
+                Random.bind r (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
-                        tryN (k + 1) (n - 1)
+                        tryN (k + 1) (n - 1))
 
         Random.sized (tryN 0 << max 1)
 
     /// Generates a value that satisfies a predicate.
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
         let rec loop () =
-            Random.bind (toRandom g |> tryFilterRandom p) <| function
+            Random.bind (toRandom g |> tryFilterRandom p) (function
                 | None ->
-                    Random.sized <| fun n ->
-                        Random.resize (n + 1) (Random.delay loop)
+                    Random.sized (fun n ->
+                        Random.resize (n + 1) (Random.delay loop))
                 | Some x ->
-                    Random.constant x
+                    Random.constant x)
 
         loop ()
         |> ofRandom
 
     /// Tries to generate a value that satisfies a predicate.
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
-        ofRandom << Random.bind (toRandom g |> tryFilterRandom p) <| function
+        let filter = function
             | None ->
-                None |> Tree.singleton |> Random.constant
+                Random.constant (Tree.singleton None)
             | Some x ->
-                Tree.map Some x |> Random.constant
+                Random.constant (Tree.map Some x)
+
+        let flipBind f ma = Random.bind ma f
+
+        toRandom g
+        |> tryFilterRandom p
+        |> flipBind filter
+        |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
     let some (g : Gen<'a option>) : Gen<'a> =
-        bind (filter Option.isSome g) <| function
-        | Some x ->
-            constant x
-        | None ->
-            invalidOp "internal error, unexpected None"
+        bind (filter Option.isSome g) (Option.get >> constant)
 
     //
     // Combinators - Collections
@@ -285,25 +291,24 @@ module Gen =
 
     /// Generates a 'None' part of the time.
     let option (g : Gen<'a>) : Gen<'a option> =
-        sized <| fun n ->
+        sized (fun n ->
             frequency [
                 2, constant None
                 1 + n, map Some g
-            ]
+            ])
 
     let private atLeast (n : int) (xs : List<'a>) : bool =
         (List.length xs) >= n
 
     /// Generates a list using a 'Range' to determine the length.
     let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
-        ofRandom
-        <| (Random.sized
-        <| fun size -> random {
-               let! k = Random.integral range
-               let! xs = Random.replicate k (toRandom g)
-               return Shrink.sequenceList xs
-                   |> Tree.filter (atLeast (Range.lowerBound size range))
-           })
+        Random.sized (fun size -> random {
+            let! k = Random.integral range
+            let! xs = Random.replicate k (toRandom g)
+            return Shrink.sequenceList xs
+                |> Tree.filter (atLeast (Range.lowerBound size range))
+        })
+        |> ofRandom
 
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
@@ -319,7 +324,9 @@ module Gen =
 
     // Generates a random character in the specified range.
     let char (lo : char) (hi : char) : Gen<char> =
-        integral <| Range.constant (int lo) (int hi) |> map char
+        Range.constant (int lo) (int hi)
+        |> integral
+        |> map char
 
     /// Generates a Unicode character, including invalid standalone surrogates:
     /// '\000'..'\65535'
@@ -370,8 +377,7 @@ module Gen =
     /// Generates a random string using 'Range' to determine the length and the
     /// specified character generator.
     let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
-        sized <| fun _size ->
-            g |> array range
+        sized (fun _size -> array range g)
         |> map String
 
     //
@@ -416,19 +422,20 @@ module Gen =
 
     /// Generates a random 64-bit floating point number.
     let double (range : Range<double>) : Gen<double> =
-        create (Shrink.towardsDouble <| Range.origin range) (Random.double range)
+        Random.double range
+        |> create (Shrink.towardsDouble (Range.origin range))
 
     /// Generates a random 64-bit floating point number.
     let float (range : Range<float>) : Gen<float> =
-        (double range) |> map float
+        double range |> map float
 
     /// Generates a random 32-bit floating point number.
     let single (range : Range<single>) : Gen<single> =
-      double (Range.map ExtraTopLevelOperators.double range) |> map single
+        double (Range.map ExtraTopLevelOperators.double range) |> map single
 
     /// Generates a random decimal floating-point number.
     let decimal (range : Range<decimal>) : Gen<decimal> =
-      double (Range.map ExtraTopLevelOperators.double range) |> map decimal
+        double (Range.map ExtraTopLevelOperators.double range) |> map decimal
 
     //
     // Combinators - Constructed
@@ -436,7 +443,7 @@ module Gen =
 
     /// Generates a random globally unique identifier.
     let guid : Gen<Guid> = gen {
-        let! bs = array (Range.constant 16 16) (byte <| Range.constantBounded ())
+        let! bs = array (Range.singleton 16) (byte (Range.constantBounded ()))
         return Guid bs
     }
 
@@ -494,10 +501,10 @@ module Gen =
         let forest = sampleTree 10 5 g
         for tree in forest do
             printfn "=== Outcome ==="
-            printfn "%A" <| Tree.outcome tree
+            printfn "%A" (Tree.outcome tree)
             printfn "=== Shrinks ==="
             for shrink in Tree.shrinks tree do
-                printfn "%A" <| Tree.outcome shrink
+                printfn "%A" (Tree.outcome shrink)
             printfn "."
 
 [<AutoOpen>]

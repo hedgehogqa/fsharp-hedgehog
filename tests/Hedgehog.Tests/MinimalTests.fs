@@ -53,19 +53,20 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
 #nowarn "40"
 // This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let rec genExp : Gen<Exp> =
-    Gen.delay <| fun _ ->
-    Gen.shrink shrinkExp <| // comment this out to see the property fail
-    Gen.choiceRec [
-        Lit <!> Gen.int (Range.constant 0 10)
-        Var <!> genName
-    ] [
-        Lam <!> Gen.zip genName genExp
-        App <!> Gen.zip genExp genExp
-    ]
+    Gen.delay (fun _ ->
+        let choiceRec =
+            Gen.choiceRec [
+                Lit <!> Gen.int (Range.constant 0 10)
+                Var <!> genName
+            ] [
+                Lam <!> Gen.zip genName genExp
+                App <!> Gen.zip genExp genExp
+            ]
+        Gen.shrink shrinkExp choiceRec) // comment this out to see the property fail
 
 [<Fact>]
 let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
-    Property.check <| property {
+    Property.check (property {
         let! xs = Gen.mapTree Tree.duplicate genExp |> Gen.resize 20
         match tryFindSmallest noAppLit10 xs with
         | None ->
@@ -83,4 +84,4 @@ let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
                 counterexample (sprintf "%A" x)
                 return false
             }
-    }
+    })
