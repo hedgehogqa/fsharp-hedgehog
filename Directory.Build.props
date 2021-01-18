@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <FsDocsLicenseLink></FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink></FsDocsReleaseNotesLink>
+    <FsDocsSourceFolder>./src/Hedgehog</FsDocsSourceFolder>
+    <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
+    <UsesMarkdownComments>true</UsesMarkdownComments>
+  </PropertyGroup>
+</Project>
