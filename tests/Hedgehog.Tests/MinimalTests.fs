@@ -54,14 +54,17 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
 // This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let rec genExp : Gen<Exp> =
     Gen.delay (fun _ ->
-        let choiceRec =
-            Gen.choiceRec [
-                Lit <!> Gen.int (Range.constant 0 10)
-                Var <!> genName
-            ] [
-                Lam <!> Gen.zip genName genExp
-                App <!> Gen.zip genExp genExp
-            ]
+        let recs = [
+            Lit <!> Gen.int (Range.constant 0 10)
+            Var <!> genName
+        ]
+
+        let nonrecs = [
+            Lam <!> Gen.zip genName genExp
+            App <!> Gen.zip genExp genExp
+        ]
+
+        let choiceRec = Gen.choiceRec recs nonrecs
         Gen.shrink shrinkExp choiceRec) // comment this out to see the property fail
 
 [<Fact>]

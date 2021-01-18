@@ -54,8 +54,8 @@ Gen.printSample genLeapYear
 
 // Fails due to integer overflow
 Property.print (property {
-    let! x = Gen.int (Range.constantBounded ())
-    let! y = Gen.int (Range.constantBounded ())
+    let! x = Range.constantBounded () |> Gen.int
+    let! y = Range.constantBounded () |> Gen.int
     where (x > 0 && y > 0)
     counterexample (sprintf "x * y = %d" (x * y))
     return x * y > 0
@@ -73,7 +73,7 @@ Property.check (property {
 //
 
 Property.print (property {
-    let! n = Gen.int (Range.constantBounded ())
+    let! n = Range.constantBounded () |> Gen.int
     where (n <> 0)
     return 1 / n = 1 / n
 })
@@ -107,7 +107,7 @@ Property.print (property {
     let mutable n = 0
     while n < 10 do
         n <- n + 1
-        let! k = Gen.int (Range.constant 0 n)
+        let! k = Range.constant 0 n |> Gen.int
         return! Property.counterexample (fun () -> sprintf "n = %d" n)
         return! Property.counterexample (fun () -> sprintf "k = %d" k)
         return k <> 5
@@ -184,7 +184,7 @@ Range.exponentialBounded ()
 
 Gen.printSample (gen {
     let! addr =
-        Gen.array (Range.singleton 4) (Gen.byte (Range.constantBounded ()))
+        Range.constantBounded () |> Gen.byte |> Gen.array (Range.singleton 4)
     return Net.IPAddress addr
 })
 

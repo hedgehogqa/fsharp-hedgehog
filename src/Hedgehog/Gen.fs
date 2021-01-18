@@ -163,7 +163,11 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
-        create (Shrink.towards (Range.origin range)) (Random.integral range)
+        let shrink =
+            Shrink.towards (Range.origin range)
+
+        Random.integral range
+        |> create shrink
 
     //
     // Combinators - Choice
@@ -224,13 +228,16 @@ module Gen =
     /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i>
     let choiceRec (nonrecs : seq<Gen<'a>>) (recs : seq<Gen<'a>>) : Gen<'a> =
         sized (fun n ->
-            if n <= 1 then
-                choice nonrecs
-            else
-                recs
-                |> Seq.map (scale (fun x -> x / 2))
-                |> Seq.append nonrecs
-                |> choice
+            let scaledRecs =
+                if n <= 1 then
+                    Seq.empty
+                else
+                    recs
+                    |> Seq.map (scale (fun x -> x / 2))
+
+            scaledRecs
+            |> Seq.append nonrecs
+            |> choice
         )
 
     //

@@ -28,9 +28,8 @@ let ``unicode doesn't return any surrogate`` () =
 [<InlineData(65534)>]
 [<InlineData(65535)>]
 let ``unicode doesn't return any noncharacter`` nonchar =
-    let isNoncharacter = (=) (char nonchar)
     let actual = Gen.sample 100 100000 Gen.unicode
-    [] =! List.filter isNoncharacter actual
+    [] =! List.filter (fun ch -> ch = char nonchar) actual
 
 [<Fact>]
 let ``dateTime randomly generates value between max and min ticks`` () =

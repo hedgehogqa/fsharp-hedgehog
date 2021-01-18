@@ -15,7 +15,8 @@ open Xunit
 [<InlineData(1024, 512)>]
 let ``singleton bounds returns correct result`` sz x =
     let actual =
-        Range.bounds sz (Range.singleton x)
+        Range.singleton x
+        |> Range.bounds sz
     (x, x) =!
         actual
 
@@ -30,7 +31,8 @@ let ``singleton bounds returns correct result`` sz x =
 [<InlineData(1024)>]
 let ``singleton origin returns correct result`` x =
     let actual =
-        Range.origin (Range.singleton x)
+        Range.singleton x
+        |> Range.origin
     x =!
         actual
 
@@ -44,7 +46,8 @@ let ``singleton origin returns correct result`` x =
 [<InlineData(1024, 511, 512)>]
 let ``constant bounds returns correct result`` sz x y =
     let actual =
-        Range.bounds sz (Range.constant x y)
+        Range.constant x y
+        |> Range.bounds sz
     (x, y) =!
         actual
 
@@ -58,7 +61,8 @@ let ``constant bounds returns correct result`` sz x y =
 [<InlineData(1024, 511)>]
 let ``constant origin returns correct result`` x y =
     let actual =
-        Range.origin (Range.constant x y)
+        Range.constant x y
+        |> Range.origin
     x =!
         actual
 
@@ -73,7 +77,8 @@ let ``constant origin returns correct result`` x y =
 [<InlineData(1024)>]
 let ``range from -x to x, with the origin at`` x =
     let actual =
-        Range.origin (Range.constantFrom x -10 10)
+        Range.constantFrom x -10 10
+        |> Range.origin
     x =!
         actual
 
@@ -87,7 +92,8 @@ let ``range from -x to x, with the origin at`` x =
 [<InlineData(1024, 511)>]
 let ``range from -x to x, with the bounds at`` sz x =
     let actual =
-        Range.bounds sz (Range.constantFrom 0 -x x)
+        Range.constantFrom 0 -x x
+        |> Range.bounds sz
     (-x, x) =!
         actual
 
@@ -102,7 +108,8 @@ let ``range from -x to x, with the bounds at`` sz x =
 [<InlineData(1024)>]
 let ``constantBounded bounds returns correct result - Byte range`` sz =
     let x =
-        Range.bounds sz (Range.constantBounded () : Range<Byte>)
+        Range.constantBounded () : Range<Byte>
+        |> Range.bounds sz
     (Byte.MinValue, Byte.MaxValue) =!
         x
 
@@ -117,7 +124,8 @@ let ``constantBounded bounds returns correct result - Byte range`` sz =
 [<InlineData(1024)>]
 let ``constantBounded bounds returns correct result - Int32 range`` sz =
     let x =
-        Range.bounds sz (Range.constantBounded () : Range<Int32>)
+        Range.constantBounded () : Range<Int32>
+        |> Range.bounds sz
     (Int32.MinValue, Int32.MaxValue) =!
         x
 
@@ -132,7 +140,8 @@ let ``constantBounded bounds returns correct result - Int32 range`` sz =
 [<InlineData(1024)>]
 let ``constantBounded bounds returns correct result - Int64 range`` sz =
     let x =
-        Range.bounds sz (Range.constantBounded () : Range<Int64>)
+        Range.constantBounded () : Range<Int64>
+        |> Range.bounds sz
     (Int64.MinValue, Int64.MaxValue) =!
         x
 
@@ -148,125 +157,143 @@ let ``clamp truncates a value so it stays within some range `` x y n expected =
 [<Fact>]
 let ``linear scales the second bound relative to the size - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.linear 0 10)
+        Range.linear 0 10
+        |> Range.bounds 0
     (0, 0) =!
         actual
 
 [<Fact>]
 let ``linear scales the second bound relative to the size - example 2`` () =
     let actual =
-        Range.bounds 50 (Range.linear 0 10)
+        Range.linear 0 10
+        |> Range.bounds 50
     (0, 5) =!
         actual
 
 [<Fact>]
 let ``linear scales the second bound relative to the size - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.linear 0 10)
+        Range.linear 0 10
+        |> Range.bounds 99
     (0, 10) =!
         actual
 
 [<Fact>]
 let ``linearFrom scales the bounds relative to the size - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.linearFrom 0 -10 10)
+        Range.linearFrom 0 -10 10
+        |> Range.bounds 0
     (0, 0) =!
         actual
 
 [<Fact>]
 let ``linearFrom scales the bounds relative to the size - example 2`` () =
     let actual =
-        Range.bounds 50 (Range.linearFrom 0 -10 20)
+        Range.linearFrom 0 -10 20
+        |> Range.bounds 50
     (-5, 10) =!
         actual
 
 [<Fact>]
 let ``linearFrom scales the bounds relative to the size - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.linearFrom 0 -10 20)
+        Range.linearFrom 0 -10 20
+        |> Range.bounds 99
     (-10, 20) =!
         actual
 
 [<Fact>]
 let ``linearBounded uses the full range of a data type - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.linearBounded () : Range<sbyte>)
+        Range.linearBounded () : Range<sbyte>
+        |> Range.bounds 0
     (-0y, 0y) =!
         actual
 
 [<Fact>]
 let ``linearBounded uses the full range of a data type - example 2`` () =
     let actual =
-        Range.bounds 50 (Range.linearBounded () : Range<sbyte>)
+        Range.linearBounded () : Range<sbyte>
+        |> Range.bounds 50
     (-64y, 64y) =!
         actual
 
 [<Fact>]
 let ``linearBounded uses the full range of a data type - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.linearBounded () : Range<sbyte>)
+        Range.linearBounded () : Range<sbyte>
+        |> Range.bounds 99
     (-128y, 127y) =!
         actual
 
 [<Fact>]
 let ``exponential scales the second bound exponentially relative to the size - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.exponential 1 512)
+        Range.exponential 1 512
+        |> Range.bounds 0
     (1, 1) =!
         actual
 
 [<Fact>]
 let ``exponential scales the second bound exponentially relative to the size - example 2`` () =
     let actual =
-        Range.bounds 77 (Range.exponential 1 512)
+        Range.exponential 1 512
+        |> Range.bounds 77
     (1, 128) =!
         actual
 
 [<Fact>]
 let ``exponential scales the second bound exponentially relative to the size - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.exponential 1 512)
+        Range.exponential 1 512
+        |> Range.bounds 99
     (1, 512) =!
         actual
 
 [<Fact>]
 let ``exponentialFrom scales the bounds exponentially relative to the size - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.exponentialFrom 0 -128 512)
+        Range.exponentialFrom 0 -128 512
+        |> Range.bounds 0
     (0, 0) =!
         actual
 
 [<Fact>]
 let ``exponentialFrom scales the bounds exponentially relative to the size - example 2`` () =
     let actual =
-        Range.bounds 50 (Range.exponentialFrom 0 -128 512)
+        Range.exponentialFrom 0 -128 512
+        |> Range.bounds 50
     (-11, 22) =!
         actual
 
 [<Fact>]
 let ``exponentialFrom scales the bounds exponentially relative to the size - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.exponentialFrom 3 -128 512)
+        Range.exponentialFrom 3 -128 512
+        |> Range.bounds 99
     (-128, 512) =!
         actual
 
 [<Fact>]
 let ``exponentialBounded uses the full range of a data type - example 1`` () =
     let actual =
-        Range.bounds 0 (Range.exponentialBounded () : Range<sbyte>)
+        Range.exponentialBounded () : Range<sbyte>
+        |> Range.bounds 0
     (-0y, 0y) =!
         actual
 
 [<Fact>]
 let ``exponentialBounded uses the full range of a data type - example 2`` () =
     let actual =
-        Range.bounds 50 (Range.exponentialBounded () : Range<sbyte>)
+        Range.exponentialBounded () : Range<sbyte>
+        |> Range.bounds 50
     (-11y, 11y) =!
         actual
 
 [<Fact>]
 let ``exponentialBounded uses the full range of a data type - example 3`` () =
     let actual =
-        Range.bounds 99 (Range.exponentialBounded () : Range<sbyte>)
+        Range.exponentialBounded () : Range<sbyte>
+        |> Range.bounds 99
     (-128y, 127y) =!
         actual
