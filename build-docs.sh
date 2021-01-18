@@ -7,4 +7,5 @@ dotnet build -c $CONFIGURATION -f $FRAMEWORK ./src/Hedgehog
 
 dotnet fsdocs build \
     --input ./doc \
-    --property Configuration=$CONFIGURATION,TargetFramework=$FRAMEWORK
+    --property Configuration=$CONFIGURATION,TargetFramework=$FRAMEWORK \
+    --strict

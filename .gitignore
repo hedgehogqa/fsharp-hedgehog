@@ -8,6 +8,7 @@ packages/
 TestResults/
 .fsdocs/
 output/
+tmp/
 
 # globs
 Makefile.in
