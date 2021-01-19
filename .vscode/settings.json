@@ -1,0 +1,5 @@
+{
+    "files.exclude": {
+        "**/*.fs.js": true
+    }
+}

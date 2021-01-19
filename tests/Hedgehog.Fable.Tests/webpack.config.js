@@ -2,7 +2,8 @@ var path = require("path");
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: "./Hedgehog.Fable.Tests.fsproj",
+    entry: "./Program.fs.js",
+    mode: "development",
     output: {
         path: path.join(__dirname, "./tests-js"),
         filename: "bundle.js",

@@ -1,12 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "build": "fable-splitter . -o tests-js --commonjs",
-    "pretest": "fable-splitter . -o tests-js --commonjs",
+    "prebuild": "dotnet tool restore",
+    "build": "dotnet fable .",
+    "pretest": "dotnet fable . --run webpack",
     "test": "mocha tests-js --timeout 10000",
     "dotnet-expecto": "msbuild && .\\bin\\Debug\\netcoreapp3.1\\Hedgehog.Fable.Tests.exe --summary",
-    "prestart": "webpack",
-    "start": "webpack-dev-server"
+    "start": "dotnet fable watch . --run webpack-dev-server"
   },
   "dependencies": {
     "fable-compiler": "^2.4.7",

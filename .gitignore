@@ -68,3 +68,6 @@ node_modules/
 build/
 
 tests/Hedgehog.Fable.Tests/tests-js/
+
+# fable generated javascript files
+*.fs.js
