@@ -85,7 +85,7 @@ module Range =
     // Factories
     //
 
-    let internal ofArray (xs : 'a array) =
+    let internal ofArray (xs : 'a array) : Range<int> =
         constant 0 (Array.length xs - 1)
 
     //
