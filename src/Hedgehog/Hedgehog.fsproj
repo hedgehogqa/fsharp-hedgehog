@@ -24,6 +24,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutoOpen.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />
