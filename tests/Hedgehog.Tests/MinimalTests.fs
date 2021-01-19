@@ -64,8 +64,9 @@ let rec genExp : Gen<Exp> =
             App <!> Gen.zip genExp genExp
         ]
 
-        let choiceRec = Gen.choiceRec recs nonrecs
-        Gen.shrink shrinkExp choiceRec) // comment this out to see the property fail
+        Gen.choiceRec recs nonrecs
+        |> Gen.shrink shrinkExp // comment this out to see the property fail
+    )
 
 [<Fact>]
 let ``greedy traversal with a predicate yields the perfect minimal shrink``() =

@@ -183,7 +183,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs"
         else
-            let! ix = integral (Range.constant 0 (Array.length xs - 1))
+            let! ix = Range.ofArray xs |> integral
             return Array.item ix xs
     }
 
@@ -206,7 +206,7 @@ module Gen =
                 else
                     pick (n - k) ys
 
-        let! n = integral (Range.constant 1 total)
+        let! n = Range.constant 1 total |> integral
         return! pick n xs
     }
 
@@ -217,7 +217,7 @@ module Gen =
         if Array.isEmpty xs then
             return crashEmpty "xs" xs
         else
-            let! ix = integral (Range.constant 0 (Array.length xs - 1))
+            let! ix = Range.ofArray xs |> integral
             return! Array.item ix xs
     }
 
@@ -277,7 +277,7 @@ module Gen =
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
         let filter = function
             | None ->
-                Random.constant (Tree.singleton None)
+                Tree.singleton None |> Random.constant
             | Some x ->
                 Random.constant (Tree.map Some x)
 
@@ -450,7 +450,7 @@ module Gen =
 
     /// Generates a random globally unique identifier.
     let guid : Gen<Guid> = gen {
-        let! bs = array (Range.singleton 16) (byte (Range.constantBounded ()))
+        let! bs = Range.constantBounded () |> byte |> array (Range.singleton 16)
         return Guid bs
     }
 

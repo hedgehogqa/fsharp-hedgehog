@@ -630,8 +630,8 @@ let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some (a + b)
 
-property { let! a = Gen.int (Range.constantBounded ())
-           let! b = Gen.int (Range.constantBounded ())
+property { let! a = Range.constantBounded () |> Gen.int
+           let! b = Range.constantBounded () |> Gen.int
            return tryAdd a b = Some (a + b) }
 |> Property.print;;
 
@@ -657,8 +657,8 @@ let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Gen.int (Range.constantBounded ())
-           let! b = Gen.int (Range.constantBounded ())
+property { let! a = Range.constantBounded () |> Gen.int
+           let! b = Range.constantBounded () |> Gen.int
            counterexample (sprintf "The value of a was %d." a)
            return tryAdd a b = Some(a + b) }
 |> Property.print;;
@@ -680,8 +680,8 @@ let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Gen.int (Range.constantBounded ())
-           let! b = Gen.int (Range.constantBounded ())
+property { let! a = Range.constantBounded () |> Gen.int
+           let! b = Range.constantBounded () |> Gen.int
            where (a < 100)
            return tryAdd a b = Some(a + b) }
 |> Property.print;;

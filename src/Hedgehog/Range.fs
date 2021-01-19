@@ -82,6 +82,13 @@ module Range =
         constantFrom zero lo hi
 
     //
+    // Factories
+    //
+
+    let internal ofArray (xs : 'a array) =
+        constant 0 (Array.length xs - 1)
+
+    //
     // Combinators - Linear
     //
 
