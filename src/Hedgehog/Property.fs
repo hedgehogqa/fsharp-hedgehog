@@ -320,7 +320,7 @@ module Property =
             OK
 
     let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
-        let random = toGen p |> Gen.toRandom
+        let gen = toGen p
 
         let nextSize size =
             if size >= 100 then
@@ -339,7 +339,7 @@ module Property =
                   Status = GaveUp }
             else
                 let seed1, seed2 = Seed.split seed
-                let result = Random.run seed1 size random
+                let result = Gen.run seed1 size gen
 
                 match snd (Tree.outcome result) with
                 | Failure ->

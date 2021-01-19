@@ -13,14 +13,11 @@ type Gen private () =
     static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant value
 
-    static member FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
-        Gen.ofRandom random
-
     static member Delay (func : Func<Gen<'T>>) : Gen<'T> =
         Gen.delay func.Invoke
 
-    static member Create (shrink : Func<'T, seq<'T>>, random : Random<'T>) : Gen<'T> =
-        Gen.create shrink.Invoke random
+    static member Create (shrink : Func<'T, seq<'T>>, random : Func<Seed, Size, 'T>) : Gen<'T> =
+        Gen.create shrink.Invoke (fun seed size -> random.Invoke (seed, size))
 
     static member Sized (scaler : Func<Size, Gen<'T>>) : Gen<'T> =
         Gen.sized scaler.Invoke
@@ -210,10 +207,6 @@ type Gen private () =
         }
 
     [<Extension>]
-    static member SelectRandom (gen : Gen<'T>, binder : Func<Random<Tree<'T>>, Random<Tree<'TResult>>>) : Gen<'TResult> =
-        Gen.mapRandom binder.Invoke gen
-
-    [<Extension>]
     static member SelectTree (gen : Gen<'T>, binder : Func<Tree<'T>, Tree<'TResult>>) : Gen<'TResult> =
         Gen.mapTree binder.Invoke gen
 
@@ -257,14 +250,6 @@ type Gen private () =
     [<Extension>]
     static member String (gen : Gen<char>, range : Range<int>) : Gen<string> =
         Gen.string range gen
-
-    [<Extension>]
-    static member ToGen (random : Random<Tree<'T>>) : Gen<'T> =
-        Gen.ofRandom random
-
-    [<Extension>]
-    static member ToRandom (gen : Gen<'T>) : Random<Tree<'T>> =
-        Gen.toRandom gen
 
     [<Extension>]
     static member TryFinally (gen : Gen<'T>, after : Action) : Gen<'T> =

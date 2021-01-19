@@ -3,7 +3,6 @@
       "Seed.fs"
       "Tree.fs"
       "Range.fs"
-      "Random.fs"
       "Shrink.fs"
       "Gen.fs"
       "Property.fs"
