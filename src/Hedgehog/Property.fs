@@ -157,14 +157,14 @@ module Property =
         loop seed size0 0<tests> 0<discards>
 
     let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith' renderRecheck size seed 100<tests> p
+        p |> reportWith' renderRecheck size seed 100<tests>
 
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        reportWith' true 1 seed n p
+        p |> reportWith' true 1 seed n
 
     let report (p : Property<unit>) : Report =
-        report' 100<tests> p
+        p |> report' 100<tests>
 
     let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
         p |> bind ofBool |> report' n
