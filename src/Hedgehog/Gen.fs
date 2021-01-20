@@ -275,15 +275,9 @@ module Gen =
 
     /// Tries to generate a value that satisfies a predicate.
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
-        let filter = function
-            | None ->
-                Tree.singleton None |> Random.constant
-            | Some x ->
-                Random.constant (Tree.map Some x)
-
         toRandom g
         |> tryFilterRandom p
-        |> flip Random.bind filter
+        |> flip Random.bind (OptionTree.sequence >> Random.constant)
         |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
