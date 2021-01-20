@@ -43,6 +43,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
   </ItemGroup>
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
   <ItemGroup>
-    <Content Include="*.fsproj; **\*.fs" PackagePath="fable\" />
+    <Content Include="*.fsproj; **\*.fs" Exclude="**\bin\**\*; **\obj\**\*" PackagePath="fable" />
   </ItemGroup>
 </Project>
