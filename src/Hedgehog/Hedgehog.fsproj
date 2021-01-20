@@ -25,7 +25,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AutoOpen.fs" />
-    <Compile Include="Util.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Tree.fs" />
