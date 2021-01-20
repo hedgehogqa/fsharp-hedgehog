@@ -6,8 +6,6 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
-[<Extension>]
-[<AbstractClass; Sealed>]
 type Gen private () =
 
     static member FromValue (value : 'T) : Gen<'T> =
@@ -141,6 +139,10 @@ type Gen private () =
 
     static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         Gen.dateTimeOffset range
+
+[<Extension>]
+[<AbstractClass; Sealed>]
+type GenExtensions private () =
 
     [<Extension>]
     static member Apply (genFunc : Gen<Func<'T, 'TResult>>, genArg : Gen<'T>) : Gen<'TResult> =

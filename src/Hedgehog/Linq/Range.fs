@@ -6,8 +6,6 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
-[<Extension>]
-[<AbstractClass; Sealed>]
 type Range private () =
 
     //
@@ -419,6 +417,10 @@ type Range private () =
     /// parameter and uses the full range of a data type.
     static member ExponentialBoundedDecimal () : Range<decimal> =
         Range.exponentialBounded ()
+
+[<Extension>]
+[<AbstractClass; Sealed>]
+type RangeExtensions private () =
 
     [<Extension>]
     static member Select (range : Range<'T>, mapper : Func<'T, 'TResult>) : Range<'TResult> =
