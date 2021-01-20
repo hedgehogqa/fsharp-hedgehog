@@ -1,7 +1,6 @@
 ﻿[<RequireQualifiedAccess>]
 module internal Hedgehog.OptionTree
 
-
 let traverse (f: 'a -> Tree<'b>) (maybeTree: 'a option) : Tree<'b option> =
   match maybeTree with
   | None -> None |> Tree.singleton
