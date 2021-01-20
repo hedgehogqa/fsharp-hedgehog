@@ -50,7 +50,8 @@ module Shrink =
     /// Shrink a list by edging towards the empty list.
     /// Note we always try the empty list first, as that is the optimal shrink.
     let list (xs : List<'a>) : seq<List<'a>> =
-        Seq.concat <| Seq.map (fun k -> removes k xs) (halves <| List.length xs)
+        halves (List.length xs)
+        |> Seq.collect (fun k -> removes k xs)
 
     /// Shrink each of the elements in input list using the supplied shrinking
     /// function.
@@ -94,7 +95,9 @@ module Shrink =
             /// the full range of the type (i.e. 'MinValue' and 'MaxValue' for 'Int32')
             let diff : ^a = (x / two) - (destination / two)
 
-            Seq.consNub destination <| Seq.map (fun y -> x - y) (halves diff)
+            halves diff
+            |> Seq.map (fun y -> x - y)
+            |> Seq.consNub destination
 
     /// Shrink a floating-point number by edging towards a destination.
     /// Note we always try the destination first, as that is the optimal shrink.
@@ -113,4 +116,3 @@ module Shrink =
                     None
 
             Seq.unfold go diff
-

@@ -16,36 +16,35 @@ open System
 // Combinators
 //
 
-Property.print <| property {
-    let! x = Gen.int <| Range.constant 1 100
+Property.print (property {
+    let! x = Gen.int (Range.constant 1 100)
     let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq (Range.linear 0 100)
-    counterexample (sprintf "tryHead ys = %A" <| Seq.tryHead ys)
+    counterexample (sprintf "tryHead ys = %A" (Seq.tryHead ys))
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
-}
+})
 
-Property.print <| property {
+Property.print (property {
     let! xs = Gen.string (Range.constant 0 100) Gen.unicode
     return String.length xs <= 5
-}
+})
 
 //
 // reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
 //
 
-Property.print <| property {
+Property.print (property {
     let! xs = Gen.list (Range.linear 0 100) Gen.alpha
-    return xs
-            |> List.rev
-            |> List.rev
-            = xs
-}
+    return xs = List.rev (List.rev xs)
+})
 
 //
 // Conditional Generators
 //
 
 let genLeapYear =
-    Gen.int <| Range.constant 2000 3000 |> Gen.filter DateTime.IsLeapYear
+    Range.constant 2000 3000
+    |> Gen.int
+    |> Gen.filter DateTime.IsLeapYear
 
 Gen.printSample genLeapYear
 
@@ -54,47 +53,47 @@ Gen.printSample genLeapYear
 //
 
 // Fails due to integer overflow
-Property.print <| property {
-    let! x = Gen.int <| Range.constantBounded ()
-    let! y = Gen.int <| Range.constantBounded ()
+Property.print (property {
+    let! x = Range.constantBounded () |> Gen.int
+    let! y = Range.constantBounded () |> Gen.int
     where (x > 0 && y > 0)
-    counterexample (sprintf "x * y = %d" <| x * y)
+    counterexample (sprintf "x * y = %d" (x * y))
     return x * y > 0
-}
+})
 
 // https://github.com/hedgehogqa/fsharp-hedgehog/issues/124#issuecomment-335402728
-Property.check <| property {
+Property.check (property {
   let! x = Range.exponentialBounded () |> Gen.int
   where (x <> 0)
   return true
-}
+})
 
 //
 // Lazy Properties
 //
 
-Property.print <| property {
-    let! n = Gen.int <| Range.constantBounded ()
+Property.print (property {
+    let! n = Range.constantBounded () |> Gen.int
     where (n <> 0)
     return 1 / n = 1 / n
-}
+})
 
 //
 // Properties that can throw an exception
 //
 
-Property.print <| property {
+Property.print (property {
     let! (x, y) = Range.constant 0 9 |> Gen.int |> Gen.tuple
     // The exception gets rendered and added to the journal.
     failwith "Uh oh"
     return x + y = x + y
-}
+})
 
 //
 // Loops
 //
 
-Property.print <| property {
+Property.print (property {
     for x in "abcd" do
         // Custom operations (i.e. counterexample) can't be used in computation
         // expressions which have control flow :( we can fake it using return!
@@ -108,11 +107,11 @@ Property.print <| property {
     let mutable n = 0
     while n < 10 do
         n <- n + 1
-        let! k = Gen.int <| Range.constant 0 n
+        let! k = Range.constant 0 n |> Gen.int
         return! Property.counterexample (fun () -> sprintf "n = %d" n)
         return! Property.counterexample (fun () -> sprintf "k = %d" k)
         return k <> 5
-}
+})
 
 let gs =
     [ (fun x -> x + 1)
@@ -120,25 +119,25 @@ let gs =
       (fun x -> x / 3) ]
     |> List.map Gen.constant
 
-Gen.printSample <| gen {
+Gen.printSample (gen {
     let mutable x = 10
     for g in gs do
         let! f = g
         x <- f x
     return x
-}
+})
 
 //
 // Printing Samples
 //
 
-Gen.printSample <| gen {
-    let! x = Gen.int <| Range.constant 0 10
+Gen.printSample (gen {
+    let! x = Gen.int (Range.constant 0 10)
     let! y = Gen.item [ "x"; "y"; "z" ]
-    let! z = Gen.double <| Range.constant 0.1 9.99
+    let! z = Gen.double (Range.constant 0.1 9.99)
     let! w = Gen.string (Range.constant 0 100) Gen.alphaNum
     return sprintf "%A + %s + %f + %s" x y z w
-}
+})
 
 //
 // Printing Samples ― Complex Types
@@ -183,17 +182,17 @@ Range.exponentialBounded ()
 // Printing Samples ― System.Net.IPAddress
 //
 
-Gen.printSample <| gen {
+Gen.printSample (gen {
     let! addr =
-        Gen.array (Range.constant 4 4) (Gen.byte <| Range.constantBounded ())
-    return System.Net.IPAddress addr
-}
+        Range.constantBounded () |> Gen.byte |> Gen.array (Range.singleton 4)
+    return Net.IPAddress addr
+})
 
 //
 // Printing Samples ― System.Guid
 //
 
-Gen.printSample <| Gen.guid
+Gen.printSample Gen.guid
 
 //
 // Hutton's Razor
@@ -217,19 +216,18 @@ let shrinkExp = function
 
 #nowarn "40"
 let rec genExp =
-    Gen.delay <| fun _ ->
-    Gen.shrink shrinkExp <|
-    Gen.choiceRec [
-        Lit <!> Gen.int (Range.constantBounded ())
-    ] [
-        Add <!> Gen.zip genExp genExp
-    ]
+    Gen.delay (fun _ ->
+        let choiceRec =
+            Gen.choiceRec
+                [ Lit <!> Gen.int (Range.constantBounded ()) ]
+                [ Add <!> Gen.zip genExp genExp ]
+        Gen.shrink shrinkExp choiceRec)
 
-Property.print <| property {
+Property.print (property {
     let! x = genExp
     match x with
     | Add (Add _, Add _) when evalExp x > 100 ->
         return false
     | _ ->
         return true
-}
+})

@@ -52,7 +52,9 @@ module Journal =
         Journal xs
 
     let toList (Journal xs : Journal) : List<string> =
-        Seq.toList <| Seq.map (fun f -> f ()) xs
+        xs
+        |> Seq.map (fun f -> f ())
+        |> Seq.toList
 
     let empty : Journal =
         Seq.empty |> ofList
@@ -208,9 +210,9 @@ module Report =
         | OK ->
             ()
         | GaveUp ->
-            raise <| GaveUpException (report)
+            raise (GaveUpException (report))
         | Failed failure  ->
-            raise <| FailedException (failure, report)
+            raise (FailedException (failure, report))
 
 module Property =
 
@@ -232,16 +234,18 @@ module Property =
     let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
             'a :> IDisposable and
             'a : null =
-        let k' = delay <| fun () -> k x
-        tryFinally k' <| fun () ->
+        let k' = delay (fun () -> k x)
+        tryFinally k' (fun () ->
             match x with
             | null ->
                 ()
             | _ ->
-                x.Dispose ()
+                x.Dispose ())
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
-        Gen.map (second <| Result.filter p) (toGen m) |> ofGen
+        toGen m
+        |> Gen.map (second (Result.filter p))
+        |> ofGen
 
     let ofResult (x : Result<'a>) : Property<'a> =
         (Journal.empty, x) |> Gen.constant |> ofGen
@@ -275,14 +279,14 @@ module Property =
     let private bindGen
             (m : Gen<Journal * Result<'a>>)
             (k : 'a -> Gen<Journal * Result<'b>>) : Gen<Journal * Result<'b>> =
-        Gen.bind m <| fun (journal, result) ->
+        Gen.bind m (fun (journal, result) ->
             match result with
             | Failure ->
                 Gen.constant (journal, Failure)
             | Discard ->
                 Gen.constant (journal, Discard)
             | Success x ->
-                Gen.map (first (Journal.append journal)) (k x)
+                Gen.map (first (Journal.append journal)) (k x))
 
     let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         bindGen (toGen m) (toGen << k) |> ofGen
@@ -442,10 +446,10 @@ module PropertyBuilder =
 
         member __.For(xs : seq<'a>, k : 'a -> Property<unit>) : Property<unit> =
             let xse = xs.GetEnumerator ()
-            Property.using xse <| fun xse ->
+            Property.using xse (fun xse ->
                 let mv = xse.MoveNext
                 let kc = Property.delay (fun () -> k xse.Current)
-                loop mv kc
+                loop mv kc)
 
         member __.While(p : unit -> bool, m : Property<unit>) : Property<unit> =
             loop p m
@@ -484,9 +488,9 @@ module PropertyBuilder =
 
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
-            Property.bind m <| fun x ->
-            Property.bind (Property.counterexample (fun () -> f x)) <| fun _ ->
-            Property.success x
+            Property.bind m (fun x ->
+            Property.bind (Property.counterexample (fun () -> f x)) (fun _ ->
+            Property.success x))
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
         member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =

@@ -9,22 +9,22 @@ open Hedgehog
 type Benchmarks () =
 
     [<Benchmark>]
-    member this.GenInts () =
-        Property.check <| property {
+    member _.GenInts () =
+        Property.check (property {
             let! i = Gen.int (Range.constant 0 10000)
             return i >= 0
-        }
+        })
 
     [<Benchmark>]
-    member this.GenAsciiStrings () =
-        Property.check <| property {
+    member _.GenAsciiStrings () =
+        Property.check (property {
             let! i = Gen.string (Range.constant 0 100) Gen.ascii
             return i.Length >= 0
-        }
+        })
 
     [<Benchmark>]
-    member this.BigExampleFromTests () =
-        Hedgehog.Tests.MinimalTests.``greedy traversal with a predicate yields the perfect minimal shrink`` ()
+    member _.BigExampleFromTests () =
+        Tests.MinimalTests.``greedy traversal with a predicate yields the perfect minimal shrink`` ()
 
 [<CoreJob>]
 type ScaledBenchmarks () =
@@ -35,12 +35,12 @@ type ScaledBenchmarks () =
     [<Benchmark>]
     member this.ForLoopTest () =
 
-        Property.check <| property {
-                for a = 0 to this.N do
-                    ()
+        Property.check (property {
+            for _ = 0 to this.N do
+                ()
 
-                return true
-            }
+            return true
+        })
 
 [<EntryPoint>]
 let main argv =
