@@ -69,14 +69,14 @@ module Property =
     let private bindGen
             (m : Gen<Journal * Outcome<'a>>)
             (k : 'a -> Gen<Journal * Outcome<'b>>) : Gen<Journal * Outcome<'b>> =
-        Gen.bind m <| fun (journal, result) ->
+        Gen.bind m (fun (journal, result) ->
             match result with
             | Failure ->
                 Gen.constant (journal, Failure)
             | Discard ->
                 Gen.constant (journal, Discard)
             | Success x ->
-                GenTuple.mapFst (Journal.append journal) (k x)
+                GenTuple.mapFst (Journal.append journal) (k x))
 
     let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         bindGen (toGen m) (toGen << k) |> ofGen

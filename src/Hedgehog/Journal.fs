@@ -32,4 +32,5 @@ module Journal =
 
     /// Creates a journal composed of entries from two journals.
     let append (Journal xs) (Journal ys) : Journal =
-        ofSeq <| Seq.append xs ys
+        Seq.append xs ys
+        |> ofSeq
