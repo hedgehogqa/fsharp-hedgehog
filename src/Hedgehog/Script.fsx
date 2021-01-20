@@ -1,11 +1,16 @@
 ﻿#if INTERACTIVE
-#load "Numeric.fs"
+#load "AutoOpen.fs"
+      "Numeric.fs"
       "Seed.fs"
       "Tree.fs"
       "Range.fs"
       "Random.fs"
       "Shrink.fs"
       "Gen.fs"
+      "Journal.fs"
+      "Tuple.fs"
+      "Outcome.fs"
+      "Report.fs"
       "Property.fs"
 #endif
 
