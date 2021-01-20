@@ -1,19 +1,15 @@
 {
-  "dockerFile": "Dockerfile",
+  "dockerComposeFile": "docker-compose.yml",
+  "postAttachCommand": "rm -rf .ionide",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+
   "extensions": [
-    "ionide.ionide-fsharp"
+    "editorconfig.editorconfig",
+    "ionide.ionide-fsharp@4.17.0"
   ],
+
   "settings": {
-    "[csharp]": {
-      "editor.useTabStops": false,
-      "editor.tabSize": 4
-    },
-
-    "[fsharp]": {
-      "editor.useTabStops": false,
-      "editor.tabSize": 4
-    },
-
     "FSharp.useSdkScripts": true
   }
 }
