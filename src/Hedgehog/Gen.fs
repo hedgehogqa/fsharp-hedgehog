@@ -281,11 +281,9 @@ module Gen =
             | Some x ->
                 Random.constant (Tree.map Some x)
 
-        let flipBind f ma = Random.bind ma f
-
         toRandom g
         |> tryFilterRandom p
-        |> flipBind filter
+        |> flip Random.bind filter
         |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
