@@ -1,0 +1,14 @@
+version: '3.0'
+services:
+  dev:
+    build: .
+    command: sleep infinity
+    volumes:
+      - ..:/workspace
+      - vscode-extensions:/home/dev/.vscode-server/extensions
+      - vscode-extensions-cache:/home/dev/.vscode-server/extensionsCache
+
+# Persist extensions to prevent downloading again after a rebuild.
+volumes:
+  vscode-extensions:
+  vscode-extensions-cache:
