@@ -23,11 +23,11 @@ type Property = private Property of Property<unit> with
         Property.ofBool value
         |> Property
 
-    static member FromGen (gen : Gen<Journal * Result<'T>>) : Property<'T> =
+    static member FromGen (gen : Gen<Journal * Outcome<'T>>) : Property<'T> =
         Property.ofGen gen
 
-    static member FromResult (result : Result<'T>) : Property<'T> =
-        Property.ofResult result
+    static member FromOutcome (result : Outcome<'T>) : Property<'T> =
+        Property.ofOutcome result
 
     static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property =
         Property.ofThrowing throwingFunc.Invoke arg
@@ -54,7 +54,7 @@ type Property = private Property of Property<unit> with
 type PropertyExtensions private () =
 
     [<Extension>]
-    static member ToGen (property : Property<'T>) : Gen<Journal * Result<'T>> =
+    static member ToGen (property : Property<'T>) : Gen<Journal * Outcome<'T>> =
         Property.toGen property
 
     [<Extension>]

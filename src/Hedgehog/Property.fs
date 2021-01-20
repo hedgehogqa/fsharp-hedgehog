@@ -3,223 +3,15 @@
 open System
 
 [<Struct>]
-type Journal =
-    | Journal of seq<unit -> string>
-
-type Result<'a> =
-    | Failure
-    | Discard
-    | Success of 'a
-
-[<Struct>]
 type Property<'a> =
-    | Property of Gen<Journal * Result<'a>>
-
-[<Measure>] type tests
-[<Measure>] type discards
-[<Measure>] type shrinks
-
-type FailureReport = {
-    Size : Size
-    Seed : Seed
-    Shrinks : int<shrinks>
-    Journal : Journal
-    RenderRecheck : bool
-}
-
-type Status =
-    | Failed of FailureReport
-    | GaveUp
-    | OK
-
-type Report = {
-    Tests : int<tests>
-    Discards : int<discards>
-    Status : Status
-}
-
-[<AutoOpen>]
-module private Tuple =
-    let first (f : 'a -> 'c) (x : 'a, y : 'b) : 'c * 'b =
-        f x, y
-
-    let second (f : 'b -> 'c) (x : 'a, y : 'b) : 'a * 'c =
-        x, f y
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Journal =
-    let ofList (xs : seq<unit -> string>) : Journal =
-        Journal xs
-
-    let toList (Journal xs : Journal) : List<string> =
-        xs
-        |> Seq.map (fun f -> f ())
-        |> Seq.toList
-
-    let empty : Journal =
-        Seq.empty |> ofList
-
-    let singleton (x : string) : Journal =
-        Seq.singleton (fun () -> x) |> ofList
-
-    let delayedSingleton (x : unit -> string) : Journal =
-        Seq.singleton x |> ofList
-
-    let append (Journal xs) (Journal ys) : Journal =
-        Seq.append xs ys |> ofList
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Result =
-    [<CompiledName("Map")>]
-    let map (f : 'a -> 'b) (r : Result<'a>) : Result<'b> =
-        match r with
-        | Failure ->
-            Failure
-        | Discard ->
-            Discard
-        | Success x ->
-            Success (f x)
-
-    [<CompiledName("Filter")>]
-    let filter (f : 'a -> bool) (r : Result<'a>) : Result<'a> =
-        match r with
-        | Failure ->
-            Failure
-        | Discard ->
-            Discard
-        | Success x ->
-            if f x then
-              Success x
-            else
-              Discard
-
-    [<CompiledName("IsFailure")>]
-    let isFailure (x : Result<'a>) : bool =
-        match x with
-        | Failure ->
-            true
-        | Discard ->
-            false
-        | Success _ ->
-            false
-
-[<AutoOpen>]
-module private Pretty =
-    open System.Text
-
-    let private renderTests : int<tests> -> string = function
-        | 1<tests> ->
-            "1 test"
-        | n ->
-            sprintf "%d tests" n
-
-    let private renderDiscards : int<discards> -> string = function
-        | 1<discards> ->
-            "1 discard"
-        | n ->
-            sprintf "%d discards" n
-
-    let private renderAndDiscards : int<discards> -> string = function
-        | 0<discards> ->
-            ""
-        | 1<discards> ->
-            " and 1 discard"
-        | n ->
-            sprintf " and %d discards" n
-
-    let private renderAndShrinks : int<shrinks> -> string = function
-        | 0<shrinks> ->
-            ""
-        | 1<shrinks> ->
-            " and 1 shrink"
-        | n ->
-            sprintf " and %d shrinks" n
-
-    let private append (sb : StringBuilder) (msg : string) : unit =
-        sb.AppendLine msg |> ignore
-
-    let private renderf (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
-        Printf.ksprintf (sb.AppendLine >> ignore) fmt
-
-    let renderOK (report : Report) : string =
-        sprintf "+++ OK, passed %s." (renderTests report.Tests)
-
-    let renderGaveUp (report : Report) : string =
-        sprintf "*** Gave up after %s, passed %s."
-            (renderDiscards report.Discards)
-            (renderTests report.Tests)
-
-    let renderFailed (failure : FailureReport) (report : Report) : string =
-        let sb = StringBuilder ()
-
-        renderf sb "*** Failed! Falsifiable (after %s%s%s):"
-            (renderTests report.Tests)
-            (renderAndShrinks failure.Shrinks)
-            (renderAndDiscards report.Discards)
-
-        List.iter (append sb) (Journal.toList failure.Journal)
-
-        if failure.RenderRecheck then
-            renderf sb "This failure can be reproduced by running:"
-            renderf sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
-                failure.Size
-                failure.Seed.Value
-                failure.Seed.Gamma
-
-        sb.ToString (0, sb.Length - 1) // Exclude extra newline.
-
-[<AbstractClass>]
-type HedgehogException (message : string) =
-    inherit Exception (message)
-
-type GaveUpException (report : Report) =
-    inherit HedgehogException (renderGaveUp report)
-
-    member __.Tests =
-        report.Tests
-
-type FailedException (failure : FailureReport, report : Report) =
-    inherit HedgehogException (renderFailed failure report)
-
-    member __.Tests =
-        report.Tests
-
-    member __.Discards =
-        report.Discards
-
-    member __.Shrinks =
-        failure.Shrinks
-
-    member __.Journal =
-        failure.Journal
-
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Report =
-
-    let render (report : Report) : string =
-        match report.Status with
-        | OK ->
-            renderOK report
-        | GaveUp ->
-            renderGaveUp report
-        | Failed failure ->
-            renderFailed failure report
-
-    let tryRaise (report : Report) : unit =
-        match report.Status with
-        | OK ->
-            ()
-        | GaveUp ->
-            raise (GaveUpException (report))
-        | Failed failure  ->
-            raise (FailedException (failure, report))
+    | Property of Gen<Journal * Outcome<'a>>
 
 module Property =
 
-    let ofGen (x : Gen<Journal * Result<'a>>) : Property<'a> =
+    let ofGen (x : Gen<Journal * Outcome<'a>>) : Property<'a> =
         Property x
 
-    let toGen (Property x : Property<'a>) : Gen<Journal * Result<'a>> =
+    let toGen (Property x : Property<'a>) : Gen<Journal * Outcome<'a>> =
         x
 
     let tryFinally (m : Property<'a>) (after : unit -> unit) : Property<'a> =
@@ -243,21 +35,19 @@ module Property =
                 x.Dispose ())
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
-        toGen m
-        |> Gen.map (second (Result.filter p))
-        |> ofGen
+        GenTuple.mapSnd (Outcome.filter p) (toGen m) |> ofGen
 
-    let ofResult (x : Result<'a>) : Property<'a> =
+    let ofOutcome (x : Outcome<'a>) : Property<'a> =
         (Journal.empty, x) |> Gen.constant |> ofGen
 
     let failure : Property<unit> =
-        Failure |> ofResult
+        Failure |> ofOutcome
 
     let discard : Property<unit> =
-        Discard |> ofResult
+        Discard |> ofOutcome
 
     let success (x : 'a) : Property<'a> =
-        Success x |> ofResult
+        Success x |> ofOutcome
 
     let ofBool (x : bool) : Property<unit> =
         if x then
@@ -266,19 +56,19 @@ module Property =
             failure
 
     let counterexample (msg : unit -> string) : Property<unit> =
-        Gen.constant (Journal.delayedSingleton msg, Success ()) |> ofGen
+        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
 
     let private mapGen
-            (f : Gen<Journal * Result<'a>> -> Gen<Journal * Result<'b>>)
+            (f : Gen<Journal * Outcome<'a>> -> Gen<Journal * Outcome<'b>>)
             (x : Property<'a>) : Property<'b> =
         toGen x |> f |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        (mapGen << Gen.map << second << Result.map) f x
+        (mapGen << GenTuple.mapSnd << Outcome.map) f x
 
     let private bindGen
-            (m : Gen<Journal * Result<'a>>)
-            (k : 'a -> Gen<Journal * Result<'b>>) : Gen<Journal * Result<'b>> =
+            (m : Gen<Journal * Outcome<'a>>)
+            (k : 'a -> Gen<Journal * Outcome<'b>>) : Gen<Journal * Outcome<'b>> =
         Gen.bind m (fun (journal, result) ->
             match result with
             | Failure ->
@@ -286,14 +76,14 @@ module Property =
             | Discard ->
                 Gen.constant (journal, Discard)
             | Success x ->
-                Gen.map (first (Journal.append journal)) (k x))
+                GenTuple.mapFst (Journal.append journal) (k x))
 
     let bind (m : Property<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         bindGen (toGen m) (toGen << k) |> ofGen
 
     let forAll (gen : Gen<'a>) (k : 'a -> Property<'b>) : Property<'b> =
         let handle (e : exn) =
-            Gen.constant (Journal.singleton (string e), Failure) |> ofGen
+            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             bind (counterexample (fun () -> sprintf "%A" x)) (fun _ -> try k x with e -> handle e) |> toGen
         Gen.bind gen prepend |> ofGen
@@ -309,11 +99,11 @@ module Property =
             (renderRecheck : bool)
             (size : Size)
             (seed : Seed)
-            (Node ((journal, x), xs) : Tree<Journal * Result<'a>>)
+            (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
             (nshrinks : int<shrinks>) : Status =
         match x with
         | Failure ->
-            match Seq.tryFind (Result.isFailure << snd << Tree.outcome) xs with
+            match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
             | None ->
                 Failed { Size = size; Seed = seed; Shrinks = nshrinks; Journal = journal; RenderRecheck = renderRecheck }
             | Some tree ->

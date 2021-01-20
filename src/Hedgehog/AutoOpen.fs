@@ -1,4 +1,8 @@
 ﻿[<AutoOpen>]
 module internal AutoOpen
 
-    let flip f b a = f a b
+let inline always (a : 'a) (_ : 'b) : 'a =
+    a
+
+let inline flip (f : 'a -> 'b -> 'c) (b : 'b) (a : 'a) : 'c =
+    f a b

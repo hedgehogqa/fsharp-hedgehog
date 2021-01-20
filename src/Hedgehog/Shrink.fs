@@ -1,7 +1,5 @@
 ﻿namespace Hedgehog
 
-open System
-
 module Seq =
     let cons (x : 'a) (xs : seq<'a>) : seq<'a> =
         seq {
