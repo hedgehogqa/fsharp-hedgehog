@@ -176,7 +176,7 @@ let ``elems shrinks each element in input list using a supplied shrinker`` n =
 
     let expected =
         seq {
-            for i in 1..n do
+            for _ in 1..n do
                 yield [ 1..n ]
         }
     Seq.toList expected =! actual

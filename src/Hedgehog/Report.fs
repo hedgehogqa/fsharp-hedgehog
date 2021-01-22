@@ -104,4 +104,4 @@ module Report =
             ()
         | GaveUp
         | Failed _ ->
-            raise (Exception(render report))
+            raise (Exception (render report))

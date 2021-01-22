@@ -7,14 +7,19 @@ type Outcome<'a> =
 
 module Outcome =
 
-    let cata result failure discard success =
-        match result with
+    let private cata
+        (outcome : Outcome<'a>)
+        (failure : unit -> 'b)
+        (discard : unit -> 'b)
+        (success :   'a -> 'b)
+            : 'b =
+        match outcome with
         | Failure ->
-            failure()
+            failure ()
         | Discard ->
-            discard()
-        | Success(x) ->
-            success(x)
+            discard ()
+        | Success x ->
+            success x
 
     [<CompiledName("Map")>]
     let map (f : 'a -> 'b) (result : Outcome<'a>) : Outcome<'b> =
@@ -27,7 +32,7 @@ module Outcome =
     let filter (f : 'a -> bool) (result : Outcome<'a>) : Outcome<'a> =
         let successOrDiscard x =
             if f x then
-                Success(x)
+                Success x
             else
                 Discard
 

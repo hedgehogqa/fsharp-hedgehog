@@ -46,24 +46,6 @@ module Seed =
     let [<Literal>] private goldenGamma : uint64 =
         0x9e3779b97f4a7c15UL
 
-    let private crashUnless (cond : bool) (msg : string) : unit =
-        if cond then
-            ()
-        else
-            failwith msg
-
-    /// Create a new 'Seed' from a 32-bit integer.
-    let ofInt32 (s0 : int) : Seed =
-        // We want a non-negative number, but we can't just take the abs
-        // of s0 as -Int32.MinValue == Int32.MinValue.
-        let s = s0 &&& Int32.MaxValue
-
-        // TODO remove crashUnless
-        crashUnless (s >= 0) "s >= 0"
-
-        { Value = uint64 s
-          Gamma = goldenGamma }
-
     let private mix64 (s0 : uint64) : uint64 =
         let s = s0
         let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdUL
@@ -101,15 +83,21 @@ module Seed =
 
     /// Create a new random 'Seed'.
     let random () : Seed =
-        from (uint64 System.DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma)
+        from (uint64 DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma)
 
     /// The possible range of values returned from 'next'.
     let range : int64 * int64 =
         -9223372036854775808L, 9223372036854775807L
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let next (s : Seed) : uint64 * Seed =
+    let private next (s : Seed) : uint64 * Seed =
         mix64 s.Value, nextSeed s
+
+    let private crashUnless (cond : bool) (msg : string) : unit =
+        if cond then
+            ()
+        else
+            failwith msg
 
     /// Generates a random bigint in the specified range.
     let rec nextBigInt (lo : bigint) (hi : bigint) (seed : Seed) : bigint * Seed =
