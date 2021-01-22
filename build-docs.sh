@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 VERSION=$1
 
@@ -6,6 +6,8 @@ if [ -z "$VERSION" ]; then
     echo "Expected a version as the first argument."
     exit 1
 fi
+
+# Build doc files, they appear in ./output.
 
 CONFIGURATION=Release
 FRAMEWORK=netstandard2.0
@@ -22,31 +24,29 @@ dotnet fsdocs build \
 # Get the artifacts into the `gh-pages` branch.
 
 REPO_BRANCH="gh-pages"
-REPO_URL="git@github.com:hedgehogqa/fsharp-hedgehog.git"
-DOCS_DIR="temp/$REPO_BRANCH"
+REPO_URL="git@github.com:adam-becker/fsharp-hedgehog.git"
+TEMP_DIR="temp/$REPO_BRANCH"
 
 # Remove temp directory.
 
-rm -rf $DOCS_DIR
-mkdir -p $DOCS_DIR
+rm -rf $TEMP_DIR
+mkdir -p $TEMP_DIR
 
 # Clone our repo's `gh-pages` branch into the temp directory.
 
-git clone -b $REPO_BRANCH $REPO_URL $DOCS_DIR
+pushd $TEMP_DIR
 
-# Remove everything but the .git folder.
+git clone -b $REPO_BRANCH $REPO_URL .
 
-pushd $DOCS_DIR
-
-rm -rf !(.git)
+find . -maxdepth 1 ! -path '*.git*' ! -path . -exec rm -rf {} \;
 
 popd
 
 # Copy all artifacts into the temp directory, and commit.
 
-cp -r $OUTPUT_DIR $DOCS_DIR
+cp -r $OUTPUT_DIR/* $TEMP_DIR
 
-pushd $DOCS_DIR
+pushd $TEMP_DIR
 
 git add .
 git commit -m "Update generated documentation for version $VERSION"
