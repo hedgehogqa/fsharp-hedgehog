@@ -24,7 +24,7 @@ dotnet fsdocs build \
 # Get the artifacts into the `gh-pages` branch.
 
 REPO_BRANCH="gh-pages"
-REPO_URL="git@github.com:adam-becker/fsharp-hedgehog.git"
+REPO_URL="git@github.com:hedgehogqa/fsharp-hedgehog.git"
 TEMP_DIR="temp/$REPO_BRANCH"
 
 # Remove temp directory.
