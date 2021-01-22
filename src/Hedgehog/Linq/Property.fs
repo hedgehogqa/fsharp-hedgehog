@@ -40,7 +40,7 @@ type Property = private Property of Property<unit> with
         Property.using resource action.Invoke
 
     static member CounterExample (message : Func<string>) : Property =
-        Property.counterexample(message.Invoke)
+        Property.counterexample message.Invoke
         |> Property
 
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
@@ -167,7 +167,7 @@ type PropertyExtensions private () =
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
         Property.bind property (fun a ->
-            Property.map (fun b -> projection.Invoke(a, b)) (binder.Invoke(a)))
+            Property.map (fun b -> projection.Invoke (a, b)) (binder.Invoke a))
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =

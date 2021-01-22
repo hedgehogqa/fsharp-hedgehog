@@ -207,8 +207,8 @@ type GenExtensions private () =
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Gen<'TResult> =
         GenBuilder.gen {
             let! a = gen
-            let! b = binder.Invoke(a)
-            return projection.Invoke(a, b)
+            let! b = binder.Invoke a
+            return projection.Invoke (a, b)
         }
 
     [<Extension>]
@@ -225,20 +225,20 @@ type GenExtensions private () =
 
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'TResult>, genB : Gen<'U>) : Gen<'TResult> =
-        Gen.map2 (fun a b -> mapper.Invoke(a, b))
+        Gen.map2 (fun a b -> mapper.Invoke (a, b))
             genA
             genB
 
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'TResult>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'TResult> =
-        Gen.map3 (fun a b c -> mapper.Invoke(a, b, c))
+        Gen.map3 (fun a b c -> mapper.Invoke (a, b, c))
             genA
             genB
             genC
 
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'W, 'TResult>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'TResult> =
-        Gen.map4 (fun a b c d -> mapper.Invoke(a, b, c, d))
+        Gen.map4 (fun a b c d -> mapper.Invoke (a, b, c, d))
             genA
             genB
             genC

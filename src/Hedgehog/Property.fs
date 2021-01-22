@@ -105,7 +105,13 @@ module Property =
         | Failure ->
             match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
             | None ->
-                Failed { Size = size; Seed = seed; Shrinks = nshrinks; Journal = journal; RenderRecheck = renderRecheck }
+                Failed {
+                    Size = size
+                    Seed = seed
+                    Shrinks = nshrinks
+                    Journal = journal
+                    RenderRecheck = renderRecheck
+                }
             | Some tree ->
                 takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>)
         | Discard ->

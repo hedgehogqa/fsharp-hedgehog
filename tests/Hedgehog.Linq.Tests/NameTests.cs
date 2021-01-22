@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
 using Xunit;
 
 namespace Hedgehog.Linq.Tests
 {
     public class NameTests
     {
-        private static Type[] _publicApiTypes =
+        private static readonly Type[] _publicApiTypes =
             { typeof(Hedgehog.Linq.Gen)
             , typeof(Hedgehog.Linq.Range)
             , typeof(Hedgehog.Linq.Property)
@@ -17,10 +18,10 @@ namespace Hedgehog.Linq.Tests
         public static IEnumerable<object[]> AllPublicMembers()
         {
             var bindingFlags =
-                BindingFlags.Public |
-                BindingFlags.Instance |
-                BindingFlags.Static |
-                BindingFlags.DeclaredOnly;
+                  BindingFlags.Public
+                | BindingFlags.Instance
+                | BindingFlags.Static
+                | BindingFlags.DeclaredOnly;
 
             foreach (var type in _publicApiTypes)
             {
@@ -36,8 +37,10 @@ namespace Hedgehog.Linq.Tests
                     }
 
                     var mi = member as MethodInfo;
-                    if (mi != null &&
-                        (mi.IsSpecialName || mi.IsConstructor || mi.Name.StartsWith("get_")))
+                    if (mi != null && (
+                           mi.IsSpecialName
+                        || mi.IsConstructor
+                        || mi.Name.StartsWith("get_")))
                     {
                         continue;
                     }
@@ -49,7 +52,8 @@ namespace Hedgehog.Linq.Tests
                         continue;
                     }
 
-                    yield return new [] { member };
+                    // Avoid covariant conversion from MemberInfo[] to object[].
+                    yield return new object[] { member };
                 }
             }
 
