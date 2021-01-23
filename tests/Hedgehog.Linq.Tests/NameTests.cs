@@ -29,34 +29,26 @@ namespace Hedgehog.Linq.Tests
 
                 foreach (var member in members)
                 {
-                    // Ignore special members like indexers etc.
-                    var pi = member as PropertyInfo;
-                    if (pi != null && pi.IsSpecialName)
+                    switch (member)
                     {
-                        continue;
+                        // Ignore special members like indexers etc.
+                        case PropertyInfo { IsSpecialName: true }:
+                        case MethodInfo mi when NotOfInterest(mi):
+                            continue;
+                        default:
+                            // Avoid covariant conversion from MemberInfo[] to object[].
+                            yield return new object[] { member };
+                            break;
                     }
-
-                    var mi = member as MethodInfo;
-                    if (mi != null && (
-                           mi.IsSpecialName
-                        || mi.IsConstructor
-                        || mi.Name.StartsWith("get_")))
-                    {
-                        continue;
-                    }
-
-                    // Ignore static inline methods
-                    // by convention we mark them as starting with '`'
-                    if (mi != null && mi.Name.StartsWith("`"))
-                    {
-                        continue;
-                    }
-
-                    // Avoid covariant conversion from MemberInfo[] to object[].
-                    yield return new object[] { member };
                 }
             }
 
+            static bool NotOfInterest(MethodBase mi) =>
+                   mi.IsSpecialName
+                || mi.IsConstructor
+                || mi.Name.StartsWith("get_")
+                   // Static inline methods, by convention starting with '`'.
+                || mi.Name.StartsWith("`");
         }
 
         [Theory]
