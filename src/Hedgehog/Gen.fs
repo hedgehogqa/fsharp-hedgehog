@@ -30,7 +30,7 @@ module Gen =
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
 
-    let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
+    let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
         Hedgehog.Random (fun seed0 size ->
             let seed1, seed2 =
                 Seed.split seed0
@@ -41,7 +41,7 @@ module Gen =
             Tree.bind (run seed1 m) (run seed2 << k))
 
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
-        bindRandom (toRandom m) (toRandom << k) |> ofRandom
+        toRandom m |> bindRandom (toRandom << k) |> ofRandom
 
     let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
         gf |> bind (fun f ->
