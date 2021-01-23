@@ -145,10 +145,10 @@ module Seed =
                 seed |> nextBigInt
                     (bigint Int32.MinValue)
                     (bigint Int32.MaxValue)
-            let scaled_x =
+            let scaledX =
                   (0.5 * lo + 0.5 * hi) + ((0.5 * hi - 0.5 * lo) / (0.5 * 4294967296.0)) * float x
 
-            scaled_x, seed'
+            scaledX, seed'
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
