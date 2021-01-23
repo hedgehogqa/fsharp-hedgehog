@@ -33,6 +33,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
+    <Compile Include="ListGen.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
     <Compile Include="Outcome.fs" />
