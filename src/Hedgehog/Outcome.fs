@@ -11,8 +11,7 @@ module Outcome =
         (outcome : Outcome<'a>)
         (failure : unit -> 'b)
         (discard : unit -> 'b)
-        (success :   'a -> 'b)
-            : 'b =
+        (success : 'a -> 'b) : 'b =
         match outcome with
         | Failure ->
             failure ()
