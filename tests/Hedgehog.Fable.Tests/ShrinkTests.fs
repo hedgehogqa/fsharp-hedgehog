@@ -3,7 +3,7 @@ module Hedgehog.Fable.Tests.ShrinkTests
 open Hedgehog
 
 let shrinkTests = xunitTests "Shrink tests" [
-    
+
     fact "removes permutes a list by removing 'k' consecutive elements from it" <| fun _ ->
         let actual = Shrink.removes 2 [ 1; 2; 3; 4; 5; 6 ]
 
@@ -13,47 +13,55 @@ let shrinkTests = xunitTests "Shrink tests" [
                          [ 1; 2; 3; 4 ] ]
         // http://stackoverflow.com/a/17101488
         Seq.zip expected actual
-        |> Seq.forall (fun (a, b) -> a = b) 
+        |> Seq.forall (fun (a, b) -> a = b)
         |> Expect.isTrue
 
     fact "removes produces all permutations of removing 'k' elements from a list - example 1" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.removes 2 [1; 2; 3; 4; 5; 6]
+            Shrink.removes 2 [1; 2; 3; 4; 5; 6]
+            |> Seq.toList
         [[3; 4; 5; 6]; [1; 2; 5; 6]; [1; 2; 3; 4]] =! actual
 
     fact "removes produces all permutations of removing 'k' elements from a list - example 2" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.removes 3 [1; 2; 3; 4; 5; 6]
+            Shrink.removes 3 [1; 2; 3; 4; 5; 6]
+            |> Seq.toList
         [[4; 5; 6]; [1; 2; 3]] =! actual
 
     fact "removes produces all permutations of removing 'k' elements from a list - example 3" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
+            Shrink.removes 2 ["a"; "b"; "c"; "d"; "e"; "f"]
+            |> Seq.toList
         [["c"; "d"; "e"; "f"]; ["a"; "b"; "e"; "f"]; ["a"; "b"; "c"; "d"]] =! actual
 
     fact "halves produces a list containing the progressive halving of an integral - example 1" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.halves 15
+            Shrink.halves 15
+            |> Seq.toList
         [15; 7; 3; 1] =! actual
 
     fact "halves produces a list containing the progressive halving of an integral - example 2" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.halves 100
+            Shrink.halves 100
+            |> Seq.toList
         [100; 50; 25; 12; 6; 3; 1] =! actual
 
     fact "halves produces a list containing the progressive halving of an integral - example 3" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.halves -26
+            Shrink.halves -26
+            |> Seq.toList
         [-26; -13; -6; -3; -1] =! actual
 
     fact "list shrinks a list by edging towards the empty list - example 1" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.list [1; 2; 3]
+            Shrink.list [1; 2; 3]
+            |> Seq.toList
         [[]; [2; 3]; [1; 3]; [1; 2]] =! actual
 
     fact "list shrinks a list by edging towards the empty list - example 2" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.list ["a"; "b"; "c"; "d"]
+            Shrink.list ["a"; "b"; "c"; "d"]
+            |> Seq.toList
         [ []
           [ "c"; "d" ]
           [ "a"; "b" ]
@@ -65,27 +73,34 @@ let shrinkTests = xunitTests "Shrink tests" [
 
     fact "towards shrinks an integral number by edging towards a destination - exmaple 1" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.towards 0 100
+            Shrink.towards 0 100
+            |> Seq.toList
         [0; 50; 75; 88; 94; 97; 99] =! actual
 
     fact "towards shrinks an integral number by edging towards a destination - exmaple 2" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.towards 500 1000
+            Shrink.towards 500 1000
+            |> Seq.toList
         [500; 750; 875; 938; 969; 985; 993; 997; 999] =! actual
 
     fact "towards shrinks an integral number by edging towards a destination - exmaple 3" <| fun _ ->
         let actual =
-            Seq.toList <| Shrink.towards -50 -26
+            Shrink.towards -50 -26
+            |> Seq.toList
         [-50; -38; -32; -29; -27] =! actual
 
     fact "towardsDouble shrinks a floating-point number by edging towards a destination - example 1" <| fun _ ->
         let actual =
-            Seq.toList << Seq.take 7 <| Shrink.towardsDouble 0.0 100.0
+            Shrink.towardsDouble 0.0 100.0
+            |> Seq.take 7
+            |> Seq.toList
         [0.0; 50.0; 75.0; 87.5; 93.75; 96.875; 98.4375] =! actual
 
     fact "towardsDouble shrinks a floating-point number by edging towards a destination - example 2" <| fun _ ->
         let actual =
-            Seq.toList << Seq.take 7 <| Shrink.towardsDouble 1.0 0.5
+            Shrink.towardsDouble 1.0 0.5
+            |> Seq.take 7
+            |> Seq.toList
         [1.0; 0.75; 0.625; 0.5625; 0.53125; 0.515625; 0.5078125] =! actual
 
     theory "halves Produces a list containing the results of halving a number"
@@ -138,7 +153,7 @@ let shrinkTests = xunitTests "Shrink tests" [
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual 
+        actual
         |> List.forall (fun x1 -> x1 < x0 && x1 >= destination)
         |> Expect.isTrue
 
@@ -151,8 +166,8 @@ let shrinkTests = xunitTests "Shrink tests" [
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual 
-        |> List.isEmpty 
+        actual
+        |> List.isEmpty
         |> Expect.isTrue
 
     theory "towardsDouble shrinks by edging towards a destination number"
@@ -168,7 +183,7 @@ let shrinkTests = xunitTests "Shrink tests" [
             x0
             |> Shrink.towardsDouble destination
             |> Seq.toList
-        actual 
+        actual
         |> List.forall (fun x1 -> x1 < x0 && x1 >= destination)
         |> Expect.isTrue
 
@@ -176,13 +191,13 @@ let shrinkTests = xunitTests "Shrink tests" [
         [ (   1.0,    1.0)
           (  30.0,   30.0)
           (1024.0, 1024.0) ] <| fun (x0, destination) ->
-        
+
         let actual =
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual 
-        |> List.isEmpty 
+        actual
+        |> List.isEmpty
         |> Expect.isTrue
 
 ]

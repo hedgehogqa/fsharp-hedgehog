@@ -19,6 +19,7 @@ let smokeTests = testList "Smoke tests" [
 
 let allTests = testList "All tests" [
     smokeTests
+    TreeTests.treeTests
     RangeTests.rangeTests
     GenTests.genTests
     SeedTests.seedTests
@@ -27,7 +28,7 @@ let allTests = testList "All tests" [
 ]
 
 [<EntryPoint>]
-let main (args: string[]) = 
+let main (args: string[]) =
 #if FABLE_COMPILER
     Mocha.runTests allTests
 #else

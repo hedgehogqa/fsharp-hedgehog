@@ -5,23 +5,22 @@ open Hedgehog
 let dtRange = Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
 
 let genTests = xunitTests "Gen tests" [
-    theory "dateTime creates System.DateTime instances" 
+    theory "dateTime creates System.DateTime instances"
             [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
             let actual = Gen.dateTime dtRange |> Gen.sample 0 count
             actual
             |> List.distinct
             |> List.length
             =! actual.Length
-    
+
     fact "unicode doesn't return any surrogate" <| fun _ ->
-        let actual = Gen.sample 100 100000 Gen.unicode 
+        let actual = Gen.sample 100 100000 Gen.unicode
         [] =! List.filter System.Char.IsSurrogate actual
 
-    theory "unicode doesn't return any noncharacter" 
+    theory "unicode doesn't return any noncharacter"
             [ 65534; 65535 ] <| fun nonchar ->
-            let isNoncharacter = (=) <| Operators.char nonchar
             let actual = Gen.sample 100 100000 Gen.unicode
-            [] =! List.filter isNoncharacter actual
+            [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     fact "dateTime randomly generates value between max and min ticks" <| fun _ ->
         let seed0 = Seed.random()
@@ -54,26 +53,14 @@ let genTests = xunitTests "Gen tests" [
         System.DateTime (2000, 1, 1) =! result
 
     pfact "int64 can create exponentially bounded integer" <| fun _ ->
-        Property.check <| property {
+        Property.check (property {
             let! _ = Gen.int64 (Range.exponentialBounded ())
             return true
-        }
+        })
 
     pfact "uint64 can create exponentially bounded integer" <| fun _ ->
-        Property.check <| property {
+        Property.check (property {
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
-        }
-
-    fact "int can create exponentially bounded integer" <| fun _ ->
-        Property.check <| property {
-            let! _ = Gen.int (Range.exponentialBounded ())
-            return true
-        }
-
-    pfact "uint32 can create exponentially bounded integer" <| fun _ ->
-        Property.check <| property {
-            let! _ = Gen.uint32 (Range.exponentialBounded ())
-            return true
-        }
+        })
 ]
