@@ -145,11 +145,11 @@ module Range =
     /// parameter.
     let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
         Range (z, fun sz ->
-            let x_sized =
+            let xSized =
                 clamp x y (scaleLinear sz z x)
-            let y_sized =
+            let ySized =
                 clamp x y (scaleLinear sz z y)
-            x_sized, y_sized)
+            xSized, ySized)
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
@@ -176,11 +176,11 @@ module Range =
             let scale =
                 // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
                 scaleExponential x y sz z
-            let x_sized =
+            let xSized =
                 scale x
-            let y_sized =
+            let ySized =
                 scale y
-            x_sized, y_sized)
+            xSized, ySized)
 
     /// Construct a range which scales the second bound exponentially relative
     /// to the size parameter.
