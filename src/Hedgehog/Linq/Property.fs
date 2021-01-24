@@ -75,6 +75,11 @@ type PropertyExtensions private () =
         Property.report property
 
     [<Extension>]
+    static member Report (property : Property, tests : int<tests>, maxShrinks : int<shrinks>) : Report =
+        let (Property property) = property
+        Property.report'' tests maxShrinks property
+
+    [<Extension>]
     static member Report (property : Property, tests : int<tests>) : Report =
         let (Property property) = property
         Property.report' tests property
@@ -88,9 +93,18 @@ type PropertyExtensions private () =
         Property.reportBool' tests property
 
     [<Extension>]
+    static member Report (property : Property<bool>, tests : int<tests>, maxShrinks : int<shrinks>) : Report =
+        Property.reportBool'' tests maxShrinks property
+
+    [<Extension>]
     static member Check (property : Property) : unit =
         let (Property property) = property
         Property.check property
+
+    [<Extension>]
+    static member Check (property : Property, tests : int<tests>, maxShrinks : int<shrinks>) : unit =
+        let (Property property) = property
+        Property.check'' tests maxShrinks property
 
     [<Extension>]
     static member Check (property : Property, tests : int<tests>) : unit =
@@ -104,6 +118,10 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Check (property : Property<bool>, tests : int<tests>) : unit =
         Property.checkBool' tests property
+
+    [<Extension>]
+    static member Check (property : Property<bool>, tests : int<tests>, maxShrinks : int<shrinks>) : unit =
+        Property.checkBool'' tests maxShrinks property
 
     [<Extension>]
     static member Recheck (property : Property, size : Size, seed : Seed) : unit =

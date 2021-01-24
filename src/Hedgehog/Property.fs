@@ -100,26 +100,34 @@ module Property =
             (size : Size)
             (seed : Seed)
             (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
-            (nshrinks : int<shrinks>) : Status =
+            (nshrinks : int<shrinks>) 
+            (maxShrinks : int<shrinks> Option) : Status =
+        let failed =
+            Failed {
+                Size = size
+                Seed = seed
+                Shrinks = nshrinks
+                Journal = journal
+                RenderRecheck = renderRecheck
+            }
+        let takeSmallest tree = takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>) maxShrinks
         match x with
         | Failure ->
             match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
-            | None ->
-                Failed {
-                    Size = size
-                    Seed = seed
-                    Shrinks = nshrinks
-                    Journal = journal
-                    RenderRecheck = renderRecheck
-                }
+            | None -> failed
             | Some tree ->
-                takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>)
+                match maxShrinks with
+                | None -> takeSmallest tree
+                | Some maxShrinks' ->
+                    if nshrinks < maxShrinks' then
+                        takeSmallest tree
+                    else failed
         | Discard ->
             GaveUp
         | Success _ ->
             OK
 
-    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
+    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (n : int<tests>) maxShrinks (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -145,7 +153,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest renderRecheck size seed result 0<shrinks> }
+                      Status = takeSmallest renderRecheck size seed result 0<shrinks> maxShrinks}
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
@@ -153,15 +161,22 @@ module Property =
 
         loop seed size0 0<tests> 0<discards>
 
-    let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith' renderRecheck size seed 100<tests> p
+    let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) maxShrinks (p : Property<unit>) : Report =
+        reportWith' renderRecheck size seed 100<tests> maxShrinks p
+
+    let report'' (n : int<tests>) (maxShrinks : int<shrinks>) (p : Property<unit>) : Report =
+        let seed = Seed.random ()
+        reportWith' true 1 seed n (Some maxShrinks) p
 
     let report' (n : int<tests>) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        reportWith' true 1 seed n p
+        reportWith' true 1 seed n None p
 
     let report (p : Property<unit>) : Report =
         report' 100<tests> p
+
+    let reportBool'' (n : int<tests>) (maxShrinks : int<shrinks>) (p : Property<bool>) : Report =
+        bind p ofBool |> report'' n maxShrinks
 
     let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
         bind p ofBool |> report' n
@@ -169,12 +184,20 @@ module Property =
     let reportBool (p : Property<bool>) : Report =
         bind p ofBool |> report
 
+    let check'' (n : int<tests>) (maxShrinks : int<shrinks>) (p : Property<unit>) : unit =
+        report'' n maxShrinks p
+        |> Report.tryRaise
+
     let check' (n : int<tests>) (p : Property<unit>) : unit =
         report' n p
         |> Report.tryRaise
 
     let check (p : Property<unit>) : unit =
         report p
+        |> Report.tryRaise
+
+    let checkBool'' (n : int<tests>) (maxShrinks : int<shrinks>) (p : Property<bool>) : unit =
+        reportBool'' n maxShrinks p
         |> Report.tryRaise
 
     let checkBool (g : Property<bool>) : unit =
@@ -193,10 +216,10 @@ module Property =
         | _ -> failure
 
     let reportRecheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
-        reportWith' false size seed n p
+        reportWith' false size seed n None p
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith false size seed p
+        reportWith false size seed None p
 
     let reportRecheckBool' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<bool>) : Report =
         bind p ofBool |> reportRecheck' size seed n
