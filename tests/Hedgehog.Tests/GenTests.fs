@@ -1,6 +1,7 @@
 ﻿module Hedgehog.Tests.GenTests
 
 open Hedgehog
+open Hedgehog.Gen.Operators
 open Swensen.Unquote
 open Xunit
 
