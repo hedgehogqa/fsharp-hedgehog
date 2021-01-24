@@ -36,6 +36,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <Compile Include="ListGen.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
+    <Compile Include="GenTuple.fs" />
     <Compile Include="Outcome.fs" />
     <Compile Include="Report.fs" />
     <Compile Include="Property.fs" />
