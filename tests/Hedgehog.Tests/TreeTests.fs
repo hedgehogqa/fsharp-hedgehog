@@ -5,7 +5,7 @@ open TestHelpers
 
 [<Tests>]
 let treeTests = testList "Tree tests" [
-    fact "render tree with depth 0" <| fun _ ->
+    testCase "render tree with depth 0" <| fun _ ->
         Property.check (property {
             let! x0 = Gen.constant "0"
 
@@ -20,7 +20,7 @@ let treeTests = testList "Tree tests" [
             expected =! Tree.renderList tree
         })
 
-    fact "render tree with depth 1" <| fun _ ->
+    testCase "render tree with depth 1" <| fun _ ->
         Property.check (property {
             let! x0 = Gen.constant "0"
             let! x1 = Gen.constant "1"
@@ -44,7 +44,7 @@ let treeTests = testList "Tree tests" [
             expected =! Tree.renderList tree
         })
 
-    fact "render tree with depth 2" <| fun _ ->
+    testCase "render tree with depth 2" <| fun _ ->
         Property.check (property {
             let! x0 = Gen.constant "0"
             let! x1 = Gen.constant "1"
@@ -97,4 +97,4 @@ let treeTests = testList "Tree tests" [
             ]
             expected =! Tree.renderList tree
         })
-    ]
+]

@@ -90,5 +90,5 @@ let ``greedy traversal with a predicate yields the perfect minimal shrink`` () =
 
 [<Tests>]
 let minimalTests = testList "Minimal tests" [
-    fact "greedy traversal with a predicate yields the perfect minimal shrink" ``greedy traversal with a predicate yields the perfect minimal shrink``
+    testCase "greedy traversal with a predicate yields the perfect minimal shrink" ``greedy traversal with a predicate yields the perfect minimal shrink``
 ]

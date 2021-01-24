@@ -6,7 +6,7 @@ open TestHelpers
 [<Tests>]
 let seedTests = testList "Seed tests" [
 
-    theory "Seed.from 'fixes' the γ-value"
+    yield! testCases "Seed.from 'fixes' the γ-value"
         // https://github.com/hedgehogqa/haskell-hedgehog/commit/39b15b9b4d147f6001984c4b7edab00878269da7
         [ (0x61c8864680b583ebUL, 15210016002011668638UL, 12297829382473034411UL)
           (0xf8364607e9c949bdUL, 11409286845259996466UL, 12297829382473034411UL)
