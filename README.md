@@ -41,7 +41,7 @@ You can then load the module in F# Interactive, and run it:
 +++ OK, passed 100 tests.
 ```
 
-More examples can be found in the [tutorial](doc/tutorial.md).
+More examples can be found in the [tutorial](doc/index.md).
 
 👉 For auto-generators (à la AutoFixture) and other convenience generators, check out [fsharp-hedgehog-experimental](https://github.com/cmeeren/fsharp-hedgehog-experimental/).
 
