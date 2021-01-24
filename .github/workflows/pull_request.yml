@@ -33,7 +33,7 @@ jobs:
         node-version: '14'
     - name: Install npm packages
       run: npm install
-      working-directory: tests/Hedgehog.Tests
+      working-directory: ./tests/Hedgehog.Tests
     - name: Fable Tests (Hedgehog.Tests)
       run: npm test
-      working-directory: tests/Hedgehog.Tests
+      working-directory: ./tests/Hedgehog.Tests
