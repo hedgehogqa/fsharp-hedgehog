@@ -25,19 +25,28 @@ jobs:
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
     - name: Test (Hedgehog.Linq.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
-    - name: Setup NodeJs
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - name: Install npm packages
-      run: npm install
-      working-directory: tests/Hedgehog.Tests
-    - name: Fable Tests (Hedgehog.Tests)
-      run: npm test
-      working-directory: tests/Hedgehog.Tests
     - name: Publish NuGet
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
         PROJECT_FILE_PATH: "src/Hedgehog/Hedgehog.fsproj"
         PACKAGE_NAME: "Hedgehog"
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+  fable-tests:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup NodeJs
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Install npm packages
+      run: npm install
+      working-directory: ./tests/Hedgehog.Tests
+    - name: Fable Tests (Hedgehog.Tests)
+      run: |
+        dotnet tool restore
+        npm test
+      working-directory: ./tests/Hedgehog.Tests

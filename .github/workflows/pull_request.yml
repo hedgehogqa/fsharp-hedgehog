@@ -27,6 +27,13 @@ jobs:
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
     - name: Test (Hedgehog.Linq.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
+
+  fable-tests:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
     - name: Setup NodeJs
       uses: actions/setup-node@v2
       with:
