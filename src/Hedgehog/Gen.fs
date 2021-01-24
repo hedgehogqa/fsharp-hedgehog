@@ -512,12 +512,11 @@ module Gen =
                 printfn "%A" (Tree.outcome shrink)
             printfn "."
 
+    module Operators =
+        let (<!>) f g = map f g
+        let (<*>) gf g = apply g gf
+        let (>>=) g f = bind f g
+
 [<AutoOpen>]
 module GenBuilder =
     let gen = Gen.Builder ()
-
-[<AutoOpen>]
-module GenOperators =
-    let (<!>) f g = Gen.map f g
-    let (<*>) gf g = Gen.apply g gf
-    let (>>=) g f = Gen.bind f g

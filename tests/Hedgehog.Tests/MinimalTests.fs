@@ -1,6 +1,7 @@
 module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
+open Hedgehog.Gen.Operators
 open Xunit
 
 type Exp =
