@@ -2,7 +2,7 @@ module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
 open Hedgehog.Gen.Operators
-open Xunit
+open TestHelpers
 
 type Exp =
     | Lit of int
@@ -18,7 +18,6 @@ let shrinkExp : Exp -> List<Exp> = function
     | _ ->
         []
 
-// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let genName =
     Gen.item ["a"; "b"; "c"; "d"]
 
@@ -52,7 +51,6 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
         Seq.tryPick (tryFindSmallest p) xs <|> Some x
 
 #nowarn "40"
-// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let rec genExp : Gen<Exp> =
     Gen.delay (fun _ ->
         let recs = [
@@ -66,11 +64,10 @@ let rec genExp : Gen<Exp> =
         ]
 
         Gen.choiceRec recs nonrecs
-        |> Gen.shrink shrinkExp // comment this out to see the property fail
+        |> Gen.shrink shrinkExp
     )
 
-[<Fact>]
-let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
+let ``greedy traversal with a predicate yields the perfect minimal shrink`` () =
     Property.check (property {
         let! xs = Gen.mapTree Tree.duplicate genExp |> Gen.resize 20
         match tryFindSmallest noAppLit10 xs with
@@ -90,3 +87,8 @@ let ``greedy traversal with a predicate yields the perfect minimal shrink``() =
                 return false
             }
     })
+
+[<Tests>]
+let minimalTests = testList "Minimal tests" [
+    fact "greedy traversal with a predicate yields the perfect minimal shrink" ``greedy traversal with a predicate yields the perfect minimal shrink``
+]
