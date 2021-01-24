@@ -159,12 +159,6 @@ module Property =
     let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
-        let nextSize size =
-            if size >= 100 then
-                1
-            else
-                size + 1
-
         let rec loop seed size tests discards =
             if tests = config.TestLimit then
                 { Tests = tests
@@ -184,15 +178,15 @@ module Property =
                       Discards = discards
                       Status = takeSmallest renderRecheck size seed result 0<shrinks> config.ShrinkLimit}
                 | Success () ->
-                    loop seed2 (nextSize size) (tests + 1<tests>) discards
+                    loop seed2 (Size.next size) (tests + 1<tests>) discards
                 | Discard ->
-                    loop seed2 (nextSize size) tests (discards + 1<discards>)
+                    loop seed2 (Size.next size) tests (discards + 1<discards>)
 
         loop seed size0 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        p |> reportWith' true 1 seed config
+        p |> reportWith' true (Size.ofInt32 1) seed n
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig

@@ -8,29 +8,27 @@ type Random<'a> =
     | Random of (Seed -> Size -> 'a)
 
 module Random =
-    let private unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
-        r seed size
 
-    let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
-        unsafeRun seed (max 1 size) r
+    let run (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
+        r seed size
 
     let delay (f : unit -> Random<'a>) : Random<'a> =
         Random (fun seed size ->
-            f () |> unsafeRun seed size)
+            f () |> run seed size)
 
     let tryFinally (after : unit -> unit) (r : Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
-                unsafeRun seed size r
+                run seed size r
             finally
                 after ())
 
     let tryWith (k : exn -> Random<'a>) (r : Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
-                unsafeRun seed size r
+                run seed size r
             with
-                x -> unsafeRun seed size (k x))
+                x -> run seed size (k x))
 
     let constant (x : 'a) : Random<'a> =
         Random (fun _ _ -> x)
@@ -38,16 +36,16 @@ module Random =
     let map (f : 'a -> 'b) (r : Random<'a>) : Random<'b> =
         Random (fun seed size ->
             r
-            |> unsafeRun seed size
+            |> run seed size
             |> f)
 
     let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
         Random (fun seed size ->
             let seed1, seed2 = Seed.split seed
             r
-            |> unsafeRun seed1 size
+            |> run seed1 size
             |> k
-            |> unsafeRun seed2 size)
+            |> run seed2 size)
 
     let replicate (times : int) (r : Random<'a>) : Random<List<'a>> =
         Random (fun seed0 size ->
@@ -56,7 +54,7 @@ module Random =
                     acc
                 else
                     let seed1, seed2 = Seed.split seed
-                    let x = unsafeRun seed1 size r
+                    let x = run seed1 size r
                     loop seed2 (k - 1) (x :: acc)
             loop seed0 times [])
 
@@ -71,7 +69,7 @@ module Random =
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Random<'a>) : Random<'a> =
         Random (fun seed size ->
-            unsafeRun seed size (f size))
+            run seed size (f size))
 
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.

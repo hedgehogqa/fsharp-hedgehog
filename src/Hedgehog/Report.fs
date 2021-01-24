@@ -1,9 +1,5 @@
 namespace Hedgehog
 
-[<Measure>] type tests
-[<Measure>] type discards
-[<Measure>] type shrinks
-
 type FailureData = {
     Size : Size
     Seed : Seed
@@ -82,8 +78,8 @@ module Report =
 
         if failure.RenderRecheck then
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
-                failure.Size
+            appendLinef sb "> Property.recheck (Size.ofInt32 %d) ({ Value = %A; Gamma = %A }) <property>"
+                (Size.toInt32 failure.Size)
                 failure.Seed.Value
                 failure.Seed.Gamma
 

@@ -3,10 +3,6 @@
 open System
 open Hedgehog.Numeric
 
-/// Tests are parameterized by the `Size` of the randomly-generated data,
-/// the meaning of which depends on the particular generator used.
-type Size = int
-
 /// A range describes the bounds of a number to generate, which may or may not
 /// be dependent on a 'Size'.
 ///
@@ -109,34 +105,22 @@ module Range =
                 min y (max x n)
 
         /// Scale an integral linearly with the size parameter.
-        let inline scaleLinear (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
-            let sz =
-                max 0 (min 99 sz0)
-
-            let z =
-                toBigInt z0
-
-            let n =
-                toBigInt n0
+        let inline scaleLinear (size : Size) (z0 : 'a) (n0 : 'a) : 'a =
+            let z = toBigInt z0
+            let n = toBigInt n0
 
             let diff =
-                ((n - z) * bigint sz) / (bigint 99)
+                size |> Size.BigInt.scale (n - z)
 
             fromBigInt (z + diff)
 
         /// Scale an integral exponentially with the size parameter.
         let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
-            let sz =
-                clamp 0 99 sz0
-
-            let z =
-                toBigInt z0
-
-            let n =
-                toBigInt n0
+            let z = toBigInt z0
+            let n = toBigInt n0
 
             let diff =
-                 (((float (abs (n - z) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - z))
+                 (((float (abs (n - z) + 1I)) ** (Size.toNormalized sz0)) - 1.0) * float (sign (n - z))
 
             // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
             fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float z + diff))))
