@@ -77,7 +77,7 @@ type Property = private Property of Property<unit> with
         |> Property
 
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
-        Property.forAll gen k.Invoke
+        Property.forAll k.Invoke gen
 
     static member ForAll (gen : Gen<'T>) : Property<'T> =
         Property.forAll' gen
@@ -92,11 +92,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member TryFinally (property : Property<'T>, onFinally : Action) : Property<'T> =
-        Property.tryFinally property onFinally.Invoke
+        Property.tryFinally onFinally.Invoke property
 
     [<Extension>]
     static member TryWith (property : Property<'T>, onError : Func<exn, Property<'T>>) : Property<'T> =
-        Property.tryWith property onError.Invoke
+        Property.tryWith onError.Invoke property
 
     //
     // Runner
@@ -224,19 +224,20 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Action<'T>) : Property =
-        Property.bind property (Property.ofThrowing mapper.Invoke)
+        property
+        |> Property.bind (Property.ofThrowing mapper.Invoke)
         |> Property
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
-        Property.bind property (fun a ->
-            Property.map (fun b -> projection.Invoke (a, b)) (binder.Invoke a))
+        property |> Property.bind (fun a ->
+            binder.Invoke a |> Property.map (fun b -> projection.Invoke (a, b)))
 
     [<Extension>]
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =
         let result =
-            Property.bind property (fun a ->
-                Property.bind (binder.Invoke a) (fun b ->
+            property |> Property.bind (fun a ->
+                binder.Invoke a |> Property.bind (fun b ->
                     Property.ofThrowing projection.Invoke (a, b)))
         Property result
 

@@ -1,6 +1,7 @@
 ﻿module Hedgehog.Tests.GenTests
 
 open Hedgehog
+open Hedgehog.Gen.Operators
 open Swensen.Unquote
 open Xunit
 
@@ -78,3 +79,16 @@ let ``uint64 can create exponentially bounded integer`` () =
         let! _ = Gen.uint64 (Range.exponentialBounded ())
         return true
     })
+
+[<Fact>]
+let ``apply is chainable`` () =
+    let _ : Gen<int> =
+        Gen.constant (+)
+        |> Gen.apply (Gen.constant 1)
+        |> Gen.apply (Gen.constant 1)
+    ()
+
+[<Fact>]
+let ``apply operator works as expected`` () =
+    let _ : Gen<int> = (+) <!> (Gen.constant 1) <*> (Gen.constant 1)
+    ()

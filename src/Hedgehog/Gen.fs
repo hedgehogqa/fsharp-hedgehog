@@ -18,19 +18,19 @@ module Gen =
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         Random.delay (toRandom << f) |> ofRandom
 
-    let tryFinally (m : Gen<'a>) (after : unit -> unit) : Gen<'a> =
-        Random.tryFinally (toRandom m) after |> ofRandom
+    let tryFinally (after : unit -> unit) (m : Gen<'a>) : Gen<'a> =
+        toRandom m |> Random.tryFinally after |> ofRandom
 
-    let tryWith (m : Gen<'a>) (k : exn -> Gen<'a>) : Gen<'a> =
-        Random.tryWith (toRandom m) (toRandom << k) |> ofRandom
+    let tryWith (k : exn -> Gen<'a>) (m : Gen<'a>) : Gen<'a> =
+        toRandom m |> Random.tryWith (toRandom << k) |> ofRandom
 
     let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
-        Random.map (Tree.unfold id shrink) random |> ofRandom
+        random |> Random.map (Tree.unfold id shrink) |> ofRandom
 
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
 
-    let private bindRandom (m : Random<Tree<'a>>) (k : 'a -> Random<Tree<'b>>) : Random<Tree<'b>> =
+    let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
         Hedgehog.Random (fun seed0 size ->
             let seed1, seed2 =
                 Seed.split seed0
@@ -40,12 +40,12 @@ module Gen =
 
             Tree.bind (run seed1 m) (run seed2 << k))
 
-    let bind (m0 : Gen<'a>) (k0 : 'a -> Gen<'b>) : Gen<'b> =
-        bindRandom (toRandom m0) (toRandom << k0) |> ofRandom
+    let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
+        toRandom m |> bindRandom (toRandom << k) |> ofRandom
 
-    let apply (gf : Gen<'a -> 'b>) (gx : Gen<'a>) : Gen<'b> =
-        bind gf (fun f ->
-        bind gx (f >> constant))
+    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
+        gf |> bind (fun f ->
+        gx |> bind (f >> constant))
 
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
@@ -57,21 +57,21 @@ module Gen =
         mapTree (Tree.map f) g
 
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
-        bind gx (fun x ->
-        bind gy (fun y ->
+        gx |> bind (fun x ->
+        gy |> bind (fun y ->
         constant (f x y)))
 
     let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
-        bind gx (fun x ->
-        bind gy (fun y ->
-        bind gz (fun z ->
+        gx |> bind (fun x ->
+        gy |> bind (fun y ->
+        gz |> bind (fun z ->
         constant (f x y z))))
 
     let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
-        bind gx (fun x ->
-        bind gy (fun y ->
-        bind gz (fun z ->
-        bind gw (fun w ->
+        gx |> bind (fun x ->
+        gy |> bind (fun y ->
+        gz |> bind (fun z ->
+        gw |> bind (fun w ->
         constant (f x y z w)))))
 
     let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
@@ -95,16 +95,16 @@ module Gen =
     type Builder internal () =
         let rec loop p m =
             if p () then
-                bind m (fun _ -> loop p m)
+                m |> bind (fun _ -> loop p m)
             else
                 constant ()
 
-        member __.Return(a) =
+        member __.Return(a) : Gen<'a> =
             constant a
-        member __.ReturnFrom(g) =
+        member __.ReturnFrom(g) : Gen<'a> =
             g
         member __.Bind(m, k) =
-            bind m k
+            m |> bind k
         member __.For(xs, k) =
             let xse = (xs :> seq<'a>).GetEnumerator ()
             using xse (fun xse ->
@@ -112,7 +112,7 @@ module Gen =
                 let kc = delay (fun () -> k xse.Current)
                 loop mv kc)
         member __.Combine(m, n) =
-            bind m (fun () -> n)
+            m |> bind (fun () -> n)
         member __.Delay(f) =
             delay f
         member __.Zero() =
@@ -252,7 +252,7 @@ module Gen =
                 Random.constant None
             | n ->
                 let r = Random.resize (2 * k + n) r0
-                Random.bind r (fun x ->
+                r |> Random.bind (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
@@ -263,7 +263,9 @@ module Gen =
     /// Generates a value that satisfies a predicate.
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
         let rec loop () =
-            Random.bind (toRandom g |> tryFilterRandom p) (function
+            toRandom g
+            |> tryFilterRandom p
+            |> Random.bind (function
                 | None ->
                     Random.sized (fun n ->
                         Random.resize (n + 1) (Random.delay loop))
@@ -277,12 +279,16 @@ module Gen =
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
         toRandom g
         |> tryFilterRandom p
-        |> flip Random.bind (OptionTree.sequence >> Random.constant)
+        |> Random.bind (OptionTree.sequence >> Random.constant)
         |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
     let some (g : Gen<'a option>) : Gen<'a> =
-        bind (filter Option.isSome g) (Option.get >> constant)
+        filter Option.isSome g |> bind (function
+            | Some x ->
+                constant x
+            | None ->
+                invalidOp "internal error, unexpected None")
 
     //
     // Combinators - Collections
@@ -506,11 +512,11 @@ module Gen =
                 printfn "%A" (Tree.outcome shrink)
             printfn "."
 
+    module Operators =
+        let (<!>) f g = map f g
+        let (<*>) gf g = apply g gf
+        let (>>=) g f = bind f g
+
 [<AutoOpen>]
 module GenBuilder =
     let gen = Gen.Builder ()
-
-[<AutoOpen>]
-module GenOperators =
-    let (<!>) = Gen.map
-    let (<*>) = Gen.apply
