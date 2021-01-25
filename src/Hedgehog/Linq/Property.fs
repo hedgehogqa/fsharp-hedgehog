@@ -100,7 +100,7 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Check
         (   property : Property<bool>,
-            [<Optional; DefaultParameterValue null>] ?tests : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
         Property.checkBoolWith (Build.config tests shrinkLimit) property
@@ -148,9 +148,21 @@ type PropertyExtensions private () =
         Property.reportRecheckBoolWith size seed (Build.config tests shrinkLimit) property
 
     [<Extension>]
-    static member Print (property : Property) : unit =
+    static member Print
+        (   property : Property,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
         let (Property property) = property
-        Property.print property
+        Property.printWith (Build.config tests shrinkLimit) property
+
+    [<Extension>]
+    static member Print
+        (   property : Property<bool>,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
+        Property.printBoolWith (Build.config tests shrinkLimit) property
 
     [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =

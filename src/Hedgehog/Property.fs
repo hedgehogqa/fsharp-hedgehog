@@ -252,6 +252,16 @@ module Property =
         |> Report.render
         |> printfn "%s"
 
+    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
+        reportBoolWith config p
+        |> Report.render
+        |> printfn "%s"
+
+    let printBool (p : Property<bool>) : unit =
+        reportBool p
+        |> Report.render
+        |> printfn "%s"
+
 [<AutoOpen>]
 module PropertyBuilder =
     let rec private loop (p : unit -> bool) (m : Property<unit>) : Property<unit> =
