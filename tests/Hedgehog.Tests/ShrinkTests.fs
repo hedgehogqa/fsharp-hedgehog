@@ -3,7 +3,6 @@
 open Hedgehog
 open TestHelpers
 
-[<Tests>]
 let shrinkTests = testList "Shrink tests" [
     testCase "removes permutes a list by removing 'k' consecutive elements from it" <| fun _ ->
         let actual = Shrink.removes 2 [ 1; 2; 3; 4; 5; 6 ]

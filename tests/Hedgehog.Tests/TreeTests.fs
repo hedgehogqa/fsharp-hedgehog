@@ -3,7 +3,6 @@
 open Hedgehog
 open TestHelpers
 
-[<Tests>]
 let treeTests = testList "Tree tests" [
     testCase "render tree with depth 0" <| fun _ ->
         Property.check (property {

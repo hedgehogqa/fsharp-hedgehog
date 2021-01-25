@@ -41,13 +41,3 @@ let inline (=!) actual expected = Expect.equal expected actual "Should be equal"
 [<RequireQualifiedAccess>]
 module Expect =
     let inline isTrue value = Expect.isTrue value "Should be true"
-
-#if FABLE_COMPILER
-// Add dummy TestAttribute when compiling with Fable.
-// This attribute is used only to find tests when running `dotnet test`
-type TestsAttribute() = inherit System.Attribute()
-#else
-// Alias TestsAttribute from Expecto namespace so we do not have to
-// open Expecto namespace and guard it with `#if !FABLE_COMPILER` in every file
-type TestsAttribute = Expecto.TestsAttribute
-#endif

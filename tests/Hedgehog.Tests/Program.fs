@@ -3,6 +3,10 @@ module Hedgehog.Tests.Main
 open Hedgehog
 open TestHelpers
 
+#if !FABLE_COMPILER
+// Add TestsAttribute so that allTests is discovered when run with `dotnet test`
+[<Expecto.Tests>]
+#endif
 let allTests = testList "All tests" [
     TreeTests.treeTests
     RangeTests.rangeTests
@@ -18,5 +22,5 @@ let main (args: string[]) =
 #if FABLE_COMPILER
     Fable.Mocha.Mocha.runTests allTests
 #else
-    Expecto.Tests.runTests Expecto.Tests.defaultConfig allTests
+    Expecto.Tests.runTestsInAssembly Expecto.Tests.defaultConfig args
 #endif

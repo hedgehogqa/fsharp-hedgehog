@@ -3,7 +3,6 @@ module Hedgehog.Tests.SeedTests
 open Hedgehog
 open TestHelpers
 
-[<Tests>]
 let seedTests = testList "Seed tests" [
 
     yield! testCases "Seed.from 'fixes' the γ-value"

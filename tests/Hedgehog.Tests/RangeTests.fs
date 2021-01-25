@@ -4,7 +4,6 @@ open System
 open Hedgehog
 open TestHelpers
 
-[<Tests>]
 let rangeTests = testList "Range tests" [
     yield! testCases "singleton bounds returns correct result"
         [ (   2,   1)

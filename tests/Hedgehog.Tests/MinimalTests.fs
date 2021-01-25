@@ -88,7 +88,6 @@ let perfectMinimalShrink () =
             }
     })
 
-[<Tests>]
 let minimalTests = testList "Minimal tests" [
     testCase "greedy traversal with a predicate yields the perfect minimal shrink" perfectMinimalShrink
 ]

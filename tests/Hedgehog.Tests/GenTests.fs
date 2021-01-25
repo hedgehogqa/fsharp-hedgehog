@@ -6,7 +6,6 @@ open TestHelpers
 
 let dtRange = Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
 
-[<Tests>]
 let genTests = testList "Gen tests" [
     yield! testCases "dateTime creates System.DateTime instances" [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
         let actual = Gen.dateTime dtRange |> Gen.sample 0 count
