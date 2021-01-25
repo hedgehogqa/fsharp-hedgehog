@@ -14,6 +14,7 @@ type PropertyConfig = internal {
 
 
 module PropertyConfig =
+
     /// The default configuration for a property test.
     let defaultConfig : PropertyConfig =
         {   TestLimit = 100<tests>
@@ -186,18 +187,15 @@ module Property =
 
         loop seed size0 0<tests> 0<discards>
 
-    let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        p |> reportWith' renderRecheck size seed 100<tests>
-
-    let report' (n : int<tests>) (p : Property<unit>) : Report =
+    let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        p |> reportWith' true 1 seed n
+        p |> reportWith' true 1 seed config
 
     let report (p : Property<unit>) : Report =
-        p |> report' 100<tests>
+        p |> reportWith PropertyConfig.defaultConfig
 
-    let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
-        p |> bind ofBool |> report' n
+    let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> bind ofBool |> reportWith config
 
     let reportBool (p : Property<bool>) : Report =
         p |> bind ofBool |> report
@@ -213,8 +211,8 @@ module Property =
     let checkBool (g : Property<bool>) : unit =
         g |> bind ofBool |> check
 
-    let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
-        g |> bind ofBool |> check' n
+    let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
@@ -231,8 +229,8 @@ module Property =
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
         reportWith' false size seed PropertyConfig.defaultConfig p
 
-    let reportRecheckBool' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheck' size seed n
+    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> bind ofBool |> reportRecheckWith size seed config
 
     let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheck size seed
@@ -245,8 +243,8 @@ module Property =
         reportRecheck size seed p
         |> Report.tryRaise
 
-    let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheck' size seed n
+    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> bind ofBool |> recheckWith size seed config
 
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
         g |> bind ofBool |> recheck size seed
