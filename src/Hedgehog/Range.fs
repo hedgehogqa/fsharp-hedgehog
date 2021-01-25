@@ -119,8 +119,11 @@ module Range =
 
         /// Scale an integral exponentially with the size parameter.
         let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
-            let z = toBigInt z0
-            let n = toBigInt n0
+            let z =
+                toBigInt z0
+
+            let n =
+                toBigInt n0
 
             let diff =
                  (((float (abs (n - z) + 1I)) ** (Size.Double.normalized sz0)) - 1.0) * float (sign (n - z))
