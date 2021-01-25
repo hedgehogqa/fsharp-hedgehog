@@ -3,28 +3,30 @@ namespace Hedgehog
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.
 [<Struct>]
-type Size = private Size of (int * int)
+type Size = private Size of struct(int * int)
 
 module Size =
 
-    /// Initializes a `Size`, where `current` specifies the numerator while `maximum` specifies the denominator.
-    ///
-    /// The value for `maximum` is inclusive.
-    let init (current : int) (maximum : int<tests>) : Size =
+    let create (current : int) (maximum : int) : Size =
         Size (current, int maximum)
 
-    let current (Size (current, _)) =
+    let constant (n : int) : Size =
+        create n n
+
+    let current (size : Size) : int =
+        let (Size (current, _)) = size
         int current
 
-    let maximum (Size (_, maximum)) =
+    let maximum (size : Size) : int =
+        let (Size (_, maximum)) = size
         int maximum
 
     let private modify (f : int -> int) (size : Size) : Size =
         let current = current size
         let maximum = maximum size
-        Size (f current, maximum)
+        create (f current) maximum
 
-    let rewind (n : int) (size : Size) =
+    let rewind (n : int) (size : Size) : Size =
         size |> modify (fun k -> k * 2 + n)
 
     let half (size : Size) : Size =

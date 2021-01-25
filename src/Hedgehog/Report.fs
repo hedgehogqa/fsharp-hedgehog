@@ -78,7 +78,7 @@ module Report =
 
         if failure.RenderRecheck then
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck (Size.init %d %d) ({ Value = %A; Gamma = %A }) <property>"
+            appendLinef sb "> Property.recheck (Size.create %d %d) ({ Value = %A; Gamma = %A }) <property>"
                 (Size.current failure.Size)
                 (Size.maximum failure.Size)
                 failure.Seed.Value

@@ -264,7 +264,7 @@ module Gen =
                 let r = Random.resize size1' r0
                 Random.bind r binder
 
-        let size = Size.init 0 99<tests>
+        let size = Size.create 0 99
         Random.sized (tryN size)
 
     /// Generates a value that satisfies a predicate.
@@ -507,12 +507,12 @@ module Gen =
     /// if you want another size then you should explicitly use 'resize'.
     let generateTree (g : Gen<'a>) : Tree<'a> =
         let seed = Seed.random ()
-        let size = Size.init 30 30<tests>
+        let size = Size.constant 30
         toRandom g
         |> Random.run seed size
 
     let printSample (g : Gen<'a>) : unit =
-        let size = Size.init 10 10<tests>
+        let size = Size.constant 10
         let forest = sampleTree size 5 g
         for tree in forest do
             printfn "=== Outcome ==="

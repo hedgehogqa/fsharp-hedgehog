@@ -71,7 +71,7 @@ let rec genExp : Gen<Exp> =
 
 let perfectMinimalShrink () =
     Property.check (property {
-        let! xs = Gen.mapTree Tree.duplicate genExp |> Gen.resize (Size.init 0 20<tests>)
+        let! xs = Gen.mapTree Tree.duplicate genExp |> Gen.resize (Size.create 0 20)
         match tryFindSmallest noAppLit10 xs with
         | None ->
             return true

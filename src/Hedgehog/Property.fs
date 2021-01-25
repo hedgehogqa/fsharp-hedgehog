@@ -186,7 +186,8 @@ module Property =
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        p |> reportWith' true (Size.init 0 n) seed n
+        let size = Size.create 0 (int n)
+        p |> reportWith' true size seed n
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig
