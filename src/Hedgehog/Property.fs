@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 open System
 
@@ -8,21 +8,24 @@ type Property<'a> =
 
 
 type PropertyConfig = internal {
-    TestCount   : int<tests>
+    TestCount : int<tests>
     ShrinkLimit : int<shrinks> option
 }
 
 
 module PropertyConfig =
-    let defaultConfig =
+    /// The default configuration for a property test.
+    let defaultConfig : PropertyConfig =
         {   TestCount = 100<tests>
             ShrinkLimit = None }
 
-    let withShrinkLimit shrinkLimit c =
-        { c with ShrinkLimit = Some shrinkLimit }
+    /// The number of shrinks to try before giving up on shrinking.
+    let withShrinkLimit (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
+        { config with ShrinkLimit = Some shrinkLimit }
 
-    let withTestCount testCount c =
-        { c with TestCount = testCount }
+    /// The number of successful tests that need to be run before a property test is considered successful.
+    let withTestCount (testCount : int<tests>) (config : PropertyConfig) : PropertyConfig =
+        { config with TestCount = testCount }
 
 
 module Property =

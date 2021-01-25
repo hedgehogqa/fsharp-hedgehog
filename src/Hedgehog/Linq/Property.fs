@@ -16,6 +16,29 @@ module internal Build =
             | Some shrinkLimit -> config |> PropertyConfig.withShrinkLimit shrinkLimit
             | None -> config
 
+
+[<Extension>]
+[<AbstractClass; Sealed>]
+type PropertyConfigExtensions private () =
+
+    /// The number of shrinks to try before giving up on shrinking.
+    [<Extension>]
+    static member WithShrinkLimit (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
+        PropertyConfig.withShrinkLimit shrinkLimit config
+
+    /// The number of successful tests that need to be run before a property test is considered successful.
+    [<Extension>]
+    static member WithTestCount (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
+        PropertyConfig.withTestCount tests config
+
+
+type PropertyConfig =
+
+    /// The default configuration for a property test.
+    static member DefaultConfig : Hedgehog.PropertyConfig =
+        PropertyConfig.defaultConfig
+
+        
 type Property = private Property of Property<unit> with
 
     static member Failure : Property =
@@ -106,6 +129,15 @@ type PropertyExtensions private () =
         Property.checkBoolWith (Build.config tests shrinkLimit) property
 
     [<Extension>]
+    static member Check (property : Property, config : Hedgehog.PropertyConfig) : unit =
+        let (Property property) = property
+        Property.checkWith config property
+
+    [<Extension>]
+    static member Check (property : Property<bool>, config : Hedgehog.PropertyConfig) : unit =
+        Property.checkBoolWith config property
+
+    [<Extension>]
     static member Recheck
         (   property : Property,
             size : Size,
@@ -127,6 +159,15 @@ type PropertyExtensions private () =
         Property.recheckBoolWith size seed (Build.config tests shrinkLimit) property
 
     [<Extension>]
+    static member Recheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
+        let (Property property) = property
+        Property.recheckWith size seed config property
+
+    [<Extension>]
+    static member Recheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
+        Property.recheckBoolWith size seed config property
+
+    [<Extension>]
     static member ReportRecheck
         (   property : Property,
             size : Size,
@@ -146,6 +187,15 @@ type PropertyExtensions private () =
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : Report =
         Property.reportRecheckBoolWith size seed (Build.config tests shrinkLimit) property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
+        let (Property property) = property
+        Property.reportRecheckWith size seed config property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
+        Property.reportRecheckBoolWith size seed config property
 
     [<Extension>]
     static member Print
