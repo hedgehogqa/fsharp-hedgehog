@@ -237,13 +237,16 @@ let ``towardsDouble returns empty list when run out of shrinks`` x0 destination 
 [<InlineData(0)>]
 [<InlineData(1)>]
 [<InlineData(2)>]
-let ``Property.report'' respects its maxShrinks`` maxShrinks =
+let ``Property.reportWith respects shrinkLimit`` shrinkLimit =
+    let propConfig =
+        PropertyConfig.defaultConfig
+        |> PropertyConfig.withShrinkLimit shrinkLimit
     let report =
         property {
             let! actual = Range.linear 1 1_000_000 |> Gen.int
             return actual < 500_000
-        } |> Property.report'' 100<tests> maxShrinks
+        } |> Property.reportWith propConfig
     match report.Status with
     | Failed failureData ->
-        failureData.Shrinks =! maxShrinks
+        failureData.Shrinks =! shrinkLimit
     | _ -> failwith "impossible"

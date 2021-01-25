@@ -5,6 +5,16 @@ namespace Hedgehog.Linq
 open System
 open System.Runtime.CompilerServices
 open Hedgehog
+open System.Runtime.InteropServices
+
+module internal Build =
+    let config tests shrinkLimit =
+        PropertyConfig.defaultConfig
+        |> PropertyConfig.withTestCount (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestCount)
+        |> fun config ->
+            match shrinkLimit with
+            | Some shrinkLimit -> config |> PropertyConfig.withShrinkLimit shrinkLimit
+            | None -> config
 
 type Property = private Property of Property<unit> with
 
@@ -75,94 +85,67 @@ type PropertyExtensions private () =
         Property.report property
 
     [<Extension>]
-    static member Report (property : Property, tests : int<tests>, maxShrinks : int<shrinks>) : Report =
-        let (Property property) = property
-        Property.report'' tests maxShrinks property
-
-    [<Extension>]
-    static member Report (property : Property, tests : int<tests>) : Report =
-        let (Property property) = property
-        Property.report' tests property
-
-    [<Extension>]
     static member Report (property : Property<bool>) : Report =
         Property.reportBool property
 
     [<Extension>]
-    static member Report (property : Property<bool>, tests : int<tests>) : Report =
-        Property.reportBool' tests property
-
-    [<Extension>]
-    static member Report (property : Property<bool>, tests : int<tests>, maxShrinks : int<shrinks>) : Report =
-        Property.reportBool'' tests maxShrinks property
-
-    [<Extension>]
-    static member Check (property : Property) : unit =
+    static member Check
+        (   property : Property,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
         let (Property property) = property
-        Property.check property
+        Property.checkWith (Build.config tests shrinkLimit) property
 
     [<Extension>]
-    static member Check (property : Property, tests : int<tests>, maxShrinks : int<shrinks>) : unit =
+    static member Check
+        (   property : Property<bool>,
+            [<Optional; DefaultParameterValue null>] ?tests : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
+        Property.checkBoolWith (Build.config tests shrinkLimit) property
+
+    [<Extension>]
+    static member Recheck
+        (   property : Property,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
         let (Property property) = property
-        Property.check'' tests maxShrinks property
+        Property.recheckWith size seed (Build.config tests shrinkLimit) property
 
     [<Extension>]
-    static member Check (property : Property, tests : int<tests>) : unit =
+    static member Recheck
+        (   property : Property<bool>,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : unit =
+        Property.recheckBoolWith size seed (Build.config tests shrinkLimit) property
+
+    [<Extension>]
+    static member ReportRecheck
+        (   property : Property,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : Report =
         let (Property property) = property
-        Property.check' tests property
+        Property.reportRecheckWith size seed (Build.config tests shrinkLimit) property
 
     [<Extension>]
-    static member Check (property : Property<bool>) : unit =
-        Property.checkBool property
-
-    [<Extension>]
-    static member Check (property : Property<bool>, tests : int<tests>) : unit =
-        Property.checkBool' tests property
-
-    [<Extension>]
-    static member Check (property : Property<bool>, tests : int<tests>, maxShrinks : int<shrinks>) : unit =
-        Property.checkBool'' tests maxShrinks property
-
-    [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed) : unit =
-        let (Property property) = property
-        Property.recheck size seed property
-
-    [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : unit =
-        let (Property property) = property
-        Property.recheck' size seed tests property
-
-    [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed) : unit =
-        Property.recheckBool size seed property
-
-    [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : unit =
-        Property.recheckBool' size seed tests property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
-        let (Property property) = property
-        Property.reportRecheck size seed property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : Report =
-        let (Property property) = property
-        Property.reportRecheck' size seed tests property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
-        Property.reportRecheckBool size seed property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : Report =
-        Property.reportRecheckBool' size seed tests property
-
-    [<Extension>]
-    static member Print (property : Property, tests : int<tests>) : unit =
-        let (Property property) = property
-        Property.print' tests property
+    static member ReportRecheck
+        (   property : Property<bool>,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
+        ) : Report =
+        Property.reportRecheckBoolWith size seed (Build.config tests shrinkLimit) property
 
     [<Extension>]
     static member Print (property : Property) : unit =
