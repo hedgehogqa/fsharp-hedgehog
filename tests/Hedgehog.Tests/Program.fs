@@ -1,9 +1,7 @@
 module Hedgehog.Tests.Main
 
 open Hedgehog
-
-#if FABLE_COMPILER
-open Fable.Mocha
+open TestHelpers
 
 let allTests = testList "All tests" [
     TreeTests.treeTests
@@ -14,13 +12,11 @@ let allTests = testList "All tests" [
     MinimalTests.minimalTests
 ]
 
-[<EntryPoint>]
-let main (args: string[]) =
-    Mocha.runTests allTests
-#else
-open Expecto
 
 [<EntryPoint>]
 let main (args: string[]) =
-    runTestsInAssembly defaultConfig args
+#if FABLE_COMPILER
+    Fable.Mocha.Mocha.runTests allTests
+#else
+    Expecto.Tests.runTests Expecto.Tests.defaultConfig allTests
 #endif
