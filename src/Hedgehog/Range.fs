@@ -105,12 +105,15 @@ module Range =
                 min y (max x n)
 
         /// Scale an integral linearly with the size parameter.
-        let inline scaleLinear (size : Size) (minValue : 'a) (maxValue : 'a) : 'a =
-            let minValue = toBigInt minValue
-            let maxValue = toBigInt maxValue
+        let inline scaleLinear (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+            let z =
+                toBigInt z0
+
+            let n =
+                toBigInt n0
 
             let lerp =
-                size |> Size.BigInt.lerp minValue maxValue
+                sz0 |> Size.BigInt.lerp z n
 
             fromBigInt lerp
 

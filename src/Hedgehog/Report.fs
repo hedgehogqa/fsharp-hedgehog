@@ -1,5 +1,9 @@
 namespace Hedgehog
 
+[<Measure>] type tests
+[<Measure>] type discards
+[<Measure>] type shrinks
+
 type FailureData = {
     Size : Size
     Seed : Seed

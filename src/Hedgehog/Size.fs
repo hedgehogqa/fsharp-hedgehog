@@ -13,30 +13,28 @@ module Size =
     let constant (n : int) : Size =
         create n n
 
-    let current (size : Size) : int =
-        let (Size (current, _)) = size
-        int current
+    let current (Size (current, _)) : int =
+        current
 
-    let maximum (size : Size) : int =
-        let (Size (_, maximum)) = size
-        int maximum
+    let maximum (Size (_, maximum)) : int =
+        maximum
 
-    let private modify (f : int -> int) (size : Size) : Size =
+    let private mapCurrent (f : int -> int) (size : Size) : Size =
         let current = current size
         let maximum = maximum size
         create (f current) maximum
 
     let rewind (n : int) (size : Size) : Size =
-        size |> modify (fun k -> k * 2 + n)
+        size |> mapCurrent (fun k -> k * 2 + n)
 
     let half (size : Size) : Size =
-        size |> modify (fun n -> n / 2)
+        size |> mapCurrent (fun n -> n / 2)
 
     let next (size : Size) : Size =
-        size |> modify (fun n -> n + 1)
+        size |> mapCurrent (fun n -> n + 1)
 
     let prev (size : Size) : Size =
-        size |> modify (fun n -> n - 1)
+        size |> mapCurrent (fun n -> n - 1)
 
     module Double =
 

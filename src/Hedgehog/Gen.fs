@@ -254,15 +254,12 @@ module Gen =
                 Random.constant None
             | n ->
                 let size1' = size1 |> Size.rewind n
-
-                let binder = fun x ->
+                let r = Random.resize size1' r0
+                Random.bind r (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
-                        tryN (Size.next size1') (Size.prev size2)
-
-                let r = Random.resize size1' r0
-                Random.bind r binder
+                        tryN (Size.next size1') (Size.prev size2))
 
         let size = Size.create 0 99
         Random.sized (tryN size)
