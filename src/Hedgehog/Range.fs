@@ -105,14 +105,14 @@ module Range =
                 min y (max x n)
 
         /// Scale an integral linearly with the size parameter.
-        let inline scaleLinear (size : Size) (z0 : 'a) (n0 : 'a) : 'a =
-            let z = toBigInt z0
-            let n = toBigInt n0
+        let inline scaleLinear (size : Size) (minValue : 'a) (maxValue : 'a) : 'a =
+            let minValue = toBigInt minValue
+            let maxValue = toBigInt maxValue
 
-            let diff =
-                size |> Size.BigInt.scale (n - z)
+            let lerp =
+                size |> Size.BigInt.lerp minValue maxValue
 
-            fromBigInt (z + diff)
+            fromBigInt lerp
 
         /// Scale an integral exponentially with the size parameter.
         let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
@@ -120,7 +120,7 @@ module Range =
             let n = toBigInt n0
 
             let diff =
-                 (((float (abs (n - z) + 1I)) ** (Size.toNormalized sz0)) - 1.0) * float (sign (n - z))
+                 (((float (abs (n - z) + 1I)) ** (Size.Double.normalized sz0)) - 1.0) * float (sign (n - z))
 
             // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
             fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float z + diff))))

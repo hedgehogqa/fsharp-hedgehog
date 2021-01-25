@@ -3,45 +3,49 @@ namespace Hedgehog
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.
 [<Struct>]
-type Size = private Size of int
+type Size = private Size of (int * int)
 
 module Size =
 
-    let [<Literal>] private MIN_VALUE = 0
-    let [<Literal>] private MAX_VALUE = 99
+    /// Initializes a `Size`, where `current` specifies the numerator while `maximum` specifies the denominator.
+    ///
+    /// The value for `maximum` is inclusive.
+    let init (current : int) (maximum : int<tests>) : Size =
+        Size (current, int maximum)
 
-    let maxValue : Size =
-        Size MAX_VALUE
+    let current (Size (current, _)) =
+        int current
 
-    let minValue : Size =
-        Size MIN_VALUE
+    let maximum (Size (_, maximum)) =
+        int maximum
 
-    let modify (f : int -> int) (Size n) : Size =
-        Size (f n)
+    let private modify (f : int -> int) (size : Size) : Size =
+        let current = current size
+        let maximum = maximum size
+        Size (f current, maximum)
 
-    /// Converts a simple `int` to a `Size`.
-    let ofInt32 (n : int) : Size =
-        n
-        |> max MIN_VALUE
-        |> min MAX_VALUE
-        |> Size
+    let rewind (n : int) (size : Size) =
+        size |> modify (fun k -> k * 2 + n)
 
-    /// Converts a `Size` to a simple `int`.
-    let toInt32 (Size n) : int =
-        n
-
-    let toNormalized (size : Size) : float =
-        let n = toInt32 size
-        float n / float MAX_VALUE
+    let half (size : Size) : Size =
+        size |> modify (fun n -> n / 2)
 
     let next (size : Size) : Size =
-        let modifier (n : int) : int =
-            (n + 1) % 100
+        size |> modify (fun n -> n + 1)
 
-        modify modifier size
+    let prev (size : Size) : Size =
+        size |> modify (fun n -> n - 1)
+
+    module Double =
+
+        let normalized (size : Size) : float =
+            let current = float (current size)
+            let maximum = float (maximum size)
+            current / maximum
 
     module BigInt =
 
-        let scale (n : bigint) (size : Size) : bigint =
-            let sz = toInt32 size
-            (n * bigint sz) / (bigint MAX_VALUE)
+        let lerp (min : bigint) (max : bigint) (size : Size) : bigint =
+            let current = bigint (current size)
+            let maximum = bigint (maximum size)
+            min + (((max - min) * current) / maximum)

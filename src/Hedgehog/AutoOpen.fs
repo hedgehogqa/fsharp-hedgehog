@@ -1,10 +1,6 @@
 ﻿[<AutoOpen>]
 module internal AutoOpen
 
-[<Measure>] type tests
-[<Measure>] type discards
-[<Measure>] type shrinks
-
 let inline always (a : 'a) (_ : 'b) : 'a =
     a
 
