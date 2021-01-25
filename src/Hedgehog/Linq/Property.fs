@@ -10,7 +10,7 @@ open System.Runtime.InteropServices
 module internal Build =
     let config tests shrinkLimit =
         PropertyConfig.defaultConfig
-        |> PropertyConfig.withTestCount (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestCount)
+        |> PropertyConfig.withTestLimit (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestLimit)
         |> fun config ->
             match shrinkLimit with
             | Some shrinkLimit -> config |> PropertyConfig.withShrinkLimit shrinkLimit
@@ -28,8 +28,8 @@ type PropertyConfigExtensions private () =
 
     /// The number of successful tests that need to be run before a property test is considered successful.
     [<Extension>]
-    static member WithTestCount (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
-        PropertyConfig.withTestCount tests config
+    static member WithTestLimit (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
+        PropertyConfig.withTestLimit tests config
 
 
 type PropertyConfig =

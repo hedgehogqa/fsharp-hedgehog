@@ -8,7 +8,7 @@ type Property<'a> =
 
 
 type PropertyConfig = internal {
-    TestCount : int<tests>
+    TestLimit : int<tests>
     ShrinkLimit : int<shrinks> option
 }
 
@@ -16,7 +16,7 @@ type PropertyConfig = internal {
 module PropertyConfig =
     /// The default configuration for a property test.
     let defaultConfig : PropertyConfig =
-        {   TestCount = 100<tests>
+        {   TestLimit = 100<tests>
             ShrinkLimit = None }
 
     /// The number of shrinks to try before giving up on shrinking.
@@ -24,8 +24,8 @@ module PropertyConfig =
         { config with ShrinkLimit = Some shrinkLimit }
 
     /// The number of successful tests that need to be run before a property test is considered successful.
-    let withTestCount (testCount : int<tests>) (config : PropertyConfig) : PropertyConfig =
-        { config with TestCount = testCount }
+    let withTestLimit (testLimit : int<tests>) (config : PropertyConfig) : PropertyConfig =
+        { config with TestLimit = testLimit }
 
 
 module Property =
@@ -159,7 +159,7 @@ module Property =
                 size + 1
 
         let rec loop seed size tests discards =
-            if tests = config.TestCount then
+            if tests = config.TestLimit then
                 { Tests = tests
                   Discards = discards
                   Status = OK }
