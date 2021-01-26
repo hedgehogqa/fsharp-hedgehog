@@ -8,9 +8,9 @@ open Hedgehog
 open System.Runtime.InteropServices
 
 module internal Build =
-    let config tests shrinkLimit =
+    let config testLimit shrinkLimit =
         PropertyConfig.defaultConfig
-        |> PropertyConfig.withTests (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestLimit)
+        |> PropertyConfig.withTests (testLimit |> Option.defaultValue PropertyConfig.defaultConfig.TestLimit)
         |> fun config ->
             match shrinkLimit with
             | Some shrinkLimit -> config |> PropertyConfig.withShrinks shrinkLimit
@@ -33,8 +33,8 @@ type PropertyConfigExtensions private () =
 
     /// Set the number of times a property should be executed before it is considered successful.
     [<Extension>]
-    static member WithTests (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
-        PropertyConfig.withTests tests config
+    static member WithTests (config : PropertyConfig, testLimit: int<tests>) : PropertyConfig =
+        PropertyConfig.withTests testLimit config
 
 
 type PropertyConfig =
@@ -119,19 +119,19 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Check
         (   property : Property,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
         let (Property property) = property
-        Property.checkWith (Build.config tests shrinkLimit) property
+        Property.checkWith (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Check
         (   property : Property<bool>,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
-        Property.checkBoolWith (Build.config tests shrinkLimit) property
+        Property.checkBoolWith (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Check (property : Property, config : Hedgehog.PropertyConfig) : unit =
@@ -147,21 +147,21 @@ type PropertyExtensions private () =
         (   property : Property,
             size : Size,
             seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
         let (Property property) = property
-        Property.recheckWith size seed (Build.config tests shrinkLimit) property
+        Property.recheckWith size seed (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Recheck
         (   property : Property<bool>,
             size : Size,
             seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
-        Property.recheckBoolWith size seed (Build.config tests shrinkLimit) property
+        Property.recheckBoolWith size seed (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Recheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
@@ -177,21 +177,21 @@ type PropertyExtensions private () =
         (   property : Property,
             size : Size,
             seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : Report =
         let (Property property) = property
-        Property.reportRecheckWith size seed (Build.config tests shrinkLimit) property
+        Property.reportRecheckWith size seed (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member ReportRecheck
         (   property : Property<bool>,
             size : Size,
             seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : Report =
-        Property.reportRecheckBoolWith size seed (Build.config tests shrinkLimit) property
+        Property.reportRecheckBoolWith size seed (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member ReportRecheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
@@ -205,19 +205,19 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Print
         (   property : Property,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
         let (Property property) = property
-        Property.printWith (Build.config tests shrinkLimit) property
+        Property.printWith (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Print
         (   property : Property<bool>,
-            [<Optional; DefaultParameterValue null>] ?tests       : int<tests>,
+            [<Optional; DefaultParameterValue null>] ?testLimit   : int<tests>,
             [<Optional; DefaultParameterValue null>] ?shrinkLimit : int<shrinks>
         ) : unit =
-        Property.printBoolWith (Build.config tests shrinkLimit) property
+        Property.printBoolWith (Build.config testLimit shrinkLimit) property
 
     [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
