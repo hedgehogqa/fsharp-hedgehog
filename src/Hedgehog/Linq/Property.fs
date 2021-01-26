@@ -21,12 +21,17 @@ module internal Build =
 [<AbstractClass; Sealed>]
 type PropertyConfigExtensions private () =
 
-    /// The number of shrinks to try before giving up on shrinking.
+    /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
     [<Extension>]
     static member WithShrinkLimit (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
         PropertyConfig.withShrinkLimit shrinkLimit config
 
-    /// The number of successful tests that need to be run before a property test is considered successful.
+    /// Restores the default shrinking behavior.
+    [<Extension>]
+    static member WithoutShrinkLimit (config : PropertyConfig) : PropertyConfig =
+        PropertyConfig.withoutShrinkLimit config
+
+    /// Set the number of times a property should be executed before it is considered successful.
     [<Extension>]
     static member WithTestLimit (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
         PropertyConfig.withTestLimit tests config
