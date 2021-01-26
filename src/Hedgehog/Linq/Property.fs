@@ -35,7 +35,7 @@ type PropertyConfigExtensions private () =
 type PropertyConfig =
 
     /// The default configuration for a property test.
-    static member DefaultConfig : Hedgehog.PropertyConfig =
+    static member Default : Hedgehog.PropertyConfig =
         PropertyConfig.defaultConfig
 
         
