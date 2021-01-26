@@ -21,15 +21,15 @@ module PropertyConfig =
             ShrinkLimit = None }
 
     /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
-    let withShrinkLimit (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
+    let withShrinks (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
         { config with ShrinkLimit = Some shrinkLimit }
 
     /// Restores the default shrinking behavior.
-    let withoutShrinkLimit (config : PropertyConfig) : PropertyConfig =
+    let withoutShrinks (config : PropertyConfig) : PropertyConfig =
         { config with ShrinkLimit = None }
 
     /// Set the number of times a property should be executed before it is considered successful.
-    let withTestLimit (testLimit : int<tests>) (config : PropertyConfig) : PropertyConfig =
+    let withTests (testLimit : int<tests>) (config : PropertyConfig) : PropertyConfig =
         { config with TestLimit = testLimit }
 
 

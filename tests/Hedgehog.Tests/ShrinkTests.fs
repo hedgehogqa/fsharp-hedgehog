@@ -240,7 +240,7 @@ let ``towardsDouble returns empty list when run out of shrinks`` x0 destination 
 let ``Property.reportWith respects shrinkLimit`` shrinkLimit =
     let propConfig =
         PropertyConfig.defaultConfig
-        |> PropertyConfig.withShrinkLimit shrinkLimit
+        |> PropertyConfig.withShrinks shrinkLimit
     let report =
         property {
             let! actual = Range.linear 1 1_000_000 |> Gen.int

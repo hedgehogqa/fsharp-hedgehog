@@ -10,10 +10,10 @@ open System.Runtime.InteropServices
 module internal Build =
     let config tests shrinkLimit =
         PropertyConfig.defaultConfig
-        |> PropertyConfig.withTestLimit (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestLimit)
+        |> PropertyConfig.withTests (tests |> Option.defaultValue PropertyConfig.defaultConfig.TestLimit)
         |> fun config ->
             match shrinkLimit with
-            | Some shrinkLimit -> config |> PropertyConfig.withShrinkLimit shrinkLimit
+            | Some shrinkLimit -> config |> PropertyConfig.withShrinks shrinkLimit
             | None -> config
 
 
@@ -23,18 +23,18 @@ type PropertyConfigExtensions private () =
 
     /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
     [<Extension>]
-    static member WithShrinkLimit (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
-        PropertyConfig.withShrinkLimit shrinkLimit config
+    static member WithShrinks (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
+        PropertyConfig.withShrinks shrinkLimit config
 
     /// Restores the default shrinking behavior.
     [<Extension>]
-    static member WithoutShrinkLimit (config : PropertyConfig) : PropertyConfig =
-        PropertyConfig.withoutShrinkLimit config
+    static member WithoutShrinks (config : PropertyConfig) : PropertyConfig =
+        PropertyConfig.withoutShrinks config
 
     /// Set the number of times a property should be executed before it is considered successful.
     [<Extension>]
-    static member WithTestLimit (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
-        PropertyConfig.withTestLimit tests config
+    static member WithTests (config : PropertyConfig, tests: int<tests>) : PropertyConfig =
+        PropertyConfig.withTests tests config
 
 
 type PropertyConfig =
