@@ -63,17 +63,14 @@ let genTests = testList "Gen tests" [
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
         })
+    testCase "apply is chainable" <| fun _ ->
+        let _ : Gen<int> =
+            Gen.constant (+)
+            |> Gen.apply (Gen.constant 1)
+            |> Gen.apply (Gen.constant 1)
+        ()
+
+    testCase "apply operator works as expected" <| fun _ ->
+        let _ : Gen<int> = (+) <!> (Gen.constant 1) <*> (Gen.constant 1)
+        ()
 ]
-
-[<Fact>]
-let ``apply is chainable`` () =
-    let _ : Gen<int> =
-        Gen.constant (+)
-        |> Gen.apply (Gen.constant 1)
-        |> Gen.apply (Gen.constant 1)
-    ()
-
-[<Fact>]
-let ``apply operator works as expected`` () =
-    let _ : Gen<int> = (+) <!> (Gen.constant 1) <*> (Gen.constant 1)
-    ()
