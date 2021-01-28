@@ -87,7 +87,7 @@ namespace Hedgehog.Linq.Tests
                 where y == false
                 select Assert.True(x && !y);
 
-            property.Check(20);
+            property.Check(PropertyConfig.Default.WithTests(20));
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace Hedgehog.Linq.Tests
                 where y == false
                 select x && !y;
 
-            property.Check(20);
+            property.Check(PropertyConfig.Default.WithTests(20));
         }
 
         [Fact]
