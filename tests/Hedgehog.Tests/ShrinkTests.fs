@@ -232,3 +232,21 @@ let ``towardsDouble returns empty list when run out of shrinks`` x0 destination 
         |> Shrink.towards destination
         |> Seq.toList
     test <@ actual |> List.isEmpty @>
+
+[<Theory>]
+[<InlineData(0)>]
+[<InlineData(1)>]
+[<InlineData(2)>]
+let ``Property.reportWith respects shrinkLimit`` shrinkLimit =
+    let propConfig =
+        PropertyConfig.defaultConfig
+        |> PropertyConfig.withShrinks shrinkLimit
+    let report =
+        property {
+            let! actual = Range.linear 1 1_000_000 |> Gen.int
+            return actual < 500_000
+        } |> Property.reportWith propConfig
+    match report.Status with
+    | Failed failureData ->
+        failureData.Shrinks =! shrinkLimit
+    | _ -> failwith "impossible"

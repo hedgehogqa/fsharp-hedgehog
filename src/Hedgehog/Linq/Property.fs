@@ -5,7 +5,36 @@ namespace Hedgehog.Linq
 open System
 open System.Runtime.CompilerServices
 open Hedgehog
+open System.Runtime.InteropServices
 
+
+[<Extension>]
+[<AbstractClass; Sealed>]
+type PropertyConfigExtensions private () =
+
+    /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
+    [<Extension>]
+    static member WithShrinks (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
+        PropertyConfig.withShrinks shrinkLimit config
+
+    /// Restores the default shrinking behavior.
+    [<Extension>]
+    static member WithoutShrinks (config : PropertyConfig) : PropertyConfig =
+        PropertyConfig.withoutShrinks config
+
+    /// Set the number of times a property should be executed before it is considered successful.
+    [<Extension>]
+    static member WithTests (config : PropertyConfig, testLimit: int<tests>) : PropertyConfig =
+        PropertyConfig.withTests testLimit config
+
+
+type PropertyConfig =
+
+    /// The default configuration for a property test.
+    static member Default : Hedgehog.PropertyConfig =
+        PropertyConfig.defaultConfig
+
+        
 type Property = private Property of Property<unit> with
 
     static member Failure : Property =
@@ -49,6 +78,13 @@ type Property = private Property of Property<unit> with
     static member ForAll (gen : Gen<'T>) : Property<'T> =
         Property.forAll' gen
 
+
+module internal PropertyConfig =
+    let coalesce = function
+        | Some x -> x
+        | None -> PropertyConfig.defaultConfig
+
+
 [<Extension>]
 [<AbstractClass; Sealed>]
 type PropertyExtensions private () =
@@ -70,86 +106,72 @@ type PropertyExtensions private () =
     //
 
     [<Extension>]
-    static member Report (property : Property) : Report =
+    static member Report
+        (   property : Property,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : Report =
         let (Property property) = property
-        Property.report property
+        Property.reportWith (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Report (property : Property, tests : int<tests>) : Report =
+    static member Report
+        (   property : Property<bool>,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : Report =
+        Property.reportBoolWith (PropertyConfig.coalesce config) property
+
+    [<Extension>]
+    static member Check
+        (   property : Property,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : unit =
         let (Property property) = property
-        Property.report' tests property
+        Property.checkWith (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Report (property : Property<bool>) : Report =
-        Property.reportBool property
+    static member Check
+        (   property : Property<bool>,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : unit =
+        Property.checkBoolWith (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Report (property : Property<bool>, tests : int<tests>) : Report =
-        Property.reportBool' tests property
-
-    [<Extension>]
-    static member Check (property : Property) : unit =
+    static member Recheck
+        (   property : Property,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : unit =
         let (Property property) = property
-        Property.check property
+        Property.recheckWith size seed (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Check (property : Property, tests : int<tests>) : unit =
+    static member Recheck
+        (   property : Property<bool>,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : unit =
+        Property.recheckBoolWith size seed (PropertyConfig.coalesce config) property
+
+    [<Extension>]
+    static member ReportRecheck
+        (   property : Property,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : Report =
         let (Property property) = property
-        Property.check' tests property
+        Property.reportRecheckWith size seed (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Check (property : Property<bool>) : unit =
-        Property.checkBool property
-
-    [<Extension>]
-    static member Check (property : Property<bool>, tests : int<tests>) : unit =
-        Property.checkBool' tests property
-
-    [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed) : unit =
-        let (Property property) = property
-        Property.recheck size seed property
-
-    [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : unit =
-        let (Property property) = property
-        Property.recheck' size seed tests property
-
-    [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed) : unit =
-        Property.recheckBool size seed property
-
-    [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : unit =
-        Property.recheckBool' size seed tests property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
-        let (Property property) = property
-        Property.reportRecheck size seed property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed, tests : int<tests>) : Report =
-        let (Property property) = property
-        Property.reportRecheck' size seed tests property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
-        Property.reportRecheckBool size seed property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, tests : int<tests>) : Report =
-        Property.reportRecheckBool' size seed tests property
-
-    [<Extension>]
-    static member Print (property : Property, tests : int<tests>) : unit =
-        let (Property property) = property
-        Property.print' tests property
-
-    [<Extension>]
-    static member Print (property : Property) : unit =
-        let (Property property) = property
-        Property.print property
+    static member ReportRecheck
+        (   property : Property<bool>,
+            size : Size,
+            seed : Seed,
+            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
+        ) : Report =
+        Property.reportRecheckBoolWith size seed (PropertyConfig.coalesce config) property
 
     [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =

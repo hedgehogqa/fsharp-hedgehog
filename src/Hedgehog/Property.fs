@@ -1,10 +1,36 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 open System
 
 [<Struct>]
 type Property<'a> =
     | Property of Gen<Journal * Outcome<'a>>
+
+type PropertyConfig = internal {
+    TestLimit : int<tests>
+    ShrinkLimit : int<shrinks> option
+}
+
+module PropertyConfig =
+
+    /// The default configuration for a property test.
+    let defaultConfig : PropertyConfig =
+        { TestLimit = 100<tests>
+          ShrinkLimit = None }
+
+    /// Set the number of times a property is allowed to shrink before the test
+    /// runner gives up and prints the counterexample.
+    let withShrinks (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
+        { config with ShrinkLimit = Some shrinkLimit }
+
+    /// Restores the default shrinking behavior.
+    let withoutShrinks (config : PropertyConfig) : PropertyConfig =
+        { config with ShrinkLimit = None }
+
+    /// Set the number of times a property should be executed before it is
+    /// considered successful.
+    let withTests (testLimit : int<tests>) (config : PropertyConfig) : PropertyConfig =
+        { config with TestLimit = testLimit }
 
 module Property =
 
@@ -103,26 +129,34 @@ module Property =
             (size : Size)
             (seed : Seed)
             (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
-            (nshrinks : int<shrinks>) : Status =
+            (nshrinks : int<shrinks>)
+            (shrinkLimit : int<shrinks> Option) : Status =
+        let failed =
+            Failed {
+                Size = size
+                Seed = seed
+                Shrinks = nshrinks
+                Journal = journal
+                RenderRecheck = renderRecheck
+            }
+        let takeSmallest tree = takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>) shrinkLimit
         match x with
         | Failure ->
             match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
-            | None ->
-                Failed {
-                    Size = size
-                    Seed = seed
-                    Shrinks = nshrinks
-                    Journal = journal
-                    RenderRecheck = renderRecheck
-                }
+            | None -> failed
             | Some tree ->
-                takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>)
+                match shrinkLimit with
+                | None -> takeSmallest tree
+                | Some shrinkLimit' ->
+                    if nshrinks < shrinkLimit' then
+                        takeSmallest tree
+                    else failed
         | Discard ->
             GaveUp
         | Success _ ->
             OK
 
-    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
+    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -132,7 +166,7 @@ module Property =
                 size + 1
 
         let rec loop seed size tests discards =
-            if tests = n then
+            if tests = config.TestLimit then
                 { Tests = tests
                   Discards = discards
                   Status = OK }
@@ -148,7 +182,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest renderRecheck size seed result 0<shrinks> }
+                      Status = takeSmallest renderRecheck size seed result 0<shrinks> config.ShrinkLimit}
                 | Success () ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
@@ -156,24 +190,21 @@ module Property =
 
         loop seed size0 0<tests> 0<discards>
 
-    let private reportWith (renderRecheck : bool) (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        p |> reportWith' renderRecheck size seed 100<tests>
-
-    let report' (n : int<tests>) (p : Property<unit>) : Report =
+    let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        p |> reportWith' true 1 seed n
+        p |> reportWith' true 1 seed config
 
     let report (p : Property<unit>) : Report =
-        p |> report' 100<tests>
+        p |> reportWith PropertyConfig.defaultConfig
 
-    let reportBool' (n : int<tests>) (p : Property<bool>) : Report =
-        p |> bind ofBool |> report' n
+    let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> bind ofBool |> reportWith config
 
     let reportBool (p : Property<bool>) : Report =
         p |> bind ofBool |> report
 
-    let check' (n : int<tests>) (p : Property<unit>) : unit =
-        report' n p
+    let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
+        reportWith config p
         |> Report.tryRaise
 
     let check (p : Property<unit>) : unit =
@@ -183,8 +214,8 @@ module Property =
     let checkBool (g : Property<bool>) : unit =
         g |> bind ofBool |> check
 
-    let checkBool' (n : int<tests>) (g : Property<bool>) : unit =
-        g |> bind ofBool |> check' n
+    let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
@@ -195,39 +226,49 @@ module Property =
         with
         | _ -> failure
 
-    let reportRecheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : Report =
-        reportWith' false size seed n p
+    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+        reportWith' false size seed config p
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith false size seed p
+        reportWith' false size seed PropertyConfig.defaultConfig p
 
-    let reportRecheckBool' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheck' size seed n
+    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> bind ofBool |> reportRecheckWith size seed config
 
     let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheck size seed
 
-    let recheck' (size : Size) (seed : Seed) (n : int<tests>) (p : Property<unit>) : unit =
-        reportRecheck' size seed n p
+    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
+        reportRecheckWith size seed config p
         |> Report.tryRaise
 
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
         reportRecheck size seed p
         |> Report.tryRaise
 
-    let recheckBool' (size : Size) (seed : Seed) (n : int<tests>) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheck' size seed n
+    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> bind ofBool |> recheckWith size seed config
 
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
         g |> bind ofBool |> recheck size seed
 
-    let print' (n : int<tests>) (p : Property<unit>) : unit =
-        report' n p
+    let printWith (config : PropertyConfig) (p : Property<unit>) : unit =
+        reportWith config p
         |> Report.render
         |> printfn "%s"
 
     let print (p : Property<unit>) : unit =
         report p
+        |> Report.render
+        |> printfn "%s"
+
+    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
+        reportBoolWith config p
+        |> Report.render
+        |> printfn "%s"
+
+    let printBool (p : Property<bool>) : unit =
+        reportBool p
         |> Report.render
         |> printfn "%s"
 
