@@ -6,19 +6,17 @@ open System
 type Property<'a> =
     | Property of Gen<Journal * Outcome<'a>>
 
-
 type PropertyConfig = internal {
     TestLimit : int<tests>
     ShrinkLimit : int<shrinks> option
 }
 
-
 module PropertyConfig =
 
     /// The default configuration for a property test.
     let defaultConfig : PropertyConfig =
-        {   TestLimit = 100<tests>
-            ShrinkLimit = None }
+        { TestLimit = 100<tests>
+          ShrinkLimit = None }
 
     /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
     let withShrinks (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
@@ -31,7 +29,6 @@ module PropertyConfig =
     /// Set the number of times a property should be executed before it is considered successful.
     let withTests (testLimit : int<tests>) (config : PropertyConfig) : PropertyConfig =
         { config with TestLimit = testLimit }
-
 
 module Property =
 
@@ -130,7 +127,7 @@ module Property =
             (size : Size)
             (seed : Seed)
             (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
-            (nshrinks : int<shrinks>) 
+            (nshrinks : int<shrinks>)
             (shrinkLimit : int<shrinks> Option) : Status =
         let failed =
             Failed {
