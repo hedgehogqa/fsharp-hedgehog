@@ -3,12 +3,14 @@
       "Numeric.fs"
       "Seed.fs"
       "Tree.fs"
+      "OptionTree.fs"
       "Range.fs"
       "Random.fs"
       "Shrink.fs"
       "Gen.fs"
       "Journal.fs"
       "Tuple.fs"
+      "GenTuple.fs"
       "Outcome.fs"
       "Report.fs"
       "Property.fs"
@@ -220,6 +222,9 @@ let shrinkExp = function
         [x; y]
 
 #nowarn "40"
+
+open Hedgehog.Gen.Operators
+
 let rec genExp =
     Gen.delay (fun _ ->
         let choiceRec =
