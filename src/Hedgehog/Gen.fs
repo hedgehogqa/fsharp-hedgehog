@@ -253,9 +253,10 @@ module Gen =
             | 0 ->
                 Random.constant None
             | n ->
-                let size1' = size1 |> Size.rewind n
-                let r = Random.resize size1' r0
-                Random.bind r (fun x ->
+                let size1' = Size.rewind n size1
+                r0
+                |> Random.resize size1'
+                |> Random.bind (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
