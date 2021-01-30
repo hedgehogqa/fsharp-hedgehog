@@ -712,6 +712,40 @@ Use your favorite tools with Hedgehog.
 
 Powerful integrations that help you and your team build properties in an easier way.
 
+### Hedgehog.Experimental
+
+[Hedgehog.Experimental](https://github.com/hedgehogqa/fsharp-hedgehog-experimental) contains auto-generators, à la AutoFixture, as well as other convenient combinators.
+
+```fs
+// Can generate all F# types (unions, records, lists, etc.) as well as POCOs
+// with mutable properties or constructors.
+
+type Union =
+  | Husband of int
+  | Wife of string
+  
+type Record =
+  {Sport: string
+   Time: TimeSpan}
+   
+let! union = GenX.auto<Union>
+let! record = GenX.auto<Record>
+```
+
+### Hedgehog.Xunit
+
+[Hedgehog.Xunit](https://github.com/dharmaturtle/fsharp-hedgehog-xunit) provides attributes which make it simpler to write [xUnit.net](https://xunit.net/) tests.
+
+Our very first test may be reinterpreted as
+
+```fs
+[<Property>]
+let ``Reversing a list twice yields the original list`` (xs: int list) =
+    List.rev (List.rev xs) = xs
+```
+
+Arguments are generated with Hedgehog.Experimental.
+
 ### Regex-constrained strings
 
 In Haskell, there's the [quickcheck-regex](https://hackage.haskell.org/package/quickcheck-regex) package, by [Audrey (唐鳳) Tang](https://www.linkedin.com/in/tangaudrey), which allows to write and execute this:
