@@ -2,7 +2,7 @@ module Hedgehog.Tests.GenTests
 
 open Hedgehog
 open Hedgehog.Gen.Operators
-open TestHelpers
+open TestDsl
 
 let dtRange = Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
 

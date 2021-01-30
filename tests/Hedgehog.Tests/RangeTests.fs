@@ -2,7 +2,7 @@ module Hedgehog.Tests.RangeTests
 
 open System
 open Hedgehog
-open TestHelpers
+open TestDsl
 
 let rangeTests = testList "Range tests" [
     yield! testCases "singleton bounds returns correct result"

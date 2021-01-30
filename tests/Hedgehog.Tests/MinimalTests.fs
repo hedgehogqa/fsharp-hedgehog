@@ -2,7 +2,7 @@ module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
 open Hedgehog.Gen.Operators
-open TestHelpers
+open TestDsl
 
 type Exp =
     | Lit of int

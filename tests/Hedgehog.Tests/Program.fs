@@ -1,7 +1,7 @@
 module Hedgehog.Tests.Main
 
 open Hedgehog
-open TestHelpers
+open TestDsl
 
 #if !FABLE_COMPILER
 // Add TestsAttribute so that allTests is discovered when run with `dotnet test`

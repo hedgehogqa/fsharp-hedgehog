@@ -1,4 +1,4 @@
-module Hedgehog.Tests.TestHelpers
+module Hedgehog.Tests.TestDsl
 
 #if FABLE_COMPILER
 

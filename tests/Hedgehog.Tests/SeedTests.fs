@@ -1,7 +1,7 @@
 module Hedgehog.Tests.SeedTests
 
 open Hedgehog
-open TestHelpers
+open TestDsl
 
 let seedTests = testList "Seed tests" [
 

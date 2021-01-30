@@ -1,7 +1,7 @@
 ﻿module Hedgehog.Tests.ShrinkTests
 
 open Hedgehog
-open TestHelpers
+open TestDsl
 
 let shrinkTests = testList "Shrink tests" [
     testCase "removes permutes a list by removing 'k' consecutive elements from it" <| fun _ ->

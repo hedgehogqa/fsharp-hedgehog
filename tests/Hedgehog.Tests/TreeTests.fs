@@ -1,7 +1,7 @@
 ﻿module Hedgehog.Tests.TreeTests
 
 open Hedgehog
-open TestHelpers
+open TestDsl
 
 let treeTests = testList "Tree tests" [
     testCase "render tree with depth 0" <| fun _ ->
