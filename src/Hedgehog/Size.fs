@@ -3,7 +3,7 @@ namespace Hedgehog
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.
 [<Struct>]
-type Size = private Size of struct(int * int)
+type Size = private Size of (int * int)
 
 module Size =
 
@@ -19,10 +19,8 @@ module Size =
     let maximum (Size (_, maximum)) : int =
         maximum
 
-    let private mapCurrent (f : int -> int) (size : Size) : Size =
-        let current = current size
-        let maximum = maximum size
-        create (f current) maximum
+    let private mapCurrent (f : int -> int) (Size(pair)) : Size =
+        uncurry create (Pair.mapFst f pair)
 
     let rewind (n : int) (size : Size) : Size =
         size |> mapCurrent (fun k -> k * 2 + n)
