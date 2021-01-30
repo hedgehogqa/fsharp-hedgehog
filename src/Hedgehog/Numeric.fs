@@ -67,25 +67,25 @@ type MinValue =
             call2 (a, Unchecked.defaultof<'r>) : 'r
         call1 Unchecked.defaultof<MinValue>
 
-    static member inline MinValue ((_ : 'a * 'b), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c * 'd), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c * 'd), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c * 'd * 'e), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c * 'd * 'e), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c * 'd * 'e * 'f), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c * 'd * 'e * 'f), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c * 'd * 'e * 'f * 'g), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c * 'd * 'e * 'f * 'g), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
-    static member inline MinValue ((_ : 'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h), _ : MinValue) =
+    static member inline MinValue ((_: 'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
 type MaxValue =
@@ -150,25 +150,25 @@ type MaxValue =
             call2 (a, Unchecked.defaultof<'r>) : 'r
         call1 Unchecked.defaultof<MaxValue>
 
-    static member inline MaxValue ((_ : 'a * 'b), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a * 'b), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a  *'b *'c), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a  *'b *'c), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a *'b *'c *'d), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a *'b *'c *'d), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a * 'b * 'c * 'd * 'e), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a * 'b * 'c * 'd * 'e), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a * 'b * 'c * 'd *'e *'f), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a * 'b * 'c * 'd *'e *'f), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a * 'b * 'c * 'd * 'e * 'f *'g), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a * 'b * 'c * 'd * 'e * 'f *'g), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
-    static member inline MaxValue ((_ : 'a * 'b * 'c * ' d *'e * 'f *'g *'h), _ : MaxValue) =
+    static member inline MaxValue ((_: 'a * 'b * 'c * ' d *'e * 'f *'g *'h), _: MaxValue) =
         (MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke(), MaxValue.Invoke())
 
 type FromBigInt =
@@ -230,10 +230,10 @@ type ToBigInt =
         x
 
     static member ToBigInt (x: uint8) : bigint =
-        bigint (int x)
+        bigint (int32 x)
 
     static member ToBigInt (x: uint16) : bigint =
-        bigint (int x)
+        bigint (int32 x)
 
     static member ToBigInt (x: uint32) : bigint =
         bigint x
@@ -242,10 +242,10 @@ type ToBigInt =
         bigint x
 
     static member ToBigInt (x: int8) : bigint =
-        bigint (int x)
+        bigint (int32 x)
 
     static member ToBigInt (x: int16) : bigint =
-        bigint (int x)
+        bigint (int32 x)
 
     static member ToBigInt (x: int32) : bigint =
         bigint x
