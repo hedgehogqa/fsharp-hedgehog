@@ -289,7 +289,7 @@ You can find out more about integrated vs type-based shrinking in [this](http://
 
 ### Generators
 
-Hedgehog's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:
+Hedgehog's `Gen` module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric characters:
 
 ```fs
 Gen.alphaNum
@@ -346,7 +346,7 @@ Gen.alphaNum |> Gen.printSample;;
 
 #### 👉 Generators can also be created using the `gen` expression
 
-Hedgehog supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type System.Net.IPAddress:
+Hedgehog supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type `System.Net.IPAddress`:
 
 ```fs
 open System.Net
@@ -593,12 +593,15 @@ property {
 
 ```fs
 let g = Gen.list (Range.linear 0 100) Gen.alpha
+let propConfig =
+    PropertyConfig.defaultConfig
+    |> PropertyConfig.withTests 500<tests>
 
 property {
     let! xs = g
     return List.rev (List.rev xs) = xs
 }
-|> Property.print' 500<tests>;;
+|> Property.printWith propConfig;;
 
 >
 +++ OK, passed 500 tests.
@@ -621,7 +624,7 @@ property {
 
 ```
 
->Outside of F# Interactive, you might want to use `Property.check` or `Property.check'`, specially if you're using Unquote with xUnit, NUnit, MSTest, or similar.
+>Outside of F# Interactive, you might want to use `Property.check` or `Property.checkWith`, specially if you're using Unquote with xUnit, NUnit, MSTest, or similar.
 
 #### Try out (see it fail)
 
@@ -708,6 +711,40 @@ indicates that 95 test cases satisfying the condition were found, and that the p
 Use your favorite tools with Hedgehog.
 
 Powerful integrations that help you and your team build properties in an easier way.
+
+### Hedgehog.Experimental
+
+[Hedgehog.Experimental](https://github.com/hedgehogqa/fsharp-hedgehog-experimental) contains auto-generators, à la AutoFixture, as well as other convenient combinators.
+
+```fs
+// Can generate all F# types (unions, records, lists, etc.) as well as POCOs
+// with mutable properties or constructors.
+
+type Union =
+  | Husband of int
+  | Wife of string
+  
+type Record =
+  {Sport: string
+   Time: TimeSpan}
+   
+let! union = GenX.auto<Union>
+let! record = GenX.auto<Record>
+```
+
+### Hedgehog.Xunit
+
+[Hedgehog.Xunit](https://github.com/dharmaturtle/fsharp-hedgehog-xunit) provides attributes which make it simpler to write [xUnit.net](https://xunit.net/) tests.
+
+Our very first test may be reinterpreted as
+
+```fs
+[<Property>]
+let ``Reversing a list twice yields the original list`` (xs: int list) =
+    List.rev (List.rev xs) = xs
+```
+
+Arguments are generated with Hedgehog.Experimental.
 
 ### Regex-constrained strings
 
