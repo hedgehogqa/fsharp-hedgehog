@@ -16,7 +16,7 @@ let treeTests = testList "Tree tests" [
             let expected = [
                 sprintf "%A" x0
             ]
-            expected =! Tree.renderList tree
+            Expect.isTrue ( expected = Tree.renderList tree )
         })
 
     testCase "render tree with depth 1" <| fun _ ->
@@ -40,7 +40,7 @@ let treeTests = testList "Tree tests" [
                 sprintf "├-%A" x2
                 sprintf "└-%A" x3
             ]
-            expected =! Tree.renderList tree
+            Expect.isTrue ( expected = Tree.renderList tree )
         })
 
     testCase "render tree with depth 2" <| fun _ ->
@@ -94,6 +94,6 @@ let treeTests = testList "Tree tests" [
                 sprintf "  ├-%A" x11
                 sprintf "  └-%A" x12
             ]
-            expected =! Tree.renderList tree
+            Expect.isTrue ( expected = Tree.renderList tree )
         })
 ]

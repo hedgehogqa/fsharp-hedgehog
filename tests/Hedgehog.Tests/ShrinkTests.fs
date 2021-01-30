@@ -12,9 +12,7 @@ let shrinkTests = testList "Shrink tests" [
                          [ 1; 2; 5; 6 ]
                          [ 1; 2; 3; 4 ] ]
         // http://stackoverflow.com/a/17101488
-        Seq.zip expected actual
-        |> Seq.forall (fun (a, b) -> a = b)
-        |> Expect.isTrue
+        Expect.isTrue ( Seq.fold (&&) true (Seq.zip expected actual |> Seq.map (fun (a, b) -> a = b)) )
 
     testCase "removes produces all permutations of removing 'k' elements from a list - example 1" <| fun _ ->
         let actual =
@@ -118,14 +116,14 @@ let shrinkTests = testList "Shrink tests" [
         [ 1; 2; 3; 30; 128; 256; 512; 1024 ] <| fun n ->
         let xs = [ 1 .. n ]
         let actual = Shrink.list xs |> Seq.toList
-        actual |> List.forall (fun xs' -> xs.Length > xs'.Length) =! true
+        Expect.isTrue ( actual |> List.forall (fun xs' -> xs.Length > xs'.Length) )
 
     yield! testCases "elems shrinks each element in input list using a supplied shrinker"
         [ 1; 2; 3; 30; 128; 256; 512; 1024 ] <| fun n ->
         let xs = [ 1..n ]
         let shrinker =
             fun x ->
-                Expect.isTrue (List.contains x xs)
+                Expect.isTrue ( List.contains x xs )
                 Seq.singleton x
 
         let actual =
@@ -135,7 +133,7 @@ let shrinkTests = testList "Shrink tests" [
 
         let expected =
             seq {
-                for i in 1..n do
+                for _ in 1..n do
                     yield [ 1..n ]
             }
         Seq.toList expected =! actual
@@ -153,9 +151,7 @@ let shrinkTests = testList "Shrink tests" [
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual
-        |> List.forall (fun x1 -> x1 < x0 && x1 >= destination)
-        |> Expect.isTrue
+        Expect.isTrue ( actual |> List.forall (fun x1 -> x1 < x0 && x1 >= destination) )
 
     yield! testCases "towards returns empty list when run out of shrinks"
         [ (   1,    1)
@@ -166,9 +162,7 @@ let shrinkTests = testList "Shrink tests" [
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual
-        |> List.isEmpty
-        |> Expect.isTrue
+        Expect.isTrue ( actual |> List.isEmpty )
 
     yield! testCases "towardsDouble shrinks by edging towards a destination number"
         [ (   2.0,   1.0)
@@ -183,9 +177,7 @@ let shrinkTests = testList "Shrink tests" [
             x0
             |> Shrink.towardsDouble destination
             |> Seq.toList
-        actual
-        |> List.forall (fun x1 -> x1 < x0 && x1 >= destination)
-        |> Expect.isTrue
+        Expect.isTrue ( actual |> List.forall (fun x1 -> x1 < x0 && x1 >= destination) )
 
     yield! testCases "towardsDouble returns empty list when run out of shrinks"
         [ (   1.0,    1.0)
@@ -196,8 +188,6 @@ let shrinkTests = testList "Shrink tests" [
             x0
             |> Shrink.towards destination
             |> Seq.toList
-        actual
-        |> List.isEmpty
-        |> Expect.isTrue
+        Expect.isTrue ( actual |> List.isEmpty )
 
 ]

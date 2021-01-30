@@ -18,6 +18,7 @@ let shrinkExp : Exp -> List<Exp> = function
     | _ ->
         []
 
+// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let genName =
     Gen.item ["a"; "b"; "c"; "d"]
 
@@ -51,6 +52,7 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
         Seq.tryPick (tryFindSmallest p) xs <|> Some x
 
 #nowarn "40"
+// This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let rec genExp : Gen<Exp> =
     Gen.delay (fun _ ->
         let recs = [
@@ -64,7 +66,7 @@ let rec genExp : Gen<Exp> =
         ]
 
         Gen.choiceRec recs nonrecs
-        |> Gen.shrink shrinkExp
+        |> Gen.shrink shrinkExp // comment this out to see the property fail
     )
 
 let perfectMinimalShrink () =
