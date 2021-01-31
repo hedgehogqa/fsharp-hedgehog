@@ -9,7 +9,7 @@
     <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestHelpers.fs" />
+    <Compile Include="TestDsl.fs" />
     <Compile Include="TreeTests.fs" />
     <Compile Include="RangeTests.fs" />
     <Compile Include="GenTests.fs" />
