@@ -177,10 +177,10 @@ type FromBigInt =
         id
 
     static member FromBigInt (_: uint8, _: FromBigInt) : bigint -> uint8 =
-        uint8 << int32
+        int32 >> uint8
 
     static member FromBigInt (_: uint16, _: FromBigInt) : bigint -> uint16 =
-        uint16 << int32
+        int32 >> uint16
 
     static member FromBigInt (_: uint32, _: FromBigInt) : bigint -> uint32 =
         uint32
@@ -189,10 +189,10 @@ type FromBigInt =
         uint64
 
     static member FromBigInt (_: int8, _: FromBigInt) : bigint -> int8 =
-        int8 << int32
+        int32 >> int8
 
     static member FromBigInt (_: int16, _: FromBigInt) : bigint -> int16 =
-        int16 << int32
+        int32 >> int16
 
     static member FromBigInt (_: int32, _: FromBigInt) : bigint -> int32 =
         int32
@@ -207,14 +207,14 @@ type FromBigInt =
         double
 
     static member FromBigInt (_: decimal, _: FromBigInt) : bigint -> decimal =
-        decimal << int32
+        int32 >> decimal
 
 #if !FABLE_COMPILER
     static member FromBigInt (_: nativeint , _: FromBigInt) : bigint -> nativeint =
-        nativeint << int32
+        int32 >> nativeint
 
     static member FromBigInt (_: unativeint, _: FromBigInt) : bigint -> unativeint =
-        unativeint << int32
+        int32 >> unativeint
 #endif
 
     static member inline Invoke (x: bigint) : 'Num =
