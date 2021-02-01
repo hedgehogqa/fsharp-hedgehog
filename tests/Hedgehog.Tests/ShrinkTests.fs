@@ -190,4 +190,19 @@ let shrinkTests = testList "Shrink tests" [
             |> Seq.toList
         Expect.isTrue ( actual |> List.isEmpty )
 
+    yield! testCases "Property.reportWith respects shrinkLimit"
+        [ 0; 1; 2 ] <| fun shrinkLimit ->
+
+        let propConfig =
+            PropertyConfig.defaultConfig
+            |> PropertyConfig.withShrinks shrinkLimit
+        let report =
+            property {
+                let! actual = Range.linear 1 1_000_000 |> Gen.int
+                return actual < 500_000
+            } |> Property.reportWith propConfig
+        match report.Status with
+        | Failed failureData ->
+            failureData.Shrinks =! shrinkLimit
+        | _ -> failwith "impossible"
 ]
