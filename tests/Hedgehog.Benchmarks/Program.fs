@@ -24,7 +24,7 @@ type Benchmarks () =
 
     [<Benchmark>]
     member _.BigExampleFromTests () =
-        Tests.MinimalTests.``greedy traversal with a predicate yields the perfect minimal shrink`` ()
+        Tests.MinimalTests.perfectMinimalShrink ()
 
 [<CoreJob>]
 type ScaledBenchmarks () =

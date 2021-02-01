@@ -66,3 +66,9 @@ paket-files
 node_modules/
 .fable/
 build/
+
+tests/Hedgehog.Fable.Tests/tests-js/
+
+# fable generated javascript files
+*.fs.js
+tests/Hedgehog.Tests/tests-js/

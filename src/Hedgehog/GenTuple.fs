@@ -1,4 +1,9 @@
+// Workaround for a fable issue: https://github.com/fable-compiler/Fable/issues/2069
+#if FABLE_COMPILER
+module Hedgehog.GenTuple
+#else
 module private Hedgehog.GenTuple
+#endif
 
 let mapFst (f : 'a -> 'c) (gen : Gen<'a * 'b>) : Gen<'c * 'b> =
     Gen.map (Tuple.mapFst f) gen

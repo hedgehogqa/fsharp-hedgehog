@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;net461</TargetFrameworks>
-    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestDsl.fs" />
     <Compile Include="TreeTests.fs" />
     <Compile Include="RangeTests.fs" />
     <Compile Include="GenTests.fs" />
     <Compile Include="SeedTests.fs" />
     <Compile Include="ShrinkTests.fs" />
     <Compile Include="MinimalTests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.6.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="Unquote" Version="4.0.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
+    <PackageReference Include="Expecto" Version="9.*" />
+    <PackageReference Include="Fable.Core" Version="3.1.5" />
+    <PackageReference Include="Fable.Mocha" Version="2.9.1" />
+    <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
+    <PackageReference Update="FSharp.Core" Version="4.*" />
   </ItemGroup>
 </Project>
