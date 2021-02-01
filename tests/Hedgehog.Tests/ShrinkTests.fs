@@ -191,7 +191,7 @@ let shrinkTests = testList "Shrink tests" [
         Expect.isTrue ( actual |> List.isEmpty )
 
     yield! testCases "Property.reportWith respects shrinkLimit"
-        [ 0; 1; 2 ] <| fun shrinkLimit ->
+        [ 0<shrinks>; 1<shrinks>; 2<shrinks> ] <| fun shrinkLimit ->
 
         let propConfig =
             PropertyConfig.defaultConfig
