@@ -25,14 +25,14 @@ module Tree =
     let rec map (f : 'a -> 'b) (Node (x, xs) : Tree<'a>) : Tree<'b> =
         Node (f x, Seq.map (map f) xs)
 
-    let rec bind (Node (x, xs0) : Tree<'a>) (k : 'a -> Tree<'b>) : Tree<'b> =
+    let rec bind (k : 'a -> Tree<'b>) (Node (x, xs0) : Tree<'a>) : Tree<'b> =
         match k x with
         | Node (y, ys) ->
-            let xs = Seq.map (fun m -> bind m k) xs0
+            let xs = Seq.map (bind k) xs0
             Node (y, Seq.append xs ys)
 
     let join (xss : Tree<Tree<'a>>) : Tree<'a> =
-        bind xss id
+        bind id xss
 
     /// Turns a tree, in to a tree of trees. Useful for testing Hedgehog itself as
     /// it allows you to observe the shrinks for a value inside a property,
