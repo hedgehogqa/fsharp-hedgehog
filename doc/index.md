@@ -1,4 +1,4 @@
-# Tutorial
+﻿# Tutorial
 
 * [Getting Started](#getting-started)
   * [At a glance](#at-a-glance)
@@ -17,7 +17,7 @@
 
 The standard "hello-world" property shown in most property-based testing systems is:
 
-```
+```fs
 reverse (reverse xs) = xs, ∀xs :: [α]
 ```
 
@@ -723,11 +723,11 @@ Powerful integrations that help you and your team build properties in an easier 
 type Union =
   | Husband of int
   | Wife of string
-  
+
 type Record =
   {Sport: string
    Time: TimeSpan}
-   
+
 let! union = GenX.auto<Union>
 let! record = GenX.auto<Record>
 ```
