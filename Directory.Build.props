@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <FsDocsLogoSource>https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/img/hedgehog-logo.png</FsDocsLogoSource>
+    <FsDocsLogoLink>https://hedgehog.qa</FsDocsLogoLink>
+    <FsDocsLicenseLink>https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/CHANGELOG.md</FsDocsReleaseNotesLink>
+    <FsDocsNavbarPosition>fixed-right</FsDocsNavbarPosition>
+    <FsDocsWarnOnMissingDocs>false</FsDocsWarnOnMissingDocs>
+    <FsDocsTheme>default</FsDocsTheme>
+  </PropertyGroup>
+</Project>

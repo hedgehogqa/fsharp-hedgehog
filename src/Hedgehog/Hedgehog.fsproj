@@ -19,10 +19,10 @@ To get started quickly, see the examples in
 https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     </PackageDescription>
     <PackageLicenseUrl>https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
+    <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog/</PackageProjectUrl>
     <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
     <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
-    <FsDocsLogoSource>$(PackageIconUrl)</FsDocsLogoSource>
+    <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AutoOpen.fs" />
