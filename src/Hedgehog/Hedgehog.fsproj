@@ -22,6 +22,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
     <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
     <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
+    <FsDocsLogoSource>$(PackageIconUrl)</FsDocsLogoSource>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AutoOpen.fs" />
