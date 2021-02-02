@@ -81,9 +81,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in ForAll(Gen.FromValue(true))
                 where x == true
-                from y in ForAll(Gen.Bool)
+                from y in ForAll(Gen.FromValue(false))
                 where y == false
                 select Assert.True(x && !y);
 
@@ -94,9 +94,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in ForAll(Gen.FromValue(true))
                 where x == true
-                from y in ForAll(Gen.Bool)
+                from y in ForAll(Gen.FromValue(false))
                 where y == false
                 select x && !y;
 
