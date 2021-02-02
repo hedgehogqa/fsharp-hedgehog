@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Status (Hedgehog)</title>
+    <title>Operators (Hedgehog)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Jacob Stanley;Nikos Baxevanis">
 
@@ -74,7 +74,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h1>
-    Status Type
+    Operators Module
   </h1>
   <p>
     Namespace: 
@@ -85,31 +85,24 @@
   <p>
     Assembly: Hedgehog.dll
   </p>
-  <p>
-    Base Type: 
-    <code>obj</code>
-  </p>
-  <p>
-    All Interfaces: 
-    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-status.html">Status</a>&gt;</span></code>
-    , 
-    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
-  </p>
+  <span>
+    Parent Module: 
+    <a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen.html">
+      Gen
+    </a>
+  </span>
   <div class="fsdocs-xmldoc">
     
   </div>
-  <div></div>
-  <div></div>
-  <div></div>
   <div>
     <h3>
-      Union cases
+      Functions and values
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Union case
+            Function or value
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -120,32 +113,45 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '309', 309)" onmouseover="showTip(event, '309', 309)">
+              <code onmouseout="hideTip(event, '71', 71)" onmouseover="showTip(event, '71', 71)">
                 <p>
-                  <a id="Failed">
-                    <a href="#Failed">
-                      <code><span>Failed&#32;<a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-failuredata.html">FailureData</a></span></code>
+                  <a id="( <!> )">
+                    <a href="#( <!> )">
+                      <code><span><span>f</span>&#32;<!>&#32;<span>g</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="309">
+              <div class="fsdocs-tip" id="71">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Failed&#32;<a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-failuredata.html">FailureData</a></span></code>
+                  <code><span><span>f</span>&#32;<!>&#32;<span>g</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        Item
+                        f
                       </b>
                       :
-                      <code><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-failuredata.html">FailureData</a></code>
+                      <code><span>'a&#32;->&#32;'b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        g
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+                  </span>
                   <br/>
                 </div>
               </div>
@@ -158,32 +164,74 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  Item
+                  f
                 </span>
                 :
-                <code><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-failuredata.html">FailureData</a></code>
+                <code><span>'a&#32;->&#32;'b</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  g
+                </span>
+                :
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '310', 310)" onmouseover="showTip(event, '310', 310)">
+              <code onmouseout="hideTip(event, '72', 72)" onmouseover="showTip(event, '72', 72)">
                 <p>
-                  <a id="GaveUp">
-                    <a href="#GaveUp">
-                      <code><span>GaveUp</span></code>
+                  <a id="( <*> )">
+                    <a href="#( <*> )">
+                      <code><span><span>gf</span>&#32;<*>&#32;<span>g</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="310">
+              <div class="fsdocs-tip" id="72">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>GaveUp</span></code>
+                  <code><span><span>gf</span>&#32;<*>&#32;<span>g</span></span></code>
                   <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        gf
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;<span>(<span>'a&#32;->&#32;'b</span>)</span>&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        g
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+                  </span>
                   <br/>
                 </div>
               </div>
@@ -193,25 +241,77 @@
             <p class="fsdocs-summary">
               
             </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  gf
+                </span>
+                :
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;<span>(<span>'a&#32;->&#32;'b</span>)</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  g
+                </span>
+                :
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '311', 311)" onmouseover="showTip(event, '311', 311)">
+              <code onmouseout="hideTip(event, '73', 73)" onmouseover="showTip(event, '73', 73)">
                 <p>
-                  <a id="OK">
-                    <a href="#OK">
-                      <code><span>OK</span></code>
+                  <a id="( >>= )">
+                    <a href="#( >>= )">
+                      <code><span><span>g</span>&#32;>>=&#32;<span>f</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="311">
+              <div class="fsdocs-tip" id="73">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>OK</span></code>
+                  <code><span><span>g</span>&#32;>>=&#32;<span>f</span></span></code>
                   <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        g
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'a&#32;->&#32;<span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+                  </span>
                   <br/>
                 </div>
               </div>
@@ -221,11 +321,41 @@
             <p class="fsdocs-summary">
               
             </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  g
+                </span>
+                :
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'a&#32;->&#32;<span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-gen-1.html">Gen</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div></div>
   <div></div>
   <div></div>

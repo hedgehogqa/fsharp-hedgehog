@@ -15,10 +15,10 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/navbar-fixed-right.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/navbar-fixed-right.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <a href="https://hedgehogqa.github.io/fsharp-hedgehog/"><img id="fsdocs-logo" src="https://hedgehogqa.github.io/fsharp-hedgehog/img/logo.png" /></a>
+            <a href="https://github.com/hedgehogqa/fsharp-hedgehog/"><img id="fsdocs-logo" src="https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -60,7 +60,7 @@
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/index.html">
+  <a class="nav-link" href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -69,7 +69,7 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="https://hedgehogqa.github.io/fsharp-hedgehog/">Hedgehog</a></h3>
+            <h3 class="muted"><a href="https://github.com/hedgehogqa/fsharp-hedgehog/">Hedgehog</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
@@ -115,15 +115,15 @@
 <p>which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".</p>
 <p>One way to use Hedgehog to check the above property is to use the <code>property</code> computation expression:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) &lt;<span class="o">|</span> Gen.int (Range.constant <span class="n">0</span> <span class="n">1000</span>)
+    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
     <span class="k">return</span> List.rev (List.rev xs) = xs
-    }
+}
 </code></pre></td></tr></table>
 <p>and to test the above property on 100 random lists of integers, pipe it into <code>Property.print</code>:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) &lt;<span class="o">|</span> Gen.int (Range.constant <span class="n">0</span> <span class="n">1000</span>)
+    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
     <span class="k">return</span> List.rev (List.rev xs) = xs
-    }
+}
 <span class="o">|</span>&gt; Property.print
 
 +++ OK, passed <span class="n">100</span> tests.
@@ -324,10 +324,10 @@
     <span class="o">|</span>&gt; Gen.tuple<span class="n">3</span>
     <span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
 
-Property.print &lt;<span class="o">|</span> property {
+Property.print (property {
     <span class="k">let!</span> xs = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) version
     <span class="k">return</span> xs <span class="o">|</span>&gt; List.rev = xs
-    }
+})
 
 &gt;
 *** Failed! Falsifiable (after <span class="n">3</span> tests <span class="k">and</span> <span class="n">6</span> shrinks):
@@ -345,7 +345,7 @@ Property.print &lt;<span class="o">|</span> property {
     <span class="o">|</span>&gt; Arb.fromGen
 
 version
-<span class="o">|</span>&gt; Prop.forAll &lt;<span class="o">|</span> <span class="k">fun</span> xs <span class="o">-&gt;</span> xs <span class="o">|</span>&gt; List.rev = xs
+<span class="o">|</span>&gt; Prop.forAll (<span class="k">fun</span> xs <span class="o">-&gt;</span> xs <span class="o">|</span>&gt; List.rev = xs)
 <span class="o">|</span>&gt; Check.Quick
 
 &gt;
@@ -355,7 +355,7 @@ Original:
 </code></pre></td></tr></table>
 <p>You can find out more about integrated vs type-based shrinking in <a href="http://hypothesis.works/articles/integrated-shrinking/">this</a> blog post.</p>
 <h3><a name="Generators" class="anchor" href="#Generators">Generators</a></h3>
-<p>Hedgehog's <code>Gen</code> module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric chatracters:</p>
+<p>Hedgehog's <code>Gen</code> module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric characters:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum
 </code></pre></td></tr></table>
 <p>This generator is of type <code>Gen&lt;char&gt;</code>, which means that Hedgehog can take this generator and produce characters, like so:</p>
@@ -405,14 +405,13 @@ Original:
 .
 </code></pre></td></tr></table>
 <h4><a name="Generators-can-also-be-created-using-the-expression" class="anchor" href="#Generators-can-also-be-created-using-the-expression">👉 Generators can also be created using the <code>gen</code> expression</a></h4>
-<p>Hedgehog supports a convenient syntax for working with generators through the <code>gen</code> expression. Here's a way to define a generator of type System.Net.IPAddress:</p>
+<p>Hedgehog supports a convenient syntax for working with generators through the <code>gen</code> expression. Here's a way to define a generator of type <code>System.Net.IPAddress</code>:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">open</span> System.Net
 
-<span class="k">let</span> ipAddressGen : Gen&lt;IPAddress&gt; =
-    gen {
-        <span class="k">let!</span> addr = Gen.array (Range.constant <span class="n">4</span> <span class="n">4</span>) (Gen.byte &lt;<span class="o">|</span> Range.constantBounded())
-        <span class="k">return</span> System.Net.IPAddress addr
-    }
+<span class="k">let</span> ipAddressGen : Gen&lt;IPAddress&gt; = gen {
+    <span class="k">let!</span> addr = Range.constantBounded () <span class="o">|</span>&gt; Gen.byte <span class="o">|</span>&gt; Gen.array (Range.singleton <span class="n">4</span>)
+    <span class="k">return</span> System.Net.IPAddress addr
+}
 
 ipAddressGen <span class="o">|</span>&gt; Gen.printSample;;
 
@@ -599,7 +598,7 @@ ipAddressGen <span class="o">|</span>&gt; Gen.printSample;;
 <p>Hedgehog will then attempt to generate a test case that <em>falsifies</em> the assertion. In order to do that, it needs to know which generator to use, to feed <code>xs</code> with random values.</p>
 <h4><a name="A-generator-for-lists-of-integers" class="anchor" href="#A-generator-for-lists-of-integers">A generator for lists of integers</a></h4>
 <p>Values for <code>xs</code> need to be generated by a generator, as shown in the <em>Generators</em> sections. The following one is for lists of type integer:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> g = Gen.list (Range.linear <span class="n">0</span> <span class="n">20</span>) (Gen.int &lt;<span class="o">|</span> Range.constant <span class="n">0</span> <span class="n">100</span>);;
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> g = Range.constant <span class="n">0</span> <span class="n">100</span> <span class="o">|</span>&gt; Gen.int <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">20</span>);;
 
 <span class="k">val</span> g : Gen&lt;int list&gt;
 </code></pre></td></tr></table>
@@ -624,12 +623,15 @@ ipAddressGen <span class="o">|</span>&gt; Gen.printSample;;
 </code></pre></td></tr></table>
 <h4><a name="Try-out-see-it-pass" class="anchor" href="#Try-out-see-it-pass">Try out (see it pass)</a></h4>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> g = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) Gen.alpha
+<span class="k">let</span> propConfig =
+    PropertyConfig.defaultConfig
+    <span class="o">|</span>&gt; PropertyConfig.withTests <span class="n">500</span>&lt;tests&gt;
 
 property {
     <span class="k">let!</span> xs = g
     <span class="k">return</span> List.rev (List.rev xs) = xs
 }
-<span class="o">|</span>&gt; Property.print' <span class="n">500</span>&lt;tests&gt;;;
+<span class="o">|</span>&gt; Property.printWith propConfig;;
 
 &gt;
 +++ OK, passed <span class="n">500</span> tests.
@@ -649,15 +651,15 @@ property {
 
 </code></pre></td></tr></table>
 <blockquote>
-<p>Outside of F# Interactive, you might want to use <code>Property.check</code> or <code>Property.check'</code>, specially if you're using Unquote with xUnit, NUnit, MSTest, or similar.</p>
+<p>Outside of F# Interactive, you might want to use <code>Property.check</code> or <code>Property.checkWith</code>, specially if you're using Unquote with xUnit, NUnit, MSTest, or similar.</p>
 </blockquote>
 <h4><a name="Try-out-see-it-fail" class="anchor" href="#Try-out-see-it-fail">Try out (see it fail)</a></h4>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> tryAdd a b =
     <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
     <span class="k">else</span> Some (a + b)
 
-property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
-           <span class="k">let!</span> b = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
+property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
+           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
            <span class="k">return</span> tryAdd a b = Some (a + b) }
 <span class="o">|</span>&gt; Property.print;;
 
@@ -676,8 +678,8 @@ property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> 
     <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
     <span class="k">else</span> Some(a + b)
 
-property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
-           <span class="k">let!</span> b = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
+property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
+           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
            counterexample (sprintf <span class="s">"The value of a was %d."</span> a)
            <span class="k">return</span> tryAdd a b = Some(a + b) }
 <span class="o">|</span>&gt; Property.print;;
@@ -695,8 +697,8 @@ The value <span class="k">of</span> a was <span class="n">101</span>.
     <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
     <span class="k">else</span> Some(a + b)
 
-property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
-           <span class="k">let!</span> b = Gen.int &lt;<span class="o">|</span> Range.constantBounded ()
+property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
+           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
            where (a &lt; <span class="n">100</span>)
            <span class="k">return</span> tryAdd a b = Some(a + b) }
 <span class="o">|</span>&gt; Property.print;;
@@ -714,6 +716,30 @@ property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> 
 <h2><a name="Integrations" class="anchor" href="#Integrations">Integrations</a></h2>
 <p>Use your favorite tools with Hedgehog.</p>
 <p>Powerful integrations that help you and your team build properties in an easier way.</p>
+<h3><a name="Hedgehog-Experimental" class="anchor" href="#Hedgehog-Experimental">Hedgehog.Experimental</a></h3>
+<p><a href="https://github.com/hedgehogqa/fsharp-hedgehog-experimental">Hedgehog.Experimental</a> contains auto-generators, à la AutoFixture, as well as other convenient combinators.</p>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="c">// Can generate all F# types (unions, records, lists, etc.) as well as POCOs</span>
+<span class="c">// with mutable properties or constructors.</span>
+
+<span class="k">type</span> Union =
+  <span class="o">|</span> Husband <span class="k">of</span> int
+  <span class="o">|</span> Wife <span class="k">of</span> string
+  
+<span class="k">type</span> Record =
+  {Sport: string
+   Time: TimeSpan}
+   
+<span class="k">let!</span> union = GenX.auto&lt;Union&gt;
+<span class="k">let!</span> record = GenX.auto&lt;Record&gt;
+</code></pre></td></tr></table>
+<h3><a name="Hedgehog-Xunit" class="anchor" href="#Hedgehog-Xunit">Hedgehog.Xunit</a></h3>
+<p><a href="https://github.com/dharmaturtle/fsharp-hedgehog-xunit">Hedgehog.Xunit</a> provides attributes which make it simpler to write <a href="https://xunit.net/">xUnit.net</a> tests.</p>
+<p>Our very first test may be reinterpreted as</p>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="o">[</span>&lt;Property&gt;<span class="o">]</span>
+<span class="k">let</span> ``Reversing a list twice yields the original list`` (xs: int list) =
+    List.rev (List.rev xs) = xs
+</code></pre></td></tr></table>
+<p>Arguments are generated with Hedgehog.Experimental.</p>
 <h3><a name="Regex-constrained-strings" class="anchor" href="#Regex-constrained-strings">Regex-constrained strings</a></h3>
 <p>In Haskell, there's the <a href="https://hackage.haskell.org/package/quickcheck-regex">quickcheck-regex</a> package, by <a href="https://www.linkedin.com/in/tangaudrey">Audrey (唐鳳) Tang</a>, which allows to write and execute this:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="hs">generate (matching "[xX][0-9a-z]")
@@ -744,8 +770,10 @@ property { <span class="k">let!</span> a = Gen.int &lt;<span class="o">|</span> 
 <p>Here's a way to use it:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> pattern = <span class="s">"^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"</span>
 
-Property.print &lt;<span class="o">|</span> property { <span class="k">let!</span> s = fromRegex pattern
-                             <span class="k">return</span> matches s pattern }
+Property.print (property {
+    <span class="k">let!</span> s = fromRegex pattern
+    <span class="k">return</span> matches s pattern
+})
 
 +++ OK, passed <span class="n">100</span> tests.
 
@@ -756,10 +784,10 @@ Property.print &lt;<span class="o">|</span> property { <span class="k">let!</spa
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'https://hedgehogqa.github.io/fsharp-hedgehog/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/hedgehogqa/fsharp-hedgehog/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

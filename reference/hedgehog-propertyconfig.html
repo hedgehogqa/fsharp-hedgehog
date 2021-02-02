@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>GaveUpException (Hedgehog)</title>
+    <title>PropertyConfig (Hedgehog)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Jacob Stanley;Nikos Baxevanis">
 
@@ -14,10 +14,10 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/navbar-fixed-right.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/navbar-fixed-right.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,7 +34,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <a href="https://hedgehogqa.github.io/fsharp-hedgehog/"><img id="fsdocs-logo" src="https://hedgehogqa.github.io/fsharp-hedgehog/img/logo.png" /></a>
+            <a href="https://github.com/hedgehogqa/fsharp-hedgehog/"><img id="fsdocs-logo" src="https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -59,7 +59,7 @@
   API Reference
 </li>             
 <li class="nav-item">
-  <a class="nav-link" href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/index.html">
+  <a class="nav-link" href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/index.html">
     All Namespaces
   </a>
 </li>
@@ -68,17 +68,17 @@
     </nav>
     <div class="container">
         <div class="masthead">
-            <h3 class="muted"><a href="https://hedgehogqa.github.io/fsharp-hedgehog/">Hedgehog</a></h3>
+            <h3 class="muted"><a href="https://github.com/hedgehogqa/fsharp-hedgehog/">Hedgehog</a></h3>
         </div>
         <hr />
         <div class="container" id="fsdocs-content">
             <div>
   <h1>
-    GaveUpException Type
+    PropertyConfig Type
   </h1>
   <p>
     Namespace: 
-    <a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog.html">
+    <a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog.html">
       Hedgehog
     </a>
   </p>
@@ -87,11 +87,19 @@
   </p>
   <p>
     Base Type: 
-    <code><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-hedgehogexception.html">HedgehogException</a></code>
+    <code>obj</code>
   </p>
   <p>
     All Interfaces: 
-    <code><a href="https://docs.microsoft.com/dotnet/api/system.runtime.serialization.iserializable">ISerializable</a></code>
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-propertyconfig.html">PropertyConfig</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+    , 
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="https://github.com/hedgehogqa/fsharp-hedgehog/reference/hedgehog-propertyconfig.html">PropertyConfig</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
   </p>
   <div class="fsdocs-xmldoc">
     
@@ -100,17 +108,15 @@
   <div></div>
   <div></div>
   <div></div>
-  <div></div>
-  <div></div>
   <div>
     <h3>
-      Constructors
+      Record fields
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Constructor
+            Record Field
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -121,37 +127,20 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '320', 320)" onmouseover="showTip(event, '320', 320)">
+              <code onmouseout="hideTip(event, '300', 300)" onmouseover="showTip(event, '300', 300)">
                 <p>
-                  <a id="( .ctor )">
-                    <a href="#( .ctor )">
-                      <code><span>GaveUpException<span><span>(<span>report</span>)</span></span></span></code>
+                  <a id="ShrinkLimit">
+                    <a href="#ShrinkLimit">
+                      <code>ShrinkLimit</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="320">
+              <div class="fsdocs-tip" id="300">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>GaveUpException<span><span>(<span>report</span>)</span></span></span></code>
+                  <code>ShrinkLimit</code>
                   <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        report
-                      </b>
-                      :
-                      <code><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-report.html">Report</a></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-gaveupexception.html">GaveUpException</a></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -161,68 +150,25 @@
             <p class="fsdocs-summary">
               
             </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  report
-                </span>
-                :
-                <code><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-report.html">Report</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-gaveupexception.html">GaveUpException</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <h3>
-      Instance members
-    </h3>
-    <table class="table outer-list fsdocs-member-list">
-      <thead>
-        <tr>
-          <td class="fsdocs-member-list-header">
-            Instance member
-          </td>
-          <td class="fsdocs-member-list-header">
-            Description
-          </td>
-        </tr>
-      </thead>
-      <tbody>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '321', 321)" onmouseover="showTip(event, '321', 321)">
+              <code onmouseout="hideTip(event, '301', 301)" onmouseover="showTip(event, '301', 301)">
                 <p>
-                  <a id="Tests">
-                    <a href="#Tests">
-                      <code><span>this.Tests</span></code>
+                  <a id="TestLimit">
+                    <a href="#TestLimit">
+                      <code>TestLimit</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="321">
+              <div class="fsdocs-tip" id="301">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.Tests</span></code>
+                  <code>TestLimit</code>
                   <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.int-1">int</a>&lt;<span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureproduct-2">MeasureProduct</a>&lt;<span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-tests.html">tests</a>,&#32;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a></span>&gt;</span>&gt;</span></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -232,20 +178,14 @@
             <p class="fsdocs-summary">
               
             </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.int-1">int</a>&lt;<span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureproduct-2">MeasureProduct</a>&lt;<span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-tests.html">tests</a>,&#32;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a></span>&gt;</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div></div>
 </div>
             
@@ -253,10 +193,10 @@
 
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'https://hedgehogqa.github.io/fsharp-hedgehog/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/hedgehogqa/fsharp-hedgehog/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="https://github.com/hedgehogqa/fsharp-hedgehog/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
