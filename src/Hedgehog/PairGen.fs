@@ -1,12 +1,12 @@
 // Workaround for a fable issue: https://github.com/fable-compiler/Fable/issues/2069
 #if FABLE_COMPILER
-module Hedgehog.GenTuple
+module Hedgehog.PairGen
 #else
-module private Hedgehog.GenTuple
+module private Hedgehog.PairGen
 #endif
 
 let mapFst (f : 'a -> 'c) (gen : Gen<'a * 'b>) : Gen<'c * 'b> =
-    Gen.map (Tuple.mapFst f) gen
+    Gen.map (Pair.mapFst f) gen
 
 let mapSnd (f : 'b -> 'c) (gen : Gen<'a * 'b>) : Gen<'a * 'c> =
-    Gen.map (Tuple.mapSnd f) gen
+    Gen.map (Pair.mapSnd f) gen

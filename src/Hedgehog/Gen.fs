@@ -148,12 +148,12 @@ module Gen =
 
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
-    let resize (n : int) (g : Gen<'a>) : Gen<'a> =
+    let resize (n : Size) (g : Gen<'a>) : Gen<'a> =
         mapRandom (Random.resize n) g
 
     /// Adjust the size parameter, by transforming it with the given
     /// function.
-    let scale (f : int -> int) (g : Gen<'a>) : Gen<'a> =
+    let scale (f : Size -> Size) (g : Gen<'a>) : Gen<'a> =
         sized (fun n ->
             resize (f n) g)
 
@@ -227,13 +227,14 @@ module Gen =
     /// from the recursive list.
     /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i>
     let choiceRec (nonrecs : seq<Gen<'a>>) (recs : seq<Gen<'a>>) : Gen<'a> =
-        sized (fun n ->
+        sized (fun size ->
             let scaledRecs =
+                let n = Size.current size
                 if n <= 1 then
                     Seq.empty
                 else
                     recs
-                    |> Seq.map (scale (fun x -> x / 2))
+                    |> Seq.map (scale Size.half)
 
             scaledRecs
             |> Seq.append nonrecs
@@ -247,18 +248,22 @@ module Gen =
     /// More or less the same logic as suchThatMaybe from QuickCheck, except
     /// modified to ensure that the shrinks also obey the predicate.
     let private tryFilterRandom (p : 'a -> bool) (r0 : Random<Tree<'a>>) : Random<Option<Tree<'a>>> =
-        let rec tryN k = function
+        let rec tryN (size1 : Size) (size2 : Size) : Random<Tree<'a> option> =
+            match Size.current size2 with
             | 0 ->
                 Random.constant None
             | n ->
-                let r = Random.resize (2 * k + n) r0
-                r |> Random.bind (fun x ->
+                let size1' = Size.rewind n size1
+                r0
+                |> Random.resize size1'
+                |> Random.bind (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
-                        tryN (k + 1) (n - 1))
+                        tryN (Size.next size1') (Size.prev size2))
 
-        Random.sized (tryN 0 << max 1)
+        let size = Size.create 0 99
+        Random.sized (tryN size)
 
     /// Generates a value that satisfies a predicate.
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
@@ -267,8 +272,8 @@ module Gen =
             |> tryFilterRandom p
             |> Random.bind (function
                 | None ->
-                    Random.sized (fun n ->
-                        Random.resize (n + 1) (Random.delay loop))
+                    Random.sized (fun size ->
+                        Random.resize (Size.next size) (Random.delay loop))
                 | Some x ->
                     Random.constant x)
 
@@ -296,7 +301,8 @@ module Gen =
 
     /// Generates a 'None' part of the time.
     let option (g : Gen<'a>) : Gen<'a option> =
-        sized (fun n ->
+        sized (fun size ->
+            let n = Size.current size
             frequency [
                 2, constant None
                 1 + n, map Some g
@@ -499,11 +505,13 @@ module Gen =
     /// if you want another size then you should explicitly use 'resize'.
     let generateTree (g : Gen<'a>) : Tree<'a> =
         let seed = Seed.random ()
+        let size = Size.constant 30
         toRandom g
-        |> Random.run seed 30
+        |> Random.run seed size
 
     let printSample (g : Gen<'a>) : unit =
-        let forest = sampleTree 10 5 g
+        let size = Size.constant 10
+        let forest = sampleTree size 5 g
         for tree in forest do
             printfn "=== Outcome ==="
             printfn "%A" (Tree.outcome tree)

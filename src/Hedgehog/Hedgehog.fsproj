@@ -26,7 +26,9 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
   <ItemGroup>
     <Compile Include="AutoOpen.fs" />
     <Compile Include="Numeric.fs" />
+    <Compile Include="Pair.fs" />
     <Compile Include="Seed.fs" />
+    <Compile Include="Size.fs" />
     <Compile Include="Tree.fs" />
     <Compile Include="OptionTree.fs" />
     <Compile Include="Range.fs" />
@@ -34,9 +36,8 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="ListGen.fs" />
+    <Compile Include="PairGen.fs" />
     <Compile Include="Journal.fs" />
-    <Compile Include="Tuple.fs" />
-    <Compile Include="GenTuple.fs" />
     <Compile Include="Outcome.fs" />
     <Compile Include="Report.fs" />
     <Compile Include="Property.fs" />

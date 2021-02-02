@@ -196,7 +196,7 @@ type GenExtensions private () =
         |> ResizeArray
 
     [<Extension>]
-    static member Scale (gen : Gen<'T>, scaler : Func<int, int>) : Gen<'T> =
+    static member Scale (gen : Gen<'T>, scaler : Func<Size, Size>) : Gen<'T> =
         Gen.scale scaler.Invoke gen
 
     [<Extension>]

@@ -6,18 +6,22 @@ open TestDsl
 
 let genTests = testList "Gen tests" [
     yield! testCases "dateTime creates System.DateTime instances" [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
-        let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue) |> Gen.sample 0 count
+        let actual =
+            Range.constant System.DateTime.MinValue System.DateTime.MaxValue
+            |> Gen.dateTime
+            |> Gen.sample (Size.create 0 99) count
+
         actual
         |> List.distinct
         |> List.length
         =! actual.Length
 
     testCase "unicode doesn't return any surrogate" <| fun _ ->
-        let actual = Gen.sample 100 100000 Gen.unicode
+        let actual = Gen.sample (Size.create 99 99) 100000 Gen.unicode
         [] =! List.filter System.Char.IsSurrogate actual
 
     yield! testCases "unicode doesn't return any noncharacter" [ 65534; 65535 ] <| fun nonchar ->
-        let actual = Gen.sample 100 100000 Gen.unicode
+        let actual = Gen.sample (Size.create 99 99) 100000 Gen.unicode
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->
@@ -29,12 +33,12 @@ let genTests = testList "Gen tests" [
                 System.DateTime.MaxValue.Ticks
         let ticks =
             Random.integral range
-            |> Random.run seed1 0
+            |> Random.run seed1 (Size.create 99 99)
         let expected = System.DateTime ticks
 
         let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue)
 
-        let result = actual |> Gen.toRandom |> Random.run seed0 0 |> Tree.outcome
+        let result = actual |> Gen.toRandom |> Random.run seed0 (Size.create 99 99) |> Tree.outcome
         expected =! result
 
     testCase "dateTime shrinks to correct mid-value" <| fun _ ->

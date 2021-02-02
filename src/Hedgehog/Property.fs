@@ -61,7 +61,7 @@ module Property =
                 x.Dispose ())
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
-        GenTuple.mapSnd (Outcome.filter p) (toGen m) |> ofGen
+        PairGen.mapSnd (Outcome.filter p) (toGen m) |> ofGen
 
     let ofOutcome (x : Outcome<'a>) : Property<'a> =
         (Journal.empty, x) |> Gen.constant |> ofGen
@@ -90,7 +90,7 @@ module Property =
         toGen x |> f |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        (mapGen << GenTuple.mapSnd << Outcome.map) f x
+        (mapGen << PairGen.mapSnd << Outcome.map) f x
 
     let private bindGen
             (k : 'a -> Gen<Journal * Outcome<'b>>)
@@ -102,7 +102,7 @@ module Property =
             | Discard ->
                 Gen.constant (journal, Discard)
             | Success x ->
-                GenTuple.mapFst (Journal.append journal) (k x))
+                PairGen.mapFst (Journal.append journal) (k x))
 
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
@@ -159,12 +159,6 @@ module Property =
     let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
-        let nextSize size =
-            if size >= 100 then
-                1
-            else
-                size + 1
-
         let rec loop seed size tests discards =
             if tests = config.TestLimit then
                 { Tests = tests
@@ -184,15 +178,16 @@ module Property =
                       Discards = discards
                       Status = takeSmallest renderRecheck size seed result 0<shrinks> config.ShrinkLimit}
                 | Success () ->
-                    loop seed2 (nextSize size) (tests + 1<tests>) discards
+                    loop seed2 (Size.next size) (tests + 1<tests>) discards
                 | Discard ->
-                    loop seed2 (nextSize size) tests (discards + 1<discards>)
+                    loop seed2 (Size.next size) tests (discards + 1<discards>)
 
         loop seed size0 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         let seed = Seed.random ()
-        p |> reportWith' true 1 seed config
+        let size = Size.create 0 (int config.TestLimit)
+        p |> reportWith' true size seed config
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig

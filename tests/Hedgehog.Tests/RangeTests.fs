@@ -16,7 +16,7 @@ let rangeTests = testList "Range tests" [
 
         let actual =
             Range.singleton x
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (x, x) =!
             actual
 
@@ -40,7 +40,7 @@ let rangeTests = testList "Range tests" [
 
         let actual =
             Range.constant x y
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (x, y) =!
             actual
 
@@ -79,7 +79,7 @@ let rangeTests = testList "Range tests" [
 
         let actual =
             Range.constantFrom 0 -x x
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (-x, x) =!
             actual
 
@@ -88,7 +88,7 @@ let rangeTests = testList "Range tests" [
 
         let x =
             (Range.constantBounded () : Range<Byte>)
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (Byte.MinValue, Byte.MaxValue) =!
             x
 
@@ -97,7 +97,7 @@ let rangeTests = testList "Range tests" [
 
         let x =
             (Range.constantBounded () : Range<Int32>)
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (Int32.MinValue, Int32.MaxValue) =!
             x
 
@@ -106,7 +106,7 @@ let rangeTests = testList "Range tests" [
 
         let x =
             (Range.constantBounded () : Range<Int64>)
-            |> Range.bounds sz
+            |> Range.bounds (Size.constant sz)
         (Int64.MinValue, Int64.MaxValue) =!
             x
 
@@ -122,126 +122,126 @@ let rangeTests = testList "Range tests" [
     testCase "linear scales the second bound relative to the size - example 1" <| fun _ ->
         let actual =
             Range.linear 0 10
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (0, 0) =!
             actual
 
     testCase "linear scales the second bound relative to the size - example 2" <| fun _ ->
         let actual =
             Range.linear 0 10
-            |> Range.bounds 50
+            |> Range.bounds (Size.create 50 99)
         (0, 5) =!
             actual
 
     testCase "linear scales the second bound relative to the size - example 3" <| fun _ ->
         let actual =
             Range.linear 0 10
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (0, 10) =!
             actual
 
     testCase "linearFrom scales the bounds relative to the size - example 1" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 10
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (0, 0) =!
             actual
 
     testCase "linearFrom scales the bounds relative to the size - example 2" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 20
-            |> Range.bounds 50
+            |> Range.bounds (Size.create 50 99)
         (-5, 10) =!
             actual
 
     testCase "linearFrom scales the bounds relative to the size - example 3" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 20
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (-10, 20) =!
             actual
 
     testCase "linearBounded uses the full range of a data type - example 1" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (-0y, 0y) =!
             actual
 
     testCase "linearBounded uses the full range of a data type - example 2" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
-            |> Range.bounds 50
+            |> Range.bounds (Size.create 50 99)
         (-64y, 64y) =!
             actual
 
     testCase "linearBounded uses the full range of a data type - example 3" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (-128y, 127y) =!
             actual
 
     testCase "exponential scales the second bound exponentially relative to the size - example 1" <| fun _ ->
         let actual =
             Range.exponential 1 512
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (1, 1) =!
             actual
 
     testCase "exponential scales the second bound exponentially relative to the size - example 2" <| fun _ ->
         let actual =
             Range.exponential 1 512
-            |> Range.bounds 77
+            |> Range.bounds (Size.create 77 99)
         (1, 128) =!
             actual
 
     testCase "exponential scales the second bound exponentially relative to the size - example 3" <| fun _ ->
         let actual =
             Range.exponential 1 512
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (1, 512) =!
             actual
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 1" <| fun _ ->
         let actual =
             Range.exponentialFrom 0 -128 512
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (0, 0) =!
             actual
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 2" <| fun _ ->
         let actual =
             Range.exponentialFrom 0 -128 512
-            |> Range.bounds 50
+            |> Range.bounds (Size.create 50 99)
         (-11, 22) =!
             actual
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 3" <| fun _ ->
         let actual =
             Range.exponentialFrom 3 -128 512
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (-128, 512) =!
             actual
 
     testCase "exponentialBounded uses the full range of a data type - example 1" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
-            |> Range.bounds 0
+            |> Range.bounds (Size.create 0 99)
         (-0y, 0y) =!
             actual
 
     testCase "exponentialBounded uses the full range of a data type - example 2" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
-            |> Range.bounds 50
+            |> Range.bounds (Size.create 50 99)
         (-11y, 11y) =!
             actual
 
     testCase "exponentialBounded uses the full range of a data type - example 3" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
-            |> Range.bounds 99
+            |> Range.bounds (Size.create 99 99)
         (-128y, 127y) =!
             actual
 

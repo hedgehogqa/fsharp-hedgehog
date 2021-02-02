@@ -1,4 +1,9 @@
-﻿module Hedgehog.ListGen
+﻿// Workaround for a fable issue: https://github.com/fable-compiler/Fable/issues/2069
+#if FABLE_COMPILER
+module Hedgehog.ListGen
+#else
+module private Hedgehog.ListGen
+#endif
 
 let traverse (f: 'a -> Gen<'b>) (ma: list<'a>) : Gen<list<'b>> =
     let rec loop input output =
