@@ -9,6 +9,7 @@ TestResults/
 .fsdocs/
 output/
 tmp/
+temp/
 
 # globs
 Makefile.in

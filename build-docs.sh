@@ -14,6 +14,8 @@ FRAMEWORK=netstandard2.0
 INPUT_DIR="./doc"
 OUTPUT_DIR="./output"
 
+rm -rf .fsdocs $OUTPUT_DIR
+
 dotnet build -c $CONFIGURATION -f $FRAMEWORK ./src/Hedgehog
 
 dotnet fsdocs build \
