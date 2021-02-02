@@ -38,7 +38,7 @@ module Gen =
             let run (seed : Seed) (random : Random<'x>) : 'x =
                 Random.run seed size random
 
-            Tree.bind (run seed1 m) (run seed2 << k))
+            Tree.bind (k >> run seed2) (run seed1 m))
 
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
         toRandom m |> bindRandom (toRandom << k) |> ofRandom
