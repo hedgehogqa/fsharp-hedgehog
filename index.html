@@ -110,8 +110,8 @@
 </ul>
 <h3><a name="Getting-Started" class="anchor" href="#Getting-Started">Getting Started</a></h3>
 <p>The standard "hello-world" property shown in most property-based testing systems is:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="id">reverse</span> <span class="pn">(</span><span class="id">reverse</span> <span class="id">xs</span><span class="pn">)</span> <span class="o">=</span> <span class="id">xs</span><span class="pn">,</span> 
-</code></pre>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">reverse (reverse xs) = xs, ∀xs :: [α]
+</code></pre></td></tr></table>
 <p>which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".</p>
 <p>One way to use Hedgehog to check the above property is to use the <code>property</code> computation expression:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
@@ -724,11 +724,11 @@ property { <span class="k">let!</span> a = Range.constantBounded () <span class=
 <span class="k">type</span> Union =
   <span class="o">|</span> Husband <span class="k">of</span> int
   <span class="o">|</span> Wife <span class="k">of</span> string
-  
+
 <span class="k">type</span> Record =
   {Sport: string
    Time: TimeSpan}
-   
+
 <span class="k">let!</span> union = GenX.auto&lt;Union&gt;
 <span class="k">let!</span> record = GenX.auto&lt;Record&gt;
 </code></pre></td></tr></table>
