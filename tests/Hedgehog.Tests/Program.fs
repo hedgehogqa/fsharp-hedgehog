@@ -1,6 +1,5 @@
 module Hedgehog.Tests.Main
 
-open Hedgehog
 open TestDsl
 
 #if !FABLE_COMPILER
@@ -15,7 +14,6 @@ let allTests = testList "All tests" [
     ShrinkTests.shrinkTests
     MinimalTests.minimalTests
 ]
-
 
 [<EntryPoint>]
 let main (args: string[]) =

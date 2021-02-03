@@ -1,43 +1,38 @@
-module Hedgehog.Tests.TestDsl
+module internal Hedgehog.Tests.TestDsl
 
 #if FABLE_COMPILER
-
 open Fable.Mocha
 
-// Alias test functions so we do not have to deal with different open statements in every test file.
-let testCase = Fable.Mocha.Test.testCase
-let ptestCase = Fable.Mocha.Test.ptestCase
-let testList = Fable.Mocha.Test.testList
+let testCase = Test.testCase
+let ptestCase = Test.ptestCase
+let testList = Test.testList
 
 #else
-
 open Expecto
 
-// Alias test functions so we do not have to deal with different open statements in every test file.
-let testCase = Expecto.Tests.testCase
-let ptestCase = Expecto.Tests.ptestCase
-let testList = Expecto.Tests.testList
+let testCase = Tests.testCase
+let ptestCase = Tests.ptestCase
+let testList = Tests.testList
 
+type TestCase = Test
 #endif
 
-let inline testCases name testData testFun =
-    let nameWithData name data = sprintf "%s: (%A)" name data
+let testCases (label : string) (xs : seq<'a>) (f : 'a -> unit) : List<TestCase> =
+    [ for x in xs do
+        testCase (sprintf "%s: (%A)" label x) (fun _ -> f x) ]
 
-    [ for data in testData do
-        testCase (nameWithData name data) (fun _ ->
-            testFun data) ]
-
-/// Some tests are not running in javascript world.
-/// Use this to ignore such tests.
-let testCaseNoFable name testFun =
+let fableIgnore (label : string) (test : unit -> unit) : TestCase =
 #if FABLE_COMPILER
-    ptestCase name testFun
+    // Some tests are not running in Node.js.
+    ptestCase label test
 #else
-    testCase name testFun
+    testCase label test
 #endif
 
-let inline (=!) actual expected = Expect.equal expected actual "Should be equal"
+let inline (=!) (actual : 'a) (expected : 'a) : unit =
+    Expect.equal expected actual "Should be equal"
 
 [<RequireQualifiedAccess>]
 module Expect =
-    let inline isTrue value = Expect.isTrue value "Should be true"
+    let isTrue value =
+        Expect.isTrue value "Should be true"

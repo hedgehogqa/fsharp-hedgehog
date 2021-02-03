@@ -4,9 +4,8 @@ open Hedgehog
 open TestDsl
 
 let seedTests = testList "Seed tests" [
-
+    // https://github.com/hedgehogqa/haskell-hedgehog/commit/39b15b9b4d147f6001984c4b7edab00878269da7
     yield! testCases "Seed.from 'fixes' the γ-value"
-        // https://github.com/hedgehogqa/haskell-hedgehog/commit/39b15b9b4d147f6001984c4b7edab00878269da7
         [ (0x61c8864680b583ebUL, 15210016002011668638UL, 12297829382473034411UL)
           (0xf8364607e9c949bdUL, 11409286845259996466UL, 12297829382473034411UL)
           (0x88e48f4fcc823718UL,  1931727433621677744UL, 12297829382473034411UL)
@@ -24,8 +23,8 @@ let seedTests = testList "Seed tests" [
           (0x05d507d05e785673UL,  1471112649570176389UL, 12297829382473034421UL)
           (0x76442b62dddf926cUL,  8100917074368564322UL, 12297829382473034421UL) ] <| fun (x, value, gamma) ->
 
-        { Value = value
-          Gamma = gamma }
-        =! Seed.from x
-
+        let expected =
+          { Value = value
+            Gamma = gamma }
+        expected =! Seed.from x
 ]
