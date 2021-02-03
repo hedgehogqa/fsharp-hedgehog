@@ -244,5 +244,4 @@ let rangeTests = testList "Range tests" [
             |> Range.bounds 99
         (-128y, 127y) =!
             actual
-
 ]

@@ -1,68 +1,91 @@
 module Hedgehog.Tests.GenTests
 
+open System
 open Hedgehog
 open Hedgehog.Gen.Operators
 open TestDsl
 
 let genTests = testList "Gen tests" [
-    yield! testCases "dateTime creates System.DateTime instances" [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
-        let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue) |> Gen.sample 0 count
+    yield! testCases "dateTime creates DateTime instances"
+        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
+
+        let actual =
+            (Range.constant
+                DateTime.MinValue
+                DateTime.MaxValue)
+            |> Gen.dateTime
+            |> Gen.sample 0 count
+
         actual
         |> List.distinct
         |> List.length
         =! actual.Length
 
     testCase "unicode doesn't return any surrogate" <| fun _ ->
-        let actual = Gen.sample 100 100000 Gen.unicode
-        [] =! List.filter System.Char.IsSurrogate actual
+        let actual =
+            Gen.sample 100 100000 Gen.unicode
+        [] =! List.filter Char.IsSurrogate actual
 
-    yield! testCases "unicode doesn't return any noncharacter" [ 65534; 65535 ] <| fun nonchar ->
-        let actual = Gen.sample 100 100000 Gen.unicode
+    yield! testCases "unicode doesn't return any noncharacter"
+        [ 65534; 65535 ] <| fun nonchar ->
+
+        let actual =
+            Gen.sample 100 100000 Gen.unicode
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->
-        let seed0 = Seed.random()
+        let seed0 = Seed.random ()
         let (seed1, _) = Seed.split seed0
         let range =
             Range.constant
-                System.DateTime.MinValue.Ticks
-                System.DateTime.MaxValue.Ticks
+                DateTime.MinValue.Ticks
+                DateTime.MaxValue.Ticks
         let ticks =
             Random.integral range
             |> Random.run seed1 0
-        let expected = System.DateTime ticks
 
-        let actual = Gen.dateTime (Range.constant System.DateTime.MinValue System.DateTime.MaxValue)
+        let actual =
+            Range.constant DateTime.MinValue DateTime.MaxValue
+            |> Gen.dateTime
+            |> Gen.toRandom
+            |> Random.run seed0 0
+            |> Tree.outcome
 
-        let result = actual |> Gen.toRandom |> Random.run seed0 0 |> Tree.outcome
-        expected =! result
+        let expected =
+            DateTime ticks
+        expected =! actual
 
     testCase "dateTime shrinks to correct mid-value" <| fun _ ->
-        let result =
+        let actual =
             property {
                 let! actual =
-                  Range.constantFrom (System.DateTime (2000, 1, 1)) System.DateTime.MinValue System.DateTime.MaxValue
+                  (Range.constantFrom
+                       (DateTime (2000, 1, 1))
+                        DateTime.MinValue
+                        DateTime.MaxValue)
                   |> Gen.dateTime
-                System.DateTime.Now =! actual
+                DateTime.Now =! actual
             }
             |> Property.report
             |> Report.render
-            |> (fun x -> x.Split ([|System.Environment.NewLine|], System.StringSplitOptions.None))
+            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
             |> Array.item 1
-            |> System.DateTime.Parse
-        System.DateTime (2000, 1, 1) =! result
+            |> DateTime.Parse
 
-    testCaseNoFable "int64 can create exponentially bounded integer" <| fun _ ->
+        DateTime (2000, 1, 1) =! actual
+
+    fableIgnore "int64 can create exponentially bounded integer" <| fun _ ->
         Property.check (property {
             let! _ = Gen.int64 (Range.exponentialBounded ())
             return true
         })
 
-    testCaseNoFable "uint64 can create exponentially bounded integer" <| fun _ ->
+    fableIgnore "uint64 can create exponentially bounded integer" <| fun _ ->
         Property.check (property {
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
         })
+
     testCase "apply is chainable" <| fun _ ->
         let _ : Gen<int> =
             Gen.constant (+)
