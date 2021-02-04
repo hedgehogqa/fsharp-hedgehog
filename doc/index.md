@@ -344,6 +344,8 @@ Gen.alphaNum |> Gen.printSample;;
 .
 ```
 
+### Properties
+
 #### 👉 Generators can also be created using the `gen` expression
 
 Hedgehog supports a convenient syntax for working with generators through the `gen` expression. Here's a way to define a generator of type `System.Net.IPAddress`:
