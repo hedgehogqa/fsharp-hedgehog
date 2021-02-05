@@ -1,3 +1,16 @@
+## Version 0.10.0 (2021-02-05)
+
+- Add `PropertyConfig` ([#288][288], [@dharmaturtle][dharmaturtle])
+- Add `OptionTree.traverse` ([#282][282], [@TysonMN][TysonMN])
+- Use fsdocs ([#277][277], [@adam-becker][adam-becker])
+- Rearrange parameters for better chaining ([#266][266], [@adam-becker][adam-becker])
+  - Rearrange `Tree.bind` parameters ([#300][300], [@adam-becker][adam-becker])
+- Add `ListGen.traverse` ([#260][260], [@TysonMN][TysonMN])
+- Improve and extend DateTime/DateTimeOffset generation ([#252][252], [@cmeeren][cmeeren])
+- Split Property.fs across multiple files ([#247][247], [@adam-becker][adam-becker])
+- Add support for LINQ via Hedgehog.Linq namespace ([#244][244], [@adam-becker][adam-becker])
+- Switch to Fable.Mocha ([#196][196], [@ThisFunctionalTom][ThisFunctionalTom])
+
 ## Version 0.9.0 (2020-12-17)
 
 - Add Gen.single and Gen.decimal ([#250][250], [@cmeeren][cmeeren])
@@ -92,6 +105,8 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[ThisFunctionalTom]:
+  https://github.com/ThisFunctionalTom
 [dharmaturtle]:
   https://github.com/dharmaturtle
 [cmeeren]:
@@ -117,10 +132,30 @@
 [porges]:
   https://github.com/porges
 
+[300]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/300
+[288]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/288
+[282]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/282
+[277]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/277
+[269]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/269
+[266]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/266
+[260]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/260
 [255]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/255
+[252]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/252
 [250]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/250
+[247]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/247
+[244]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/244
 [240]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/240
 [237]:
@@ -147,6 +182,8 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/210
 [209]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/209
+[196]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/196
 [186]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/186
 [173]:
