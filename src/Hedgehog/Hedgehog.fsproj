@@ -16,7 +16,7 @@ Generate hundreds of test cases automatically, exposing even the most insidious 
 Failures are automatically simplified, giving developers coherent, intelligible error messages.
 
 To get started quickly, see the examples in
-https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/tutorial.md
+https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     </PackageDescription>
     <PackageLicenseUrl>https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog/</PackageProjectUrl>
