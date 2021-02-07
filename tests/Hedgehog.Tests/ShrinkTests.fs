@@ -205,4 +205,79 @@ let shrinkTests = testList "Shrink tests" [
         | Failed failureData ->
             failureData.Shrinks =! shrinkLimit
         | _ -> failwith "impossible"
+
+    testCase "createTree correct for 0,0" <| fun _ ->
+        let actual = Shrink.createTree 0 0 |> Tree.map (sprintf "%A") |> Tree.render
+        let expected = "0"
+        expected =! actual
+
+    testCase "createTree correct for 0,1" <| fun _ ->
+        let actual = Shrink.createTree 0 1 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+          [ "1"
+            "└-0" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,2" <| fun _ ->
+        let actual = Shrink.createTree 0 2 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+          [ "2"
+            "└-1"
+            "  └-0" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,3" <| fun _ ->
+        let actual = Shrink.createTree 0 3 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "3"
+              "└-2"
+              "  └-1"
+              "    └-0" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,4" <| fun _ ->
+        let actual = Shrink.createTree 0 4 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "4"
+              "├-2"
+              "| └-1"
+              "|   └-0"
+              "└-3" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,5" <| fun _ ->
+        let actual = Shrink.createTree 0 5 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "5"
+              "├-3"
+              "| └-2"
+              "|   └-1"
+              "|     └-0"
+              "└-4" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,6" <| fun _ ->
+        let actual = Shrink.createTree 0 6 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "6"
+              "├-3"
+              "| └-2"
+              "|   └-1"
+              "|     └-0"
+              "└-5"
+              "  └-4" ]
+        expected =! actual
+
+    testCase "createTree correct for 0,7" <| fun _ ->
+        let actual = Shrink.createTree 0 7 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "7"
+              "├-4"
+              "| ├-2"
+              "| | └-1"
+              "| |   └-0"
+              "| └-3"
+              "└-6"
+              "  └-5" ]
+        expected =! actual
 ]
