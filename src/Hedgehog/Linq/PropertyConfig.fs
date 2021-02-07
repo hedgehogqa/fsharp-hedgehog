@@ -32,10 +32,4 @@ type PropertyConfig =
     static member Default : Hedgehog.PropertyConfig =
         PropertyConfig.defaultConfig
 
-
-module internal PropertyConfig =
-    let coalesce = function
-        | Some x -> x
-        | None -> PropertyConfig.defaultConfig
-
 #endif
