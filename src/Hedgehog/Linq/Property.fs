@@ -4,8 +4,8 @@ namespace Hedgehog.Linq
 
 open System
 open System.Runtime.CompilerServices
-open Hedgehog
 open System.Runtime.InteropServices
+open Hedgehog
 
 
 type Property = private Property of Property<unit> with
