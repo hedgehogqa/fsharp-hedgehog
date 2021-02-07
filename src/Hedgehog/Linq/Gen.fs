@@ -178,8 +178,8 @@ type GenExtensions private () =
         Gen.option gen |> Gen.map (Option.defaultWith Nullable << Option.map Nullable)
 
     [<Extension>]
-    static member AsString (gen : Gen<'T>) : string =
-        Gen.asString gen
+    static member FormatSample (gen : Gen<'T>) : string =
+        Gen.formatSample gen
 
     [<Extension>]
     static member PrintSample (gen : Gen<'T>) : unit =

@@ -502,9 +502,9 @@ module Gen =
         toRandom g
         |> Random.run seed 30
 
-    let asString (g : Gen<'a>) : string =
+    let formatSample (gen : Gen<'a>) : string =
         String.concat Environment.NewLine [
-            let forest = sampleTree 10 5 g
+            let forest = sampleTree 10 5 gen
             for tree in forest do
                 yield "=== Outcome ==="
                 yield sprintf "%A" (Tree.outcome tree)
@@ -514,8 +514,8 @@ module Gen =
                 yield "."
         ]
 
-    let printSample (g : Gen<'a>) : unit =
-        printfn "%s" (asString g)
+    let printSample (gen : Gen<'a>) : unit =
+        printfn "%s" (formatSample gen)
 
     module Operators =
         let (<!>) f g = map f g
