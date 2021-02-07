@@ -99,21 +99,19 @@ module Property =
     //
 
     let rec private takeSmallest
-            (renderRecheck : bool)
-            (size : Size)
-            (seed : Seed)
+            (args : PropertyArgs)
             (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
             (nshrinks : int<shrinks>)
             (shrinkLimit : int<shrinks> Option) : Status =
         let failed =
             Failed {
-                Size = size
-                Seed = seed
+                Size = args.Size
+                Seed = args.Seed
                 Shrinks = nshrinks
                 Journal = journal
-                RenderRecheck = renderRecheck
+                RecheckType = args.RecheckType
             }
-        let takeSmallest tree = takeSmallest renderRecheck size seed tree (nshrinks + 1<shrinks>) shrinkLimit
+        let takeSmallest tree = takeSmallest args tree (nshrinks + 1<shrinks>) shrinkLimit
         match x with
         | Failure ->
             match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
@@ -130,7 +128,7 @@ module Property =
         | Success _ ->
             OK
 
-    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -139,7 +137,7 @@ module Property =
             else
                 size + 1
 
-        let rec loop seed size tests discards =
+        let rec loop args tests discards =
             if tests = config.TestLimit then
                 { Tests = tests
                   Discards = discards
@@ -149,24 +147,29 @@ module Property =
                   Discards = discards
                   Status = GaveUp }
             else
-                let seed1, seed2 = Seed.split seed
-                let result = Random.run seed1 size random
+                let seed1, seed2 = Seed.split args.Seed
+                let result = Random.run seed1 args.Size random
+                let nextArgs = {
+                    args with
+                        Seed = seed2
+                        Size = nextSize args.Size
+                }
 
                 match snd (Tree.outcome result) with
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest renderRecheck size seed result 0<shrinks> config.ShrinkLimit}
+                      Status = takeSmallest args result 0<shrinks> config.ShrinkLimit}
                 | Success () ->
-                    loop seed2 (nextSize size) (tests + 1<tests>) discards
+                    loop nextArgs (tests + 1<tests>) discards
                 | Discard ->
-                    loop seed2 (nextSize size) tests (discards + 1<discards>)
+                    loop nextArgs tests (discards + 1<discards>)
 
-        loop seed size0 0<tests> 0<discards>
+        loop args 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
-        let seed = Seed.random ()
-        p |> reportWith' true 1 seed config
+        let args = PropertyArgs.init
+        p |> reportWith' args config
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig
@@ -201,10 +204,22 @@ module Property =
         | _ -> failure
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
-        reportWith' false size seed config p
+        let args = {
+            PropertyArgs.init with
+                RecheckType = RecheckType.None
+                Seed = seed
+                Size = size
+        }
+        reportWith' args config p
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportWith' false size seed PropertyConfig.defaultConfig p
+        let args = {
+            PropertyArgs.init with
+                RecheckType = RecheckType.None
+                Seed = seed
+                Size = size
+        }
+        reportWith' args PropertyConfig.defaultConfig p
 
     let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheckWith size seed config

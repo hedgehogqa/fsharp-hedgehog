@@ -4,12 +4,18 @@ namespace Hedgehog
 [<Measure>] type discards
 [<Measure>] type shrinks
 
+[<RequireQualifiedAccess>]
+type RecheckType =
+    | None
+    | CSharp
+    | FSharp
+
 type FailureData = {
     Size : Size
     Seed : Seed
     Shrinks : int<shrinks>
     Journal : Journal
-    RenderRecheck : bool
+    RecheckType : RecheckType
 }
 
 type Status =
@@ -80,14 +86,25 @@ module Report =
 
         Seq.iter (appendLine sb) (Journal.eval failure.Journal)
 
-        if failure.RenderRecheck then
+        match failure.RecheckType with
+        | RecheckType.None ->
+            ()
+
+        | RecheckType.FSharp ->
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck (%d : Size) ({ Value = %A; Gamma = %A }) <property>"
+            appendLinef sb "> Property.recheck %d ({ Value = %A; Gamma = %A }) <property>"
                 failure.Size
                 failure.Seed.Value
                 failure.Seed.Gamma
 
-        sb.ToString (0, sb.Length - 1) // Exclude extra newline.
+        | RecheckType.CSharp ->
+            appendLinef sb "This failure can be reproduced by running:"
+            appendLinef sb "> property.Recheck(%d, new Seed { Value = %A; Gamma = %A })"
+                failure.Size
+                failure.Seed.Value
+                failure.Seed.Gamma
+
+        sb.ToString().Trim() // Exclude extra newline.
 
     let render (report : Report) : string =
         match report.Status with
