@@ -163,26 +163,9 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
-        let mapFirstDifferently f g = function
-            | [] -> []
-            | x :: xs -> (f x) :: (xs |> List.map g)
-        let rec createTree (destination : ^a) (x : ^a) =
-          let childrenValues =
-              match Shrink.towards destination x |> Seq.toList with
-              | [] -> []
-              | x :: [] -> List.singleton x
-              | _ :: xs -> xs
-          let xs =
-              childrenValues
-              |> Seq.cons destination
-              |> Seq.pairwise
-              |> Seq.toList
-              |> mapFirstDifferently id (fun (d, x) -> (d + LanguagePrimitives.GenericOne, x))
-              |> Seq.map (fun (d, x) -> createTree d x)
-          Node (x, xs)
         range
         |> Random.integral
-        |> Random.map (range |> Range.origin |> createTree)
+        |> Random.map (range |> Range.origin |> Shrink.createTree)
         |> ofRandom
 
     //
