@@ -7,6 +7,7 @@ open System.Runtime.CompilerServices
 open Hedgehog
 open System.Runtime.InteropServices
 
+type private HProperty = Hedgehog.Property
 
 [<Extension>]
 [<AbstractClass; Sealed>]
@@ -34,48 +35,43 @@ type PropertyConfig =
     static member Default : Hedgehog.PropertyConfig =
         PropertyConfig.defaultConfig
 
-        
-type Property = private Property of Property<unit> with
 
-    static member Failure : Property =
+type Property =
+
+    static member Failure : HProperty =
         Property.failure
-        |> Property
 
-    static member Discard : Property =
+    static member Discard : HProperty =
         Property.discard
-        |> Property
 
-    static member Success (value : 'T) : Property<'T> =
-        Property.success value
+    static member Success : HProperty =
+        Property.success
 
-    static member FromBool (value : bool) : Property =
+    static member FromBool (value : bool) : HProperty =
         Property.ofBool value
-        |> Property
 
-    static member FromGen (gen : Gen<Journal * Outcome<'T>>) : Property<'T> =
+    static member FromGen (gen : Gen<Journal * Outcome>) : HProperty =
         Property.ofGen gen
 
-    static member FromOutcome (result : Outcome<'T>) : Property<'T> =
+    static member FromOutcome (result : Outcome) : HProperty =
         Property.ofOutcome result
 
-    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property =
+    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : HProperty =
         Property.ofThrowing throwingFunc.Invoke arg
-        |> Property
 
-    static member Delay (f : Func<Property<'T>>) : Property<'T> =
+    static member Delay (f : Func<HProperty>) : HProperty =
         Property.delay f.Invoke
 
-    static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
+    static member Using (resource : 'T, action : Func<'T, HProperty>) : HProperty =
         Property.using resource action.Invoke
 
-    static member CounterExample (message : Func<string>) : Property =
+    static member CounterExample (message : Func<string>) : HProperty =
         Property.counterexample message.Invoke
-        |> Property
 
-    static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
+    static member ForAll (gen : Gen<unit>, k : Func<HProperty>) : HProperty =
         Property.forAll k.Invoke gen
 
-    static member ForAll (gen : Gen<'T>) : Property<'T> =
+    static member ForAll (gen : Gen<'T>) : HProperty =
         Property.forAll' gen
 
 
@@ -90,15 +86,15 @@ module internal PropertyConfig =
 type PropertyExtensions private () =
 
     [<Extension>]
-    static member ToGen (property : Property<'T>) : Gen<Journal * Outcome<'T>> =
+    static member ToGen (property : HProperty) : Gen<Journal * Outcome> =
         Property.toGen property
 
     [<Extension>]
-    static member TryFinally (property : Property<'T>, onFinally : Action) : Property<'T> =
+    static member TryFinally (property : HProperty, onFinally : Action) : HProperty =
         Property.tryFinally onFinally.Invoke property
 
     [<Extension>]
-    static member TryWith (property : Property<'T>, onError : Func<exn, Property<'T>>) : Property<'T> =
+    static member TryWith (property : HProperty, onError : Func<exn, HProperty>) : HProperty =
         Property.tryWith onError.Invoke property
 
     //
@@ -107,97 +103,34 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Report
-        (   property : Property,
+        (   property : HProperty,
             [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
         ) : Report =
-        let (Property property) = property
         Property.reportWith (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Report
-        (   property : Property<bool>,
-            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
-        ) : Report =
-        Property.reportBoolWith (PropertyConfig.coalesce config) property
-
-    [<Extension>]
     static member Check
-        (   property : Property,
+        (   property : HProperty,
             [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
         ) : unit =
-        let (Property property) = property
         Property.checkWith (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Check
-        (   property : Property<bool>,
-            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
-        ) : unit =
-        Property.checkBoolWith (PropertyConfig.coalesce config) property
-
-    [<Extension>]
     static member Recheck
-        (   property : Property,
+        (   property : HProperty,
             size : Size,
             seed : Seed,
             [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
         ) : unit =
-        let (Property property) = property
         Property.recheckWith size seed (PropertyConfig.coalesce config) property
 
     [<Extension>]
-    static member Recheck
-        (   property : Property<bool>,
-            size : Size,
-            seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
-        ) : unit =
-        Property.recheckBoolWith size seed (PropertyConfig.coalesce config) property
-
-    [<Extension>]
     static member ReportRecheck
-        (   property : Property,
+        (   property : HProperty,
             size : Size,
             seed : Seed,
             [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
         ) : Report =
-        let (Property property) = property
         Property.reportRecheckWith size seed (PropertyConfig.coalesce config) property
-
-    [<Extension>]
-    static member ReportRecheck
-        (   property : Property<bool>,
-            size : Size,
-            seed : Seed,
-            [<Optional; DefaultParameterValue null>] ?config : Hedgehog.PropertyConfig
-        ) : Report =
-        Property.reportRecheckBoolWith size seed (PropertyConfig.coalesce config) property
-
-    [<Extension>]
-    static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
-        Property.filter filter.Invoke property
-
-    [<Extension>]
-    static member Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
-        Property.map mapper.Invoke property
-
-    [<Extension>]
-    static member Select (property : Property<'T>, mapper : Action<'T>) : Property =
-        property
-        |> Property.bind (Property.ofThrowing mapper.Invoke)
-        |> Property
-
-    [<Extension>]
-    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
-        property |> Property.bind (fun a ->
-            binder.Invoke a |> Property.map (fun b -> projection.Invoke (a, b)))
-
-    [<Extension>]
-    static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =
-        let result =
-            property |> Property.bind (fun a ->
-                binder.Invoke a |> Property.bind (fun b ->
-                    Property.ofThrowing projection.Invoke (a, b)))
-        Property result
 
 #endif
