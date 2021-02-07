@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 
 module Shrink =
@@ -98,3 +98,19 @@ module Shrink =
                     None
 
             Seq.unfold go diff
+
+
+    let inline createTree (destination : ^a) (x : ^a) =
+        let mapFirstDifferently f g = function
+            | [] -> []
+            | x :: xs -> (f x) :: (xs |> List.map g)
+        let rec binarySearchTree (destination : ^a) (x : ^a) =
+            let xs =
+                towards destination x
+                |> Seq.cons destination
+                |> Seq.pairwise
+                |> Seq.toList
+                |> mapFirstDifferently id (fun (d, x) -> (d + LanguagePrimitives.GenericOne, x))
+                |> Seq.map (fun (d, x) -> binarySearchTree d x)
+            Node (x, xs)
+        binarySearchTree destination x
