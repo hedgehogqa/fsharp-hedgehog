@@ -41,6 +41,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="GenTuple.fs" />
     <Compile Include="Outcome.fs" />
     <Compile Include="Report.fs" />
+    <Compile Include="PropertyConfig.fs" />
     <Compile Include="Property.fs" />
     <Compile Include="Linq\Gen.fs" />
     <Compile Include="Linq\Property.fs" />
