@@ -204,7 +204,19 @@ type GenExtensions private () =
         Gen.bind binder.Invoke gen
 
     [<Extension>]
+    static member SelectMany (gen : Gen<'T>, binder : Action<'T>) : Gen<unit> =
+        Gen.bind (binder.Invoke >> Gen.constant) gen
+
+    [<Extension>]
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Gen<'TResult> =
+        GenBuilder.gen {
+            let! a = gen
+            let! b = binder.Invoke a
+            return projection.Invoke (a, b)
+        }
+
+    [<Extension>]
+    static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'TCollection>>, projection : Action<'T, 'TCollection>) : Gen<unit> =
         GenBuilder.gen {
             let! a = gen
             let! b = binder.Invoke a
@@ -218,6 +230,10 @@ type GenExtensions private () =
     [<Extension>]
     static member SelectTree (gen : Gen<'T>, binder : Func<Tree<'T>, Tree<'TResult>>) : Gen<'TResult> =
         Gen.mapTree binder.Invoke gen
+
+    [<Extension>]
+    static member Select (gen : Gen<'T>, mapper : Action<'T>) : Gen<unit> =
+        Gen.map mapper.Invoke gen
 
     [<Extension>]
     static member Select (gen : Gen<'T>, mapper : Func<'T, 'TResult>) : Gen<'TResult> =

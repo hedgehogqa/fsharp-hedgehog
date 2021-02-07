@@ -1,47 +1,26 @@
 namespace Hedgehog
 
-type Outcome<'a> =
+type Outcome =
     | Failure
     | Discard
-    | Success of 'a
+    | Success
 
 module Outcome =
 
     let private cata
-        (outcome : Outcome<'a>)
+        (outcome : Outcome)
         (failure : unit -> 'b)
         (discard : unit -> 'b)
-        (success : 'a -> 'b) : 'b =
+        (success : unit -> 'b) : 'b =
         match outcome with
         | Failure ->
             failure ()
         | Discard ->
             discard ()
-        | Success x ->
-            success x
+        | Success ->
+            success ()
 
-    [<CompiledName("Map")>]
-    let map (f : 'a -> 'b) (result : Outcome<'a>) : Outcome<'b> =
-        cata result
-            (always Failure)
-            (always Discard)
-            (f >> Success)
-
-    [<CompiledName("Filter")>]
-    let filter (f : 'a -> bool) (result : Outcome<'a>) : Outcome<'a> =
-        let successOrDiscard x =
-            if f x then
-                Success x
-            else
-                Discard
-
-        cata result
-            (always Failure)
-            (always Discard)
-            successOrDiscard
-
-    [<CompiledName("IsFailure")>]
-    let isFailure (result : Outcome<'a>) : bool =
+    let isFailure (result : Outcome) : bool =
         cata result
             (always true)
             (always false)

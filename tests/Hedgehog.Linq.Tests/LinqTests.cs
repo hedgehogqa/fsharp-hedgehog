@@ -1,8 +1,5 @@
 ﻿using Xunit;
 
-// Import ForAll:
-using static Hedgehog.Linq.Property;
-
 namespace Hedgehog.Linq.Tests
 {
     /*
@@ -15,114 +12,114 @@ namespace Hedgehog.Linq.Tests
         public void CanUseSelectWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in Gen.Bool
                 select Assert.True(x || !x);
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanUseSelectWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in Gen.Bool
                 select x || !x;
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanSelectFromTwoWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
+                from x in Gen.Bool
+                from y in Gen.Bool
                 select Assert.True((x || !x) && (y || !y));
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanSelectFromTwoWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
+                from x in Gen.Bool
+                from y in Gen.Bool
                 select (x || !x) && (y || !y);
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanSelectFromThreeWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
-                from z in ForAll(Gen.Bool)
+                from x in Gen.Bool
+                from y in Gen.Bool
+                from z in Gen.Bool
                 select Assert.True(x || y || z || (!x || !y || !z));
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanSelectFromThreeWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
-                from z in ForAll(Gen.Bool)
+                from x in Gen.Bool
+                from y in Gen.Bool
+                from z in Gen.Bool
                 select x || y || z || (!x || !y || !z);
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanUseWhereWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.FromValue(true))
+                from x in Gen.FromValue(true)
                 where x == true
-                from y in ForAll(Gen.FromValue(false))
+                from y in Gen.FromValue(false)
                 where y == false
                 select Assert.True(x && !y);
 
-            property.Check(PropertyConfig.Default.WithTests(20));
+            Property.ForAll(property).Check(PropertyConfig.Default.WithTests(20));
         }
 
         [Fact]
         public void CanUseWhereWithBool()
         {
             var property =
-                from x in ForAll(Gen.FromValue(true))
+                from x in Gen.FromValue(true)
                 where x == true
-                from y in ForAll(Gen.FromValue(false))
+                from y in Gen.FromValue(false)
                 where y == false
                 select x && !y;
 
-            property.Check(PropertyConfig.Default.WithTests(20));
+            Property.ForAll(property).Check(PropertyConfig.Default.WithTests(20));
         }
 
         [Fact]
         public void CanDependOnEarlierValuesWithAssertion()
         {
             var property =
-                from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
-                from j in ForAll(Gen.Int32(Range.Constant(1, i)))
+                from i in Gen.Int32(Range.Constant(1, 10))
+                from j in Gen.Int32(Range.Constant(1, i))
                 select Assert.True(j <= i);
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]
         public void CanDependOnEarlierValuesWithBool()
         {
             var property =
-                from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
-                from j in ForAll(Gen.Int32(Range.Constant(1, i)))
+                from i in Gen.Int32(Range.Constant(1, 10))
+                from j in Gen.Int32(Range.Constant(1, i))
                 select j <= i;
 
-            property.Check();
+            Property.ForAll(property).Check();
         }
 
         [Fact]

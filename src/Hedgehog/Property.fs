@@ -3,8 +3,8 @@ namespace Hedgehog
 open System
 
 [<Struct>]
-type Property<'a> =
-    | Property of Gen<Journal * Outcome<'a>>
+type Property =
+    | Property of Gen<Journal * Outcome>
 
 type PropertyConfig = internal {
     TestLimit : int<tests>
@@ -34,22 +34,23 @@ module PropertyConfig =
 
 module Property =
 
-    let ofGen (x : Gen<Journal * Outcome<'a>>) : Property<'a> =
+    let ofGen (x : Gen<Journal * Outcome>) : Property =
         Property x
 
-    let toGen (Property x : Property<'a>) : Gen<Journal * Outcome<'a>> =
+    let toGen (Property x : Property) : Gen<Journal * Outcome> =
         x
 
-    let tryFinally (after : unit -> unit) (m : Property<'a>) : Property<'a> =
+    let tryFinally (after : unit -> unit) (m : Property) : Property =
         Gen.tryFinally after (toGen m) |> ofGen
 
-    let tryWith (k : exn -> Property<'a>) (m : Property<'a>) : Property<'a> =
+    let tryWith (k : exn -> Property) (m : Property) : Property =
         Gen.tryWith (toGen << k) (toGen m) |> ofGen
 
-    let delay (f : unit -> Property<'a>) : Property<'a> =
+    let delay (f : unit -> Property) : Property =
         Gen.delay (toGen << f) |> ofGen
 
-    let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
+    let using (x : 'a) (k : 'a -> Property) : Property
+        when
             'a :> IDisposable and
             'a : null =
         delay (fun () -> k x)
@@ -60,65 +61,59 @@ module Property =
             | _ ->
                 x.Dispose ())
 
-    let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
-        GenTuple.mapSnd (Outcome.filter p) (toGen m) |> ofGen
-
-    let ofOutcome (x : Outcome<'a>) : Property<'a> =
+    let ofOutcome (x : Outcome) : Property =
         (Journal.empty, x) |> Gen.constant |> ofGen
 
-    let failure : Property<unit> =
+    let failure : Property =
         Failure |> ofOutcome
 
-    let discard : Property<unit> =
+    let discard : Property =
         Discard |> ofOutcome
 
-    let success (x : 'a) : Property<'a> =
-        Success x |> ofOutcome
+    let success : Property =
+        Success |> ofOutcome
 
-    let ofBool (x : bool) : Property<unit> =
+    let ofBool (x : bool) : Property =
         if x then
-            success ()
+            success
         else
             failure
 
-    let counterexample (msg : unit -> string) : Property<unit> =
-        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
+    let counterexample (msg : unit -> string) : Property =
+        Gen.constant (Journal.singleton msg, Success) |> ofGen
 
     let private mapGen
-            (f : Gen<Journal * Outcome<'a>> -> Gen<Journal * Outcome<'b>>)
-            (x : Property<'a>) : Property<'b> =
+            (f : Gen<Journal * Outcome> -> Gen<Journal * Outcome>)
+            (x : Property) : Property =
         toGen x |> f |> ofGen
 
-    let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        (mapGen << GenTuple.mapSnd << Outcome.map) f x
-
     let private bindGen
-            (k : 'a -> Gen<Journal * Outcome<'b>>)
-            (m : Gen<Journal * Outcome<'a>>) : Gen<Journal * Outcome<'b>> =
+            (k : unit -> Gen<Journal * Outcome>)
+            (m : Gen<Journal * Outcome>) : Gen<Journal * Outcome> =
         m |> Gen.bind (fun (journal, result) ->
             match result with
             | Failure ->
                 Gen.constant (journal, Failure)
             | Discard ->
                 Gen.constant (journal, Discard)
-            | Success x ->
-                GenTuple.mapFst (Journal.append journal) (k x))
+            | Success ->
+                GenTuple.mapFst (Journal.append journal) (k ()))
 
-    let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
+    let bind (k : unit -> Property) (m : Property) : Property =
         bindGen (toGen << k) (toGen m) |> ofGen
 
-    let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
+    let forAll (k : 'a -> Property) (gen : Gen<'a>) : Property =
         let handle (e : exn) =
             Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             counterexample (fun () -> sprintf "%A" x)
-            |> bind (fun _ -> try k x with e -> handle e)
+            |> bind (fun () -> try k x with e -> handle e)
             |> toGen
 
         gen |> Gen.bind prepend |> ofGen
 
-    let forAll' (gen : Gen<'a>) : Property<'a> =
-        gen |> forAll success
+    let forAll' (gen : Gen<'a>) : Property =
+        gen |> forAll (fun _ -> success)
 
     //
     // Runner
@@ -128,7 +123,7 @@ module Property =
             (renderRecheck : bool)
             (size : Size)
             (seed : Seed)
-            (Node ((journal, x), xs) : Tree<Journal * Outcome<'a>>)
+            (Node ((journal, x), xs) : Tree<Journal * Outcome>)
             (nshrinks : int<shrinks>)
             (shrinkLimit : int<shrinks> Option) : Status =
         let failed =
@@ -156,7 +151,7 @@ module Property =
         | Success _ ->
             OK
 
-    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let private reportWith' (renderRecheck : bool) (size0 : Size) (seed : Seed) (config : PropertyConfig) (p : Property) : Report =
         let random = toGen p |> Gen.toRandom
 
         let nextSize size =
@@ -183,157 +178,119 @@ module Property =
                     { Tests = tests + 1<tests>
                       Discards = discards
                       Status = takeSmallest renderRecheck size seed result 0<shrinks> config.ShrinkLimit}
-                | Success () ->
+                | Success _ ->
                     loop seed2 (nextSize size) (tests + 1<tests>) discards
                 | Discard ->
                     loop seed2 (nextSize size) tests (discards + 1<discards>)
 
         loop seed size0 0<tests> 0<discards>
 
-    let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportWith (config : PropertyConfig) (p : Property) : Report =
         let seed = Seed.random ()
         p |> reportWith' true 1 seed config
 
-    let report (p : Property<unit>) : Report =
+    let report (p : Property) : Report =
         p |> reportWith PropertyConfig.defaultConfig
 
-    let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportWith config
-
-    let reportBool (p : Property<bool>) : Report =
-        p |> bind ofBool |> report
-
-    let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
+    let checkWith (config : PropertyConfig) (p : Property) : unit =
         reportWith config p
         |> Report.tryRaise
 
-    let check (p : Property<unit>) : unit =
+    let check (p : Property) : unit =
         report p
         |> Report.tryRaise
-
-    let checkBool (g : Property<bool>) : unit =
-        g |> bind ofBool |> check
-
-    let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
     /// a property by treating "no exception" as success.
-    let ofThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
+    let ofThrowing (f : 'a -> unit) (x : 'a) : Property =
         try
             f x
-            success ()
+            success
         with
         | _ -> failure
 
-    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property) : Report =
         reportWith' false size seed config p
 
-    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
+    let reportRecheck (size : Size) (seed : Seed) (p : Property) : Report =
         reportWith' false size seed PropertyConfig.defaultConfig p
 
-    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheckWith size seed config
-
-    let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheck size seed
-
-    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
+    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property) : unit =
         reportRecheckWith size seed config p
         |> Report.tryRaise
 
-    let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
+    let recheck (size : Size) (seed : Seed) (p : Property) : unit =
         reportRecheck size seed p
         |> Report.tryRaise
 
-    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheckWith size seed config
-
-    let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheck size seed
-
-    let printWith (config : PropertyConfig) (p : Property<unit>) : unit =
+    let printWith (config : PropertyConfig) (p : Property) : unit =
         reportWith config p
         |> Report.render
         |> printfn "%s"
 
-    let print (p : Property<unit>) : unit =
+    let print (p : Property) : unit =
         report p
-        |> Report.render
-        |> printfn "%s"
-
-    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
-        reportBoolWith config p
-        |> Report.render
-        |> printfn "%s"
-
-    let printBool (p : Property<bool>) : unit =
-        reportBool p
         |> Report.render
         |> printfn "%s"
 
 [<AutoOpen>]
 module PropertyBuilder =
-    let rec private loop (p : unit -> bool) (m : Property<unit>) : Property<unit> =
+    let rec private loop (p : unit -> bool) (m : Property) : Property =
         if p () then
             m |> Property.bind (fun _ -> loop p m)
         else
-            Property.success ()
+            Property.success
 
     type Builder internal () =
-        member __.For(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
+        member __.For(m : Property, k : unit -> Property) : Property =
             m |> Property.bind k
 
-        member __.For(xs : #seq<'a>, k : 'a -> Property<unit>) : Property<unit> =
+        member __.For(xs : #seq<'a>, k : 'a -> Property) : Property =
             let xse = xs.GetEnumerator ()
             Property.using xse (fun xse ->
                 let mv = xse.MoveNext
                 let kc = Property.delay (fun () -> k xse.Current)
                 loop mv kc)
 
-        member __.While(p : unit -> bool, m : Property<unit>) : Property<unit> =
+        member __.While(p : unit -> bool, m : Property) : Property =
             loop p m
 
-        member __.Yield(x : 'a) : Property<'a> =
-            Property.success x
+        member __.Yield(_) : Property =
+            Property.success
 
-        member __.Combine(m : Property<unit>, n : Property<'a>) : Property<'a> =
+        member __.Combine(m : Property, n : Property) : Property =
             m |> Property.bind (fun _ -> n)
 
-        member __.TryFinally(m : Property<'a>, after : unit -> unit) : Property<'a> =
+        member __.TryFinally(m : Property, after : unit -> unit) : Property =
             m |> Property.tryFinally after
 
-        member __.TryWith(m : Property<'a>, k : exn -> Property<'a>) : Property<'a> =
+        member __.TryWith(m : Property, k : exn -> Property) : Property =
             m |> Property.tryWith k
 
-        member __.Using(a : 'a, k : 'a -> Property<'b>) : Property<'b> when
+        member __.Using(a : 'a, k : 'a -> Property) : Property
+            when
                 'a :> IDisposable and
                 'a : null =
             Property.using a k
 
-        member __.Bind(m : Gen<'a>, k : 'a -> Property<'b>) : Property<'b> =
+        member __.Bind(m : Gen<'a>, k : 'a -> Property) : Property =
             m |> Property.forAll k
 
-        member __.Return(b : bool) : Property<unit> =
+        member __.Return(b : bool) : Property =
             Property.ofBool b
 
-        member __.ReturnFrom(m : Property<'a>) : Property<'a> =
+        member __.ReturnFrom(m : Property) : Property =
             m
 
-        member __.Delay(f : unit -> Property<'a>) : Property<'a> =
+        member __.Delay(f : unit -> Property) : Property =
             Property.delay f
 
-        member __.Zero() : Property<unit> =
-            Property.success ()
+        member __.Zero() : Property =
+            Property.success
 
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
-        member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
-            m |> Property.bind (fun x ->
-                Property.counterexample (fun () -> f x)
-                |> Property.map (fun () -> x))
-
-        [<CustomOperation("where", MaintainsVariableSpace = true)>]
-        member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =
-            Property.filter p m
+        member __.Counterexample(property : Property, [<ProjectionParameter>] f : unit -> string) : Property =
+            property
+            |> Property.bind (fun () -> Property.counterexample f)
 
     let property = Builder ()
