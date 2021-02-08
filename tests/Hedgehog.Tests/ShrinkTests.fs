@@ -69,23 +69,29 @@ let shrinkTests = testList "Shrink tests" [
           [ "a"; "b"; "c" ] ]
         =! actual
 
-    testCase "towards shrinks an integral number by edging towards a destination - exmaple 1" <| fun _ ->
+    testCase "towards correct on input 0, 100" <| fun _ ->
         let actual =
             Shrink.towards 0 100
             |> Seq.toList
-        [0; 50; 75; 88; 94; 97; 99] =! actual
+        [50; 75; 88; 94; 97; 99] =! actual
 
-    testCase "towards shrinks an integral number by edging towards a destination - exmaple 2" <| fun _ ->
+    testCase "towards correct on input 500, 1000" <| fun _ ->
         let actual =
             Shrink.towards 500 1000
             |> Seq.toList
-        [500; 750; 875; 938; 969; 985; 993; 997; 999] =! actual
+        [750; 875; 938; 969; 985; 993; 997; 999] =! actual
 
-    testCase "towards shrinks an integral number by edging towards a destination - exmaple 3" <| fun _ ->
+    testCase "towards correct on input -50, -26" <| fun _ ->
         let actual =
             Shrink.towards -50 -26
             |> Seq.toList
-        [-50; -38; -32; -29; -27] =! actual
+        [-38; -32; -29; -27] =! actual
+
+    testCase "towards correct on input 4, 5" <| fun _ ->
+        let actual =
+            Shrink.towards 4 5
+            |> Seq.toList
+        [4] =! actual
 
     testCase "towardsDouble shrinks a floating-point number by edging towards a destination - example 1" <| fun _ ->
         let actual =
@@ -222,26 +228,26 @@ let shrinkTests = testList "Shrink tests" [
         let actual = Shrink.createTree 0 2 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
           [ "2"
-            "└-1"
-            "  └-0" ]
+            "├-0"
+            "└-1" ]
         expected =! actual
 
     testCase "createTree correct for 0,3" <| fun _ ->
         let actual = Shrink.createTree 0 3 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
             [ "3"
+              "├-0"
               "└-2"
-              "  └-1"
-              "    └-0" ]
+              "  └-1" ]
         expected =! actual
 
     testCase "createTree correct for 0,4" <| fun _ ->
         let actual = Shrink.createTree 0 4 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
             [ "4"
+              "├-0"
               "├-2"
               "| └-1"
-              "|   └-0"
               "└-3" ]
         expected =! actual
 
@@ -249,10 +255,10 @@ let shrinkTests = testList "Shrink tests" [
         let actual = Shrink.createTree 0 5 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
             [ "5"
+              "├-0"
               "├-3"
               "| └-2"
               "|   └-1"
-              "|     └-0"
               "└-4" ]
         expected =! actual
 
@@ -260,10 +266,10 @@ let shrinkTests = testList "Shrink tests" [
         let actual = Shrink.createTree 0 6 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
             [ "6"
+              "├-0"
               "├-3"
               "| └-2"
               "|   └-1"
-              "|     └-0"
               "└-5"
               "  └-4" ]
         expected =! actual
@@ -272,12 +278,25 @@ let shrinkTests = testList "Shrink tests" [
         let actual = Shrink.createTree 0 7 |> Tree.map (sprintf "%A") |> Tree.renderList
         let expected =
             [ "7"
+              "├-0"
               "├-4"
               "| ├-2"
               "| | └-1"
-              "| |   └-0"
               "| └-3"
               "└-6"
               "  └-5" ]
         expected =! actual
+
+    testCase "createTree correct for 4,5" <| fun _ ->
+        let actual = Shrink.createTree 4 5 |> Tree.map (sprintf "%A") |> Tree.renderList
+        let expected =
+            [ "5"
+              "└-4" ]
+        expected =! actual
+
+    testCase "createTree 0,n creates a tree containing each value in [0,n] exactly once" <| fun _ ->
+        for n in [0..100] do
+            let actual = Shrink.createTree 0 n |> Tree.toSeq |> Seq.sort |> Seq.toList
+            let expected = [0..n]
+            expected =! actual
 ]

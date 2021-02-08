@@ -15,3 +15,6 @@ let inline consNub (x : 'a) (ys0 : seq<'a>) : seq<'a> =
             ys0
         else
             cons x ys0
+
+let inline join (xss: 'a seq seq) : seq<'a> =
+    Seq.collect id xss
