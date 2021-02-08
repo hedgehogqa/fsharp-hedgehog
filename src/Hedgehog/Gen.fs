@@ -163,6 +163,7 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
+        // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
         range
         |> Random.integral
         |> Random.map (range |> Range.origin |> Shrink.createTree)
