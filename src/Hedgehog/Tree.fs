@@ -21,6 +21,19 @@ module Tree =
     let singleton (x : 'a) : Tree<'a> =
         Node (x, Seq.empty)
 
+    let addChild (child: Tree<'a>) (parent: Tree<'a>) : Tree<'a> =
+        let (Node (x, xs)) = parent
+        Node (x, Seq.cons child xs)
+
+    let addChildValue (a: 'a) (tree: Tree<'a>) : Tree<'a> =
+        tree |> addChild (singleton a)
+
+    let rec cata (f: 'a -> 'b seq -> 'b) (Node (x, xs): Tree<'a>) : 'b =
+        f x (Seq.map (cata f) xs)
+
+    let toSeq (tree: Tree<'a>) : 'a seq =
+        tree |> cata (fun a -> Seq.join >> Seq.cons a)
+
     /// Map over a tree.
     let rec map (f : 'a -> 'b) (Node (x, xs) : Tree<'a>) : Tree<'b> =
         Node (f x, Seq.map (map f) xs)
