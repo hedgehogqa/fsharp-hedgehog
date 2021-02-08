@@ -51,17 +51,6 @@ module Random =
     let bind (f: 'a -> Random<'b>) (r: Random<'a>) : Random<'b> =
         r |> map f |> join
 
-    let replicate (times: int) (r: Random<'a>) : Random<List<'a>> =
-        Random (fun seed0 size ->
-            let rec loop seed k acc =
-                if k <= 0 then
-                    acc
-                else
-                    let seed1, seed2 = Seed.split seed
-                    let x = unsafeRun seed1 size r
-                    loop seed2 (k - 1) (x :: acc)
-            loop seed0 times [])
-
     type Builder internal () =
         member __.Return(x : 'a) : Random<'a> =
             constant x
