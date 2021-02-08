@@ -41,13 +41,15 @@ module Random =
             |> unsafeRun seed size
             |> f)
 
-    let bind (f: 'a -> Random<'b>) (r: Random<'a>) : Random<'b> =
+    let join (r: Random<Random<'a>>) : Random<'a> =
         Random (fun seed size ->
             let seed1, seed2 = Seed.split seed
             r
             |> unsafeRun seed1 size
-            |> f
             |> unsafeRun seed2 size)
+
+    let bind (f: 'a -> Random<'b>) (r: Random<'a>) : Random<'b> =
+        r |> map f |> join
 
     let replicate (times: int) (r: Random<'a>) : Random<List<'a>> =
         Random (fun seed0 size ->
