@@ -100,11 +100,9 @@ module Shrink =
 
 
     let inline createTree (destination : ^a) (x : ^a) =
-        let one = LanguagePrimitives.GenericOne
         let rec binarySearchTree ((destination : ^a), (x : ^a)) =
             let xs =
-                towards (destination + one) x
-                |> Seq.cons destination
+                towards destination x
                 |> Seq.pairwise
                 |> Seq.map binarySearchTree
             Node (x, xs)
