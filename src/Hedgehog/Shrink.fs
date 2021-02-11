@@ -102,13 +102,13 @@ module Shrink =
         let one = LanguagePrimitives.GenericOne
         let rec binarySearchTree (destination : ^a) (x : ^a) =
             let xs =
-                towards destination x
-                |> Seq.cons (destination - one)
+                towards (destination + one) x
+                |> Seq.cons destination
                 |> Seq.pairwise
-                |> Seq.map (fun (d, x) -> binarySearchTree (d + one) x)
+                |> Seq.map (fun (d, x) -> binarySearchTree d x)
             Node (x, xs)
         if destination = x then
             Node (x, Seq.empty)
         else
-            binarySearchTree (destination + one) x
+            binarySearchTree destination x
             |> Tree.addChildValue destination
