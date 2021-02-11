@@ -66,18 +66,19 @@ module Shrink =
 
     /// Shrink an integral number by edging towards a destination.
     let inline towards (destination : ^a) (x : ^a) : seq<'a> =
-        let one : ^a = LanguagePrimitives.GenericOne
-        let two : ^a = one + one
         if destination = x then
             Seq.empty
-        elif destination = x - one then
-            Seq.singleton destination
         else
+            let one : ^a = LanguagePrimitives.GenericOne
+            let two : ^a = one + one
+
             /// We need to halve our operands before subtracting them as they may be using
             /// the full range of the type (i.e. 'MinValue' and 'MaxValue' for 'Int32')
             let diff : ^a = (x / two) - (destination / two)
+
             halves diff
             |> Seq.map (fun y -> x - y)
+            |> Seq.consNub destination
 
     /// Shrink a floating-point number by edging towards a destination.
     /// Note we always try the destination first, as that is the optimal shrink.
