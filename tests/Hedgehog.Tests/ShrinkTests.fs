@@ -73,19 +73,19 @@ let shrinkTests = testList "Shrink tests" [
         let actual =
             Shrink.towards 0 100
             |> Seq.toList
-        [50; 75; 88; 94; 97; 99] =! actual
+        [0; 50; 75; 88; 94; 97; 99] =! actual
 
     testCase "towards correct on input 500, 1000" <| fun _ ->
         let actual =
             Shrink.towards 500 1000
             |> Seq.toList
-        [750; 875; 938; 969; 985; 993; 997; 999] =! actual
+        [500; 750; 875; 938; 969; 985; 993; 997; 999] =! actual
 
     testCase "towards correct on input -50, -26" <| fun _ ->
         let actual =
             Shrink.towards -50 -26
             |> Seq.toList
-        [-38; -32; -29; -27] =! actual
+        [-50; -38; -32; -29; -27] =! actual
 
     testCase "towards correct on input 4, 5" <| fun _ ->
         let actual =
