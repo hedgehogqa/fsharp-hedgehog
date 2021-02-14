@@ -241,31 +241,36 @@ module Property =
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
         g |> bind ofBool |> recheck size seed
 
-    let printWith (config : PropertyConfig) (p : Property<unit>) : unit =
-        reportWith config p
-        |> Report.render
-        |> printfn "%s"
-
-    let formatWith (n : PropertyConfig) (p : Property<unit>) : string =
+    let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
         reportWith n p
         |> Report.render
 
-    let format (p : Property<unit>) : string =
+    let render (p : Property<unit>) : string =
         report p
         |> Report.render
 
     let print (p : Property<unit>) : unit =
-        format p
+        render p
         |> printfn "%s"
 
-    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
+    let renderBool (property : Property<bool>) : string =
+        reportBool property
+        |> Report.render
+
+    let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
         reportBoolWith config p
         |> Report.render
+
+    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
+        renderBoolWith config p
+        |> printfn "%s"
+
+    let printWith (config : PropertyConfig) (p : Property<unit>) : unit =
+        renderWith config p
         |> printfn "%s"
 
     let printBool (p : Property<bool>) : unit =
-        reportBool p
-        |> Report.render
+        renderBool p
         |> printfn "%s"
 
 [<AutoOpen>]
