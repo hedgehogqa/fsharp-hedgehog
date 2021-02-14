@@ -139,6 +139,24 @@ type PropertyExtensions private () =
         Property.reportRecheckBoolWith size seed config property
 
     [<Extension>]
+    static member Render (property : Property) : string =
+        let (Property property) = property
+        Property.render property
+
+    [<Extension>]
+    static member Render (property : Property, config : Hedgehog.PropertyConfig) : string =
+        let (Property property) = property
+        Property.renderWith config property
+
+    [<Extension>]
+    static member Render (property : Property<bool>) : string =
+        Property.renderBool property
+
+    [<Extension>]
+    static member Render (property : Property<bool>, config : Hedgehog.PropertyConfig) : string =
+        Property.renderBoolWith config property
+
+    [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
         Property.filter filter.Invoke property
 
