@@ -102,12 +102,12 @@ module Range =
         // makes use of an internal or private function which is not
         // sufficiently accessible.
 
-        /// Truncate a value so it stays within some range.
-        let clamp (x : 'a) (y : 'a) (bound : 'a) : 'a =
-            if x > y then
-                min x (max y bound)
+        /// Truncate `value` so it stays within bounds.
+        let clamp (bound1 : 'a) (bound2 : 'a) (value : 'a) : 'a =
+            if bound1 > bound2 then
+                min bound1 (max bound2 value)
             else
-                min y (max x bound)
+                min bound2 (max bound1 value)
 
         /// Scale an integral linearly with the size parameter.
         let inline scaleLinear (sz : Size) (origin : 'a) (bound : 'a) : 'a =
