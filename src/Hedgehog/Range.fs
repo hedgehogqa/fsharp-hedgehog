@@ -20,10 +20,6 @@ module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
         f a, g b
 
-    let map (f : 'a -> 'b) (Range (o, g) : Range<'a>) : Range<'b> =
-        Range (f o, fun sz ->
-            bimap f f (g sz))
-
     //
     // Combinators - Range
     //
@@ -36,8 +32,13 @@ module Range =
     ///
     /// When using a 'Range' to generate numbers, the shrinking function will
     /// shrink towards the origin.
-    let origin (Range (o, _) : Range<'a>) : 'a =
-        o
+    let origin (Range (origin, _) : Range<'a>) : 'a =
+        origin
+
+    /// Map a modification function over a Range.
+    let map (f : 'a -> 'b) (Range (origin, g) : Range<'a>) : Range<'b> =
+        Range (f origin, fun sz ->
+            bimap f f (g sz))
 
     /// Get the extents of a range, for a given size.
     let bounds (sz : Size) (Range (_, f) : Range<'a>) : 'a * 'a =
@@ -102,44 +103,29 @@ module Range =
         // sufficiently accessible.
 
         /// Truncate a value so it stays within some range.
-        let clamp (x : 'a) (y : 'a) (n : 'a) : 'a =
+        let clamp (x : 'a) (y : 'a) (bound : 'a) : 'a =
             if x > y then
-                min x (max y n)
+                min x (max y bound)
             else
-                min y (max x n)
+                min y (max x bound)
 
         /// Scale an integral linearly with the size parameter.
-        let inline scaleLinear (sz0 : Size) (o0 : 'a) (n0 : 'a) : 'a =
-            let sz =
-                max 0 (min 99 sz0)
-
-            let o =
-                toBigInt o0
-
-            let n =
-                toBigInt n0
-
-            let diff =
-                ((n - o) * bigint sz) / (bigint 99)
-
-            fromBigInt (o + diff)
+        let inline scaleLinear (sz : Size) (origin : 'a) (bound : 'a) : 'a =
+            let sz = max 0 (min 99 sz)
+            let origin = toBigInt origin
+            let bound = toBigInt bound
+            let diff = ((bound - origin) * bigint sz) / (bigint 99)
+            fromBigInt (origin + diff)
 
         /// Scale an integral exponentially with the size parameter.
-        let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (o0 : 'a) (n0 : 'a) : 'a =
-            let sz =
-                clamp 0 99 sz0
-
-            let o =
-                toBigInt o0
-
-            let n =
-                toBigInt n0
-
-            let diff =
-                 (((float (abs (n - o) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - o))
+        let inline scaleExponential (lo : 'a) (hi : 'a) (sz : Size) (origin : 'a) (bound : 'a) : 'a =
+            let sz = clamp 0 99 sz
+            let origin = toBigInt origin
+            let bound = toBigInt bound
+            let diff = (((float (abs (bound - origin) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (bound - origin))
 
             // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
-            fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float o + diff))))
+            fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float origin + diff))))
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
