@@ -94,6 +94,7 @@ module Range =
     //
 
     [<AutoOpen>]
+    [<System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)>]
     module Internal =
         // The functions in this module where initially marked as internal
         // but then the F# compiler complained with the following message:
