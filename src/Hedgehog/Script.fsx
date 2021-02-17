@@ -2,6 +2,7 @@
 #load "AutoOpen.fs"
       "Numeric.fs"
       "Seed.fs"
+      "Seq.fs"
       "Tree.fs"
       "OptionTree.fs"
       "Range.fs"
@@ -13,6 +14,8 @@
       "GenTuple.fs"
       "Outcome.fs"
       "Report.fs"
+      "PropertyArgs.fs"
+      "PropertyConfig.fs"
       "Property.fs"
 #endif
 
@@ -23,26 +26,32 @@ open System
 // Combinators
 //
 
-Property.print (property {
+property {
     let! x = Gen.int (Range.constant 1 100)
     let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq (Range.linear 0 100)
     counterexample (sprintf "tryHead ys = %A" (Seq.tryHead ys))
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
-})
+}
+|> Property.render
+|> printfn "%s"
 
-Property.print (property {
+property {
     let! xs = Gen.string (Range.constant 0 100) Gen.unicode
     return String.length xs <= 5
-})
+}
+|> Property.render
+|> printfn "%s"
 
 //
 // reverse (reverse xs) = xs, ∀xs :: [α] ― The standard "hello-world" property.
 //
 
-Property.print (property {
+property {
     let! xs = Gen.list (Range.linear 0 100) Gen.alpha
     return xs = List.rev (List.rev xs)
-})
+}
+|> Property.render
+|> printfn "%s"
 
 //
 // Conditional Generators
@@ -53,54 +62,63 @@ let genLeapYear =
     |> Gen.int
     |> Gen.filter DateTime.IsLeapYear
 
-Gen.printSample genLeapYear
+genLeapYear
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Conditional Properties
 //
 
 // Fails due to integer overflow
-Property.print (property {
+property {
     let! x = Range.constantBounded () |> Gen.int
     let! y = Range.constantBounded () |> Gen.int
     where (x > 0 && y > 0)
     counterexample (sprintf "x * y = %d" (x * y))
     return x * y > 0
-})
+}
+|> Property.render
+|> printfn "%s"
 
 // https://github.com/hedgehogqa/fsharp-hedgehog/issues/124#issuecomment-335402728
-Property.check (property {
-  let! x = Range.exponentialBounded () |> Gen.int
-  where (x <> 0)
-  return true
-})
+property {
+    let! x = Range.exponentialBounded () |> Gen.int
+    where (x <> 0)
+    return true
+}
+|> Property.check
 
 //
 // Lazy Properties
 //
 
-Property.print (property {
+property {
     let! n = Range.constantBounded () |> Gen.int
     where (n <> 0)
     return 1 / n = 1 / n
-})
+}
+|> Property.render
+|> printfn "%s"
 
 //
 // Properties that can throw an exception
 //
 
-Property.print (property {
+property {
     let! (x, y) = Range.constant 0 9 |> Gen.int |> Gen.tuple
     // The exception gets rendered and added to the journal.
     failwith "Uh oh"
     return x + y = x + y
-})
+}
+|> Property.render
+|> printfn "%s"
 
 //
 // Loops
 //
 
-Property.print (property {
+property {
     for x in "abcd" do
         // Custom operations (i.e. counterexample) can't be used in computation
         // expressions which have control flow :( we can fake it using return!
@@ -118,7 +136,9 @@ Property.print (property {
         return! Property.counterexample (fun () -> sprintf "n = %d" n)
         return! Property.counterexample (fun () -> sprintf "k = %d" k)
         return k <> 5
-})
+}
+|> Property.render
+|> printfn "%s"
 
 let gs =
     [ (fun x -> x + 1)
@@ -126,25 +146,29 @@ let gs =
       (fun x -> x / 3) ]
     |> List.map Gen.constant
 
-Gen.printSample (gen {
+gen {
     let mutable x = 10
     for g in gs do
         let! f = g
         x <- f x
     return x
-})
+}
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Printing Samples
 //
 
-Gen.printSample (gen {
+gen {
     let! x = Gen.int (Range.constant 0 10)
     let! y = Gen.item [ "x"; "y"; "z" ]
     let! z = Gen.double (Range.constant 0.1 9.99)
     let! w = Gen.string (Range.constant 0 100) Gen.alphaNum
     return sprintf "%A + %s + %f + %s" x y z w
-})
+}
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Printing Samples ― Complex Types
@@ -155,21 +179,24 @@ Range.constantBounded ()
 |> Gen.map int
 |> Gen.tuple
 |> Gen.map (fun (ma, mi) -> Version (ma, mi))
-|> Gen.printSample
+|> Gen.renderSample
+|> printfn "%s"
 
 Range.constantBounded ()
 |> Gen.byte
 |> Gen.map int
 |> Gen.tuple3
 |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
-|> Gen.printSample
+|> Gen.renderSample
+|> printfn "%s"
 
 Range.constantBounded ()
 |> Gen.byte
 |> Gen.map int
 |> Gen.tuple4
 |> Gen.map (fun (ma, mi, bu, re) -> Version (ma, mi, bu, re))
-|> Gen.printSample
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Printing Samples ― Prevent a generator from shrinking
@@ -178,28 +205,33 @@ Range.constantBounded ()
 Range.exponentialBounded ()
 |> Gen.double
 |> Gen.noShrink
-|> Gen.printSample
+|> Gen.renderSample
+|> printfn "%s"
 
 Range.exponentialBounded ()
 |> Gen.float
 |> Gen.noShrink
-|> Gen.printSample
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Printing Samples ― System.Net.IPAddress
 //
-
-Gen.printSample (gen {
+gen {
     let! addr =
         Range.constantBounded () |> Gen.byte |> Gen.array (Range.singleton 4)
     return Net.IPAddress addr
-})
+}
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Printing Samples ― System.Guid
 //
 
-Gen.printSample Gen.guid
+Gen.guid
+|> Gen.renderSample
+|> printfn "%s"
 
 //
 // Hutton's Razor
@@ -233,11 +265,13 @@ let rec genExp =
                 [ Add <!> Gen.zip genExp genExp ]
         Gen.shrink shrinkExp choiceRec)
 
-Property.print (property {
+property {
     let! x = genExp
     match x with
     | Add (Add _, Add _) when evalExp x > 100 ->
         return false
     | _ ->
         return true
-})
+}
+|> Property.render
+|> printfn "%s"

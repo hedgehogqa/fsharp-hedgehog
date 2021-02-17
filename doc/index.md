@@ -32,14 +32,15 @@ property {
 }
 ```
 
-and to test the above property on 100 random lists of integers, pipe it into `Property.print`:
+and to test the above property on 100 random lists of integers, pipe it into `Property.render`:
 
 ```fs
 property {
     let! xs = Range.constant 0 1000 |> Gen.int |> Gen.list (Range.linear 0 100)
     return List.rev (List.rev xs) = xs
 }
-|> Property.print
+|> Property.render
+|> printfn "%s"
 
 +++ OK, passed 100 tests.
 ```
@@ -53,7 +54,8 @@ Hedgehog comes with built-in generators for primitive types, so here's how it wo
 ```fs
 Range.constant 0 100
 |> Gen.int
-|> Gen.printSample;;
+|> Gen.renderSample
+|> printfn "%s";;
 
 === Outcome ===
 77
@@ -111,7 +113,8 @@ Range.constantBounded ()
 |> Gen.map int
 |> Gen.tuple3
 |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
-|> Gen.printSample;;
+|> Gen.renderSample
+|> printfn "%s";;
 
 === Outcome ===
 60.8.252
@@ -251,10 +254,12 @@ let version =
     |> Gen.tuple3
     |> Gen.map (fun (ma, mi, bu) -> Version (ma, mi, bu))
 
-Property.print (property {
+property {
     let! xs = Gen.list (Range.linear 0 100) version
     return xs |> List.rev = xs
-})
+}
+|> Property.render
+|> printfn "%s"
 
 >
 *** Failed! Falsifiable (after 3 tests and 6 shrinks):
@@ -298,7 +303,7 @@ Gen.alphaNum
 This generator is of type `Gen<char>`, which means that Hedgehog can take this generator and produce characters, like so:
 
 ```fs
-Gen.alphaNum |> Gen.printSample;;
+Gen.alphaNum |> Gen.renderSample |> printfn "%s";;
 
 === Outcome ===
 '3'
@@ -358,7 +363,7 @@ let ipAddressGen : Gen<IPAddress> = gen {
     return System.Net.IPAddress addr
 }
 
-ipAddressGen |> Gen.printSample;;
+ipAddressGen |> Gen.renderSample |> printfn "%s";;
 
 === Outcome ===
 45.230.61.78
@@ -536,7 +541,8 @@ property { let! a = Range.constantBounded () |> Gen.int
            let! b = Range.constantBounded () |> Gen.int
            counterexample (sprintf "The value of a was %d." a)
            return tryAdd a b = Some(a + b) }
-|> Property.print;;
+|> Property.render
+|> printfn "%s";;
 
 >
 *** Failed! Falsifiable (after 16 tests and 5 shrinks):
@@ -559,7 +565,8 @@ property { let! a = Range.constantBounded () |> Gen.int
            let! b = Range.constantBounded () |> Gen.int
            where (a < 100)
            return tryAdd a b = Some(a + b) }
-|> Property.print;;
+|> Property.render
+|> printfn "%s";;
 
 >
 *** Gave up after 100 discards, passed 95 tests.
@@ -568,7 +575,7 @@ property { let! a = Range.constantBounded () |> Gen.int
 
 Essentially, the `where` custom operation discards test cases which do not satisfy the given condition.
 
-Test case generation continues until 100 cases (the default of `Property.print`) which do satisfy the condition have been found, or until an overall limit on the number of test cases is reached (to avoid looping if the condition never holds).
+Test case generation continues until 100 cases (the default of `Property.render`) which do satisfy the condition have been found, or until an overall limit on the number of test cases is reached (to avoid looping if the condition never holds).
 
 In this case a message such as
 
@@ -662,10 +669,12 @@ Here's a way to use it:
 ```fs
 let pattern = "^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"
 
-Property.print (property {
+property {
     let! s = fromRegex pattern
     return matches s pattern
-})
+}
+|> Property.render
+|> printfn "%s"
 
 +++ OK, passed 100 tests.
 

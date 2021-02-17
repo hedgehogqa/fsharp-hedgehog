@@ -10,7 +10,8 @@ open Hedgehog
 [<AbstractClass; Sealed>]
 type PropertyConfigExtensions private () =
 
-    /// Set the number of times a property is allowed to shrink before the test runner gives up and prints the counterexample.
+    /// Set the number of times a property is allowed to shrink before the test
+    /// runner gives up and displays the counterexample.
     [<Extension>]
     static member WithShrinks (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
         PropertyConfig.withShrinks shrinkLimit config
@@ -20,7 +21,8 @@ type PropertyConfigExtensions private () =
     static member WithoutShrinks (config : PropertyConfig) : PropertyConfig =
         PropertyConfig.withoutShrinks config
 
-    /// Set the number of times a property should be executed before it is considered successful.
+    /// Set the number of times a property should be executed before it is
+    /// considered successful.
     [<Extension>]
     static member WithTests (config : PropertyConfig, testLimit: int<tests>) : PropertyConfig =
         PropertyConfig.withTests testLimit config

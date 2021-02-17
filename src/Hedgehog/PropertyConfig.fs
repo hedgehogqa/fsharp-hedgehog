@@ -13,7 +13,7 @@ module PropertyConfig =
           ShrinkLimit = None }
 
     /// Set the number of times a property is allowed to shrink before the test
-    /// runner gives up and prints the counterexample.
+    /// runner gives up and displays the counterexample.
     let withShrinks (shrinkLimit : int<shrinks>) (config : PropertyConfig) : PropertyConfig =
         { config with ShrinkLimit = Some shrinkLimit }
 

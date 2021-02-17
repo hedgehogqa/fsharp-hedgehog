@@ -178,12 +178,8 @@ type GenExtensions private () =
         Gen.option gen |> Gen.map (Option.defaultWith Nullable << Option.map Nullable)
 
     [<Extension>]
-    static member FormatSample (gen : Gen<'T>) : string =
-        Gen.formatSample gen
-
-    [<Extension>]
-    static member PrintSample (gen : Gen<'T>) : unit =
-        Gen.printSample gen
+    static member RenderSample (gen : Gen<'T>) : string =
+        Gen.renderSample gen
 
     [<Extension>]
     static member Resize (gen : Gen<'T>, size : Size) : Gen<'T> =

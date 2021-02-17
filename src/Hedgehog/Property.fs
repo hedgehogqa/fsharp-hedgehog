@@ -249,10 +249,6 @@ module Property =
         report p
         |> Report.render
 
-    let print (p : Property<unit>) : unit =
-        render p
-        |> printfn "%s"
-
     let renderBool (property : Property<bool>) : string =
         reportBool property
         |> Report.render
@@ -260,18 +256,6 @@ module Property =
     let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
         reportBoolWith config p
         |> Report.render
-
-    let printBoolWith (config : PropertyConfig) (p : Property<bool>) : unit =
-        renderBoolWith config p
-        |> printfn "%s"
-
-    let printWith (config : PropertyConfig) (p : Property<unit>) : unit =
-        renderWith config p
-        |> printfn "%s"
-
-    let printBool (p : Property<bool>) : unit =
-        renderBool p
-        |> printfn "%s"
 
 [<AutoOpen>]
 module PropertyBuilder =
