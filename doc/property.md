@@ -81,14 +81,15 @@ property {
     let! xs = g
     return List.rev (List.rev xs) = xs
 }
-|> Property.printWith propConfig;;
+|> Property.renderWith propConfig
+|> printfn "%s";;
 
 >
 +++ OK, passed 500 tests.
 
 ```
 
-The above property was exercised 500 times. The default is 100, which is what `Property.print` does:
+The above property was exercised 500 times. The default is 100, which is what `Property.render` does:
 
 ```fs
 let g = Gen.list (Range.linear 0 100) Gen.alpha
@@ -116,7 +117,8 @@ let tryAdd a b =
 property { let! a = Range.constantBounded () |> Gen.int
            let! b = Range.constantBounded () |> Gen.int
            return tryAdd a b = Some (a + b) }
-|> Property.print;;
+|> Property.render
+|> printfn "%s";;
 
 >
 *** Failed! Falsifiable (after 3 tests and 24 shrinks):

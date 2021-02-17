@@ -37,7 +37,7 @@ let propReverse : Property<Unit> =
 You can then load the module in F# Interactive, and run it:
 
 ```
-> Property.print propReverse
+> Property.render propReverse |> printfn "%s"
 +++ OK, passed 100 tests.
 ```
 
@@ -62,7 +62,7 @@ class Generators
         var stringLength = 10;
         var stringGen = Gen.String(Gen.Alpha, Range.FromValue(stringLength));
 
-        // This creates a property that can be printed, checked, or re-checked.
+        // This creates a property that can be checked, rechecked or rendered.
         var property =
             from string in Property.ForAll(stringGen)
             select Assert.AreEqual(stringLength, string.Length);
