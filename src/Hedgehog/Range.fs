@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 open System
 open Hedgehog.Numeric
@@ -112,18 +112,33 @@ module Range =
 
         /// Scale an integral linearly with the size parameter.
         let inline scaleLinear (sz : Size) (origin : 'a) (bound : 'a) : 'a =
-            let sz = max 0 (min 99 sz)
-            let origin = toBigInt origin
-            let bound = toBigInt bound
-            let diff = ((bound - origin) * bigint sz) / (bigint 99)
+            let sz =
+                max 0 (min 99 sz)
+
+            let origin =
+                toBigInt origin
+
+            let bound =
+                toBigInt bound
+
+            let diff =
+                ((bound - origin) * bigint sz) / (bigint 99)
+
             fromBigInt (origin + diff)
 
         /// Scale an integral exponentially with the size parameter.
         let inline scaleExponential (lo : 'a) (hi : 'a) (sz : Size) (origin : 'a) (bound : 'a) : 'a =
-            let sz = clamp 0 99 sz
-            let origin = toBigInt origin
-            let bound = toBigInt bound
-            let diff = (((float (abs (bound - origin) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (bound - origin))
+            let sz =
+                clamp 0 99 sz
+
+            let origin =
+                toBigInt origin
+
+            let bound =
+                toBigInt bound
+
+            let diff =
+                (((float (abs (bound - origin) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (bound - origin))
 
             // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
             fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float origin + diff))))
