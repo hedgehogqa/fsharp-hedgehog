@@ -162,7 +162,8 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
-        Property.map mapper.Invoke property
+        property
+        |> Property.bind (Property.ofThrowing mapper.Invoke)
 
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Action<'T>) : Property =
