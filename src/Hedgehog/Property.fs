@@ -202,7 +202,7 @@ module Property =
         g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
-    /// a property by treating an exception a failure.
+    /// a property by treating an exception as a failure.
     let ofThrowing (f : 'a -> 'b) (a : 'a) : Property<'b> =
         try
             success (f a)
