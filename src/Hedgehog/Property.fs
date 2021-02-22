@@ -202,13 +202,12 @@ module Property =
         g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
-    /// a property by treating "no exception" as success.
-    let ofThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
+    /// a property by treating an exception a failure.
+    let ofThrowing (f : 'a -> 'b) (a : 'a) : Property<'b> =
         try
-            f x
-            success ()
+            success (f a)
         with
-        | _ -> failure
+        | _ -> Failure |> ofOutcome
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
