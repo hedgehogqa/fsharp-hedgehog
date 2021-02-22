@@ -96,12 +96,16 @@ module Range =
     [<AutoOpen>]
     [<System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)>]
     module Internal =
-        // The functions in this module where initially marked as internal
+        // The functions in this module where initially marked as `internal`
         // but then the F# compiler complained with the following message:
         //
         // The value 'linearFrom' was marked inline but its implementation
         // makes use of an internal or private function which is not
         // sufficiently accessible.
+        //
+        // But `inline` is required to work with the statically resolved type
+        // parameters on `minValue ()` and `maxValue ()`, so these functions
+        // are hidden from the public API with `EditorBrowsableState.Never`.
 
         /// Truncate `value` so it stays within bounds.
         let clamp (bound1 : 'a) (bound2 : 'a) (value : 'a) : 'a =
