@@ -106,4 +106,25 @@ let genTests = testList "Gen tests" [
             |> Tree.toSeq
             |> Seq.length
         1 =! actual
+
+    testCase "frequency shrink tree is balanced" <| fun _ ->
+        let isBalanced a subtrees =
+            let subtreesCount = subtrees |> Seq.length
+            let depth = Node (true, subtrees) |> Tree.depth
+            let difference = subtreesCount - depth |> abs
+            difference <= 1
+        property {
+            let! seed =
+                Range.constant UInt64.MinValue UInt64.MaxValue
+                |> Gen.uint64
+            let isBalanced =
+                (1, Gen.constant "a")
+                |> List.replicate 16
+                |> Gen.frequency
+                |> Gen.toRandom
+                |> Random.run (Seed.from seed) 0
+                |> Tree.mapWithSubtrees isBalanced
+                |> Tree.cata (Seq.fold (&&))
+            Expect.isTrue isBalanced
+        } |> Property.check
 ]
