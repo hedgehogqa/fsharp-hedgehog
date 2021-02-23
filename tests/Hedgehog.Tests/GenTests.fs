@@ -96,4 +96,14 @@ let genTests = testList "Gen tests" [
     testCase "apply operator works as expected" <| fun _ ->
         let _ : Gen<int> = (+) <!> (Gen.constant 1) <*> (Gen.constant 1)
         ()
+
+    testCase "frequency shrink tree is free of duplicates" <| fun _ ->
+        let actual =
+            [(100, Gen.constant "a")]
+            |> Gen.frequency
+            |> Gen.toRandom
+            |> Random.run (Seed.from 0UL) 0
+            |> Tree.toSeq
+            |> Seq.length
+        1 =! actual
 ]
