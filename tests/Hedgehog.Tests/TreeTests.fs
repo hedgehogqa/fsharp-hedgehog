@@ -4,6 +4,19 @@ open Hedgehog
 open TestDsl
 
 let treeTests = testList "Tree tests" [
+    testCase "depth of tree with no subtrees is 0" <| fun _ ->
+        let actual =
+            Tree.singleton "a"
+            |> Tree.depth
+        0 =! actual
+
+    testCase "depth of tree with only one subtree of depth 0 is 1" <| fun _ ->
+        let actual =
+            Tree.singleton "a"
+            |> Tree.addChildValue "b"
+            |> Tree.depth
+        1 =! actual
+
     testCase "render tree with depth 0" <| fun _ ->
         Property.check (property {
             let! x0 = Gen.constant "0"
