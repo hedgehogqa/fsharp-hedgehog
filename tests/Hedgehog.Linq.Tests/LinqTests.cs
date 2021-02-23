@@ -6,10 +6,12 @@ using static Hedgehog.Linq.Property;
 
 namespace Hedgehog.Linq.Tests
 {
-    public class LinqTests {
+    public class LinqTests
+    {
 
         [Fact]
-        public void ExceptionInSelect_Action_FailedStatus() {
+        public void ExceptionInSelect_Action_FailedStatus()
+        {
             void action() => throw new Exception();
             var property =
                 from _ in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
@@ -19,7 +21,8 @@ namespace Hedgehog.Linq.Tests
         }
 
         [Fact]
-        public void ExceptionInSelect_Func_FailedStatus() {
+        public void ExceptionInSelect_Func_FailedStatus()
+        {
             bool func() => throw new Exception();
             var property =
                 from x in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
