@@ -206,8 +206,26 @@ module Gen =
                 else
                     pick (n - k) ys
 
+        let f n =
+            let smallWeights =
+                xs
+                |> List.map fst
+                |> List.scan (+) 0
+                |> List.pairwise
+                |> List.takeWhile (fun (a, _) -> a < n)
+                |> List.map snd
+                |> List.toArray
+            let length = smallWeights |> Array.length
+            Shrink.createTree 0 (length - 1)
+            |> Tree.map (fun i -> smallWeights.[i])
+
         gen {
-            let! n = Range.constant 1 total |> integral
+            let! n =
+                Range.constant 1 total
+                |> integral
+                |> toRandom
+                |> Random.map (Tree.outcome >> f)
+                |> ofRandom
             return! pick n xs
         }
 
