@@ -190,7 +190,7 @@ module Gen =
     /// Uses a weighted distribution to randomly select one of the gens in the list.
     /// This generator shrinks towards the first generator in the list.
     /// <i>The input list must be non-empty.</i>
-    let frequency (xs0 : seq<int * Gen<'a>>) : Gen<'a> = gen {
+    let frequency (xs0 : seq<int * Gen<'a>>) : Gen<'a> =
         let xs =
             List.ofSeq xs0
 
@@ -206,9 +206,10 @@ module Gen =
                 else
                     pick (n - k) ys
 
-        let! n = Range.constant 1 total |> integral
-        return! pick n xs
-    }
+        gen {
+            let! n = Range.constant 1 total |> integral
+            return! pick n xs
+        }
 
     /// Randomly selects one of the gens in the list.
     /// <i>The input list must be non-empty.</i>
