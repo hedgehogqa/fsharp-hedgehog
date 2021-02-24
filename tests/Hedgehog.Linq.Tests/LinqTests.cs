@@ -12,7 +12,7 @@ namespace Hedgehog.Linq.Tests
         [Fact]
         public void ExceptionInSelect_Action_FailedStatus()
         {
-            void action() => throw new Exception();
+            static void action() => throw new Exception();
             var property =
                 from _ in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
                 select action();
@@ -23,7 +23,7 @@ namespace Hedgehog.Linq.Tests
         [Fact]
         public void ExceptionInSelect_Func_FailedStatus()
         {
-            bool func() => throw new Exception();
+            static bool func() => throw new Exception();
             var property =
                 from x in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
                 select func();
