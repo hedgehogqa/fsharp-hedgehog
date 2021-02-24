@@ -98,9 +98,10 @@ module Property =
 
         value |> prepareForPrinting |> sprintf "%A"
 
+    let handle (e : exn) =
+        Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
+
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
-        let handle (e : exn) =
-            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             counterexample (fun () -> printValue x)
             |> bind (fun _ -> try k x with e -> handle e)
@@ -216,8 +217,8 @@ module Property =
     let ofThrowing (f : 'a -> 'b) (a : 'a) : Property<'b> =
         try
             success (f a)
-        with
-        | _ -> Failure |> ofOutcome
+        with e ->
+            handle e
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
