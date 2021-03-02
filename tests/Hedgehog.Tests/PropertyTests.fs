@@ -5,7 +5,7 @@ open Expecto
 open TestDsl
 
 let propertyTests = testList "Property tests" [
-    testCase "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
+    fableIgnore "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
         Expect.throwsC
             (fun () ->
                 property {
