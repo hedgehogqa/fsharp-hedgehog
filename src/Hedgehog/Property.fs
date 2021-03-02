@@ -81,25 +81,23 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
 
-#if !FABLE_COMPILER
-    let private (|IsGenericList|_|) (candidate : obj) : seq<obj> option =
+#if FABLE_COMPILER
+    let private printValue (value) : string =
+        sprintf "%A" value
+#else
+    let private (|IsResizeArray|_|) (candidate : obj) : obj list option =
         let t = candidate.GetType()
         // have to use TypeInfo due to targeting netstandard 1.6
         let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
         let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
         if isList
-        then Some (candidate :?> System.Collections.IEnumerable |> Seq.cast<obj>)
+        then Some (candidate :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq)
         else None
 
     let private printValue (value) : string =
         match value with
-        | IsGenericList list ->
-            let printedElements = Seq.map (fun element -> sprintf "%A" element) list
-            "[" + (String.concat ", " printedElements) + "]"
+        | IsResizeArray list -> sprintf "%A" list
         | _ -> sprintf "%A" value
-#else
-    let private printValue (value) : string =
-        sprintf "%A" value
 #endif
 
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
