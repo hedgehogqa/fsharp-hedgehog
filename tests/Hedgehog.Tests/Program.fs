@@ -13,6 +13,7 @@ let allTests = testList "All tests" [
     SeedTests.seedTests
     ShrinkTests.shrinkTests
     MinimalTests.minimalTests
+    PropertyTests.propertyTests
 ]
 
 [<EntryPoint>]

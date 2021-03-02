@@ -81,11 +81,27 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
 
+    let private (|IsGenericList|_|) (candidate : obj) : seq<obj> option =
+        let t = candidate.GetType()
+        // have to use TypeInfo due to targeting netstandard 1.6
+        let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
+        let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
+        if isList
+        then Some (candidate :?> System.Collections.IEnumerable |> Seq.cast<obj>)
+        else None
+
+    let private printValue (value) : string =
+        match value with
+        | IsGenericList list ->
+            let printedElements = Seq.map (fun element -> sprintf "%A" element) list
+            "[" + (String.concat ", " printedElements) + "]"
+        | _ -> sprintf "%A" value
+
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let handle (e : exn) =
             Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
-            counterexample (fun () -> sprintf "%A" x)
+            counterexample (fun () -> printValue x)
             |> bind (fun _ -> try k x with e -> handle e)
             |> toGen
 
