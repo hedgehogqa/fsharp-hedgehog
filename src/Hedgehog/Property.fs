@@ -81,6 +81,7 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
 
+#if !FABLE_COMPILER
     let private (|IsGenericList|_|) (candidate : obj) : seq<obj> option =
         let t = candidate.GetType()
         // have to use TypeInfo due to targeting netstandard 1.6
@@ -96,6 +97,10 @@ module Property =
             let printedElements = Seq.map (fun element -> sprintf "%A" element) list
             "[" + (String.concat ", " printedElements) + "]"
         | _ -> sprintf "%A" value
+#else
+    let private printValue (value) : string =
+        sprintf "%A" value
+#endif
 
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let handle (e : exn) =
