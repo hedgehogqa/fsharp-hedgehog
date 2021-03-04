@@ -81,22 +81,21 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
 
-
-    // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
-    let private prepareForPrinting (value: obj) : obj =
-#if FABLE_COMPILER
-        value
-#else
-        let t = value.GetType()
-        // have to use TypeInfo due to targeting netstandard 1.6
-        let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
-        let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
-        if isList
-        then value :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq :> obj
-        else value
-#endif
-
     let private printValue (value) : string =
+        // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
+        let prepareForPrinting (value: obj) : obj =
+        #if FABLE_COMPILER
+            value
+        #else
+            let t = value.GetType()
+            // have to use TypeInfo due to targeting netstandard 1.6
+            let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
+            let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
+            if isList
+            then value :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq :> obj
+            else value
+        #endif
+
         value |> prepareForPrinting |> sprintf "%A"
 
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
