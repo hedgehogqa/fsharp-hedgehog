@@ -48,6 +48,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Linq\PropertyConfig.fs" />
     <Compile Include="Linq\Property.fs" />
     <Compile Include="Linq\Range.fs" />
+    <Compile Include="Linq\Report.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>

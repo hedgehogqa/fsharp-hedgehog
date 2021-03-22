@@ -1,16 +1,47 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 // Import ForAll:
 using static Hedgehog.Linq.Property;
 
 namespace Hedgehog.Linq.Tests
 {
-    /*
-     * The main object here is just to make sure that the examples compile,
-     * there's nothing fancy in the properties being tested.
-     */
     public class LinqTests
     {
+
+        [Fact]
+        public void ExceptionInSelect_Action_FailedStatus()
+        {
+            var guid = Guid.NewGuid().ToString();
+            void action() => throw new Exception(guid);
+            var property =
+                from _ in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
+                select action();
+            var report = property.Report();
+            var rendered = report.Render();
+            Assert.True(report.Status.IsFailed);
+            Assert.Contains(guid, rendered);
+        }
+
+        [Fact]
+        public void ExceptionInSelect_Func_FailedStatus()
+        {
+            var guid = Guid.NewGuid().ToString();
+            bool func() => throw new Exception(guid);
+            var property =
+                from x in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
+                select func();
+            var report = property.Report();
+            var rendered = report.Render();
+            Assert.True(report.Status.IsFailed);
+            Assert.Contains(guid, rendered);
+        }
+
+        /*
+         * The main object the following tests is just to make sure that the examples compile.
+         * There's nothing fancy in the properties being tested.
+         */
+
         [Fact]
         public void CanUseSelectWithAssertion()
         {

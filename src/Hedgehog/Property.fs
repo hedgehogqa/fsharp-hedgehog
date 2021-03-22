@@ -81,9 +81,10 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         bindGen (toGen << k) (toGen m) |> ofGen
 
+    let private handle (e : exn) =
+        Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
+
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
-        let handle (e : exn) =
-            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             counterexample (fun () -> sprintf "%A" x)
             |> bind (fun _ -> try k x with e -> handle e)
@@ -195,13 +196,12 @@ module Property =
         g |> bind ofBool |> checkWith config
 
     /// Converts a possibly-throwing function to
-    /// a property by treating "no exception" as success.
-    let ofThrowing (f : 'a -> unit) (x : 'a) : Property<unit> =
+    /// a property by treating an exception as a failure.
+    let ofThrowing (f : 'a -> 'b) (a : 'a) : Property<'b> =
         try
-            f x
-            success ()
-        with
-        | _ -> failure
+            success (f a)
+        with e ->
+            handle e
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
