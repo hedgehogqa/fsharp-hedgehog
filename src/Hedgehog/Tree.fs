@@ -31,12 +31,18 @@ module Tree =
     let rec cata (f: 'a -> 'b seq -> 'b) (Node (x, xs): Tree<'a>) : 'b =
         f x (Seq.map (cata f) xs)
 
+    let depth (tree: Tree<'a>) : int =
+        tree |> cata (fun _ -> Seq.fold max -1 >> (+) 1)
+
     let toSeq (tree: Tree<'a>) : 'a seq =
         tree |> cata (fun a -> Seq.join >> Seq.cons a)
 
     /// Map over a tree.
     let rec map (f : 'a -> 'b) (Node (x, xs) : Tree<'a>) : Tree<'b> =
         Node (f x, Seq.map (map f) xs)
+
+    let mapWithSubtrees (f: 'a -> seq<Tree<'b>> -> 'b) (tree: Tree<'a>) : Tree<'b> =
+        tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
 
     let rec bind (k : 'a -> Tree<'b>) (Node (x, xs0) : Tree<'a>) : Tree<'b> =
         match k x with
