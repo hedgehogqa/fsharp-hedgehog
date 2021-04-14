@@ -66,6 +66,9 @@ module Property =
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
         (mapGen << GenTuple.mapSnd << Outcome.map) f x
 
+    let set (a: 'a) (property : Property<'b>) : Property<'a> =
+        property |> map (fun _ -> a)
+
     let private bindGen
             (k : 'a -> Gen<Journal * Outcome<'b>>)
             (m : Gen<Journal * Outcome<'a>>) : Gen<Journal * Outcome<'b>> =
@@ -79,7 +82,9 @@ module Property =
                 GenTuple.mapFst (Journal.append journal) (k x))
 
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
-        bindGen (toGen << k) (toGen m) |> ofGen
+        let handle (e : exn) =
+            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
+        bindGen (fun a -> (try k a with e -> handle e) |> toGen) (toGen m) |> ofGen
 
     let private printValue (value) : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
@@ -99,11 +104,10 @@ module Property =
         value |> prepareForPrinting |> sprintf "%A"
 
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
-        let handle (e : exn) =
-            Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
         let prepend (x : 'a) =
             counterexample (fun () -> printValue x)
-            |> bind (fun _ -> try k x with e -> handle e)
+            |> set x
+            |> bind k
             |> toGen
 
         gen |> Gen.bind prepend |> ofGen
