@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 open System
 open Hedgehog.Numeric
@@ -20,10 +20,6 @@ module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
         f a, g b
 
-    let map (f : 'a -> 'b) (Range (z, g) : Range<'a>) : Range<'b> =
-        Range (f z, fun sz ->
-            bimap f f (g sz))
-
     //
     // Combinators - Range
     //
@@ -36,8 +32,13 @@ module Range =
     ///
     /// When using a 'Range' to generate numbers, the shrinking function will
     /// shrink towards the origin.
-    let origin (Range (z, _) : Range<'a>) : 'a =
-        z
+    let origin (Range (origin, _) : Range<'a>) : 'a =
+        origin
+
+    /// Map a modification function over a Range.
+    let map (f : 'a -> 'b) (Range (origin, g) : Range<'a>) : Range<'b> =
+        Range (f origin, fun sz ->
+            bimap f f (g sz))
 
     /// Get the extents of a range, for a given size.
     let bounds (sz : Size) (Range (_, f) : Range<'a>) : 'a * 'a =
@@ -65,12 +66,12 @@ module Range =
 
     /// Construct a range which is unaffected by the size parameter with a
     /// origin point which may differ from the bounds.
-    let constantFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
-        Range (z, fun _ -> x, y)
+    let constantFrom (origin : 'a) (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        Range (origin, fun _ -> lowerBound, upperBound)
 
     /// Construct a range which is unaffected by the size parameter.
-    let constant (x : 'a) (y : 'a) : Range<'a> =
-        constantFrom x x y
+    let constant (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        constantFrom lowerBound lowerBound upperBound
 
     /// Construct a range which is unaffected by the size parameter using the
     /// full range of a data type.
@@ -93,68 +94,73 @@ module Range =
     //
 
     [<AutoOpen>]
+    [<System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)>]
     module Internal =
-        // The functions in this module where initially marked as internal
+        // The functions in this module where initially marked as `internal`
         // but then the F# compiler complained with the following message:
         //
         // The value 'linearFrom' was marked inline but its implementation
         // makes use of an internal or private function which is not
         // sufficiently accessible.
+        //
+        // But `inline` is required to work with the statically resolved type
+        // parameters on `minValue ()` and `maxValue ()`, so these functions
+        // are hidden from the public API with `EditorBrowsableState.Never`.
 
-        /// Truncate a value so it stays within some range.
-        let clamp (x : 'a) (y : 'a) (n : 'a) : 'a =
-            if x > y then
-                min x (max y n)
+        /// Truncate `value` so it stays within bounds.
+        let clamp (bound1 : 'a) (bound2 : 'a) (value : 'a) : 'a =
+            if bound1 > bound2 then
+                min bound1 (max bound2 value)
             else
-                min y (max x n)
+                min bound2 (max bound1 value)
 
         /// Scale an integral linearly with the size parameter.
-        let inline scaleLinear (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+        let inline scaleLinear (sz : Size) (origin : 'a) (bound : 'a) : 'a =
             let sz =
-                max 0 (min 99 sz0)
+                max 0 (min 99 sz)
 
-            let z =
-                toBigInt z0
+            let origin =
+                toBigInt origin
 
-            let n =
-                toBigInt n0
+            let bound =
+                toBigInt bound
 
             let diff =
-                ((n - z) * bigint sz) / (bigint 99)
+                ((bound - origin) * bigint sz) / (bigint 99)
 
-            fromBigInt (z + diff)
+            fromBigInt (origin + diff)
 
         /// Scale an integral exponentially with the size parameter.
-        let inline scaleExponential (lo : 'a) (hi : 'a) (sz0 : Size) (z0 : 'a) (n0 : 'a) : 'a =
+        let inline scaleExponential (lo : 'a) (hi : 'a) (sz : Size) (origin : 'a) (bound : 'a) : 'a =
             let sz =
-                clamp 0 99 sz0
+                clamp 0 99 sz
 
-            let z =
-                toBigInt z0
+            let origin =
+                toBigInt origin
 
-            let n =
-                toBigInt n0
+            let bound =
+                toBigInt bound
 
             let diff =
-                 (((float (abs (n - z) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (n - z))
+                (((float (abs (bound - origin) + 1I)) ** (float sz / 99.0)) - 1.0) * float (sign (bound - origin))
 
             // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
-            fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float z + diff))))
+            fromBigInt (clamp (toBigInt lo) (toBigInt hi) (bigint (round (float origin + diff))))
 
     /// Construct a range which scales the bounds relative to the size
     /// parameter.
-    let inline linearFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
-        Range (z, fun sz ->
+    let inline linearFrom (origin : 'a) (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        Range (origin, fun sz ->
             let xSized =
-                clamp x y (scaleLinear sz z x)
+                clamp lowerBound upperBound (scaleLinear sz origin lowerBound)
             let ySized =
-                clamp x y (scaleLinear sz z y)
+                clamp lowerBound upperBound (scaleLinear sz origin upperBound)
             xSized, ySized)
 
     /// Construct a range which scales the second bound relative to the size
     /// parameter.
-    let inline linear (x : 'a) (y : 'a) : Range<'a> =
-      linearFrom x x y
+    let inline linear (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        linearFrom lowerBound lowerBound upperBound
 
     /// Construct a range which is scaled relative to the size parameter and
     /// uses the full range of a data type.
@@ -171,21 +177,17 @@ module Range =
 
     /// Construct a range which scales the bounds exponentially relative to the
     /// size parameter.
-    let inline exponentialFrom (z : 'a) (x : 'a) (y : 'a) : Range<'a> =
-        Range (z, fun sz ->
+    let inline exponentialFrom (origin : 'a) (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        Range (origin, fun sz ->
             let scale =
                 // https://github.com/hedgehogqa/fsharp-hedgehog/issues/185
-                scaleExponential x y sz z
-            let xSized =
-                scale x
-            let ySized =
-                scale y
-            xSized, ySized)
+                scaleExponential lowerBound upperBound sz origin
+            scale lowerBound, scale upperBound)
 
     /// Construct a range which scales the second bound exponentially relative
     /// to the size parameter.
-    let inline exponential (x : 'a) (y : 'a) : Range<'a> =
-        exponentialFrom x x y
+    let inline exponential (lowerBound : 'a) (upperBound : 'a) : Range<'a> =
+        exponentialFrom lowerBound lowerBound upperBound
 
     /// Construct a range which is scaled exponentially relative to the size
     /// parameter and uses the full range of a data type.
