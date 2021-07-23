@@ -220,13 +220,7 @@ module Property =
         reportWith' args config p
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        let args = {
-            PropertyArgs.init with
-                RecheckType = RecheckType.None
-                Seed = seed
-                Size = size
-        }
-        reportWith' args PropertyConfig.defaultConfig p
+        reportRecheckWith size seed PropertyConfig.defaultConfig p
 
     let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheckWith size seed config
