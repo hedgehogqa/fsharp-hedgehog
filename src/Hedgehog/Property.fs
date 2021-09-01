@@ -129,15 +129,10 @@ module Property =
                 RecheckType = args.RecheckType
             }
         let takeSmallest tree = takeSmallest args tree (nshrinks + 1<shrinks>) shrinkLimit
-        match Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
-        | None -> failed
-        | Some tree ->
-            match shrinkLimit with
-            | None -> takeSmallest tree
-            | Some shrinkLimit' ->
-                if nshrinks < shrinkLimit' then
-                    takeSmallest tree
-                else failed
+        match shrinkLimit, Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
+        | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
+        | _, None -> failed
+        | _, Some tree -> takeSmallest tree
 
     let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
