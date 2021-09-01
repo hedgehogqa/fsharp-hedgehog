@@ -117,9 +117,10 @@ module Property =
 
     let rec private takeSmallest
             (args : PropertyArgs)
-            (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>)
+            (shrinkLimit : int<shrinks> Option)
             (nshrinks : int<shrinks>)
-            (shrinkLimit : int<shrinks> Option) : Status =
+            (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>)
+            : Status =
         let failed =
             Failed {
                 Size = args.Size
@@ -128,7 +129,7 @@ module Property =
                 Journal = journal
                 RecheckType = args.RecheckType
             }
-        let takeSmallest tree = takeSmallest args tree (nshrinks + 1<shrinks>) shrinkLimit
+        let takeSmallest tree = takeSmallest args shrinkLimit (nshrinks + 1<shrinks>) tree
         match shrinkLimit, Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
         | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
         | _, None -> failed
@@ -165,7 +166,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest args result 0<shrinks> config.ShrinkLimit}
+                      Status = takeSmallest args config.ShrinkLimit 0<shrinks> result }
                 | Success () ->
                     loop nextArgs (tests + 1<tests>) discards
                 | Discard ->
