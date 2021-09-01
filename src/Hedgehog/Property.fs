@@ -133,7 +133,7 @@ module Property =
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
             | _, None -> failed
             | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
-        loop
+        loop 0<shrinks>
 
     let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
@@ -166,7 +166,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest args config.ShrinkLimit 0<shrinks> result }
+                      Status = takeSmallest args config.ShrinkLimit result }
                 | Success () ->
                     loop nextArgs (tests + 1<tests>) discards
                 | Discard ->
