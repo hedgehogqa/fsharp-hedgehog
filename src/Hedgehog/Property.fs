@@ -115,25 +115,25 @@ module Property =
     // Runner
     //
 
-    let rec private takeSmallest
+    let private takeSmallest
             (args : PropertyArgs)
-            (shrinkLimit : int<shrinks> Option)
-            (nshrinks : int<shrinks>)
-            (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>)
-            : Status =
-        let failed =
-            Failed {
-                Size = args.Size
-                Seed = args.Seed
-                Shrinks = nshrinks
-                Journal = journal
-                RecheckType = args.RecheckType
-            }
-        let takeSmallest tree = takeSmallest args shrinkLimit (nshrinks + 1<shrinks>) tree
-        match shrinkLimit, Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
-        | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
-        | _, None -> failed
-        | _, Some tree -> takeSmallest tree
+            (shrinkLimit : int<shrinks> Option) =
+        let rec loop
+                (nshrinks : int<shrinks>)
+                (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>) =
+            let failed =
+                Failed {
+                    Size = args.Size
+                    Seed = args.Seed
+                    Shrinks = nshrinks
+                    Journal = journal
+                    RecheckType = args.RecheckType
+                }
+            match shrinkLimit, Seq.tryFind (Outcome.isFailure << snd << Tree.outcome) xs with
+            | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
+            | _, None -> failed
+            | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
+        loop
 
     let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
