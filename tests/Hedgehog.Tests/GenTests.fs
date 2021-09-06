@@ -42,15 +42,13 @@ let genTests = testList "Gen tests" [
                 DateTime.MaxValue.Ticks
         let ticks =
             Gen.integral range
-            |> Gen.toRandom
-            |> Random.run seed1 0
+            |> Gen.run seed1 0
             |> Tree.outcome
 
         let actual =
             Range.constant DateTime.MinValue DateTime.MaxValue
             |> Gen.dateTime
-            |> Gen.toRandom
-            |> Random.run seed0 0
+            |> Gen.run seed0 0
             |> Tree.outcome
 
         let expected =
@@ -103,8 +101,7 @@ let genTests = testList "Gen tests" [
         let actual =
             [(100, Gen.constant "a")]
             |> Gen.frequency
-            |> Gen.toRandom
-            |> Random.run (Seed.from 0UL) 0
+            |> Gen.run (Seed.from 0UL) 0
             |> Tree.toSeq
             |> Seq.length
         1 =! actual
@@ -123,8 +120,7 @@ let genTests = testList "Gen tests" [
                 (1, Gen.constant "a")
                 |> List.replicate 16
                 |> Gen.frequency
-                |> Gen.toRandom
-                |> Random.run (Seed.from seed) 0
+                |> Gen.run (Seed.from seed) 0
                 |> Tree.mapWithSubtrees isBalanced
                 |> Tree.cata (Seq.fold (&&))
             Expect.isTrue isBalanced

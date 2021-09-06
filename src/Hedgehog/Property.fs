@@ -137,7 +137,7 @@ module Property =
         loop 0<shrinks>
 
     let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
-        let random = toGen p |> Gen.toRandom
+        let gen = toGen p
 
         let nextSize size =
             if size >= 100 then
@@ -156,7 +156,7 @@ module Property =
                   Status = GaveUp }
             else
                 let seed1, seed2 = Seed.split args.Seed
-                let result = Random.run seed1 args.Size random
+                let result = Gen.run seed1 args.Size gen
                 let nextArgs = {
                     args with
                         Seed = seed2

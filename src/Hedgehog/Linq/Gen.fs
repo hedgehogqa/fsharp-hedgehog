@@ -11,9 +11,6 @@ type Gen private () =
     static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant value
 
-    static member FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
-        Gen.ofRandom random
-
     static member Delay (func : Func<Gen<'T>>) : Gen<'T> =
         Gen.delay func.Invoke
 
@@ -212,14 +209,6 @@ type GenExtensions private () =
         }
 
     [<Extension>]
-    static member SelectRandom (gen : Gen<'T>, binder : Func<Random<Tree<'T>>, Random<Tree<'TResult>>>) : Gen<'TResult> =
-        Gen.mapRandom binder.Invoke gen
-
-    [<Extension>]
-    static member SelectTree (gen : Gen<'T>, binder : Func<Tree<'T>, Tree<'TResult>>) : Gen<'TResult> =
-        Gen.mapTree binder.Invoke gen
-
-    [<Extension>]
     static member Select (gen : Gen<'T>, mapper : Func<'T, 'TResult>) : Gen<'TResult> =
         Gen.map mapper.Invoke gen
 
@@ -259,10 +248,6 @@ type GenExtensions private () =
     [<Extension>]
     static member String (gen : Gen<char>, range : Range<int>) : Gen<string> =
         Gen.string range gen
-
-    [<Extension>]
-    static member ToGen (random : Random<Tree<'T>>) : Gen<'T> =
-        Gen.ofRandom random
 
     [<Extension>]
     static member ToRandom (gen : Gen<'T>) : Random<Tree<'T>> =

@@ -12,9 +12,6 @@ module Random =
     let unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
         r seed size
 
-    let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
-        unsafeRun seed (max 1 size) r
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
@@ -22,80 +19,69 @@ type Gen<'a> =
 
 module Gen =
 
-    let ofRandom (Random(r) : Random<Tree<'a>>) : Gen<'a> =
-        Gen(r)
+    let unsafeRun (seed : Seed) (size : Size) (Gen(r) : Gen<'a>) : Tree<'a> =
+        r seed size
+
+    let run (seed : Seed) (size : Size) (Gen(r) : Gen<'a>) : Tree<'a> =
+        r seed (max 1 size)
 
     let toRandom (Gen(r) : Gen<'a>) : Random<Tree<'a>> =
         Random(r)
 
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
-        let delay =
-            Random (fun seed size -> Random.unsafeRun seed size (toRandom (f ())))
-
-        ofRandom delay
+        Gen (fun seed size -> unsafeRun seed size (f ()))
 
     let tryFinally (after : unit -> unit) (m : Gen<'a>) : Gen<'a> =
-        let random =
-            Random (fun seed size ->
-                try
-                    Random.unsafeRun seed size (toRandom m)
-                finally
-                    after ())
-
-        ofRandom random
+        Gen (fun seed size ->
+            try
+                unsafeRun seed size m
+            finally
+                after ())
 
     let tryWith (k : exn -> Gen<'a>) (m : Gen<'a>) : Gen<'a> =
-        let random =
-            Random (fun seed size ->
-                try
-                    Random.unsafeRun seed size (toRandom m)
-                with
-                    x -> Random.unsafeRun seed size (toRandom (k x)))
-
-        random |> ofRandom
+        Gen (fun seed size ->
+            try
+                unsafeRun seed size m
+            with
+                x -> unsafeRun seed size (k x))
 
     let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
-        let random =
-            Random (fun seed size ->
-                random
-                |> Random.unsafeRun seed size
-                |> Tree.unfold id shrink)
-
-        random |> ofRandom
+        Gen (fun seed size ->
+            random
+            |> Random.unsafeRun seed size
+            |> Tree.unfold id shrink)
 
     let constant (x : 'a) : Gen<'a> =
-        let random =
-            Random (fun _ _ -> Tree.singleton x)
+        Gen (fun _ _ -> Tree.singleton x)
 
-        ofRandom random
-
-    let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
-        Random (fun seed0 size ->
+    let private bindRandom (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
+        Gen (fun seed0 size ->
             let seed1, seed2 =
                 Seed.split seed0
 
-            let run (seed : Seed) (random : Random<'x>) : 'x =
-                Random.run seed size random
-
-            Tree.bind (k >> run seed2) (run seed1 m))
+            Tree.bind (k >> run seed2 size) (run seed1 size m))
 
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
-        toRandom m |> bindRandom (toRandom << k) |> ofRandom
+        m |> bindRandom k
 
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
 
-    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
-        let map r =
-            Random (fun seed size ->
-                r
-                |> Random.unsafeRun seed size
-                |> f)
+    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
+        gf |> bind (fun f ->
+        gx |> bind (f >> constant))
 
-        mapRandom map g
+    let mapTree (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
+        Gen (fun seed size ->
+            g
+            |> unsafeRun seed size
+            |> Tree.map f)
 
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
-        mapTree (Tree.map f) g
+        Gen (fun seed size ->
+            g
+            |> unsafeRun seed size
+            |> Tree.map f)
 
     let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
         gf |> bind (fun f ->
@@ -173,11 +159,18 @@ module Gen =
     let noShrink (g : Gen<'a>) : Gen<'a> =
         let drop (Node (x, _)) =
             Node (x, Seq.empty)
-        mapTree drop g
+
+        Gen (fun seed size ->
+            g
+            |> unsafeRun seed size
+            |> drop)
 
     /// Apply an additional shrinker to all generated trees.
     let shrinkLazy (f : 'a -> seq<'a>) (g : Gen<'a>) : Gen<'a> =
-        mapTree (Tree.expand f) g
+        Gen (fun seed size ->
+            g
+            |> unsafeRun seed size
+            |> Tree.expand f)
 
     /// Apply an additional shrinker to all generated trees.
     let shrink (f : 'a -> List<'a>) (g : Gen<'a>) : Gen<'a>  =
@@ -189,20 +182,14 @@ module Gen =
 
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Gen<'a>) : Gen<'a> =
-        let random =
-            Random (fun seed size ->
-                Random.unsafeRun seed size (toRandom (f size)))
-
-        ofRandom random
+        Gen (fun seed size ->
+            unsafeRun seed size (f size))
 
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
     let resize (n : int) (g : Gen<'a>) : Gen<'a> =
-        let mapper r =
-            Random (fun seed _ ->
-              Random.run seed n r)
-
-        mapRandom mapper g
+        Gen (fun seed _ ->
+            unsafeRun seed n g)
 
     /// Adjust the size parameter, by transforming it with the given
     /// function.
@@ -216,16 +203,13 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
-        let random =
-            Random (fun seed size ->
-                let (lo, hi) = Range.bounds size range
-                let (x, _) = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
-
-                fromBigInt x
-                |> Shrink.createTree (Range.origin range))
-
         // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
-        random |> ofRandom
+        Gen (fun seed size ->
+            let (lo, hi) = Range.bounds size range
+            let (x, _) = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
+
+            fromBigInt x
+            |> Shrink.createTree (Range.origin range))
 
     //
     // Combinators - Choice
@@ -279,15 +263,14 @@ module Gen =
 
         gen {
             let random =
-                Random (fun seed size ->
+                Gen (fun seed size ->
                     Range.constant 1 total
                     |> integral
-                    |> toRandom
-                    |> Random.unsafeRun seed size
+                    |> unsafeRun seed size
                     |> Tree.outcome
                     |> f)
 
-            let! n = random |> ofRandom
+            let! n = random
             return! pick n xs
         }
 
@@ -327,19 +310,19 @@ module Gen =
 
     /// More or less the same logic as suchThatMaybe from QuickCheck, except
     /// modified to ensure that the shrinks also obey the predicate.
-    let private tryFilterRandom (p : 'a -> bool) (r0 : Random<Tree<'a>>) : Random<Option<Tree<'a>>> =
+    let private tryFilterRandom (p : 'a -> bool) (r0 : Gen<'a>) : Random<Option<Tree<'a>>> =
         let rec tryN k = function
             | 0 ->
                 Random (fun _ _ -> None)
             | n ->
                 let r =
-                    Random (fun seed _ -> Random.run seed (2 * k + n) r0)
+                    Gen (fun seed _ -> run seed (2 * k + n) r0)
 
                 let bind k r =
                     Random (fun seed size ->
                         let seed1, seed2 = Seed.split seed
                         r
-                        |> Random.unsafeRun seed1 size
+                        |> unsafeRun seed1 size
                         |> k
                         |> Random.unsafeRun seed2 size)
 
@@ -356,39 +339,35 @@ module Gen =
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
         let rec loop () =
             let bind k r =
-                Random (fun seed size ->
+                Gen (fun seed size ->
                     let seed1, seed2 = Seed.split seed
                     r
                     |> Random.unsafeRun seed1 size
                     |> k
-                    |> Random.unsafeRun seed2 size)
+                    |> unsafeRun seed2 size)
 
-            toRandom g
-            |> tryFilterRandom p
+            tryFilterRandom p g
             |> bind (function
                 | None ->
-                    Random (fun seed size ->
-                        Random.unsafeRun seed size (Random (fun seed _ -> Random.unsafeRun seed (size + 1) (loop ()))))
+                    Gen (fun seed size ->
+                        unsafeRun seed size (Gen (fun seed _ -> unsafeRun seed (size + 1) (loop ()))))
                 | Some x ->
-                    Random (fun _ _ -> x))
+                    Gen (fun _ _ -> x))
 
         loop ()
-        |> ofRandom
 
     /// Tries to generate a value that satisfies a predicate.
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
         let bind k r =
-            Random (fun seed size ->
+            Gen (fun seed size ->
                 let seed1, seed2 = Seed.split seed
                 r
                 |> Random.unsafeRun seed1 size
                 |> k
                 |> Random.unsafeRun seed2 size)
 
-        toRandom g
-        |> tryFilterRandom p
+        tryFilterRandom p g
         |> bind (fun x -> Random (fun _ _ -> OptionTree.sequence x))
-        |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
     let some (g : Gen<'a option>) : Gen<'a> =
@@ -438,7 +417,7 @@ module Gen =
                                 acc
                             else
                                 let seed1, seed2 = Seed.split seed
-                                let x = Random.unsafeRun seed1 size (toRandom g)
+                                let x = unsafeRun seed1 size g
                                 loop seed2 (k - 1) (x :: acc)
                         loop seed0 k [])
 
@@ -448,11 +427,8 @@ module Gen =
                         |> Tree.filter (atLeast (Range.lowerBound size range))
             )))
 
-        let random =
-            Random (fun seed size ->
-                Random.unsafeRun seed size (h size))
-
-        ofRandom random
+        Gen (fun seed size ->
+            Random.unsafeRun seed size (h size))
 
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
@@ -631,19 +607,18 @@ module Gen =
     //
 
     let sampleTree (size : Size) (count : int) (g : Gen<'a>) : List<Tree<'a>> =
-        let random =
-            Random (fun seed0 size ->
+        let random seed0 size =
                 let rec loop seed k acc =
                     if k <= 0 then
                         acc
                     else
                         let seed1, seed2 = Seed.split seed
-                        let x = Random.unsafeRun seed1 size (toRandom g)
+                        let x = unsafeRun seed1 size g
                         loop seed2 (k - 1) (x :: acc)
-                loop seed0 count [])
+                loop seed0 count []
 
         let seed = Seed.random ()
-        Random.run seed size random
+        random seed size
 
     let sample (size : Size) (count : int) (g : Gen<'a>) : List<'a> =
         sampleTree size count g
@@ -653,8 +628,7 @@ module Gen =
     /// if you want another size then you should explicitly use 'resize'.
     let generateTree (g : Gen<'a>) : Tree<'a> =
         let seed = Seed.random ()
-        toRandom g
-        |> Random.run seed 30
+        run seed 30 g
 
     let renderSample (gen : Gen<'a>) : string =
         String.concat Environment.NewLine [
