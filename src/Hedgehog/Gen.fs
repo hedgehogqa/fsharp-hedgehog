@@ -50,13 +50,6 @@ module Random =
             let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
             fromBigInt x)
 
-    /// Generates a random floating point number in the given inclusive range.
-    let inline double (range : Range<double>) : Random<double> =
-        Random (fun seed size ->
-            let (lo, hi) = Range.bounds size range
-            let x, _ = Seed.nextDouble lo hi seed
-            x)
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
@@ -549,7 +542,13 @@ module Gen =
 
     /// Generates a random 64-bit floating point number.
     let double (range : Range<double>) : Gen<double> =
-        Random.double range
+        let random =
+            Random (fun seed size ->
+                let (lo, hi) = Range.bounds size range
+                let x, _ = Seed.nextDouble lo hi seed
+                x)
+
+        random
         |> create (Shrink.towardsDouble (Range.origin range))
 
     /// Generates a random 64-bit floating point number.
