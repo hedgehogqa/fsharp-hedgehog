@@ -34,13 +34,6 @@ module Random =
                     loop seed2 (k - 1) (x :: acc)
             loop seed0 times [])
 
-    /// Generates a random integral number in the given inclusive range.
-    let inline integral (range : Range<'a>) : Random<'a> =
-        Random (fun seed size ->
-            let (lo, hi) = Range.bounds size range
-            let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
-            fromBigInt x)
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
@@ -244,9 +237,10 @@ module Gen =
     let inline integral (range : Range<'a>) : Gen<'a> =
         let random =
             Random (fun seed size ->
-                range
-                |> Random.integral
-                |> Random.unsafeRun seed size
+                let (lo, hi) = Range.bounds size range
+                let (x, _) = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
+
+                fromBigInt x
                 |> Shrink.createTree (Range.origin range))
 
         // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
@@ -417,7 +411,13 @@ module Gen =
     /// Generates a list using a 'Range' to determine the length.
     let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
         let h size =
-            Random.integral range |> Random.bind (fun k ->
+            let random =
+                Random (fun seed size ->
+                    let (lo, hi) = Range.bounds size range
+                    let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
+                    fromBigInt x)
+
+            random |> Random.bind (fun k ->
             Random.replicate k (toRandom g) |> Random.bind (fun xs ->
                 Random (fun _ _ ->
                     Shrink.sequenceList xs
