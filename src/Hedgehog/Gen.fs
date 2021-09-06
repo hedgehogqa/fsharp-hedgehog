@@ -45,11 +45,6 @@ module Random =
         member __.Bind(m : Random<'a>, k : 'a -> Random<'b>) : Random<'b> =
             m |> bind k
 
-    /// Used to construct generators that depend on the size parameter.
-    let sized (f : Size -> Random<'a>) : Random<'a> =
-        Random (fun seed size ->
-            unsafeRun seed size (f size))
-
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
     let resize (newSize : Size) (r : Random<'a>) : Random<'a> =
@@ -245,7 +240,11 @@ module Gen =
 
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Gen<'a>) : Gen<'a> =
-        Random.sized (toRandom << f) |> ofRandom
+        let random =
+            Random (fun seed size ->
+                Random.unsafeRun seed size (toRandom (f size)))
+
+        ofRandom random
 
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
@@ -386,7 +385,8 @@ module Gen =
                     else
                         tryN (k + 1) (n - 1))
 
-        Random.sized (tryN 0 << max 1)
+        Random (fun seed size ->
+            Random.unsafeRun seed size (tryN 0 (max 1 size)))
 
     /// Generates a value that satisfies a predicate.
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
@@ -395,7 +395,8 @@ module Gen =
             |> tryFilterRandom p
             |> Random.bind (function
                 | None ->
-                    Random.sized (fun n -> Random (fun seed _ -> Random.unsafeRun seed (n + 1) (loop ())))
+                    Random (fun seed size ->
+                        Random.unsafeRun seed size (Random (fun seed _ -> Random.unsafeRun seed (size + 1) (loop ()))))
                 | Some x ->
                     Random.constant x)
 
@@ -434,13 +435,18 @@ module Gen =
 
     /// Generates a list using a 'Range' to determine the length.
     let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
-        Random.sized (fun size -> random {
+        let h size = random {
             let! k = Random.integral range
             let! xs = Random.replicate k (toRandom g)
             return Shrink.sequenceList xs
                 |> Tree.filter (atLeast (Range.lowerBound size range))
-        })
-        |> ofRandom
+        }
+
+        let random =
+            Random (fun seed size ->
+                Random.unsafeRun seed size (h size))
+
+        ofRandom random
 
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
