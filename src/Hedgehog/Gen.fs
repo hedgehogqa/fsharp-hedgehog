@@ -37,12 +37,6 @@ module Random =
                     loop seed2 (k - 1) (x :: acc)
             loop seed0 times [])
 
-    /// Overrides the size parameter. Returns a generator which uses the
-    /// given size instead of the runtime-size parameter.
-    let resize (newSize : Size) (r : Random<'a>) : Random<'a> =
-        Random (fun seed _ ->
-          run seed newSize r)
-
     /// Generates a random integral number in the given inclusive range.
     let inline integral (range : Range<'a>) : Random<'a> =
         Random (fun seed size ->
@@ -230,7 +224,11 @@ module Gen =
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
     let resize (n : int) (g : Gen<'a>) : Gen<'a> =
-        mapRandom (Random.resize n) g
+        let mapper r =
+            Random (fun seed _ ->
+              Random.run seed n r)
+
+        mapRandom mapper g
 
     /// Adjust the size parameter, by transforming it with the given
     /// function.
@@ -359,7 +357,9 @@ module Gen =
             | 0 ->
                 Random.constant None
             | n ->
-                let r = Random.resize (2 * k + n) r0
+                let r =
+                    Random (fun seed _ -> Random.run seed (2 * k + n) r0)
+
                 r |> Random.bind (fun x ->
                     if p (Tree.outcome x) then
                         Tree.filter p x |> Some |> Random.constant
