@@ -15,9 +15,6 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let constant (x : 'a) : Random<'a> =
-        Random (fun _ _ -> x)
-
     let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
         Random (fun seed size ->
             let seed1, seed2 = Seed.split seed
@@ -93,7 +90,10 @@ module Gen =
         random |> ofRandom
 
     let constant (x : 'a) : Gen<'a> =
-        Tree.singleton x |> Random.constant |> ofRandom
+        let random =
+            Random (fun _ _ -> Tree.singleton x)
+
+        ofRandom random
 
     let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
         Random (fun seed0 size ->
@@ -355,14 +355,14 @@ module Gen =
     let private tryFilterRandom (p : 'a -> bool) (r0 : Random<Tree<'a>>) : Random<Option<Tree<'a>>> =
         let rec tryN k = function
             | 0 ->
-                Random.constant None
+                Random (fun _ _ -> None)
             | n ->
                 let r =
                     Random (fun seed _ -> Random.run seed (2 * k + n) r0)
 
                 r |> Random.bind (fun x ->
                     if p (Tree.outcome x) then
-                        Tree.filter p x |> Some |> Random.constant
+                        Random (fun _ _ -> Some (Tree.filter p x))
                     else
                         tryN (k + 1) (n - 1))
 
@@ -379,7 +379,7 @@ module Gen =
                     Random (fun seed size ->
                         Random.unsafeRun seed size (Random (fun seed _ -> Random.unsafeRun seed (size + 1) (loop ()))))
                 | Some x ->
-                    Random.constant x)
+                    Random (fun _ _ -> x))
 
         loop ()
         |> ofRandom
@@ -388,7 +388,7 @@ module Gen =
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
         toRandom g
         |> tryFilterRandom p
-        |> Random.bind (OptionTree.sequence >> Random.constant)
+        |> Random.bind (fun x -> Random (fun _ _ -> OptionTree.sequence x))
         |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
@@ -419,10 +419,10 @@ module Gen =
         let h size =
             Random.integral range |> Random.bind (fun k ->
             Random.replicate k (toRandom g) |> Random.bind (fun xs ->
-                Shrink.sequenceList xs
-                |> Tree.filter (atLeast (Range.lowerBound size range))
-                |> Random.constant
-            ))
+                Random (fun _ _ ->
+                    Shrink.sequenceList xs
+                    |> Tree.filter (atLeast (Range.lowerBound size range))
+                )))
 
         let random =
             Random (fun seed size ->
