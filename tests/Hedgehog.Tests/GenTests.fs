@@ -41,8 +41,10 @@ let genTests = testList "Gen tests" [
                 DateTime.MinValue.Ticks
                 DateTime.MaxValue.Ticks
         let ticks =
-            Random.integral range
+            Gen.integral range
+            |> Gen.toRandom
             |> Random.run seed1 0
+            |> Tree.outcome
 
         let actual =
             Range.constant DateTime.MinValue DateTime.MaxValue

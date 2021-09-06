@@ -15,14 +15,6 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
-        Random (fun seed size ->
-            let seed1, seed2 = Seed.split seed
-            r
-            |> unsafeRun seed1 size
-            |> k
-            |> unsafeRun seed2 size)
-
     let replicate (times : int) (r : Random<'a>) : Random<List<'a>> =
         Random (fun seed0 size ->
             let rec loop seed k acc =
@@ -354,7 +346,15 @@ module Gen =
                 let r =
                     Random (fun seed _ -> Random.run seed (2 * k + n) r0)
 
-                r |> Random.bind (fun x ->
+                let bind k r =
+                    Random (fun seed size ->
+                        let seed1, seed2 = Seed.split seed
+                        r
+                        |> Random.unsafeRun seed1 size
+                        |> k
+                        |> Random.unsafeRun seed2 size)
+
+                r |> bind (fun x ->
                     if p (Tree.outcome x) then
                         Random (fun _ _ -> Some (Tree.filter p x))
                     else
@@ -366,9 +366,17 @@ module Gen =
     /// Generates a value that satisfies a predicate.
     let filter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a> =
         let rec loop () =
+            let bind k r =
+                Random (fun seed size ->
+                    let seed1, seed2 = Seed.split seed
+                    r
+                    |> Random.unsafeRun seed1 size
+                    |> k
+                    |> Random.unsafeRun seed2 size)
+
             toRandom g
             |> tryFilterRandom p
-            |> Random.bind (function
+            |> bind (function
                 | None ->
                     Random (fun seed size ->
                         Random.unsafeRun seed size (Random (fun seed _ -> Random.unsafeRun seed (size + 1) (loop ()))))
@@ -380,9 +388,17 @@ module Gen =
 
     /// Tries to generate a value that satisfies a predicate.
     let tryFilter (p : 'a -> bool) (g : Gen<'a>) : Gen<'a option> =
+        let bind k r =
+            Random (fun seed size ->
+                let seed1, seed2 = Seed.split seed
+                r
+                |> Random.unsafeRun seed1 size
+                |> k
+                |> Random.unsafeRun seed2 size)
+
         toRandom g
         |> tryFilterRandom p
-        |> Random.bind (fun x -> Random (fun _ _ -> OptionTree.sequence x))
+        |> bind (fun x -> Random (fun _ _ -> OptionTree.sequence x))
         |> ofRandom
 
     /// Runs an option generator until it produces a 'Some'.
@@ -417,8 +433,16 @@ module Gen =
                     let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
                     fromBigInt x)
 
-            random |> Random.bind (fun k ->
-            Random.replicate k (toRandom g) |> Random.bind (fun xs ->
+            let bind k r =
+                Random (fun seed size ->
+                    let seed1, seed2 = Seed.split seed
+                    r
+                    |> Random.unsafeRun seed1 size
+                    |> k
+                    |> Random.unsafeRun seed2 size)
+
+            random |> bind (fun k ->
+            Random.replicate k (toRandom g) |> bind (fun xs ->
                 Random (fun _ _ ->
                     Shrink.sequenceList xs
                     |> Tree.filter (atLeast (Range.lowerBound size range))
