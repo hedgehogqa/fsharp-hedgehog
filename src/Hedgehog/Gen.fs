@@ -15,13 +15,6 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let tryWith (k : exn -> Random<'a>) (r : Random<'a>) : Random<'a> =
-        Random (fun seed size ->
-            try
-                unsafeRun seed size r
-            with
-                x -> unsafeRun seed size (k x))
-
     let constant (x : 'a) : Random<'a> =
         Random (fun _ _ -> x)
 
@@ -117,7 +110,14 @@ module Gen =
         ofRandom random
 
     let tryWith (k : exn -> Gen<'a>) (m : Gen<'a>) : Gen<'a> =
-        toRandom m |> Random.tryWith (toRandom << k) |> ofRandom
+        let random =
+            Random (fun seed size ->
+                try
+                    Random.unsafeRun seed size (toRandom m)
+                with
+                    x -> Random.unsafeRun seed size (toRandom (k x)))
+
+        random |> ofRandom
 
     let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
         random |> Random.map (Tree.unfold id shrink) |> ofRandom
