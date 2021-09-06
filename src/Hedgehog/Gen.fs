@@ -37,14 +37,6 @@ module Random =
                     loop seed2 (k - 1) (x :: acc)
             loop seed0 times [])
 
-    type Builder internal () =
-        member __.Return(x : 'a) : Random<'a> =
-            constant x
-        member __.ReturnFrom(m : Random<'a>) : Random<'a> =
-            m
-        member __.Bind(m : Random<'a>, k : 'a -> Random<'b>) : Random<'b> =
-            m |> bind k
-
     /// Overrides the size parameter. Returns a generator which uses the
     /// given size instead of the runtime-size parameter.
     let resize (newSize : Size) (r : Random<'a>) : Random<'a> =
@@ -64,10 +56,6 @@ module Random =
             let (lo, hi) = Range.bounds size range
             let x, _ = Seed.nextDouble lo hi seed
             x)
-
-[<AutoOpen>]
-module RandomBuilder =
-    let random = Random.Builder ()
 
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
@@ -435,12 +423,13 @@ module Gen =
 
     /// Generates a list using a 'Range' to determine the length.
     let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
-        let h size = random {
-            let! k = Random.integral range
-            let! xs = Random.replicate k (toRandom g)
-            return Shrink.sequenceList xs
+        let h size =
+            Random.integral range |> Random.bind (fun k ->
+            Random.replicate k (toRandom g) |> Random.bind (fun xs ->
+                Shrink.sequenceList xs
                 |> Tree.filter (atLeast (Range.lowerBound size range))
-        }
+                |> Random.constant
+            ))
 
         let random =
             Random (fun seed size ->
