@@ -14,9 +14,6 @@ type Gen private () =
     static member Delay (func : Func<Gen<'T>>) : Gen<'T> =
         Gen.delay func.Invoke
 
-    static member Create (shrink : Func<'T, seq<'T>>, random : Random<'T>) : Gen<'T> =
-        Gen.create shrink.Invoke random
-
     static member Sized (scaler : Func<Size, Gen<'T>>) : Gen<'T> =
         Gen.sized scaler.Invoke
 
@@ -248,10 +245,6 @@ type GenExtensions private () =
     [<Extension>]
     static member String (gen : Gen<char>, range : Range<int>) : Gen<string> =
         Gen.string range gen
-
-    [<Extension>]
-    static member ToRandom (gen : Gen<'T>) : Random<Tree<'T>> =
-        Gen.toRandom gen
 
     [<Extension>]
     static member TryFinally (gen : Gen<'T>, after : Action) : Gen<'T> =
