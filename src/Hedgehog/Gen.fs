@@ -9,7 +9,7 @@ type Random<'a> =
     | Random of (Seed -> Size -> 'a)
 
 module Random =
-    let internal unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
+    let unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
         r seed size
 
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
@@ -17,12 +17,6 @@ module Random =
 
     let constant (x : 'a) : Random<'a> =
         Random (fun _ _ -> x)
-
-    let map (f : 'a -> 'b) (r : Random<'a>) : Random<'b> =
-        Random (fun seed size ->
-            r
-            |> unsafeRun seed size
-            |> f)
 
     let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
         Random (fun seed size ->
@@ -120,7 +114,13 @@ module Gen =
         random |> ofRandom
 
     let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
-        random |> Random.map (Tree.unfold id shrink) |> ofRandom
+        let random =
+            Random (fun seed size ->
+                random
+                |> Random.unsafeRun seed size
+                |> Tree.unfold id shrink)
+
+        random |> ofRandom
 
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
@@ -142,7 +142,13 @@ module Gen =
         toRandom g |> f |> ofRandom
 
     let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
-        mapRandom (Random.map f) g
+        let map r =
+            Random (fun seed size ->
+                r
+                |> Random.unsafeRun seed size
+                |> f)
+
+        mapRandom map g
 
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
         mapTree (Tree.map f) g
@@ -258,11 +264,15 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
+        let random =
+            Random (fun seed size ->
+                range
+                |> Random.integral
+                |> Random.unsafeRun seed size
+                |> Shrink.createTree (Range.origin range))
+
         // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
-        range
-        |> Random.integral
-        |> Random.map (range |> Range.origin |> Shrink.createTree)
-        |> ofRandom
+        random |> ofRandom
 
     //
     // Combinators - Choice
@@ -315,12 +325,16 @@ module Gen =
             |> Tree.map (fun i -> smallWeights.[i])
 
         gen {
-            let! n =
-                Range.constant 1 total
-                |> integral
-                |> toRandom
-                |> Random.map (Tree.outcome >> f)
-                |> ofRandom
+            let random =
+                Random (fun seed size ->
+                    Range.constant 1 total
+                    |> integral
+                    |> toRandom
+                    |> Random.unsafeRun seed size
+                    |> Tree.outcome
+                    |> f)
+
+            let! n = random |> ofRandom
             return! pick n xs
         }
 
