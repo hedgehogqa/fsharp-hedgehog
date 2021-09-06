@@ -32,7 +32,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Tree.fs" />
     <Compile Include="OptionTree.fs" />
     <Compile Include="Range.fs" />
-    <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="ListGen.fs" />
