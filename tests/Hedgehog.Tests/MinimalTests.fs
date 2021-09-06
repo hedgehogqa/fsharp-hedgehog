@@ -73,7 +73,7 @@ let perfectMinimalShrink () =
     Property.check (property {
         let g = Gen (fun seed size ->
             genExp
-            |> Gen.unsafeRun seed size
+            |> Gen.run seed size
             |> Tree.duplicate)
 
         let! xs = Gen.resize 20 g

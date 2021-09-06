@@ -10,7 +10,7 @@ type Gen<'a> =
 
 module Gen =
 
-    let unsafeRun (seed : Seed) (size : Size) (Gen(r) : Gen<'a>) : Tree<'a> =
+    let private unsafeRun (seed : Seed) (size : Size) (Gen(r) : Gen<'a>) : Tree<'a> =
         r seed size
 
     let run (seed : Seed) (size : Size) (Gen(r) : Gen<'a>) : Tree<'a> =
