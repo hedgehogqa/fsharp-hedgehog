@@ -15,17 +15,6 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let replicate (times : int) (r : Random<'a>) : Random<List<'a>> =
-        Random (fun seed0 size ->
-            let rec loop seed k acc =
-                if k <= 0 then
-                    acc
-                else
-                    let seed1, seed2 = Seed.split seed
-                    let x = unsafeRun seed1 size r
-                    loop seed2 (k - 1) (x :: acc)
-            loop seed0 times [])
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
@@ -442,11 +431,22 @@ module Gen =
                     |> Random.unsafeRun seed2 size)
 
             random |> bind (fun k ->
-            Random.replicate k (toRandom g) |> bind (fun xs ->
-                Random (fun _ _ ->
-                    Shrink.sequenceList xs
-                    |> Tree.filter (atLeast (Range.lowerBound size range))
-                )))
+                let random =
+                    Random (fun seed0 size ->
+                        let rec loop seed k acc =
+                            if k <= 0 then
+                                acc
+                            else
+                                let seed1, seed2 = Seed.split seed
+                                let x = Random.unsafeRun seed1 size (toRandom g)
+                                loop seed2 (k - 1) (x :: acc)
+                        loop seed0 k [])
+
+                random |> bind (fun xs ->
+                    Random (fun _ _ ->
+                        Shrink.sequenceList xs
+                        |> Tree.filter (atLeast (Range.lowerBound size range))
+            )))
 
         let random =
             Random (fun seed size ->
@@ -631,10 +631,19 @@ module Gen =
     //
 
     let sampleTree (size : Size) (count : int) (g : Gen<'a>) : List<Tree<'a>> =
+        let random =
+            Random (fun seed0 size ->
+                let rec loop seed k acc =
+                    if k <= 0 then
+                        acc
+                    else
+                        let seed1, seed2 = Seed.split seed
+                        let x = Random.unsafeRun seed1 size (toRandom g)
+                        loop seed2 (k - 1) (x :: acc)
+                loop seed0 count [])
+
         let seed = Seed.random ()
-        toRandom g
-        |> Random.replicate count
-        |> Random.run seed size
+        Random.run seed size random
 
     let sample (size : Size) (count : int) (g : Gen<'a>) : List<'a> =
         sampleTree size count g
