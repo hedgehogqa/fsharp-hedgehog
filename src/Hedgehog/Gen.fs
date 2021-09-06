@@ -15,13 +15,6 @@ module Random =
     let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let tryFinally (after : unit -> unit) (r : Random<'a>) : Random<'a> =
-        Random (fun seed size ->
-            try
-                unsafeRun seed size r
-            finally
-                after ())
-
     let tryWith (k : exn -> Random<'a>) (r : Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
@@ -114,7 +107,14 @@ module Gen =
         ofRandom delay
 
     let tryFinally (after : unit -> unit) (m : Gen<'a>) : Gen<'a> =
-        toRandom m |> Random.tryFinally after |> ofRandom
+        let random =
+            Random (fun seed size ->
+                try
+                    Random.unsafeRun seed size (toRandom m)
+                finally
+                    after ())
+
+        ofRandom random
 
     let tryWith (k : exn -> Gen<'a>) (m : Gen<'a>) : Gen<'a> =
         toRandom m |> Random.tryWith (toRandom << k) |> ofRandom
