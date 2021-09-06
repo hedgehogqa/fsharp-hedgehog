@@ -18,15 +18,15 @@ module Random =
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
-    | Gen of Random<Tree<'a>>
+    | Gen of (Seed -> Size -> Tree<'a>)
 
 module Gen =
 
-    let ofRandom (r : Random<Tree<'a>>) : Gen<'a> =
-        Gen r
+    let ofRandom (Random(r) : Random<Tree<'a>>) : Gen<'a> =
+        Gen(r)
 
-    let toRandom (Gen r : Gen<'a>) : Random<Tree<'a>> =
-        r
+    let toRandom (Gen(r) : Gen<'a>) : Random<Tree<'a>> =
+        Random(r)
 
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         let delay =
