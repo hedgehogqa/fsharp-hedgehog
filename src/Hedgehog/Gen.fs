@@ -42,11 +42,14 @@ module Gen =
 
             Tree.bind (k >> run seed2 size) (run seed1 size m))
 
-    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
+    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
         Gen (fun seed size ->
             g
             |> unsafeRun seed size
-            |> Tree.map f)
+            |> f)
+
+    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
+        mapTree (Tree.map f) g
 
     let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
         gf |> bind (fun f ->
@@ -125,17 +128,11 @@ module Gen =
         let drop (Node (x, _)) =
             Node (x, Seq.empty)
 
-        Gen (fun seed size ->
-            g
-            |> unsafeRun seed size
-            |> drop)
+        mapTree drop g
 
     /// Apply an additional shrinker to all generated trees.
     let shrinkLazy (f : 'a -> seq<'a>) (g : Gen<'a>) : Gen<'a> =
-        Gen (fun seed size ->
-            g
-            |> unsafeRun seed size
-            |> Tree.expand f)
+        mapTree (Tree.expand f) g
 
     /// Apply an additional shrinker to all generated trees.
     let shrink (f : 'a -> List<'a>) (g : Gen<'a>) : Gen<'a>  =
