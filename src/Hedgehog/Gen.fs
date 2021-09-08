@@ -401,7 +401,7 @@ module Gen =
     /// Generates a random string using 'Range' to determine the length and the
     /// specified character generator.
     let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
-        sized (fun _size -> array range g)
+        array range g
         |> map String
 
     //
