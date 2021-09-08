@@ -43,10 +43,6 @@ module Gen =
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
         toRandom m |> bindRandom (toRandom << k) |> ofRandom
 
-    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
-        gf |> bind (fun f ->
-        gx |> bind (f >> constant))
-
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
 
@@ -56,23 +52,27 @@ module Gen =
     let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
         mapTree (Tree.map f) g
 
+    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
+        gf |> bind (fun f ->
+        gx |> map f)
+
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
-        gx |> bind (fun x ->
-        gy |> bind (fun y ->
-        constant (f x y)))
+        constant f
+        |> apply gx
+        |> apply gy
 
     let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
-        gx |> bind (fun x ->
-        gy |> bind (fun y ->
-        gz |> bind (fun z ->
-        constant (f x y z))))
+        constant f
+        |> apply gx
+        |> apply gy
+        |> apply gz
 
     let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
-        gx |> bind (fun x ->
-        gy |> bind (fun y ->
-        gz |> bind (fun z ->
-        gw |> bind (fun w ->
-        constant (f x y z w)))))
+        constant f
+        |> apply gx
+        |> apply gy
+        |> apply gz
+        |> apply gw
 
     let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
         map2 (fun x y -> x, y) gx gy
