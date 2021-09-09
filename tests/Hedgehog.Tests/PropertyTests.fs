@@ -28,5 +28,10 @@ let propertyTests = testList "Property tests" [
                 Some(a + b) =! tryAdd a b
             }
             |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
+#if FABLE_COMPILER
+// See the discussion in this PR for what needs to happen for Fable to support Expect.stringContains https://github.com/hedgehogqa/fsharp-hedgehog/pull/328
+        Expect.isTrue (report.Contains guid)
+#else
         Expect.stringContains report guid "Missing counterexample text"
+#endif
 ]
