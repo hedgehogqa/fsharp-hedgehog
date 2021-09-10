@@ -14,6 +14,23 @@ let propertyTests = testList "Property tests" [
             |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
         Expect.isNotMatch report "\.\.\." "Abbreviation (...) found"
 
+    testCase "exception thrown in map leads to Outcome.Failure" <| fun () ->
+        let prop =
+            property {
+                let! b = Gen.bool
+                return b
+            }
+            |> Property.map (fun _ -> failwith "exception in map")
+
+        let report = prop |> Property.report
+
+        let isFailure =
+            match report.Status with
+            | Failed _ -> true
+            | _ -> false
+        Expect.isTrue isFailure
+
+
     testCase "counterexample example" <| fun () ->
         // based on examlpe from https://hedgehogqa.github.io/fsharp-hedgehog/index.html#Custom-Operations
         let guid = System.Guid.NewGuid().ToString()
