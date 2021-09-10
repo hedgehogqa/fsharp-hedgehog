@@ -64,8 +64,13 @@ module Property =
         p |> toGen |> f |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        let g = f |> Outcome.map |> GenTuple.mapSnd |> mapGen
-        g x
+        let g (j, outcome) =
+            try
+                (j, outcome |> Outcome.map f)
+            with e ->
+                (Journal.append j (Journal.singletonMessage (string e)), Failure)
+        let h = g |> Gen.map |> mapGen
+        h x
 
     let private set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
