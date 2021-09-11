@@ -2,7 +2,7 @@
 #if FABLE_COMPILER
 module Hedgehog.GenTuple
 #else
-module private Hedgehog.GenTuple
+module internal Hedgehog.GenTuple
 #endif
 
 let mapFst (f : 'a -> 'c) (gen : Gen<'a * 'b>) : Gen<'c * 'b> =

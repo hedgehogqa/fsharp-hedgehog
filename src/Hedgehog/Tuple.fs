@@ -2,7 +2,7 @@
 #if FABLE_COMPILER
 module Hedgehog.Tuple
 #else
-module private Hedgehog.Tuple
+module internal Hedgehog.Tuple
 #endif
 
 let mapFst (f : 'a -> 'c) (x : 'a, y : 'b) : 'c * 'b =
