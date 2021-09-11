@@ -56,15 +56,19 @@ module Property =
             failure
 
     let counterexample (msg : unit -> string) : Property<unit> =
-        Gen.constant (Journal.singleton msg, Success ()) |> ofGen
+        (Journal.singleton msg, Success ()) |> Gen.constant |> ofGen
 
     let private mapGen
             (f : Gen<Journal * Outcome<'a>> -> Gen<Journal * Outcome<'b>>)
-            (x : Property<'a>) : Property<'b> =
-        toGen x |> f |> ofGen
+            (p : Property<'a>) : Property<'b> =
+        p |> toGen |> f |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        (mapGen << GenTuple.mapSnd << Outcome.map) f x
+        let g = f |> Outcome.map |> GenTuple.mapSnd |> mapGen
+        g x
+
+    let private set (a: 'a) (property : Property<'b>) : Property<'a> =
+        property |> map (fun _ -> a)
 
     let private bindGen
             (k : 'a -> Gen<Journal * Outcome<'b>>)
@@ -79,10 +83,18 @@ module Property =
                 GenTuple.mapFst (Journal.append journal) (k x))
 
     let private handle (e : exn) =
-        Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
+        (Journal.singletonMessage (string e), Failure) |> Gen.constant
 
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
-        bindGen (fun a -> (try k a with e -> handle e) |> toGen) (toGen m) |> ofGen
+        let kTry a =
+            try
+                k a |> toGen
+            with e ->
+                handle e
+        m
+        |> toGen
+        |> bindGen kTry
+        |> ofGen
 
     let private printValue (value) : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
@@ -101,13 +113,11 @@ module Property =
 
         value |> prepareForPrinting |> sprintf "%A"
 
-    let private handle (e : exn) =
-        Gen.constant (Journal.singletonMessage (string e), Failure) |> ofGen
-
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let prepend (x : 'a) =
             counterexample (fun () -> printValue x)
-            |> bind (fun _ -> try k x with e -> handle e)
+            |> set x
+            |> bind k
             |> toGen
 
         gen |> Gen.bind prepend |> ofGen
@@ -211,7 +221,7 @@ module Property =
         try
             success (f a)
         with e ->
-            handle e
+            handle e |> ofGen
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
