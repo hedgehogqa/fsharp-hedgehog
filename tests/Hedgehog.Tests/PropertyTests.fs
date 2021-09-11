@@ -8,7 +8,7 @@ let propertyTests = testList "Property tests" [
     fableIgnore "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
         let report =
             property {
-                let! xs = Range.singleton 0 |> Gen.int |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
+                let! xs = Range.singleton 0 |> Gen.int32 |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
                 return false
             }
             |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
@@ -39,8 +39,8 @@ let propertyTests = testList "Property tests" [
             else Some(a + b)
         let report =
             property {
-                let! a = Range.constantBounded () |> Gen.int
-                let! b = Range.constantBounded () |> Gen.int
+                let! a = Range.constantBounded () |> Gen.int32
+                let! b = Range.constantBounded () |> Gen.int32
                 counterexample guid
                 Some(a + b) =! tryAdd a b
             }
