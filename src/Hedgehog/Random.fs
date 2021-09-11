@@ -8,57 +8,48 @@ type Random<'a> =
     | Random of (Seed -> Size -> 'a)
 
 module Random =
-    let private unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =
+    let private unsafeRun (seed: Seed) (size: Size) (Random r: Random<'a>) : 'a =
         r seed size
 
-    let run (seed : Seed) (size : Size) (r : Random<'a>) : 'a =
+    let run (seed: Seed) (size: Size) (r: Random<'a>) : 'a =
         unsafeRun seed (max 1 size) r
 
-    let delay (f : unit -> Random<'a>) : Random<'a> =
+    let delay (f: unit -> Random<'a>) : Random<'a> =
         Random (fun seed size ->
             f () |> unsafeRun seed size)
 
-    let tryFinally (after : unit -> unit) (r : Random<'a>) : Random<'a> =
+    let tryFinally (after: unit -> unit) (r: Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
-                unsafeRun seed size r
+                r |> unsafeRun seed size
             finally
                 after ())
 
-    let tryWith (k : exn -> Random<'a>) (r : Random<'a>) : Random<'a> =
+    let tryWith (f: exn -> Random<'a>) (r: Random<'a>) : Random<'a> =
         Random (fun seed size ->
             try
-                unsafeRun seed size r
-            with
-                x -> unsafeRun seed size (k x))
+                r |> unsafeRun seed size
+            with e ->
+                e |> f |> unsafeRun seed size)
 
     let constant (x : 'a) : Random<'a> =
         Random (fun _ _ -> x)
 
-    let map (f : 'a -> 'b) (r : Random<'a>) : Random<'b> =
+    let map (f: 'a -> 'b) (r: Random<'a>) : Random<'b> =
         Random (fun seed size ->
             r
             |> unsafeRun seed size
             |> f)
 
-    let bind (k : 'a -> Random<'b>) (r : Random<'a>) : Random<'b> =
+    let join (r: Random<Random<'a>>) : Random<'a> =
         Random (fun seed size ->
             let seed1, seed2 = Seed.split seed
             r
             |> unsafeRun seed1 size
-            |> k
             |> unsafeRun seed2 size)
 
-    let replicate (times : int) (r : Random<'a>) : Random<List<'a>> =
-        Random (fun seed0 size ->
-            let rec loop seed k acc =
-                if k <= 0 then
-                    acc
-                else
-                    let seed1, seed2 = Seed.split seed
-                    let x = unsafeRun seed1 size r
-                    loop seed2 (k - 1) (x :: acc)
-            loop seed0 times [])
+    let bind (f: 'a -> Random<'b>) (r: Random<'a>) : Random<'b> =
+        r |> map f |> join
 
     type Builder internal () =
         member __.Return(x : 'a) : Random<'a> =

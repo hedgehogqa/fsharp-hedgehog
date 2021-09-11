@@ -328,7 +328,10 @@ module Gen =
     let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
         Random.sized (fun size -> random {
             let! k = Random.integral range
-            let! xs = Random.replicate k (toRandom g)
+            let! xs =
+                toRandom g
+                |> List.replicate k
+                |> ListRandom.sequence
             return Shrink.sequenceList xs
                 |> Tree.filter (atLeast (Range.lowerBound size range))
         })
@@ -507,7 +510,8 @@ module Gen =
     let sampleTree (size : Size) (count : int) (g : Gen<'a>) : List<Tree<'a>> =
         let seed = Seed.random ()
         toRandom g
-        |> Random.replicate count
+        |> List.replicate count
+        |> ListRandom.sequence
         |> Random.run seed size
 
     let sample (size : Size) (count : int) (g : Gen<'a>) : List<'a> =
