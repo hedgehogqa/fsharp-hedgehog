@@ -1,11 +1,10 @@
-﻿open System
-
-open BenchmarkDotNet.Attributes
+﻿open BenchmarkDotNet.Attributes
+open BenchmarkDotNet.Jobs
 open BenchmarkDotNet.Running
 
 open Hedgehog
 
-[<CoreJob>]
+[<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
 type Benchmarks () =
 
     [<Benchmark>]
@@ -26,15 +25,14 @@ type Benchmarks () =
     member _.BigExampleFromTests () =
         Tests.MinimalTests.perfectMinimalShrink ()
 
-[<CoreJob>]
+[<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
 type ScaledBenchmarks () =
 
-    [<Params (100, 1000)>] // 10000 is too big at the moment, overflows.
+    [<Params(100, 1000, 10000)>]
     member val N = 1 with get, set
 
     [<Benchmark>]
     member this.ForLoopTest () =
-
         Property.check (property {
             for _ = 0 to this.N do
                 ()
@@ -46,5 +44,4 @@ type ScaledBenchmarks () =
 let main argv =
     BenchmarkRunner.Run<Benchmarks> () |> ignore
     BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
-
     0 // return an integer exit code

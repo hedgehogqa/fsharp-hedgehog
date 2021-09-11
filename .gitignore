@@ -73,3 +73,6 @@ tests/Hedgehog.Fable.Tests/tests-js/
 # fable generated javascript files
 *.fs.js
 tests/Hedgehog.Tests/tests-js/
+
+# Benchmark generated files
+BenchmarkDotNet.Artifacts
