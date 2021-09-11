@@ -321,19 +321,26 @@ module Gen =
                 1 + n, map Some g
             ])
 
-    let private atLeast (n : int) (xs : List<'a>) : bool =
-        (List.length xs) >= n
-
     /// Generates a list using a 'Range' to determine the length.
-    let list (range : Range<int>) (g : Gen<'a>) : Gen<List<'a>> =
-        Random.sized (fun size -> random {
-            let! k = Random.integral range
-            let! xs = Random.replicate k (toRandom g)
-            return xs
-                |> Seq.toList
-                |> Shrink.sequenceList
-                |> Tree.filter (atLeast (Range.lowerBound size range))
-        })
+    let list (range : Range<int>) (gen : Gen<'a>) : Gen<List<'a>> =
+        let sequence minLength trees =
+            trees
+            |> Seq.toList
+            |> Shrink.sequenceList
+            |> Tree.filter (fun list -> List.length list >= minLength)
+
+        let replicate minLength times =
+            toRandom gen
+            |> Random.replicate times
+            |> Random.map (sequence minLength)
+
+        let sizedList size =
+            let minLength = Range.lowerBound size range
+            range
+            |> Random.integral
+            |> Random.bind (replicate minLength)
+
+        Random.sized sizedList
         |> ofRandom
 
     /// Generates an array using a 'Range' to determine the length.
