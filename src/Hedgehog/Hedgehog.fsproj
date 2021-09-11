@@ -25,6 +25,9 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Hedgehog.Tests</_Parameter1>
+    </AssemblyAttribute>
     <Compile Include="AutoOpen.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
