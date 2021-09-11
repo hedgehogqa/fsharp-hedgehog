@@ -116,7 +116,7 @@ module Property =
     // Runner
     //
 
-    let private takeSmallest
+    let private shrinkInput
             (args : PropertyArgs)
             (shrinkLimit : int<shrinks> Option) =
         let rec loop
@@ -167,7 +167,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = takeSmallest args config.ShrinkLimit result }
+                      Status = shrinkInput args config.ShrinkLimit result }
                 | Success () ->
                     loop nextArgs (tests + 1<tests>) discards
                 | Discard ->
