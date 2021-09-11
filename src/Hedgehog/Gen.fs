@@ -434,7 +434,7 @@ module Gen =
         integral range
 
     /// Generates a random signed 32-bit integer.
-    let int32 (range : Range<int>) : Gen<int> =
+    let int32 (range : Range<int32>) : Gen<int32> =
         integral range
 
     /// Generates a random unsigned 32-bit integer.
