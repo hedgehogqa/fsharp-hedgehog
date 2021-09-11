@@ -429,7 +429,12 @@ module Gen =
         integral range
 
     /// Generates a random signed 32-bit integer.
+    [<Obsolete("This method is deprecated and will be removed in the next version. Please use Gen.int32 instead.")>]
     let int (range : Range<int>) : Gen<int> =
+        integral range
+
+    /// Generates a random signed 32-bit integer.
+    let int32 (range : Range<int>) : Gen<int> =
         integral range
 
     /// Generates a random unsigned 32-bit integer.
@@ -450,6 +455,7 @@ module Gen =
         |> create (Shrink.towardsDouble (Range.origin range))
 
     /// Generates a random 64-bit floating point number.
+    [<Obsolete("This method is deprecated and will be removed in the next version. Please use Gen.double instead.")>]
     let float (range : Range<float>) : Gen<float> =
         double range |> map float
 
@@ -496,7 +502,7 @@ module Gen =
               min
                 (14L * 60L)
                 ((ticks - DateTimeOffset.MinValue.Ticks) / TimeSpan.TicksPerMinute)
-            let! offsetMinutes = int (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
+            let! offsetMinutes = int32 (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
 

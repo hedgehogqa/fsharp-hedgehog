@@ -27,7 +27,7 @@ open System
 //
 
 property {
-    let! x = Gen.int (Range.constant 1 100)
+    let! x = Gen.int32 (Range.constant 1 100)
     let! ys = Gen.item ["a"; "b"; "c"; "d"] |> Gen.seq (Range.linear 0 100)
     counterexample (sprintf "tryHead ys = %A" (Seq.tryHead ys))
     return x < 25 || Seq.length ys <= 3 || Seq.contains "a" ys
@@ -59,7 +59,7 @@ property {
 
 let genLeapYear =
     Range.constant 2000 3000
-    |> Gen.int
+    |> Gen.int32
     |> Gen.filter DateTime.IsLeapYear
 
 genLeapYear
@@ -72,8 +72,8 @@ genLeapYear
 
 // Fails due to integer overflow
 property {
-    let! x = Range.constantBounded () |> Gen.int
-    let! y = Range.constantBounded () |> Gen.int
+    let! x = Range.constantBounded () |> Gen.int32
+    let! y = Range.constantBounded () |> Gen.int32
     where (x > 0 && y > 0)
     counterexample (sprintf "x * y = %d" (x * y))
     return x * y > 0
@@ -83,7 +83,7 @@ property {
 
 // https://github.com/hedgehogqa/fsharp-hedgehog/issues/124#issuecomment-335402728
 property {
-    let! x = Range.exponentialBounded () |> Gen.int
+    let! x = Range.exponentialBounded () |> Gen.int32
     where (x <> 0)
     return true
 }
@@ -94,7 +94,7 @@ property {
 //
 
 property {
-    let! n = Range.constantBounded () |> Gen.int
+    let! n = Range.constantBounded () |> Gen.int32
     where (n <> 0)
     return 1 / n = 1 / n
 }
@@ -106,7 +106,7 @@ property {
 //
 
 property {
-    let! (x, y) = Range.constant 0 9 |> Gen.int |> Gen.tuple
+    let! (x, y) = Range.constant 0 9 |> Gen.int32 |> Gen.tuple
     // The exception gets rendered and added to the journal.
     failwith "Uh oh"
     return x + y = x + y
@@ -132,7 +132,7 @@ property {
     let mutable n = 0
     while n < 10 do
         n <- n + 1
-        let! k = Range.constant 0 n |> Gen.int
+        let! k = Range.constant 0 n |> Gen.int32
         return! Property.counterexample (fun () -> sprintf "n = %d" n)
         return! Property.counterexample (fun () -> sprintf "k = %d" k)
         return k <> 5
@@ -161,7 +161,7 @@ gen {
 //
 
 gen {
-    let! x = Gen.int (Range.constant 0 10)
+    let! x = Gen.int32 (Range.constant 0 10)
     let! y = Gen.item [ "x"; "y"; "z" ]
     let! z = Gen.double (Range.constant 0.1 9.99)
     let! w = Gen.string (Range.constant 0 100) Gen.alphaNum
@@ -204,12 +204,6 @@ Range.constantBounded ()
 
 Range.exponentialBounded ()
 |> Gen.double
-|> Gen.noShrink
-|> Gen.renderSample
-|> printfn "%s"
-
-Range.exponentialBounded ()
-|> Gen.float
 |> Gen.noShrink
 |> Gen.renderSample
 |> printfn "%s"
@@ -261,7 +255,7 @@ let rec genExp =
     Gen.delay (fun _ ->
         let choiceRec =
             Gen.choiceRec
-                [ Lit <!> Gen.int (Range.constantBounded ()) ]
+                [ Lit <!> Gen.int32 (Range.constantBounded ()) ]
                 [ Add <!> Gen.zip genExp genExp ]
         Gen.shrink shrinkExp choiceRec)
 

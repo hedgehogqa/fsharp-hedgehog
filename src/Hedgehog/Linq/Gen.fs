@@ -111,7 +111,7 @@ type Gen private () =
         Gen.uint16 range
 
     static member Int32 (range : Range<int32>) : Gen<int32> =
-        Gen.int range
+        Gen.int32 range
 
     static member UInt32 (range : Range<uint32>) : Gen<uint32> =
         Gen.uint32 range

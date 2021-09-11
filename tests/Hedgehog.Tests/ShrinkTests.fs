@@ -204,7 +204,7 @@ let shrinkTests = testList "Shrink tests" [
             |> PropertyConfig.withShrinks shrinkLimit
         let report =
             property {
-                let! actual = Range.linear 1 1_000_000 |> Gen.int
+                let! actual = Range.linear 1 1_000_000 |> Gen.int32
                 return actual < 500_000
             } |> Property.reportWith propConfig
         match report.Status with

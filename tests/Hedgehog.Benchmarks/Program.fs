@@ -11,7 +11,7 @@ type Benchmarks () =
     [<Benchmark>]
     member _.GenInts () =
         Property.check (property {
-            let! i = Gen.int (Range.constant 0 10000)
+            let! i = Gen.int32 (Range.constant 0 10000)
             return i >= 0
         })
 

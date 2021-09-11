@@ -56,7 +56,7 @@ let rec tryFindSmallest (p : 'a -> bool) (Node (x, xs) : Tree<'a>) : 'a option =
 let rec genExp : Gen<Exp> =
     Gen.delay (fun _ ->
         let recs = [
-            Lit <!> Gen.int (Range.constant 0 10)
+            Lit <!> Gen.int32 (Range.constant 0 10)
             Var <!> genName
         ]
 

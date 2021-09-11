@@ -27,7 +27,7 @@ One way to use Hedgehog to check the above property is to use the `property` com
 
 ```fs
 property {
-    let! xs = Range.constant 0 1000 |> Gen.int |> Gen.list (Range.linear 0 100)
+    let! xs = Range.constant 0 1000 |> Gen.int32 |> Gen.list (Range.linear 0 100)
     return List.rev (List.rev xs) = xs
 }
 ```
@@ -36,7 +36,7 @@ and to test the above property on 100 random lists of integers, pipe it into `Pr
 
 ```fs
 property {
-    let! xs = Range.constant 0 1000 |> Gen.int |> Gen.list (Range.linear 0 100)
+    let! xs = Range.constant 0 1000 |> Gen.int32 |> Gen.list (Range.linear 0 100)
     return List.rev (List.rev xs) = xs
 }
 |> Property.render
@@ -53,7 +53,7 @@ Hedgehog comes with built-in generators for primitive types, so here's how it wo
 
 ```fs
 Range.constant 0 100
-|> Gen.int
+|> Gen.int32
 |> Gen.renderSample
 |> printfn "%s";;
 
@@ -537,8 +537,8 @@ let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Range.constantBounded () |> Gen.int
-           let! b = Range.constantBounded () |> Gen.int
+property { let! a = Range.constantBounded () |> Gen.int32
+           let! b = Range.constantBounded () |> Gen.int32
            counterexample (sprintf "The value of a was %d." a)
            return tryAdd a b = Some(a + b) }
 |> Property.render
@@ -561,8 +561,8 @@ let tryAdd a b =
     if a > 100 then None // Nasty bug.
     else Some(a + b)
 
-property { let! a = Range.constantBounded () |> Gen.int
-           let! b = Range.constantBounded () |> Gen.int
+property { let! a = Range.constantBounded () |> Gen.int32
+           let! b = Range.constantBounded () |> Gen.int32
            where (a < 100)
            return tryAdd a b = Some(a + b) }
 |> Property.render
