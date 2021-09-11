@@ -164,6 +164,7 @@ type GenExtensions private () =
     static member List (gen : Gen<'T>, range : Range<int>) : Gen<ResizeArray<'T>> =
         Gen.list range gen
         |> Gen.map ResizeArray
+        |> Gen.withFormatter (seq >> sprintf "%A")
 
     [<Extension>]
     static member NoShrink (gen : Gen<'T>) : Gen<'T> =

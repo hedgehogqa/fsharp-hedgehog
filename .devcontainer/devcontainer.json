@@ -7,7 +7,8 @@
 
   "extensions": [
     "editorconfig.editorconfig",
-    "ionide.ionide-fsharp@4.17.0"
+    "ionide.ionide-fsharp@4.17.0",
+    "ms-dotnettools.csharp@1.23.12"
   ],
 
   "settings": {
