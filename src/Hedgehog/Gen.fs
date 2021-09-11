@@ -361,6 +361,12 @@ module Gen =
         Random.sized sizedList
         |> ofRandom
 
+    /// Generates a `System.Collections.Generic.List<T>` using a 'Range' to determine the length.
+    let resizeArray (range : Range<int>) (g : Gen<'a>) : Gen<ResizeArray<'a>> =
+        list range g
+        |> map ResizeArray
+        |> withFormatter (List.ofSeq >> sprintf "%A")
+
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
         list range g |> map Array.ofList
