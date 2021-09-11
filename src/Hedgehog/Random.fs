@@ -60,14 +60,6 @@ module Random =
             }
             seq |> Seq.take times)
 
-    type Builder internal () =
-        member __.Return(x : 'a) : Random<'a> =
-            constant x
-        member __.ReturnFrom(m : Random<'a>) : Random<'a> =
-            m
-        member __.Bind(m : Random<'a>, k : 'a -> Random<'b>) : Random<'b> =
-            m |> bind k
-
     /// Used to construct generators that depend on the size parameter.
     let sized (f : Size -> Random<'a>) : Random<'a> =
         Random (fun seed size ->
@@ -92,7 +84,3 @@ module Random =
             let (lo, hi) = Range.bounds size range
             let x, _ = Seed.nextDouble lo hi seed
             x)
-
-[<AutoOpen>]
-module RandomBuilder =
-    let random = Random.Builder ()
