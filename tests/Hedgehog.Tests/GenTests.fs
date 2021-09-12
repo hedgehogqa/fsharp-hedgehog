@@ -15,6 +15,7 @@ let genTests = testList "Gen tests" [
                 DateTime.MaxValue)
             |> Gen.dateTime
             |> Gen.sample 0 count
+            |> Seq.toList
 
         actual
         |> List.distinct
@@ -24,6 +25,7 @@ let genTests = testList "Gen tests" [
     testCase "unicode doesn't return any surrogate" <| fun _ ->
         let actual =
             Gen.sample 100 100000 Gen.unicode
+            |> Seq.toList
         [] =! List.filter Char.IsSurrogate actual
 
     yield! testCases "unicode doesn't return any noncharacter"
@@ -31,6 +33,7 @@ let genTests = testList "Gen tests" [
 
         let actual =
             Gen.sample 100 100000 Gen.unicode
+            |> Seq.toList
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->

@@ -49,16 +49,16 @@ module Random =
             |> k
             |> unsafeRun seed2 size)
 
-    let replicate (times : int) (r : Random<'a>) : Random<List<'a>> =
-        Random (fun seed0 size ->
-            let rec loop seed k acc =
-                if k <= 0 then
-                    acc
-                else
+    let replicate (times : int) (r : Random<'a>) : Random<'a seq> =
+        Random(fun seed0 size ->
+            let seq = seq {
+                let mutable seed = seed0
+                while true do
                     let seed1, seed2 = Seed.split seed
-                    let x = unsafeRun seed1 size r
-                    loop seed2 (k - 1) (x :: acc)
-            loop seed0 times [])
+                    yield unsafeRun seed1 size r
+                    seed <- seed2
+            }
+            seq |> Seq.take times)
 
     type Builder internal () =
         member __.Return(x : 'a) : Random<'a> =
