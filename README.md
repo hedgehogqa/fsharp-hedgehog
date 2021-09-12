@@ -65,7 +65,7 @@ class Generators
         // This creates a property..
         var property =
             from str in Property.ForAll(stringGen)
-            select stringLength == str.Length;
+            select str.Length == stringLength;
 
         // ..that can be checked, rechecked or rendered.
         property.Check();
