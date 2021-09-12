@@ -72,17 +72,8 @@ type PropertyExtensions private () =
         Property.report property
 
     [<Extension>]
-    static member Report (property : Property, config : Hedgehog.PropertyConfig) : Report =
-        let (Property property) = property
-        Property.reportWith config property
-
-    [<Extension>]
     static member Report (property : Property<bool>) : Report =
         Property.reportBool property
-
-    [<Extension>]
-    static member Report (property : Property<bool>, config : Hedgehog.PropertyConfig) : Report =
-        Property.reportBoolWith config property
 
     [<Extension>]
     static member Check (property : Property) : unit =
@@ -90,17 +81,8 @@ type PropertyExtensions private () =
         Property.check property
 
     [<Extension>]
-    static member Check (property : Property, config : Hedgehog.PropertyConfig) : unit =
-        let (Property property) = property
-        Property.checkWith config property
-
-    [<Extension>]
     static member Check (property : Property<bool>) : unit =
         Property.checkBool property
-
-    [<Extension>]
-    static member Check (property : Property<bool>, config : Hedgehog.PropertyConfig) : unit =
-        Property.checkBoolWith config property
 
     [<Extension>]
     static member Recheck (property : Property, size : Size, seed : Seed) : unit =
@@ -108,17 +90,8 @@ type PropertyExtensions private () =
         Property.recheck size seed property
 
     [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
-        let (Property property) = property
-        Property.recheckWith size seed config property
-
-    [<Extension>]
     static member Recheck (property : Property<bool>, size : Size, seed : Seed) : unit =
         Property.recheckBool size seed property
-
-    [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
-        Property.recheckBoolWith size seed config property
 
     [<Extension>]
     static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
@@ -126,17 +99,8 @@ type PropertyExtensions private () =
         Property.reportRecheck size seed property
 
     [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
-        let (Property property) = property
-        Property.reportRecheckWith size seed config property
-
-    [<Extension>]
     static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
         Property.reportRecheckBool size seed property
-
-    [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
-        Property.reportRecheckBoolWith size seed config property
 
     [<Extension>]
     static member Render (property : Property) : string =
@@ -144,17 +108,8 @@ type PropertyExtensions private () =
         Property.render property
 
     [<Extension>]
-    static member Render (property : Property, config : Hedgehog.PropertyConfig) : string =
-        let (Property property) = property
-        Property.renderWith config property
-
-    [<Extension>]
     static member Render (property : Property<bool>) : string =
         Property.renderBool property
-
-    [<Extension>]
-    static member Render (property : Property<bool>, config : Hedgehog.PropertyConfig) : string =
-        Property.renderBoolWith config property
 
     [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
@@ -183,5 +138,41 @@ type PropertyExtensions private () =
                 binder.Invoke a |> Property.bind (fun b ->
                     Property.ofThrowing projection.Invoke (a, b)))
         Property result
+
+    [<Extension>]
+    static member WithShrinks (property : Property, shrinkLimit : int<shrinks>) : Property =
+        let (Property property) = property
+        Property (Property.withShrinks shrinkLimit property)
+
+    [<Extension>]
+    static member WithoutShrinks (property : Property) : Property =
+        let (Property property) = property
+        Property (Property.withoutShrinks property)
+    
+    [<Extension>]
+    static member WithTests (property : Property, testLimit : int<tests>) : Property =
+        let (Property property) = property
+        Property (Property.withTests testLimit property)
+    
+    [<Extension>]
+    static member WithConfig (property : Property, config : PropertyConfig) : Property =
+        let (Property property) = property
+        Property (Property.withConfig config property)
+
+    [<Extension>]
+    static member WithShrinks (property : Property<bool>, shrinkLimit : int<shrinks>) : Property<bool> =
+        Property.withShrinks shrinkLimit property
+
+    [<Extension>]
+    static member WithoutShrinks (property : Property<bool>) : Property<bool> =
+        Property.withoutShrinks property
+    
+    [<Extension>]
+    static member WithTests (property : Property<bool>, testLimit : int<tests>) : Property<bool> =
+        Property.withTests testLimit property
+    
+    [<Extension>]
+    static member WithConfig (property : Property<bool>, config : PropertyConfig) : Property<bool> =
+        Property.withConfig config property
 
 #endif

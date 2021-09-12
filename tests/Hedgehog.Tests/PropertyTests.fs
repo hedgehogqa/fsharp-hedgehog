@@ -1,4 +1,4 @@
-﻿module Hedgehog.Tests.PropertyTests
+module Hedgehog.Tests.PropertyTests
 
 open Hedgehog
 open Expecto
@@ -11,7 +11,8 @@ let propertyTests = testList "Property tests" [
                 let! xs = Range.singleton 0 |> Gen.int32 |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
                 return false
             }
-            |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
+            |> Property.withShrinks 0<shrinks>
+            |> Property.render
         Expect.isNotMatch report "\.\.\." "Abbreviation (...) found"
 
     testCase "exception thrown in map leads to Outcome.Failure" <| fun () ->

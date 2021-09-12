@@ -4,15 +4,15 @@ open System
 
 [<Struct>]
 type Property<'a> =
-    | Property of Gen<Journal * Outcome<'a>>
+    | Property of PropertyConfig * Gen<Journal * Outcome<'a>>
 
 module Property =
 
-    let ofGen (x : Gen<Journal * Outcome<'a>>) : Property<'a> =
-        Property x
+    let ofGen (gen : Gen<Journal * Outcome<'a>>) : Property<'a> =
+        Property (PropertyConfig.defaultConfig, gen)
 
-    let toGen (Property x : Property<'a>) : Gen<Journal * Outcome<'a>> =
-        x
+    let toGen (Property (_, gen) : Property<'a>) : Gen<Journal * Outcome<'a>> =
+        gen
 
     let tryFinally (after : unit -> unit) (m : Property<'a>) : Property<'a> =
         Gen.tryFinally after (toGen m) |> ofGen
@@ -154,8 +154,8 @@ module Property =
             | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
         loop 0<shrinks>
 
-    let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
-        let random = toGen p |> Gen.toRandom
+    let private report' (args : PropertyArgs) (Property (config, gen) : Property<unit>) : Report =
+        let random = gen |> Gen.toRandom
 
         let nextSize size =
             if size >= 100 then
@@ -193,32 +193,19 @@ module Property =
 
         loop args 0<tests> 0<discards>
 
-    let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
-        let args = PropertyArgs.init
-        p |> reportWith' args config
-
     let report (p : Property<unit>) : Report =
-        p |> reportWith PropertyConfig.defaultConfig
-
-    let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportWith config
+        let args = PropertyArgs.init
+        p |> report' args
 
     let reportBool (p : Property<bool>) : Report =
         p |> bind ofBool |> report
-
-    let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
-        reportWith config p
-        |> Report.tryRaise
 
     let check (p : Property<unit>) : unit =
         report p
         |> Report.tryRaise
 
-    let checkBool (g : Property<bool>) : unit =
-        g |> bind ofBool |> check
-
-    let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> checkWith config
+    let checkBool (p : Property<bool>) : unit =
+        p |> bind ofBool |> check
 
     /// Converts a possibly-throwing function to
     /// a property by treating an exception as a failure.
@@ -228,41 +215,24 @@ module Property =
         with e ->
             handle e |> ofGen
 
-    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
         let args = {
             PropertyArgs.init with
                 RecheckType = RecheckType.None
                 Seed = seed
                 Size = size
         }
-        reportWith' args config p
-
-    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportRecheckWith size seed PropertyConfig.defaultConfig p
-
-    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheckWith size seed config
+        report' args p
 
     let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheck size seed
-
-    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
-        reportRecheckWith size seed config p
-        |> Report.tryRaise
 
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
         reportRecheck size seed p
         |> Report.tryRaise
 
-    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheckWith size seed config
-
-    let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheck size seed
-
-    let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
-        reportWith n p
-        |> Report.render
+    let recheckBool (size : Size) (seed : Seed) (p : Property<bool>) : unit =
+        p |> bind ofBool |> recheck size seed
 
     let render (p : Property<unit>) : string =
         report p
@@ -272,9 +242,25 @@ module Property =
         reportBool property
         |> Report.render
 
-    let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
-        reportBoolWith config p
-        |> Report.render
+    /// Set the number of times a property is allowed to shrink before the test
+    /// runner gives up and displays the counterexample.
+    let withShrinks (shrinkLimit : int<shrinks>) (Property (config, gen) : Property<'a>) : Property<'a> =
+        let config = { config with ShrinkLimit = Some shrinkLimit }
+        Property (config, gen)
+
+    /// Restores the default shrinking behavior.
+    let withoutShrinks (Property (config, gen) : Property<'a>) : Property<'a> =
+        let config = { config with ShrinkLimit = None }
+        Property (config, gen)
+
+    /// Set the number of times a property should be executed before it is
+    /// considered successful.
+    let withTests (testLimit : int<tests>) (Property (config, gen) : Property<'a>) : Property<'a> =
+        let config = { config with TestLimit = testLimit }
+        Property (config, gen)
+
+    let withConfig (config : PropertyConfig) (Property (_, gen) : Property<'a>) : Property<'a> =
+        Property (config, gen)
 
 [<AutoOpen>]
 module PropertyBuilder =

@@ -1,4 +1,4 @@
-﻿module Hedgehog.Tests.ShrinkTests
+module Hedgehog.Tests.ShrinkTests
 
 open Hedgehog
 open TestDsl
@@ -199,14 +199,11 @@ let shrinkTests = testList "Shrink tests" [
     yield! testCases "Property.reportWith respects shrinkLimit"
         [ 0<shrinks>; 1<shrinks>; 2<shrinks> ] <| fun shrinkLimit ->
 
-        let propConfig =
-            PropertyConfig.defaultConfig
-            |> PropertyConfig.withShrinks shrinkLimit
         let report =
             property {
                 let! actual = Range.linear 1 1_000_000 |> Gen.int32
                 return actual < 500_000
-            } |> Property.reportWith propConfig
+            } |> Property.withShrinks shrinkLimit |> Property.report
         match report.Status with
         | Failed failureData ->
             failureData.Shrinks =! shrinkLimit

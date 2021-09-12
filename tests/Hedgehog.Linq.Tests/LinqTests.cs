@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 
 // Import ForAll:
@@ -117,7 +117,7 @@ namespace Hedgehog.Linq.Tests
                 where y == false
                 select Assert.True(x && !y);
 
-            property.Check(PropertyConfig.Default.WithTests(20));
+            property.WithTests(20).Check();
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace Hedgehog.Linq.Tests
                 where y == false
                 select x && !y;
 
-            property.Check(PropertyConfig.Default.WithTests(20));
+            property.WithTests(20).Check();
         }
 
         [Fact]
