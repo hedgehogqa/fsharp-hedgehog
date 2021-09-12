@@ -2,32 +2,35 @@ namespace Hedgehog
 
 open System
 
-type GenConfig<'a> = private {
-    Formatter : 'a -> string
-}
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> = private {
-    Random : Random<Tree<'a>>
     Config : GenConfig<'a>
+    Random : Random<Tree<'a>>
 }
 
 module Gen =
+    module Config =
+        let get (gen : Gen<'a>) : GenConfig<'a> =
+            gen.Config
+
+        let map (f : GenConfig<'a> -> GenConfig<'a>) (gen : Gen<'a>) : Gen<'a> =
+            { gen with Config = f (get gen) }
+
+        let set (config : GenConfig<'a>) (gen : Gen<'a>) : Gen<'a> =
+            map (always config) gen
 
     let format (a : 'a) (gen : Gen<'a>) : string =
-        gen.Config.Formatter a
+        let formatter = gen |> Config.get |> GenConfig.getFormatter
+        formatter a
 
     let withFormatter (formatter : 'a -> string) (gen : Gen<'a>) : Gen<'a> =
-        {
-            gen with Config = { gen.Config with Formatter = formatter }
-        }
+        gen
+        |> Config.map (GenConfig.setFormatter formatter)
 
-    let ofRandom (r : Random<Tree<'a>>) : Gen<'a> = {
-        Random = r
-        Config = {
-            Formatter = sprintf "%A"
-        }
+    let ofRandom (random : Random<Tree<'a>>) : Gen<'a> = {
+        Config = GenConfig.defaultConfig ()
+        Random = random
     }
 
     let toRandom (gen : Gen<'a>) : Random<Tree<'a>> =
