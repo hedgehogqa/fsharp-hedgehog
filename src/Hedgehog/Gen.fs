@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 open System
 
@@ -329,7 +329,9 @@ module Gen =
         Random.sized (fun size -> random {
             let! k = Random.integral range
             let! xs = Random.replicate k (toRandom g)
-            return Shrink.sequenceList xs
+            return xs
+                |> Seq.toList
+                |> Shrink.sequenceList
                 |> Tree.filter (atLeast (Range.lowerBound size range))
         })
         |> ofRandom
@@ -510,15 +512,15 @@ module Gen =
     // Sampling
     //
 
-    let sampleTree (size : Size) (count : int) (g : Gen<'a>) : List<Tree<'a>> =
+    let sampleTree (size : Size) (count : int) (g : Gen<'a>) : seq<Tree<'a>> =
         let seed = Seed.random ()
         toRandom g
         |> Random.replicate count
         |> Random.run seed size
 
-    let sample (size : Size) (count : int) (g : Gen<'a>) : List<'a> =
+    let sample (size : Size) (count : int) (g : Gen<'a>) : seq<'a> =
         sampleTree size count g
-        |> List.map Tree.outcome
+        |> Seq.map Tree.outcome
 
     /// Run a generator. The size passed to the generator is always 30;
     /// if you want another size then you should explicitly use 'resize'.
