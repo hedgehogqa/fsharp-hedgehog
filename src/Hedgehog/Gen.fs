@@ -28,6 +28,10 @@ module Gen =
         gen
         |> Config.map (GenConfig.setFormatter formatter)
 
+    let withListFormatter (gen : Gen<_>) : Gen<_> =
+        gen
+        |> withFormatter (Seq.toList >> sprintf "%A")
+
     let ofRandom (random : Random<Tree<'a>>) : Gen<'a> = {
         Config = GenConfig.defaultConfig ()
         Random = random
@@ -368,7 +372,7 @@ module Gen =
     let resizeArray (range : Range<int>) (g : Gen<'a>) : Gen<ResizeArray<'a>> =
         list range g
         |> map ResizeArray
-        |> withFormatter (List.ofSeq >> sprintf "%A")
+        |> withListFormatter
 
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =

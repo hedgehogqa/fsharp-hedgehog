@@ -8,7 +8,18 @@ let propertyTests = testList "Property tests" [
     fableIgnore "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
         let report =
             property {
-                let! xs = Range.singleton 0 |> Gen.int32 |> Gen.resizeArray (Range.singleton 5)
+                let gen = Gen.int32 (Range.singleton 0)
+                let! xs = Gen.resizeArray (Range.singleton 5) gen
+                return false
+            }
+            |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
+        Expect.isNotMatch report "\.\.\." "Abbreviation (...) found"
+
+    fableIgnore "generated seq of five elements converted to C# list is not abbreviated in the failure report" <| fun _ ->
+        let report =
+            property {
+                let gen = Gen.int32 (Range.singleton 0)
+                let! xs = Gen.seq (Range.singleton 5) gen |> Gen.map ResizeArray |> Gen.withListFormatter
                 return false
             }
             |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)

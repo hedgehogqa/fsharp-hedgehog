@@ -292,6 +292,14 @@ type GenExtensions private () =
         Gen.filter predicate.Invoke gen
 
     [<Extension>]
+    static member WithFormatter (gen : Gen<'T>, formatter : Func<'T, string>) =
+        Gen.withFormatter formatter.Invoke gen
+
+    [<Extension>]
+    static member WithListFormatter (gen : Gen<ResizeArray<'T>>) =
+        Gen.withListFormatter gen
+
+    [<Extension>]
     static member Zip (genA : Gen<'T>, genB : Gen<'U>) : Gen<'T * 'U> =
         Gen.zip genA genB
 
