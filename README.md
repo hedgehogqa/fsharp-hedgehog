@@ -60,15 +60,15 @@ class Generators
     {
         // This creates a generator for 10 character strings, with only alphabetical characters.
         var stringLength = 10;
-        var stringGen = Gen.String(Gen.Alpha, Range.FromValue(stringLength));
+        var stringGen = Gen.Alpha.String(Range.FromValue(stringLength));
 
-        // This creates a property that can be checked, rechecked or rendered.
+        // This creates a property..
         var property =
-            from string in Property.ForAll(stringGen)
-            select Assert.AreEqual(stringLength, string.Length);
+            from str in Property.ForAll(stringGen)
+            select stringLength == str.Length;
 
-        // Checking accepts an argument for the number of test cases to generate and check.
-        property.Check(tests: 30);
+        // ..that can be checked, rechecked or rendered.
+        property.Check();
     }
 }
 ```

@@ -8,14 +8,13 @@ namespace Hedgehog.Linq.Tests
 {
     public class LinqTests
     {
-
         [Fact]
         public void ExceptionInSelect_Action_FailedStatus()
         {
             var guid = Guid.NewGuid().ToString();
             void action() => throw new Exception(guid);
             var property =
-                from _ in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
+                from _ in ForAll(Gen.Int32(Range.Constant(0, 0)))
                 select action();
             var report = property.Report();
             var rendered = report.Render();
@@ -29,7 +28,7 @@ namespace Hedgehog.Linq.Tests
             var guid = Guid.NewGuid().ToString();
             bool func() => throw new Exception(guid);
             var property =
-                from x in Property.ForAll(Gen.Int32(Range.Constant(0, 0)))
+                from x in ForAll(Gen.Int32(Range.Constant(0, 0)))
                 select func();
             var report = property.Report();
             var rendered = report.Render();
