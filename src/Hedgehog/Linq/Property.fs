@@ -163,12 +163,12 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Func<'T, 'TResult>) : Property<'TResult> =
         property
-        |> Property.bind (Property.ofThrowing mapper.Invoke)
+        |> Property.map mapper.Invoke
 
     [<Extension>]
     static member Select (property : Property<'T>, mapper : Action<'T>) : Property =
         property
-        |> Property.bind (Property.ofThrowing mapper.Invoke)
+        |> Property.map mapper.Invoke
         |> Property
 
     [<Extension>]
