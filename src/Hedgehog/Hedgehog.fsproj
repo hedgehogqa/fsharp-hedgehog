@@ -45,7 +45,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="ListGen.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
-    <Compile Include="GenTuple.fs" />
     <Compile Include="GenLazy.fs" />
     <Compile Include="GenLazyTuple.fs" />
     <Compile Include="Outcome.fs" />
