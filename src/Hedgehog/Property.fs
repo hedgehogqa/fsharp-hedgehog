@@ -87,15 +87,12 @@ module Property =
             | Success x ->
                 GenTuple.mapFst (Journal.append journal) (k x))
 
-    let private handle (e : exn) =
-        (Journal.singletonMessage (string e), Failure) |> Gen.constant
-
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         let kTry a =
             try
                 k a |> toGen
             with e ->
-                handle e
+                (Journal.singletonMessage (string e), Failure) |> Gen.constant
         m
         |> toGen
         |> bindGen kTry
@@ -219,14 +216,6 @@ module Property =
 
     let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
         g |> bind ofBool |> checkWith config
-
-    /// Converts a possibly-throwing function to
-    /// a property by treating an exception as a failure.
-    let ofThrowing (f : 'a -> 'b) (a : 'a) : Property<'b> =
-        try
-            success (f a)
-        with e ->
-            handle e |> ofGen
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {

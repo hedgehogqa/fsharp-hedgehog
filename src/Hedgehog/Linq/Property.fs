@@ -29,10 +29,6 @@ type Property = private Property of Property<unit> with
     static member FromOutcome (result : Outcome<'T>) : Property<'T> =
         Property.ofOutcome result
 
-    static member FromThrowing (throwingFunc : Action<'T>, arg : 'T) : Property =
-        Property.ofThrowing throwingFunc.Invoke arg
-        |> Property
-
     static member Delay (f : Func<Property<'T>>) : Property<'T> =
         Property.delay f.Invoke
 
@@ -180,8 +176,8 @@ type PropertyExtensions private () =
     static member SelectMany (property : Property<'T>, binder : Func<'T, Property<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =
         let result =
             property |> Property.bind (fun a ->
-                binder.Invoke a |> Property.bind (fun b ->
-                    Property.ofThrowing projection.Invoke (a, b)))
+                binder.Invoke a |> Property.map (fun b ->
+                    projection.Invoke (a, b)))
         Property result
 
 #endif
