@@ -52,7 +52,7 @@ Hedgehog provides an alternative namespace, meant to provide compatibility with 
 Generators are then built with a more comfortable fluent API.
 
 ```csharp
-using Hegehog.Linq;
+using Hedgehog.Linq;
 
 class Generators
 {
