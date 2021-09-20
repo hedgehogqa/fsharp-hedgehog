@@ -51,19 +51,17 @@ module Seed =
     let [<Literal>] private GoldenGamma : uint64 =
         0x9e3779b97f4a7c15UL
 
-    let private mix64 (s0 : uint64) : uint64 =
-        let s = s0
-        let s = (s ^^^ (s >>> 33)) * 0xff51afd7ed558ccdUL
-        let s = (s ^^^ (s >>> 33)) * 0xc4ceb9fe1a85ec53UL
-        s ^^^ (s >>> 33)
+    let private mix64 (x : uint64) : uint64 =
+        let y = (x ^^^ (x >>> 33)) * 0xff51afd7ed558ccdUL
+        let z = (y ^^^ (y >>> 33)) * 0xc4ceb9fe1a85ec53UL
+        z ^^^ (z >>> 33)
 
-    let private mix64variant13 (s0 : uint64) : uint64 =
-        let s = s0
-        let s = (s ^^^ (s >>> 30)) * 0xbf58476d1ce4e5b9UL
-        let s = (s ^^^ (s >>> 27)) * 0x94d049bb133111ebUL
-        s ^^^ (s >>> 31)
+    let private mix64variant13 (x : uint64) : uint64 =
+        let y = (x ^^^ (x >>> 30)) * 0xbf58476d1ce4e5b9UL
+        let z = (y ^^^ (y >>> 27)) * 0x94d049bb133111ebUL
+        z ^^^ (z >>> 31)
 
-    let private bitCount (s0 : uint64) : uint64 =
+    let internal bitCount (s0 : uint64) : uint64 =
         let s = s0 - ((s0 >>> 1) &&& 0x5555555555555555UL)
         let s = (s &&& 0x3333333333333333UL) + ((s >>> 2) &&& 0x3333333333333333UL)
         let s = (s + (s >>> 4)) &&& 0x0f0f0f0f0f0f0f0fUL
@@ -72,13 +70,13 @@ module Seed =
         let s = s + (s >>> 32)
         s &&& 0x7fUL
 
-    let private mixGamma (g0 : uint64) : uint64 =
-        let g = mix64variant13 g0 ||| 1UL
-        let n = bitCount (g ^^^ (g >>> 1))
+    let private mixGamma (x : uint64) : uint64 =
+        let y = mix64variant13 x ||| 1UL
+        let n = bitCount (y ^^^ (y >>> 1))
         if n < 24UL then
-            g ^^^ 0xaaaaaaaaaaaaaaaaUL
+            y ^^^ 0xaaaaaaaaaaaaaaaaUL
         else
-            g
+            y
 
     /// Create a new 'Seed' from the supplied values.
     let private newSeed value gamma =
@@ -90,8 +88,8 @@ module Seed =
         newSeed (mix64 value) (mixGamma gamma)
 
     /// Create a new 'Seed'.
-    let from (s : uint64) : Seed =
-        mixSeed s (s + GoldenGamma)
+    let from (x : uint64) : Seed =
+        mixSeed x (x + GoldenGamma)
 
     /// Create a new random 'Seed'.
     let random () : Seed =
@@ -102,10 +100,15 @@ module Seed =
         Int64.MinValue, Int64.MaxValue
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let nextUInt64 (s : Seed) : uint64 * Seed =
-        let s = { s with Value = s.Value + s.Gamma }
-        let v = s.Value
-        (v, s)
+    let private next (seed : Seed) : uint64 * Seed =
+        let g = seed.Gamma
+        let v = seed.Value + g
+        (v, newSeed v g)
+
+    /// Generates a random 'System.UInt64'.
+    let nextUInt64 (seed : Seed) : uint64 * Seed =
+        let (v, s) = next seed
+        (mix64 v, s)
 
     let private crashUnless (cond : bool) (msg : string) : unit =
         if cond then
@@ -139,7 +142,7 @@ module Seed =
                 if mag >= magtgt then
                     v0, seed0
                 else
-                    let x, seed1 = nextUInt64 seed0
+                    let x, seed1 = next seed0
                     let v1 = v0 * b + (bigint x - bigint genlo)
                     loop (mag * b) v1 seed1
 
@@ -166,6 +169,6 @@ module Seed =
 
     /// Splits a 'Seed' in to two.
     let split (seed : Seed) : Seed * Seed =
-        let (value, seed1) = nextUInt64 seed
-        let (gamma, seed2) = nextUInt64 seed1
+        let (value, seed1) = next seed
+        let (gamma, seed2) = next seed1
         (seed2, mixSeed value gamma)

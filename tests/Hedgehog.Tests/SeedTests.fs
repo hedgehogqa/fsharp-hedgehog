@@ -27,4 +27,9 @@ let seedTests = testList "Seed tests" [
           { Value = value
             Gamma = gamma }
         expected =! Seed.from x
+
+    yield! testCases "Seed.bitCount is 1 for powers of 2"
+        [ 0 .. 63 ] <| fun shift ->
+        let value = 1UL <<< shift
+        1UL =! Seed.bitCount value
 ]
