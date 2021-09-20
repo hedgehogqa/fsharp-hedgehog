@@ -102,7 +102,7 @@ module Seed =
         Int64.MinValue, Int64.MaxValue
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
-    let private next (s : Seed) : uint64 * Seed =
+    let nextUInt64 (s : Seed) : uint64 * Seed =
         let s = { s with Value = s.Value + s.Gamma }
         let v = s.Value
         (v, s)
@@ -139,7 +139,7 @@ module Seed =
                 if mag >= magtgt then
                     v0, seed0
                 else
-                    let x, seed1 = next seed0
+                    let x, seed1 = nextUInt64 seed0
                     let v1 = v0 * b + (bigint x - bigint genlo)
                     loop (mag * b) v1 seed1
 
@@ -166,6 +166,6 @@ module Seed =
 
     /// Splits a 'Seed' in to two.
     let split (seed : Seed) : Seed * Seed =
-        let (value, seed1) = next seed
-        let (gamma, seed2) = next seed1
+        let (value, seed1) = nextUInt64 seed
+        let (gamma, seed2) = nextUInt64 seed1
         (seed2, mixSeed value gamma)
