@@ -30,7 +30,7 @@ let fableIgnore (label : string) (test : unit -> unit) : TestCase =
 #endif
 
 let inline (=!) (actual : 'a) (expected : 'a) : unit =
-    Expect.equal expected actual "Should be equal"
+    Expect.equal actual expected "Should be equal"
 
 [<RequireQualifiedAccess>]
 module Expect =
