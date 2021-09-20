@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1
 
 RUN apt update && apt -y install --no-install-recommends --no-install-suggests \
         bash-completion \
+        dieharder \
         less \
         nano \
  && apt -y autoremove \
