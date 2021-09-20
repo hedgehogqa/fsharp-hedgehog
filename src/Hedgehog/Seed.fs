@@ -13,7 +13,8 @@
 // overlay (kernel) v113.33.03, and Random.fs in FsCheck v3, which is
 // the initial motivation of doing this port [2] although the idea of
 // doing this port is for having it as the default, splittable random
-// generator in dotnet-jack [3] – QuickCheck with shrinking for free.
+// generator in fsharp-hedgehog [3] - QuickCheck with shrinking for
+// free.
 //
 // Other than the choice of initial seed for 'ofRandomSeed' this port
 // should be faithful. Currently, we have not rerun the DieHarder, or
@@ -23,8 +24,11 @@
 //    Fast splittable pseudorandom number generators
 //    Comm ACM, 49(10), Oct 2014, pp453-472.
 //
-// 2. https://github.com/fscheck/FsCheck/issues/198
-// 3. https://github.com/jystic/dotnet-jack/issues/26
+// 2. Nikos Baxevanis
+//    https://github.com/moodmosaic/SplitMix/blob/master/SplitMix.hs
+//
+// 3. F# Hedgehog
+//    https://github.com/hedgehogqa/fsharp-hedgehog/issues/26
 //
 
 namespace Hedgehog
@@ -32,6 +36,7 @@ namespace Hedgehog
 /// Splittable random number generator.
 type Seed =
     { Value : uint64
+      /// Must be an odd number.
       Gamma : uint64 }
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
@@ -39,11 +44,11 @@ module Seed =
     open System
 
     /// A predefined gamma value's needed for initializing the "root"
-    /// instances of SplittableRandom that is, instances not produced
+    /// instances of 'Seed'. That is, instances not produced
     /// by splitting an already existing instance. We choose: the odd
     /// integer closest to 2^64/φ, where φ = (1 + √5)/2 is the golden
-    /// ratio, and call it GOLDEN_GAMMA.
-    let [<Literal>] private goldenGamma : uint64 =
+    /// ratio.
+    let [<Literal>] private GoldenGamma : uint64 =
         0x9e3779b97f4a7c15UL
 
     let private mix64 (s0 : uint64) : uint64 =
@@ -73,25 +78,23 @@ module Seed =
         if n < 24UL then g ^^^ 0xaaaaaaaaaaaaaaaaUL
         else g
 
-    let private nextSeed (s0 : Seed) : Seed =
-        { s0 with Value = s0.Value + s0.Gamma }
-
     /// Create a new 'Seed'.
     let from (s : uint64) : Seed =
         { Value = mix64 s
-          Gamma = mixGamma (s + goldenGamma) }
+          Gamma = mixGamma (s + GoldenGamma) }
 
     /// Create a new random 'Seed'.
     let random () : Seed =
-        from (uint64 DateTimeOffset.UtcNow.Ticks + 2UL * goldenGamma)
+        from (uint64 DateTimeOffset.UtcNow.Ticks + 2UL * GoldenGamma)
 
     /// The possible range of values returned from 'next'.
     let range : int64 * int64 =
-        -9223372036854775808L, 9223372036854775807L
+        Int64.MinValue, Int64.MaxValue
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
     let private next (s : Seed) : uint64 * Seed =
-        mix64 s.Value, nextSeed s
+        let v = s.Value + s.Gamma
+        (v, { s with Value = v })
 
     let private crashUnless (cond : bool) (msg : string) : unit =
         if cond then
@@ -152,7 +155,6 @@ module Seed =
 
     /// Splits a random number generator in to two.
     let split (s0 : Seed) : Seed * Seed =
-        let s1 = nextSeed s0
-        let s2 = nextSeed s1
-        { s0 with Value = mix64 s1.Value },
-        { s1 with Value = mix64 s2.Value }
+        let (v0, s1) = next s0
+        let (g0, s2) = next s1
+        (s2, { Value = mix64 v0; Gamma = mixGamma g0 })
