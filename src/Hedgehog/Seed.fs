@@ -75,13 +75,23 @@ module Seed =
     let private mixGamma (g0 : uint64) : uint64 =
         let g = mix64variant13 g0 ||| 1UL
         let n = bitCount (g ^^^ (g >>> 1))
-        if n < 24UL then g ^^^ 0xaaaaaaaaaaaaaaaaUL
-        else g
+        if n < 24UL then
+            g ^^^ 0xaaaaaaaaaaaaaaaaUL
+        else
+            g
+
+    /// Create a new 'Seed' from the supplied values.
+    let private newSeed value gamma =
+        { Value = value
+          Gamma = gamma }
+
+    /// Create a new 'Seed' by mixing the supplied values.
+    let private mixSeed value gamma : Seed =
+        newSeed (mix64 value) (mixGamma gamma)
 
     /// Create a new 'Seed'.
     let from (s : uint64) : Seed =
-        { Value = mix64 s
-          Gamma = mixGamma (s + GoldenGamma) }
+        mixSeed s (s + GoldenGamma)
 
     /// Create a new random 'Seed'.
     let random () : Seed =
@@ -93,8 +103,9 @@ module Seed =
 
     /// Returns the next pseudo-random number in the sequence, and a new seed.
     let private next (s : Seed) : uint64 * Seed =
-        let v = s.Value + s.Gamma
-        (v, { s with Value = v })
+        let s = { s with Value = s.Value + s.Gamma }
+        let v = s.Value
+        (v, s)
 
     let private crashUnless (cond : bool) (msg : string) : unit =
         if cond then
@@ -153,8 +164,8 @@ module Seed =
 
             scaledX, seed'
 
-    /// Splits a random number generator in to two.
-    let split (s0 : Seed) : Seed * Seed =
-        let (v0, s1) = next s0
-        let (g0, s2) = next s1
-        (s2, { Value = mix64 v0; Gamma = mixGamma g0 })
+    /// Splits a 'Seed' in to two.
+    let split (seed : Seed) : Seed * Seed =
+        let (value, seed1) = next seed
+        let (gamma, seed2) = next seed1
+        (seed2, mixSeed value gamma)
