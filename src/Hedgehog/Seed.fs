@@ -142,7 +142,7 @@ module Seed =
                 if mag >= magtgt then
                     v0, seed0
                 else
-                    let x, seed1 = next seed0
+                    let x, seed1 = nextUInt64 seed0
                     let v1 = v0 * b + (bigint x - bigint genlo)
                     loop (mag * b) v1 seed1
 
