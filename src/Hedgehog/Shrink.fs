@@ -48,7 +48,7 @@ module Shrink =
     /// Turn a list of trees in to a tree of lists, using the supplied function to
     /// merge shrinking options.
     let rec sequence (merge : List<Tree<'a>> -> seq<List<Tree<'a>>>) (xs : List<Tree<'a>>) : Tree<List<'a>> =
-        let y = List.map Tree.outcome xs
+        let y = List.map Tree.root xs
         let ys = Seq.map (sequence merge) (merge xs)
         Node (y, ys)
 
@@ -56,13 +56,13 @@ module Shrink =
     /// itself and the elements in the list during traversal.
     let sequenceList (xs0 : List<Tree<'a>>) : Tree<List<'a>> =
         sequence (fun xs ->
-            Seq.append (list xs) (elems Tree.shrinks xs)) xs0
+            Seq.append (list xs) (elems Tree.children xs)) xs0
 
     /// Turn a list of trees in to a tree of lists, opting to shrink only the
     /// elements of the list (i.e. the size of the list will always be the same).
     let sequenceElems (xs0 : List<Tree<'a>>) : Tree<List<'a>> =
         sequence (fun xs ->
-            elems Tree.shrinks xs) xs0
+            elems Tree.children xs) xs0
 
     /// Shrink an integral number by edging towards a destination.
     let inline towards (destination : ^a) (x : ^a) : seq<'a> =

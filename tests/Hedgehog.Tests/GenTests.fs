@@ -52,7 +52,7 @@ let genTests = testList "Gen tests" [
             |> Gen.dateTime
             |> Gen.toRandom
             |> Random.run seed0 0
-            |> Tree.outcome
+            |> Tree.root
 
         let expected =
             DateTime ticks

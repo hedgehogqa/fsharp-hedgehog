@@ -224,7 +224,7 @@ module Gen =
                 Range.constant 1 total
                 |> integral
                 |> toRandom
-                |> Random.map (Tree.outcome >> f)
+                |> Random.map (Tree.root >> f)
                 |> ofRandom
             return! pick n xs
         }
@@ -272,7 +272,7 @@ module Gen =
             | n ->
                 let r = Random.resize (2 * k + n) r0
                 r |> Random.bind (fun x ->
-                    if p (Tree.outcome x) then
+                    if p (Tree.root x) then
                         Tree.filter p x |> Some |> Random.constant
                     else
                         tryN (k + 1) (n - 1))
@@ -527,7 +527,7 @@ module Gen =
 
     let sample (size : Size) (count : int) (g : Gen<'a>) : seq<'a> =
         sampleTree size count g
-        |> Seq.map Tree.outcome
+        |> Seq.map Tree.root
 
     /// Run a generator. The size passed to the generator is always 30;
     /// if you want another size then you should explicitly use 'resize'.
@@ -541,10 +541,10 @@ module Gen =
             let forest = sampleTree 10 5 gen
             for tree in forest do
                 yield "=== Outcome ==="
-                yield sprintf "%A" (Tree.outcome tree)
+                yield sprintf "%A" (Tree.root tree)
                 yield "=== Shrinks ==="
-                for shrink in Tree.shrinks tree do
-                    yield sprintf "%A" (Tree.outcome shrink)
+                for shrink in Tree.children tree do
+                    yield sprintf "%A" (Tree.root shrink)
                 yield "."
         ]
 

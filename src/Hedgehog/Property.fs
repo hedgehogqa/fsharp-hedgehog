@@ -145,7 +145,7 @@ module Property =
                     Journal = journal
                     RecheckType = args.RecheckType
                 }
-            match shrinkLimit, Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
+            match shrinkLimit, Seq.tryFind (Tree.root >> snd >> Outcome.isFailure) xs with
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
             | _, None -> failed
             | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
@@ -178,7 +178,7 @@ module Property =
                         Size = nextSize args.Size
                 }
 
-                match snd (Tree.outcome result) with
+                match snd (Tree.root result) with
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards

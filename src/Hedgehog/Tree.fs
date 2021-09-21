@@ -1,92 +1,74 @@
 ﻿namespace Hedgehog
 
-/// A rose tree which represents a random generated outcome, and all the ways
-/// in which it can be made smaller.
 type Tree<'a> =
     | Node of 'a * seq<Tree<'a>>
 
 module Tree =
-    /// The generated outcome.
-    let outcome (Node (x, _) : Tree<'a>) : 'a =
-        x
 
-    /// All the possible shrinks of this outcome. This should be ordered
-    /// smallest to largest as if property still fails with the first shrink in
-    /// the list then we will commit to that path and none of the others will
-    /// be tried (i.e. there is no backtracking).
-    let shrinks (Node (_, xs) : Tree<'a>) : seq<Tree<'a>> =
-        xs
+    let root (Node (root, _)) =
+        root
 
-    /// Create a tree with a single outcome and no shrinks.
-    let singleton (x : 'a) : Tree<'a> =
-        Node (x, Seq.empty)
+    let children (Node (_, children)) =
+        children
 
-    let addChild (child: Tree<'a>) (parent: Tree<'a>) : Tree<'a> =
+    let singleton value =
+        Node (value, Seq.empty)
+
+    let addChild child parent =
         let (Node (x, xs)) = parent
         Node (x, Seq.cons child xs)
 
-    let addChildValue (a: 'a) (tree: Tree<'a>) : Tree<'a> =
-        tree |> addChild (singleton a)
+    let addChildValue value tree =
+        tree |> addChild (singleton value)
 
-    let rec cata (f: 'a -> 'b seq -> 'b) (Node (x, xs): Tree<'a>) : 'b =
+    let rec cata f tree =
+        let (Node (x, xs)) = tree
         f x (Seq.map (cata f) xs)
 
-    let depth (tree: Tree<'a>) : int =
+    let depth tree =
         tree |> cata (fun _ -> Seq.fold max -1 >> (+) 1)
 
-    let toSeq (tree: Tree<'a>) : 'a seq =
+    let toSeq tree =
         tree |> cata (fun a -> Seq.join >> Seq.cons a)
 
-    /// Map over a tree.
-    let rec map (f : 'a -> 'b) (Node (x, xs) : Tree<'a>) : Tree<'b> =
+    let rec map f tree =
+        let (Node (x, xs)) = tree
         Node (f x, Seq.map (map f) xs)
 
-    let mapWithSubtrees (f: 'a -> seq<Tree<'b>> -> 'b) (tree: Tree<'a>) : Tree<'b> =
+    let mapWithSubtrees f tree =
         tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
 
-    let rec bind (k : 'a -> Tree<'b>) (Node (x, xs0) : Tree<'a>) : Tree<'b> =
-        match k x with
+    let rec bind k tree =
+        match k (root tree) with
         | Node (y, ys) ->
-            let xs = Seq.map (bind k) xs0
+            let xs = Seq.map (bind k) (children tree)
             Node (y, Seq.append xs ys)
 
-    let join (xss : Tree<Tree<'a>>) : Tree<'a> =
-        bind id xss
+    let join trees =
+        bind id trees
 
-    /// Turns a tree, in to a tree of trees. Useful for testing Hedgehog itself as
-    /// it allows you to observe the shrinks for a value inside a property,
-    /// while still allowing the property to shrink to a minimal
-    /// counterexample.
-    let rec duplicate (Node (_, ys) as x : Tree<'a>) : Tree<Tree<'a>> =
-        Node (x, Seq.map duplicate ys)
+    let rec duplicate tree =
+        Node (tree, Seq.map duplicate (children tree))
 
-    /// Fold over a tree.
-    let rec fold (f : 'a -> 'x -> 'b) (g : seq<'b> -> 'x) (Node (x, xs) : Tree<'a>) : 'b =
+    let rec fold f g tree =
+        let (Node (x, xs)) = tree
         f x (foldForest f g xs)
 
-    /// Fold over a list of trees.
-    and foldForest (f : 'a -> 'x -> 'b) (g : seq<'b> -> 'x) (xs : seq<Tree<'a>>) : 'x =
-        Seq.map (fold f g) xs |> g
+    and foldForest f g trees =
+        Seq.map (fold f g) trees |> g
 
-    /// Build a tree from an unfolding function and a seed value.
-    let rec unfold (f : 'b -> 'a) (g : 'b -> seq<'b>) (x : 'b) : Tree<'a> =
-        Node (f x, unfoldForest f g x)
+    let rec unfold (rootSelector : 'b -> 'a) (forestSelector : 'b -> seq<'b>) seed : Tree<'a> =
+        let root = seed |> rootSelector
+        let children = seed |> unfoldForest rootSelector forestSelector
+        Node (root, children)
 
-    /// Build a list of trees from an unfolding function and a seed value.
-    and unfoldForest (f : 'b -> 'a) (g : 'b -> seq<'b>) (x : 'b) : seq<Tree<'a>> =
-        g x |> Seq.map (unfold f g)
+    and unfoldForest rootSelector forestSelector seed =
+        let mapper = unfold rootSelector forestSelector
+        seed
+        |> forestSelector
+        |> Seq.map mapper
 
-    /// Apply an additional unfolding function to an existing tree.
-    ///
-    /// The root outcome remains intact, only the shrinks are affected, this
-    /// applies recursively, so shrinks can only ever be added using this
-    /// function.
-    ///
-    /// If you want to replace the shrinks altogether, try:
-    ///
-    /// Tree.unfold f (outcome oldTree)
-    ///
-    let rec expand (f : 'a -> seq<'a>) (Node (x, xs) : Tree<'a>) : Tree<'a> =
+    let rec expand mapping tree =
         //
         // Ideally we could put the 'unfoldForest' nodes before the 'map expandTree'
         // nodes, so that we're culling from the top down and we would be able to
@@ -94,25 +76,27 @@ module Tree =
         //
         // We'd need some kind of tree transpose to do this properly.
         //
-        let ys = Seq.map (expand f) xs
-        let zs = unfoldForest id f x
-        Node (x, Seq.append ys zs)
+        let root = root tree
+        let children = Seq.map (expand mapping) (children tree)
+        let forest = unfoldForest id mapping root
+        Node (root, Seq.append children forest)
 
-    /// Recursively discard any shrinks whose outcome does not pass the predicate.
-    /// Note that the root outcome can never be discarded.
-    let rec filter (f : 'a -> bool) (Node (x, xs) : Tree<'a>) : Tree<'a> =
-        Node (x, filterForest f xs)
+    let rec filter predicate tree =
+        Node (root tree, filterForest predicate (children tree))
 
-    /// Recursively discard any trees whose outcome does not pass the predicate.
-    and filterForest (f : 'a -> bool) (xs : seq<Tree<'a>>) : seq<Tree<'a>> =
-        Seq.filter (f << outcome) xs
-        |> Seq.map (filter f)
+    and filterForest predicate trees =
+        trees
+        |> Seq.filter (predicate << root)
+        |> Seq.map (filter predicate)
 
-    let rec renderList (Node (x, xs0) : Tree<string>) : List<string> =
+    let rec renderList tree =
         let mapFirstDifferently f g = function
             | [] -> []
             | x :: xs -> (f x) :: (xs |> List.map g)
         let mapLastDifferently f g = List.rev >> mapFirstDifferently g f >> List.rev
+
+        let (Node (x, xs0)) = tree
+
         let xs =
             xs0
             |> Seq.map renderList
@@ -126,7 +110,7 @@ module Tree =
 
         x :: xs
 
-    let render (t : Tree<string>) : string =
-        renderList t
+    let render tree =
+        renderList tree
         |> Seq.reduce (fun a b ->
             a + System.Environment.NewLine + b)

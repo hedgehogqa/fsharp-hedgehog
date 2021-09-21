@@ -32,6 +32,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Seq.fs" />
+    <Compile Include="Tree.fsi" />
     <Compile Include="Tree.fs" />
     <Compile Include="OptionTree.fs" />
     <Compile Include="Range.fs" />
