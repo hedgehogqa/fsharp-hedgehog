@@ -31,17 +31,17 @@ module PropertyState =
         { state with Tests = state.Tests + 1<tests> }
 
     let next (state : PropertyState) : (Seed * PropertyState) =
-        let nextSize size =
-            if size >= 100 then
+        let nextSize =
+            if state.Size >= 100 then
                 1
             else
-                size + 1
+                state.Size + 1
 
-        let nextSeed, seed = Seed.split state.Seed
-        let nextState = {
+        let seed, nextSeed = Seed.split state.Seed
+        let state = {
             state with
-                Seed = seed
-                Size = nextSize state.Size
+                Seed = nextSeed
+                Size = nextSize
         }
 
-        (nextSeed, nextState)
+        (seed, state)
