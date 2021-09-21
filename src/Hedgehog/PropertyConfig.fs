@@ -1,16 +1,18 @@
 namespace Hedgehog
 
 type PropertyConfig = internal {
-    TestLimit : int<tests>
+    DiscardLimit : int<discards>
     ShrinkLimit : int<shrinks> option
+    TestLimit : int<tests>
 }
 
 module PropertyConfig =
 
     /// The default configuration for a property test.
     let defaultConfig : PropertyConfig =
-        { TestLimit = 100<tests>
-          ShrinkLimit = None }
+        { DiscardLimit = 100<discards>
+          ShrinkLimit = None
+          TestLimit = 100<tests> }
 
     /// Set the number of times a property is allowed to shrink before the test
     /// runner gives up and displays the counterexample.
