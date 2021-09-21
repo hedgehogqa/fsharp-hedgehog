@@ -72,7 +72,7 @@ module Property =
         let h = g |> Gen.map |> mapGen
         h x
 
-    let private set (a: 'a) (property : Property<'b>) : Property<'a> =
+    let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
 
     let private bindGen
@@ -323,7 +323,7 @@ module PropertyBuilder =
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
             m |> Property.bind (fun x ->
                 Property.counterexample (fun () -> f x)
-                |> Property.map (fun () -> x))
+                |> Property.set x)
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
         member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =
