@@ -1,6 +1,7 @@
 {
   "dockerComposeFile": "docker-compose.yml",
-  "postAttachCommand": "rm -rf .ionide",
+  "postAttachCommand": "rm -rf .ionide && dotnet restore",
+  "remoteUser": "dev",
   "service": "dev",
   "workspaceFolder": "/workspace",
 
