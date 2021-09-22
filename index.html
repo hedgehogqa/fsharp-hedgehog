@@ -123,16 +123,17 @@
 <p>which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".</p>
 <p>One way to use Hedgehog to check the above property is to use the <code>property</code> computation expression:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
+    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int<span class="n">32</span> <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
     <span class="k">return</span> List.rev (List.rev xs) = xs
 }
 </code></pre></td></tr></table>
-<p>and to test the above property on 100 random lists of integers, pipe it into <code>Property.print</code>:</p>
+<p>and to test the above property on 100 random lists of integers, pipe it into <code>Property.render</code>:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
+    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int<span class="n">32</span> <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
     <span class="k">return</span> List.rev (List.rev xs) = xs
 }
-<span class="o">|</span>&gt; Property.print
+<span class="o">|</span>&gt; Property.render
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
 
 +++ OK, passed <span class="n">100</span> tests.
 </code></pre></td></tr></table>
@@ -140,8 +141,9 @@
 <p>Given any generator of type α, Hedgehog not only generates <em>random values</em> of type α, but also <em>shrinks</em> α into smaller values.</p>
 <p>Hedgehog comes with built-in generators for primitive types, so here's how it would generate a couple of integers and shrink them:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Range.constant <span class="n">0</span> <span class="n">100</span>
-<span class="o">|</span>&gt; Gen.int
-<span class="o">|</span>&gt; Gen.printSample;;
+<span class="o">|</span>&gt; Gen.int<span class="n">32</span>
+<span class="o">|</span>&gt; Gen.renderSample
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 === Outcome ===
 <span class="n">77</span>
@@ -196,7 +198,8 @@
 <span class="o">|</span>&gt; Gen.map int
 <span class="o">|</span>&gt; Gen.tuple<span class="n">3</span>
 <span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
-<span class="o">|</span>&gt; Gen.printSample;;
+<span class="o">|</span>&gt; Gen.renderSample
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 === Outcome ===
 <span class="n">60.8</span>.<span class="n">252</span>
@@ -332,10 +335,12 @@
     <span class="o">|</span>&gt; Gen.tuple<span class="n">3</span>
     <span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
 
-Property.print (property {
+property {
     <span class="k">let!</span> xs = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) version
     <span class="k">return</span> xs <span class="o">|</span>&gt; List.rev = xs
-})
+}
+<span class="o">|</span>&gt; Property.render
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
 
 &gt;
 *** Failed! Falsifiable (after <span class="n">3</span> tests <span class="k">and</span> <span class="n">6</span> shrinks):
@@ -367,7 +372,7 @@ Original:
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum
 </code></pre></td></tr></table>
 <p>This generator is of type <code>Gen&lt;char&gt;</code>, which means that Hedgehog can take this generator and produce characters, like so:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum <span class="o">|</span>&gt; Gen.printSample;;
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum <span class="o">|</span>&gt; Gen.renderSample <span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 === Outcome ===
 <span class="s">'3'</span>
@@ -422,7 +427,7 @@ Original:
     <span class="k">return</span> System.Net.IPAddress addr
 }
 
-ipAddressGen <span class="o">|</span>&gt; Gen.printSample;;
+ipAddressGen <span class="o">|</span>&gt; Gen.renderSample <span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 === Outcome ===
 <span class="n">45.230</span>.<span class="n">61.78</span>
@@ -590,11 +595,12 @@ ipAddressGen <span class="o">|</span>&gt; Gen.printSample;;
     <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
     <span class="k">else</span> Some(a + b)
 
-property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
-           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
+property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
+           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
            counterexample (sprintf <span class="s">"The value of a was %d."</span> a)
            <span class="k">return</span> tryAdd a b = Some(a + b) }
-<span class="o">|</span>&gt; Property.print;;
+<span class="o">|</span>&gt; Property.render
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 &gt;
 *** Failed! Falsifiable (after <span class="n">16</span> tests <span class="k">and</span> <span class="n">5</span> shrinks):
@@ -609,18 +615,19 @@ The value <span class="k">of</span> a was <span class="n">101</span>.
     <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
     <span class="k">else</span> Some(a + b)
 
-property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
-           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int
+property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
+           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
            where (a &lt; <span class="n">100</span>)
            <span class="k">return</span> tryAdd a b = Some(a + b) }
-<span class="o">|</span>&gt; Property.print;;
+<span class="o">|</span>&gt; Property.render
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
 
 &gt;
 *** Gave up after <span class="n">100</span> discards, passed <span class="n">95</span> tests.
 
 </code></pre></td></tr></table>
 <p>Essentially, the <code>where</code> custom operation discards test cases which do not satisfy the given condition.</p>
-<p>Test case generation continues until 100 cases (the default of <code>Property.print</code>) which do satisfy the condition have been found, or until an overall limit on the number of test cases is reached (to avoid looping if the condition never holds).</p>
+<p>Test case generation continues until 100 cases (the default of <code>Property.render</code>) which do satisfy the condition have been found, or until an overall limit on the number of test cases is reached (to avoid looping if the condition never holds).</p>
 <p>In this case a message such as</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="id">Gave</span> <span class="id">up</span> <span class="id">after</span> <span class="n">100</span> <span class="id">discards</span><span class="pn">,</span> <span class="id">passed</span> <span class="n">95</span> <span class="id">tests</span><span class="pn">.</span>
 </code></pre>
@@ -682,10 +689,12 @@ property { <span class="k">let!</span> a = Range.constantBounded () <span class=
 <p>Here's a way to use it:</p>
 <table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> pattern = <span class="s">"^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"</span>
 
-Property.print (property {
+property {
     <span class="k">let!</span> s = fromRegex pattern
     <span class="k">return</span> matches s pattern
-})
+}
+<span class="o">|</span>&gt; Property.render
+<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
 
 +++ OK, passed <span class="n">100</span> tests.
 

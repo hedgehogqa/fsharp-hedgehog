@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Builder (Hedgehog)</title>
+    <title>PropertyArgs (Hedgehog)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Jacob Stanley;Nikos Baxevanis">
 
@@ -82,7 +82,7 @@
         <div class="container" id="fsdocs-content">
             <div>
   <h1>
-    Builder Type
+    PropertyArgs Type
   </h1>
   <p>
     Namespace: 
@@ -93,15 +93,24 @@
   <p>
     Assembly: Hedgehog.dll
   </p>
-  <span>
-    Parent Module: 
-    <a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random.html">
-      Random
-    </a>
-  </span>
   <p>
     Base Type: 
-    <code>obj</code>
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.valuetype">ValueType</a></code>
+  </p>
+  <p>
+    All Interfaces: 
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-propertyargs.html">PropertyArgs</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+    , 
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-propertyargs.html">PropertyArgs</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
+  </p>
+  <p>
+    Kind: Struct
   </p>
   <div class="fsdocs-xmldoc">
     
@@ -110,18 +119,15 @@
   <div></div>
   <div></div>
   <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
   <div>
     <h3>
-      Instance members
+      Record fields
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Instance member
+            Record Field
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -132,45 +138,20 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '221', 221)" onmouseover="showTip(event, '221', 221)">
+              <code onmouseout="hideTip(event, '301', 301)" onmouseover="showTip(event, '301', 301)">
                 <p>
-                  <a id="Bind">
-                    <a href="#Bind">
-                      <code><span>this.Bind<span><span>(<span>m,&#32;k</span>)</span></span></span></code>
+                  <a id="RecheckType">
+                    <a href="#RecheckType">
+                      <code>RecheckType</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="221">
+              <div class="fsdocs-tip" id="301">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.Bind<span><span>(<span>m,&#32;k</span>)</span></span></span></code>
+                  <code>RecheckType</code>
                   <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        m
-                      </b>
-                      :
-                      <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        k
-                      </b>
-                      :
-                      <code><span>'a&#32;->&#32;<span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'b&gt;</span></span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'b&gt;</span></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -178,75 +159,31 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/Random.fs#L68-68" class="fsdocs-source-link">
+              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/PropertyArgs.fs#L5-5" class="fsdocs-source-link">
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github.png" class="normal"/>
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github-blue.png" class="hover"/>
               </a>
               
             </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  m
-                </span>
-                :
-                <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  k
-                </span>
-                :
-                <code><span>'a&#32;->&#32;<span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'b&gt;</span></span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'b&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '222', 222)" onmouseover="showTip(event, '222', 222)">
+              <code onmouseout="hideTip(event, '302', 302)" onmouseover="showTip(event, '302', 302)">
                 <p>
-                  <a id="Return">
-                    <a href="#Return">
-                      <code><span>this.Return<span><span>(<span>x</span>)</span></span></span></code>
+                  <a id="Seed">
+                    <a href="#Seed">
+                      <code>Seed</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="222">
+              <div class="fsdocs-tip" id="302">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.Return<span><span>(<span>x</span>)</span></span></span></code>
+                  <code>Seed</code>
                   <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        x
-                      </b>
-                      :
-                      <code>'a</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -254,67 +191,31 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/Random.fs#L64-64" class="fsdocs-source-link">
+              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/PropertyArgs.fs#L7-7" class="fsdocs-source-link">
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github.png" class="normal"/>
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github-blue.png" class="hover"/>
               </a>
               
             </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>'a</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '223', 223)" onmouseover="showTip(event, '223', 223)">
+              <code onmouseout="hideTip(event, '303', 303)" onmouseover="showTip(event, '303', 303)">
                 <p>
-                  <a id="ReturnFrom">
-                    <a href="#ReturnFrom">
-                      <code><span>this.ReturnFrom<span><span>(<span>m</span>)</span></span></span></code>
+                  <a id="Size">
+                    <a href="#Size">
+                      <code>Size</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="223">
+              <div class="fsdocs-tip" id="303">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.ReturnFrom<span><span>(<span>m</span>)</span></span></span></code>
+                  <code>Size</code>
                   <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        m
-                      </b>
-                      :
-                      <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -322,36 +223,20 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/Random.fs#L66-66" class="fsdocs-source-link">
+              <a href="https://github.com/hedgehogqa/fsharp-hedgehog/src/Hedgehog/PropertyArgs.fs#L6-6" class="fsdocs-source-link">
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github.png" class="normal"/>
                 <img src="https://hedgehogqa.github.io/fsharp-hedgehog/content/img/github-blue.png" class="hover"/>
               </a>
               
             </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  m
-                </span>
-                :
-                <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/hedgehog-random-1.html">Random</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div></div>
 </div>
             
