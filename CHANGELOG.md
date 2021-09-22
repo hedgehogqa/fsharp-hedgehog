@@ -1,3 +1,38 @@
+## Version 0.11.0 (2021-09-22)
+
+- Improved integral shrink trees to match behavior of binary search ([#239][239], [@TysonMN][TysonMN])
+- Add render functions ([#274][274], [@adam-becker][adam-becker])
+- fix link to tutorial in nuget package ([#305][305], [@ThisFunctionalTom][ThisFunctionalTom])
+- made Seq module internal and moved to own file ([#307][307], [@TysonMN][TysonMN])
+- Sort .editorconfig properties ([#308][308], [@adam-becker][adam-becker])
+- Remove PropertyConfig.coalesce ([#309][309], [@adam-becker][adam-becker])
+- Move property config to its own file. ([#311][311], [@adam-becker][adam-becker])
+- Add property args structure. ([#312][312], [@adam-becker][adam-becker])
+- Rename the parameters of Range.exponentialFrom (and friends) ([#315][315], [@dharmaturtle][dharmaturtle])
+- Implement Property.select via bind to avoid bug ([#318][318], [@TysonMN][TysonMN])
+  - simplify fix for #317 ([#356][356], [@TysonMN][TysonMN])
+- Remove duplicates in frequency shrink tree ([#321][321], [@TysonMN][TysonMN])
+- Special processing for printing ResizeArray<_> in Property.forAll #323 ([#324][324], [@altxt][altxt])
+- Fix for counterexample crashing bug #327 ([#328][328], [@TysonMN][TysonMN])
+- Refactors to simplify code mostly for takeSmallest ([#334][334], [@TysonMN][TysonMN])
+- Remove extra sized call ([#337][337], [@adam-becker][adam-becker])
+- Implement `Gen.mapN` variants with `Gen.apply` ([#338][338], [@adam-becker][adam-becker])
+- allow tests to access internal scope ([#344][344], [@TysonMN][TysonMN])
+- change access scope for two top-level modules from private to internal ([#345][345], [@TysonMN][TysonMN])
+- improve function name takeSmallest to shrinkInput in Property ([#347][347], [@TysonMN][TysonMN])
+- Add error handling to Property.map ([#348][348], [@TysonMN][TysonMN])
+- Add contributing guidelines. ([#349][349], [@adam-becker][adam-becker])
+- Update benchmark project ([#350][350], [@adam-becker][adam-becker])
+- Deprecate gen functions ([#351][351], [@adam-becker][adam-becker])
+- Remove 'Random.Builder' ([#352][352], [@adam-becker][adam-becker])
+- make Gen.{sample, sampleTree} and Random.replicate lazy ([#354][354], [@TysonMN][TysonMN])
+- Better C# example in README.md. ([#355][355], [@adam-becker][adam-becker])
+- remove Property.ofThrowing ([#357][357], [@TysonMN][TysonMN])
+- Fixed import namespace in cshrp sample ([#358][358], [@lupin-de-mid][lupin-de-mid])
+- Fix order of arguments to Expect.equal ([#361][361], [@TysonMN][TysonMN])
+- Fix a few things in our Seed implementation ([#362][362], [@adam-becker][adam-becker])
+- Utilize Property.set internally ([#363][363], [@TysonMN][TysonMN])
+
 ## Version 0.10.0 (2021-02-05)
 
 - Add `PropertyConfig` ([#288][288], [@dharmaturtle][dharmaturtle])
@@ -105,6 +140,10 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[altxt]:
+  https://github.com/altxt
+[lupin-de-mid]:
+  https://github.com/lupin-de-mid
 [ThisFunctionalTom]:
   https://github.com/ThisFunctionalTom
 [dharmaturtle]:
@@ -132,6 +171,66 @@
 [porges]:
   https://github.com/porges
 
+[363]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/363
+[362]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/362
+[361]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/361
+[358]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/358
+[357]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/357
+[356]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/356
+[355]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/355
+[354]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/354
+[352]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/352
+[351]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/351
+[350]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/350
+[349]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/349
+[348]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/348
+[347]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/347
+[345]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/345
+[344]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/344
+[338]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/338
+[337]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/337
+[334]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/334
+[328]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/328
+[324]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/324
+[321]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/321
+[318]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/318
+[315]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/315
+[312]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/312
+[311]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/311
+[309]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/309
+[308]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/308
+[307]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/307
+[305]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/305
 [300]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/300
 [288]:
@@ -140,6 +239,8 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/282
 [277]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/277
+[274]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/274
 [269]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/269
 [266]:
@@ -158,6 +259,8 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/244
 [240]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/240
+[239]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
 [237]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/237
 [235]:
