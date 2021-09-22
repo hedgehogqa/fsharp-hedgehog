@@ -9,10 +9,12 @@ RUN apt update && apt -y install --no-install-recommends --no-install-suggests \
  && apt -y clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g 1000 dev \
- && useradd -g 1000 -u 1000 -m -s /bin/bash dev \
+RUN groupadd --system dev \
+ && useradd --system --create-home --shell /bin/bash --gid dev dev \
  && mkdir -p /home/dev/.vscode-server/extensions \
  && mkdir -p /home/dev/.vscode-server/extensionsCache \
  && chown -R dev:dev /home/dev
 
 USER dev
+
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
