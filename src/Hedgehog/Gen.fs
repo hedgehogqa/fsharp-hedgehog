@@ -438,11 +438,6 @@ module Gen =
         integral range
 
     /// Generates a random signed 32-bit integer.
-    [<Obsolete("This method is deprecated and will be removed in the next version. Please use Gen.int32 instead.")>]
-    let int (range : Range<int>) : Gen<int> =
-        integral range
-
-    /// Generates a random signed 32-bit integer.
     let int32 (range : Range<int32>) : Gen<int32> =
         integral range
 
@@ -462,11 +457,6 @@ module Gen =
     let double (range : Range<double>) : Gen<double> =
         Random.double range
         |> create (Shrink.towardsDouble (Range.origin range))
-
-    /// Generates a random 64-bit floating point number.
-    [<Obsolete("This method is deprecated and will be removed in the next version. Please use Gen.double instead.")>]
-    let float (range : Range<float>) : Gen<float> =
-        double range |> map float
 
     /// Generates a random 32-bit floating point number.
     let single (range : Range<single>) : Gen<single> =
