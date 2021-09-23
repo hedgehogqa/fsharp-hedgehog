@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="GenBenchmarks.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
@@ -17,4 +18,5 @@
     <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
     <ProjectReference Include="..\Hedgehog.Tests\Hedgehog.Tests.fsproj" />
   </ItemGroup>
+
 </Project>

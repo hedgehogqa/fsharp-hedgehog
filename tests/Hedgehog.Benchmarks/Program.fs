@@ -1,4 +1,6 @@
-﻿open BenchmarkDotNet.Attributes
+﻿module Hedgehog.Benchmarks.Program
+
+open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Jobs
 open BenchmarkDotNet.Running
 
@@ -44,4 +46,5 @@ type ScaledBenchmarks () =
 let main argv =
     BenchmarkRunner.Run<Benchmarks> () |> ignore
     BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
+    BenchmarkRunner.Run<GenBenchmarks>() |> ignore
     0 // return an integer exit code
