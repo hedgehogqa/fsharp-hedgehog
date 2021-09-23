@@ -23,6 +23,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
     <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
     <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
+    <OtherFlags>--warnon:3218</OtherFlags>
   </PropertyGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">

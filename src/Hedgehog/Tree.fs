@@ -5,25 +5,25 @@ type Tree<'a> =
 
 module Tree =
 
-    let root (Node (root, _)) =
+    let root tree =
+        let (Node (root, _)) = tree
         root
 
-    let children (Node (_, children)) =
+    let children tree =
+        let (Node (_, children)) = tree
         children
 
     let singleton value =
         Node (value, Seq.empty)
 
     let addChild child parent =
-        let (Node (x, xs)) = parent
-        Node (x, Seq.cons child xs)
+        Node (root parent, Seq.cons child (children parent))
 
-    let addChildValue value tree =
-        tree |> addChild (singleton value)
+    let addChildValue value parent =
+        parent |> addChild (singleton value)
 
     let rec cata f tree =
-        let (Node (x, xs)) = tree
-        f x (Seq.map (cata f) xs)
+        f (root tree) (Seq.map (cata f) (children tree))
 
     let depth tree =
         tree |> cata (fun _ -> Seq.fold max -1 >> (+) 1)
@@ -31,18 +31,18 @@ module Tree =
     let toSeq tree =
         tree |> cata (fun a -> Seq.join >> Seq.cons a)
 
-    let rec map f tree =
-        let (Node (x, xs)) = tree
-        Node (f x, Seq.map (map f) xs)
+    let rec map mapping tree =
+        let root = mapping (root tree)
+        let children = Seq.map (map mapping) (children tree)
+        Node (root, children)
 
-    let mapWithSubtrees f tree =
-        tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
+    let mapWithSubtrees mapping tree =
+        tree |> cata (fun root subtrees -> Node (mapping root subtrees, subtrees))
 
-    let rec bind k tree =
-        match k (root tree) with
-        | Node (y, ys) ->
-            let xs = Seq.map (bind k) (children tree)
-            Node (y, Seq.append xs ys)
+    let rec bind mapping tree =
+        let newTree = mapping (root tree)
+        let newChildren = Seq.map (bind mapping) (children tree)
+        Node (root newTree, Seq.append newChildren (children newTree))
 
     let join trees =
         bind id trees
@@ -51,21 +51,24 @@ module Tree =
         Node (tree, Seq.map duplicate (children tree))
 
     let rec fold f g tree =
-        let (Node (x, xs)) = tree
-        f x (foldForest f g xs)
+        children tree
+        |> foldForest f g
+        |> f (root tree)
 
     and foldForest f g trees =
-        Seq.map (fold f g) trees |> g
+        trees
+        |> Seq.map (fold f g)
+        |> g
 
-    let rec unfold (rootSelector : 'b -> 'a) (forestSelector : 'b -> seq<'b>) seed : Tree<'a> =
-        let root = seed |> rootSelector
-        let children = seed |> unfoldForest rootSelector forestSelector
+    let rec unfold rootMapping (forestMapping : 'b -> seq<'b>) seed =
+        let root = seed |> rootMapping
+        let children = seed |> unfoldForest rootMapping forestMapping
         Node (root, children)
 
-    and unfoldForest rootSelector forestSelector seed =
-        let mapper = unfold rootSelector forestSelector
+    and unfoldForest rootMapping forestMapping seed =
+        let mapper = unfold rootMapping forestMapping
         seed
-        |> forestSelector
+        |> forestMapping
         |> Seq.map mapper
 
     let rec expand mapping tree =
@@ -95,10 +98,8 @@ module Tree =
             | x :: xs -> (f x) :: (xs |> List.map g)
         let mapLastDifferently f g = List.rev >> mapFirstDifferently g f >> List.rev
 
-        let (Node (x, xs0)) = tree
-
         let xs =
-            xs0
+            children tree
             |> Seq.map renderList
             |> Seq.toList
             |> mapLastDifferently
@@ -108,7 +109,7 @@ module Tree =
                                      ((+) "  "))
             |> List.concat
 
-        x :: xs
+        (root tree) :: xs
 
     let render tree =
         renderList tree
