@@ -162,8 +162,7 @@ type GenExtensions private () =
 
     [<Extension>]
     static member List (gen : Gen<'T>, range : Range<int>) : Gen<ResizeArray<'T>> =
-        Gen.list range gen
-        |> Gen.map ResizeArray
+        Gen.resizeArray range gen
 
     [<Extension>]
     static member NoShrink (gen : Gen<'T>) : Gen<'T> =
@@ -291,6 +290,14 @@ type GenExtensions private () =
     [<Extension>]
     static member Where (gen : Gen<'T>, predicate : Func<'T, bool>) : Gen<'T> =
         Gen.filter predicate.Invoke gen
+
+    [<Extension>]
+    static member WithFormatter (gen : Gen<'T>, formatter : Func<'T, string>) =
+        Gen.withFormatter formatter.Invoke gen
+
+    [<Extension>]
+    static member WithListFormatter (gen : Gen<ResizeArray<'T>>) =
+        Gen.withListFormatter gen
 
     [<Extension>]
     static member Zip (genA : Gen<'T>, genB : Gen<'U>) : Gen<'T * 'U> =

@@ -4,16 +4,41 @@ open System
 
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
-type Gen<'a> =
-    | Gen of Random<Tree<'a>>
+type Gen<'a> = private {
+    Config : GenConfig<'a>
+    Random : Random<Tree<'a>>
+}
 
 module Gen =
+    module Config =
+        let get (gen : Gen<'a>) : GenConfig<'a> =
+            gen.Config
 
-    let ofRandom (r : Random<Tree<'a>>) : Gen<'a> =
-        Gen r
+        let map (f : GenConfig<'a> -> GenConfig<'a>) (gen : Gen<'a>) : Gen<'a> =
+            { gen with Config = f (get gen) }
 
-    let toRandom (Gen r : Gen<'a>) : Random<Tree<'a>> =
-        r
+        let set (config : GenConfig<'a>) (gen : Gen<'a>) : Gen<'a> =
+            map (always config) gen
+
+    let format (a : 'a) (gen : Gen<'a>) : string =
+        let formatter = gen |> Config.get |> GenConfig.getFormatter
+        formatter a
+
+    let withFormatter (formatter : 'a -> string) (gen : Gen<'a>) : Gen<'a> =
+        gen
+        |> Config.map (GenConfig.setFormatter formatter)
+
+    let withListFormatter (gen : Gen<_>) : Gen<_> =
+        gen
+        |> withFormatter (Seq.toList >> sprintf "%A")
+
+    let ofRandom (random : Random<Tree<'a>>) : Gen<'a> = {
+        Config = GenConfig.defaultConfig
+        Random = random
+    }
+
+    let toRandom (gen : Gen<'a>) : Random<Tree<'a>> =
+        gen.Random
 
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         Random.delay (toRandom << f) |> ofRandom
@@ -342,6 +367,12 @@ module Gen =
 
         Random.sized sizedList
         |> ofRandom
+
+    /// Generates a `System.Collections.Generic.List<T>` using a 'Range' to determine the length.
+    let resizeArray (range : Range<int>) (g : Gen<'a>) : Gen<ResizeArray<'a>> =
+        list range g
+        |> map ResizeArray
+        |> withListFormatter
 
     /// Generates an array using a 'Range' to determine the length.
     let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
