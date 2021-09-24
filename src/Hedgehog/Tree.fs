@@ -44,8 +44,8 @@ module Tree =
         let newChildren = Seq.map (bind mapping) (children tree)
         Node (root newTree, Seq.append newChildren (children newTree))
 
-    let join trees =
-        bind id trees
+    let join treeOfTrees =
+        bind id treeOfTrees
 
     let rec duplicate tree =
         Node (tree, Seq.map duplicate (children tree))

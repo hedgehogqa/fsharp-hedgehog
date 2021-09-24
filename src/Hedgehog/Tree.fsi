@@ -36,7 +36,7 @@ module Tree =
 
     val bind : mapping: ('a -> Tree<'b>) -> tree: Tree<'a> -> Tree<'b>
 
-    val join : trees: Tree<Tree<'a>> -> Tree<'a>
+    val join : treeOfTrees: Tree<Tree<'a>> -> Tree<'a>
 
     /// Turns a tree, in to a tree of trees. Useful for testing Hedgehog itself as
     /// it allows you to observe the children for a value inside a property,
