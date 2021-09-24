@@ -6,8 +6,9 @@ type GenConfig<'a> = private {
 
 module GenConfig =
 
-    let defaultConfig () =
-        { Formatter = sprintf "%A" }
+    let defaultConfig<'a> =
+        let formatter: 'a -> string = sprintf "%A"
+        { Formatter = formatter }
 
     let getFormatter (config : GenConfig<'a>) : ('a -> string) =
         config.Formatter

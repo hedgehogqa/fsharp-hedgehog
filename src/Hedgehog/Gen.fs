@@ -33,7 +33,7 @@ module Gen =
         |> withFormatter (Seq.toList >> sprintf "%A")
 
     let ofRandom (random : Random<Tree<'a>>) : Gen<'a> = {
-        Config = GenConfig.defaultConfig ()
+        Config = GenConfig.defaultConfig
         Random = random
     }
 
