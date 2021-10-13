@@ -4,6 +4,41 @@ open Hedgehog
 open TestDsl
 
 let treeTests = testList "Tree tests" [
+    testCase "children during bind are concatenated in the superior order" <| fun _ ->
+        // Tree.bind can be define in two ways corresponding to the order in
+        // which the old and new children are concatenated.  This test ensures
+        // that the superior of these two orderings is being used.  For more
+        // information, see https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=Although%20this%20version%20of%20join%20still%20satisfies%20the%20monad%20laws%2C%20it%20is%20strictly%20worse.
+        let iTree = 1 |> Tree.singleton |> Tree.addChildValue 0
+
+        let actual =
+            "b"
+            |> Tree.singleton
+            |> Tree.addChildValue "a"
+            |> Tree.bind (fun s ->
+                iTree
+                |> Tree.map (fun i -> s, i))
+
+        let x = Tree.singleton ("b", 0)
+        let y =
+            Tree.singleton ("a", 1)
+            |> Tree.addChild (Tree.singleton ("a", 0))
+        let expected =
+            Tree.singleton ("b", 1)
+            |> Tree.addChild x
+            |> Tree.addChild y
+        let actualString =
+            actual
+            |> Tree.map (sprintf "%A")
+            |> Tree.render
+        let expectedString =
+            expected
+            |> Tree.map (sprintf "%A")
+            |> Tree.render
+        //actual =! expected // unfortunely, this says the trees are disequal
+        actualString =! expectedString
+
+
     testCase "depth of tree with no subtrees is 0" <| fun _ ->
         let actual =
             Tree.singleton "a"
