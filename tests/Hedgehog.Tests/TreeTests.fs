@@ -35,7 +35,7 @@ let treeTests = testList "Tree tests" [
             expected
             |> Tree.map (sprintf "%A")
             |> Tree.render
-        //actual =! expected // unfortunely, this says the trees are disequal
+        //actual =! expected // unfortunately, this says the trees are disequal
         actualString =! expectedString
 
 
