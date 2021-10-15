@@ -1,4 +1,4 @@
-﻿namespace Hedgehog
+namespace Hedgehog
 
 /// A rose tree which represents a random generated outcome, and all the ways
 /// in which it can be made smaller.
@@ -16,6 +16,9 @@ module Tree =
     /// be tried (i.e. there is no backtracking).
     let shrinks (Node (_, xs) : Tree<'a>) : seq<Tree<'a>> =
         xs
+
+    let create a children =
+        Node (a, children)
 
     /// Create a tree with a single outcome and no shrinks.
     let singleton (x : 'a) : Tree<'a> =
@@ -130,3 +133,11 @@ module Tree =
         renderList t
         |> Seq.reduce (fun a b ->
             a + System.Environment.NewLine + b)
+
+    let rec zip (Node (aData, aChildren), Node (bData, bChildren)) =
+        Node ((aData, bData), List.zip (Seq.toList aChildren) (Seq.toList bChildren) |> List.map zip)
+
+    let equals a b =
+        zip (a, b)
+        |> map (fun (a, b) -> a = b)
+        |> cata (fun a bs -> a && Seq.fold (&&) true bs)

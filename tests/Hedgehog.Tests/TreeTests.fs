@@ -19,24 +19,21 @@ let treeTests = testList "Tree tests" [
                 iTree
                 |> Tree.map (fun i -> s, i))
 
-        let x = Tree.singleton ("b", 0)
-        let y =
-            Tree.singleton ("a", 1)
-            |> Tree.addChild (Tree.singleton ("a", 0))
         let expected =
-            Tree.singleton ("b", 1)
-            |> Tree.addChild x
-            |> Tree.addChild y
-        let actualString =
-            actual
-            |> Tree.map (sprintf "%A")
-            |> Tree.render
-        let expectedString =
-            expected
-            |> Tree.map (sprintf "%A")
-            |> Tree.render
-        //actual =! expected // unfortunately, this says the trees are disequal
-        actualString =! expectedString
+            Tree.create
+                ("b", 1)
+                (seq {
+                    Tree.create
+                        ("a", 1)
+                        (seq {
+                            Tree.singleton
+                                ("a", 0)
+                        })
+                    Tree.singleton
+                        ("b", 0)
+                })
+
+        true =! Tree.equals actual expected
 
 
     testCase "depth of tree with no subtrees is 0" <| fun _ ->
