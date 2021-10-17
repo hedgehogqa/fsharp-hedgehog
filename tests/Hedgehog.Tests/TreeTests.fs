@@ -22,16 +22,14 @@ let treeTests = testList "Tree tests" [
         let expected =
             Tree.create
                 ("b", 1)
-                (seq {
-                    Tree.create
-                        ("a", 1)
-                        (seq {
-                            Tree.singleton
-                                ("a", 0)
-                        })
-                    Tree.singleton
-                        ("b", 0)
-                })
+                [ Tree.create
+                      ("a", 1)
+                      [ Tree.singleton
+                            ("a", 0)
+                      ]
+                  Tree.singleton
+                      ("b", 0)
+                ]
 
         true =! Tree.equals actual expected
 
