@@ -134,10 +134,10 @@ module Tree =
         |> Seq.reduce (fun a b ->
             a + System.Environment.NewLine + b)
 
-    let rec zip (Node (aData, aChildren), Node (bData, bChildren)) =
+    let rec internal zip (Node (aData, aChildren), Node (bData, bChildren)) =
         Node ((aData, bData), List.zip (Seq.toList aChildren) (Seq.toList bChildren) |> List.map zip)
 
-    let equals a b =
+    let internal equals a b =
         zip (a, b)
         |> map (fun (a, b) -> a = b)
         |> cata (fun a bs -> a && Seq.fold (&&) true bs)
