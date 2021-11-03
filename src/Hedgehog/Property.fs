@@ -128,71 +128,75 @@ module Property =
         gen |> forAll success
 
     //
+    // Conditions
+    //
+
+    let private shouldFail (state : PropertyState) (config : PropertyConfig) : bool =
+        config.ShrinkLimit
+        |> Option.map (fun limit -> state.Shrinks >= limit)
+        |> Option.defaultValue false
+
+    let private shouldPass (state : PropertyState) (config : PropertyConfig) : bool =
+        state.Tests >= config.TestLimit
+
+    let private shouldGiveUp (state : PropertyState) (config : PropertyConfig) : bool =
+        state.Discards >= config.DiscardLimit
+
+    //
     // Runner
     //
 
-    let private shrinkInput
-            (args : PropertyArgs)
-            (shrinkLimit : int<shrinks> Option) =
-        let rec loop
-                (nshrinks : int<shrinks>)
-                (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>) =
+    let private shrinkInput (state : PropertyState) (config : PropertyConfig) (tree : Tree<Journal * Outcome<'a>>) : Status =
+        let rec loop (state : PropertyState) (tree : Tree<Journal * Outcome<'a>>) : Status =
+            let (Node ((journal, _), xs)) = tree
+
             let failed =
                 Failed {
-                    Size = args.Size
-                    Seed = args.Seed
-                    Shrinks = nshrinks
+                    Size = state.Size
+                    Seed = state.Seed
+                    Shrinks = state.Shrinks
                     Journal = journal
-                    RecheckType = args.RecheckType
+                    RecheckType = state.RecheckType
                 }
-            match shrinkLimit, Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
-            | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
-            | _, None -> failed
-            | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
-        loop 0<shrinks>
+            if shouldFail state config then
+                failed
+            else
+                match Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
+                | None -> failed
+                | Some tree -> loop (PropertyState.countShrink state) tree
+        loop state tree
 
-    let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let private reportWith' (state : PropertyState) (config : PropertyConfig) (p : Property<unit>) : Report =
         let random = toGen p |> Gen.toRandom
 
-        let nextSize size =
-            if size >= 100 then
-                1
-            else
-                size + 1
-
-        let rec loop args tests discards =
-            if tests = config.TestLimit then
-                { Tests = tests
-                  Discards = discards
+        let rec loop state =
+            if shouldPass state config then
+                { Tests = state.Tests
+                  Discards = state.Discards
                   Status = OK }
-            elif discards >= 100<discards> then
-                { Tests = tests
-                  Discards = discards
+            elif shouldGiveUp state config then
+                { Tests = state.Tests
+                  Discards = state.Discards
                   Status = GaveUp }
             else
-                let seed1, seed2 = Seed.split args.Seed
-                let result = Random.run seed1 args.Size random
-                let nextArgs = {
-                    args with
-                        Seed = seed2
-                        Size = nextSize args.Size
-                }
+                let seed, state = PropertyState.next state
+                let tree = Random.run seed state.Size random
 
-                match snd (Tree.outcome result) with
+                match snd (Tree.outcome tree) with
                 | Failure ->
-                    { Tests = tests + 1<tests>
-                      Discards = discards
-                      Status = shrinkInput args config.ShrinkLimit result }
+                    { Tests = state.Tests + 1<tests>
+                      Discards = state.Discards
+                      Status = shrinkInput state config tree }
                 | Success () ->
-                    loop nextArgs (tests + 1<tests>) discards
+                    loop (PropertyState.countTest state)
                 | Discard ->
-                    loop nextArgs tests (discards + 1<discards>)
+                    loop (PropertyState.countDiscard state)
 
-        loop args 0<tests> 0<discards>
+        loop state
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
-        let args = PropertyArgs.init
-        p |> reportWith' args config
+        let state = PropertyState.init
+        p |> reportWith' state config
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig
@@ -218,13 +222,13 @@ module Property =
         g |> bind ofBool |> checkWith config
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
-        let args = {
-            PropertyArgs.init with
+        let state = {
+            PropertyState.init with
                 RecheckType = RecheckType.None
                 Seed = seed
                 Size = size
         }
-        reportWith' args config p
+        reportWith' state config p
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
         reportRecheckWith size seed PropertyConfig.defaultConfig p
