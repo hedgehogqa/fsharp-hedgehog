@@ -6,15 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="GenBenchmarks.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="FsCheck" Version="2.16.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
     <ProjectReference Include="..\Hedgehog.Tests\Hedgehog.Tests.fsproj" />
   </ItemGroup>
+
 </Project>
