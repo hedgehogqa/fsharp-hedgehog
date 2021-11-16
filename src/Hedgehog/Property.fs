@@ -202,10 +202,10 @@ module Property =
         p |> reportWith PropertyConfig.defaultConfig
 
     let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportWith config
+        p |> failOnFalse |> reportWith config
 
     let reportBool (p : Property<bool>) : Report =
-        p |> bind ofBool |> report
+        p |> failOnFalse |> report
 
     let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
         p |> reportWith config |> Report.tryRaise
@@ -214,10 +214,10 @@ module Property =
         p |> report |> Report.tryRaise
 
     let checkBool (g : Property<bool>) : unit =
-        g |> bind ofBool |> check
+        g |> failOnFalse |> check
 
     let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> checkWith config
+        g |> failOnFalse |> checkWith config
 
     let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
@@ -232,10 +232,10 @@ module Property =
         p |> reportRecheckWith size seed PropertyConfig.defaultConfig
 
     let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheckWith size seed config
+        p |> failOnFalse |> reportRecheckWith size seed config
 
     let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
-        p |> bind ofBool |> reportRecheck size seed
+        p |> failOnFalse |> reportRecheck size seed
 
     let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
         p |> reportRecheckWith size seed config |> Report.tryRaise
@@ -244,10 +244,10 @@ module Property =
         p |> reportRecheck size seed |> Report.tryRaise
 
     let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheckWith size seed config
+        g |> failOnFalse |> recheckWith size seed config
 
     let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        g |> bind ofBool |> recheck size seed
+        g |> failOnFalse |> recheck size seed
 
     let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
         p |> reportWith n |> Report.render
@@ -256,10 +256,10 @@ module Property =
         p |> report |> Report.render
 
     let renderBool (property : Property<bool>) : string =
-        property |> bind ofBool |> render
+        property |> failOnFalse |> render
 
     let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
-        p |> bind ofBool |> renderWith config
+        p |> failOnFalse |> renderWith config
 
 
 [<AutoOpen>]

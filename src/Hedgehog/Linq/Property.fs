@@ -6,22 +6,20 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
+
 type Property = private Property of Property<unit> with
 
     static member Failure : Property =
-        Property.failure
-        |> Property
+        Property.failure |> Property
 
     static member Discard : Property =
-        Property.discard
-        |> Property
+        Property.discard |> Property
 
     static member Success (value : 'T) : Property<'T> =
         Property.success value
 
     static member FromBool (value : bool) : Property =
-        Property.ofBool value
-        |> Property
+        value |> Property.ofBool |> Property
 
     static member FromGen (gen : Gen<Journal * Outcome<'T>>) : Property<'T> =
         Property.ofGen gen
@@ -74,11 +72,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Report (property : Property<bool>) : Report =
-        Property.reportBool property
+        property |> Property.failOnFalse |> Property.report
 
     [<Extension>]
     static member Report (property : Property<bool>, config : Hedgehog.PropertyConfig) : Report =
-        Property.reportBoolWith config property
+        property |> Property.failOnFalse |> Property.reportWith config
 
     [<Extension>]
     static member Check (property : Property) : unit =
@@ -92,11 +90,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Check (property : Property<bool>) : unit =
-        Property.checkBool property
+        property |> Property.failOnFalse |> Property.check
 
     [<Extension>]
     static member Check (property : Property<bool>, config : Hedgehog.PropertyConfig) : unit =
-        Property.checkBoolWith config property
+        property |> Property.failOnFalse |> Property.checkWith config
 
     [<Extension>]
     static member Recheck (property : Property, size : Size, seed : Seed) : unit =
@@ -110,11 +108,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Recheck (property : Property<bool>, size : Size, seed : Seed) : unit =
-        Property.recheckBool size seed property
+        property |> Property.failOnFalse |> Property.recheck size seed
 
     [<Extension>]
     static member Recheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
-        Property.recheckBoolWith size seed config property
+        property |> Property.failOnFalse |> Property.recheckWith size seed config
 
     [<Extension>]
     static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
@@ -128,11 +126,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
-        Property.reportRecheckBool size seed property
+        property |> Property.failOnFalse |> Property.reportRecheck size seed
 
     [<Extension>]
     static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
-        Property.reportRecheckBoolWith size seed config property
+        property |> Property.failOnFalse |> Property.reportRecheckWith size seed config
 
     [<Extension>]
     static member Render (property : Property) : string =
@@ -146,11 +144,11 @@ type PropertyExtensions private () =
 
     [<Extension>]
     static member Render (property : Property<bool>) : string =
-        Property.renderBool property
+        property |> Property.failOnFalse |> Property.render
 
     [<Extension>]
     static member Render (property : Property<bool>, config : Hedgehog.PropertyConfig) : string =
-        Property.renderBoolWith config property
+        property |> Property.failOnFalse |> Property.renderWith config
 
     [<Extension>]
     static member Where (property : Property<'T>, filter : Func<'T, bool>) : Property<'T> =
