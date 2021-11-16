@@ -1,3 +1,7 @@
+## Version 0.12.0
+
+- Add Property.failOnFalse ([#380][380], [@TysonMN][TysonMN])
+
 ## Version 0.11.0 (2021-09-22)
 
 - Improved integral shrink trees to match behavior of binary search ([#239][239], [@TysonMN][TysonMN])
@@ -171,6 +175,8 @@
 [porges]:
   https://github.com/porges
 
+[380]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/380
 [363]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/363
 [362]:
