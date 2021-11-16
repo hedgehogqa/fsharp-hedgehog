@@ -2,9 +2,11 @@ namespace Hedgehog
 
 open System
 
+
 [<Struct>]
 type Property<'a> =
     | Property of Gen<Journal * Outcome<'a>>
+
 
 module Property =
 
@@ -191,8 +193,7 @@ module Property =
         loop args 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
-        let args = PropertyArgs.init
-        p |> reportWith' args config
+        p |> reportWith' PropertyArgs.init config
 
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaultConfig
@@ -204,12 +205,10 @@ module Property =
         p |> bind ofBool |> report
 
     let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
-        reportWith config p
-        |> Report.tryRaise
+        p |> reportWith config |> Report.tryRaise
 
     let check (p : Property<unit>) : unit =
-        report p
-        |> Report.tryRaise
+        p |> report |> Report.tryRaise
 
     let checkBool (g : Property<bool>) : unit =
         g |> bind ofBool |> check
@@ -224,10 +223,10 @@ module Property =
                 Seed = seed
                 Size = size
         }
-        reportWith' args config p
+        p |> reportWith' args config
 
     let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        reportRecheckWith size seed PropertyConfig.defaultConfig p
+        p |> reportRecheckWith size seed PropertyConfig.defaultConfig
 
     let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
         p |> bind ofBool |> reportRecheckWith size seed config
@@ -236,12 +235,10 @@ module Property =
         p |> bind ofBool |> reportRecheck size seed
 
     let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
-        reportRecheckWith size seed config p
-        |> Report.tryRaise
+        p |> reportRecheckWith size seed config |> Report.tryRaise
 
     let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
-        reportRecheck size seed p
-        |> Report.tryRaise
+        p |> reportRecheck size seed |> Report.tryRaise
 
     let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
         g |> bind ofBool |> recheckWith size seed config
@@ -250,20 +247,17 @@ module Property =
         g |> bind ofBool |> recheck size seed
 
     let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
-        reportWith n p
-        |> Report.render
+        p |> reportWith n |> Report.render
 
     let render (p : Property<unit>) : string =
-        report p
-        |> Report.render
+        p |> report |> Report.render
 
     let renderBool (property : Property<bool>) : string =
-        reportBool property
-        |> Report.render
+        property |> bind ofBool |> render
 
     let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
-        reportBoolWith config p
-        |> Report.render
+        p |> bind ofBool |> renderWith config
+
 
 [<AutoOpen>]
 module PropertyBuilder =
