@@ -70,7 +70,7 @@ let rec genExp : Gen<Exp> =
     )
 
 let perfectMinimalShrink () =
-    Property.check (property {
+    property {
         let! xs = Gen.mapTree Tree.duplicate genExp |> Gen.resize 20
         match tryFindSmallest noAppLit10 xs with
         | None ->
@@ -88,7 +88,8 @@ let perfectMinimalShrink () =
                 counterexample (sprintf "%A" x)
                 return false
             }
-    })
+    }
+    |> Property.check
 
 let minimalTests = testList "Minimal tests" [
     testCase "greedy traversal with a predicate yields the perfect minimal shrink" perfectMinimalShrink

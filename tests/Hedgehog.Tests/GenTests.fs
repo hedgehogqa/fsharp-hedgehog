@@ -78,16 +78,18 @@ let genTests = testList "Gen tests" [
         DateTime (2000, 1, 1) =! actual
 
     fableIgnore "int64 can create exponentially bounded integer" <| fun _ ->
-        Property.check (property {
+        property {
             let! _ = Gen.int64 (Range.exponentialBounded ())
             return true
-        })
+        }
+        |> Property.check
 
     fableIgnore "uint64 can create exponentially bounded integer" <| fun _ ->
-        Property.check (property {
+        property {
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
-        })
+        }
+        |> Property.check
 
     testCase "apply is chainable" <| fun _ ->
         let _ : Gen<int> =
@@ -129,5 +131,6 @@ let genTests = testList "Gen tests" [
                 |> Tree.mapWithSubtrees isBalanced
                 |> Tree.cata (Seq.fold (&&))
             Expect.isTrue isBalanced
-        } |> Property.check
+        }
+        |> Property.check
 ]

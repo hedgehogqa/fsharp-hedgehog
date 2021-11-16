@@ -48,7 +48,7 @@ let treeTests = testList "Tree tests" [
         1 =! actual
 
     testCase "render tree with depth 0" <| fun _ ->
-        Property.check (property {
+        property {
             let! x0 = Gen.constant "0"
             let tree =
                 Node (x0, [
@@ -59,10 +59,11 @@ let treeTests = testList "Tree tests" [
                 sprintf "%A" x0
             ]
             Expect.isTrue (expected = Tree.renderList tree)
-        })
+        }
+        |> Property.check
 
     testCase "render tree with depth 1" <| fun _ ->
-        Property.check (property {
+        property {
             let! x0 = Gen.constant "0"
             let! x1 = Gen.constant "1"
             let! x2 = Gen.constant "2"
@@ -83,10 +84,11 @@ let treeTests = testList "Tree tests" [
                 sprintf "└-%A" x3
             ]
             Expect.isTrue (expected = Tree.renderList tree)
-        })
+        }
+        |> Property.check
 
     testCase "render tree with depth 2" <| fun _ ->
-        Property.check (property {
+        property {
             let! x0 = Gen.constant "0"
             let! x1 = Gen.constant "1"
             let! x2 = Gen.constant "2"
@@ -137,5 +139,6 @@ let treeTests = testList "Tree tests" [
                 sprintf "  └-%A" x12
             ]
             Expect.isTrue (expected = Tree.renderList tree)
-        })
+        }
+        |> Property.check
 ]

@@ -11,17 +11,19 @@ type Benchmarks () =
 
     [<Benchmark>]
     member _.GenInts () =
-        Property.check (property {
+        property {
             let! i = Gen.int32 (Range.constant 0 10000)
             return i >= 0
-        })
+        }
+        |> Property.check
 
     [<Benchmark>]
     member _.GenAsciiStrings () =
-        Property.check (property {
+        property {
             let! i = Gen.string (Range.constant 0 100) Gen.ascii
             return i.Length >= 0
-        })
+        }
+        |> Property.check
 
     [<Benchmark>]
     member _.BigExampleFromTests () =
@@ -35,12 +37,13 @@ type ScaledBenchmarks () =
 
     [<Benchmark>]
     member this.ForLoopTest () =
-        Property.check (property {
+        property {
             for _ = 0 to this.N do
                 ()
 
             return true
-        })
+        }
+        |> Property.check
 
 [<EntryPoint>]
 let main argv =
