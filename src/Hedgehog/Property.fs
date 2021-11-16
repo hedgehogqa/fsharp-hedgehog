@@ -100,6 +100,9 @@ module Property =
         |> bindGen kTry
         |> ofGen
 
+    let failOnFalse p =
+        p |> bind ofBool
+
     let private printValue (value) : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
         let prepareForPrinting (value: obj) : obj =
