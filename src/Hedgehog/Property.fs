@@ -109,13 +109,16 @@ module Property =
         #if FABLE_COMPILER
             value
         #else
-            let t = value.GetType()
-            // have to use TypeInfo due to targeting netstandard 1.6
-            let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
-            let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
-            if isList
-            then value :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq :> obj
-            else value
+            if value = null then
+                value
+            else
+                let t = value.GetType()
+                // have to use TypeInfo due to targeting netstandard 1.6
+                let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
+                let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
+                if isList
+                then value :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq :> obj
+                else value
         #endif
 
         value |> prepareForPrinting |> sprintf "%A"
