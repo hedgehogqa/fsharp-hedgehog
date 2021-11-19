@@ -1,4 +1,4 @@
-## Version 0.12.0
+## Version 0.11.1 (2021-11-19)
 
 - Add Property.failOnFalse ([#380][380], [@TysonMN][TysonMN])
 - Fix bug [#381][381] that prevents rendering of reports containing `None` ([#382][382], [@TysonMN][TysonMN])
