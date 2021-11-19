@@ -51,4 +51,13 @@ let propertyTests = testList "Property tests" [
 #else
         Expect.stringContains report guid "Missing counterexample text"
 #endif
+
+    testCase "Report containing None renders without throwing an exception" <| fun () ->
+        property {
+            let! opt = Gen.constant () |> Gen.option
+            return opt.IsSome
+        }
+        |> Property.report
+        |> Report.render
+        |> ignore
 ]

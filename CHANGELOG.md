@@ -1,6 +1,7 @@
 ## Version 0.12.0
 
 - Add Property.failOnFalse ([#380][380], [@TysonMN][TysonMN])
+- Fix bug [#381][381] that prevents rendering of reports containing `None` ([#382][382], [@TysonMN][TysonMN])
 
 ## Version 0.11.0 (2021-09-22)
 
@@ -175,6 +176,10 @@
 [porges]:
   https://github.com/porges
 
+[382]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/382
+[381]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/381
 [380]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/380
 [363]:
