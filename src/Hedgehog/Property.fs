@@ -321,9 +321,9 @@ module PropertyBuilder =
 
         [<CustomOperation("counterexample", MaintainsVariableSpace = true)>]
         member __.Counterexample(m : Property<'a>, [<ProjectionParameter>] f : 'a -> string) : Property<'a> =
-            m |> Property.bind (fun x ->
-                Property.counterexample (fun () -> f x)
-                |> Property.set x)
+            m |> Property.bind (fun a ->
+                Property.counterexample (fun () -> f a)
+                |> Property.set a)
 
         [<CustomOperation("where", MaintainsVariableSpace = true)>]
         member __.Where(m : Property<'a>, [<ProjectionParameter>] p : 'a -> bool) : Property<'a> =
