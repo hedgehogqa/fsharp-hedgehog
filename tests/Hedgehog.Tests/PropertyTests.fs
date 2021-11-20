@@ -55,7 +55,7 @@ let propertyTests = testList "Property tests" [
     testCase "Report containing None renders without throwing an exception" <| fun () ->
         property {
             let! opt = Gen.constant () |> Gen.option
-            return opt.IsSome
+            return opt |> Option.isSome
         }
         |> Property.report
         |> Report.render
