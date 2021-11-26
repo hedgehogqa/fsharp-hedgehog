@@ -1,6 +1,8 @@
 ## Version ?
 
 - Rename `Property.failOnFalse` to `Property.falseToFailure` ([#384][384], [@TysonMN][TysonMN])
+- Add `BindReturn` to the `property` CE ([#364][364], [@TysonMN][TysonMN])
+  - A breaking change.  Previously, returning a `bool` from a `property` CE (after using `let!`) caused the CE to have return type `Property<unit>`.  Now this results in a return type of `Property<bool>`.  The previous behavior can now be expressed by piping the `Property<bool>` instance into `Property.falseToFailure`.
 
 ## Version 0.11.1 (2021-11-19)
 
@@ -188,6 +190,8 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/381
 [380]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/380
+[364]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/364
 [363]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/363
 [362]:

@@ -82,6 +82,7 @@ let genTests = testList "Gen tests" [
             let! _ = Gen.int64 (Range.exponentialBounded ())
             return true
         }
+        |> Property.falseToFailure
         |> Property.check
 
     fableIgnore "uint64 can create exponentially bounded integer" <| fun _ ->
@@ -89,6 +90,7 @@ let genTests = testList "Gen tests" [
             let! _ = Gen.uint64 (Range.exponentialBounded ())
             return true
         }
+        |> Property.falseToFailure
         |> Property.check
 
     testCase "apply is chainable" <| fun _ ->
