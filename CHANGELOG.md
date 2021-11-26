@@ -1,3 +1,7 @@
+## Version ?
+
+- Rename `Property.failOnFalse` to `Property.falseToFailure` ([#384][384], [@TysonMN][TysonMN])
+
 ## Version 0.11.1 (2021-11-19)
 
 - Add Property.failOnFalse ([#380][380], [@TysonMN][TysonMN])
@@ -176,6 +180,8 @@
 [porges]:
   https://github.com/porges
 
+[384]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/384
 [382]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/382
 [381]:
