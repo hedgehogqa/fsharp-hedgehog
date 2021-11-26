@@ -15,6 +15,7 @@ type Benchmarks () =
             let! i = Gen.int32 (Range.constant 0 10000)
             return i >= 0
         }
+        |> Property.falseToFailure
         |> Property.check
 
     [<Benchmark>]
@@ -23,6 +24,7 @@ type Benchmarks () =
             let! i = Gen.string (Range.constant 0 100) Gen.ascii
             return i.Length >= 0
         }
+        |> Property.falseToFailure
         |> Property.check
 
     [<Benchmark>]

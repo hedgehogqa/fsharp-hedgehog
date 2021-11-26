@@ -11,6 +11,7 @@ let propertyTests = testList "Property tests" [
                 let! xs = Range.singleton 0 |> Gen.int32 |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
                 return false
             }
+            |> Property.falseToFailure
             |> Property.renderWith (PropertyConfig.withShrinks 0<shrinks> PropertyConfig.defaultConfig)
         Expect.isNotMatch report "\.\.\." "Abbreviation (...) found"
 
@@ -57,6 +58,7 @@ let propertyTests = testList "Property tests" [
             let! opt = Gen.constant () |> Gen.option
             return opt |> Option.isSome
         }
+        |> Property.falseToFailure
         |> Property.report
         |> Report.render
         |> ignore

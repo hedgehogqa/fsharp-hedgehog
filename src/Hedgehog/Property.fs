@@ -310,6 +310,12 @@ module PropertyBuilder =
         member __.Return(b : bool) : Property<unit> =
             Property.ofBool b
 
+        member __.BindReturn(m : Gen<'a>, f: 'a -> 'b) =
+            m
+            |> Gen.map (fun a -> (Journal.empty, Success a))
+            |> Property.ofGen
+            |> Property.map f
+
         member __.ReturnFrom(m : Property<'a>) : Property<'a> =
             m
 

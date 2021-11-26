@@ -207,6 +207,7 @@ let shrinkTests = testList "Shrink tests" [
                 let! actual = Range.linear 1 1_000_000 |> Gen.int32
                 return actual < 500_000
             }
+            |> Property.falseToFailure
             |> Property.reportWith propConfig
         match report.Status with
         | Failed failureData ->
