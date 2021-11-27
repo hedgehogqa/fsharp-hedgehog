@@ -222,37 +222,34 @@ module Property =
     let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
-    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
             PropertyArgs.init with
                 RecheckType = RecheckType.None
-                RecheckData = {
-                    Seed = seed
-                    Size = size
-                }
+                RecheckData = recheckData |> RecheckData.deserialize
         }
         p |> reportWith' args config
 
-    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        p |> reportRecheckWith size seed PropertyConfig.defaultConfig
+    let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
+        p |> reportRecheckWith recheckData PropertyConfig.defaultConfig
 
-    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> falseToFailure |> reportRecheckWith size seed config
+    let reportRecheckBoolWith (recheckData: string) (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> falseToFailure |> reportRecheckWith recheckData config
 
-    let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
-        p |> falseToFailure |> reportRecheck size seed
+    let reportRecheckBool (recheckData: string) (p : Property<bool>) : Report =
+        p |> falseToFailure |> reportRecheck recheckData
 
-    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
-        p |> reportRecheckWith size seed config |> Report.tryRaise
+    let recheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : unit =
+        p |> reportRecheckWith recheckData config |> Report.tryRaise
 
-    let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
-        p |> reportRecheck size seed |> Report.tryRaise
+    let recheck (recheckData: string) (p : Property<unit>) : unit =
+        p |> reportRecheck recheckData |> Report.tryRaise
 
-    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> falseToFailure |> recheckWith size seed config
+    let recheckBoolWith (recheckData: string) (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> falseToFailure |> recheckWith recheckData config
 
-    let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        g |> falseToFailure |> recheck size seed
+    let recheckBool (recheckData: string) (g : Property<bool>) : unit =
+        g |> falseToFailure |> recheck recheckData
 
     let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
         p |> reportWith n |> Report.render

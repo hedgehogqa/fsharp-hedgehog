@@ -123,17 +123,13 @@ module Report =
 
         | RecheckType.FSharp ->
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck %d ({ Value = %A; Gamma = %A }) <property>"
-                failure.RecheckData.Size
-                failure.RecheckData.Seed.Value
-                failure.RecheckData.Seed.Gamma
+            appendLinef sb "> Property.recheck \"%s\" <property>"
+                (RecheckData.serialize failure.RecheckData)
 
         | RecheckType.CSharp ->
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> property.Recheck(%d, new Seed { Value = %A; Gamma = %A })"
-                failure.RecheckData.Size
-                failure.RecheckData.Seed.Value
-                failure.RecheckData.Seed.Gamma
+            appendLinef sb "> property.Recheck(\"%s\")"
+                (RecheckData.serialize failure.RecheckData)
 
         sb.ToString().Trim() // Exclude extra newline.
 

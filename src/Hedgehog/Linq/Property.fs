@@ -97,40 +97,40 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.checkWith config
 
     [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed) : unit =
+    static member Recheck (property : Property, recheckData: string) : unit =
         let (Property property) = property
-        Property.recheck size seed property
+        Property.recheck recheckData property
 
     [<Extension>]
-    static member Recheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
+    static member Recheck (property : Property, recheckData: string, config : Hedgehog.PropertyConfig) : unit =
         let (Property property) = property
-        Property.recheckWith size seed config property
+        Property.recheckWith recheckData config property
 
     [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed) : unit =
-        property |> Property.falseToFailure |> Property.recheck size seed
+    static member Recheck (property : Property<bool>, recheckData: string) : unit =
+        property |> Property.falseToFailure |> Property.recheck recheckData
 
     [<Extension>]
-    static member Recheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : unit =
-        property |> Property.falseToFailure |> Property.recheckWith size seed config
+    static member Recheck (property : Property<bool>, recheckData: string, config : Hedgehog.PropertyConfig) : unit =
+        property |> Property.falseToFailure |> Property.recheckWith recheckData config
 
     [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed) : Report =
+    static member ReportRecheck (property : Property, recheckData: string) : Report =
         let (Property property) = property
-        Property.reportRecheck size seed property
+        Property.reportRecheck recheckData property
 
     [<Extension>]
-    static member ReportRecheck (property : Property, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
+    static member ReportRecheck (property : Property, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
         let (Property property) = property
-        Property.reportRecheckWith size seed config property
+        Property.reportRecheckWith recheckData config property
 
     [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed) : Report =
-        property |> Property.falseToFailure |> Property.reportRecheck size seed
+    static member ReportRecheck (property : Property<bool>, recheckData: string) : Report =
+        property |> Property.falseToFailure |> Property.reportRecheck recheckData
 
     [<Extension>]
-    static member ReportRecheck (property : Property<bool>, size : Size, seed : Seed, config : Hedgehog.PropertyConfig) : Report =
-        property |> Property.falseToFailure |> Property.reportRecheckWith size seed config
+    static member ReportRecheck (property : Property<bool>, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
+        property |> Property.falseToFailure |> Property.reportRecheckWith recheckData config
 
     [<Extension>]
     static member Render (property : Property) : string =
