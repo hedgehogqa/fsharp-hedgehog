@@ -140,18 +140,18 @@ module Property =
     //
 
     let private shrinkInput
-            (args : PropertyArgs)
+            (recheckType: RecheckType)
+            (data : RecheckData)
             (shrinkLimit : int<shrinks> Option) =
         let rec loop
                 (nshrinks : int<shrinks>)
                 (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>) =
             let failed =
                 Failed {
-                    Size = args.Size
-                    Seed = args.Seed
+                    RecheckData = data
                     Shrinks = nshrinks
                     Journal = journal
-                    RecheckType = args.RecheckType
+                    RecheckType = recheckType
                 }
             match shrinkLimit, Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
@@ -168,7 +168,7 @@ module Property =
             else
                 size + 1
 
-        let rec loop args tests discards =
+        let rec loop data tests discards =
             if tests = config.TestLimit then
                 { Tests = tests
                   Discards = discards
@@ -178,25 +178,25 @@ module Property =
                   Discards = discards
                   Status = GaveUp }
             else
-                let seed1, seed2 = Seed.split args.Seed
-                let result = Random.run seed1 args.Size random
-                let nextArgs = {
-                    args with
+                let seed1, seed2 = Seed.split data.Seed
+                let result = Random.run seed1 data.Size random
+                let nextData = {
+                    data with
                         Seed = seed2
-                        Size = nextSize args.Size
+                        Size = nextSize data.Size
                 }
 
                 match snd (Tree.outcome result) with
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = shrinkInput args config.ShrinkLimit result }
+                      Status = shrinkInput args.RecheckType data config.ShrinkLimit result }
                 | Success () ->
-                    loop nextArgs (tests + 1<tests>) discards
+                    loop nextData (tests + 1<tests>) discards
                 | Discard ->
-                    loop nextArgs tests (discards + 1<discards>)
+                    loop nextData tests (discards + 1<discards>)
 
-        loop args 0<tests> 0<discards>
+        loop args.RecheckData 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         p |> reportWith' PropertyArgs.init config
@@ -226,8 +226,10 @@ module Property =
         let args = {
             PropertyArgs.init with
                 RecheckType = RecheckType.None
-                Seed = seed
-                Size = size
+                RecheckData = {
+                    Seed = seed
+                    Size = size
+                }
         }
         p |> reportWith' args config
 

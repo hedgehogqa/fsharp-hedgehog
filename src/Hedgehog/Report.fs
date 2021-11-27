@@ -9,10 +9,16 @@ type RecheckType =
     | None
     | CSharp
     | FSharp
-
-type FailureData = {
+    
+    
+[<Struct>]
+type RecheckData = internal {
     Size : Size
     Seed : Seed
+}
+
+type FailureData = {
+    RecheckData : RecheckData
     Shrinks : int<shrinks>
     Journal : Journal
     RecheckType : RecheckType
@@ -93,16 +99,16 @@ module Report =
         | RecheckType.FSharp ->
             appendLinef sb "This failure can be reproduced by running:"
             appendLinef sb "> Property.recheck %d ({ Value = %A; Gamma = %A }) <property>"
-                failure.Size
-                failure.Seed.Value
-                failure.Seed.Gamma
+                failure.RecheckData.Size
+                failure.RecheckData.Seed.Value
+                failure.RecheckData.Seed.Gamma
 
         | RecheckType.CSharp ->
             appendLinef sb "This failure can be reproduced by running:"
             appendLinef sb "> property.Recheck(%d, new Seed { Value = %A; Gamma = %A })"
-                failure.Size
-                failure.Seed.Value
-                failure.Seed.Gamma
+                failure.RecheckData.Size
+                failure.RecheckData.Seed.Value
+                failure.RecheckData.Seed.Gamma
 
         sb.ToString().Trim() // Exclude extra newline.
 
