@@ -120,6 +120,11 @@ type PropertyExtensions private () =
         Property.reportRecheck recheckData property
 
     [<Extension>]
+    static member internal ReportRecheck (property : Property, recheckData: RecheckData) : Report =
+        let (Property property) = property
+        Property.reportRecheck (RecheckData.serialize recheckData) property
+
+    [<Extension>]
     static member ReportRecheck (property : Property, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
         let (Property property) = property
         Property.reportRecheckWith recheckData config property
