@@ -16,6 +16,7 @@
     <Compile Include="SeedTests.fs" />
     <Compile Include="ShrinkTests.fs" />
     <Compile Include="MinimalTests.fs" />
+    <Compile Include="ReportTests.fs" />
     <Compile Include="PropertyTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

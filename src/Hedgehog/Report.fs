@@ -35,6 +35,31 @@ type Report = {
     Status : Status
 }
 
+
+module internal RecheckData =
+    open System
+
+    let private separator = "_"
+
+    let serialize data =
+        [ string data.Size
+          string data.Seed.Value
+          string data.Seed.Gamma ]
+        |> String.concat separator
+
+    let deserialize (s: string) =
+        try
+            let parts = s.Split([|separator|], StringSplitOptions.None)
+            let size = parts.[0] |> Int32.Parse
+            let seed =
+                { Value = parts.[1] |> UInt64.Parse
+                  Gamma = parts.[2] |> UInt64.Parse }
+            { Size = size
+              Seed = seed }
+        with e ->
+            raise (ArgumentException("Failed to deserialize RecheckData", e))
+
+
 module Report =
 
     open System
