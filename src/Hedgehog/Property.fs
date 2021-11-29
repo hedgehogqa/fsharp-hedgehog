@@ -222,16 +222,13 @@ module Property =
     let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
-    let internal reportRecheckStrongWith (recheckData: RecheckData) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
             PropertyArgs.init with
                 RecheckType = RecheckType.None
-                RecheckData = recheckData
+                RecheckData = recheckData |> RecheckData.deserialize
         }
         p |> reportWith' args config
-
-    let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
-        p |> reportRecheckStrongWith (recheckData |> RecheckData.deserialize) config
 
     let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
         p |> reportRecheckWith recheckData PropertyConfig.defaultConfig
