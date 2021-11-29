@@ -1,16 +1,17 @@
 namespace Hedgehog
 
 [<Struct>]
-type PropertyArgs = private {
+type PropertyArgs = internal {
     RecheckType : RecheckType
-    Size : Size
-    Seed : Seed
+    RecheckData : RecheckData
 }
 
 module PropertyArgs =
 
     let init = {
         RecheckType = RecheckType.FSharp
-        Size = 0
-        Seed = Seed.random ()
+        RecheckData = {
+            Size = 0
+            Seed = Seed.random ()
+        }
     }

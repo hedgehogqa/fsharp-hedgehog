@@ -9,10 +9,16 @@ type RecheckType =
     | None
     | CSharp
     | FSharp
-
-type FailureData = {
+    
+    
+[<Struct>]
+type RecheckData = internal {
     Size : Size
     Seed : Seed
+}
+
+type FailureData = {
+    RecheckData : RecheckData
     Shrinks : int<shrinks>
     Journal : Journal
     RecheckType : RecheckType
@@ -28,6 +34,31 @@ type Report = {
     Discards : int<discards>
     Status : Status
 }
+
+
+module internal RecheckData =
+    open System
+
+    let private separator = "_"
+
+    let serialize data =
+        [ string data.Size
+          string data.Seed.Value
+          string data.Seed.Gamma ]
+        |> String.concat separator
+
+    let deserialize (s: string) =
+        try
+            let parts = s.Split([|separator|], StringSplitOptions.None)
+            let size = parts.[0] |> Int32.Parse
+            let seed =
+                { Value = parts.[1] |> UInt64.Parse
+                  Gamma = parts.[2] |> UInt64.Parse }
+            { Size = size
+              Seed = seed }
+        with e ->
+            raise (ArgumentException("Failed to deserialize RecheckData", e))
+
 
 module Report =
 
@@ -92,17 +123,13 @@ module Report =
 
         | RecheckType.FSharp ->
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck %d ({ Value = %A; Gamma = %A }) <property>"
-                failure.Size
-                failure.Seed.Value
-                failure.Seed.Gamma
+            appendLinef sb "> Property.recheck \"%s\" <property>"
+                (RecheckData.serialize failure.RecheckData)
 
         | RecheckType.CSharp ->
             appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> property.Recheck(%d, new Seed { Value = %A; Gamma = %A })"
-                failure.Size
-                failure.Seed.Value
-                failure.Seed.Gamma
+            appendLinef sb "> property.Recheck(\"%s\")"
+                (RecheckData.serialize failure.RecheckData)
 
         sb.ToString().Trim() // Exclude extra newline.
 

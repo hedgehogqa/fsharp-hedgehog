@@ -140,18 +140,18 @@ module Property =
     //
 
     let private shrinkInput
-            (args : PropertyArgs)
+            (recheckType: RecheckType)
+            (data : RecheckData)
             (shrinkLimit : int<shrinks> Option) =
         let rec loop
                 (nshrinks : int<shrinks>)
                 (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>) =
             let failed =
                 Failed {
-                    Size = args.Size
-                    Seed = args.Seed
+                    RecheckData = data
                     Shrinks = nshrinks
                     Journal = journal
-                    RecheckType = args.RecheckType
+                    RecheckType = recheckType
                 }
             match shrinkLimit, Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
@@ -168,7 +168,7 @@ module Property =
             else
                 size + 1
 
-        let rec loop args tests discards =
+        let rec loop data tests discards =
             if tests = config.TestLimit then
                 { Tests = tests
                   Discards = discards
@@ -178,25 +178,25 @@ module Property =
                   Discards = discards
                   Status = GaveUp }
             else
-                let seed1, seed2 = Seed.split args.Seed
-                let result = Random.run seed1 args.Size random
-                let nextArgs = {
-                    args with
+                let seed1, seed2 = Seed.split data.Seed
+                let result = Random.run seed1 data.Size random
+                let nextData = {
+                    data with
                         Seed = seed2
-                        Size = nextSize args.Size
+                        Size = nextSize data.Size
                 }
 
                 match snd (Tree.outcome result) with
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = shrinkInput args config.ShrinkLimit result }
+                      Status = shrinkInput args.RecheckType data config.ShrinkLimit result }
                 | Success () ->
-                    loop nextArgs (tests + 1<tests>) discards
+                    loop nextData (tests + 1<tests>) discards
                 | Discard ->
-                    loop nextArgs tests (discards + 1<discards>)
+                    loop nextData tests (discards + 1<discards>)
 
-        loop args 0<tests> 0<discards>
+        loop args.RecheckData 0<tests> 0<discards>
 
     let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
         p |> reportWith' PropertyArgs.init config
@@ -222,35 +222,34 @@ module Property =
     let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
-    let reportRecheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
             PropertyArgs.init with
                 RecheckType = RecheckType.None
-                Seed = seed
-                Size = size
+                RecheckData = recheckData |> RecheckData.deserialize
         }
         p |> reportWith' args config
 
-    let reportRecheck (size : Size) (seed : Seed) (p : Property<unit>) : Report =
-        p |> reportRecheckWith size seed PropertyConfig.defaultConfig
+    let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
+        p |> reportRecheckWith recheckData PropertyConfig.defaultConfig
 
-    let reportRecheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<bool>) : Report =
-        p |> falseToFailure |> reportRecheckWith size seed config
+    let reportRecheckBoolWith (recheckData: string) (config : PropertyConfig) (p : Property<bool>) : Report =
+        p |> falseToFailure |> reportRecheckWith recheckData config
 
-    let reportRecheckBool (size : Size) (seed : Seed) (p : Property<bool>) : Report =
-        p |> falseToFailure |> reportRecheck size seed
+    let reportRecheckBool (recheckData: string) (p : Property<bool>) : Report =
+        p |> falseToFailure |> reportRecheck recheckData
 
-    let recheckWith (size : Size) (seed : Seed) (config : PropertyConfig) (p : Property<unit>) : unit =
-        p |> reportRecheckWith size seed config |> Report.tryRaise
+    let recheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : unit =
+        p |> reportRecheckWith recheckData config |> Report.tryRaise
 
-    let recheck (size : Size) (seed : Seed) (p : Property<unit>) : unit =
-        p |> reportRecheck size seed |> Report.tryRaise
+    let recheck (recheckData: string) (p : Property<unit>) : unit =
+        p |> reportRecheck recheckData |> Report.tryRaise
 
-    let recheckBoolWith (size : Size) (seed : Seed) (config : PropertyConfig) (g : Property<bool>) : unit =
-        g |> falseToFailure |> recheckWith size seed config
+    let recheckBoolWith (recheckData: string) (config : PropertyConfig) (g : Property<bool>) : unit =
+        g |> falseToFailure |> recheckWith recheckData config
 
-    let recheckBool (size : Size) (seed : Seed) (g : Property<bool>) : unit =
-        g |> falseToFailure |> recheck size seed
+    let recheckBool (recheckData: string) (g : Property<bool>) : unit =
+        g |> falseToFailure |> recheck recheckData
 
     let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
         p |> reportWith n |> Report.render

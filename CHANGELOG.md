@@ -3,6 +3,7 @@
 - Rename `Property.failOnFalse` to `Property.falseToFailure` ([#384][384], [@TysonMN][TysonMN])
 - Add `BindReturn` to the `property` CE ([#364][364], [@TysonMN][TysonMN])
   - A breaking change.  Previously, returning a `bool` from a `property` CE (after using `let!`) caused the CE to have return type `Property<unit>`.  Now this results in a return type of `Property<bool>`.  The previous behavior can now be expressed by piping the `Property<bool>` instance into `Property.falseToFailure`.
+- Change recheck API to accept recheck data encoded as `string` ([#385][385], [@TysonMN][TysonMN])
 
 ## Version 0.11.1 (2021-11-19)
 
@@ -182,6 +183,8 @@
 [porges]:
   https://github.com/porges
 
+[385]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/385
 [384]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/384
 [382]:
