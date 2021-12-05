@@ -3,13 +3,6 @@ namespace Hedgehog
 [<Measure>] type tests
 [<Measure>] type discards
 [<Measure>] type shrinks
-
-[<RequireQualifiedAccess>]
-type RecheckType =
-    | None
-    | CSharp
-    | FSharp
-    
     
 [<Struct>]
 type RecheckData = internal {
@@ -17,11 +10,21 @@ type RecheckData = internal {
     Seed : Seed
 }
 
+[<RequireQualifiedAccess>]
+type Language =
+    | CSharp
+    | FSharp
+
+[<RequireQualifiedAccess>]
+type RecheckInfo = {
+    Language : Language
+    Data : RecheckData
+}
+
 type FailureData = {
-    RecheckData : RecheckData
     Shrinks : int<shrinks>
     Journal : Journal
-    RecheckType : RecheckType
+    RecheckInfo : RecheckInfo option
 }
 
 type Status =
@@ -117,19 +120,19 @@ module Report =
 
         Seq.iter (appendLine sb) (Journal.eval failure.Journal)
 
-        match failure.RecheckType with
-        | RecheckType.None ->
+        match failure.RecheckInfo with
+        | None ->
             ()
 
-        | RecheckType.FSharp ->
+        | Some { Language = Language.FSharp; Data = recheckData } ->
             appendLinef sb "This failure can be reproduced by running:"
             appendLinef sb "> Property.recheck \"%s\" <property>"
-                (RecheckData.serialize failure.RecheckData)
-
-        | RecheckType.CSharp ->
+                (RecheckData.serialize recheckData)
+                
+        | Some { Language = Language.CSharp; Data = recheckData } ->
             appendLinef sb "This failure can be reproduced by running:"
             appendLinef sb "> property.Recheck(\"%s\")"
-                (RecheckData.serialize failure.RecheckData)
+                (RecheckData.serialize recheckData)
 
         sb.ToString().Trim() // Exclude extra newline.
 
