@@ -140,18 +140,17 @@ module Property =
     //
 
     let private shrinkInput
-            (recheckType: RecheckType)
-            (data : RecheckData)
+            (language: Language option)
+            (recheckData : RecheckData)
             (shrinkLimit : int<shrinks> Option) =
         let rec loop
                 (nshrinks : int<shrinks>)
                 (Node ((journal, _), xs) : Tree<Journal * Outcome<'a>>) =
             let failed =
                 Failed {
-                    RecheckData = data
                     Shrinks = nshrinks
                     Journal = journal
-                    RecheckType = recheckType
+                    RecheckInfo = language |> Option.map (fun lang -> { Language = lang; Data = recheckData })
                 }
             match shrinkLimit, Seq.tryFind (Tree.outcome >> snd >> Outcome.isFailure) xs with
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
@@ -190,7 +189,7 @@ module Property =
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
-                      Status = shrinkInput args.RecheckType data config.ShrinkLimit result }
+                      Status = shrinkInput args.Language data config.ShrinkLimit result }
                 | Success () ->
                     loop nextData (tests + 1<tests>) discards
                 | Discard ->
@@ -225,7 +224,7 @@ module Property =
     let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
         let args = {
             PropertyArgs.init with
-                RecheckType = RecheckType.None
+                Language = None
                 RecheckData = recheckData |> RecheckData.deserialize
         }
         p |> reportWith' args config
