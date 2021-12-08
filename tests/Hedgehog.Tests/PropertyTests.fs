@@ -4,6 +4,7 @@ open Hedgehog
 open Expecto
 open TestDsl
 
+
 let propertyTests = testList "Property tests" [
     fableIgnore "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
         let report =
@@ -62,4 +63,37 @@ let propertyTests = testList "Property tests" [
         |> Property.report
         |> Report.render
         |> ignore
+
+
+    testCase "recheck only tests shrunken input" <| fun () ->
+        let mutable count = 0
+        let prop =
+            property {
+                let! i = Range.constant 0 1_000_000 |> Gen.int32
+                count <- count + 1
+                return i =! 0
+            }
+    
+        let report1 = Property.report prop
+        match report1.Status with
+        | OK -> failwith "Initial report should be Failed, not OK"
+        | GaveUp -> failwith "Initial report should be Failed, not GaveUp"
+        | Failed failure1 ->
+            count <- 0
+            let recheckData =
+                match failure1.RecheckInfo with
+                | Some { Data = recheckData } -> recheckData
+                | _ -> failwith "Impossible since this is a an F# test"
+            let report2 =
+                Property.reportRecheck
+                    (RecheckData.serialize recheckData)
+                    prop
+            match report2.Status with
+            | OK -> failwith "Recheck report should be Failed, not OK"
+            | GaveUp -> failwith "Recheck report should be Failed, not GaveUp"
+            | Failed _ ->
+                let render = Report.render report2
+                count =! 1
+                render.Contains "actual: 1" =! true
+
 ]

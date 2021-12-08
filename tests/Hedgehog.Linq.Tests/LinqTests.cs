@@ -36,6 +36,33 @@ namespace Hedgehog.Linq.Tests
             Assert.Contains(guid, rendered);
         }
 
+        [Fact]
+        public void RecheckOnlyTestsShrunkenInput()
+        {
+            var count = 0;
+            var range = Range.Constant(0, 1000000);
+            var gen = Gen.Int32(range);
+            var prop =
+                from i in ForAll(gen)
+                let _ = count++
+                select Assert.Equal(0, i);
+
+            var report1 = prop.Report();
+            if (report1.Status is Status.Failed failure1)
+            {
+                count = 0;
+                var report2 = prop.ReportRecheck(failure1.Item.RecheckInfo.Value.Data);
+                if (report2.Status is Status.Failed)
+                {
+                    Assert.Equal(1, count);
+                } else {
+                    throw new Exception("Recheck report should be Failed but is not");
+                }
+            } else {
+                throw new Exception("Initial report should be Failed but is not");
+            }
+        }
+
         /*
          * The main object the following tests is just to make sure that the examples compile.
          * There's nothing fancy in the properties being tested.
