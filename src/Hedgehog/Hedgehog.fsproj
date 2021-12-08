@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;netstandard2.0;net45</TargetFrameworks>
@@ -32,6 +32,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
       <_Parameter1>Hedgehog.Linq.Tests</_Parameter1>
     </AssemblyAttribute>
     <Compile Include="AutoOpen.fs" />
+    <Compile Include="Lazy.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Seq.fs" />
@@ -45,6 +46,8 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
     <Compile Include="GenTuple.fs" />
+    <Compile Include="GenLazy.fs" />
+    <Compile Include="GenLazyTuple.fs" />
     <Compile Include="Outcome.fs" />
     <Compile Include="Report.fs" />
     <Compile Include="PropertyArgs.fs" />
