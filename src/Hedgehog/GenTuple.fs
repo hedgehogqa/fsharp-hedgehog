@@ -1,4 +1,4 @@
-// Workaround for a fable issue: https://github.com/fable-compiler/Fable/issues/2069
+// Workaround for a Fable issue: https://github.com/fable-compiler/Fable/issues/2069
 #if FABLE_COMPILER
 module Hedgehog.GenTuple
 #else
