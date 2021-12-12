@@ -9,9 +9,13 @@ let reportTests = testList "Report tests" [
     testCase "Roundtrip RecheckData serialization" <| fun () ->
         property {
             let! size = Range.linear 0 1000 |> Gen.int32
+            let! path =
+                Gen.item [ ShrinkOutcome.Fail; ShrinkOutcome.Pass ]
+                |> Gen.list (Range.linear 0 10)
             let expected = {
                 Size = size
-                Seed = Seed.random () }
+                Seed = Seed.random ()
+                ShrinkPath = path }
             let actual =
                 expected
                 |> RecheckData.serialize

@@ -21,7 +21,7 @@ type Property = private Property of Property<unit> with
     static member FromBool (value : bool) : Property =
         value |> Property.ofBool |> Property
 
-    static member FromGen (gen : Gen<Journal * Outcome<'T>>) : Property<'T> =
+    static member FromGen (gen : Gen<Lazy<Journal * Outcome<'T>>>) : Property<'T> =
         Property.ofGen gen
 
     static member FromOutcome (result : Outcome<'T>) : Property<'T> =
@@ -49,7 +49,7 @@ type Property = private Property of Property<unit> with
 type PropertyExtensions private () =
 
     [<Extension>]
-    static member ToGen (property : Property<'T>) : Gen<Journal * Outcome<'T>> =
+    static member ToGen (property : Property<'T>) : Gen<Lazy<Journal * Outcome<'T>>> =
         Property.toGen property
 
     [<Extension>]
