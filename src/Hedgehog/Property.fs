@@ -134,28 +134,51 @@ module Property =
     //
 
     let private shrinkInput
-            (language: Language option)
-            (recheckData : RecheckData)
+            (language: Language)
+            (data : RecheckData)
             (shrinkLimit : int<shrinks> Option) =
         let rec loop
                 (nshrinks : int<shrinks>)
+                (shrinkPath : ShrinkOutcome list)
                 (Node (root, xs) : Tree<Lazy<Journal * Outcome<'a>>>) =
             let journal = root.Value |> fst
+            let recheckData = { data with ShrinkPath = shrinkPath }
             let failed =
                 Failed {
                     Shrinks = nshrinks
                     Journal = journal
-                    RecheckInfo = language |> Option.map (fun lang -> { Language = lang; Data = recheckData })
-                }
-            match shrinkLimit, Seq.tryFind (Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) xs with
+                    RecheckInfo =
+                        Some { Language = language
+                               Data = recheckData } }
+            match shrinkLimit, xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) with
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
             | _, None -> failed
-            | _, Some tree -> loop (nshrinks + 1<shrinks>) tree
-        loop 0<shrinks>
+            | _, Some (idx, tree) ->
+                let nextShrinkPath = shrinkPath @ List.replicate idx ShrinkOutcome.Pass @ [ShrinkOutcome.Fail]
+                loop (nshrinks + 1<shrinks>) nextShrinkPath tree
+        loop 0<shrinks> []
+
+    let rec private followShrinkPath
+            (Node (root, children) : Tree<Lazy<Journal * Outcome<'a>>>) =
+        let rec skipPassedChild children shrinkPath =
+            match children, shrinkPath with
+            | _, [] ->
+                Failed {
+                    Shrinks = 0<shrinks>
+                    Journal = root.Value |> fst
+                    RecheckInfo = None
+                }
+            | [], _ -> failwith "The shrink path lead to a dead end. This should never happen."
+            | _ :: childrenTail, ShrinkOutcome.Pass :: shrinkPathTail -> skipPassedChild  childrenTail shrinkPathTail
+            | childrenHead :: _, ShrinkOutcome.Fail :: shrinkPathTail -> followShrinkPath childrenHead shrinkPathTail
+        skipPassedChild (Seq.toList children)
+
+    let private splitAndRun p data =
+        let seed1, seed2 = Seed.split data.Seed
+        let result = p |> toGen |> Gen.toRandom |> Random.run seed1 data.Size
+        result, seed2
 
     let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
-        let random = toGen p |> Gen.toRandom
-
         let nextSize size =
             if size >= 100 then
                 1
@@ -172,8 +195,7 @@ module Property =
                   Discards = discards
                   Status = GaveUp }
             else
-                let seed1, seed2 = Seed.split data.Seed
-                let result = Random.run seed1 data.Size random
+                let result, seed2 = splitAndRun p data
                 let nextData = {
                     data with
                         Seed = seed2
@@ -217,12 +239,11 @@ module Property =
         g |> falseToFailure |> checkWith config
 
     let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
-        let args = {
-            PropertyArgs.init with
-                Language = None
-                RecheckData = recheckData |> RecheckData.deserialize
-        }
-        p |> reportWith' args config
+        let recheckData = recheckData |> RecheckData.deserialize
+        let result, _ = splitAndRun p recheckData
+        { Tests = 1<tests>
+          Discards = 0<discards>
+          Status = followShrinkPath result recheckData.ShrinkPath }
 
     let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
         p |> reportRecheckWith recheckData PropertyConfig.defaultConfig

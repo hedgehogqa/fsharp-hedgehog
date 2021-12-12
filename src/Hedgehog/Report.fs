@@ -3,11 +3,17 @@ namespace Hedgehog
 [<Measure>] type tests
 [<Measure>] type discards
 [<Measure>] type shrinks
+
+[<RequireQualifiedAccess>]
+type ShrinkOutcome =
+    | Pass
+    | Fail
     
 [<Struct>]
 type RecheckData = internal {
     Size : Size
     Seed : Seed
+    ShrinkPath : ShrinkOutcome list
 }
 
 [<RequireQualifiedAccess>]
@@ -47,7 +53,10 @@ module internal RecheckData =
     let serialize data =
         [ string data.Size
           string data.Seed.Value
-          string data.Seed.Gamma ]
+          string data.Seed.Gamma
+          data.ShrinkPath
+          |> List.map (function ShrinkOutcome.Fail -> "0" | ShrinkOutcome.Pass -> "1" )
+          |> String.concat "" ]
         |> String.concat separator
 
     let deserialize (s: string) =
@@ -57,8 +66,15 @@ module internal RecheckData =
             let seed =
                 { Value = parts.[1] |> UInt64.Parse
                   Gamma = parts.[2] |> UInt64.Parse }
+            let path =
+                parts.[3]
+                |> Seq.map (function '0' -> ShrinkOutcome.Fail
+                                   | '1' -> ShrinkOutcome.Pass
+                                   |  c  -> failwithf "Unexpected character %c in shrink path" c)
+                |> Seq.toList
             { Size = size
-              Seed = seed }
+              Seed = seed
+              ShrinkPath = path }
         with e ->
             raise (ArgumentException("Failed to deserialize RecheckData", e))
 
