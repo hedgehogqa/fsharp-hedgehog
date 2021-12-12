@@ -1,4 +1,4 @@
-## Version ?
+## Version 0.12.0 (2021-12-12)
 
 - Rename `Property.failOnFalse` to `Property.falseToFailure` ([#384][384], [@TysonMN][TysonMN])
 - Add `BindReturn` to the `property` CE ([#364][364], [@TysonMN][TysonMN])
