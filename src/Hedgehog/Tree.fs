@@ -5,6 +5,12 @@ namespace Hedgehog
 type Tree<'a> =
     | Node of 'a * seq<Tree<'a>>
 
+module internal Node =
+
+    let mapChildren (f: seq<Tree<'a>> -> seq<Tree<'a>>) (Node(x, xs): Tree<'a>) : Tree<'a> =
+        Node(x, f xs)
+    
+
 module Tree =
     /// The generated outcome.
     let outcome (Node (x, _) : Tree<'a>) : 'a =
@@ -47,11 +53,8 @@ module Tree =
     let mapWithSubtrees (f: 'a -> seq<Tree<'b>> -> 'b) (tree: Tree<'a>) : Tree<'b> =
         tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
 
-    let rec bind (k : 'a -> Tree<'b>) (Node (x, xs0) : Tree<'a>) : Tree<'b> =
-        match k x with
-        | Node (y, ys) ->
-            let xs = Seq.map (bind k) xs0
-            Node (y, Seq.append xs ys)
+    let bind (f : 'a -> Tree<'b>) (tree : Tree<'a>) : Tree<'b> =
+        tree |> cata (fun a stb -> a |> f |> Node.mapChildren (Seq.append stb))
 
     let join (xss : Tree<Tree<'a>>) : Tree<'a> =
         bind id xss
