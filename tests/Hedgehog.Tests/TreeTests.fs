@@ -5,10 +5,11 @@ open TestDsl
 
 let treeTests = testList "Tree tests" [
     testCase "children during bind are concatenated in the superior order" <| fun _ ->
-        // Tree.bind can be define in two ways corresponding to the order in
+        // Tree.bind can be defined in two ways corresponding to the order in
         // which the old and new children are concatenated.  This test ensures
         // that the superior of these two orderings is being used.  For more
-        // information, see https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=Although%20this%20version%20of%20join%20still%20satisfies%20the%20monad%20laws%2C%20it%20is%20strictly%20worse.
+        // information, see
+        // https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=Although%20this%20version%20of%20join%20still%20satisfies%20the%20monad%20laws%2C%20it%20is%20strictly%20worse.
         let iTree = 1 |> Tree.singleton |> Tree.addChildValue 0
 
         let actual =
