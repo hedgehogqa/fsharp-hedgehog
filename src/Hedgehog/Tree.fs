@@ -41,8 +41,8 @@ module Tree =
         tree |> cata (fun a -> Seq.join >> Seq.cons a)
 
     /// Map over a tree.
-    let rec map (f : 'a -> 'b) (Node (x, xs) : Tree<'a>) : Tree<'b> =
-        Node (f x, Seq.map (map f) xs)
+    let map (f : 'a -> 'b) (tree : Tree<'a>) : Tree<'b> =
+        tree |> cata (fun a stb -> Node (f a, stb))
 
     let mapWithSubtrees (f: 'a -> seq<Tree<'b>> -> 'b) (tree: Tree<'a>) : Tree<'b> =
         tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
