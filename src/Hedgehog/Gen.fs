@@ -30,6 +30,15 @@ module Gen =
     let constant (x : 'a) : Gen<'a> =
         Tree.singleton x |> Random.constant |> ofRandom
 
+    let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
+        toRandom g |> f |> ofRandom
+
+    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
+        mapRandom (Random.map f) g
+
+    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
+        mapTree (Tree.map f) g
+
     let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
         Hedgehog.Random (fun seed0 size ->
             let seed1, seed2 =
@@ -43,18 +52,9 @@ module Gen =
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
         toRandom m |> bindRandom (toRandom << k) |> ofRandom
 
-    let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
-        toRandom g |> f |> ofRandom
-
-    let mapTree (f : Tree<'a> -> Tree<'b>) (g : Gen<'a>) : Gen<'b> =
-        mapRandom (Random.map f) g
-
-    let map (f : 'a -> 'b) (g : Gen<'a>) : Gen<'b> =
-        mapTree (Tree.map f) g
-
-    let apply (gx : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
+    let apply (ga : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
         gf |> bind (fun f ->
-        gx |> map f)
+        ga |> map f)
 
     let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
         constant f
