@@ -10,7 +10,10 @@ let treeTests = testList "Tree tests" [
         // that the superior of these two orderings is being used.  For more
         // information, see
         // https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=Although%20this%20version%20of%20join%20still%20satisfies%20the%20monad%20laws%2C%20it%20is%20strictly%20worse.
-        let iTree = 1 |> Tree.singleton |> Tree.addChildValue 0
+        let iTree =
+            Node (1, [
+                Node (0, [])
+            ])
 
         let actual =
             "b"
@@ -21,18 +24,15 @@ let treeTests = testList "Tree tests" [
                 |> Tree.map (fun i -> s, i))
 
         let expected =
-            Tree.create
-                ("b", 1)
-                [ Tree.create
-                      ("a", 1)
-                      [ Tree.singleton
-                            ("a", 0)
-                      ]
-                  Tree.singleton
-                      ("b", 0)
-                ]
-
-        true =! Tree.equals actual expected
+            Node (("b", 1), [
+                Node (("a", 1), [
+                    Node (("a", 0), [])
+                ])
+                Node (("b", 0), [])
+            ])
+        (actual      |> Tree.map (sprintf "%A") |> Tree.render)
+        =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
+        Expect.isTrue (Tree.equals actual expected)
 
 
     testCase "depth of tree with no subtrees is 0" <| fun _ ->
