@@ -56,32 +56,32 @@ module Gen =
         gf |> bind (fun f ->
         ga |> map f)
 
-    let map2 (f : 'a -> 'b -> 'c) (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'c> =
+    let map2 (f : 'a -> 'b -> 'c) (ga : Gen<'a>) (gb : Gen<'b>) : Gen<'c> =
         constant f
-        |> apply gx
-        |> apply gy
+        |> apply ga
+        |> apply gb
 
-    let map3 (f : 'a -> 'b -> 'c -> 'd) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'d> =
+    let map3 (f : 'a -> 'b -> 'c -> 'd) (ga : Gen<'a>) (gb : Gen<'b>) (gc : Gen<'c>) : Gen<'d> =
         constant f
-        |> apply gx
-        |> apply gy
-        |> apply gz
+        |> apply ga
+        |> apply gb
+        |> apply gc
 
-    let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'e> =
+    let map4 (f : 'a -> 'b -> 'c -> 'd -> 'e) (ga : Gen<'a>) (gb : Gen<'b>) (gc : Gen<'c>) (gd : Gen<'d>) : Gen<'e> =
         constant f
-        |> apply gx
-        |> apply gy
-        |> apply gz
-        |> apply gw
+        |> apply ga
+        |> apply gb
+        |> apply gc
+        |> apply gd
 
-    let zip (gx : Gen<'a>) (gy : Gen<'b>) : Gen<'a * 'b> =
-        map2 (fun x y -> x, y) gx gy
+    let zip (ga : Gen<'a>) (gb : Gen<'b>) : Gen<'a * 'b> =
+        map2 (fun a b -> a, b) ga gb
 
-    let zip3 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) : Gen<'a * 'b * 'c> =
-        map3 (fun x y z -> x, y, z) gx gy gz
+    let zip3 (ga : Gen<'a>) (gb : Gen<'b>) (gc : Gen<'c>) : Gen<'a * 'b * 'c> =
+        map3 (fun a b c -> a, b, c) ga gb gc
 
-    let zip4 (gx : Gen<'a>) (gy : Gen<'b>) (gz : Gen<'c>) (gw : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
-        map4 (fun x y z w -> x, y, z, w) gx gy gz gw
+    let zip4 (ga : Gen<'a>) (gb : Gen<'b>) (gc : Gen<'c>) (gd : Gen<'d>) : Gen<'a * 'b * 'c * 'd> =
+        map4 (fun a b c d -> a, b, c, d) ga gb gc gd
 
     let tuple  (g : Gen<'a>) : Gen<'a * 'a> =
         zip g g
