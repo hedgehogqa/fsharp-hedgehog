@@ -134,4 +134,34 @@ let genTests = testList "Gen tests" [
             Expect.isTrue isBalanced
         }
         |> Property.check
+
+    testCase "apply is monadic" <| fun () ->
+        let gPair =
+            Gen.constant (fun a b -> a, b)
+            |> Gen.apply (Range.constant 0 2 |> Gen.int32)
+            |> Gen.apply (Range.constant 0 1 |> Gen.int32)
+
+        let actual =
+            seq {
+                while true do
+                    let t = gPair |> Gen.sampleTree 0 1 |> Seq.head
+                    if Tree.outcome t = (2, 1) then
+                        yield t
+            } |> Seq.head
+
+        let expected =
+            Node ((2, 1), [
+                Node ((0, 1), [
+                    Node ((0, 0), [])
+                ])
+                Node ((1, 1), [
+                    Node ((1, 0), [])
+                ])
+                Node ((2, 0), [])
+            ])
+
+        (actual      |> Tree.map (sprintf "%A") |> Tree.render)
+        =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
+        Expect.isTrue <| Tree.equals actual expected
+
 ]
