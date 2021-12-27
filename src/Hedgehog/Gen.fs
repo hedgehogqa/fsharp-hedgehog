@@ -52,9 +52,12 @@ module Gen =
     let bind (k : 'a -> Gen<'b>) (m : Gen<'a>) : Gen<'b> =
         toRandom m |> bindRandom (toRandom << k) |> ofRandom
 
+    let private applyRandom (rta : Random<Tree<'a>>) (rtf : Random<Tree<'a -> 'b>>) : Random<Tree<'b>> =
+        rtf |> Random.bind (fun tf ->
+        rta |> Random.map  (fun ta -> Tree.apply ta tf))
+
     let apply (ga : Gen<'a>) (gf : Gen<'a -> 'b>) : Gen<'b> =
-        gf |> bind (fun f ->
-        ga |> map f)
+        applyRandom (toRandom ga) (toRandom gf) |> ofRandom
 
     let map2 (f : 'a -> 'b -> 'c) (ga : Gen<'a>) (gb : Gen<'b>) : Gen<'c> =
         constant f
