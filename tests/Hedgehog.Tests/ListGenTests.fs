@@ -5,7 +5,7 @@ open TestDsl
 
 
 let listGenTests = testList "ListGen tests" [
-    testCase "sequence is monadic" <| fun _ ->
+    testCase "sequence is applicative" <| fun _ ->
         let gen = Range.constant 0 1 |> Gen.int32
         let listGen = [gen; gen]
 
@@ -23,7 +23,9 @@ let listGenTests = testList "ListGen tests" [
                 Node ([0; 1], [
                     Node ([0; 0], [])
                 ])
-                Node ([1; 0],[])
+                Node ([1; 0],[
+                    Node ([0; 0], [])
+                ])
             ])
         (actual      |> Tree.map (sprintf "%A") |> Tree.render)
         =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
