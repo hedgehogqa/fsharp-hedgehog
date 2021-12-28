@@ -1,6 +1,7 @@
 ## Version ?.?.?
 
 - Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
+- Change `ListGen.traverse` from monadic to applicative. ([#399][399], [@TysonMN][TysonMN])
 
 ## Version 0.12.0 (2021-12-12)
 
@@ -189,6 +190,8 @@
 [porges]:
   https://github.com/porges
 
+[399]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/399
 [398]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/398
 [386]:
