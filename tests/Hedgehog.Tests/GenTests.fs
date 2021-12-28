@@ -135,7 +135,15 @@ let genTests = testList "Gen tests" [
         }
         |> Property.check
 
-    testCase "apply is monadic" <| fun () ->
+    testCase "apply is applicative" <| fun () ->
+        // In addition to asserting that Gen.apply is applicative, this test
+        // also asserts that the integral shrink tree is the one containing
+        // duplicates that existed before PR
+        // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
+        // The duplicate-free shrink trees that result from the code in that PR
+        // do not work well with the applicative behavior of Gen.apply because
+        // some values would shrink more if using the monadic version of
+        // Gen.apply, which should never happen.
         let gPair =
             Gen.constant (fun a b -> a, b)
             |> Gen.apply (Range.constant 0 2 |> Gen.int32)
@@ -155,9 +163,19 @@ let genTests = testList "Gen tests" [
                     Node ((0, 0), [])
                 ])
                 Node ((1, 1), [
-                    Node ((1, 0), [])
+                    Node ((0, 1), [
+                        Node ((0, 0), [])
+                    ])
+                    Node ((1, 0), [
+                        Node ((0, 0), [])
+                    ])
                 ])
-                Node ((2, 0), [])
+                Node ((2, 0), [
+                    Node ((0, 0), [])
+                    Node ((1, 0), [
+                        Node ((0, 0), [])
+                    ])
+                ])
             ])
 
         (actual      |> Tree.map (sprintf "%A") |> Tree.render)
