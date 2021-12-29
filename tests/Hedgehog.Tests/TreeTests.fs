@@ -1,4 +1,4 @@
-﻿module Hedgehog.Tests.TreeTests
+module Hedgehog.Tests.TreeTests
 
 open Hedgehog
 open TestDsl
@@ -142,4 +142,43 @@ let treeTests = testList "Tree tests" [
             Expect.isTrue (expected = Tree.renderList tree)
         }
         |> Property.check
+
+    testCase "apply behavior is applicative (not monadic)" <| fun () ->
+        // Based on https://well-typed.com/blog/2019/05/integrated-shrinking#example-generating-pairs
+        let a =
+            Node (true, [
+                Node (false, [])
+            ])
+        let b =
+            Node (2, [
+                Node (1, [
+                    Node (0, [])
+                ])
+            ])
+    
+        let actual =
+            (fun x y -> x, y)
+            |> Tree.singleton
+            |> Tree.apply a
+            |> Tree.apply b
+    
+        let expected =
+            Node ((true, 2), [
+                Node ((false, 2), [
+                    Node ((false, 1), [
+                        Node ((false, 0), [])
+                    ])
+                ])
+                Node ((true, 1), [
+                    Node ((false, 1), [
+                        Node ((false, 0), [])
+                    ])
+                    Node ((true, 0), [
+                        Node ((false, 0), [])
+                    ])
+                ])
+            ])
+        (actual      |> Tree.map (sprintf "%A") |> Tree.render)
+        =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
+        Expect.isTrue (Tree.equals actual expected)
 ]

@@ -53,6 +53,16 @@ module Tree =
     let mapWithSubtrees (f: 'a -> seq<Tree<'b>> -> 'b) (tree: Tree<'a>) : Tree<'b> =
         tree |> cata (fun a subtrees -> Node (f a subtrees, subtrees))
 
+    // based on https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=interleave%20l%40(Node%20f%20ls)%20r%40(Node%20x%20rs)%20%3D
+    let rec apply (ta: Tree<'a>) (tf: Tree<'a -> 'b>) : Tree<'b> =
+        let (Node (a, sta)) = ta
+        let (Node (f, stf)) = tf
+        let children =
+            Seq.append
+                (stf |> Seq.map (fun tf' -> (apply ta  tf')))
+                (sta |> Seq.map (fun ta' -> (apply ta' tf)))
+        Node (f a, children)
+
     let bind (f : 'a -> Tree<'b>) (tree : Tree<'a>) : Tree<'b> =
         tree |> cata (fun a stb -> a |> f |> Node.mapChildren (Seq.append stb))
 

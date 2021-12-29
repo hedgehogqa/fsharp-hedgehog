@@ -1,3 +1,7 @@
+## Version ?.?.?
+
+- Add `Tree.apply` ([#398][398], [@TysonMN][TysonMN])
+
 ## Version 0.12.0 (2021-12-12)
 
 - Rename `Property.failOnFalse` to `Property.falseToFailure` ([#384][384], [@TysonMN][TysonMN])
@@ -185,6 +189,8 @@
 [porges]:
   https://github.com/porges
 
+[398]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/398
 [386]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/386
 [385]:
