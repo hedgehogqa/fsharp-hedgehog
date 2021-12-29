@@ -159,11 +159,21 @@ module Gen =
 
     /// Generates a random number in the given inclusive range.
     let inline integral (range : Range<'a>) : Gen<'a> =
-        // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
         range
         |> Random.integral
-        |> Random.map (range |> Range.origin |> Shrink.createTree)
-        |> ofRandom
+        |> create (range |> Range.origin |> Shrink.towards)
+        // The code below was added in
+        // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
+        // It is more efficient than the code above in that the shrink tree is duplicate free.
+        // However, such a tree does not work well when combining applicatively.
+        // The advantage of a duplicate-free shrink tree is less time spent shrinking.
+        // The advantage of applicatively combining tree is a potentially smaller shrunken value.
+        // The latter is better, so reverting to the previous shrink tree for now.
+        // Maybe it is possible to achieve the best of both.
+        //range
+        //|> Random.integral
+        //|> Random.map (range |> Range.origin |> Shrink.createTree)
+        //|> ofRandom
 
     //
     // Combinators - Choice

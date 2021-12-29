@@ -1,6 +1,6 @@
 ## Version ?.?.?
 
-- Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. ([#398][398], [@TysonMN][TysonMN])
+- Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
 
 ## Version 0.12.0 (2021-12-12)
 
