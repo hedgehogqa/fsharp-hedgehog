@@ -98,25 +98,18 @@ module Gen =
                 m |> bind (fun _ -> loop p m)
             else
                 constant ()
-
-        member __.Return(a) : Gen<'a> =
-            constant a
-        member __.ReturnFrom(g) : Gen<'a> =
-            g
-        member __.Bind(m, k) =
-            m |> bind k
+        member __.Return(a) : Gen<'a> = constant a
+        member __.ReturnFrom(g) : Gen<'a> = g
+        member __.Bind(g, f) = g |> bind f
         member __.For(xs, k) =
             let xse = (xs :> seq<'a>).GetEnumerator ()
             using xse (fun xse ->
                 let mv = xse.MoveNext
                 let kc = delay (fun () -> k xse.Current)
                 loop mv kc)
-        member __.Combine(m, n) =
-            m |> bind (fun () -> n)
-        member __.Delay(f) =
-            delay f
-        member __.Zero() =
-            constant ()
+        member __.Combine(m, n) = m |> bind (fun () -> n)
+        member __.Delay(f) = delay f
+        member __.Zero() = constant ()
 
     let private gen = Builder ()
 
