@@ -3,6 +3,7 @@
 - Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
 - Change `ListGen.traverse` from monadic to applicative. ([#399][399], [@TysonMN][TysonMN])
 - Fix bug in the `BindReturn` method of the `property` CE where the generated value is not added to the Journal. ([#401][401], [@TysonMN][TysonMN])
+- Add `BindReturn` to the `gen` CE. This essentially changes the last call to `let!` to use `Gen.map` instead of `Gen.bind`. Add `MergeSources` to the `gen` CE.  This change enables the `and!` syntax.
 
 ## Version 0.12.0 (2021-12-12)
 
