@@ -181,11 +181,20 @@ let genTests = testList "Gen tests" [
         }
         |> Property.check
 
-    testCase "apply is applicative" <| fun () ->
+    testCase "apply is applicative via function" <| fun () ->
         let gPair =
             Gen.constant (fun a b -> a, b)
             |> Gen.apply (Range.constant 0 2 |> Gen.int32)
             |> Gen.apply (Range.constant 0 1 |> Gen.int32)
+        testGenPairViaApply gPair
+
+    testCase "apply is applicative via CE" <| fun () ->
+        let gPair =
+            gen {
+                let! a = Range.constant 0 2 |> Gen.int32
+                and! b = Range.constant 0 1 |> Gen.int32
+                return a, b
+            }
         testGenPairViaApply gPair
 
 ]
