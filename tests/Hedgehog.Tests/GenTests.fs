@@ -37,21 +37,23 @@ let genTests = testList "Gen tests" [
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->
-        let seed0 = Seed.random ()
-        let (seed1, _) = Seed.split seed0
+        // This is a bad test because essentially the same logic used to
+        // implement Gen.dateTime appears in this test. However, keeping it for
+        // now.
+        let seed = Seed.random ()
         let range =
             Range.constant
                 DateTime.MinValue.Ticks
                 DateTime.MaxValue.Ticks
         let ticks =
             Random.integral range
-            |> Random.run seed1 0
+            |> Random.run seed 0
 
         let actual =
             Range.constant DateTime.MinValue DateTime.MaxValue
             |> Gen.dateTime
             |> Gen.toRandom
-            |> Random.run seed0 0
+            |> Random.run seed 0
             |> Tree.outcome
 
         let expected = DateTime ticks
