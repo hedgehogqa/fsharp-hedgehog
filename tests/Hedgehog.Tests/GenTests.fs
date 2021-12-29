@@ -54,9 +54,8 @@ let genTests = testList "Gen tests" [
             |> Random.run seed0 0
             |> Tree.outcome
 
-        let expected =
-            DateTime ticks
-        expected =! actual
+        let expected = DateTime ticks
+        actual =! expected
 
     testCase "dateTime shrinks to correct mid-value" <| fun _ ->
         let actual =
@@ -67,7 +66,7 @@ let genTests = testList "Gen tests" [
                         DateTime.MinValue
                         DateTime.MaxValue)
                   |> Gen.dateTime
-                DateTime.Now =! actual
+                actual =! DateTime.Now
             }
             |> Property.report
             |> Report.render
@@ -75,7 +74,7 @@ let genTests = testList "Gen tests" [
             |> Array.item 1
             |> DateTime.Parse
 
-        DateTime (2000, 1, 1) =! actual
+        actual =! DateTime (2000, 1, 1)
 
     fableIgnore "int64 can create exponentially bounded integer" <| fun _ ->
         property {
@@ -112,7 +111,7 @@ let genTests = testList "Gen tests" [
             |> Random.run (Seed.from 0UL) 0
             |> Tree.toSeq
             |> Seq.length
-        1 =! actual
+        actual =! 1
 
     testCase "frequency shrink tree is balanced" <| fun _ ->
         let isBalanced a subtrees =

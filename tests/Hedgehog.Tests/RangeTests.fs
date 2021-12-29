@@ -17,8 +17,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.singleton x
             |> Range.bounds sz
-        (x, x) =!
-            actual
+        actual =! (x, x)
 
     yield! testCases "singleton origin returns correct result"
         [ 1; 2; 3; 30; 128; 256; 512; 1024 ] <| fun x ->
@@ -26,8 +25,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.singleton x
             |> Range.origin
-        x =!
-            actual
+        actual =! x
 
     yield! testCases "constant bounds returns correct result"
         [ (   2,   0,   1)
@@ -41,8 +39,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.constant x y
             |> Range.bounds sz
-        (x, y) =!
-            actual
+        actual =! (x, y)
 
     yield! testCases "constant origin returns correct result"
         [ (   2,   0)
@@ -56,8 +53,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.constant x y
             |> Range.origin
-        x =!
-            actual
+        actual =! x
 
     yield! testCases "range from -x to x, with the origin at"
         [ 1; 2; 3; 30; 128; 256; 512; 1024] <| fun x ->
@@ -65,8 +61,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.constantFrom x -10 10
             |> Range.origin
-        x =!
-            actual
+        actual =! x
 
     yield! testCases "range from -x to x, with the bounds at"
         [ (   2,   0)
@@ -80,8 +75,7 @@ let rangeTests = testList "Range tests" [
         let actual =
             Range.constantFrom 0 -x x
             |> Range.bounds sz
-        (-x, x) =!
-            actual
+        actual =! (-x, x)
 
     yield! testCases "constantBounded bounds returns correct result - Byte range"
         [ 1; 2; 3; 30; 128; 256; 512; 1024 ] <| fun sz ->
@@ -116,132 +110,113 @@ let rangeTests = testList "Range tests" [
 
         let actual =
             Range.Internal.clamp x y n
-        expected =!
-            actual
+        actual =! expected
 
     testCase "linear scales the second bound relative to the size - example 1" <| fun _ ->
         let actual =
             Range.linear 0 10
             |> Range.bounds 0
-        (0, 0) =!
-            actual
+        actual =! (0, 0)
 
     testCase "linear scales the second bound relative to the size - example 2" <| fun _ ->
         let actual =
             Range.linear 0 10
             |> Range.bounds 50
-        (0, 5) =!
-            actual
+        actual =! (0, 5)
 
     testCase "linear scales the second bound relative to the size - example 3" <| fun _ ->
         let actual =
             Range.linear 0 10
             |> Range.bounds 99
-        (0, 10) =!
-            actual
+        actual =! (0, 10)
 
     testCase "linearFrom scales the bounds relative to the size - example 1" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 10
             |> Range.bounds 0
-        (0, 0) =!
-            actual
+        actual =! (0, 0)
 
     testCase "linearFrom scales the bounds relative to the size - example 2" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 20
             |> Range.bounds 50
-        (-5, 10) =!
-            actual
+        actual =! (-5, 10)
 
     testCase "linearFrom scales the bounds relative to the size - example 3" <| fun _ ->
         let actual =
             Range.linearFrom 0 -10 20
             |> Range.bounds 99
-        (-10, 20) =!
-            actual
+        actual =! (-10, 20)
 
     testCase "linearBounded uses the full range of a data type - example 1" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
             |> Range.bounds 0
-        (-0y, 0y) =!
-            actual
+        actual =! (-0y, 0y)
 
     testCase "linearBounded uses the full range of a data type - example 2" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
             |> Range.bounds 50
-        (-64y, 64y) =!
-            actual
+        actual =! (-64y, 64y)
 
     testCase "linearBounded uses the full range of a data type - example 3" <| fun _ ->
         let actual =
             (Range.linearBounded () : Range<sbyte>)
             |> Range.bounds 99
-        (-128y, 127y) =!
-            actual
+        actual =! (-128y, 127y)
 
     testCase "exponential scales the second bound exponentially relative to the size - example 1" <| fun _ ->
         let actual =
             Range.exponential 1 512
             |> Range.bounds 0
-        (1, 1) =!
-            actual
+        actual =! (1, 1)
 
     testCase "exponential scales the second bound exponentially relative to the size - example 2" <| fun _ ->
         let actual =
             Range.exponential 1 512
             |> Range.bounds 77
-        (1, 128) =!
-            actual
+        actual =! (1, 128)
 
     testCase "exponential scales the second bound exponentially relative to the size - example 3" <| fun _ ->
         let actual =
             Range.exponential 1 512
             |> Range.bounds 99
-        (1, 512) =!
-            actual
+        actual =! (1, 512)
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 1" <| fun _ ->
         let actual =
             Range.exponentialFrom 0 -128 512
             |> Range.bounds 0
-        (0, 0) =!
-            actual
+        actual =! (0, 0)
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 2" <| fun _ ->
         let actual =
             Range.exponentialFrom 0 -128 512
             |> Range.bounds 50
-        (-11, 22) =!
-            actual
+        actual =! (-11, 22)
 
     testCase "exponentialFrom scales the bounds exponentially relative to the size - example 3" <| fun _ ->
         let actual =
             Range.exponentialFrom 3 -128 512
             |> Range.bounds 99
-        (-128, 512) =!
-            actual
+        actual =! (-128, 512)
 
     testCase "exponentialBounded uses the full range of a data type - example 1" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
             |> Range.bounds 0
-        (-0y, 0y) =!
-            actual
+        actual =! (-0y, 0y)
 
     testCase "exponentialBounded uses the full range of a data type - example 2" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
             |> Range.bounds 50
-        (-11y, 11y) =!
-            actual
+        actual =! (-11y, 11y)
 
     testCase "exponentialBounded uses the full range of a data type - example 3" <| fun _ ->
         let actual =
             (Range.exponentialBounded () : Range<sbyte>)
             |> Range.bounds 99
-        (-128y, 127y) =!
-            actual
+        actual =! (-128y, 127y)
 ]

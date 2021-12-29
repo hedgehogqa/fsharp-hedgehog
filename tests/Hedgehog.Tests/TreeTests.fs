@@ -39,14 +39,14 @@ let treeTests = testList "Tree tests" [
         let actual =
             Tree.singleton "a"
             |> Tree.depth
-        0 =! actual
+        actual =! 0
 
     testCase "depth of tree with only one subtree of depth 0 is 1" <| fun _ ->
         let actual =
             Tree.singleton "a"
             |> Tree.addChildValue "b"
             |> Tree.depth
-        1 =! actual
+        actual =! 1
 
     testCase "render tree with depth 0" <| fun _ ->
         property {
