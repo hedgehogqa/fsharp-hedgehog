@@ -2,6 +2,7 @@
 
 - Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
 - Change `ListGen.traverse` from monadic to applicative. ([#399][399], [@TysonMN][TysonMN])
+- Fix bug in the `BindReturn` method of the `property` CE where the generated value is not added to the Journal. ([#401][401], [@TysonMN][TysonMN])
 
 ## Version 0.12.0 (2021-12-12)
 
@@ -190,6 +191,8 @@
 [porges]:
   https://github.com/porges
 
+[401]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/401
 [399]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/399
 [398]:
