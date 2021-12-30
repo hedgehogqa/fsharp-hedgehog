@@ -110,4 +110,25 @@ let propertyTests = testList "Property tests" [
 
         actual =! "false"
 
+    testCase "and! syntax is applicative" <| fun () ->
+        // Based on https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=For%20example%2C%20consider%20the%20property%20that
+        let actual =
+            property {
+                let! x = Range.constant 0 1_000_000_000 |> Gen.int32
+                and! y = Range.constant 0 1_000_000_000 |> Gen.int32
+                return x <= y |> Expect.isTrue
+            }
+            |> Property.report
+            |> Report.render
+            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
+            |> Array.item 1
+
+        let actual =
+            // normalize printing of a pair between .NET and Fable/JS
+            actual.Replace("(", "")
+                  .Replace(" ", "")
+                  .Replace(")", "")
+
+        actual =! "1,0"
+
 ]

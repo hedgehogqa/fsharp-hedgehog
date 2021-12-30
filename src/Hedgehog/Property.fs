@@ -330,6 +330,9 @@ module PropertyBuilder =
             |> Property.ofGen
             |> Property.map f
 
+        member __.MergeSources(ga, gb) =
+            Gen.zip ga gb
+
         member __.ReturnFrom(m : Property<'a>) : Property<'a> =
             m
 
