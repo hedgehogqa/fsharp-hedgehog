@@ -1,5 +1,6 @@
-﻿module Hedgehog.Tests.PropertyTests
+module Hedgehog.Tests.PropertyTests
 
+open System
 open Hedgehog
 open Expecto
 open TestDsl
@@ -95,5 +96,18 @@ let propertyTests = testList "Property tests" [
                 let render = Report.render report2
                 count =! 1
                 //render.Contains "actual: 1" =! true // comment out for now since it causes the Fable test to fail
+
+    testCase "BindReturn adds value to Journal" <| fun () ->
+        let actual =
+            property {
+                let! b = Gen.bool
+                return Expect.isTrue b
+            }
+            |> Property.report
+            |> Report.render
+            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
+            |> Array.item 1
+
+        actual =! "false"
 
 ]

@@ -97,7 +97,7 @@ module Property =
     let falseToFailure p =
         p |> bind ofBool
 
-    let private printValue (value) : string =
+    let internal printValue (value) : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
         let prepareForPrinting (value: obj) : obj =
         #if FABLE_COMPILER
@@ -326,7 +326,7 @@ module PropertyBuilder =
 
         member __.BindReturn(m : Gen<'a>, f: 'a -> 'b) =
             m
-            |> Gen.map (fun a -> Lazy.constant (Journal.empty, Success a))
+            |> Gen.map (fun a -> Lazy.constant ((Journal.singleton (fun () -> Property.printValue a)), Success a))
             |> Property.ofGen
             |> Property.map f
 
