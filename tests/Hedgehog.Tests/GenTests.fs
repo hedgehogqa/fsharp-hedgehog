@@ -5,6 +5,50 @@ open Hedgehog
 open Hedgehog.Gen.Operators
 open TestDsl
 
+
+let private testGenPairViaApply gPair =
+    // In addition to asserting that Gen.apply is applicative, this code
+    // also asserts that the integral shrink tree is the one containing
+    // duplicates that existed before PR
+    // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
+    // The duplicate-free shrink trees that result from the code in that PR
+    // do not work well with the applicative behavior of Gen.apply because
+    // some values would shrink more if using the monadic version of
+    // Gen.apply, which should never happen.
+    let actual =
+        seq {
+            while true do
+                let t = gPair |> Gen.sampleTree 0 1 |> Seq.head
+                if Tree.outcome t = (2, 1) then
+                    yield t
+        } |> Seq.head
+
+    let expected =
+        Node ((2, 1), [
+            Node ((0, 1), [
+                Node ((0, 0), [])
+            ])
+            Node ((1, 1), [
+                Node ((0, 1), [
+                    Node ((0, 0), [])
+                ])
+                Node ((1, 0), [
+                    Node ((0, 0), [])
+                ])
+            ])
+            Node ((2, 0), [
+                Node ((0, 0), [])
+                Node ((1, 0), [
+                    Node ((0, 0), [])
+                ])
+            ])
+        ])
+
+    (actual      |> Tree.map (sprintf "%A") |> Tree.render)
+    =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
+    Expect.isTrue <| Tree.equals actual expected
+
+
 let genTests = testList "Gen tests" [
     yield! testCases "dateTime creates DateTime instances"
         [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
@@ -37,21 +81,23 @@ let genTests = testList "Gen tests" [
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
     testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->
-        let seed0 = Seed.random ()
-        let (seed1, _) = Seed.split seed0
+        // This is a bad test because essentially the same logic used to
+        // implement Gen.dateTime appears in this test. However, keeping it for
+        // now.
+        let seed = Seed.random ()
         let range =
             Range.constant
                 DateTime.MinValue.Ticks
                 DateTime.MaxValue.Ticks
         let ticks =
             Random.integral range
-            |> Random.run seed1 0
+            |> Random.run seed 0
 
         let actual =
             Range.constant DateTime.MinValue DateTime.MaxValue
             |> Gen.dateTime
             |> Gen.toRandom
-            |> Random.run seed0 0
+            |> Random.run seed 0
             |> Tree.outcome
 
         let expected = DateTime ticks
@@ -135,51 +181,20 @@ let genTests = testList "Gen tests" [
         }
         |> Property.check
 
-    testCase "apply is applicative" <| fun () ->
-        // In addition to asserting that Gen.apply is applicative, this test
-        // also asserts that the integral shrink tree is the one containing
-        // duplicates that existed before PR
-        // https://github.com/hedgehogqa/fsharp-hedgehog/pull/239
-        // The duplicate-free shrink trees that result from the code in that PR
-        // do not work well with the applicative behavior of Gen.apply because
-        // some values would shrink more if using the monadic version of
-        // Gen.apply, which should never happen.
+    testCase "apply is applicative via function" <| fun () ->
         let gPair =
             Gen.constant (fun a b -> a, b)
             |> Gen.apply (Range.constant 0 2 |> Gen.int32)
             |> Gen.apply (Range.constant 0 1 |> Gen.int32)
+        testGenPairViaApply gPair
 
-        let actual =
-            seq {
-                while true do
-                    let t = gPair |> Gen.sampleTree 0 1 |> Seq.head
-                    if Tree.outcome t = (2, 1) then
-                        yield t
-            } |> Seq.head
-
-        let expected =
-            Node ((2, 1), [
-                Node ((0, 1), [
-                    Node ((0, 0), [])
-                ])
-                Node ((1, 1), [
-                    Node ((0, 1), [
-                        Node ((0, 0), [])
-                    ])
-                    Node ((1, 0), [
-                        Node ((0, 0), [])
-                    ])
-                ])
-                Node ((2, 0), [
-                    Node ((0, 0), [])
-                    Node ((1, 0), [
-                        Node ((0, 0), [])
-                    ])
-                ])
-            ])
-
-        (actual      |> Tree.map (sprintf "%A") |> Tree.render)
-        =! (expected |> Tree.map (sprintf "%A") |> Tree.render)
-        Expect.isTrue <| Tree.equals actual expected
+    testCase "apply is applicative via CE" <| fun () ->
+        let gPair =
+            gen {
+                let! a = Range.constant 0 2 |> Gen.int32
+                and! b = Range.constant 0 1 |> Gen.int32
+                return a, b
+            }
+        testGenPairViaApply gPair
 
 ]

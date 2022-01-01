@@ -103,6 +103,8 @@ module Gen =
                 constant ()
         member __.Return(a) : Gen<'a> = constant a
         member __.ReturnFrom(g) : Gen<'a> = g
+        member __.BindReturn(g, f) = map f g
+        member __.MergeSources(ga, gb) = zip ga gb
         member __.Bind(g, f) = g |> bind f
         member __.For(xs, k) =
             let xse = (xs :> seq<'a>).GetEnumerator ()
