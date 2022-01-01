@@ -1,4 +1,4 @@
-## Version ?.?.?
+## Version 0.12.1 (2021-12-31)
 
 - Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
 - Change `ListGen.traverse` from monadic to applicative. ([#399][399], [@TysonMN][TysonMN])
