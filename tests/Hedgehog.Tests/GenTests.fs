@@ -50,13 +50,12 @@ let private testGenPairViaApply gPair =
 
 
 let genTests = testList "Gen tests" [
+
     yield! testCases "dateTime creates DateTime instances"
-        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count->
+        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
 
         let actual =
-            (Range.constant
-                DateTime.MinValue
-                DateTime.MaxValue)
+            (Range.constant DateTime.MinValue DateTime.MaxValue)
             |> Gen.dateTime
             |> Gen.sample 0 count
             |> Seq.toList
@@ -66,7 +65,7 @@ let genTests = testList "Gen tests" [
         |> List.length
         =! actual.Length
 
-    testCase "unicode doesn't return any surrogate" <| fun _ ->
+    testCase "unicode does not return any surrogate" <| fun _ ->
         let actual =
             Gen.sample 100 100000 Gen.unicode
             |> Seq.toList
