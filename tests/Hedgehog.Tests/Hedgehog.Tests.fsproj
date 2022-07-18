@@ -4,6 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <GenerateProgramFile>false</GenerateProgramFile>
+      <!--Turn on warnings for unused values (arguments and let bindings) -->
+      <OtherFlags>$(OtherFlags) --warnon:1182</OtherFlags>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Hedgehog/Hedgehog.fsproj" />

@@ -10,7 +10,7 @@ let propertyTests = testList "Property tests" [
     fableIgnore "generated C# list of five elements is not abbreviated in the failure report" <| fun _ ->
         let report =
             property {
-                let! xs = Range.singleton 0 |> Gen.int32 |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
+                let! _ = Range.singleton 0 |> Gen.int32 |> Gen.list (Range.singleton 5) |> Gen.map ResizeArray
                 return false
             }
             |> Property.falseToFailure
@@ -93,7 +93,7 @@ let propertyTests = testList "Property tests" [
             | OK -> failwith "Recheck report should be Failed, not OK"
             | GaveUp -> failwith "Recheck report should be Failed, not GaveUp"
             | Failed _ ->
-                let render = Report.render report2
+                let _ = Report.render report2
                 count =! 1
                 //render.Contains "actual: 1" =! true // comment out for now since it causes the Fable test to fail
 
