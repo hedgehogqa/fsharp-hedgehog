@@ -26,7 +26,7 @@ jobs:
     - name: Test (Hedgehog.Linq.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
     - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.5
+      uses: alirezanet/publish-nuget@v3.0.4
       with:
         PROJECT_FILE_PATH: "src/Hedgehog/Hedgehog.fsproj"
         PACKAGE_NAME: "Hedgehog"
