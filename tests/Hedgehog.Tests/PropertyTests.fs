@@ -81,13 +81,9 @@ let propertyTests = testList "Property tests" [
         | GaveUp -> failwith "Initial report should be Failed, not GaveUp"
         | Failed failure1 ->
             count <- 0
-            let recheckData =
-                match failure1.RecheckInfo with
-                | Some { Data = recheckData } -> recheckData
-                | _ -> failwith "Impossible since this is a an F# test"
             let report2 =
                 Property.reportRecheck
-                    (RecheckData.serialize recheckData)
+                    (RecheckData.serialize failure1.RecheckInfo.Value.Data)
                     prop
             match report2.Status with
             | OK -> failwith "Recheck report should be Failed, not OK"
