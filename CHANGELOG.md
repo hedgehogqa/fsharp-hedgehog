@@ -1,6 +1,7 @@
 ## Version TBD
 
 - Fix bug in `Property.recheck` where the result is always `Failed`. ([#415][415], [@TysonMN][TysonMN])
+- Runtime targets are now .NET Standard 2.0, .NET 4.8. and .NET 6.0. ([#416][416], [@LyndonGingerich][LyndonGingerich])
 
 ## Version 0.12.1 (2021-12-31)
 
@@ -195,7 +196,11 @@
   https://github.com/ploeh
 [porges]:
   https://github.com/porges
+[LyndonGingerich]
+  https://github.com/LyndonGingerich
 
+[416]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/416
 [415]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/415
 [401]:
