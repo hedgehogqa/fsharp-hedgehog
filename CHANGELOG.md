@@ -1,3 +1,7 @@
+## Version TBD
+
+- Fix bug in `Property.recheck` where the result is always `Failed`. ([#415][415], [@TysonMN][TysonMN])
+
 ## Version 0.12.1 (2021-12-31)
 
 - Add `Tree.apply`. Change `Gen.apply` from monadic to applicative. Revert runtime optimization of `Gen.integral`. ([#398][398], [@TysonMN][TysonMN])
@@ -192,6 +196,8 @@
 [porges]:
   https://github.com/porges
 
+[415]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/415
 [401]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/401
 [400]:

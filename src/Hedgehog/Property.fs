@@ -163,11 +163,15 @@ module Property =
         let rec skipPassedChild children shrinkPath =
             match children, shrinkPath with
             | _, [] ->
-                Failed {
-                    Shrinks = 0<shrinks>
-                    Journal = root.Value |> fst
-                    RecheckInfo = None
-                }
+                let journal, outcome = root.Value
+                match outcome with
+                | Failure ->
+                    { Shrinks = 0<shrinks>
+                      Journal = journal
+                      RecheckInfo = None }
+                    |> Failed
+                | Success _ -> OK
+                | Discard -> failwith "Unexpected 'Discard' result when rechecking. This should never happen."
             | [], _ -> failwith "The shrink path lead to a dead end. This should never happen."
             | _ :: childrenTail, ShrinkOutcome.Pass :: shrinkPathTail -> skipPassedChild  childrenTail shrinkPathTail
             | childrenHead :: _, ShrinkOutcome.Fail :: shrinkPathTail -> followShrinkPath childrenHead shrinkPathTail
