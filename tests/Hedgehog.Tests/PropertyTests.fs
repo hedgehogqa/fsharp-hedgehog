@@ -97,6 +97,31 @@ let propertyTests = testList "Property tests" [
                 count =! 1
                 //render.Contains "actual: 1" =! true // comment out for now since it causes the Fable test to fail
 
+
+    testCase "recheck passes after code is fixed" <| fun () ->
+        let mutable b = false
+        let prop =
+            property {
+                let! _ = Gen.bool
+                Expect.isTrue b
+            }
+    
+        let report1 = Property.report prop
+        match report1.Status with
+        | OK -> failwith "Initial report should be Failed, not OK"
+        | GaveUp -> failwith "Initial report should be Failed, not GaveUp"
+        | Failed failure1 ->
+            b <- true // "fix code"
+            let report2 =
+                Property.reportRecheck
+                    (RecheckData.serialize failure1.RecheckInfo.Value.Data)
+                    prop
+            match report2.Status with
+            | OK -> ()
+            | GaveUp -> failwith "Recheck report should be OK, not GaveUp"
+            | Failed _ -> failwith "Recheck report should be OK, not Failed"
+
+
     testCase "BindReturn adds value to Journal" <| fun () ->
         let actual =
             property {
@@ -107,8 +132,8 @@ let propertyTests = testList "Property tests" [
             |> Report.render
             |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
             |> Array.item 1
-
         actual =! "false"
+
 
     testCase "and! syntax is applicative" <| fun () ->
         // Based on https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=For%20example%2C%20consider%20the%20property%20that
