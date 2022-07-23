@@ -1,4 +1,4 @@
-## Version TBD
+## Version 0.13.0 (2022-07-23)
 
 - Fix bug in `Property.recheck` where the result is always `Failed`. ([#415][415], [@TysonMN][TysonMN])
 - Runtime targets are now .NET Standard 2.0, .NET 4.8. and .NET 6.0. ([#416][416], [@LyndonGingerich][LyndonGingerich])
