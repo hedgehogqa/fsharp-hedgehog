@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net48;net6.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Version>0.13.0</Version>
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
