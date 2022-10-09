@@ -39,7 +39,7 @@ property {
     let! xs = Range.constant 0 1000 |> Gen.int32 |> Gen.list (Range.linear 0 100)
     return List.rev (List.rev xs) = xs
 }
-|> Property.render
+|> Property.renderBool
 |> printfn "%s"
 
 +++ OK, passed 100 tests.

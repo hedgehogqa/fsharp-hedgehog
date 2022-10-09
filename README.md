@@ -27,7 +27,7 @@ open Hedgehog
 Once you have your import declaration set up, you can write a simple property:
 
 ```fsharp
-let propReverse : Property<Unit> =
+let propReverse : Property<bool> =
     property {
         let! xs = Gen.list (Range.linear 0 100) Gen.alpha
         return xs |> List.rev |> List.rev = xs
