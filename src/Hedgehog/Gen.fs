@@ -376,15 +376,15 @@ module Gen =
         let hi = Char.MaxValue
         char lo hi
 
-    // Generates a random digit.
+    /// Generates a random digit.
     let digit : Gen<char> =
         char '0' '9'
 
-    // Generates a random lowercase character.
+    /// Generates a random lowercase character.
     let lower : Gen<char> =
         char 'a' 'z'
 
-    // Generates a random uppercase character.
+    /// Generates a random uppercase character.
     let upper : Gen<char> =
         char 'A' 'Z'
 
@@ -407,11 +407,11 @@ module Gen =
         |> filter (not << isNoncharacter)
         |> filter (not << Char.IsSurrogate)
 
-    // Generates a random alpha character.
+    /// Generates a random alpha character.
     let alpha : Gen<char> =
         choice [lower; upper]
 
-    // Generates a random alpha-numeric character.
+    /// Generates a random alpha-numeric character.
     let alphaNum : Gen<char> =
         choice [lower; upper; digit]
 
