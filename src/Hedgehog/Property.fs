@@ -141,18 +141,16 @@ module Property =
                 (nshrinks : int<shrinks>)
                 (shrinkPath : ShrinkOutcome list)
                 (Node (root, xs) : Tree<Lazy<Journal * Outcome<'a>>>) =
-            let journal = root.Value |> fst
-            let recheckData = { data with ShrinkPath = shrinkPath }
-            let failed =
+            let getFailed () =
                 Failed {
                     Shrinks = nshrinks
-                    Journal = journal
+                    Journal = root.Value |> fst
                     RecheckInfo =
                         Some { Language = language
-                               Data = recheckData } }
+                               Data = { data with ShrinkPath = shrinkPath } } }
             match shrinkLimit, xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) with
-            | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> failed
-            | _, None -> failed
+            | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> getFailed ()
+            | _, None -> getFailed ()
             | _, Some (idx, tree) ->
                 let nextShrinkPath = shrinkPath @ List.replicate idx ShrinkOutcome.Pass @ [ShrinkOutcome.Fail]
                 loop (nshrinks + 1<shrinks>) nextShrinkPath tree
