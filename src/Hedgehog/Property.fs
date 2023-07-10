@@ -148,12 +148,14 @@ module Property =
                     RecheckInfo =
                         Some { Language = language
                                Data = { data with ShrinkPath = List.rev shrinkPathRev } } }
-            match shrinkLimit, xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) with
-            | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> getFailed ()
-            | _, None -> getFailed ()
-            | _, Some (idx, tree) ->
-                let nextShrinkPathRev = ShrinkOutcome.Pass idx :: shrinkPathRev
-                loop (nshrinks + 1<shrinks>) nextShrinkPathRev tree
+            match shrinkLimit with
+            | Some shrinkLimit' when nshrinks >= shrinkLimit' -> getFailed ()
+            | _ ->
+                match xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) with
+                | None -> getFailed ()
+                | Some (idx, tree) ->
+                    let nextShrinkPathRev = ShrinkOutcome.Pass idx :: shrinkPathRev
+                    loop (nshrinks + 1<shrinks>) nextShrinkPathRev tree
         loop 0<shrinks> []
 
     let rec private followShrinkPath
