@@ -152,28 +152,31 @@ module Property =
             | Some shrinkLimit', _ when nshrinks >= shrinkLimit' -> getFailed ()
             | _, None -> getFailed ()
             | _, Some (idx, tree) ->
-                let nextShrinkPathRev = ShrinkOutcome.Fail :: (List.replicate idx ShrinkOutcome.Pass @ shrinkPathRev)
+                let nextShrinkPathRev = ShrinkOutcome.Pass idx :: shrinkPathRev
                 loop (nshrinks + 1<shrinks>) nextShrinkPathRev tree
         loop 0<shrinks> []
 
     let rec private followShrinkPath
-            (Node (root, children) : Tree<Lazy<Journal * Outcome<'a>>>) =
-        let rec skipPassedChild children shrinkPath =
-            match children, shrinkPath with
-            | _, [] ->
-                let journal, outcome = root.Value
-                match outcome with
-                | Failure ->
-                    { Shrinks = 0<shrinks>
-                      Journal = journal
-                      RecheckInfo = None }
-                    |> Failed
-                | Success _ -> OK
-                | Discard -> failwith "Unexpected 'Discard' result when rechecking. This should never happen."
-            | [], _ -> failwith "The shrink path lead to a dead end. This should never happen."
-            | _ :: childrenTail, ShrinkOutcome.Pass :: shrinkPathTail -> skipPassedChild  childrenTail shrinkPathTail
-            | childrenHead :: _, ShrinkOutcome.Fail :: shrinkPathTail -> followShrinkPath childrenHead shrinkPathTail
-        skipPassedChild (Seq.toList children)
+            (Node (root, children) : Tree<Lazy<Journal * Outcome<'a>>>)
+            shrinkPath =
+        match shrinkPath with
+        | [] ->
+            let journal, outcome = root.Value
+            match outcome with
+            | Failure ->
+                { Shrinks = 0<shrinks>
+                  Journal = journal
+                  RecheckInfo = None }
+                |> Failed
+            | Success _ -> OK
+            | Discard -> failwith "Unexpected 'Discard' result when rechecking. This should never happen."
+        | ShrinkOutcome.Pass i :: shinkPathTail ->
+            let nextRoot =
+                children
+                |> Seq.skip i
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "The shrink path lead to a dead end. This should never happen.")
+            followShrinkPath nextRoot shinkPathTail
 
     let private splitAndRun p data =
         let seed1, seed2 = Seed.split data.Seed
