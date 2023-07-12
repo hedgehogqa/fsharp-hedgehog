@@ -20,5 +20,8 @@
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
     "mocha": "^10.2.0"
+  },
+  "engines": {
+    "node": "18.16.1"
   }
 }
