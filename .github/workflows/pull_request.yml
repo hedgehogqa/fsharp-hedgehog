@@ -16,9 +16,7 @@ jobs:
     - name: Ensure no Windows line endings
       run: ./validate.sh
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.201
+      uses: actions/setup-dotnet@v3
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -35,9 +33,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup NodeJs
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version-file: ".nvmrc"
     - name: Install npm packages
       run: npm install
       working-directory: ./tests/Hedgehog.Tests

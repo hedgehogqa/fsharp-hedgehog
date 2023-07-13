@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="7.0.300" />
+  </ItemGroup>
+
 </Project>
