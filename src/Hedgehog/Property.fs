@@ -177,7 +177,7 @@ module Property =
                 children
                 |> Seq.skip i
                 |> Seq.tryHead
-                |> Option.defaultWith (fun () -> failwith "The shrink path lead to a dead end. This should never happen.")
+                |> Option.defaultWith (fun () -> failwith "The shrink path lead to a dead end, which means the generators have changed. Thus, 'recheck' is not possible. Use 'check' instead.")
             followShrinkPath nextRoot shinkPathTail
 
     let private splitAndRun p data =
