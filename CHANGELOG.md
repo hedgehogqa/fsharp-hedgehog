@@ -2,6 +2,7 @@
 - No longer targeting .NET Framework ([#417][417], [@LyndonGingerich][LyndonGingerich])
 - The runtime of `Property.recheck` is now about the same as `Property.check`.  Previously, it was about ten times slower. ([#433][433], [@TysonMN][TysonMN])
 - The error message given when a deadend is reached during rechecking is improved to say that the cause is a change in generators. ([#436][436], [@TysonMN][TysonMN])
+- The implementation of `Property.falseToFailure` is now better.  As a result, `Property.recheckBool` now only tests the shrunken input. ([#437][437], [@TysonMN][TysonMN])
 
 ## Version 0.13.0 (2022-07-23)
 
