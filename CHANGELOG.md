@@ -1,3 +1,8 @@
+## Version 0.14.0
+- No longer targeting .NET Framework ([#417][417], [@LyndonGingerich][LyndonGingerich])
+- The runtime of `Property.recheck` is now about the same as `Property.check`.  Previously, it was about ten times slower. ([#433][433], [@TysonMN][TysonMN])
+- The error message given when a deadend is reached during rechecking is improved to say that the cause is a change in generators. ([#436][436], [@TysonMN][TysonMN])
+
 ## Version 0.13.0 (2022-07-23)
 
 - Fix bug in `Property.recheck` where the result is always `Failed`. ([#415][415], [@TysonMN][TysonMN])
@@ -199,6 +204,12 @@
 [LyndonGingerich]
   https://github.com/LyndonGingerich
 
+[436]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/436
+[433]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/433
+[417]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/417
 [416]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/416
 [415]:
