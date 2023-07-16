@@ -2,6 +2,9 @@ namespace Hedgehog
 
 open System
 
+type internal TestReturnedFalseException() =
+  inherit System.Exception("Expected 'true' but was 'false'.")
+
 
 [<Struct>]
 type Property<'a> =
@@ -95,7 +98,7 @@ module Property =
         |> ofGen
 
     let falseToFailure p =
-        p |> bind ofBool
+        p |> map (fun b -> if not b then raise (TestReturnedFalseException()))
 
     let internal printValue (value) : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
