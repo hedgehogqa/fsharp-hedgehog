@@ -1,4 +1,4 @@
-﻿namespace Hedgehog.Linq
+namespace Hedgehog.Linq
 
 #if !FABLE_COMPILER
 
@@ -8,8 +8,10 @@ open Hedgehog
 
 type Gen private () =
 
-    ///<summary>Create a generator which alway returns the supplied value</summary>
-    ///<param name="value">The value the generator will always return</param>
+    /// <summary>
+    /// Create a generator that always yields a constant value.
+    /// </summary>
+    /// <param name="value">The constant value the generator always returns.</param>
     static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant value
 
@@ -66,136 +68,142 @@ type Gen private () =
     static member Integral (range : Range<decimal>) : Gen<decimal> =
         Gen.integral range
 
-    /// <summary>Randomly selects one of the values in the list.
-    /// <i>The input list must be non-empty.</i></summary>
-    /// <param name="sequence">The non empty IEnumerable to create a generator for</param>
-    static member Item (sequence : seq<'T>) : Gen<'T> =
-        Gen.item sequence
+    /// <summary>
+    /// Randomly selects one of the values in the list.
+    /// <i>The input list must be non-empty.</i>
+    /// </summary>
+    /// <param name="items">A non-empty IEnumerable of the Gen's possible values</param>
+    static member Item (items : seq<'T>) : Gen<'T> =
+        Gen.item items
 
-    /// <summary> Uses a weighted distribution to randomly select one of the gens in the list.
+    /// Uses a weighted distribution to randomly select one of the gens in the list.
     /// This generator shrinks towards the first generator in the list.
-    /// <c>The input list must be non-empty.</c></summary>
+    /// <i>The input list must be non-empty.</i>
     static member Frequency (gens : seq<int * Gen<'T>>) : Gen<'T> =
         Gen.frequency gens
 
-    /// <summary>Randomly selects one of the gens in the list.
-    /// <c>The input list must be non-empty.</c>
-    /// </summary>
+    /// Randomly selects one of the gens in the list.
+    /// <i>The input list must be non-empty.</i>
     static member Choice (gens : seq<Gen<'T>>) : Gen<'T> =
         Gen.choice gens
 
-    /// <summary> Randomly selects from one of the gens in either the non-recursive or the
+    /// Randomly selects from one of the gens in either the non-recursive or the
     /// recursive list. When a selection is made from the recursive list, the size
     /// is halved. When the size gets to one or less, selections are no longer made
     /// from the recursive list.
-    /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i></summary>
+    /// <i>The first argument (i.e. the non-recursive input list) must be non-empty.</i>
     static member ChoiceRecursive (nonrecs : seq<Gen<'T>>, recs : seq<Gen<'T>>) : Gen<'T> =
         Gen.choiceRec nonrecs recs
 
+    /// Generates a random character in the given range.
     static member Char (lo : char, hi : char) : Gen<char> =
         Gen.char lo hi
 
-    /// <summary>
-    /// Generates a Unicode character, including invalid standalone surrogates:
-    /// '\000'..'\65535'
-    /// </summary>
+    /// Generates a Unicode character, including invalid standalone surrogates,
+    /// i.e. from '\000' to '\65535'.
     static member UnicodeAll : Gen<char> =
         Gen.unicodeAll
 
     /// <summary>
-    /// Generate numerical character 0..9
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
+    /// Generates a random numerical character, i.e. from '0' to '9'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Digit.String(Range.Constant(5, 10))
     /// </code>
-    /// </summary>
+    /// </example>
     static member Digit : Gen<char> =
         Gen.digit
 
     /// <summary>
-    /// Generate an lower case character a..z
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
-    /// <code>
-    /// Gen.Upper.String(Range.Constant(5, 10))
-    /// </code>
+    /// Generates a random lowercase character, i.e. from 'a' to 'z'.
     /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.Lower.String(Range.Constant(5, 10))
+    /// </code>
+    /// </example>
     static member Lower : Gen<char> =
         Gen.lower
 
     /// <summary>
-    /// Generate an upper case character A..Z
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
+    /// Generates a random uppercase character, i.e. from 'A' to 'Z'.
+    /// </summary>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Upper.String(Range.Constant(5, 10))
     /// </code>
-    /// </summary>
+    /// </example>
     static member Upper : Gen<char> =
         Gen.upper
 
     /// <summary>
-    /// Generates an ASCII character: '\000'..'\127'; IE any 7 bit charecter code
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
-    /// Non printable and control characters can be generated, eg Newline and Bell
+    /// Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.
+    /// </summary>
+    /// <remarks>
+    /// Non-printable and control characters can be generated, e.g. NULL and BEL.
+    /// </remarks>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Ascii.String(Range.Constant(5, 10))
     /// </code>
-    /// </summary>
+    /// </example>
     static member Ascii : Gen<char> =
         Gen.ascii
 
     /// <summary>
-    /// Generates a Latin-1 character: '\000'..'\255'; IE any 8 bit charecter code
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
-    /// Non printable and control characters can be generated, eg Newline and Bell
+    /// Generates a random Latin-1 character, i.e. from '\000' to '\255', i.e. any 8 bit character.
+    /// <remarks>
+    /// Non-printable and control characters can be generated, e.g. NULL and BEL.
+    /// </remarks>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Latin1.String(Range.Constant(5, 10))
     /// </code>
-    /// </summary>
+    /// </example>
     static member Latin1 : Gen<char> =
         Gen.latin1
 
-
     /// <summary>
-    /// Generates a Unicode character, excluding noncharacters
-    /// ('\65534', '\65535') and invalid standalone surrogates
-    /// ('\000'..'\65535' excluding '\55296'..'\57343').
-    /// Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
+    /// Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').
+    /// </summary>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Unicode.String(Range.Constant(5, 10))
     /// </code>
-    /// </summary>
+    /// </example>
     static member Unicode : Gen<char> =
         Gen.unicode
 
     /// <summary>
-    /// Generates <see cref="Upper"/> or <see cref="Lower"/> case character,  Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
+    /// Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.
+    /// </summary>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.Alpha.String(Range.Constant(5, 10))
     /// </code>
-    /// Generates strings such as <c>Ldklk</c> or <c>aFDG</c></example>
-    /// </summary>
+    /// This generates strings such as <c>Ldklk</c> or <c>aFDG</c>
+    /// </example>
     static member Alpha : Gen<char> =
         Gen.alpha
 
     /// <summary>
-    /// Generates <see cref="Alpha"/> or <see cref="Numeric"/> character,  Combine with <see cref="GenExtensions.String"/> to create srings of desired length.
+    /// Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.
+    /// </summary>
     /// <example>
-    /// For example
+    /// Combine with <see cref="T:Hedgehog.Linq.GenExtensions.String"/> to create strings of a desired length.
     /// <code>
     /// Gen.AlphaNumeric.String(Range.Constant(5, 10))
     /// </code>
-    /// Generates strings such as <c>Ld5lk</c> or <c>4dFDG</c></example>
-    /// </summary>
+    /// This generates strings such as <c>Ld5lk</c> or <c>4dFDG</c>
+    /// </example>
     static member AlphaNumeric : Gen<char> =
         Gen.alphaNum
 
@@ -231,7 +239,7 @@ type Gen private () =
     static member Int64 (range : Range<int64>) : Gen<int64> =
         Gen.int64 range
 
-    /// Generates a random signed 64-bit integer.
+    /// Generates a random unsigned 64-bit integer.
     static member UInt64 (range : Range<uint64>) : Gen<uint64> =
         Gen.uint64 range
 
@@ -251,21 +259,22 @@ type Gen private () =
     static member Guid : Gen<Guid> =
         Gen.guid
 
-
-    /// <summary>Generates a random DateTime using the specified range.
+    /// <summary>
+    /// Generates a random DateTime using the given range.
+    /// </summary>
+    /// <example>
     /// <code>
     /// var TwentiethCentury = Gen.DateTime(
-    ///    Range.Constant(
-    ///        new DateTime(1900, 1, 1),
-    ///      new DateTime(1999, 12, 31))
-    /// );
+    ///     Range.Constant(
+    ///         new DateTime(1900,  1,  1),
+    ///         new DateTime(1999, 12, 31)));
     /// </code>
-    /// </summary>
-    /// <param name="range">Range specifying the bounds of the <c>DateTime</c> that can be generated</param>
+    /// </example>
+    /// <param name="range">Range determining the bounds of the <c>DateTime</c> that can be generated.</param>
     static member DateTime (range : Range<DateTime>) : Gen<DateTime> =
         Gen.dateTime range
 
-    /// Generates a random DateTimeOffset using the specified range.
+    /// Generates a random DateTimeOffset using the given range.
     static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         Gen.dateTimeOffset range
 
@@ -273,29 +282,37 @@ type Gen private () =
 [<AbstractClass; Sealed>]
 type GenExtensions private () =
 
-
     [<Extension>]
     static member Apply (genFunc : Gen<Func<'T, 'TResult>>, genArg : Gen<'T>) : Gen<'TResult> =
         Gen.apply genArg (genFunc |> Gen.map (fun f -> f.Invoke))
 
+    /// <summary>
     /// Generates an array using a 'Range' to determine the length.
-    /// <param name="range">Range specifying the minimum and maximum size of the list</param>
+    /// </summary>
+    /// <param name="range">Range determining the length of the array.</param>
     [<Extension>]
     static member Array (gen : Gen<'T>, range : Range<int>) : Gen<'T []> =
         Gen.array range gen
 
-    /// Generates a Enumerable using a 'Range' to determine the length.
-    /// <param name="range">Range specifying the minimum and maximum size of the list</param>
+    /// <summary>
+    /// Generates an enumerable using a 'Range' to determine the length.
+    /// </summary>
+    /// <param name="range">Range determining the length of the enumerable.</param>
     [<Extension>]
     static member Enumerable (gen : Gen<'T>, range : Range<int>) : Gen<seq<'T>> =
         Gen.seq range gen
 
+    /// Run a generator. The size passed to the generator is always 30;
+    /// if you want another size then you should explicitly use 'resize'.
     [<Extension>]
     static member GenerateTree (gen : Gen<'T>) : Tree<'T> =
         Gen.generateTree gen
 
-    /// <summary> Create a list of items created by the generator </summary>
-    /// <param name="range">Range specifying the minimum and maximum size of the list</param>
+    /// <summary>
+    /// Generates a List using a 'Range' to determine the length and a 'Gen' to produce the elements.
+    /// </summary>
+    /// <param name="gen">Generates the items in the List.</param>
+    /// <param name="range">Range determining the length of the List.</param>
     [<Extension>]
     static member List (gen : Gen<'T>, range : Range<int>) : Gen<ResizeArray<'T>> =
         Gen.list range gen
@@ -306,30 +323,32 @@ type GenExtensions private () =
     static member NoShrink (gen : Gen<'T>) : Gen<'T> =
         Gen.noShrink gen
 
-    /// 50% of the time generates an item, 50% of the time generates a null.
+    /// Generates a <c>null</c> or a value from gen. Null becomes less common with larger Sizes.
     [<Extension>]
     static member NullReference (gen : Gen<'T>) : Gen<'T> =
         Gen.option gen |> Gen.map (Option.defaultValue null)
 
-    /// 50% of the time generates an item, 50% of the time generates a null.
-    /// This means the the value type becomes nullable I.E Gen<int> becomes Gen<int?>
+    /// Generates a <c>null</c> or a value from gen. Null becomes less common with larger Sizes.
     [<Extension>]
     static member NullValue (gen : Gen<'T>) : Gen<Nullable<'T>> =
         Gen.option gen |> Gen.map (Option.defaultWith Nullable << Option.map Nullable)
 
-    /// Generate a formatted string containing a number of samples produced by the generator,
-    /// with examples of how those samples would shrink if the property ustilising them failed.
+    /// Samples the gen 5 times with a Size of 10, called the "Outcome" in the returned string.
+    /// Then the shrink path to each Outcome is produced. This may be useful in debugging
+    /// shrink paths in complex Gens.
     [<Extension>]
     static member RenderSample (gen : Gen<'T>) : string =
         Gen.renderSample gen
 
+    /// Overrides the size parameter. Returns a generator which uses the
+    /// given size instead of the runtime-size parameter.
     [<Extension>]
     static member Resize (gen : Gen<'T>, size : Size) : Gen<'T> =
         Gen.resize size gen
 
-    /// <summary>Produce a list contianing values created by the generator.</summary>
-    /// <param name="size">The size paramter for any generators which utilise it.</param>
-    /// <param name="count">The number of samples to produce, ie the length of the list.</param>
+    /// <summary>Returns a List of values produced by the generator.</summary>
+    /// <param name="size">The size parameter for the generator.</param>
+    /// <param name="count">The number of samples to produce, i.e. the length of the List.</param>
     [<Extension>]
     static member Sample (gen : Gen<'T>, size : Size, count : int) : ResizeArray<'T> =
         Gen.sample size count gen
@@ -340,6 +359,8 @@ type GenExtensions private () =
         Gen.sampleTree size count gen
         |> ResizeArray
 
+    /// Adjust the size parameter, by transforming it with the given
+    /// function.
     [<Extension>]
     static member Scale (gen : Gen<'T>, scaler : Func<int, int>) : Gen<'T> =
         Gen.scale scaler.Invoke gen
@@ -347,7 +368,6 @@ type GenExtensions private () =
     [<Extension>]
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'U>>) : Gen<'U> =
         Gen.bind binder.Invoke gen
-
 
     [<Extension>]
     static member SelectMany (gen : Gen<'T>, binder : Func<'T, Gen<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Gen<'TResult> =
@@ -365,24 +385,46 @@ type GenExtensions private () =
     static member SelectTree (gen : Gen<'T>, binder : Func<Tree<'T>, Tree<'TResult>>) : Gen<'TResult> =
         Gen.mapTree binder.Invoke gen
     
-    ///<summary>
-    /// Project the current type of the generator onto a different type
-    ///<code>
-    ///     Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
-    ///            .Tuple2()
-    ///            .Select(tuple => new Point(tuple.Item1, tuple.Item2));
-    ///</code>
-    ///</summary>
+    /// <summary>
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    ///     .Tuple2()
+    ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
+    /// </code>
+    /// </example>
     [<Extension>]
     static member Select (gen : Gen<'T>, mapper : Func<'T, 'TResult>) : Gen<'TResult> =
         Gen.map mapper.Invoke gen
 
+    /// <summary>
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    ///     .Tuple2()
+    ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
+    /// </code>
+    /// </example>
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'TResult>, genB : Gen<'U>) : Gen<'TResult> =
         Gen.map2 (fun a b -> mapper.Invoke (a, b))
             genA
             genB
 
+    /// <summary>
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    ///     .Tuple2()
+    ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
+    /// </code>
+    /// </example>
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'TResult>, genB : Gen<'U>, genC : Gen<'V>) : Gen<'TResult> =
         Gen.map3 (fun a b c -> mapper.Invoke (a, b, c))
@@ -390,6 +432,16 @@ type GenExtensions private () =
             genB
             genC
 
+    /// <summary>
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    ///     .Tuple2()
+    ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
+    /// </code>
+    /// </example>
     [<Extension>]
     static member Select (genA : Gen<'T>, mapper : Func<'T, 'U, 'V, 'W, 'TResult>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'TResult> =
         Gen.map4 (fun a b c d -> mapper.Invoke (a, b, c, d))
@@ -398,18 +450,23 @@ type GenExtensions private () =
             genC
             genD
 
+    /// Apply an additional shrinker to all generated trees.
     [<Extension>]
     static member Shrink (gen : Gen<'T>, shrinker : Func<'T, ResizeArray<'T>>) : Gen<'T> =
         Gen.shrink (shrinker.Invoke >> Seq.toList) gen
 
+    /// Apply an additional shrinker to all generated trees.
     [<Extension>]
     static member ShrinkLazy (gen : Gen<'T>, shrinker : Func<'T, seq<'T>>) : Gen<'T> =
         Gen.shrinkLazy shrinker.Invoke gen
 
+    /// Runs an option generator until it produces a 'Some'.
     [<Extension>]
     static member Some (gen : Gen<Option<'T>>) : Gen<'T> =
         Gen.some gen
 
+    /// Generates a random string using 'Range' to determine the length and the
+    /// given character generator.
     [<Extension>]
     static member String (gen : Gen<char>, range : Range<int>) : Gen<string> =
         Gen.string range gen
@@ -442,6 +499,7 @@ type GenExtensions private () =
     static member Tuple4 (gen : Gen<'T>) : Gen<'T * 'T * 'T * 'T> =
         Gen.tuple4 gen
 
+    /// Generates a value that satisfies a predicate.
     [<Extension>]
     static member Where (gen : Gen<'T>, predicate : Func<'T, bool>) : Gen<'T> =
         Gen.filter predicate.Invoke gen
