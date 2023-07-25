@@ -154,6 +154,13 @@ let genTests = testList "Gen tests" [
         |> Property.falseToFailure
         |> Property.check
 
+    fableIgnore "bigint can create linear bounded integer" <| fun _ ->
+        property {
+            let! _ = Gen.bigint (Range.linear 0I 100I)
+            return ()
+        }
+        |> Property.check
+
     testCase "apply is chainable" <| fun _ ->
         let _ : Gen<int> =
             Gen.constant (+)

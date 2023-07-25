@@ -474,6 +474,10 @@ module Gen =
     let decimal (range : Range<decimal>) : Gen<decimal> =
         double (Range.map ExtraTopLevelOperators.double range) |> map decimal
 
+    /// Generates a random big integer.
+    let bigint (range : Range<bigint>) : Gen<bigint> =
+        integral range
+
     //
     // Combinators - Constructed
     //
