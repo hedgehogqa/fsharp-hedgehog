@@ -512,6 +512,15 @@ module Gen =
             let! offsetMinutes = int32 (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
+        
+#if !FABLE_COMPILER
+    /// Generates a random TimeSpan using the specified range.
+    let timeSpan (range : Range<TimeSpan>) : Gen<TimeSpan> =
+        range
+        |> Range.map (fun x -> x.Ticks (* Fable can't do this *))
+        |> int64
+        |> map TimeSpan.FromTicks
+#endif
 
     //
     // Sampling
