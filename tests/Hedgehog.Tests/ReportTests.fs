@@ -10,7 +10,9 @@ let reportTests = testList "Report tests" [
         property {
             let! size = Range.linear 0 1000 |> Gen.int32
             let! path =
-                Gen.item [ ShrinkOutcome.Fail; ShrinkOutcome.Pass ]
+                Range.linear 0 3
+                |> Gen.int32
+                |> Gen.map ShrinkOutcome.Pass
                 |> Gen.list (Range.linear 0 10)
             let expected = {
                 Size = size

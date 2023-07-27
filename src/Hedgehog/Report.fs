@@ -6,8 +6,7 @@ namespace Hedgehog
 
 [<RequireQualifiedAccess>]
 type ShrinkOutcome =
-    | Pass
-    | Fail
+    | Pass of int
     
 [<Struct>]
 type RecheckData = internal {
@@ -49,14 +48,15 @@ module internal RecheckData =
     open System
 
     let private separator = "_"
+    let private pathSeparator = "-"
 
     let serialize data =
         [ string data.Size
           string data.Seed.Value
           string data.Seed.Gamma
           data.ShrinkPath
-          |> List.map (function ShrinkOutcome.Fail -> "0" | ShrinkOutcome.Pass -> "1" )
-          |> String.concat "" ]
+          |> List.map (function ShrinkOutcome.Pass i -> i.ToString() )
+          |> String.concat pathSeparator ]
         |> String.concat separator
 
     let deserialize (s: string) =
@@ -67,11 +67,11 @@ module internal RecheckData =
                 { Value = parts.[1] |> UInt64.Parse
                   Gamma = parts.[2] |> UInt64.Parse }
             let path =
-                parts.[3]
-                |> Seq.map (function '0' -> ShrinkOutcome.Fail
-                                   | '1' -> ShrinkOutcome.Pass
-                                   |  c  -> failwithf "Unexpected character %c in shrink path" c)
-                |> Seq.toList
+                if parts.[3] = ""
+                then []
+                else parts.[3].Split([|pathSeparator|], StringSplitOptions.None)
+                    |> Seq.map (Int32.Parse >> ShrinkOutcome.Pass)
+                    |> Seq.toList
             { Size = size
               Seed = seed
               ShrinkPath = path }

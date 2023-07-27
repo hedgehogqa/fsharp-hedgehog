@@ -94,6 +94,34 @@ let propertyTests = testList "Property tests" [
                 //render.Contains "actual: 1" =! true // comment out for now since it causes the Fable test to fail
 
 
+    testCase "recheckBool only tests shrunken input" <| fun () ->
+        let mutable count = 0
+        let prop =
+            property {
+                let! i = Range.constant 0 1_000_000 |> Gen.int32
+                count <- count + 1
+                return i = 0
+            }
+    
+        let report1 = Property.reportBool prop
+        match report1.Status with
+        | OK -> failwith "Initial report should be Failed, not OK"
+        | GaveUp -> failwith "Initial report should be Failed, not GaveUp"
+        | Failed failure1 ->
+            count <- 0
+            let report2 =
+                Property.reportRecheckBool
+                    (RecheckData.serialize failure1.RecheckInfo.Value.Data)
+                    prop
+            match report2.Status with
+            | OK -> failwith "Recheck report should be Failed, not OK"
+            | GaveUp -> failwith "Recheck report should be Failed, not GaveUp"
+            | Failed _ ->
+                let render = Report.render report2
+                count =! 1
+                //render.Contains "actual: 1" =! true // comment out for now since it causes the Fable test to fail
+
+
     testCase "recheck passes after code is fixed" <| fun () ->
         let mutable b = false
         let prop =
@@ -151,5 +179,4 @@ let propertyTests = testList "Property tests" [
                   .Replace(")", "")
 
         actual =! "1,0"
-
 ]
