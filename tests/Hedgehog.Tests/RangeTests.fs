@@ -228,4 +228,5 @@ let rangeTests = testList "Range tests" [
 #if !FABLE_COMPILER
         actual =! (Decimal.MinValue, Decimal.MaxValue)
 #endif
+        ()
 ]
