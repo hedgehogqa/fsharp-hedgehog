@@ -207,7 +207,7 @@ type FromBigInt =
         double
 
     static member FromBigInt (_: decimal, _: FromBigInt) : bigint -> decimal =
-        int32 >> decimal
+        decimal
 
 #if !FABLE_COMPILER
     static member FromBigInt (_: nativeint , _: FromBigInt) : bigint -> nativeint =
