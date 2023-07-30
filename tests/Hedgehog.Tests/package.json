@@ -1,25 +1,13 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
-    "prebuild": "dotnet tool restore",
-    "build": "dotnet fable .",
-    "pretest": "dotnet fable . --run webpack",
-    "test": "mocha tests-js --timeout 10000",
-    "dotnet-expecto": "msbuild && .\\bin\\Debug\\netcoreapp3.1\\Hedgehog.Fable.Tests.exe --summary",
-    "start": "dotnet fable watch . --run webpack-dev-server"
-  },
-  "dependencies": {
-    "fable-compiler": "^2.13.0",
-    "fable-compiler-js": "^3.0.0",
-    "fable-loader": "^2.1.9",
-    "fable-splitter": "^2.2.1",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "test": "dotnet fable . -o tests-js --run mocha tests-js/Program.js --timeout 10000",
+    "start": "dotnet fable watch . -o tests-js --run vite dev"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "mocha": "^10.2.0"
+      "mocha": "^8.3.2",
+      "vite": "^4.4.7"
   },
   "engines": {
     "node": "18.16.1"
