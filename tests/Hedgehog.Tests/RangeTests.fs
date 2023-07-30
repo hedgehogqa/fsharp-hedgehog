@@ -224,9 +224,6 @@ let rangeTests = testList "Range tests" [
         let actual =
             (Range.exponentialBounded () : Range<decimal>)
             |> Range.bounds 99
-// TODO: should also work for Fable
-#if !FABLE_COMPILER
+
         actual =! (Decimal.MinValue, Decimal.MaxValue)
-#endif
-        ()
 ]
