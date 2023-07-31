@@ -207,7 +207,20 @@ type FromBigInt =
         double
 
     static member FromBigInt (_: decimal, _: FromBigInt) : bigint -> decimal =
+#if !FABLE_COMPILER
         decimal
+#else
+        // This is a workaround for a [bug in Fable](https://github.com/fable-compiler/Fable/issues/3500)
+        // Once this issue is fixed we can remove this and use just `decimal`
+        fun (x: bigint) ->
+            if x.Sign > 0 then
+                decimal x
+            else
+                let negValue = -x
+                let asDecimal = decimal negValue
+                let result = -asDecimal
+                result
+#endif
 
 #if !FABLE_COMPILER
     static member FromBigInt (_: nativeint , _: FromBigInt) : bigint -> nativeint =
