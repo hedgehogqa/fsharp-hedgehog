@@ -18,8 +18,9 @@ Failures are automatically simplified, giving developers coherent, intelligible 
 To get started quickly, see the examples in
 https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     </PackageDescription>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog/</PackageProjectUrl>
+    <PackageIcon>hedgehog-logo.png</PackageIcon>
     <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
     <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
     <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
@@ -65,5 +66,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
   <ItemGroup>
     <Content Include="*.fsproj; **\*.fs" Exclude="**\bin\**\*; **\obj\**\*" PackagePath="fable" />
+    <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>

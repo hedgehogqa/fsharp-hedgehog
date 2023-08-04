@@ -134,6 +134,10 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.reportRecheck recheckData
 
     [<Extension>]
+    static member ReportRecheck (property : Property<bool>, recheckData: RecheckData) : Report =
+        property |> Property.falseToFailure |> Property.reportRecheck (RecheckData.serialize recheckData)
+
+    [<Extension>]
     static member ReportRecheck (property : Property<bool>, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
         property |> Property.falseToFailure |> Property.reportRecheckWith recheckData config
 

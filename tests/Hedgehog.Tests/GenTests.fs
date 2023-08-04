@@ -64,6 +64,23 @@ let genTests = testList "Gen tests" [
         |> List.distinct
         |> List.length
         =! actual.Length
+        
+#if !FABLE_COMPILER
+// See production code
+    yield! testCases "timeSpan creates TimeSpan instances"
+        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
+
+        let actual =
+            (Range.constant TimeSpan.MinValue TimeSpan.MaxValue)
+            |> Gen.timeSpan
+            |> Gen.sample 0 count
+            |> Seq.toList
+
+        actual
+        |> List.distinct
+        |> List.length
+        =! actual.Length
+#endif
 
     testCase "unicode does not return any surrogate" <| fun _ ->
         let actual =
@@ -135,6 +152,13 @@ let genTests = testList "Gen tests" [
             return true
         }
         |> Property.falseToFailure
+        |> Property.check
+
+    fableIgnore "bigint can create linear bounded integer" <| fun _ ->
+        property {
+            let! _ = Gen.bigint (Range.linear 0I 100I)
+            return ()
+        }
         |> Property.check
 
     testCase "apply is chainable" <| fun _ ->

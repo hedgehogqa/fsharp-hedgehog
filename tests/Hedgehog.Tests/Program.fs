@@ -23,5 +23,5 @@ let main (args: string[]) =
 #if FABLE_COMPILER
     Fable.Mocha.Mocha.runTests allTests
 #else
-    Expecto.Tests.runTestsInAssembly Expecto.Tests.defaultConfig args
+    Expecto.Tests.runTestsInAssemblyWithCLIArgs [] args
 #endif

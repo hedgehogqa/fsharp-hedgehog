@@ -219,4 +219,11 @@ let rangeTests = testList "Range tests" [
             (Range.exponentialBounded () : Range<sbyte>)
             |> Range.bounds 99
         actual =! (-128y, 127y)
+
+    testCase "exponentialBounded uses the full range of a data type - example 4" <| fun _ ->
+        let actual =
+            (Range.exponentialBounded () : Range<decimal>)
+            |> Range.bounds 99
+
+        actual =! (Decimal.MinValue, Decimal.MaxValue)
 ]

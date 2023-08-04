@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 // Import ForAll:
@@ -55,12 +57,46 @@ namespace Hedgehog.Linq.Tests
                 if (report2.Status is Status.Failed)
                 {
                     Assert.Equal(1, count);
-                } else {
+                } else
+                {
                     throw new Exception("Recheck report should be Failed but is not");
                 }
-            } else {
+            } else
+            {
                 throw new Exception("Initial report should be Failed but is not");
             }
+        }
+
+        [Fact]
+        // https://github.com/hedgehogqa/fsharp-hedgehog/issues/432
+        public void RecheckIsFasterThanCheck()
+        {
+            var low = Gen.Int32(Range.Constant(0, 5));
+            var mid = Gen.Int32(Range.Constant(10, 50));
+            var big = Gen.Int32(Range.Constant(100, 200));
+            var large = Gen.Int32(Range.Constant(500, 1000));
+            var choice = Gen.Choice(new List<Gen<int>> { low, mid, big, large }).List(Range.Constant(100, 200));
+            var prop = ForAll(choice).Select(x => x.Any((x) => x == 990));
+            var watch = new System.Diagnostics.Stopwatch();
+
+            watch.Start();
+            var report1 = prop.Report();
+            watch.Stop();
+
+            var checkTime = watch.ElapsedMilliseconds;
+            watch.Reset();
+
+            if (!(report1.Status is Status.Failed failure))
+            {
+                throw new Exception("Initial report should be Failed but is not");
+            }
+
+            watch.Start();
+            prop.ReportRecheck(failure.Item.RecheckInfo.Value.Data);
+            watch.Stop();
+
+            var recheckTime = watch.ElapsedMilliseconds;
+            Assert.InRange(recheckTime, 0, checkTime * 1.25); // Added 25% buffer for robustness
         }
 
         /*
