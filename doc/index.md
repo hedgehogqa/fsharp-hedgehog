@@ -1,17 +1,16 @@
 ﻿# Tutorial
 
-* [Getting Started](#getting-started)
-  * [At a glance](#at-a-glance)
-  * [Integrated shrinking](#-integrated-shrinking-is-an-important-quality-of-hedgehog)
-* [Generators](#generators)
-  * [The `gen` expression](#-generators-can-also-be-created-using-the-gen-expression)
-* [Properties](#properties)
-  * [The `property` expression](#-properties-can-also-be-created-using-the-property-expression)
-  * [Custom Operations](#custom-operations)
+* [Getting Started](#Getting-Started)
+  * [At a glance](#At-a-glance)
+  * [Integrated shrinking](#-Integrated-shrinking-is-an-important-quality-of-Hedgehog)
+* [Generators](#Generators)
+* [Properties](#Properties)
+  * [The `gen` expression](#-Generators-can-also-be-created-using-the-gen-expression)
+  * [Custom Operations](#Custom-Operations)
     * [`counterexample`](#counterexample)
     * [`where`](#where)
-* [Integrations](#integrations)
-  * [Regex-constrained strings](#regex-constrained-strings)
+* [Integrations](#Integrations)
+  * [Regex-constrained strings](#Regex-constrained-strings)
 
 ### Getting Started
 
