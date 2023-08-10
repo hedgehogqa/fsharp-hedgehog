@@ -27,8 +27,12 @@ module Gen =
     let create (shrink : 'a -> seq<'a>) (random : Random<'a>) : Gen<'a> =
         random |> Random.map (Tree.unfold id shrink) |> ofRandom
 
-    let constant (x : 'a) : Gen<'a> =
-        Tree.singleton x |> Random.constant |> ofRandom
+    /// <summary>
+    /// Create a generator that always yields a constant value.
+    /// </summary>
+    /// <param name="value">The constant value the generator always returns.</param>
+    let constant (value : 'a) : Gen<'a> =
+        Tree.singleton value |> Random.constant |> ofRandom
 
     let mapRandom (f : Random<Tree<'a>> -> Random<Tree<'b>>) (g : Gen<'a>) : Gen<'b> =
         toRandom g |> f |> ofRandom
@@ -184,12 +188,15 @@ module Gen =
     let private crashEmpty (arg : string) : 'b =
         invalidArg arg (sprintf "'%s' must have at least one element" arg)
 
+    /// <summary>
     /// Randomly selects one of the values in the list.
     /// <i>The input list must be non-empty.</i>
-    let item (xs0 : seq<'a>) : Gen<'a> = gen {
-        let xs = Array.ofSeq xs0
+    /// </summary>
+    /// <param name="items">A non-empty IEnumerable of the Gen's possible values</param>
+    let item (items : seq<'a>) : Gen<'a> = gen {
+        let xs = Array.ofSeq items
         if Array.isEmpty xs then
-            return crashEmpty "xs"
+            return crashEmpty "items"
         else
             let! ix = Range.ofArray xs |> integral
             return Array.item ix xs
@@ -321,15 +328,19 @@ module Gen =
     // Combinators - Collections
     //
 
-    /// Generates a 'None' part of the time.
-    let option (g : Gen<'a>) : Gen<'a option> =
+    /// Generates a 'None' or a 'Some'. 'None' becomes less common with larger Sizes.
+    let option (gen : Gen<'a>) : Gen<'a option> =
         sized (fun n ->
             frequency [
                 2, constant None
-                1 + n, map Some g
+                1 + n, map Some gen
             ])
 
-    /// Generates a list using a 'Range' to determine the length.
+    /// <summary>
+    /// Generates a list using a 'Range' to determine the length and a 'Gen' to produce the elements.
+    /// </summary>
+    /// <param name="gen">Generates the items in the list.</param>
+    /// <param name="range">Range determining the length of the list.</param>
     let list (range : Range<int>) (gen : Gen<'a>) : Gen<List<'a>> =
         let sequence minLength trees =
             trees
@@ -351,54 +362,111 @@ module Gen =
         Random.sized sizedList
         |> ofRandom
 
+    /// <summary>
     /// Generates an array using a 'Range' to determine the length.
-    let array (range : Range<int>) (g : Gen<'a>) : Gen<array<'a>> =
-        list range g |> map Array.ofList
+    /// </summary>
+    /// <param name="range">Range determining the length of the array.</param>
+    let array (range : Range<int>) (gen : Gen<'a>) : Gen<array<'a>> =
+        list range gen |> map Array.ofList
 
-    /// Generates a sequence using a 'Range' to determine the length.
-    let seq (range : Range<int>) (g : Gen<'a>) : Gen<seq<'a>> =
-        list range g |> map Seq.ofList
+    /// <summary>
+    /// Generates an enumerable using a 'Range' to determine the length.
+    /// </summary>
+    /// <param name="range">Range determining the length of the enumerable.</param>
+    let seq (range : Range<int>) (gen : Gen<'a>) : Gen<seq<'a>> =
+        list range gen |> map Seq.ofList
 
     //
     // Combinators - Characters
     //
 
-    // Generates a random character in the specified range.
+    /// Generates a random character in the given range.
     let char (lo : char) (hi : char) : Gen<char> =
         Range.constant (int lo) (int hi)
         |> integral
         |> map char
 
-    /// Generates a Unicode character, including invalid standalone surrogates:
-    /// '\000'..'\65535'
+    /// Generates a Unicode character, including invalid standalone surrogates,
+    /// i.e. from '\000' to '\65535'.
     let unicodeAll : Gen<char> =
         let lo = Char.MinValue
         let hi = Char.MaxValue
         char lo hi
 
-    /// Generates a random digit.
+    /// <summary>
+    /// Generates a random numerical character, i.e. from '0' to '9'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.digit |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let digit : Gen<char> =
         char '0' '9'
 
-    /// Generates a random lowercase character.
+    /// <summary>
+    /// Generates a random lowercase character, i.e. from 'a' to 'z'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.lower |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let lower : Gen<char> =
         char 'a' 'z'
 
-    /// Generates a random uppercase character.
+    /// <summary>
+    /// Generates a random uppercase character, i.e. from 'A' to 'Z'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.upper |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let upper : Gen<char> =
         char 'A' 'Z'
 
-    /// Generates an ASCII character: '\000'..'\127'
+    /// <summary>
+    /// Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.
+    /// </summary>
+    /// <remarks>
+    /// Non-printable and control characters can be generated, e.g. NULL and BEL.
+    /// </remarks>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.ascii |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let ascii : Gen<char> =
         char '\000' '\127'
 
-    /// Generates a Latin-1 character: '\000'..'\255'
+    /// <summary>
+    /// Generates a random Latin-1 character, i.e. from '\000' to '\255', i.e. any 8 bit character.
+    /// <remarks>
+    /// Non-printable and control characters can be generated, e.g. NULL and BEL.
+    /// </remarks>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.latin1 |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let latin1 : Gen<char> =
         char '\000' '\255'
 
-    /// Generates a Unicode character, excluding noncharacters
-    /// ('\65534', '\65535') and invalid standalone surrogates
-    /// ('\000'..'\65535' excluding '\55296'..'\57343').
+    /// <summary>
+    /// Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.unicode |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// </example>
     let unicode : Gen<char> =
         let isNoncharacter x =
                x = Operators.char 65534
@@ -407,16 +475,34 @@ module Gen =
         |> filter (not << isNoncharacter)
         |> filter (not << Char.IsSurrogate)
 
-    /// Generates a random alpha character.
+    /// <summary>
+    /// Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.alpha |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// This generates strings such as <c>Ldklk</c> or <c>aFDG</c>
+    /// </example>
     let alpha : Gen<char> =
         choice [lower; upper]
 
-    /// Generates a random alpha-numeric character.
+    /// <summary>
+    /// Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.
+    /// </summary>
+    /// <example>
+    /// Combine with <see cref="T:Hedgehog.Gen.string"/> to create strings of a desired length.
+    /// <code>
+    /// Gen.alphaNum |> Gen.string (Range.constant 5 10)
+    /// </code>
+    /// This generates strings such as <c>Ld5lk</c> or <c>4dFDG</c>
+    /// </example>
     let alphaNum : Gen<char> =
         choice [lower; upper; digit]
 
     /// Generates a random string using 'Range' to determine the length and the
-    /// specified character generator.
+    /// given character generator.
     let string (range : Range<int>) (g : Gen<char>) : Gen<string> =
         array range g
         |> map String
@@ -484,19 +570,25 @@ module Gen =
         return Guid bs
     }
 
-    /// Generates a random DateTime using the specified range.
-    /// For example:
-    ///   let range =
-    ///      Range.constantFrom
-    ///          (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue
-    ///   Gen.dateTime range
+    /// <summary>
+    /// Generates a random DateTime using the given range.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// let range =
+    ///    Range.constantFrom
+    ///        (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue
+    /// Gen.dateTime range
+    /// </code>
+    /// </example>
+    /// <param name="range">Range determining the bounds of the <c>DateTime</c> that can be generated.</param>
     let dateTime (range : Range<DateTime>) : Gen<DateTime> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
             return DateTime ticks
         }
 
-    /// Generates a random DateTimeOffset using the specified range.
+    /// Generates a random DateTimeOffset using the given range.
     let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         gen {
             let! ticks = range |> Range.map (fun dt -> dt.Ticks) |> integral
@@ -523,6 +615,9 @@ module Gen =
         |> Random.replicate count
         |> Random.run seed size
 
+    /// <summary>Returns a seq of values produced by the generator.</summary>
+    /// <param name="size">The size parameter for the generator.</param>
+    /// <param name="count">The number of samples to produce, i.e. the length of the seq.</param>
     let sample (size : Size) (count : int) (g : Gen<'a>) : seq<'a> =
         sampleTree size count g
         |> Seq.map Tree.outcome
@@ -534,6 +629,9 @@ module Gen =
         toRandom g
         |> Random.run seed 30
 
+    /// Samples the gen 5 times with a Size of 10, called the "Outcome" in the returned string.
+    /// Then the shrink path to each Outcome is produced. This may be useful in debugging
+    /// shrink paths in complex Gens.
     let renderSample (gen : Gen<'a>) : string =
         String.concat Environment.NewLine [
             let forest = sampleTree 10 5 gen
