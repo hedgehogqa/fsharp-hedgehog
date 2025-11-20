@@ -4,6 +4,7 @@
 module GenTraversable =
 
   [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+  [<RequireQualifiedAccess>]
   module Gen =
 
     let private traverse' (f: 'a -> Gen<'b>) (ma: #seq<'a>) : Gen<List<'b>> =
