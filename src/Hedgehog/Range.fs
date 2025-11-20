@@ -16,6 +16,7 @@ type Size = int
 type Range<'a> =
     | Range of origin : 'a * (Size -> 'a * 'a)
 
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
         f a, g b

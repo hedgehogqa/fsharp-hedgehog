@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -75,8 +74,8 @@ namespace Hedgehog.Linq.Tests
             var mid = Gen.Int32(Range.Constant(10, 50));
             var big = Gen.Int32(Range.Constant(100, 200));
             var large = Gen.Int32(Range.Constant(500, 1000));
-            var choice = Gen.Choice(new List<Gen<int>> { low, mid, big, large }).List(Range.Constant(100, 200));
-            var prop = ForAll(choice).Select(x => x.Any((x) => x == 990));
+            var choice = Gen.Choice(low, mid, big, large).List(Range.Constant(100, 200));
+            var prop = ForAll(choice).Select(x => x.Any(y => y == 990));
             var watch = new System.Diagnostics.Stopwatch();
 
             watch.Start();
@@ -174,9 +173,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.FromValue(true))
+                from x in ForAll(Gen.Constant(true))
                 where x == true
-                from y in ForAll(Gen.FromValue(false))
+                from y in ForAll(Gen.Constant(false))
                 where y == false
                 select Assert.True(x && !y);
 
@@ -187,9 +186,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithBool()
         {
             var property =
-                from x in ForAll(Gen.FromValue(true))
+                from x in ForAll(Gen.Constant(true))
                 where x == true
-                from y in ForAll(Gen.FromValue(false))
+                from y in ForAll(Gen.Constant(false))
                 where y == false
                 select x && !y;
 
@@ -238,6 +237,10 @@ namespace Hedgehog.Linq.Tests
         [Fact]
         public void CanUseSelectManyWithGen()
         {
+            Gen.Frequency(
+                (1, Gen.Int32(Range.Constant(0, 100))),
+                (1, Gen.Int32(Range.Constant(0, 100)))
+                );
             Gen<bool> a =
                 from i in Gen.Bool
                 from j in Gen.Bool

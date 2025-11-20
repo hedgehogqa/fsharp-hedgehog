@@ -13,7 +13,12 @@ type Range private () =
     //
 
     /// Construct a range which represents a constant single value.
+    [<Obsolete("Use Range.Singleton instead.", true)>]
     static member FromValue (value : 'T) : Range<'T> =
+        Range.singleton value
+
+    /// Construct a range which represents a constant single value.
+    static member Singleton (value : 'T) : Range<'T> =
         Range.singleton value
 
     /// Construct a range which is unaffected by the size parameter with a

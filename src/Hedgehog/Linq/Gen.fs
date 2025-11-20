@@ -12,9 +12,17 @@ type Gen private () =
     /// Create a generator that always yields a constant value.
     /// </summary>
     /// <param name="value">The constant value the generator always returns.</param>
+    [<Obsolete("Use Gen.Constant instead.")>]
     static member FromValue (value : 'T) : Gen<'T> =
         Gen.constant value
 
+    /// <summary>
+    /// Create a generator that always yields a constant value.
+    /// </summary>
+    /// <param name="value">The constant value the generator always returns.</param>
+    static member Constant (value : 'T) : Gen<'T> =
+
+        Gen.constant value
     static member FromRandom (random : Random<Tree<'T>>) : Gen<'T> =
         Gen.ofRandom random
 
@@ -73,18 +81,27 @@ type Gen private () =
     /// <i>The input list must be non-empty.</i>
     /// </summary>
     /// <param name="items">A non-empty IEnumerable of the Gen's possible values</param>
-    static member Item (items : seq<'T>) : Gen<'T> =
+    static member Item ([<ParamArray>] items : array<'T>) : Gen<'T> =
         Gen.item items
 
     /// Uses a weighted distribution to randomly select one of the gens in the list.
     /// This generator shrinks towards the first generator in the list.
     /// <i>The input list must be non-empty.</i>
-    static member Frequency (gens : seq<int * Gen<'T>>) : Gen<'T> =
+    static member Frequency ([<ParamArray>] gens : array<int * Gen<'T>>) : Gen<'T> =
         Gen.frequency gens
+
+    /// Uses a weighted distribution to randomly select one of the gens in the list.
+    /// This generator shrinks towards the first generator in the list.
+    /// <i>The input list must be non-empty.</i>
+    static member Frequency ([<ParamArray>] values : array<struct (int * 'T)>) : Gen<'T> =
+        values
+        |> Seq.map (fun struct (weight, value) -> (weight, Gen.constant value))
+        |> Gen.frequency
+
 
     /// Randomly selects one of the gens in the list.
     /// <i>The input list must be non-empty.</i>
-    static member Choice (gens : seq<Gen<'T>>) : Gen<'T> =
+    static member Choice ([<ParamArray>] gens : array<Gen<'T>>) : Gen<'T> =
         Gen.choice gens
 
     /// Randomly selects from one of the gens in either the non-recursive or the
@@ -157,6 +174,7 @@ type Gen private () =
 
     /// <summary>
     /// Generates a random Latin-1 character, i.e. from '\000' to '\255', i.e. any 8 bit character.
+    /// </summary>
     /// <remarks>
     /// Non-printable and control characters can be generated, e.g. NULL and BEL.
     /// </remarks>
@@ -278,7 +296,6 @@ type Gen private () =
     static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         Gen.dateTimeOffset range
 
-[<Extension>]
 [<AbstractClass; Sealed>]
 type GenExtensions private () =
 
@@ -289,6 +306,7 @@ type GenExtensions private () =
     /// <summary>
     /// Generates an array using a 'Range' to determine the length.
     /// </summary>
+    /// <param name="gen">Item generator.</param>
     /// <param name="range">Range determining the length of the array.</param>
     [<Extension>]
     static member Array (gen : Gen<'T>, range : Range<int>) : Gen<'T []> =
@@ -297,6 +315,7 @@ type GenExtensions private () =
     /// <summary>
     /// Generates an enumerable using a 'Range' to determine the length.
     /// </summary>
+    /// <param name="gen">Item generator.</param>
     /// <param name="range">Range determining the length of the enumerable.</param>
     [<Extension>]
     static member Enumerable (gen : Gen<'T>, range : Range<int>) : Gen<seq<'T>> =
@@ -347,6 +366,7 @@ type GenExtensions private () =
         Gen.resize size gen
 
     /// <summary>Returns a List of values produced by the generator.</summary>
+    /// <param name="gen">Value generator.</param>
     /// <param name="size">The size parameter for the generator.</param>
     /// <param name="count">The number of samples to produce, i.e. the length of the List.</param>
     [<Extension>]
@@ -386,11 +406,11 @@ type GenExtensions private () =
         Gen.mapTree binder.Invoke gen
     
     /// <summary>
-    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select</c>.
     /// </summary>
     /// <example>
     /// <code>
-    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    /// Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
     ///     .Tuple2()
     ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
     /// </code>
@@ -400,11 +420,11 @@ type GenExtensions private () =
         Gen.map mapper.Invoke gen
 
     /// <summary>
-    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select</c>.
     /// </summary>
     /// <example>
     /// <code>
-    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    /// Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
     ///     .Tuple2()
     ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
     /// </code>
@@ -416,11 +436,11 @@ type GenExtensions private () =
             genB
 
     /// <summary>
-    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select</c>.
     /// </summary>
     /// <example>
     /// <code>
-    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    /// Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
     ///     .Tuple2()
     ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
     /// </code>
@@ -433,11 +453,11 @@ type GenExtensions private () =
             genC
 
     /// <summary>
-    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select<c>.
+    /// Projects each value of a generator into a new form. Similar to <c>Enumerable.Select</c>.
     /// </summary>
     /// <example>
     /// <code>
-    /// Gen<Point> pointGen = Gen.Int32(Range.Constant(0,200))
+    /// Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
     ///     .Tuple2()
     ///     .Select(tuple => new Point(tuple.Item1, tuple.Item2));
     /// </code>

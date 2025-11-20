@@ -7,6 +7,7 @@ open System
 type Gen<'a> =
     | Gen of Random<Tree<'a>>
 
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Gen =
 
     let ofRandom (r : Random<Tree<'a>>) : Gen<'a> =
@@ -608,7 +609,7 @@ module Gen =
             let! offsetMinutes = int32 (Range.linearFrom 0 (Operators.int minOffsetMinutes) (Operators.int maxOffsetMinutes))
             return DateTimeOffset(ticks, TimeSpan.FromMinutes (Operators.float offsetMinutes))
         }
-        
+
 #if !FABLE_COMPILER
     /// Generates a random TimeSpan using the specified range.
     let timeSpan (range : Range<TimeSpan>) : Gen<TimeSpan> =
