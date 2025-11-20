@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Version>0.13.0</Version>
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
@@ -53,16 +53,33 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="PropertyArgs.fs" />
     <Compile Include="PropertyConfig.fs" />
     <Compile Include="Property.fs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(FABLE_COMPILER)' == ''">
+    <Compile Include="Autogen\TypeUtils.fs" />
+    <Compile Include="Autogen\TypeShape.fs" />
+    <Compile Include="Autogen\GeneratorCollection.fs" />
+    <Compile Include="Autogen\AutoGenContext.fs" />
+    <Compile Include="Autogen\DefaultGenerators.fs" />
+    <Compile Include="Autogen\AutoGenConfig.fs" />
+    <Compile Include="Autogen\MultidimensionalArray.fs" />
+    <Compile Include="Autogen\RecursionState.fs" />
+    <Compile Include="Autogen\AutoGenHelpers.fs" />
+    <Compile Include="Autogen\Gen.fs" />
     <Compile Include="Linq\Gen.fs" />
+    <Compile Include="Linq\AutoGenExtensions.fs" />
     <Compile Include="Linq\PropertyConfig.fs" />
     <Compile Include="Linq\Property.fs" />
     <Compile Include="Linq\Range.fs" />
     <Compile Include="Linq\Report.fs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="[4.3.4, 99]" />
+    <PackageReference Include="TypeShape" Version="9.0.0" Condition="'$(FABLE_COMPILER)' == ''" />
   </ItemGroup>
+  
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
   <ItemGroup>
     <Content Include="*.fsproj; **\*.fs" Exclude="**\bin\**\*; **\obj\**\*" PackagePath="fable" />
