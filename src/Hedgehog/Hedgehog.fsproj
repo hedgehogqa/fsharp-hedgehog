@@ -76,7 +76,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="[4.3.4, 99]" />
     <PackageReference Include="TypeShape" Version="9.0.0" Condition="'$(FABLE_COMPILER)' == ''" />
   </ItemGroup>
   
