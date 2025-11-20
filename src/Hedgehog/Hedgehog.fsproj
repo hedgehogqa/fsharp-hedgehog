@@ -33,7 +33,6 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
       <_Parameter1>Hedgehog.Linq.Tests</_Parameter1>
     </AssemblyAttribute>
     <Compile Include="AutoOpen.fs" />
-    <Compile Include="Lazy.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Seq.fs" />
@@ -43,9 +42,10 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
-    <Compile Include="ListGen.fs" />
+    <Compile Include="Gen.Traversable.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
+    <Compile Include="Lazy.fs" />
     <Compile Include="GenLazy.fs" />
     <Compile Include="GenLazyTuple.fs" />
     <Compile Include="Outcome.fs" />
@@ -81,8 +81,13 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
   </ItemGroup>
   
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
+  <ItemGroup Condition="'$(FABLE_COMPILER)' != ''">
+    <Content Include="*.fsproj; **\*.fs"
+             Exclude="**\bin\**\*; **\obj\**\*; **\Autogen\**\*; **\Linq\**\*"
+             PackagePath="fable" />
+  </ItemGroup>
+
   <ItemGroup>
-    <Content Include="*.fsproj; **\*.fs" Exclude="**\bin\**\*; **\obj\**\*" PackagePath="fable" />
     <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\"/>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
   </ItemGroup>

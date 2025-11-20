@@ -35,7 +35,7 @@ module AutoGenExtensions =
           | None -> failwithf "Class %O lacks a public constructor" typeof<'a>
           | Some ctor ->
             ctor.Accept {
-            new IConstructorVisitor<'a, Gen<(unit -> 'a)>> with
+            new IConstructorVisitor<'a, Gen<unit -> 'a>> with
               member __.Visit<'CtorParams> (ctor : ShapeConstructor<'a, 'CtorParams>) =
                 autoInner config newRecursionState
                 |> Gen.map (fun args ->
@@ -114,7 +114,7 @@ module AutoGenExtensions =
                           |> AutoGenConfig.seqRange
                           |> Gen.integral
                           |> List.replicate s.Rank
-                          |> ListGen.sequence
+                          |> Gen.sequenceList
                         let elementCount = lengths |> List.fold (*) 1
                         let! data = autoInner<'a> config newRecursionState |> Gen.list (Range.singleton elementCount)
                         return MultidimensionalArray.createWithGivenEntries<'a> data lengths |> unbox
@@ -129,14 +129,14 @@ module AutoGenExtensions =
             | Shape.Tuple (:? ShapeTuple<'a> as shape) ->
                 shape.Elements
                 |> Seq.toList
-                |> ListGen.traverse memberSetterGenerator
-                |> Gen.map (fun fs -> fs |> List.fold (|>) (shape.CreateUninitialized ()))
+                |> Gen.traverse memberSetterGenerator
+                |> Gen.map (fun fs -> fs |> Seq.fold (|>) (shape.CreateUninitialized ()))
 
             | Shape.FSharpRecord (:? ShapeFSharpRecord<'a> as shape) ->
                 shape.Fields
                 |> Seq.toList
-                |> ListGen.traverse memberSetterGenerator
-                |> Gen.map (fun fs -> fs |> List.fold (|>) (shape.CreateUninitialized ()))
+                |> Gen.traverse memberSetterGenerator
+                |> Gen.map (fun fs -> fs |> Seq.fold (|>) (shape.CreateUninitialized ()))
 
             | Shape.FSharpUnion (:? ShapeFSharpUnion<'a> as shape) ->
                 let cases =
@@ -144,11 +144,11 @@ module AutoGenExtensions =
                   |> Array.map (fun uc ->
                      uc.Fields
                      |> Seq.toList
-                     |> ListGen.traverse memberSetterGenerator)
+                     |> Gen.traverse memberSetterGenerator)
                 gen {
                   let! caseIdx = Gen.integral <| Range.constant 0 (cases.Length - 1)
                   let! fs = cases[caseIdx]
-                  return fs |> List.fold (|>) (shape.UnionCases[caseIdx].CreateUninitialized ())
+                  return fs |> Seq.fold (|>) (shape.UnionCases[caseIdx].CreateUninitialized ())
                 }
 
             | Shape.Enum _ ->
@@ -190,8 +190,8 @@ module AutoGenExtensions =
                 |> List.map (snd >> function
                                     | [p] -> p
                                     | ps -> ps |> List.sortByDescending getDepth |> List.head)
-                |> ListGen.traverse memberSetterGenerator
-                |> Gen.map (fun fs -> fs |> List.fold (|>) (shape.CreateUninitialized ()))
+                |> Gen.traverse memberSetterGenerator
+                |> Gen.map (fun fs -> fs |> Seq.fold (|>) (shape.CreateUninitialized ()))
 
             | Shape.Poco (:? ShapePoco<'a> as shape) -> genPoco shape |> Gen.map (fun x -> x ())
 
