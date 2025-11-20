@@ -2,11 +2,10 @@ namespace Hedgehog.Benchmarks
 
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Jobs
+open FsCheck.Fluent
 
 module HRange = Hedgehog.Range
 module HGen = Hedgehog.Gen
-module FArb = FsCheck.Arb
-module FGen = FsCheck.Gen
 
 [<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
 type GenBenchmarks () =
@@ -23,6 +22,5 @@ type GenBenchmarks () =
 
     [<Benchmark>]
     member this.FsCheckGenSampleInt32 () =
-        FArb.generate<int>
-        |> FGen.sample 100 this.N
+        ArbMap.Default.ArbFor<int>().Generator.Sample(this.N)
         |> Seq.iter ignore
