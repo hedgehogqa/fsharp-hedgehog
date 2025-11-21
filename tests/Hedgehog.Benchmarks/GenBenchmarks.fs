@@ -6,10 +6,10 @@ open FsCheck.Fluent
 open Hedgehog
 open Hedgehog.FSharp
 
-[<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
+[<SimpleJob(RuntimeMoniker.Net80)>]
 type GenBenchmarks () =
 
-    [<Params(100, 1_000, 10_000, 100_000)>]
+    [<Params(1_000, 10_000, 100_000)>]
     member val N = 1 with get, set
 
     [<Benchmark>]
@@ -19,7 +19,7 @@ type GenBenchmarks () =
         |> Gen.sample 100 this.N
         |> Seq.iter ignore
 
-    [<Benchmark>]
+    [<Benchmark(Baseline = true)>]
     member this.FsCheckGenSampleInt32 () =
         ArbMap.Default.ArbFor<int>().Generator.Sample(this.N)
         |> Seq.iter ignore

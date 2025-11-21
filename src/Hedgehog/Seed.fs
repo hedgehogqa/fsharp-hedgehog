@@ -153,6 +153,47 @@ module Seed =
             crashUnless (k >= 0I) "k >= 0I"
             lo + v % k, seedN
 
+    /// Generates a random int32 in the specified range.
+    let rec nextInt32 (lo : int32) (hi : int32) (seed : Seed) : int32 * Seed =
+        if lo > hi then
+            nextInt32 hi lo seed
+        else
+            let range = uint32 (hi - lo)
+            // If range is UInt32.MaxValue, we can just use the full 32 bits from nextUInt64
+            if range = UInt32.MaxValue then
+                let x, seed1 = nextUInt64 seed
+                int32 x, seed1
+            else
+                let limit = UInt32.MaxValue - (UInt32.MaxValue % (range + 1u))
+                let rec loop seed0 =
+                    let x, seed1 = nextUInt64 seed0
+                    let v = uint32 x
+                    if v <= limit then
+                        int32 (v % (range + 1u)) + lo, seed1
+                    else
+                        loop seed1
+                loop seed
+
+    /// Generates a random int64 in the specified range.
+    let rec nextInt64 (lo : int64) (hi : int64) (seed : Seed) : int64 * Seed =
+        if lo > hi then
+            nextInt64 hi lo seed
+        else
+            let range = uint64 (hi - lo)
+            // If range is UInt64.MaxValue, we can just use the full 64 bits from nextUInt64
+            if range = UInt64.MaxValue then
+                let x, seed1 = nextUInt64 seed
+                int64 x, seed1
+            else
+                let limit = UInt64.MaxValue - (UInt64.MaxValue % (range + 1UL))
+                let rec loop seed0 =
+                    let x, seed1 = nextUInt64 seed0
+                    if x <= limit then
+                        int64 (x % (range + 1UL)) + lo, seed1
+                    else
+                        loop seed1
+                loop seed
+
     /// Generates a random double in the specified range.
     let rec nextDouble (lo : double) (hi : double) (seed : Seed) : double * Seed =
         if lo > hi then
