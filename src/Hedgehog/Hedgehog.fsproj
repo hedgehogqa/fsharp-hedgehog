@@ -86,14 +86,17 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
   </ItemGroup>
   
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
-  <ItemGroup Condition="'$(FABLE_COMPILER)' != ''">
-    <Content Include="*.fsproj; **\*.fs"
-             Exclude="**\bin\**\*; **\obj\**\*; **\Autogen\**\*; **\Linq\**\*"
-             PackagePath="fable" />
+  <ItemGroup>
+    <None Include="*.fsproj; **\*.fs"
+          Exclude="**\bin\**\*; **\obj\**\*; **\Autogen\**\*; **\Linq\**\*"
+          PackagePath="fable"
+          Visible="false"
+          Pack="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\"/>
-    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 </Project>
