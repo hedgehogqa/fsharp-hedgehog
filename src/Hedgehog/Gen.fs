@@ -1,11 +1,14 @@
 namespace Hedgehog
 
-open System
-
 /// A generator for values and shrink trees of type 'a.
 [<Struct>]
 type Gen<'a> =
     | Gen of Random<Tree<'a>>
+
+namespace Hedgehog.FSharp
+
+open Hedgehog
+open System
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 [<RequireQualifiedAccess>]

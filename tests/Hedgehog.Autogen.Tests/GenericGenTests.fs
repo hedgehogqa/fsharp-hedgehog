@@ -1,9 +1,10 @@
-module Hedgehog.Autogen.Tests.GenericGenTests
+module Hedgehog.AutoGen.Tests.GenericGenTests
 
 open System
 open Xunit
 open Swensen.Unquote
 open Hedgehog
+open Hedgehog.FSharp
 
 type Uuid = Uuid of Guid
 type Name = Name of string

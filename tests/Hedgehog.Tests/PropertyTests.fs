@@ -2,6 +2,7 @@ module Hedgehog.Tests.PropertyTests
 
 open System
 open Hedgehog
+open Hedgehog.FSharp
 open Expecto
 open TestDsl
 

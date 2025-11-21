@@ -1,7 +1,8 @@
 module Hedgehog.Tests.MinimalTests
 
 open Hedgehog
-open Hedgehog.Gen.Operators
+open Hedgehog.FSharp
+open Gen.Operators
 open TestDsl
 
 type Exp =

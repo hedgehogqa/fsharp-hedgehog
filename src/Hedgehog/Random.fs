@@ -1,11 +1,14 @@
 ﻿namespace Hedgehog
 
-open Hedgehog.Numeric
-
 /// A generator for random values of type 'a
 [<Struct>]
 type Random<'a> =
     | Random of (Seed -> Size -> 'a)
+
+namespace Hedgehog.FSharp
+
+open Hedgehog
+open Hedgehog.Numeric
 
 module Random =
     let private unsafeRun (seed : Seed) (size : Size) (Random r : Random<'a>) : 'a =

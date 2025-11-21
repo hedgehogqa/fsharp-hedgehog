@@ -1,8 +1,9 @@
-module Hedgehog.Autogen.Tests.TypeParamMappingTests
+module Hedgehog.AutoGen.Tests.TypeParamMappingTests
 
 open Xunit
 open Swensen.Unquote
 open Hedgehog
+open Hedgehog.FSharp
 
 type Or<'A, 'B> = Left of 'A | Right of 'B
 

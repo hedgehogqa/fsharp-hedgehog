@@ -4,11 +4,9 @@ open System.Collections.Generic
 open System.Collections.ObjectModel
 open System.Linq
 open Hedgehog
+open Hedgehog.FSharp
 open System
 open System.Collections.Immutable
-
-type Foo =
-    static member Bar() = 42
 
 [<Sealed>]
 type DefaultGenerators =

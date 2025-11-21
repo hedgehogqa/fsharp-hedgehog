@@ -1,6 +1,7 @@
 module Hedgehog.Tests.TreeTests
 
 open Hedgehog
+open Hedgehog.FSharp
 open TestDsl
 
 let treeTests = testList "Tree tests" [

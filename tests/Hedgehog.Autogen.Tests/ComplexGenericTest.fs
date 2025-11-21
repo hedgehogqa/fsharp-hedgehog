@@ -1,8 +1,9 @@
-module Hedgehog.Autogen.Tests.ComplexGenericTest
+module Hedgehog.AutoGen.Tests.ComplexGenericTest
 
 open Xunit
 open Swensen.Unquote
 open Hedgehog
+open Hedgehog.FSharp
 
 // A type with complex generic parameter repetition: <A, A, B, C, A, A, D>
 type ComplexType<'A, 'B, 'C, 'D, 'E, 'F, 'G> = {

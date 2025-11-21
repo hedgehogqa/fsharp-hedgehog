@@ -1,9 +1,10 @@
-﻿namespace Hedgehog
+﻿namespace Hedgehog.FSharp
+
+open Hedgehog
 
 [<AutoOpen>]
 module GenTraversable =
 
-  [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
   [<RequireQualifiedAccess>]
   module Gen =
 

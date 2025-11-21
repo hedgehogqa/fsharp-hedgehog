@@ -1,6 +1,7 @@
-module Hedgehog.Autogen.Tests.AutoGenContextTests
+module Hedgehog.AutoGen.Tests.AutoGenContextTests
 
 open Hedgehog
+open Hedgehog.FSharp
 open Xunit
 open Swensen.Unquote
 

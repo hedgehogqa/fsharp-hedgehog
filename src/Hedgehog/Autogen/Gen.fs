@@ -1,8 +1,9 @@
-namespace Hedgehog
+namespace Hedgehog.FSharp
 
 open System
 open Hedgehog.AutoGen
 open TypeShape.Core
+open Hedgehog
 
 [<AutoOpen>]
 module AutoGenExtensions =

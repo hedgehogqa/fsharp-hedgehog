@@ -1,11 +1,12 @@
 namespace Hedgehog
 
+open Hedgehog.FSharp
+
 [<AutoOpen>]
 module GenDateTime =
 
     open System
 
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module Gen =
 

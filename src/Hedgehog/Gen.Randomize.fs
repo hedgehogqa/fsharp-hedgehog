@@ -1,11 +1,11 @@
-namespace Hedgehog
+namespace Hedgehog.FSharp
 
 open System
+open Hedgehog
 
 [<AutoOpen>]
 module GenRandomize =
 
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module Gen =
 
@@ -20,8 +20,8 @@ module GenRandomize =
                 list
                 |> List.zip xs
                 |> List.iteri (fun i (a, j) ->
-                    shuffled.[i] <- shuffled.[j]
-                    shuffled.[j] <- a)
+                    shuffled[i] <- shuffled[j]
+                    shuffled[j] <- a)
                 shuffled |> Array.toList)
 
         /// Shuffles the case of the given string.
@@ -33,7 +33,7 @@ module GenRandomize =
                 let sb = Text.StringBuilder ()
                 bs |> List.iteri (fun i b ->
                     let f = if b then Char.ToUpperInvariant else Char.ToLowerInvariant
-                    sb.Append (f s.[i]) |> ignore)
+                    sb.Append (f s[i]) |> ignore)
                 sb.ToString())
 
         /// Generates the subset of the provided items.
