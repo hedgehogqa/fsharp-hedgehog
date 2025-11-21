@@ -384,7 +384,7 @@ module Gen =
         )
 
     /// Generates a value that is not null.
-    let noNull (g : Gen<'a>) : Gen<'a> =
+    let notNull (g : Gen<'a>) : Gen<'a> =
         g |> filter (not << isNull)
 
     //

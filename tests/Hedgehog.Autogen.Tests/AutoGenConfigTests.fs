@@ -50,14 +50,14 @@ type CustomType = { Value: int; Items: string list }
 
 type CustomGenerators =
   // Generator that uses AutoGenConfig to access seqRange
-  static member CustomTypeGen(config: AutoGenConfig) : Gen<CustomType> = gen {
+  static member CustomTypeGen(config: IAutoGenConfig) : Gen<CustomType> = gen {
     let! value = Gen.int32 (Range.exponentialBounded())
     let! items = Gen.string (Range.linear 1 5) Gen.alpha |> Gen.list (AutoGenConfig.seqRange config)
     return { Value = value; Items = items }
   }
 
   // Generator that takes both AutoGenConfig and Gen<_> parameters
-  static member CustomTypeWithGen(config: AutoGenConfig, genValue: Gen<int>) : Gen<CustomType> = gen {
+  static member CustomTypeWithGen(config: IAutoGenConfig, genValue: Gen<int>) : Gen<CustomType> = gen {
     let! value = genValue
     let! items = Gen.string (Range.linear 1 5) Gen.alpha |> Gen.list (AutoGenConfig.seqRange config)
     return { Value = value; Items = items }
@@ -78,7 +78,7 @@ let ``addGenerators supports methods with AutoGenConfig parameter``() =
 open System.Collections.Immutable
 
 type ImmutableListGenerators =
-  static member ImmutableListGen<'T>(config: AutoGenConfig, genItem: Gen<'T>) : Gen<ImmutableList<'T>> =
+  static member ImmutableListGen<'T>(config: IAutoGenConfig, genItem: Gen<'T>) : Gen<ImmutableList<'T>> =
     genItem |> Gen.list (AutoGenConfig.seqRange config) |> Gen.map ImmutableList.CreateRange
 
 

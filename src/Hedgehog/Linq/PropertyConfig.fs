@@ -5,33 +5,24 @@ namespace Hedgehog.Linq
 open System.Runtime.CompilerServices
 open Hedgehog
 
-
-[<Extension>]
 [<AbstractClass; Sealed>]
 type PropertyConfigExtensions private () =
 
     /// Set the number of times a property is allowed to shrink before the test
     /// runner gives up and displays the counterexample.
     [<Extension>]
-    static member WithShrinks (config : PropertyConfig, shrinkLimit: int<shrinks>) : PropertyConfig =
+    static member WithShrinks (config : IPropertyConfig, shrinkLimit: int<shrinks>) : IPropertyConfig =
         PropertyConfig.withShrinks shrinkLimit config
 
     /// Restores the default shrinking behavior.
     [<Extension>]
-    static member WithoutShrinks (config : PropertyConfig) : PropertyConfig =
+    static member WithoutShrinks (config : IPropertyConfig) : IPropertyConfig =
         PropertyConfig.withoutShrinks config
 
     /// Set the number of times a property should be executed before it is
     /// considered successful.
     [<Extension>]
-    static member WithTests (config : PropertyConfig, testLimit: int<tests>) : PropertyConfig =
+    static member WithTests (config : IPropertyConfig, testLimit: int<tests>) : IPropertyConfig =
         PropertyConfig.withTests testLimit config
-
-
-type PropertyConfig =
-
-    /// The default configuration for a property test.
-    static member Default : Hedgehog.PropertyConfig =
-        PropertyConfig.defaultConfig
 
 #endif

@@ -71,6 +71,7 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Autogen\AutoGenHelpers.fs" />
     <Compile Include="Autogen\Gen.fs" />
     <Compile Include="Linq\Gen.fs" />
+    <Compile Include="Linq\Gen.Collections.fs" />
     <Compile Include="Linq\AutoGenExtensions.fs" />
     <Compile Include="Linq\PropertyConfig.fs" />
     <Compile Include="Linq\Property.fs" />

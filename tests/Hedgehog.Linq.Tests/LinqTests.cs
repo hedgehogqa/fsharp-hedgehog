@@ -15,7 +15,7 @@ namespace Hedgehog.Linq.Tests
             var guid = Guid.NewGuid().ToString();
             void action() => throw new Exception(guid);
             var property =
-                from _ in ForAll(Gen.Int32(Range.Constant(0, 0)))
+                from _ in Gen.Int32(Range.Constant(0, 0)).ForAll()
                 select action();
             var report = property.Report();
             var rendered = report.Render();
@@ -29,7 +29,7 @@ namespace Hedgehog.Linq.Tests
             var guid = Guid.NewGuid().ToString();
             bool func() => throw new Exception(guid);
             var property =
-                from x in ForAll(Gen.Int32(Range.Constant(0, 0)))
+                from x in Gen.Int32(Range.Constant(0, 0)).ForAll()
                 select func();
             var report = property.Report();
             var rendered = report.Render();
@@ -44,7 +44,7 @@ namespace Hedgehog.Linq.Tests
             var range = Range.Constant(0, 1000000);
             var gen = Gen.Int32(range);
             var prop =
-                from i in ForAll(gen)
+                from i in gen.ForAll()
                 let _ = count++
                 select Assert.Equal(0, i);
 
@@ -75,7 +75,7 @@ namespace Hedgehog.Linq.Tests
             var big = Gen.Int32(Range.Constant(100, 200));
             var large = Gen.Int32(Range.Constant(500, 1000));
             var choice = Gen.Choice(low, mid, big, large).List(Range.Constant(100, 200));
-            var prop = ForAll(choice).Select(x => x.Any(y => y == 990));
+            var prop = choice.ForAll().Select(x => x.Any(y => y == 990));
             var watch = new System.Diagnostics.Stopwatch();
 
             watch.Start();
@@ -107,7 +107,7 @@ namespace Hedgehog.Linq.Tests
         public void CanUseSelectWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
                 select Assert.True(x || !x);
 
             property.Check();
@@ -117,7 +117,7 @@ namespace Hedgehog.Linq.Tests
         public void CanUseSelectWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
                 select x || !x;
 
             property.Check();
@@ -127,8 +127,8 @@ namespace Hedgehog.Linq.Tests
         public void CanSelectFromTwoWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
+                from y in Gen.Bool.ForAll()
                 select Assert.True((x || !x) && (y || !y));
 
             property.Check();
@@ -138,8 +138,8 @@ namespace Hedgehog.Linq.Tests
         public void CanSelectFromTwoWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
+                from y in Gen.Bool.ForAll()
                 select (x || !x) && (y || !y);
 
             property.Check();
@@ -149,9 +149,9 @@ namespace Hedgehog.Linq.Tests
         public void CanSelectFromThreeWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
-                from z in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
+                from y in Gen.Bool.ForAll()
+                from z in Gen.Bool.ForAll()
                 select Assert.True(x || y || z || (!x || !y || !z));
 
             property.Check();
@@ -161,9 +161,9 @@ namespace Hedgehog.Linq.Tests
         public void CanSelectFromThreeWithBool()
         {
             var property =
-                from x in ForAll(Gen.Bool)
-                from y in ForAll(Gen.Bool)
-                from z in ForAll(Gen.Bool)
+                from x in Gen.Bool.ForAll()
+                from y in Gen.Bool.ForAll()
+                from z in Gen.Bool.ForAll()
                 select x || y || z || (!x || !y || !z);
 
             property.Check();
@@ -173,9 +173,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithAssertion()
         {
             var property =
-                from x in ForAll(Gen.Constant(true))
+                from x in Gen.Constant(true).ForAll()
                 where x == true
-                from y in ForAll(Gen.Constant(false))
+                from y in Gen.Constant(false).ForAll()
                 where y == false
                 select Assert.True(x && !y);
 
@@ -186,9 +186,9 @@ namespace Hedgehog.Linq.Tests
         public void CanUseWhereWithBool()
         {
             var property =
-                from x in ForAll(Gen.Constant(true))
+                from x in Gen.Constant(true).ForAll()
                 where x == true
-                from y in ForAll(Gen.Constant(false))
+                from y in Gen.Constant(false).ForAll()
                 where y == false
                 select x && !y;
 
@@ -199,8 +199,8 @@ namespace Hedgehog.Linq.Tests
         public void CanDependOnEarlierValuesWithAssertion()
         {
             var property =
-                from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
-                from j in ForAll(Gen.Int32(Range.Constant(1, i)))
+                from i in Gen.Int32(Range.Constant(1, 10)).ForAll()
+                from j in Gen.Int32(Range.Constant(1, i)).ForAll()
                 select Assert.True(j <= i);
 
             property.Check();
@@ -210,8 +210,8 @@ namespace Hedgehog.Linq.Tests
         public void CanDependOnEarlierValuesWithBool()
         {
             var property =
-                from i in ForAll(Gen.Int32(Range.Constant(1, 10)))
-                from j in ForAll(Gen.Int32(Range.Constant(1, i)))
+                from i in Gen.Int32(Range.Constant(1, 10)).ForAll()
+                from j in Gen.Int32(Range.Constant(1, i)).ForAll()
                 select j <= i;
 
             property.Check();

@@ -9,10 +9,10 @@ namespace Hedgehog.Linq.Tests
 {
     public class NameTests
     {
-        private static readonly Type[] _publicApiTypes =
-            { typeof(Hedgehog.Linq.Gen)
-            , typeof(Hedgehog.Linq.Range)
-            , typeof(Hedgehog.Linq.Property)
+        private static readonly Type[] PublicApiTypes =
+            { typeof(Gen)
+            , typeof(Range)
+            , typeof(Property)
             };
 
         public static IEnumerable<object[]> AllPublicMembers()
@@ -23,7 +23,7 @@ namespace Hedgehog.Linq.Tests
                 | BindingFlags.Static
                 | BindingFlags.DeclaredOnly;
 
-            foreach (var type in _publicApiTypes)
+            foreach (var type in PublicApiTypes)
             {
                 var members = type.GetMembers(bindingFlags);
 
