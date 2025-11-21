@@ -9,10 +9,10 @@ module AutoGenExtensions =
 
   [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
   module Gen =
-    let rec private autoInner<'a> (config : AutoGenConfig) (recursionState: RecursionState) : Gen<'a> =
+    let rec private autoInner<'a> (config : IAutoGenConfig) (recursionState: RecursionState) : Gen<'a> =
 
       // Prevent auto-generating AutoGenConfig itself - it should only be passed as a parameter
-      if typeof<'a> = typeof<AutoGenConfig> then
+      if typeof<'a> = typeof<IAutoGenConfig> then
         raise (NotSupportedException "Cannot auto-generate AutoGenConfig type. It should be provided as a parameter to generator methods.")
 
       match recursionState |> RecursionState.reconcileFor<'a> config with
@@ -44,7 +44,8 @@ module AutoGenExtensions =
                         ctor.Invoke args
                       with
                         | ex ->
-                          ArgumentException(sprintf "Cannot construct %O with the generated argument(s): %O. %s" typeof<'a> args AutoGenHelpers.addGenMsg, ex)
+                          ArgumentException(
+                            $"Cannot construct {typeof<'a>} with the generated argument(s): {args}. %s{AutoGenHelpers.addGenMsg}", ex)
                           |> raise
                     delayedCtor
                 )

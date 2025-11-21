@@ -188,7 +188,7 @@ module Property =
         let result = p |> toGen |> Gen.toRandom |> Random.run seed1 data.Size
         result, seed2
 
-    let private reportWith' (args : PropertyArgs) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let private reportWith' (args : PropertyArgs) (config : IPropertyConfig) (p : Property<unit>) : Report =
         let nextSize size =
             if size >= 100 then
                 1
@@ -224,19 +224,19 @@ module Property =
 
         loop args.RecheckData 0<tests> 0<discards>
 
-    let reportWith (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportWith (config : IPropertyConfig) (p : Property<unit>) : Report =
         p |> reportWith' PropertyArgs.init config
 
     let report (p : Property<unit>) : Report =
-        p |> reportWith PropertyConfig.defaultConfig
+        p |> reportWith PropertyConfig.defaults
 
-    let reportBoolWith (config : PropertyConfig) (p : Property<bool>) : Report =
+    let reportBoolWith (config : IPropertyConfig) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportWith config
 
     let reportBool (p : Property<bool>) : Report =
         p |> falseToFailure |> report
 
-    let checkWith (config : PropertyConfig) (p : Property<unit>) : unit =
+    let checkWith (config : IPropertyConfig) (p : Property<unit>) : unit =
         p |> reportWith config |> Report.tryRaise
 
     let check (p : Property<unit>) : unit =
@@ -245,10 +245,10 @@ module Property =
     let checkBool (g : Property<bool>) : unit =
         g |> falseToFailure |> check
 
-    let checkBoolWith (config : PropertyConfig) (g : Property<bool>) : unit =
+    let checkBoolWith (config : IPropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
-    let reportRecheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (recheckData: string) (config : IPropertyConfig) (p : Property<unit>) : Report =
         let recheckData = recheckData |> RecheckData.deserialize
         let result, _ = splitAndRun p recheckData
         { Tests = 1<tests>
@@ -256,27 +256,27 @@ module Property =
           Status = followShrinkPath result recheckData.ShrinkPath }
 
     let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
-        p |> reportRecheckWith recheckData PropertyConfig.defaultConfig
+        p |> reportRecheckWith recheckData PropertyConfig.defaults
 
-    let reportRecheckBoolWith (recheckData: string) (config : PropertyConfig) (p : Property<bool>) : Report =
+    let reportRecheckBoolWith (recheckData: string) (config : IPropertyConfig) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportRecheckWith recheckData config
 
     let reportRecheckBool (recheckData: string) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportRecheck recheckData
 
-    let recheckWith (recheckData: string) (config : PropertyConfig) (p : Property<unit>) : unit =
+    let recheckWith (recheckData: string) (config : IPropertyConfig) (p : Property<unit>) : unit =
         p |> reportRecheckWith recheckData config |> Report.tryRaise
 
     let recheck (recheckData: string) (p : Property<unit>) : unit =
         p |> reportRecheck recheckData |> Report.tryRaise
 
-    let recheckBoolWith (recheckData: string) (config : PropertyConfig) (g : Property<bool>) : unit =
+    let recheckBoolWith (recheckData: string) (config : IPropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> recheckWith recheckData config
 
     let recheckBool (recheckData: string) (g : Property<bool>) : unit =
         g |> falseToFailure |> recheck recheckData
 
-    let renderWith (n : PropertyConfig) (p : Property<unit>) : string =
+    let renderWith (n : IPropertyConfig) (p : Property<unit>) : string =
         p |> reportWith n |> Report.render
 
     let render (p : Property<unit>) : string =
@@ -285,7 +285,7 @@ module Property =
     let renderBool (property : Property<bool>) : string =
         property |> falseToFailure |> render
 
-    let renderBoolWith (config : PropertyConfig) (p : Property<bool>) : string =
+    let renderBoolWith (config : IPropertyConfig) (p : Property<bool>) : string =
         p |> falseToFailure |> renderWith config
 
 

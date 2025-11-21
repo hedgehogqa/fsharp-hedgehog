@@ -7,7 +7,7 @@ open Swensen.Unquote
 open Hedgehog
 open TypeShape.Core
 
-let checkWith tests = PropertyConfig.defaultConfig |> PropertyConfig.withTests tests |> Property.checkWith
+let checkWith tests = PropertyConfig.defaults |> PropertyConfig.withTests tests |> Property.checkWith
 
 
 type RecOption =
@@ -482,7 +482,7 @@ module ShrinkTests =
   // We therefore run 1 million tests to increase the probability of hitting an error case.
   let render property =
     let config =
-      PropertyConfig.defaultConfig
+      PropertyConfig.defaults
       |> PropertyConfig.withTests 1_000_000<tests>
     Property.reportWith config property
     |> Report.render

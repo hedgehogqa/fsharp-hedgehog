@@ -17,7 +17,7 @@ module internal RecursionState =
     Depths = ImmutableDictionary.Empty
   }
 
-  let reconcileFor<'a> (config: AutoGenConfig) (current: RecursionState) =
+  let reconcileFor<'a> (config: IAutoGenConfig) (current: RecursionState) =
     let currentLevel = current.Depths.GetValueOrDefault(typeof<'a>, 0)
     let maxDepth = AutoGenConfig.recursionDepth config
     if (currentLevel > maxDepth) then None

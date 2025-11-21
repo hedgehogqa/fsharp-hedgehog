@@ -46,7 +46,7 @@ type GenericTestGenerators =
   static member EitherIntStringSpecific<'a>(): Gen<Either<'a, string>> =
         Gen.constant (Right "Specific String")
 
-let checkWith tests = PropertyConfig.defaultConfig |> PropertyConfig.withTests tests |> Property.checkWith
+let checkWith tests = PropertyConfig.defaults |> PropertyConfig.withTests tests |> Property.checkWith
 
 let isCustomGuid (guid: Guid) = guid.ToByteArray()[..3] |> Array.forall ((=) 0uy)
 

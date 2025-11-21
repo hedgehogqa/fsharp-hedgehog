@@ -4,7 +4,7 @@ open System
 open System.Reflection
 open Hedgehog.AutoGen
 
-type AutoGenConfig = internal {
+type IAutoGenConfig = internal {
   seqRange: Range<int> option
   recursionDepth: int option
   generators: GeneratorCollection
@@ -22,20 +22,20 @@ module AutoGenConfig =
     generators = GeneratorCollection.empty
   }
 
-  let private mapGenerators f (config: AutoGenConfig) =
+  let private mapGenerators f (config: IAutoGenConfig) =
     { config with generators = f config.generators }
 
-  let seqRange (config: AutoGenConfig) = config.seqRange |> Option.defaultValue defaultSeqRange
-  let setSeqRange (range: Range<int>) (config: AutoGenConfig) =
+  let seqRange (config: IAutoGenConfig) = config.seqRange |> Option.defaultValue defaultSeqRange
+  let setSeqRange (range: Range<int>) (config: IAutoGenConfig) =
     { config with seqRange = Some range }
 
-  let recursionDepth (config: AutoGenConfig) = config.recursionDepth |> Option.defaultValue defaultRecursionDepth
-  let setRecursionDepth (depth: int) (config: AutoGenConfig) =
+  let recursionDepth (config: IAutoGenConfig) = config.recursionDepth |> Option.defaultValue defaultRecursionDepth
+  let setRecursionDepth (depth: int) (config: IAutoGenConfig) =
     { config with recursionDepth = Some depth }
 
   /// Merge two configurations.
   /// Values from the second configuration take precedence when they are set.
-  let merge (baseConfig: AutoGenConfig) (extraConfig: AutoGenConfig) =
+  let merge (baseConfig: IAutoGenConfig) (extraConfig: IAutoGenConfig) =
     {
        seqRange = extraConfig.seqRange |> Option.orElse baseConfig.seqRange
        recursionDepth = extraConfig.recursionDepth |> Option.orElse baseConfig.recursionDepth
@@ -50,7 +50,7 @@ module AutoGenConfig =
   /// Add generators from a given type.
   /// The type is expected to have static methods that return Gen<_>.
   /// These methods can have parameters which are required to be of type Gen<_>.
-  let addGenerators<'a> (config: AutoGenConfig) =
+  let addGenerators<'a> (config: IAutoGenConfig) =
       let getGenType (t: Type) =
           if t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Gen<_>>
             then Some (t.GetGenericArguments().[0])
@@ -87,5 +87,6 @@ module AutoGenConfig =
           cfg |> mapGenerators (GeneratorCollection.addGenerator targetType targetType typeArray factory))
           config
 
+  [<CompiledName("Defaults")>]
   let defaults =
     empty |> addGenerators<DefaultGenerators>

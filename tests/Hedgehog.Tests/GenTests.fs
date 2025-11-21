@@ -243,7 +243,7 @@ let genTests = testList "Gen tests" [
                 |> Gen.filter (fun l -> (List.distinct l).Length > 5)
             let! permutations = xs |> Gen.shuffle |> Gen.list (Range.singleton 100)
             Expect.isTrue (permutations |> List.distinct |> List.length > 50)
-        } |> Property.checkWith (PropertyConfig.defaultConfig |> PropertyConfig.withTests 10<tests>)
+        } |> Property.checkWith (PropertyConfig.defaults |> PropertyConfig.withTests 10<tests>)
 
     testCase "shuffleCase does not add, remove, or change the order of characters" <| fun () ->
         Property.check <| property {
@@ -257,7 +257,7 @@ let genTests = testList "Gen tests" [
             let! xs = Gen.string (Range.linear 50 100) Gen.alpha
             let! permutations = xs |> Gen.shuffleCase |> Gen.list (Range.singleton 100)
             Expect.isTrue (permutations |> List.distinct |> List.length > 50)
-        } |> Property.checkWith (PropertyConfig.defaultConfig |> PropertyConfig.withTests 10<tests>)
+        } |> Property.checkWith (PropertyConfig.defaults |> PropertyConfig.withTests 10<tests>)
 
     testCase "withNull generates null some of the time" <| fun () ->
         Gen.constant "a"
@@ -268,7 +268,7 @@ let genTests = testList "Gen tests" [
 
     testCase "noNull does not generate nulls" <| fun () ->
         Property.checkBool <| property {
-            let! x = Gen.constant "a" |> Gen.withNull |> Gen.noNull
+            let! x = Gen.constant "a" |> Gen.withNull |> Gen.notNull
             return not <| isNull x
         }
 

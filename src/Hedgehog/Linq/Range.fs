@@ -6,6 +6,7 @@ open System
 open System.Runtime.CompilerServices
 open Hedgehog
 
+[<AbstractClass; Sealed>]
 type Range private () =
 
     //
@@ -423,7 +424,6 @@ type Range private () =
     static member ExponentialBoundedDecimal () : Range<decimal> =
         Range.exponentialBounded ()
 
-[<Extension>]
 [<AbstractClass; Sealed>]
 type RangeExtensions private () =
 

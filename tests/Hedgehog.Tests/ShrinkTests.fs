@@ -200,7 +200,7 @@ let shrinkTests = testList "Shrink tests" [
         [ 0<shrinks>; 1<shrinks>; 2<shrinks> ] <| fun shrinkLimit ->
 
         let propConfig =
-            PropertyConfig.defaultConfig
+            PropertyConfig.defaults
             |> PropertyConfig.withShrinks shrinkLimit
         let report =
             property {

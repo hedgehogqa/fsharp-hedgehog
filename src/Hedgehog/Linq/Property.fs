@@ -37,9 +37,11 @@ type Property = private Property of Property<unit> with
         Property.counterexample message.Invoke
         |> Property
 
+    [<Obsolete("Use .ForAll() extension method")>]
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.forAll k.Invoke gen
 
+    [<Obsolete("Use .ForAll() extension method")>]
     static member ForAll (gen : Gen<'T>) : Property<'T> =
         Property.forAll' gen
 
@@ -47,6 +49,14 @@ type Property = private Property of Property<unit> with
 [<Extension>]
 [<AbstractClass; Sealed>]
 type PropertyExtensions private () =
+
+    [<Extension>]
+    static member ForAll(gen : Gen<'T>): Property<'T> =
+        Property.forAll' gen
+
+    [<Extension>]
+    static member ForAll(gen : Gen<'T>, bind : Func<'T, Property<'TResult>>): Property<'TResult> =
+        Property.forAll bind.Invoke gen
 
     [<Extension>]
     static member ToGen (property : Property<'T>) : Gen<Lazy<Journal * Outcome<'T>>> =
@@ -66,7 +76,7 @@ type PropertyExtensions private () =
         Property.report property
 
     [<Extension>]
-    static member Report (property : Property, config : Hedgehog.PropertyConfig) : Report =
+    static member Report (property : Property, config : IPropertyConfig) : Report =
         let (Property property) = property
         Property.reportWith config property
 
@@ -75,7 +85,7 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.report
 
     [<Extension>]
-    static member Report (property : Property<bool>, config : Hedgehog.PropertyConfig) : Report =
+    static member Report (property : Property<bool>, config : IPropertyConfig) : Report =
         property |> Property.falseToFailure |> Property.reportWith config
 
     [<Extension>]
@@ -84,7 +94,7 @@ type PropertyExtensions private () =
         Property.check property
 
     [<Extension>]
-    static member Check (property : Property, config : Hedgehog.PropertyConfig) : unit =
+    static member Check (property : Property, config : IPropertyConfig) : unit =
         let (Property property) = property
         Property.checkWith config property
 
@@ -93,7 +103,7 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.check
 
     [<Extension>]
-    static member Check (property : Property<bool>, config : Hedgehog.PropertyConfig) : unit =
+    static member Check (property : Property<bool>, config : IPropertyConfig) : unit =
         property |> Property.falseToFailure |> Property.checkWith config
 
     [<Extension>]
@@ -102,7 +112,7 @@ type PropertyExtensions private () =
         Property.recheck recheckData property
 
     [<Extension>]
-    static member Recheck (property : Property, recheckData: string, config : Hedgehog.PropertyConfig) : unit =
+    static member Recheck (property : Property, recheckData: string, config : IPropertyConfig) : unit =
         let (Property property) = property
         Property.recheckWith recheckData config property
 
@@ -111,7 +121,7 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.recheck recheckData
 
     [<Extension>]
-    static member Recheck (property : Property<bool>, recheckData: string, config : Hedgehog.PropertyConfig) : unit =
+    static member Recheck (property : Property<bool>, recheckData: string, config : IPropertyConfig) : unit =
         property |> Property.falseToFailure |> Property.recheckWith recheckData config
 
     [<Extension>]
@@ -125,7 +135,7 @@ type PropertyExtensions private () =
         Property.reportRecheck (RecheckData.serialize recheckData) property
 
     [<Extension>]
-    static member ReportRecheck (property : Property, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
+    static member ReportRecheck (property : Property, recheckData: string, config : IPropertyConfig) : Report =
         let (Property property) = property
         Property.reportRecheckWith recheckData config property
 
@@ -138,7 +148,7 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.reportRecheck (RecheckData.serialize recheckData)
 
     [<Extension>]
-    static member ReportRecheck (property : Property<bool>, recheckData: string, config : Hedgehog.PropertyConfig) : Report =
+    static member ReportRecheck (property : Property<bool>, recheckData: string, config : IPropertyConfig) : Report =
         property |> Property.falseToFailure |> Property.reportRecheckWith recheckData config
 
     [<Extension>]
@@ -147,7 +157,7 @@ type PropertyExtensions private () =
         Property.render property
 
     [<Extension>]
-    static member Render (property : Property, config : Hedgehog.PropertyConfig) : string =
+    static member Render (property : Property, config : IPropertyConfig) : string =
         let (Property property) = property
         Property.renderWith config property
 
@@ -156,7 +166,7 @@ type PropertyExtensions private () =
         property |> Property.falseToFailure |> Property.render
 
     [<Extension>]
-    static member Render (property : Property<bool>, config : Hedgehog.PropertyConfig) : string =
+    static member Render (property : Property<bool>, config : IPropertyConfig) : string =
         property |> Property.falseToFailure |> Property.renderWith config
 
     [<Extension>]
