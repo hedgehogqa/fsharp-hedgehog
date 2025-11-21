@@ -75,8 +75,15 @@ module Random =
     let inline integral (range : Range<'a>) : Random<'a> =
         Random (fun seed size ->
             let (lo, hi) = Range.bounds size range
-            let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
-            fromBigInt x)
+            if typeof<'a> = typeof<int32> then
+                let x, _ = Seed.nextInt32 (unbox (box lo)) (unbox (box hi)) seed
+                unbox (box x)
+            elif typeof<'a> = typeof<int64> then
+                let x, _ = Seed.nextInt64 (unbox (box lo)) (unbox (box hi)) seed
+                unbox (box x)
+            else
+                let x, _ = Seed.nextBigInt (toBigInt lo) (toBigInt hi) seed
+                fromBigInt x)
 
     /// Generates a random floating point number in the given inclusive range.
     let inline double (range : Range<double>) : Random<double> =

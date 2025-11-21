@@ -6,7 +6,7 @@ open BenchmarkDotNet.Running
 
 open Hedgehog
 
-[<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
+[<SimpleJob(RuntimeMoniker.Net80)>]
 type Benchmarks () =
 
     [<Benchmark>]
@@ -31,7 +31,7 @@ type Benchmarks () =
     member _.BigExampleFromTests () =
         Tests.MinimalTests.perfectMinimalShrink ()
 
-[<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
+[<SimpleJob(RuntimeMoniker.Net80)>]
 type ScaledBenchmarks () =
 
     [<Params(100, 1000, 10000)>]
@@ -49,7 +49,7 @@ type ScaledBenchmarks () =
 
 [<EntryPoint>]
 let main argv =
-    BenchmarkRunner.Run<Benchmarks> () |> ignore
-    BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
+    // BenchmarkRunner.Run<Benchmarks> () |> ignore
+    // BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
     BenchmarkRunner.Run<GenBenchmarks>() |> ignore
     0 // return an integer exit code
