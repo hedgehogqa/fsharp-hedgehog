@@ -371,18 +371,17 @@ module Gen =
     let array (range : Range<int>) (gen : Gen<'a>) : Gen<array<'a>> =
         list range gen |> map Array.ofList
 
-    /// <summary>
     /// Generates an enumerable using a 'Range' to determine the length.
-    /// </summary>
-    /// <param name="range">Range determining the length of the enumerable.</param>
     let seq (range : Range<int>) (gen : Gen<'a>) : Gen<seq<'a>> =
         list range gen |> map Seq.ofList
 
     /// Generates null part of the time.
     let withNull (g : Gen<'a>) : Gen<'a> =
-        frequency [
-            1, constant null
-            9, g ]
+        sized (fun n ->
+            frequency [
+                2, constant null
+                1 + n, g ]
+        )
 
     /// Generates a value that is not null.
     let noNull (g : Gen<'a>) : Gen<'a> =
