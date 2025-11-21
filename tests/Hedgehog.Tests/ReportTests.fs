@@ -1,7 +1,7 @@
 ﻿module Hedgehog.Tests.ReportTests
 
 open Hedgehog
-
+open Hedgehog.FSharp
 open TestDsl
 
 

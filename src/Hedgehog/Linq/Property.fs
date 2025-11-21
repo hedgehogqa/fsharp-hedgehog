@@ -5,7 +5,7 @@ namespace Hedgehog.Linq
 open System
 open System.Runtime.CompilerServices
 open Hedgehog
-
+open Hedgehog.FSharp
 
 type Property = private Property of Property<unit> with
 
@@ -46,7 +46,6 @@ type Property = private Property of Property<unit> with
         Property.forAll' gen
 
 
-[<Extension>]
 [<AbstractClass; Sealed>]
 type PropertyExtensions private () =
 

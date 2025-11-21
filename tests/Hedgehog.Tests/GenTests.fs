@@ -2,7 +2,8 @@ module Hedgehog.Tests.GenTests
 
 open System
 open Hedgehog
-open Hedgehog.Gen.Operators
+open Hedgehog.FSharp
+open Gen.Operators
 open TestDsl
 
 

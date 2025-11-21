@@ -1,4 +1,4 @@
-namespace Hedgehog
+namespace Hedgehog.FSharp
 
 open System
 

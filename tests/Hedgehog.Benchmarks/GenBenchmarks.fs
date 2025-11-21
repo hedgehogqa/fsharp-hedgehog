@@ -4,6 +4,7 @@ open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Jobs
 open FsCheck.Fluent
 open Hedgehog
+open Hedgehog.FSharp
 
 [<SimpleJob(RuntimeMoniker.Net80)>]
 type GenBenchmarks () =

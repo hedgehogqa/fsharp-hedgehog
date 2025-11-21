@@ -3,6 +3,7 @@ namespace Hedgehog.AutoGen
 open System
 open System.Collections.Immutable
 open Hedgehog
+open Hedgehog.FSharp
 
 type internal RecursionState = {
     CurrentLevel: int

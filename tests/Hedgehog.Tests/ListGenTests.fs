@@ -1,6 +1,7 @@
 module Hedgehog.Tests.ListGenTests
 
 open Hedgehog
+open Hedgehog.FSharp
 open TestDsl
 
 

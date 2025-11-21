@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using static Hedgehog.Linq.Property;
+using Hedgehog.Linq;
+using Range = Hedgehog.Linq.Range;
 using Xunit;
 
-namespace Hedgehog.Linq.Tests;
+namespace Hedgehog.AutoGen.Tests;
 
 public sealed class DefaultGeneratorsTests
 {

@@ -1,11 +1,11 @@
-namespace Hedgehog
+namespace Hedgehog.FSharp
+
+open System
+open Hedgehog
 
 [<AutoOpen>]
 module GenPrimitives =
 
-    open System
-
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module Gen =
 

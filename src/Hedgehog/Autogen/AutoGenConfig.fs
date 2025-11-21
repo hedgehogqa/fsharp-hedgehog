@@ -1,7 +1,5 @@
 namespace Hedgehog
 
-open System
-open System.Reflection
 open Hedgehog.AutoGen
 
 type IAutoGenConfig = internal {
@@ -10,17 +8,17 @@ type IAutoGenConfig = internal {
   generators: GeneratorCollection
 }
 
+namespace Hedgehog.FSharp
+
+open System
+open System.Reflection
+open Hedgehog
+open Hedgehog.AutoGen
+
 module AutoGenConfig =
 
   let private defaultSeqRange = Range.exponential 0 50
   let private defaultRecursionDepth = 1
-
-  [<CompiledName("Empty")>]
-  let empty = {
-    seqRange = None
-    recursionDepth = None
-    generators = GeneratorCollection.empty
-  }
 
   let private mapGenerators f (config: IAutoGenConfig) =
     { config with generators = f config.generators }
@@ -87,6 +85,20 @@ module AutoGenConfig =
           cfg |> mapGenerators (GeneratorCollection.addGenerator targetType targetType typeArray factory))
           config
 
-  [<CompiledName("Defaults")>]
-  let defaults =
-    empty |> addGenerators<DefaultGenerators>
+
+namespace Hedgehog
+
+open Hedgehog.AutoGen
+open Hedgehog.FSharp
+
+module AutoGenConfig =
+    [<CompiledName("Empty")>]
+    let empty = {
+      seqRange = None
+      recursionDepth = None
+      generators = GeneratorCollection.empty
+    }
+
+    [<CompiledName("Defaults")>]
+    let defaults =
+      empty |> AutoGenConfig.addGenerators<DefaultGenerators>

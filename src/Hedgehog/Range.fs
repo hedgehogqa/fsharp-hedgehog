@@ -1,8 +1,5 @@
 namespace Hedgehog
 
-open System
-open Hedgehog.Numeric
-
 /// Tests are parameterized by the `Size` of the randomly-generated data,
 /// the meaning of which depends on the particular generator used.
 type Size = int
@@ -16,7 +13,12 @@ type Size = int
 type Range<'a> =
     | Range of origin : 'a * (Size -> 'a * 'a)
 
-[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+namespace Hedgehog.FSharp
+
+open System
+open Hedgehog
+open Hedgehog.Numeric
+
 module Range =
     let private bimap (f : 'a -> 'b) (g : 'c -> 'd) (a : 'a, b : 'c) : 'b * 'd =
         f a, g b

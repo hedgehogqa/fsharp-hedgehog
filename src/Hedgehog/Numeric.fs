@@ -5,6 +5,7 @@
 
 open System
 
+[<Sealed; AbstractClass>]
 type MinValue =
 
     static member MinValue (_: unit, _: MinValue) : unit =
@@ -88,6 +89,7 @@ type MinValue =
     static member inline MinValue ((_: 'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h), _: MinValue) =
         (MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke(), MinValue.Invoke())
 
+[<Sealed; AbstractClass>]
 type MaxValue =
 
     static member MaxValue (_: unit, _: MaxValue) : unit =

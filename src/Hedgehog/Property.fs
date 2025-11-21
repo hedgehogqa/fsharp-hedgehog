@@ -1,6 +1,6 @@
 namespace Hedgehog
 
-open System
+
 
 type internal TestReturnedFalseException() =
   inherit System.Exception("Expected 'true' but was 'false'.")
@@ -10,6 +10,10 @@ type internal TestReturnedFalseException() =
 type Property<'a> =
     | Property of Gen<Lazy<Journal * Outcome<'a>>>
 
+namespace Hedgehog.FSharp
+
+open System
+open Hedgehog
 
 module Property =
 
@@ -100,7 +104,7 @@ module Property =
     let falseToFailure p =
         p |> map (fun b -> if not b then raise (TestReturnedFalseException()))
 
-    let internal printValue (value) : string =
+    let internal printValue value : string =
         // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
         let prepareForPrinting (value: obj) : obj =
         #if FABLE_COMPILER
@@ -248,7 +252,7 @@ module Property =
     let checkBoolWith (config : IPropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
-    let reportRecheckWith (recheckData: string) (config : IPropertyConfig) (p : Property<unit>) : Report =
+    let reportRecheckWith (recheckData: string) (_: IPropertyConfig) (p : Property<unit>) : Report =
         let recheckData = recheckData |> RecheckData.deserialize
         let result, _ = splitAndRun p recheckData
         { Tests = 1<tests>

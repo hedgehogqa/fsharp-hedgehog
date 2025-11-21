@@ -1,6 +1,7 @@
 ﻿module Hedgehog.Tests.ShrinkTests
 
 open Hedgehog
+open Hedgehog.FSharp
 open TestDsl
 
 let shrinkTests = testList "Shrink tests" [

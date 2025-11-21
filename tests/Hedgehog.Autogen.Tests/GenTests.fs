@@ -1,10 +1,11 @@
-module Hedgehog.Autogen.Tests.GenTests
+module Hedgehog.AutoGen.Tests.GenTests
 
 open System
 open Hedgehog.AutoGen
 open Xunit
 open Swensen.Unquote
 open Hedgehog
+open Hedgehog.FSharp
 open TypeShape.Core
 
 let checkWith tests = PropertyConfig.defaults |> PropertyConfig.withTests tests |> Property.checkWith

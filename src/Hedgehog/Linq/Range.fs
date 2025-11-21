@@ -5,6 +5,7 @@ namespace Hedgehog.Linq
 open System
 open System.Runtime.CompilerServices
 open Hedgehog
+open Hedgehog.FSharp
 
 [<AbstractClass; Sealed>]
 type Range private () =

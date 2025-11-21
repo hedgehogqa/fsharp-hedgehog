@@ -2,6 +2,7 @@ namespace Hedgehog.Linq
 
 open System.Runtime.CompilerServices
 open Hedgehog
+open Hedgehog.FSharp
 
 [<AbstractClass; Sealed;>]
 type AutoGenExtensions() =

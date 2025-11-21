@@ -1,8 +1,9 @@
-module Hedgehog.Autogen.Tests.AutoGenConfigTests
+module Hedgehog.AutoGen.Tests.AutoGenConfigTests
 
 open Xunit
 open Swensen.Unquote
 open Hedgehog
+open Hedgehog.FSharp
 
 [<Fact>]
 let ``merging AutoGenConfig preserves set values``() =
