@@ -220,4 +220,113 @@ let genTests = testList "Gen tests" [
             }
         testGenPairViaApply gPair
 
+    testCase "uri generates valid URIs" <| fun () ->
+        property {
+            let! uri = Gen.uri
+            ignore uri
+        } |> Property.check
+
+    testCase "shuffle does not add or remove elements" <| fun () ->
+        Property.check <| property {
+            let! xs =
+                Gen.int32 (Range.constantFrom 0 -100 100)
+                |> Gen.list (Range.linear 2 10)
+            let! shuffled = xs |> Gen.shuffle
+            List.sort xs =! List.sort shuffled
+        }
+
+    testCase "shuffle creates random permutations of the input list" <| fun () ->
+        property {
+            let! xs =
+                Gen.int32 (Range.constantFrom 0 -100 100)
+                |> Gen.list (Range.singleton 10)
+                |> Gen.filter (fun l -> (List.distinct l).Length > 5)
+            let! permutations = xs |> Gen.shuffle |> Gen.list (Range.singleton 100)
+            Expect.isTrue (permutations |> List.distinct |> List.length > 50)
+        } |> Property.checkWith (PropertyConfig.defaultConfig |> PropertyConfig.withTests 10<tests>)
+
+    testCase "shuffleCase does not add, remove, or change the order of characters" <| fun () ->
+        Property.check <| property {
+            let! s = Gen.string (Range.linear 2 10) Gen.alpha
+            let! shuffled = s |> Gen.shuffleCase
+            shuffled.ToLowerInvariant() =! s.ToLowerInvariant()
+        }
+
+    testCase "shuffleCase creates random case permutations of the input string" <| fun () ->
+        property {
+            let! xs = Gen.string (Range.linear 50 100) Gen.alpha
+            let! permutations = xs |> Gen.shuffleCase |> Gen.list (Range.singleton 100)
+            Expect.isTrue (permutations |> List.distinct |> List.length > 50)
+        } |> Property.checkWith (PropertyConfig.defaultConfig |> PropertyConfig.withTests 10<tests>)
+
+    testCase "withNull generates null some of the time" <| fun () ->
+        Gen.constant "a"
+        |> Gen.withNull
+        |> Gen.sample 0 1000
+        |> Seq.exists isNull
+        |> Expect.isTrue
+
+    testCase "noNull does not generate nulls" <| fun () ->
+        Property.checkBool <| property {
+            let! x = Gen.constant "a" |> Gen.withNull |> Gen.noNull
+            return not <| isNull x
+        }
+
+    testCase "notIn generates element that is not in list" <| fun () ->
+        Property.checkBool <| property {
+            let! xs =
+                Gen.int32 (Range.linearFrom 0 -100 100)
+                |> Gen.list (Range.linear 1 10)
+            let! x = Gen.int32 (Range.linearFrom 0 -100 100) |> Gen.notIn xs
+            return not <| List.contains x xs
+        }
+
+    testCase "notContains generates list that does not contain element" <| fun () ->
+        Property.checkBool <| property {
+            let! x = Gen.int32 (Range.linearFrom 0 -100 100)
+            let! xs =
+                Gen.int32 (Range.linearFrom 0 -100 100)
+                |> Gen.list (Range.linear 1 10)
+                |> Gen.notContains x
+            return not <| List.contains x xs
+        }
+
+    testCase "addElement generates a list with the specified element" <| fun () ->
+        Property.checkBool <| property {
+            let! x = Gen.int32 (Range.exponentialBounded ())
+            let! xs =
+                Gen.int32 (Range.exponentialBounded ())
+                |> Gen.list (Range.linear 0 10)
+                |> Gen.addElement x
+            return List.contains x xs
+        }
+
+    testCase "withMapTo is defined for all elements in input list" <| fun () ->
+        Property.check <| property {
+            let! xs, f =
+                Gen.int32 (Range.exponentialBounded ())
+                |> Gen.list (Range.linear 1 50)
+                |> Gen.withMapTo Gen.alphaNum
+            xs |> List.map f |> ignore // Should not throw.
+        }
+
+    testCase "withDistinctMapTo is defined for all elements in input list" <| fun () ->
+        Property.check <| property {
+            let! xs, f =
+                Gen.int32 (Range.exponentialBounded ())
+                |> Gen.list (Range.linear 1 50)
+                |> Gen.withDistinctMapTo Gen.alphaNum
+            xs |> List.map f |> ignore // Should not throw.
+        }
+
+    testCase "withDistinctMapTo guarantees that distinct input values map to distinct output values" <| fun () ->
+        Property.check <| property {
+            let! xs, f =
+                Gen.int32 (Range.exponentialBounded ())
+                |> Gen.list (Range.linear 1 50)
+                |> Gen.withDistinctMapTo Gen.alphaNum
+            let xsDistinct = xs |> List.distinct
+            xsDistinct |> List.map f |> List.distinct |> List.length =! xsDistinct.Length
+        }
+
 ]

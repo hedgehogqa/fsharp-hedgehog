@@ -1,8 +1,8 @@
 namespace Hedgehog.AutoGen
 
 open System
-open TypeShape.Core
 
+[<RequireQualifiedAccess>]
 module internal TypeUtils =
 
     let satisfies (value: Type) (gen: Type) : bool =

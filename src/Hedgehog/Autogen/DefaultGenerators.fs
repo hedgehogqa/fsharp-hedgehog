@@ -132,3 +132,5 @@ type DefaultGenerators =
             }
         else
             Gen.constant Map.empty<'k, 'v>
+
+    static member Uri : Gen<Uri> = Gen.uri
