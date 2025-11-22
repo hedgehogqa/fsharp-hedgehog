@@ -159,7 +159,7 @@ module Seed =
             nextInt32 hi lo seed
         else
             let range = uint32 (hi - lo)
-            // If range is UInt32.MaxValue, we can just use the full 32 bits from nextUInt64
+            // If range is UInt32.MaxValue, we can just use the full 32 bits from nextUInt64.
             if range = UInt32.MaxValue then
                 let x, seed1 = nextUInt64 seed
                 int32 x, seed1
@@ -180,7 +180,7 @@ module Seed =
             nextInt64 hi lo seed
         else
             let range = uint64 (hi - lo)
-            // If range is UInt64.MaxValue, we can just use the full 64 bits from nextUInt64
+            // If range is UInt64.MaxValue, we can just use the full 64 bits from nextUInt64.
             if range = UInt64.MaxValue then
                 let x, seed1 = nextUInt64 seed
                 int64 x, seed1
