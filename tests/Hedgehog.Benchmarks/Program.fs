@@ -49,7 +49,7 @@ type ScaledBenchmarks () =
 
 [<EntryPoint>]
 let main argv =
-    // BenchmarkRunner.Run<Benchmarks> () |> ignore
-    // BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
+    BenchmarkRunner.Run<Benchmarks> () |> ignore
+    BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
     BenchmarkRunner.Run<GenBenchmarks>() |> ignore
-    0 // return an integer exit code
+    0
