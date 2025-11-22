@@ -15,19 +15,19 @@ type private GeneratorFactory = Type[] -> obj[] -> obj
 /// - Either<'a, 'b> and Either<'x, 'y> have the same key
 /// - But Either<'a, string> and Either<'a, 'b> have different keys
 type internal GeneratorKey = {
-  /// The generic type definition (e.g., Either<,>)
+  /// The generic type definition (e.g., Either<,>).
   GenericTypeDefinition: Type
-  /// For each type argument position, Some(type) if concrete, None if generic parameter
-  /// E.g., Either<'a, string> -> [None; Some(string)]
+  /// For each type argument position, Some(type) if concrete, None if generic parameter.
+  /// E.g., Either<'a, string> -> [None; Some(string)].
   ConcreteTypes: Type option list
 }
 
 type internal GeneratorCollection = {
   // A dictionary of generators.
-  // The key distinguishes between different patterns of generic vs concrete type arguments
+  // The key distinguishes between different patterns of generic vs concrete type arguments.
   // The value is a tuple of:
-  // 1. The original reflected type (with generic parameters intact for type resolution)
-  // 2. An array types of arguments for the generator factory
+  // 1. The original reflected type (with generic parameters intact for type resolution).
+  // 2. An array types of arguments for the generator factory.
   // 3. A generator factory, which can be backed by a generic method,
   //    so it takes an array of genetic type parameters,
   //    and an array of arguments to create the generator.
@@ -43,7 +43,7 @@ module internal GeneratorCollection =
     Cache = ConcurrentDictionary<Type, (Type * (Type[] * GeneratorFactory)) option>()
   }
 
-  /// Create a GeneratorKey from a type by identifying which positions are generic vs concrete
+  /// Create a GeneratorKey from a type by identifying which positions are generic vs concrete.
   let private createKey (t: Type) : GeneratorKey =
     if t.IsGenericType then
       let concreteTypes =
@@ -52,11 +52,11 @@ module internal GeneratorCollection =
         |> List.ofSeq
       { GenericTypeDefinition = t.GetGenericTypeDefinition(); ConcreteTypes = concreteTypes }
     else
-      // Non-generic types use themselves as the key
+      // Non-generic types use themselves as the key.
       { GenericTypeDefinition = t; ConcreteTypes = [] }
 
   let merge (gens1: GeneratorCollection) (gens2: GeneratorCollection) =
-    // Create a new cache when merging since the generator set has changed
+    // Create a new cache when merging since the generator set has changed.
     {
       Generators = gens1.Generators.SetItems(gens2.Generators)
       Cache = ConcurrentDictionary<Type, (Type * (Type[] * GeneratorFactory)) option>()
@@ -65,13 +65,13 @@ module internal GeneratorCollection =
   let addGenerator (normalizedType: Type) (originalType: Type) (paramTypes: Type[]) (factory: Type[] -> obj[] -> obj) =
     fun (gc: GeneratorCollection) ->
       let key = createKey normalizedType
-      // Reset cache when adding a generator since lookup results may change
+      // Reset cache when adding a generator since lookup results may change.
       {
         Generators = gc.Generators.SetItem(key, (originalType, paramTypes, factory))
         Cache = ConcurrentDictionary<Type, (Type * (Type[] * GeneratorFactory)) option>()
       }
 
-  /// Count the number of generic parameters in a type
+  /// Count the number of generic parameters in a type.
   let private countGenericParameters (t: Type) =
     if t.IsGenericType then t.GetGenericArguments() |> Seq.filter _.IsGenericParameter |> Seq.length
     else 0
@@ -87,9 +87,9 @@ module internal GeneratorCollection =
       let targetKey = createKey targetType
       gc.Generators
       |> Seq.choose (fun (KeyValue (key, (originalType, paramTypes, factory))) ->
-          // Only consider generators with the same generic type definition
+          // Only consider generators with the same generic type definition.
           if key.GenericTypeDefinition = targetKey.GenericTypeDefinition then
-            // Check if the stored type can satisfy the target type
+            // Check if the stored type can satisfy the target type.
             if originalType |> TypeUtils.satisfies targetType then
               Some (originalType, paramTypes, factory)
             else

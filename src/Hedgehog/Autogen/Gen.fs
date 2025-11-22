@@ -12,7 +12,7 @@ module AutoGenExtensions =
   module Gen =
     let rec private autoInner<'a> (config : IAutoGenConfig) (recursionState: RecursionState) : Gen<'a> =
 
-      // Prevent auto-generating AutoGenConfig itself - it should only be passed as a parameter
+      // Prevent auto-generating AutoGenConfig itself - it should only be passed as a parameter.
       if typeof<'a> = typeof<IAutoGenConfig> then
         raise (NotSupportedException "Cannot auto-generate AutoGenConfig type. It should be provided as a parameter to generator methods.")
 
@@ -77,7 +77,7 @@ module AutoGenExtensions =
         | Some (registeredType, (args, factory)) ->
           let factoryArgs = AutoGenHelpers.prepareFactoryArgTypes typeShape registeredType args
 
-          // and if the factory takes parameters, recurse and find generators for them
+          // and if the factory takes parameters, recurse and find generators for them,
           let targetArgs =
             factoryArgs.argumentTypes
             |> Array.map (fun t ->
@@ -91,7 +91,7 @@ module AutoGenExtensions =
                       member __.Generate<'x>() = autoInner<'x> config newRecursionState })
                 box ctx
               else
-                // Otherwise, generate a value for this type
+                // Otherwise, generate a value for this type.
                 let ts = TypeShape.Create(t)
                 ts.Accept { new ITypeVisitor<obj> with
                   member __.Visit<'b> () = autoInner<'b> config newRecursionState |> box

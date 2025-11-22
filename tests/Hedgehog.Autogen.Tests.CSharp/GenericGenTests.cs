@@ -163,7 +163,6 @@ public class GenericGenTests
 
     prop.Check();
 
-    // Also test with a different type to verify generics work
     var propString = from x in Gen.AutoWith<ImmutableList<string>>(config).ForAll()
                      select x.Count == 7;
 

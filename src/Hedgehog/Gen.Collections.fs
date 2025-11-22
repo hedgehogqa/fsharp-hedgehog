@@ -13,11 +13,11 @@ module GenCollections =
             g |> Gen.filter (fun x -> not <| List.contains x list)
 
         /// Generates a list that does not contain the specified element.
-        /// Shortcut for Gen.filter (not << List.contains x)
+        /// Shortcut for Gen.filter (not << List.contains x).
         let notContains (x: 'a) : Gen<'a list> -> Gen<'a list> =
            Gen.filter (not << List.contains x)
 
-        /// Inserts the given element at a random place in the list
+        /// Inserts the given element at a random place in the list.
         let addElement (x : 'a) (g : Gen<'a list>) : Gen<'a list> =
             gen {
                 let! xs = g

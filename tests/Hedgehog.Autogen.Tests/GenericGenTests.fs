@@ -20,24 +20,24 @@ type OuterClass(value: Maybe<Guid>) =
 
 type GenericTestGenerators =
 
-  // Test that we can override the "default" generator for a type
+  // Test that we can override the "default" generator for a type.
   static member Guid() =
     Gen.constant Guid.Empty
 
-  // A generator for Id<'a> to test phantom generic type
+  // A generator for Id<'a> to test phantom generic type.
   static member Id<'a>(gen : Gen<Guid>) : Gen<Id<'a>> = gen |> Gen.map Id
 
-  // A generator for some simple value to test a generator without parameters
+  // A generator for some simple value to test a generator without parameters.
   static member UuidGen() : Gen<Uuid> = GenericTestGenerators.Guid() |> Gen.map Uuid
 
-  // A generator for some simple value to test a generator with parameters
+  // A generator for some simple value to test a generator with parameters.
   static member NameGen(gen: Gen<string>) : Gen<Name> =
     gen |> Gen.map (fun x -> Name ("Name: " + x))
 
-  // A generator for Maybe<'a> to test union type with one generic type constructor
+  // A generator for Maybe<'a> to test union type with one generic type constructor.
   static member AlwaysJust<'a>(genA: Gen<'a>) : Gen<Maybe<'a>> = genA |> Gen.map Just
 
-  // A generator for Either<'a, 'b> to test union type with multiple type constructors
+  // A generator for Either<'a, 'b> to test union type with multiple type constructors.
   static member AlwaysLeft<'a, 'b>(genB: Gen<'b>, genA: Gen<'a>) : Gen<Either<'a, 'b>> =
         genA |> Gen.map Left
 

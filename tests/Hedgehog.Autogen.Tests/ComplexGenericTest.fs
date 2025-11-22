@@ -5,7 +5,7 @@ open Swensen.Unquote
 open Hedgehog
 open Hedgehog.FSharp
 
-// A type with complex generic parameter repetition: <A, A, B, C, A, A, D>
+// A type with complex generic parameter repetition: <A, A, B, C, A, A, D>.
 type ComplexType<'A, 'B, 'C, 'D, 'E, 'F, 'G> = {
     First: 'A
     Second: 'B
@@ -17,7 +17,7 @@ type ComplexType<'A, 'B, 'C, 'D, 'E, 'F, 'G> = {
 }
 
 type ComplexGenerators =
-    // Method with pattern: method has <A, B, C, D> but type uses <A, A, B, C, A, A, D>
+    // Method with pattern: method has <A, B, C, D> but type uses <A, A, B, C, A, A, D>.
     static member Complex<'A, 'B, 'C, 'D>(
         genA: Gen<'A>,
         genC: Gen<'C>,
@@ -45,20 +45,20 @@ let ``Should handle complex generic parameter repetition pattern``() =
         AutoGenConfig.defaults
         |> AutoGenConfig.addGenerators<ComplexGenerators>
 
-    // Generate ComplexType<int, int, string, bool, int, int, float>
-    // Method is Complex<int, string, bool, float>
+    // Generate ComplexType<int, int, string, bool, int, int, float>.
+    // Method is Complex<int, string, bool, float>.
     let gen = Gen.autoWith<ComplexType<int, int, string, bool, int, int, float>> config
     let sample = Gen.sample 0 1 gen |> Seq.head
 
-    // Verify the structure is correct
-    test <@ sample.First = sample.Second @>  // Both should be the same 'A value
-    test <@ sample.First = sample.Fifth @>   // All 'A positions should be the same
+    // Verify the structure is correct.
+    test <@ sample.First = sample.Second @>  // Both should be the same 'A value.
+    test <@ sample.First = sample.Fifth @>   // All 'A positions should be the same.
     test <@ sample.Second = sample.Sixth @>
     test <@ sample.Third.GetType() = typeof<string> @>
     test <@ sample.Fourth.GetType() = typeof<bool> @>
     test <@ sample.Seventh.GetType() = typeof<float> @>
 
-// Better test with specific verifiable values
+// Better test with specific verifiable values.
 type VerifiableGenerators =
     static member VerifiableComplex<'A, 'B, 'C, 'D>(
         genA: Gen<'A>,
@@ -81,7 +81,7 @@ type VerifiableGenerators =
             }
         }
 
-// Specific constant generators to verify correct parameter mapping
+// Specific constant generators to verify correct parameter mapping.
 type SpecificGenerators =
     static member Int() = Gen.constant 42
     static member String() = Gen.constant "test"

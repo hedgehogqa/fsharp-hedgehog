@@ -27,7 +27,7 @@ module internal AutoGenHelpers =
       else Array.empty
 
     // Build a mapping from method generic parameter position to concrete type
-    // by finding where each method parameter first appears in the registered type
+    // by finding where each method parameter first appears in the registered type.
     let methodGenParamCount =
       registeredGenArgs
       |> Array.filter _.IsGenericParameter
@@ -38,23 +38,23 @@ module internal AutoGenHelpers =
     let genericTypes = Array.zeroCreate methodGenParamCount
 
     // For each position in registeredType, if it's a generic parameter,
-    // map it to the corresponding concrete type from typeArgs
+    // map it to the corresponding concrete type from typeArgs.
     for i = 0 to registeredGenArgs.Length - 1 do
       let regArg = registeredGenArgs[i]
       if regArg.IsGenericParameter then
         let paramPosition = regArg.GenericParameterPosition
-        // Only set it if we haven't seen this parameter position before (use first occurrence)
+        // Only set it if we haven't seen this parameter position before (use first occurrence).
         if genericTypes[paramPosition] = null
         then genericTypes[paramPosition] <- box typeArgs[i].argType
 
     let genericTypes = genericTypes |> Array.map unbox<Type>
 
-    // Build argumentTypes: substitute generic parameters with concrete types
+    // Build argumentTypes: substitute generic parameters with concrete types.
     let argTypes =
       args
       |> Array.map (fun arg ->
         if arg.IsGenericParameter then
-          // Find where this parameter first appears in the registered type
+          // Find where this parameter first appears in the registered type.
           let paramPosition = arg.GenericParameterPosition
           let firstOccurrenceIndex =
             registeredGenArgs

@@ -12,7 +12,7 @@ module GenUri =
         let private uriSchemeNonFirst = Gen.item (['a' .. 'z'] @ ['+'; '.'; '-'])
         let private uriScheme = gen {
             let! first = Gen.lower |> Gen.map string
-            // It seems that length must be at least 2, becuase otherwise we might get
+            // It seems that length must be at least 2, because otherwise we might get
             // an implicit file:// scheme with the generated scheme as part of the path.
             let! rest = Gen.string (Range.linear 1 9) uriSchemeNonFirst
             return first + rest + ":"
@@ -39,10 +39,10 @@ module GenUri =
                 let! tld = Gen.item ["io"; "com"; "gov.au"; "school"; "education"; "m1xed-c0mplex"]
                 let! subdomain =
                     Gen.choice [
-                        // Simple alphanumeric
+                        // Simple alphanumeric.
                         Gen.alphaNum |> Gen.string (Range.linear 1 63)
 
-                        // With hyphens (not at start/end)
+                        // With hyphens (not at start/end).
                         gen {
                             let! start = Gen.alphaNum
                             let! middle = Gen.choice [Gen.alphaNum; Gen.constant '-'] |> Gen.string (Range.linear 0 61)
@@ -50,7 +50,7 @@ module GenUri =
                             return $"%c{start}%s{middle}%c{end'}"
                         }
 
-                        // Multi-level subdomain
+                        // Multi-level subdomain.
                         gen {
                             let! first = Gen.alphaNum |> Gen.string (Range.linear 1 20)
                             let! second = Gen.alphaNum |> Gen.string (Range.linear 1 20)
