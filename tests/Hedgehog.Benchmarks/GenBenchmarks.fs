@@ -10,7 +10,7 @@ module HGen = Hedgehog.Gen
 [<SimpleJob(RuntimeMoniker.Net80)>]
 type GenBenchmarks () =
 
-    [<Params(1_000, 10_000, 100_000)>]
+    [<Params(1_000, 10_000)>]
     member val N = 1 with get, set
 
     [<Benchmark>]
