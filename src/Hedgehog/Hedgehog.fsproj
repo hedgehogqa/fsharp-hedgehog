@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Version>0.13.0</Version>
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
@@ -26,14 +26,12 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Hedgehog.Tests</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Hedgehog.Linq.Tests</_Parameter1>
-    </AssemblyAttribute>
+    <InternalsVisibleTo Include="Hedgehog.Tests" />
+    <InternalsVisibleTo Include="Hedgehog.Linq.Tests" />
+    <InternalsVisibleTo Include="Hedgehog.Autogen.Tests" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AutoOpen.fs" />
-    <Compile Include="Lazy.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Seq.fs" />
@@ -43,9 +41,16 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
     <Compile Include="Gen.fs" />
-    <Compile Include="ListGen.fs" />
+    <Compile Include="Gen.Traversable.fs" />
+    <Compile Include="Gen.Primitives.fs" />
+    <Compile Include="Gen.Randomize.fs" />
+    <Compile Include="Gen.DateTime.fs" />
+    <Compile Include="Gen.Collections.fs" />
+    <Compile Include="Gen.Functions.fs" />
+    <Compile Include="Gen.Uri.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
+    <Compile Include="Lazy.fs" />
     <Compile Include="GenLazy.fs" />
     <Compile Include="GenLazyTuple.fs" />
     <Compile Include="Outcome.fs" />
@@ -53,20 +58,45 @@ https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/doc/index.md
     <Compile Include="PropertyArgs.fs" />
     <Compile Include="PropertyConfig.fs" />
     <Compile Include="Property.fs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(FABLE_COMPILER)' == ''">
+    <Compile Include="Autogen\TypeUtils.fs" />
+    <Compile Include="Autogen\TypeShape.fs" />
+    <Compile Include="Autogen\GeneratorCollection.fs" />
+    <Compile Include="Autogen\AutoGenContext.fs" />
+    <Compile Include="Autogen\DefaultGenerators.fs" />
+    <Compile Include="Autogen\AutoGenConfig.fs" />
+    <Compile Include="Autogen\MultidimensionalArray.fs" />
+    <Compile Include="Autogen\RecursionState.fs" />
+    <Compile Include="Autogen\AutoGenHelpers.fs" />
+    <Compile Include="Autogen\Gen.fs" />
     <Compile Include="Linq\Gen.fs" />
+    <Compile Include="Linq\Gen.Collections.fs" />
+    <Compile Include="Linq\AutoGenExtensions.fs" />
     <Compile Include="Linq\PropertyConfig.fs" />
     <Compile Include="Linq\Property.fs" />
     <Compile Include="Linq\Range.fs" />
     <Compile Include="Linq\Report.fs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="[4.3.4, 99]" />
+    <PackageReference Include="TypeShape" Version="9.0.0" Condition="'$(FABLE_COMPILER)' == ''" />
   </ItemGroup>
+  
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
   <ItemGroup>
-    <Content Include="*.fsproj; **\*.fs" Exclude="**\bin\**\*; **\obj\**\*" PackagePath="fable" />
-    <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\"/>
-    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="*.fsproj; **\*.fs"
+          Exclude="**\bin\**\*; **\obj\**\*; **\Autogen\**\*; **\Linq\**\*"
+          PackagePath="fable"
+          Visible="false"
+          Pack="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 </Project>

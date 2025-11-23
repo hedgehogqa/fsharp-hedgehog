@@ -5,6 +5,7 @@ open BenchmarkDotNet.Jobs
 open BenchmarkDotNet.Running
 
 open Hedgehog
+open Hedgehog.FSharp
 
 [<SimpleJob(RuntimeMoniker.Net80)>]
 type Benchmarks () =

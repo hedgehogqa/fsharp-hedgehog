@@ -2,6 +2,7 @@ module Hedgehog.Tests.RangeTests
 
 open System
 open Hedgehog
+open Hedgehog.FSharp
 open TestDsl
 
 let rangeTests = testList "Range tests" [

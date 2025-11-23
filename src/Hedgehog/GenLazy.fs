@@ -1,10 +1,12 @@
 ﻿// Workaround for a Fable issue: https://github.com/fable-compiler/Fable/issues/2069
 #if FABLE_COMPILER
-module Hedgehog.GenLazy
+module Hedgehog.FSharp.GenLazy
 #else
 [<RequireQualifiedAccess>]
-module internal Hedgehog.GenLazy
+module internal Hedgehog.FSharp.GenLazy
 #endif
+
+open Hedgehog
 
 let constant a = a |> Lazy.constant |> Gen.constant
 

@@ -3,9 +3,8 @@ namespace Hedgehog.Benchmarks
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Jobs
 open FsCheck.Fluent
-
-module HRange = Hedgehog.Range
-module HGen = Hedgehog.Gen
+open Hedgehog
+open Hedgehog.FSharp
 
 [<SimpleJob(RuntimeMoniker.Net80)>]
 type GenBenchmarks () =
@@ -15,9 +14,9 @@ type GenBenchmarks () =
 
     [<Benchmark>]
     member this.HedgehogGenSampleInt32 () =
-        HRange.constant -100 100
-        |> HGen.int32
-        |> HGen.sample 100 this.N
+        Range.constant -100 100
+        |> Gen.int32
+        |> Gen.sample 100 this.N
         |> Seq.iter ignore
 
     [<Benchmark(Baseline = true)>]

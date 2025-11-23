@@ -1,6 +1,7 @@
 module Hedgehog.Tests.ListGenTests
 
 open Hedgehog
+open Hedgehog.FSharp
 open TestDsl
 
 
@@ -9,7 +10,7 @@ let listGenTests = testList "ListGen tests" [
         let gen = Range.constant 0 1 |> Gen.int32
         let listGen = [gen; gen]
 
-        let genList = listGen |> ListGen.sequence
+        let genList = listGen |> Gen.sequenceList
         let actual =
             seq {
                 while true do

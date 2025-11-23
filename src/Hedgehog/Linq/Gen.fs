@@ -5,8 +5,23 @@ namespace Hedgehog.Linq
 open System
 open System.Runtime.CompilerServices
 open Hedgehog
+open Hedgehog.FSharp
 
 type Gen private () =
+
+    /// <summary>
+    /// Create a generator that automatically generates values of the specified type.
+    /// </summary>
+    /// <typeparam name="T">The type of values to generate.</typeparam>
+    static member Auto<'T>() : Gen<'T> = Gen.auto<'T>
+
+    /// <summary>
+    /// Create a generator that automatically generates values of the specified type,
+    /// using the provided configuration.
+    /// </summary>
+    /// <typeparam name="T">The type of values to generate.</typeparam>
+    /// <param name="config">The configuration to use for automatic generation.</param>
+    static member AutoWith<'T>(config: IAutoGenConfig) : Gen<'T> = Gen.autoWith<'T> config
 
     /// <summary>
     /// Create a generator that always yields a constant value.
@@ -535,5 +550,15 @@ type GenExtensions private () =
     [<Extension>]
     static member Zip (genA : Gen<'T>, genB : Gen<'U>, genC : Gen<'V>, genD : Gen<'W>) : Gen<'T * 'U * 'V * 'W> =
         Gen.zip4 genA genB genC genD
+
+    [<Extension>]
+    static member WithNull(self : Gen<'T>) =
+        Gen.withNull self
+
+    /// Generates a value that is not null.
+    [<Extension>]
+    static member NotNull(self : Gen<'T>) =
+        Gen.notNull self
+
 
 #endif
