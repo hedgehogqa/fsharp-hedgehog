@@ -5,7 +5,6 @@ open System
 [<AutoOpen>]
 module GenUri =
 
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module Gen =
 

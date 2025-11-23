@@ -1,0 +1,5 @@
+img#logo, .navbar-brand img {
+    height: 51px;
+    width: 51px;
+    max-height: 51px;
+}

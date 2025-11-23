@@ -22,6 +22,20 @@
         "femto"
       ],
       "rollForward": false
+    },
+    "docfx": {
+      "version": "2.78.4",
+      "commands": [
+        "docfx"
+      ],
+      "rollForward": false
+    },
+    "xmldoc2markdown": {
+      "version": "5.0.0",
+      "commands": [
+        "xmldoc2md"
+      ],
+      "rollForward": false
     }
   }
 }
