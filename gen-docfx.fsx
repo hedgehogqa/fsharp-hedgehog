@@ -1,3 +1,79 @@
+// ============================================================================
+// DocFX API Documentation Generator
+// ============================================================================
+//
+// PURPOSE:
+//   This script generates DocFX-compatible YAML documentation from F# assemblies,
+//   with intelligent handling of F# module patterns and dual-language (F#/C#) support.
+//
+// KEY FEATURES:
+//
+// 1. AUTO-OPEN MODULE MERGING
+//    F# often uses a pattern where an outer module is marked [<AutoOpen>] and wraps
+//    an inner module marked [<RequireQualifiedAccess>]. This creates redundant nesting
+//    in documentation (e.g., Hedgehog.GenPrimitives.Gen instead of just Hedgehog.Gen).
+//    
+//    When SkipAutoOpenWrappers is enabled, the script:
+//    - Detects AutoOpen wrapper modules
+//    - Merges their RequireQualifiedAccess inner modules into a single documentation page
+//    - Uses the minimal path (skipping AutoOpen segments) for cleaner API references
+//    - Combines all members from merged entities, sorted alphabetically
+//    
+//    Example: Hedgehog.GenPrimitives (AutoOpen).Gen (RQA) becomes just Hedgehog.Gen
+//
+// 2. DUAL-LANGUAGE SYNTAX GENERATION
+//    The script generates API documentation from both F# and C# perspectives:
+//    
+//    F# Style:
+//      - Uses F# type syntax (unit, 'a, list, option, etc.)
+//      - Presents functions with curried signatures (a -> b -> c)
+//      - Default for most namespaces
+//    
+//    C# Style:
+//      - Converts to C# types (void, T, [], ?, IEnumerable, etc.)
+//      - Shows static method signatures with explicit parameters
+//      - Includes "this" keyword for extension methods
+//      - Applied to namespaces in CSharpNamespaces set (e.g., Hedgehog.Linq)
+//    
+//    Both syntaxes are included in the YAML (content.fsharp and content.csharp)
+//    allowing DocFX to present the API in the user's preferred language.
+//
+// 3. HIERARCHICAL TOC GENERATION
+//    Builds a hierarchical Table of Contents:
+//    - Flattens the API structure, collecting all entities
+//    - Excludes AutoOpen wrappers and merged paths
+//    - Reconstructs a clean namespace hierarchy from dot-separated paths
+//    - Supports intermediate namespace nodes (containers without files)
+//
+// 4. DOCUMENTATION PROCESSING
+//    Converts XML documentation to Markdown:
+//    - Extracts summary, remarks, and examples from F# XML docs
+//    - Converts HTML to Markdown using ReverseMarkdown
+//    - Handles F# doc-specific elements like <see cref="..."/>
+//    - Preserves code formatting and structure
+//
+// 5. MEMBER OVERLOAD HANDLING
+//    For C# namespaces with method overloading:
+//    - Generates unique UIDs with parameter-based suffixes
+//    - Creates display names showing parameter types for clarity
+//    - Ensures each overload has a distinct documentation entry
+//
+// WORKFLOW:
+//   1. Load assembly using FSharp.Formatting.ApiDocs
+//   2. Discover AutoOpen patterns and modules to merge
+//   3. Generate DocFX YAML files for each entity (merged or standalone)
+//   4. Create type signatures in both F# and C# syntax
+//   5. Build hierarchical TOC from flattened entity paths
+//   6. Write YAML files with DocFX ManagedReference format
+//
+// USAGE:
+//   Simply run this script with F# Interactive:
+//     dotnet fsi gen-docfx.fsx
+//   
+//   Customize by modifying defaultConfig or creating a new DocFxConfig instance.
+//
+// ============================================================================
+
 #r "nuget: FSharp.Compiler.Service, 43.8.400"
 #r "nuget: FSharp.Formatting"
 #r "nuget: YamlDotNet"

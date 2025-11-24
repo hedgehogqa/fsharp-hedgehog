@@ -6,7 +6,8 @@
       {
         "files": [
           "api/**.yml",
-          "api/toc.yml"
+          "api/toc.yml",
+          "api/index.md"
         ]
       },
       {
