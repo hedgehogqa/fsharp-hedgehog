@@ -38,15 +38,20 @@
       "template"
     ],
     "globalMetadata": {
+      "_disableContribution": true,
+      "_disableBreadcrumb": true,
+      "_disableNextArticle": true,
       "_appName": "Hedgehog .NET",
       "_appTitle": "Hedgehog .NET",
       "_appLogoPath": "images/logo.png",
+      "_appFaviconPath": "images/favicon.ico",
       "_enableSearch": true,
       "pdf": false,
       "_languages": {
         "Hedgehog.Linq": "csharp",
         "Hedgehog.FSharp": "fsharp"
-      }
+      },
+      "_landingPage": "articles/index.md"
     },
     "fileMetadata": {
       "_lang": {

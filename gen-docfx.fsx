@@ -740,7 +740,16 @@ module FileIO =
     
     /// Write TOC YAML file
     let writeTocFile (serializer: ISerializer) (outputDir: string) (tocItems: TocItem list) : unit =
-        let tocYaml = serializer.Serialize(tocItems)
+        // Prepend the API Documentation index page
+        let indexItem = {
+            uid = ""
+            name = "API Documentation"
+            href = "index.md"
+            items = []
+        }
+        let allItems = indexItem :: tocItems
+        
+        let tocYaml = serializer.Serialize(allItems)
         // Remove empty uid fields (uid: '') from the YAML
         let cleanedYaml = 
             System.Text.RegularExpressions.Regex.Replace(

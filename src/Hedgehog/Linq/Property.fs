@@ -33,9 +33,8 @@ type Property = private Property of Property<unit> with
     static member Using (resource : 'T, action : Func<'T, Property<'TResult>>) : Property<'TResult> =
         Property.using resource action.Invoke
 
-    static member CounterExample (message : Func<string>) : Property =
+    static member CounterExample (message : Func<string>) : Property<unit> =
         Property.counterexample message.Invoke
-        |> Property
 
     [<Obsolete("Use .ForAll() extension method")>]
     static member ForAll (gen : Gen<'T>, k : Func<'T, Property<'TResult>>) : Property<'TResult> =
