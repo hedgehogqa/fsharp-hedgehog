@@ -12,13 +12,15 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Ensure no Windows line endings
       run: ./validate.sh
 
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
 
     - name: Install dependencies
       run: |
