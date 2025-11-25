@@ -5,9 +5,7 @@ on:
     branches: [ master ]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
   build:
@@ -44,17 +42,18 @@ jobs:
         dotnet fsi gen-docfx.fsx Release
         dotnet docfx build docs/docfx.json
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: _site/
-
     - name: Publish NuGet
       uses: alirezanet/publish-nuget@v3.0.4
       with:
         PROJECT_FILE_PATH: "src/Hedgehog/Hedgehog.fsproj"
         PACKAGE_NAME: "Hedgehog"
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
 
   fable-tests:
 
@@ -82,16 +81,3 @@ jobs:
         dotnet tool restore
         npm test
       working-directory: ./tests/Hedgehog.Tests
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
-    steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
