@@ -17,7 +17,6 @@ type RecursiveGenerators =
     // using the AutoGenContext to assert recursion context preservation.
     static member Option<'a>(context: AutoGenContext) =
         if context.CanRecurse then
-            printfn $"CurrentRecursionDepth: %d{context.CurrentRecursionDepth}"
             context.AutoGenerate<'a>() |> Gen.map Some
         else
             Gen.constant None

@@ -13,7 +13,7 @@
         <Authors>Alex Nguyen, Tyson Williams, Alexey Raga</Authors>
         <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
         <PackageTags>f# fsharp testing xunit</PackageTags>
-<!--        <PackageIcon>hedgehog-logo.png</PackageIcon>-->
+        <PackageIcon>hedgehog-logo.png</PackageIcon>
         <Version>1.0.0-beta1</Version>
         <PackageId>Hedgehog.Xunit</PackageId>
         <PackageDescription>
@@ -52,6 +52,12 @@
 
     <ItemGroup>
       <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
     </ItemGroup>
 
 </Project>

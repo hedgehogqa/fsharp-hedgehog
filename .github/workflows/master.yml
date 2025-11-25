@@ -31,23 +31,19 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: Test (Hedgehog.Tests)
-      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
-
-    - name: Test (Hedgehog.Linq.Tests)
-      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
+    - name: Test
+      run: dotnet test --no-build --configuration Release
 
     - name: Generate DocFX metadata
       run: |
         dotnet fsi gen-docfx.fsx Release
         dotnet docfx build docs/docfx.json
 
-    - name: Publish NuGet
-      uses: alirezanet/publish-nuget@v3.0.4
-      with:
-        PROJECT_FILE_PATH: "src/Hedgehog/Hedgehog.fsproj"
-        PACKAGE_NAME: "Hedgehog"
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Pack
+      run: dotnet pack --no-restore --no-build --configuration Release -o ./packages
+
+    - name: Publish packages
+      run: dotnet nuget push ${{ github.workspace }}/packages/**/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4

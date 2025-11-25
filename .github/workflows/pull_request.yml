@@ -30,11 +30,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: Test (Hedgehog.Tests)
-      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
-
-    - name: Test (Hedgehog.Linq.Tests)
-      run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
+    - name: Test
+      run: dotnet test --no-build --configuration Release
 
     - name: Generate DocFX metadata
       run: |
