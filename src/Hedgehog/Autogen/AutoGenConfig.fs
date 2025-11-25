@@ -151,7 +151,7 @@ module AutoGenConfig =
   ///
   /// // register the generic generators in AutoGenConfig
   /// let config =
-  ///   GenX.defaults
+  ///   AutoGenConfig.defaults
   ///   |> AutoGenConfig.addGenerators&lt;GenericGenerators&gt;
   /// </code>
   /// </example>
