@@ -76,3 +76,6 @@ tests/Hedgehog.Tests/tests-js/
 
 # Benchmark generated files
 BenchmarkDotNet.Artifacts
+
+# docfx
+_site/

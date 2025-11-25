@@ -5,7 +5,6 @@ open Hedgehog
 [<AutoOpen>]
 module GenCollections =
 
-    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
     [<RequireQualifiedAccess>]
     module Gen =
 

@@ -1,0 +1,29 @@
+apiRules:
+- include:
+    uidRegex: ^Hedgehog\.Linq
+    type: Namespace
+- include:
+    uidRegex: ^Hedgehog\.Linq
+    type: Type
+- include:
+    uidRegex: ^Hedgehog\.Linq
+- include:
+    uidRegex: ^Hedgehog\.FSharp
+    type: Namespace
+- include:
+    uidRegex: ^Hedgehog\.FSharp
+    type: Type  
+- include:
+    uidRegex: ^Hedgehog\.FSharp
+- include:
+    uidRegex: ^Hedgehog
+    type: Namespace
+- include:
+    uidRegex: ^Hedgehog
+    type: Type
+- include:
+    uidRegex: ^Hedgehog
+- exclude:
+    uidRegex: ^Microsoft
+- exclude:
+    uidRegex: ^System

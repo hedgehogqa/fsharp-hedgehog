@@ -8,7 +8,7 @@ open Hedgehog
 [<AutoOpen>]
 module AutoGenExtensions =
 
-  [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+  [<RequireQualifiedAccess>]
   module Gen =
     let rec private autoInner<'a> (config : IAutoGenConfig) (recursionState: RecursionState) : Gen<'a> =
 
