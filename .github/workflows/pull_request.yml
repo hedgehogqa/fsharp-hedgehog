@@ -13,18 +13,37 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Ensure no Windows line endings
       run: ./validate.sh
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
+
     - name: Install dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore
+        dotnet tool restore
+
     - name: Build
       run: dotnet build --no-restore --configuration Release
+
     - name: Test (Hedgehog.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+
     - name: Test (Hedgehog.Linq.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
+
+    - name: Generate DocFX metadata
+      run: |
+        dotnet fsi gen-docfx.fsx Release
+        dotnet docfx build docs/docfx.json
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v4
+      with:
+        path: _site/
+
 
   fable-tests:
 

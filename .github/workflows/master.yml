@@ -11,18 +11,37 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Ensure no Windows line endings
       run: ./validate.sh
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
+
     - name: Install dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore
+        dotnet tool restore
+
     - name: Build
       run: dotnet build --no-restore --configuration Release
+
     - name: Test (Hedgehog.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Tests/Hedgehog.Tests.fsproj
+
     - name: Test (Hedgehog.Linq.Tests)
       run: dotnet test --no-build --configuration Release --verbosity normal tests/Hedgehog.Linq.Tests/Hedgehog.Linq.Tests.csproj
+
+    - name: Generate DocFX metadata
+      run: |
+        dotnet fsi gen-docfx.fsx Release
+        dotnet docfx build docs/docfx.json
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: _site/
+
     - name: Publish NuGet
       uses: alirezanet/publish-nuget@v3.0.4
       with:
@@ -48,3 +67,16 @@ jobs:
         dotnet tool restore
         npm test
       working-directory: ./tests/Hedgehog.Tests
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

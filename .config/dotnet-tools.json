@@ -2,13 +2,6 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "fsharp.formatting.commandtool": {
-      "version": "8.0.0",
-      "commands": [
-        "fsdocs"
-      ],
-      "rollForward": false
-    },
     "fable": {
       "version": "4.27.0",
       "commands": [
@@ -27,13 +20,6 @@
       "version": "2.78.4",
       "commands": [
         "docfx"
-      ],
-      "rollForward": false
-    },
-    "xmldoc2markdown": {
-      "version": "5.0.0",
-      "commands": [
-        "xmldoc2md"
       ],
       "rollForward": false
     }

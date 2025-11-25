@@ -67,8 +67,12 @@
 //   6. Write YAML files with DocFX ManagedReference format
 //
 // USAGE:
-//   Simply run this script with F# Interactive:
-//     dotnet fsi gen-docfx.fsx
+//   Run this script with F# Interactive:
+//     dotnet fsi gen-docfx.fsx [buildConfiguration]
+//   
+//   Examples:
+//     dotnet fsi gen-docfx.fsx           # Uses Debug (default)
+//     dotnet fsi gen-docfx.fsx Release   # Uses Release
 //   
 //   Customize by modifying defaultConfig or creating a new DocFxConfig instance.
 //
@@ -78,9 +82,11 @@
 #r "nuget: FSharp.Formatting"
 #r "nuget: YamlDotNet"
 #r "nuget: ReverseMarkdown"
+#r "nuget: System.Text.Json"
 
 open System
 open System.IO
+open System.Text.Json
 open FSharp.Formatting.ApiDocs
 open FSharp.Formatting.Templating
 open YamlDotNet.Serialization
@@ -121,7 +127,7 @@ let defaultConfig = {
     AssemblyPath = "src/Hedgehog/bin/Debug/net8.0/Hedgehog.dll"
     OutputDir = "docs/api"
     CollectionName = "Hedgehog"
-    LibDirs = [ "src/Hedgehog/bin/Debug/net8.0" ]
+    LibDirs = [] // Will be auto-resolved from deps.json
     RepoUrl = "https://github.com/hedgehogqa/fsharp-hedgehog.git"
     Branch = "master"
     SourcePath = "src/Hedgehog/Gen.fs"
@@ -129,6 +135,61 @@ let defaultConfig = {
     SkipAutoOpenWrappers = true
     CSharpNamespaces = Set.ofList ["Hedgehog.Linq"]
 }
+
+// ============================================================================
+// DEPENDENCY RESOLUTION
+// ============================================================================
+
+module DependencyResolver =
+    
+    // Minimal types for deps.json structure
+    type DepsRuntime = { runtime: Map<string, obj> option }
+    type DepsJson = { targets: Map<string, Map<string, DepsRuntime>> }
+    
+    let private nugetCache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages")
+    
+    let private tryResolveDll (packageName: string) (version: string) (dllPath: string) =
+        if dllPath.EndsWith(".dll") then
+            let nugetPath = Path.Combine(nugetCache, packageName.ToLowerInvariant(), version, dllPath.Replace('/', Path.DirectorySeparatorChar))
+            if File.Exists(nugetPath) then 
+                Some (Path.GetDirectoryName(nugetPath))
+            else None
+        else None
+    
+    let private tryResolvePackage (assemblyName: string) (packageKey: string, packageInfo: DepsRuntime) =
+        match packageKey.Split('/'), packageInfo.runtime with
+        | [| packageName; version |], Some runtimeDlls when packageName <> assemblyName ->
+            runtimeDlls
+            |> Map.toSeq
+            |> Seq.tryPick (fun (dllPath, _) -> tryResolveDll packageName version dllPath)
+            |> Option.iter (fun dir -> printfn $"  Found dependency: %s{packageName} -> %s{dir}")
+            |> fun _ -> runtimeDlls |> Map.toSeq |> Seq.tryPick (fun (dllPath, _) -> tryResolveDll packageName version dllPath)
+        | _ -> None
+    
+    /// Parse deps.json to find all runtime library directories
+    let resolveLibDirs (assemblyPath: string) : string list =
+        let assemblyDir = Path.GetDirectoryName(assemblyPath)
+        let assemblyName = Path.GetFileNameWithoutExtension(assemblyPath)
+        let depsJsonPath = Path.Combine(assemblyDir, assemblyName + ".deps.json")
+        
+        if not (File.Exists(depsJsonPath)) then
+            printfn $"Warning: deps.json not found at %s{depsJsonPath}"
+            [assemblyDir]
+        else
+            try
+                let deps = JsonSerializer.Deserialize<DepsJson>(File.ReadAllText(depsJsonPath), JsonSerializerOptions(PropertyNameCaseInsensitive = true))
+                
+                let dependencyDirs =
+                    deps.targets.Values
+                    |> Seq.collect Map.toSeq
+                    |> Seq.choose (tryResolvePackage assemblyName)
+                    |> Seq.distinct
+                    |> Seq.toList
+
+                assemblyDir :: dependencyDirs
+            with ex ->
+                printfn $"Warning: Could not parse deps.json: %s{ex.Message}"
+                [assemblyDir]
 
 // ============================================================================
 // DOCFX DATA MODELS
@@ -871,6 +932,13 @@ module EntityProcessing =
 let generateDocFx (config: DocFxConfig) : unit =
     printfn $"Generating DocFX documentation for %s{config.CollectionName}..."
 
+    // Resolve library directories from deps.json
+    let libDirs = 
+        if List.isEmpty config.LibDirs then
+            DependencyResolver.resolveLibDirs config.AssemblyPath
+        else
+            config.LibDirs
+
     // Setup inputs and substitutions
     let inputs = [ ApiDocInput.FromFile(config.AssemblyPath) ]
     let substitutions : Substitutions =
@@ -884,7 +952,7 @@ let generateDocFx (config: DocFxConfig) : unit =
             inputs = inputs,
             collectionName = config.CollectionName,
             substitutions = substitutions,
-            libDirs = config.LibDirs,
+            libDirs = libDirs,
             qualify = false
         )
     
@@ -958,5 +1026,24 @@ let generateDocFx (config: DocFxConfig) : unit =
 
     printfn $"Done! Generated documentation for %d{namespaces.Length} namespaces in %s{config.OutputDir}"
 
-// Run with default configuration
-generateDocFx defaultConfig
+// ============================================================================
+// COMMAND-LINE ARGUMENTS
+// ============================================================================
+
+/// Parse command-line arguments and run with configuration
+let runWithArgs (args: string[]) : unit =
+    let buildConfiguration = 
+        if args.Length > 0 then args[0]
+        else "Debug"
+    
+    let assemblyPath = $"src/Hedgehog/bin/%s{buildConfiguration}/net8.0/Hedgehog.dll"
+    
+    let config = { defaultConfig with AssemblyPath = assemblyPath }
+    
+    printfn $"Using build configuration: %s{buildConfiguration}"
+    printfn $"Assembly path: %s{assemblyPath}"
+    
+    generateDocFx config
+
+// Run with command-line arguments
+runWithArgs fsi.CommandLineArgs[1..]
