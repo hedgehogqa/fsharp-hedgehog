@@ -115,12 +115,12 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   public static ResizeArray&lt;T&gt; Sample(this Gen&lt;T&gt; gen, Size size, int count)
   public static ResizeArray&lt;Tree&lt;T&gt;&gt; SampleTree(this Gen&lt;T&gt; gen, Size size, int count)
   public static Gen&lt;T&gt; Scale(this Gen&lt;T&gt; gen, Func&lt;int, int&gt; scaler)
-  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, &#39;W, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)
-  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)
-  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, W, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, TResult&gt; mapper, Gen&lt;U&gt; genB)
   public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; gen, Func&lt;T, TResult&gt; mapper)
   public static Gen&lt;TResult&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)
-  public static Gen&lt;&#39;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;&#39;U&gt;&gt; binder)
+  public static Gen&lt;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;U&gt;&gt; binder)
   public static Gen&lt;TResult&gt; SelectRandom(this Gen&lt;T&gt; gen, Func&lt;Random&lt;Tree&lt;T&gt;&gt;, Random&lt;Tree&lt;TResult&gt;&gt;&gt; binder)
   public static Gen&lt;TResult&gt; SelectTree(this Gen&lt;T&gt; gen, Func&lt;Tree&lt;T&gt;, Tree&lt;TResult&gt;&gt; binder)
   public static Gen&lt;T&gt; Shrink(this Gen&lt;T&gt; gen, Func&lt;T, ResizeArray&lt;T&gt;&gt; shrinker)
@@ -131,14 +131,14 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   public static Random&lt;Tree&lt;T&gt;&gt; ToRandom(this Gen&lt;T&gt; gen)
   public static Gen&lt;T&gt; TryFinally(this Gen&lt;T&gt; gen, Action after)
   public static Gen&lt;T&gt; TryWith(this Gen&lt;T&gt; gen, Func&lt;exn, Gen&lt;T&gt;&gt; after)
-  public static Gen&lt;T * T&gt; Tuple2(this Gen&lt;T&gt; gen)
-  public static Gen&lt;T * T * T&gt; Tuple3(this Gen&lt;T&gt; gen)
-  public static Gen&lt;T * T * T * T&gt; Tuple4(this Gen&lt;T&gt; gen)
+  public static Gen&lt;(T, T)&gt; Tuple2(this Gen&lt;T&gt; gen)
+  public static Gen&lt;(T, T, T)&gt; Tuple3(this Gen&lt;T&gt; gen)
+  public static Gen&lt;(T, T, T, T)&gt; Tuple4(this Gen&lt;T&gt; gen)
   public static Gen&lt;T&gt; Where(this Gen&lt;T&gt; gen, Func&lt;T, bool&gt; predicate)
   public static Gen&lt;T&gt; WithNull(this Gen&lt;T&gt; self)
-  public static Gen&lt;T * &#39;U * &#39;V * &#39;W&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)
-  public static Gen&lt;T * &#39;U * &#39;V&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)
-  public static Gen&lt;T * &#39;U&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB)
+  public static Gen&lt;(T, U, V, W)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)
+  public static Gen&lt;(T, U, V)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)
+  public static Gen&lt;(T, U)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB)
 }</code></pre>
   </div>
 
@@ -542,7 +542,7 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, &#39;W, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, W, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
   </div>
 
 
@@ -573,7 +573,7 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
   </div>
 
 
@@ -604,7 +604,7 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, TResult&gt; mapper, Gen&lt;U&gt; genB)</code></pre>
   </div>
 
 
@@ -685,7 +685,7 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;&#39;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;&#39;U&gt;&gt; binder)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;U&gt;&gt; binder)</code></pre>
   </div>
 
 
@@ -965,7 +965,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T&gt; Tuple2(this Gen&lt;T&gt; gen)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T)&gt; Tuple2(this Gen&lt;T&gt; gen)</code></pre>
   </div>
 
 
@@ -990,7 +990,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T * T&gt; Tuple3(this Gen&lt;T&gt; gen)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T)&gt; Tuple3(this Gen&lt;T&gt; gen)</code></pre>
   </div>
 
 
@@ -1015,7 +1015,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T * T * T&gt; Tuple4(this Gen&lt;T&gt; gen)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T, T)&gt; Tuple4(this Gen&lt;T&gt; gen)</code></pre>
   </div>
 
 
@@ -1091,7 +1091,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U * &#39;V * &#39;W&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V, W)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
   </div>
 
 
@@ -1116,7 +1116,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U * &#39;V&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
   </div>
 
 
@@ -1141,7 +1141,7 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB)</code></pre>
   </div>
 
 

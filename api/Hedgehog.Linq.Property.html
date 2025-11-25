@@ -108,7 +108,7 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   public static Property&lt;T&gt; ForAll(Gen&lt;T&gt; gen)
   public static Property&lt;TResult&gt; ForAll(Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; k)
   public static Property FromBool(bool value)
-  public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;Journal * Outcome&lt;T&gt;&gt;&gt; gen)
+  public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; gen)
   public static Property&lt;T&gt; FromOutcome(Outcome&lt;T&gt; result)
   public static Property&lt;T&gt; Success(T value)
   public static Property&lt;TResult&gt; Using(T resource, Func&lt;T, Property&lt;TResult&gt;&gt; action)
@@ -138,7 +138,16 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds custom debug information that will be displayed when a property test fails.
+Use this to include variable values or other context to help diagnose failures.</p>
+<p><strong>Example:</strong></p>
+<pre><code> var property =
+     from x in Gen.Int32(Range.Constant(0, 1000)).ForAll()
+     from y in Gen.Int32(Range.Constant(-100, 1000)).ForAll()
+     from _ in Property.CounterExample(() =&gt; $&quot;x = {x}, y = {y}, x * y = {x * y}&quot;)
+     select x * y &gt;= 0;
+</code></pre>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -267,7 +276,7 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;Journal * Outcome&lt;T&gt;&gt;&gt; gen)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; gen)</code></pre>
   </div>
 
 

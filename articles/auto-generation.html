@@ -86,6 +86,10 @@
         <article data-uid="">
 <h1 id="auto-generation">Auto-Generation</h1>
 
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Auto-generation is not available when using Fable. You must write custom generators manually for Fable projects.</p>
+</div>
 <p>Hedgehog can automatically generate test data for your types without manually writing generators. This feature works with F# records, discriminated unions, tuples, and C# classes.</p>
 <h2 id="basic-usage">Basic Usage</h2>
 <div class="tabGroup" id="tabgroup_1">
@@ -199,8 +203,8 @@ public record User(string Name, int Age, string Email);
 
 // Create a custom config
 var config = AutoGenConfig.Defaults
-    .AddGenerator(Gen.String(Range.Linear(5, 20), Gen.Alpha))  // Custom string generator
-    .AddGenerator(Gen.Int32(Range.Linear(18, 100)));            // Ages between 18-100
+    .AddGenerator(Gen.String(Range.LinearInt32(5, 20), Gen.Alpha))  // Custom string generator
+    .AddGenerator(Gen.Int32(Range.LinearInt32(18, 100)));            // Ages between 18-100
 
 var property =
     from user in Gen.AutoWith&lt;User&gt;(config).ForAll()
@@ -302,13 +306,13 @@ public class MyGenerators
 {
     // Generator for Email type - return type is Gen&lt;Email&gt;
     public static Gen&lt;Email&gt; Email() =&gt;
-        from name in Gen.AlphaNum.String(Range.Linear(3, 10))
+        from name in Gen.AlphaNum.String(Range.LinearInt32(3, 10))
         from domain in Gen.Item(&quot;com&quot;, &quot;net&quot;, &quot;org&quot;)
         select new Email($&quot;{name}@example.{domain}&quot;);
     
     // Generator for DateTime - return type is Gen&lt;DateTime&gt;
     public static Gen&lt;DateTime&gt; DateTime() =&gt;
-        from days in Gen.Int32(Range.Linear(0, 365))
+        from days in Gen.Int32(Range.LinearInt32(0, 365))
         select System.DateTime.Now.AddDays(-days);
 }
 
@@ -425,6 +429,17 @@ var config = AutoGenConfig.Defaults
 <h2 id="advanced-scenarios">Advanced Scenarios</h2>
 <h3 id="multiple-configurations">Multiple Configurations</h3>
 <p>You can create different configurations for different test scenarios:</p>
+<div class="tabGroup" id="tabgroup_7">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_7_fsharp" role="tab" aria-controls="tabpanel_7_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_7_csharp" role="tab" aria-controls="tabpanel_7_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
+
 <pre><code class="lang-fsharp">let smallDataConfig =
     AutoGenConfig.defaults
     |&gt; AutoGenConfig.addGenerator (Gen.string (Range.linear 0 10) Gen.alpha)
@@ -433,6 +448,17 @@ let largeDataConfig =
     AutoGenConfig.defaults
     |&gt; AutoGenConfig.addGenerator (Gen.string (Range.linear 0 1000) Gen.unicode)
 </code></pre>
+</section>
+<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">var smallDataConfig = AutoGenConfig.Defaults
+    .AddGenerator(Gen.String(Range.LinearInt32(0, 10), Gen.Alpha));
+
+var largeDataConfig = AutoGenConfig.Defaults
+    .AddGenerator(Gen.String(Range.LinearInt32(0, 1000), Gen.Unicode));
+</code></pre>
+</section>
+</div>
 <h2 id="best-practices">Best Practices</h2>
 <ol>
 <li><strong>Start with <code>Gen.auto</code></strong> - Use the default auto-generation first, only customize when needed</li>

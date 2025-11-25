@@ -101,7 +101,7 @@ Class RangeExtensions  <a class="header-action link-secondary" title="View sourc
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class RangeExtensions {
-  public static T * T Bounds(this Range&lt;T&gt; range, Size sz)
+  public static (T, T) Bounds(this Range&lt;T&gt; range, Size sz)
   public static T LowerBound(this Range&lt;T&gt; range, Size sz)
   public static T Origin(this Range&lt;T&gt; range)
   public static Range&lt;TResult&gt; Select(this Range&lt;T&gt; range, Func&lt;T, TResult&gt; mapper)
@@ -137,7 +137,7 @@ Class RangeExtensions  <a class="header-action link-secondary" title="View sourc
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T * T Bounds(this Range&lt;T&gt; range, Size sz)</code></pre>
+    <pre><code class="lang-csharp hljs">public static (T, T) Bounds(this Range&lt;T&gt; range, Size sz)</code></pre>
   </div>
 
 

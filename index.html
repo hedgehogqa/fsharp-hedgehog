@@ -115,7 +115,7 @@
 <section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">var property =
-    from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+    from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().Reverse().SequenceEqual(xs);
 
 property.Check();
@@ -150,7 +150,7 @@ property.Check();
 <section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">var property =
-    from xs in versionGen.List(Range.Linear(0, 100)).ForAll()
+    from xs in versionGen.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().SequenceEqual(xs);
 
 property.Check();
@@ -162,8 +162,7 @@ property.Check();
 [0.0.0; 0.0.1]
 </code></pre>
 <p>Even complex types like <code>System.Version</code> shrink automatically to their simplest failing case.</p>
-<h3 id="modern-f-syntax">Modern F# Syntax</h3>
-<p>Hedgehog provides <code>gen</code> and <code>property</code> computation expressions that feel natural in F#:</p>
+<h3 id="expressive-syntax">Expressive Syntax</h3>
 <div class="tabGroup" id="tabgroup_3">
 <ul role="tablist">
 <li role="presentation">
@@ -175,6 +174,7 @@ property.Check();
 </ul>
 <section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
 
+<p>Hedgehog provides <code>gen</code> and <code>property</code> computation expressions that feel natural in F#:</p>
 <pre><code class="lang-fsharp">let ipAddressGen = gen {
     let! addr = Gen.array (Range.singleton 4) Gen.byte
     return System.Net.IPAddress addr
@@ -183,8 +183,9 @@ property.Check();
 </section>
 <section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
+<p>Hedgehog provides support for LINQ syntax that allows writing generators and properties easier:</p>
 <pre><code class="lang-csharp">var ipAddressGen = 
-    from addr in Gen.Byte.Array(Range.FromValue(4))
+    from addr in Gen.Byte.Array(Range.Singleton(4))
     select new System.Net.IPAddress(addr);
 </code></pre>
 </section>
