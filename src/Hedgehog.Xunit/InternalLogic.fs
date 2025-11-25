@@ -25,7 +25,7 @@ let rec yieldAndCheckReturnValue (x: obj) =
   | :? bool        as b -> if not b then TestReturnedFalseException() |> raise
   | :? Task<unit>  as t -> Async.AwaitTask t |> yieldAndCheckReturnValue
   | :? Task<bool>  as t -> Async.AwaitTask t |> yieldAndCheckReturnValue
-  | _ when x <> null && x.GetType().IsGenericType && x.GetType().GetGenericTypeDefinition().IsSubclassOf typeof<Task> ->
+  | _ when x <> null && x.GetType().IsGenericType && typeof<Task>.IsAssignableFrom(x.GetType()) ->
     typeof<Async>
       .GetMethods()
       .First(fun x -> x.Name = "AwaitTask" && x.IsGenericMethod)
@@ -33,6 +33,11 @@ let rec yieldAndCheckReturnValue (x: obj) =
       .Invoke(null, [|x|])
     |> yieldAndCheckReturnValue
   | :? Task        as t -> Async.AwaitTask t |> yieldAndCheckReturnValue
+  | :? ValueTask   as vt -> vt.AsTask() |> Async.AwaitTask |> yieldAndCheckReturnValue
+  | _ when x <> null && x.GetType().IsGenericType && x.GetType().GetGenericTypeDefinition() = typedefof<ValueTask<_>> ->
+    let asTaskMethod = x.GetType().GetMethod("AsTask")
+    asTaskMethod.Invoke(x, null)
+    |> yieldAndCheckReturnValue
   | :? Async<unit> as a -> Async.RunSynchronously(a, cancellationToken = CancellationToken.None) |> yieldAndCheckReturnValue
   | _ when x <> null && x.GetType().IsGenericType && x.GetType().GetGenericTypeDefinition() = typedefof<Async<_>> ->
     typeof<Async> // Invoked with Reflection because we can't cast an Async<MyType> to Async<obj> https://stackoverflow.com/a/26167206
