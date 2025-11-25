@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <TargetFramework>net8.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <DebugType>Embedded</DebugType>
+        <EmbedAllSources>True</EmbedAllSources>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Description>Hedgehog with batteries for Xunit included.</Description>
+        <Authors>Alex Nguyen, Tyson Williams, Alexey Raga</Authors>
+        <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
+        <PackageTags>f# fsharp testing xunit</PackageTags>
+        <PackageIcon>hedgehog-logo.png</PackageIcon>
+        <Version>1.0.0-beta1</Version>
+        <PackageId>Hedgehog.Xunit</PackageId>
+        <PackageDescription>
+            Hedgehog with convenience attributes for xUnit.
+
+            - Test method arguments generated with a custom Gen.auto...
+            - ...or with a custom Generator.
+            - Property.check called for each test.
+
+            Docs at https://github.com/hedgehogqa/fsharp-hedgehog
+        </PackageDescription>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Hedgehog.Xunit.Tests.FSharp" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Include="Prelude.fs" />
+      <Compile Include="AutoGenConfig.fs" />
+      <Compile Include="Exceptions.fs" />
+      <Compile Include="IPropertyAttribute.fs" />
+      <Compile Include="RecheckAttribute.fs" />
+      <Compile Include="GenAttribute.fs" />
+      <Compile Include="PropertyContext.fs" />
+      <Compile Include="InternalLogic.fs" />
+      <Compile Include="PropertyTestRunner.fs" />
+      <Compile Include="PropertyTestCaseRunner.fs" />
+      <Compile Include="PropertyTestCase.fs" />
+      <Compile Include="PropertyTestCaseDiscoverer.fs" />
+      <Compile Include="PropertyTestAttributes.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Hedgehog\Hedgehog.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
+    </ItemGroup>
+
+</Project>
