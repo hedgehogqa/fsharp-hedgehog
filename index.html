@@ -1,717 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html>
+  <head>
     <meta charset="utf-8">
-    <title>Tutorial
-</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Jacob Stanley;Nikos Baxevanis">
+      <title>Hedgehog .NET | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Hedgehog .NET | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="images/favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="articles/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/index.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
 
-    <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/materia/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <script type="module" src="./public/docfx.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
 
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/navbar-fixed-right.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
-    
-</head>
+  </head>
 
-<body>
-    <nav class="navbar navbar-expand-md navbar-light bg-secondary fixed-right" id="fsdocs-menu">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <a href="https://hedgehog.qa"><img id="fsdocs-logo" src="https://raw.githubusercontent.com/hedgehogqa/fsharp-hedgehog/master/img/hedgehog-logo.png" /></a>
-            <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-            <div id="header">
-                <div class="searchbox" id="fsdocs-searchbox">
-                    <label for="search-by">
-                        <i class="fas fa-search"></i>
-                    </label>
-                    <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
-                    <span data-search-clear="">
-                        <i class="fas fa-times"></i>
-                    </span>
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
             </div>
-
-            <!-- END SEARCH BOX: this adds support for the search box -->
-            <ul class="navbar-nav">
-                <li class="nav-header">Links</li>
-                <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/LICENSE">License (Apache 2.0)</a></li>
-                <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/CHANGELOG.md">Release Notes</a></li>
-                <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/hedgehogqa/fsharp-hedgehog/">Source Repository</a></li>
-                <li class="nav-header">
-  Documentation
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://hedgehogqa.github.io/fsharp-hedgehog/property.html">
-    Property
-
-  </a>
-</li>
-                <li class="nav-header">
-  API Reference
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://hedgehogqa.github.io/fsharp-hedgehog/reference/index.html">
-    All Namespaces
-  </a>
-</li>
-            </ul>
+          </div>
         </div>
-    </nav>
-    <div class="container">
-        <div class="masthead">
-            <h3 class="muted"><a href="https://hedgehogqa.github.io/fsharp-hedgehog/">Hedgehog</a></h3>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
-        <hr />
-        <div class="container" id="fsdocs-content">
-            <h1><a name="Tutorial" class="anchor" href="#Tutorial">Tutorial</a></h1>
-<ul>
-<li>
-<a href="#getting-started">Getting Started</a>
-<ul>
-<li><a href="#at-a-glance">At a glance</a></li>
-<li><a href="#-integrated-shrinking-is-an-important-quality-of-hedgehog">Integrated shrinking</a></li>
-</ul>
-</li>
-<li>
-<a href="#generators">Generators</a>
-<ul>
-<li><a href="#-generators-can-also-be-created-using-the-gen-expression">The <code>gen</code> expression</a></li>
-</ul>
-</li>
-<li>
-<a href="#properties">Properties</a>
-<ul>
-<li><a href="#-properties-can-also-be-created-using-the-property-expression">The <code>property</code> expression</a></li>
-<li>
-<a href="#custom-operations">Custom Operations</a>
-<ul>
-<li><a href="#counterexample"><code>counterexample</code></a></li>
-<li><a href="#where"><code>where</code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<a href="#integrations">Integrations</a>
-<ul>
-<li><a href="#regex-constrained-strings">Regex-constrained strings</a></li>
-</ul>
-</li>
-</ul>
-<h3><a name="Getting-Started" class="anchor" href="#Getting-Started">Getting Started</a></h3>
-<p>The standard "hello-world" property shown in most property-based testing systems is:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">reverse (reverse xs) = xs, ∀xs :: [α]
-</code></pre></td></tr></table>
-<p>which means that "the reverse of the reverse of a list, is the list itself - for all lists of type α".</p>
-<p>One way to use Hedgehog to check the above property is to use the <code>property</code> computation expression:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int<span class="n">32</span> <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
-    <span class="k">return</span> List.rev (List.rev xs) = xs
-}
-</code></pre></td></tr></table>
-<p>and to test the above property on 100 random lists of integers, pipe it into <code>Property.render</code>:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">property {
-    <span class="k">let!</span> xs = Range.constant <span class="n">0</span> <span class="n">1000</span> <span class="o">|</span>&gt; Gen.int<span class="n">32</span> <span class="o">|</span>&gt; Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>)
-    <span class="k">return</span> List.rev (List.rev xs) = xs
-}
-<span class="o">|</span>&gt; Property.render
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
+      </div>
 
-+++ OK, passed <span class="n">100</span> tests.
-</code></pre></td></tr></table>
-<h2><a name="At-a-glance" class="anchor" href="#At-a-glance">At a glance</a></h2>
-<p>Given any generator of type α, Hedgehog not only generates <em>random values</em> of type α, but also <em>shrinks</em> α into smaller values.</p>
-<p>Hedgehog comes with built-in generators for primitive types, so here's how it would generate a couple of integers and shrink them:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Range.constant <span class="n">0</span> <span class="n">100</span>
-<span class="o">|</span>&gt; Gen.int<span class="n">32</span>
-<span class="o">|</span>&gt; Gen.renderSample
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
 
-=== Outcome ===
-<span class="n">77</span>
-=== Shrinks ===
-<span class="n">0</span>
-<span class="n">39</span>
-<span class="n">58</span>
-<span class="n">68</span>
-<span class="n">73</span>
-<span class="n">75</span>
-<span class="n">76</span>
-.
-=== Outcome ===
-<span class="n">39</span>
-=== Shrinks ===
-<span class="n">0</span>
-<span class="n">20</span>
-<span class="n">30</span>
-<span class="n">35</span>
-<span class="n">37</span>
-<span class="n">38</span>
-.
-=== Outcome ===
-<span class="n">2</span>
-=== Shrinks ===
-<span class="n">0</span>
-<span class="n">1</span>
-.
-=== Outcome ===
-<span class="n">34</span>
-=== Shrinks ===
-<span class="n">0</span>
-<span class="n">17</span>
-<span class="n">26</span>
-<span class="n">30</span>
-<span class="n">32</span>
-<span class="n">33</span>
-.
-=== Outcome ===
-<span class="n">28</span>
-=== Shrinks ===
-<span class="n">0</span>
-<span class="n">14</span>
-<span class="n">21</span>
-<span class="n">25</span>
-<span class="n">27</span>
-.
-</code></pre></td></tr></table>
-<p>But Hedgehog can also take on complex types, and shrink them for free:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Range.constantBounded ()
-<span class="o">|</span>&gt; Gen.byte
-<span class="o">|</span>&gt; Gen.map int
-<span class="o">|</span>&gt; Gen.tuple<span class="n">3</span>
-<span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
-<span class="o">|</span>&gt; Gen.renderSample
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
+        </div>
 
-=== Outcome ===
-<span class="n">60.8</span>.<span class="n">252</span>
-=== Shrinks ===
-<span class="n">0.8</span>.<span class="n">252</span>
-<span class="n">30.8</span>.<span class="n">252</span>
-<span class="n">45.8</span>.<span class="n">252</span>
-<span class="n">53.8</span>.<span class="n">252</span>
-<span class="n">57.8</span>.<span class="n">252</span>
-<span class="n">59.8</span>.<span class="n">252</span>
-<span class="n">60.0</span>.<span class="n">252</span>
-<span class="n">60.4</span>.<span class="n">252</span>
-<span class="n">60.6</span>.<span class="n">252</span>
-<span class="n">60.7</span>.<span class="n">252</span>
-<span class="n">60.8</span>.<span class="n">0</span>
-<span class="n">60.8</span>.<span class="n">126</span>
-<span class="n">60.8</span>.<span class="n">189</span>
-<span class="n">60.8</span>.<span class="n">221</span>
-<span class="n">60.8</span>.<span class="n">237</span>
-<span class="n">60.8</span>.<span class="n">245</span>
-<span class="n">60.8</span>.<span class="n">249</span>
-<span class="n">60.8</span>.<span class="n">251</span>
-.
-=== Outcome ===
-<span class="n">238.151</span>.<span class="n">174</span>
-=== Shrinks ===
-<span class="n">0.151</span>.<span class="n">174</span>
-<span class="n">119.151</span>.<span class="n">174</span>
-<span class="n">179.151</span>.<span class="n">174</span>
-<span class="n">209.151</span>.<span class="n">174</span>
-<span class="n">224.151</span>.<span class="n">174</span>
-<span class="n">231.151</span>.<span class="n">174</span>
-<span class="n">235.151</span>.<span class="n">174</span>
-<span class="n">237.151</span>.<span class="n">174</span>
-<span class="n">238.0</span>.<span class="n">174</span>
-<span class="n">238.76</span>.<span class="n">174</span>
-<span class="n">238.114</span>.<span class="n">174</span>
-<span class="n">238.133</span>.<span class="n">174</span>
-<span class="n">238.142</span>.<span class="n">174</span>
-<span class="n">238.147</span>.<span class="n">174</span>
-<span class="n">238.149</span>.<span class="n">174</span>
-<span class="n">238.150</span>.<span class="n">174</span>
-<span class="n">238.151</span>.<span class="n">0</span>
-<span class="n">238.151</span>.<span class="n">87</span>
-<span class="n">238.151</span>.<span class="n">131</span>
-<span class="n">238.151</span>.<span class="n">153</span>
-<span class="n">238.151</span>.<span class="n">164</span>
-<span class="n">238.151</span>.<span class="n">169</span>
-<span class="n">238.151</span>.<span class="n">172</span>
-<span class="n">238.151</span>.<span class="n">173</span>
-.
-=== Outcome ===
-<span class="n">122.72</span>.<span class="n">39</span>
-=== Shrinks ===
-<span class="n">0.72</span>.<span class="n">39</span>
-<span class="n">61.72</span>.<span class="n">39</span>
-<span class="n">92.72</span>.<span class="n">39</span>
-<span class="n">107.72</span>.<span class="n">39</span>
-<span class="n">115.72</span>.<span class="n">39</span>
-<span class="n">119.72</span>.<span class="n">39</span>
-<span class="n">121.72</span>.<span class="n">39</span>
-<span class="n">122.0</span>.<span class="n">39</span>
-<span class="n">122.36</span>.<span class="n">39</span>
-<span class="n">122.54</span>.<span class="n">39</span>
-<span class="n">122.63</span>.<span class="n">39</span>
-<span class="n">122.68</span>.<span class="n">39</span>
-<span class="n">122.70</span>.<span class="n">39</span>
-<span class="n">122.71</span>.<span class="n">39</span>
-<span class="n">122.72</span>.<span class="n">0</span>
-<span class="n">122.72</span>.<span class="n">20</span>
-<span class="n">122.72</span>.<span class="n">30</span>
-<span class="n">122.72</span>.<span class="n">35</span>
-<span class="n">122.72</span>.<span class="n">37</span>
-<span class="n">122.72</span>.<span class="n">38</span>
-.
-=== Outcome ===
-<span class="n">9.176</span>.<span class="n">80</span>
-=== Shrinks ===
-<span class="n">0.176</span>.<span class="n">80</span>
-<span class="n">5.176</span>.<span class="n">80</span>
-<span class="n">7.176</span>.<span class="n">80</span>
-<span class="n">8.176</span>.<span class="n">80</span>
-<span class="n">9.0</span>.<span class="n">80</span>
-<span class="n">9.88</span>.<span class="n">80</span>
-<span class="n">9.132</span>.<span class="n">80</span>
-<span class="n">9.154</span>.<span class="n">80</span>
-<span class="n">9.165</span>.<span class="n">80</span>
-<span class="n">9.171</span>.<span class="n">80</span>
-<span class="n">9.174</span>.<span class="n">80</span>
-<span class="n">9.175</span>.<span class="n">80</span>
-<span class="n">9.176</span>.<span class="n">0</span>
-<span class="n">9.176</span>.<span class="n">40</span>
-<span class="n">9.176</span>.<span class="n">60</span>
-<span class="n">9.176</span>.<span class="n">70</span>
-<span class="n">9.176</span>.<span class="n">75</span>
-<span class="n">9.176</span>.<span class="n">78</span>
-<span class="n">9.176</span>.<span class="n">79</span>
-.
-=== Outcome ===
-<span class="n">233.193</span>.<span class="n">86</span>
-=== Shrinks ===
-<span class="n">0.193</span>.<span class="n">86</span>
-<span class="n">117.193</span>.<span class="n">86</span>
-<span class="n">175.193</span>.<span class="n">86</span>
-<span class="n">204.193</span>.<span class="n">86</span>
-<span class="n">219.193</span>.<span class="n">86</span>
-<span class="n">226.193</span>.<span class="n">86</span>
-<span class="n">230.193</span>.<span class="n">86</span>
-<span class="n">232.193</span>.<span class="n">86</span>
-<span class="n">233.0</span>.<span class="n">86</span>
-<span class="n">233.97</span>.<span class="n">86</span>
-<span class="n">233.145</span>.<span class="n">86</span>
-<span class="n">233.169</span>.<span class="n">86</span>
-<span class="n">233.181</span>.<span class="n">86</span>
-<span class="n">233.187</span>.<span class="n">86</span>
-<span class="n">233.190</span>.<span class="n">86</span>
-<span class="n">233.192</span>.<span class="n">86</span>
-<span class="n">233.193</span>.<span class="n">0</span>
-<span class="n">233.193</span>.<span class="n">43</span>
-<span class="n">233.193</span>.<span class="n">65</span>
-<span class="n">233.193</span>.<span class="n">76</span>
-<span class="n">233.193</span>.<span class="n">81</span>
-<span class="n">233.193</span>.<span class="n">84</span>
-<span class="n">233.193</span>.<span class="n">85</span>
-.
-</code></pre></td></tr></table>
-<h4><a name="Integrated-shrinking-is-an-important-quality-of-Hedgehog" class="anchor" href="#Integrated-shrinking-is-an-important-quality-of-Hedgehog">👉 Integrated shrinking is an important quality of Hedgehog</a></h4>
-<p>When a property fails (because Hedgehog found a counter-example), the randomly-generated data usually contains "noise". Therefore Hedgehog simplifies counter-examples before reporting them:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> version =
-    Range.constantBounded ()
-    <span class="o">|</span>&gt; Gen.byte
-    <span class="o">|</span>&gt; Gen.map int
-    <span class="o">|</span>&gt; Gen.tuple<span class="n">3</span>
-    <span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
+        <article data-uid="">
+<h1 id="hedgehog-net">Hedgehog .NET</h1>
 
-property {
-    <span class="k">let!</span> xs = Gen.list (Range.linear <span class="n">0</span> <span class="n">100</span>) version
-    <span class="k">return</span> xs <span class="o">|</span>&gt; List.rev = xs
-}
-<span class="o">|</span>&gt; Property.render
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
-
-&gt;
-*** Failed! Falsifiable (after <span class="n">3</span> tests <span class="k">and</span> <span class="n">6</span> shrinks):
-[<span class="n">0.0</span>.<span class="n">0</span>; <span class="n">0.0</span>.<span class="n">1</span>]
-</code></pre></td></tr></table>
-<p>The above example, is the standard "hello-world" property, but instead of the classic list of integers, we're using a list of type System.Version, demonstrating that integrated shrinking works with 'foreign' types too.</p>
-<hr />
-<p><em>As a matter of fact, here's the above example written using another property-based testing system, FsCheck:</em></p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> version =
-    Arb.generate&lt;byte&gt;
-    <span class="o">|</span>&gt; Gen.map int
-    <span class="o">|</span>&gt; Gen.three
-    <span class="o">|</span>&gt; Gen.map (<span class="k">fun</span> (ma, mi, bu) <span class="o">-&gt;</span> Version (ma, mi, bu))
-    <span class="o">|</span>&gt; Gen.listOf
-    <span class="o">|</span>&gt; Arb.fromGen
-
-version
-<span class="o">|</span>&gt; Prop.forAll (<span class="k">fun</span> xs <span class="o">-&gt;</span> xs <span class="o">|</span>&gt; List.rev = xs)
-<span class="o">|</span>&gt; Check.Quick
-
-&gt;
-Falsifiable, after <span class="n">2</span> tests (<span class="n">0</span> shrinks) (StdGen (<span class="n">783880299</span>,<span class="n">296237326</span>)):
-Original:
-[<span class="n">183.211</span>.<span class="n">153</span>; <span class="n">129.237</span>.<span class="n">113</span>; <span class="n">242.27</span>.<span class="n">80</span>]
-</code></pre></td></tr></table>
-<p>You can find out more about integrated vs type-based shrinking in <a href="http://hypothesis.works/articles/integrated-shrinking/">this</a> blog post.</p>
-<h3><a name="Generators" class="anchor" href="#Generators">Generators</a></h3>
-<p>Hedgehog's <code>Gen</code> module exports some basic generators and plenty combinators for making new generators. Here's a generator of alphanumeric characters:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum
-</code></pre></td></tr></table>
-<p>This generator is of type <code>Gen&lt;char&gt;</code>, which means that Hedgehog can take this generator and produce characters, like so:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs">Gen.alphaNum <span class="o">|</span>&gt; Gen.renderSample <span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
-
-=== Outcome ===
-<span class="s">'3'</span>
-=== Shrinks ===
-<span class="s">'l'</span>
-<span class="s">'L'</span>
-<span class="s">'0'</span>
-<span class="s">'2'</span>
-.
-=== Outcome ===
-<span class="s">'3'</span>
-=== Shrinks ===
-<span class="s">'b'</span>
-<span class="s">'B'</span>
-<span class="s">'0'</span>
-<span class="s">'2'</span>
-.
-=== Outcome ===
-<span class="s">'3'</span>
-=== Shrinks ===
-<span class="s">'x'</span>
-<span class="s">'X'</span>
-<span class="s">'0'</span>
-<span class="s">'2'</span>
-.
-=== Outcome ===
-<span class="s">'4'</span>
-=== Shrinks ===
-<span class="s">'y'</span>
-<span class="s">'Y'</span>
-<span class="s">'0'</span>
-<span class="s">'2'</span>
-<span class="s">'3'</span>
-.
-=== Outcome ===
-<span class="s">'t'</span>
-=== Shrinks ===
-<span class="s">'a'</span>
-<span class="s">'j'</span>
-<span class="s">'o'</span>
-<span class="s">'r'</span>
-<span class="s">'s'</span>
-.
-</code></pre></td></tr></table>
-<h3><a name="Properties" class="anchor" href="#Properties">Properties</a></h3>
-<h4><a name="Generators-can-also-be-created-using-the-expression" class="anchor" href="#Generators-can-also-be-created-using-the-expression">👉 Generators can also be created using the <code>gen</code> expression</a></h4>
-<p>Hedgehog supports a convenient syntax for working with generators through the <code>gen</code> expression. Here's a way to define a generator of type <code>System.Net.IPAddress</code>:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">open</span> System.Net
-
-<span class="k">let</span> ipAddressGen : Gen&lt;IPAddress&gt; = gen {
-    <span class="k">let!</span> addr = Range.constantBounded () <span class="o">|</span>&gt; Gen.byte <span class="o">|</span>&gt; Gen.array (Range.singleton <span class="n">4</span>)
-    <span class="k">return</span> System.Net.IPAddress addr
-}
-
-ipAddressGen <span class="o">|</span>&gt; Gen.renderSample <span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
-
-=== Outcome ===
-<span class="n">45.230</span>.<span class="n">61.78</span>
-=== Shrinks ===
-<span class="n">0.230</span>.<span class="n">61.78</span>
-<span class="n">23.230</span>.<span class="n">61.78</span>
-<span class="n">34.230</span>.<span class="n">61.78</span>
-<span class="n">40.230</span>.<span class="n">61.78</span>
-<span class="n">43.230</span>.<span class="n">61.78</span>
-<span class="n">44.230</span>.<span class="n">61.78</span>
-<span class="n">45.0</span>.<span class="n">61.78</span>
-<span class="n">45.115</span>.<span class="n">61.78</span>
-<span class="n">45.173</span>.<span class="n">61.78</span>
-<span class="n">45.202</span>.<span class="n">61.78</span>
-<span class="n">45.216</span>.<span class="n">61.78</span>
-<span class="n">45.223</span>.<span class="n">61.78</span>
-<span class="n">45.227</span>.<span class="n">61.78</span>
-<span class="n">45.229</span>.<span class="n">61.78</span>
-<span class="n">45.230</span>.<span class="n">0.78</span>
-<span class="n">45.230</span>.<span class="n">31.78</span>
-<span class="n">45.230</span>.<span class="n">46.78</span>
-<span class="n">45.230</span>.<span class="n">54.78</span>
-<span class="n">45.230</span>.<span class="n">58.78</span>
-<span class="n">45.230</span>.<span class="n">60.78</span>
-<span class="n">45.230</span>.<span class="n">61.0</span>
-<span class="n">45.230</span>.<span class="n">61.39</span>
-<span class="n">45.230</span>.<span class="n">61.59</span>
-<span class="n">45.230</span>.<span class="n">61.69</span>
-<span class="n">45.230</span>.<span class="n">61.74</span>
-<span class="n">45.230</span>.<span class="n">61.76</span>
-<span class="n">45.230</span>.<span class="n">61.77</span>
-.
-=== Outcome ===
-<span class="n">203.224</span>.<span class="n">13.253</span>
-=== Shrinks ===
-<span class="n">0.224</span>.<span class="n">13.253</span>
-<span class="n">102.224</span>.<span class="n">13.253</span>
-<span class="n">153.224</span>.<span class="n">13.253</span>
-<span class="n">178.224</span>.<span class="n">13.253</span>
-<span class="n">191.224</span>.<span class="n">13.253</span>
-<span class="n">197.224</span>.<span class="n">13.253</span>
-<span class="n">200.224</span>.<span class="n">13.253</span>
-<span class="n">202.224</span>.<span class="n">13.253</span>
-<span class="n">203.0</span>.<span class="n">13.253</span>
-<span class="n">203.112</span>.<span class="n">13.253</span>
-<span class="n">203.168</span>.<span class="n">13.253</span>
-<span class="n">203.196</span>.<span class="n">13.253</span>
-<span class="n">203.210</span>.<span class="n">13.253</span>
-<span class="n">203.217</span>.<span class="n">13.253</span>
-<span class="n">203.221</span>.<span class="n">13.253</span>
-<span class="n">203.223</span>.<span class="n">13.253</span>
-<span class="n">203.224</span>.<span class="n">0.253</span>
-<span class="n">203.224</span>.<span class="n">7.253</span>
-<span class="n">203.224</span>.<span class="n">10.253</span>
-<span class="n">203.224</span>.<span class="n">12.253</span>
-<span class="n">203.224</span>.<span class="n">13.0</span>
-<span class="n">203.224</span>.<span class="n">13.127</span>
-<span class="n">203.224</span>.<span class="n">13.190</span>
-<span class="n">203.224</span>.<span class="n">13.222</span>
-<span class="n">203.224</span>.<span class="n">13.238</span>
-<span class="n">203.224</span>.<span class="n">13.246</span>
-<span class="n">203.224</span>.<span class="n">13.250</span>
-<span class="n">203.224</span>.<span class="n">13.252</span>
-.
-=== Outcome ===
-<span class="n">73.112</span>.<span class="n">249.182</span>
-=== Shrinks ===
-<span class="n">0.112</span>.<span class="n">249.182</span>
-<span class="n">37.112</span>.<span class="n">249.182</span>
-<span class="n">55.112</span>.<span class="n">249.182</span>
-<span class="n">64.112</span>.<span class="n">249.182</span>
-<span class="n">69.112</span>.<span class="n">249.182</span>
-<span class="n">71.112</span>.<span class="n">249.182</span>
-<span class="n">72.112</span>.<span class="n">249.182</span>
-<span class="n">73.0</span>.<span class="n">249.182</span>
-<span class="n">73.56</span>.<span class="n">249.182</span>
-<span class="n">73.84</span>.<span class="n">249.182</span>
-<span class="n">73.98</span>.<span class="n">249.182</span>
-<span class="n">73.105</span>.<span class="n">249.182</span>
-<span class="n">73.109</span>.<span class="n">249.182</span>
-<span class="n">73.111</span>.<span class="n">249.182</span>
-<span class="n">73.112</span>.<span class="n">0.182</span>
-<span class="n">73.112</span>.<span class="n">125.182</span>
-<span class="n">73.112</span>.<span class="n">187.182</span>
-<span class="n">73.112</span>.<span class="n">218.182</span>
-<span class="n">73.112</span>.<span class="n">234.182</span>
-<span class="n">73.112</span>.<span class="n">242.182</span>
-<span class="n">73.112</span>.<span class="n">246.182</span>
-<span class="n">73.112</span>.<span class="n">248.182</span>
-<span class="n">73.112</span>.<span class="n">249.0</span>
-<span class="n">73.112</span>.<span class="n">249.91</span>
-<span class="n">73.112</span>.<span class="n">249.137</span>
-<span class="n">73.112</span>.<span class="n">249.160</span>
-<span class="n">73.112</span>.<span class="n">249.171</span>
-<span class="n">73.112</span>.<span class="n">249.177</span>
-<span class="n">73.112</span>.<span class="n">249.180</span>
-<span class="n">73.112</span>.<span class="n">249.181</span>
-.
-=== Outcome ===
-<span class="n">202.71</span>.<span class="n">39.27</span>
-=== Shrinks ===
-<span class="n">0.71</span>.<span class="n">39.27</span>
-<span class="n">101.71</span>.<span class="n">39.27</span>
-<span class="n">152.71</span>.<span class="n">39.27</span>
-<span class="n">177.71</span>.<span class="n">39.27</span>
-<span class="n">190.71</span>.<span class="n">39.27</span>
-<span class="n">196.71</span>.<span class="n">39.27</span>
-<span class="n">199.71</span>.<span class="n">39.27</span>
-<span class="n">201.71</span>.<span class="n">39.27</span>
-<span class="n">202.0</span>.<span class="n">39.27</span>
-<span class="n">202.36</span>.<span class="n">39.27</span>
-<span class="n">202.54</span>.<span class="n">39.27</span>
-<span class="n">202.63</span>.<span class="n">39.27</span>
-<span class="n">202.67</span>.<span class="n">39.27</span>
-<span class="n">202.69</span>.<span class="n">39.27</span>
-<span class="n">202.70</span>.<span class="n">39.27</span>
-<span class="n">202.71</span>.<span class="n">0.27</span>
-<span class="n">202.71</span>.<span class="n">20.27</span>
-<span class="n">202.71</span>.<span class="n">30.27</span>
-<span class="n">202.71</span>.<span class="n">35.27</span>
-<span class="n">202.71</span>.<span class="n">37.27</span>
-<span class="n">202.71</span>.<span class="n">38.27</span>
-<span class="n">202.71</span>.<span class="n">39.0</span>
-<span class="n">202.71</span>.<span class="n">39.14</span>
-<span class="n">202.71</span>.<span class="n">39.21</span>
-<span class="n">202.71</span>.<span class="n">39.24</span>
-<span class="n">202.71</span>.<span class="n">39.26</span>
-.
-=== Outcome ===
-<span class="n">244.251</span>.<span class="n">46.14</span>
-=== Shrinks ===
-<span class="n">0.251</span>.<span class="n">46.14</span>
-<span class="n">122.251</span>.<span class="n">46.14</span>
-<span class="n">183.251</span>.<span class="n">46.14</span>
-<span class="n">214.251</span>.<span class="n">46.14</span>
-<span class="n">229.251</span>.<span class="n">46.14</span>
-<span class="n">237.251</span>.<span class="n">46.14</span>
-<span class="n">241.251</span>.<span class="n">46.14</span>
-<span class="n">243.251</span>.<span class="n">46.14</span>
-<span class="n">244.0</span>.<span class="n">46.14</span>
-<span class="n">244.126</span>.<span class="n">46.14</span>
-<span class="n">244.189</span>.<span class="n">46.14</span>
-<span class="n">244.220</span>.<span class="n">46.14</span>
-<span class="n">244.236</span>.<span class="n">46.14</span>
-<span class="n">244.244</span>.<span class="n">46.14</span>
-<span class="n">244.248</span>.<span class="n">46.14</span>
-<span class="n">244.250</span>.<span class="n">46.14</span>
-<span class="n">244.251</span>.<span class="n">0.14</span>
-<span class="n">244.251</span>.<span class="n">23.14</span>
-<span class="n">244.251</span>.<span class="n">35.14</span>
-<span class="n">244.251</span>.<span class="n">41.14</span>
-<span class="n">244.251</span>.<span class="n">44.14</span>
-<span class="n">244.251</span>.<span class="n">45.14</span>
-<span class="n">244.251</span>.<span class="n">46.0</span>
-<span class="n">244.251</span>.<span class="n">46.7</span>
-<span class="n">244.251</span>.<span class="n">46.11</span>
-<span class="n">244.251</span>.<span class="n">46.13</span>
-.
-</code></pre></td></tr></table>
-<h3><a name="Custom-Operations" class="anchor" href="#Custom-Operations">Custom Operations</a></h3>
-<p>The <code>Property</code> module and its <code>property</code> expression supports a few <a href="https://docs.microsoft.com/en-us/dotnet/articles/fsharp/language-reference/computation-expressions#custom-operations">custom operations</a> as well.</p>
-<h4><a name="header" class="anchor" href="#header"><code>counterexample</code></a></h4>
-<p>Here's how the previous example could be written in order to carry along a friendlier message when it fails:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> tryAdd a b =
-    <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
-    <span class="k">else</span> Some(a + b)
-
-property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
-           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
-           counterexample (sprintf <span class="s">"The value of a was %d."</span> a)
-           <span class="k">return</span> tryAdd a b = Some(a + b) }
-<span class="o">|</span>&gt; Property.render
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
-
-&gt;
-*** Failed! Falsifiable (after <span class="n">16</span> tests <span class="k">and</span> <span class="n">5</span> shrinks):
-<span class="n">101</span>
-<span class="n">0</span>
-The value <span class="k">of</span> a was <span class="n">101</span>.
-
-</code></pre></td></tr></table>
-<h4><a name="header-1" class="anchor" href="#header-1"><code>where</code></a></h4>
-<p>Here’s how the previous example could be written so that in never fails:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> tryAdd a b =
-    <span class="k">if</span> a &gt; <span class="n">100</span> <span class="k">then</span> None <span class="c">// Nasty bug.</span>
-    <span class="k">else</span> Some(a + b)
-
-property { <span class="k">let!</span> a = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
-           <span class="k">let!</span> b = Range.constantBounded () <span class="o">|</span>&gt; Gen.int<span class="n">32</span>
-           where (a &lt; <span class="n">100</span>)
-           <span class="k">return</span> tryAdd a b = Some(a + b) }
-<span class="o">|</span>&gt; Property.render
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>;;
-
-&gt;
-*** Gave up after <span class="n">100</span> discards, passed <span class="n">95</span> tests.
-
-</code></pre></td></tr></table>
-<p>Essentially, the <code>where</code> custom operation discards test cases which do not satisfy the given condition.</p>
-<p>Test case generation continues until 100 cases (the default of <code>Property.render</code>) which do satisfy the condition have been found, or until an overall limit on the number of test cases is reached (to avoid looping if the condition never holds).</p>
-<p>In this case a message such as</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="id">Gave</span> <span class="id">up</span> <span class="id">after</span> <span class="n">100</span> <span class="id">discards</span><span class="pn">,</span> <span class="id">passed</span> <span class="n">95</span> <span class="id">tests</span><span class="pn">.</span>
+<p><strong>Hedgehog will eat all your bugs.</strong></p>
+<p>Hedgehog is a modern property-based testing system for .NET, designed to help you release with confidence by automatically finding edge cases you didn't think of.</p>
+<h2 id="what-is-property-based-testing">What is Property-Based Testing?</h2>
+<p>Instead of writing individual test cases with specific inputs and expected outputs, property-based testing lets you describe <em>properties</em> that should hold true for all inputs:</p>
+<pre><code>reverse (reverse xs) = xs, ∀xs :: [α]
 </code></pre>
-<p>indicates that 95 test cases satisfying the condition were found, and that the property held in those 95 cases.</p>
-<h2><a name="Integrations" class="anchor" href="#Integrations">Integrations</a></h2>
-<p>Use your favorite tools with Hedgehog.</p>
-<p>Powerful integrations that help you and your team build properties in an easier way.</p>
-<h3><a name="Hedgehog-Experimental" class="anchor" href="#Hedgehog-Experimental">Hedgehog.Experimental</a></h3>
-<p><a href="https://github.com/hedgehogqa/fsharp-hedgehog-experimental">Hedgehog.Experimental</a> contains auto-generators, à la AutoFixture, as well as other convenient combinators.</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="c">// Can generate all F# types (unions, records, lists, etc.) as well as POCOs</span>
-<span class="c">// with mutable properties or constructors.</span>
+<p>This reads as: &quot;the reverse of the reverse of a list equals the original list — for all lists of any type.&quot;</p>
+<p>In Hedgehog, you express this property and the framework generates hundreds of random test cases automatically:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
 
-<span class="k">type</span> Union =
-  <span class="o">|</span> Husband <span class="k">of</span> int
-  <span class="o">|</span> Wife <span class="k">of</span> string
-
-<span class="k">type</span> Record =
-  {Sport: string
-   Time: TimeSpan}
-
-<span class="k">let!</span> union = GenX.auto&lt;Union&gt;
-<span class="k">let!</span> record = GenX.auto&lt;Record&gt;
-</code></pre></td></tr></table>
-<h3><a name="Hedgehog-Xunit" class="anchor" href="#Hedgehog-Xunit">Hedgehog.Xunit</a></h3>
-<p><a href="https://github.com/dharmaturtle/fsharp-hedgehog-xunit">Hedgehog.Xunit</a> provides attributes which make it simpler to write <a href="https://xunit.net/">xUnit.net</a> tests.</p>
-<p>Our very first test may be reinterpreted as</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="o">[</span>&lt;Property&gt;<span class="o">]</span>
-<span class="k">let</span> ``Reversing a list twice yields the original list`` (xs: int list) =
-    List.rev (List.rev xs) = xs
-</code></pre></td></tr></table>
-<p>Arguments are generated with Hedgehog.Experimental.</p>
-<h3><a name="Regex-constrained-strings" class="anchor" href="#Regex-constrained-strings">Regex-constrained strings</a></h3>
-<p>In Haskell, there's the <a href="https://hackage.haskell.org/package/quickcheck-regex">quickcheck-regex</a> package, by <a href="https://www.linkedin.com/in/tangaudrey">Audrey (唐鳳) Tang</a>, which allows to write and execute this:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="hs">generate (matching "[xX][0-9a-z]")
-// Prints -&gt; "''UVBw"
-</code></pre></td></tr></table>
-<p>It exports a <code>matching</code> function that turns a Regular Expression into a <a href="https://en.wikipedia.org/wiki/Deterministic_finite_automaton">DFA</a>/<a href="https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton">NFA</a> finite-state machine and then into a generator of strings matching that regex:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="hs">matching :: String -&gt; Gen String
-</code></pre></td></tr></table>
-<p>A similar generator in F# with Hedgehog can be written as shown below:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">open</span> Hedgehog
-<span class="k">open</span> Fare
-
-<span class="c">/// Curried version of Regex.IsMatch, for indicating</span>
-<span class="c">/// whether a given regular expression finds a match</span>
-<span class="c">/// in the input string.</span>
-<span class="k">let</span> matches candidate pattern =
-    System.Text.RegularExpressions.Regex.IsMatch (candidate, pattern)
-
-<span class="c">/// Generates a string that is guaranteed to</span>
-<span class="c">/// match the regular expression passed in.</span>
-<span class="k">let</span> fromRegex (pattern : string) : Gen&lt;string&gt; =
-    Gen.sized (<span class="k">fun</span> size <span class="o">-&gt;</span>
-        <span class="k">let</span> xeger = Xeger pattern
-        <span class="o">[</span> <span class="k">for</span> i <span class="k">in</span> <span class="n">1</span>..size <span class="o">-&gt;</span> xeger.Generate () <span class="o">]</span>
-        <span class="o">|</span>&gt; Gen.item)
-</code></pre></td></tr></table>
-<p>The <code>fromRegex</code> function uses the <a href="https://www.nuget.org/packages/Fare/">.NET port</a> of <a href="http://www.brics.dk/automaton/">dk.brics.automaton</a> and <a href="https://code.google.com/p/xeger/">xeger</a>.</p>
-<p>Here's a way to use it:</p>
-<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="fs"><span class="k">let</span> pattern = <span class="s">"^http\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$"</span>
-
-property {
-    <span class="k">let!</span> s = fromRegex pattern
-    <span class="k">return</span> matches s pattern
+<pre><code class="lang-fsharp">property {
+    let! xs = Gen.list (Range.linear 0 100) Gen.alpha
+    return List.rev (List.rev xs) = xs
 }
-<span class="o">|</span>&gt; Property.render
-<span class="o">|</span>&gt; printfn <span class="s">"%s"</span>
+|&gt; Property.render
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
-+++ OK, passed <span class="n">100</span> tests.
+<pre><code class="lang-csharp">var property =
+    from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+    select xs.Reverse().Reverse().SequenceEqual(xs);
 
-</code></pre></td></tr></table>
+property.Check();
+</code></pre>
+</section>
+</div>
 
-            
+<pre><code>+++ OK, passed 100 tests.
+</code></pre>
+<h2 id="why-hedgehog">Why Hedgehog?</h2>
+<h3 id="integrated-shrinking">Integrated Shrinking</h3>
+<p>When a property fails, Hedgehog automatically simplifies the failing input to find the smallest counterexample. Unlike older property-based testing libraries that shrink values separately from generation, Hedgehog uses <strong>integrated shrinking</strong> — shrinking is built into generators, guaranteeing that shrunk values obey the same invariants as the generated values.</p>
+<p>This means you get minimal, actionable error reports:</p>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">property {
+    let! xs = Gen.list (Range.linear 0 100) version
+    return xs |&gt; List.rev = xs
+}
+|&gt; Property.render
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">var property =
+    from xs in versionGen.List(Range.Linear(0, 100)).ForAll()
+    select xs.Reverse().SequenceEqual(xs);
+
+property.Check();
+</code></pre>
+</section>
+</div>
+
+<pre><code>*** Failed! Falsifiable (after 3 tests and 6 shrinks):
+[0.0.0; 0.0.1]
+</code></pre>
+<p>Even complex types like <code>System.Version</code> shrink automatically to their simplest failing case.</p>
+<h3 id="modern-f-syntax">Modern F# Syntax</h3>
+<p>Hedgehog provides <code>gen</code> and <code>property</code> computation expressions that feel natural in F#:</p>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">let ipAddressGen = gen {
+    let! addr = Gen.array (Range.singleton 4) Gen.byte
+    return System.Net.IPAddress addr
+}
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">var ipAddressGen = 
+    from addr in Gen.Byte.Array(Range.FromValue(4))
+    select new System.Net.IPAddress(addr);
+</code></pre>
+</section>
+</div>
+<h3 id="precise-control">Precise Control</h3>
+<p>Range combinators let you control the scope of generated values:</p>
+<pre><code class="lang-fsharp">Gen.int32 (Range.constant 0 100)      // Always between 0-100
+Gen.int32 (Range.linear 0 100)        // Scales with test size
+Gen.list (Range.exponential 1 1000) g // Exponential growth
+</code></pre>
+<h2 id="core-concepts">Core Concepts</h2>
+<p><strong>Properties</strong> are invariants that should hold for all inputs. They're expressed as functions that return <code>bool</code> or <code>Property&lt;bool&gt;</code>.</p>
+<p><strong>Generators</strong> produce random values of a given type. Hedgehog includes generators for primitives and combinators to build generators for complex types. Generators are composable using <code>map</code>, <code>bind</code>, and other familiar operations.</p>
+<p><strong>Shrinking</strong> happens automatically when a property fails. Hedgehog finds progressively smaller inputs that still cause the failure, giving you the minimal reproduction case.</p>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
         </div>
-
-        <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'https://hedgehogqa.github.io/fsharp-hedgehog/';</script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="https://hedgehogqa.github.io/fsharp-hedgehog/content/fsdocs-search.js"></script>
-        <!-- END SEARCH BOX: this adds support for the search box -->
-    </div>
-</body>
-
+      </div>
+    </footer>
+  </body>
 </html>
-

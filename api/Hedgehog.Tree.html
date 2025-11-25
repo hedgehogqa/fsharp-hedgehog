@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class Tree | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Tree | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Tree.md&amp;value=---%0Auid%3A%20Hedgehog.Tree%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.Tree">
+
+
+
+  <h1 id="Hedgehog_Tree" data-uid="Hedgehog.Tree" class="text-break">
+Class Tree  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">type Tree =
+  member addChild : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
+  member addChildValue : &#39;a -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
+  member apply : Tree&lt;&#39;a&gt; -&gt; Tree&lt;(&#39;a -&gt; &#39;b)&gt; -&gt; Tree&lt;&#39;b&gt;
+  member bind : &#39;a -&gt; Tree&lt;&#39;b&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;
+  member cata : &#39;a -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b
+  member create : &#39;a -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt;
+  member depth : Tree&lt;&#39;a&gt; -&gt; int
+  member duplicate : Tree&lt;&#39;a&gt; -&gt; Tree&lt;Tree&lt;&#39;a&gt;&gt;
+  member expand : &#39;a -&gt; &#39;a seq -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
+  member filter : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
+  member filterForest : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt; seq
+  member fold : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b
+  member foldForest : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; seq -&gt; &#39;x
+  member join : Tree&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;&#39;a&gt;
+  member map : &#39;a -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;
+  member mapWithSubtrees : &#39;a -&gt; Tree&lt;&#39;b&gt; seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;
+  member outcome : Tree&lt;&#39;a&gt; -&gt; &#39;a
+  member render : Tree&lt;string&gt; -&gt; string
+  member renderList : Tree&lt;string&gt; -&gt; List&lt;string&gt;
+  member shrinks : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; seq
+  member singleton : &#39;a -&gt; Tree&lt;&#39;a&gt;
+  member toSeq : Tree&lt;&#39;a&gt; -&gt; &#39;a seq
+  member unfold : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt;
+  member unfoldForest : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">Tree</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_Tree_outcome_Tree" data-uid="Hedgehog.Tree.outcome-Tree">
+  outcome
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The generated outcome.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val outcome : Tree&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_shrinks_Tree" data-uid="Hedgehog.Tree.shrinks-Tree">
+  shrinks
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>All the possible shrinks of this outcome. This should be ordered
+smallest to largest as if property still fails with the first shrink in
+the list then we will commit to that path and none of the others will
+be tried (i.e. there is no backtracking).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val shrinks : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_create_a_Tree" data-uid="Hedgehog.Tree.create-a-Tree">
+  create
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val create : &#39;a -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_singleton_a" data-uid="Hedgehog.Tree.singleton-a">
+  singleton
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Create a tree with a single outcome and no shrinks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val singleton : &#39;a -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_addChild_Tree_Tree" data-uid="Hedgehog.Tree.addChild-Tree-Tree">
+  addChild
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val addChild : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_addChildValue_a_Tree" data-uid="Hedgehog.Tree.addChildValue-a-Tree">
+  addChildValue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val addChildValue : &#39;a -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_cata_a_Tree" data-uid="Hedgehog.Tree.cata-a-Tree">
+  cata
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val cata : &#39;a -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_depth_Tree" data-uid="Hedgehog.Tree.depth-Tree">
+  depth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val depth : Tree&lt;&#39;a&gt; -&gt; int</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_toSeq_Tree" data-uid="Hedgehog.Tree.toSeq-Tree">
+  toSeq
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val toSeq : Tree&lt;&#39;a&gt; -&gt; &#39;a seq</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_map_a_Tree" data-uid="Hedgehog.Tree.map-a-Tree">
+  map
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Map over a tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_mapWithSubtrees_a_Tree" data-uid="Hedgehog.Tree.mapWithSubtrees-a-Tree">
+  mapWithSubtrees
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val mapWithSubtrees : &#39;a -&gt; Tree&lt;&#39;b&gt; seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_apply_Tree_Tree" data-uid="Hedgehog.Tree.apply-Tree-Tree">
+  apply
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val apply : Tree&lt;&#39;a&gt; -&gt; Tree&lt;(&#39;a -&gt; &#39;b)&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_bind_a_Tree" data-uid="Hedgehog.Tree.bind-a-Tree">
+  bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Tree&lt;&#39;b&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_join_Tree" data-uid="Hedgehog.Tree.join-Tree">
+  join
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val join : Tree&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_duplicate_Tree" data-uid="Hedgehog.Tree.duplicate-Tree">
+  duplicate
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Turns a tree, in to a tree of trees. Useful for testing Hedgehog itself as
+it allows you to observe the shrinks for a value inside a property,
+while still allowing the property to shrink to a minimal
+counterexample.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val duplicate : Tree&lt;&#39;a&gt; -&gt; Tree&lt;Tree&lt;&#39;a&gt;&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_fold_a_b_Tree" data-uid="Hedgehog.Tree.fold-a-b-Tree">
+  fold
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fold over a tree.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val fold : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_foldForest_a_b_Tree" data-uid="Hedgehog.Tree.foldForest-a-b-Tree">
+  foldForest
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fold over a list of trees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val foldForest : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; seq -&gt; &#39;x</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_unfold_b_b_b" data-uid="Hedgehog.Tree.unfold-b-b-b">
+  unfold
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Build a tree from an unfolding function and a seed value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val unfold : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_unfoldForest_b_b_b" data-uid="Hedgehog.Tree.unfoldForest-b-b-b">
+  unfoldForest
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Build a list of trees from an unfolding function and a seed value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val unfoldForest : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_expand_a_Tree" data-uid="Hedgehog.Tree.expand-a-Tree">
+  expand
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Apply an additional unfolding function to an existing tree.</p>
+<p>The root outcome remains intact, only the shrinks are affected, this
+applies recursively, so shrinks can only ever be added using this
+function.</p>
+<p>If you want to replace the shrinks altogether, try:</p>
+<p>Tree.unfold f (outcome oldTree)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val expand : &#39;a -&gt; &#39;a seq -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_filter_a_Tree" data-uid="Hedgehog.Tree.filter-a-Tree">
+  filter
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Recursively discard any shrinks whose outcome does not pass the predicate.
+Note that the root outcome can never be discarded.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val filter : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_filterForest_a_Tree" data-uid="Hedgehog.Tree.filterForest-a-Tree">
+  filterForest
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Recursively discard any trees whose outcome does not pass the predicate.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val filterForest : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_renderList_Tree" data-uid="Hedgehog.Tree.renderList-Tree">
+  renderList
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val renderList : Tree&lt;string&gt; -&gt; List&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Tree_render_Tree" data-uid="Hedgehog.Tree.render-Tree">
+  render
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val render : Tree&lt;string&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

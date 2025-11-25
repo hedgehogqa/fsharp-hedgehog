@@ -1,0 +1,870 @@
+{
+  "source_base_path": "D:/a/fsharp-hedgehog/fsharp-hedgehog/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.AutoGen.DefaultGenerators.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.AutoGen.DefaultGenerators.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.AutoGen.DefaultGenerators",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.AutoGenConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.AutoGenConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.AutoGenConfig",
+      "Summary": "<p sourcefile=\"api/Hedgehog.AutoGenConfig.yml\" sourcestartlinenumber=\"1\">C#-friendly entry points for automatic generator configuration.</p>\n<p sourcefile=\"api/Hedgehog.AutoGenConfig.yml\" sourcestartlinenumber=\"3\">This module provides compiled names for F# functions to make them more accessible from C#.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.AutoGenContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.AutoGenContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.AutoGenContext",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.AutoGenConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.AutoGenConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.AutoGenConfig",
+      "Summary": "<p sourcefile=\"api/Hedgehog.FSharp.AutoGenConfig.yml\" sourcestartlinenumber=\"1\">Functions for configuring automatic generator discovery and registration.</p>\n<p sourcefile=\"api/Hedgehog.FSharp.AutoGenConfig.yml\" sourcestartlinenumber=\"3\">This module provides an F#-friendly API for customizing how generators are automatically\ncreated for your types. Use these functions to set collection ranges, recursion depth,\nand register custom generators.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Gen.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Gen.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Gen.Builder",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Gen.Operators.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Gen.Operators.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Gen.Operators",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Gen.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Gen.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Gen",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Property.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Property.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Property",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.PropertyBuilder.Builder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.PropertyBuilder.Builder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.PropertyBuilder.Builder",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Random.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Random.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Random",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FSharp.Range.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FSharp.Range.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FSharp.Range",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FailureData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FailureData.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FailureData",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.FromBigInt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.FromBigInt.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.FromBigInt",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.GenDateTime.Gen.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.GenDateTime.Gen.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.GenDateTime.Gen",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Gen_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Gen_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Gen<'a>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Gen_a_.yml\" sourcestartlinenumber=\"1\">A generator for values and shrink trees of type 'a.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.IAutoGenConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.IAutoGenConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.IAutoGenConfig",
+      "Summary": "<p sourcefile=\"api/Hedgehog.IAutoGenConfig.yml\" sourcestartlinenumber=\"1\">Configuration for automatic generator discovery and registration.</p>\n<p sourcefile=\"api/Hedgehog.IAutoGenConfig.yml\" sourcestartlinenumber=\"3\">This interface provides settings that control how generators are automatically created\nfor custom types. It manages collection size ranges, recursion depth limits, and\nregistered custom generators.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.IPropertyConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.IPropertyConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.IPropertyConfig",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Journal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Journal.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Journal",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Language.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Language.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Language",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.AutoGenExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.AutoGenExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.AutoGenExtensions",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Linq.AutoGenExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for <a href=\"/reference/hedgehog-iautogenconfig.html\" sourcefile=\"api/Hedgehog.Linq.AutoGenExtensions.yml\" sourcestartlinenumber=\"1\">IAutoGenConfig</a> to support fluent API for C#.</p>\n<p sourcefile=\"api/Hedgehog.Linq.AutoGenExtensions.yml\" sourcestartlinenumber=\"3\">This class provides a C#-friendly interface for configuring automatic generator discovery and registration.\nUse these methods to customize how generators are created for your custom types when using Auto.Gen<t>().\n</t></p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.Gen.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.Gen.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.Gen",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.GenExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.GenExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.GenExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.GenListExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.GenListExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.GenListExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.Property.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.Property.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.Property",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.PropertyConfigExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.PropertyConfigExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.PropertyConfigExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.PropertyExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.PropertyExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.PropertyExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.Range.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.Range.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.Range",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.RangeExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.RangeExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.RangeExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.ReportExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.ReportExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.ReportExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.MaxValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.MaxValue.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.MaxValue",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.MinValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.MinValue.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.MinValue",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Numeric.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Numeric.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Numeric",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Outcome.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Outcome.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Outcome",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Outcome_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Outcome_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Outcome<'a>",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.PropertyArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.PropertyArgs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.PropertyArgs",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.PropertyConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.PropertyConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.PropertyConfig",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Property_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Property_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Property<'a>",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Random_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Random_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Random<'a>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Random_a_.yml\" sourcestartlinenumber=\"1\">A generator for random values of type 'a</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Range_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Range_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Range<'a>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Range_a_.yml\" sourcestartlinenumber=\"1\">A range describes the bounds of a number to generate, which may or may not\nbe dependent on a 'Size'.</p>\n<p sourcefile=\"api/Hedgehog.Range_a_.yml\" sourcestartlinenumber=\"4\">The constructor takes an origin between the lower and upper bound, and a\nfunction from 'Size' to bounds.  As the size goes towards 0, the values\ngo towards the origin.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.RecheckData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.RecheckData.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.RecheckData",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.RecheckInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.RecheckInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.RecheckInfo",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Report.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Report.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Report",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Seed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Seed.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Seed",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Seed.yml\" sourcestartlinenumber=\"1\">Splittable random number generator.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Shrink.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Shrink.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Shrink",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.ShrinkOutcome.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.ShrinkOutcome.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.ShrinkOutcome",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Size.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Size.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Size",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Size.yml\" sourcestartlinenumber=\"1\">Tests are parameterized by the <code sourcefile=\"api/Hedgehog.Size.yml\" sourcestartlinenumber=\"1\">Size</code> of the randomly-generated data,\nthe meaning of which depends on the particular generator used.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Status.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Status.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Status",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.ToBigInt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.ToBigInt.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.ToBigInt",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Tree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Tree.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Tree",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Tree_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Tree_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Tree<'a>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Tree_a_.yml\" sourcestartlinenumber=\"1\">A rose tree which represents a random generated outcome, and all the ways\nin which it can be made smaller.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.discards.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.discards.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.discards",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.shrinks.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.shrinks.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.shrinks",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.tests.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.tests",
+      "Summary": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/auto-generation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/auto-generation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/best-practices.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/best-practices.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.ico"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

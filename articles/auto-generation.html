@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Auto-Generation | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Auto-Generation | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/articles/auto-generation.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="">
+<h1 id="auto-generation">Auto-Generation</h1>
+
+<p>Hedgehog can automatically generate test data for your types without manually writing generators. This feature works with F# records, discriminated unions, tuples, and C# classes.</p>
+<h2 id="basic-usage">Basic Usage</h2>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
+
+<p>For simple F# types, use <code>Gen.auto&lt;'T&gt;</code>:</p>
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+type User = {
+    Name: string
+    Age: int
+    Email: string
+}
+
+type Status =
+    | Active
+    | Inactive
+    | Pending of reason: string
+
+property {
+    let! user = Gen.auto&lt;User&gt;
+    let! status = Gen.auto&lt;Status&gt;
+    return user.Age &gt;= 0 &amp;&amp; user.Name.Length &gt; 0
+}
+|&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<p>Auto-generation works with C# classes, records, and structs:</p>
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+public record User(string Name, int Age, string Email);
+
+public enum Status { Active, Inactive, Pending }
+
+var property =
+    from user in Gen.Auto&lt;User&gt;().ForAll()
+    from status in Gen.Auto&lt;Status&gt;().ForAll()
+    select user.Age &gt;= 0 &amp;&amp; user.Name.Length &gt; 0;
+
+property.Check();
+</code></pre>
+</section>
+</div>
+<h2 id="supported-types">Supported Types</h2>
+<p>Auto-generation works with:</p>
+<ul>
+<li><strong>Primitives</strong>: <code>int</code>, <code>string</code>, <code>bool</code>, <code>decimal</code>, <code>DateTime</code>, etc.</li>
+<li><strong>Records</strong>: F# records and C# record types</li>
+<li><strong>Discriminated Unions</strong>: F# union types</li>
+<li><strong>Tuples</strong>: Both F# and C# tuples</li>
+<li><strong>Collections</strong>: <code>List</code>, <code>Array</code>, <code>Set</code>, <code>Map</code>, <code>Dictionary</code>, <code>IEnumerable</code></li>
+<li><strong>Options</strong>: <code>Option&lt;'T&gt;</code>, <code>ValueOption&lt;'T&gt;</code>, <code>Nullable&lt;'T&gt;</code></li>
+<li><strong>Results</strong>: <code>Result&lt;'T, 'TError&gt;</code></li>
+<li><strong>Classes</strong>: C# classes with constructors or mutable properties</li>
+<li><strong>Nested Types</strong>: Any combination of the above</li>
+</ul>
+<h2 id="customizing-auto-generation">Customizing Auto-Generation</h2>
+<h3 id="using-autogenconfig">Using AutoGenConfig</h3>
+<p>When you need to customize how types are generated, use <code>Gen.autoWith</code> with an <code>AutoGenConfig</code>:</p>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+type User = {
+    Name: string
+    Age: int
+    Email: string
+}
+
+// Create a custom config
+let config =
+    AutoGenConfig.defaults
+    |&gt; AutoGenConfig.addGenerator (Gen.string (Range.linear 5 20) Gen.alpha)  // Custom string generator
+    |&gt; AutoGenConfig.addGenerator (Gen.int32 (Range.linear 18 100))           // Ages between 18-100
+
+property {
+    let! user = Gen.autoWith&lt;User&gt; config
+    return user.Age &gt;= 18 &amp;&amp; user.Name.Length &gt;= 5
+}
+|&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+public record User(string Name, int Age, string Email);
+
+// Create a custom config
+var config = AutoGenConfig.Defaults
+    .AddGenerator(Gen.String(Range.Linear(5, 20), Gen.Alpha))  // Custom string generator
+    .AddGenerator(Gen.Int32(Range.Linear(18, 100)));            // Ages between 18-100
+
+var property =
+    from user in Gen.AutoWith&lt;User&gt;(config).ForAll()
+    select user.Age &gt;= 18 &amp;&amp; user.Name.Length &gt;= 5;
+
+property.Check();
+</code></pre>
+</section>
+</div>
+<h3 id="registering-custom-generators">Registering Custom Generators</h3>
+<p>For more control, create a custom generator class with static methods that match the names of your types. Hedgehog will automatically discover and use these generators when you register the class.</p>
+<h4 id="how-generator-classes-work">How Generator Classes Work</h4>
+<p>When you call <code>AutoGenConfig.addGenerators&lt;T&gt;</code>, Hedgehog:</p>
+<ol>
+<li>Scans the class <code>T</code> for public static methods</li>
+<li>Finds methods that return <code>Gen&lt;T&gt;</code> (for any type <code>T</code>)</li>
+<li>Uses these methods when generating values of type <code>T</code></li>
+</ol>
+<p><strong>Method Requirements:</strong></p>
+<ul>
+<li>Must be <code>public static</code></li>
+<li>Must return <code>Gen&lt;T&gt;</code> where <code>T</code> is the type you want to generate</li>
+<li>Can optionally accept parameters of type <code>IAutoGenContext</code> or <code>Gen&lt;TValue&gt;</code> for generic types</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>A method returning <code>Gen&lt;Email&gt;</code> will be used to generate <code>Email</code> values</li>
+<li>A method returning <code>Gen&lt;User&gt;</code> will be used to generate <code>User</code> values</li>
+<li>For generic types like <code>Gen&lt;List&lt;T&gt;&gt;</code>, the method can accept a <code>Gen&lt;T&gt;</code> parameter</li>
+</ul>
+<h4 id="example">Example</h4>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open System
+
+type Email = Email of string
+
+type User = {
+    Name: string
+    Email: Email
+    RegisteredAt: DateTime
+}
+
+// Custom generators class
+type MyGenerators =
+    // Generator for Email type - return type is Gen&lt;Email&gt;
+    static member Email() : Gen&lt;Email&gt; =
+        gen {
+            let! name = Gen.string (Range.linear 3 10) Gen.alphaNum
+            let! domain = Gen.item [&quot;com&quot;; &quot;net&quot;; &quot;org&quot;]
+            return Email $&quot;{name}@example.{domain}&quot;
+        }
+    
+    // Generator for DateTime - return type is Gen&lt;DateTime&gt;
+    static member DateTime() : Gen&lt;DateTime&gt; =
+        gen {
+            let! days = Gen.int32 (Range.linear 0 365)
+            return DateTime.Now.AddDays(-float days)
+        }
+
+// Register the custom generators
+let config =
+    AutoGenConfig.defaults
+    |&gt; AutoGenConfig.addGenerators&lt;MyGenerators&gt;
+
+// Now Gen.autoWith will use MyGenerators.Email() for Email types
+// and MyGenerators.DateTime() for DateTime types
+property {
+    let! user = Gen.autoWith&lt;User&gt; config
+    let (Email email) = user.Email
+    return email.Contains(&quot;@&quot;) &amp;&amp; user.RegisteredAt &lt;= DateTime.Now
+}
+|&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+using System;
+
+public record Email(string Value);
+
+public record User(string Name, Email Email, DateTime RegisteredAt);
+
+// Custom generators class
+public class MyGenerators
+{
+    // Generator for Email type - return type is Gen&lt;Email&gt;
+    public static Gen&lt;Email&gt; Email() =&gt;
+        from name in Gen.AlphaNum.String(Range.Linear(3, 10))
+        from domain in Gen.Item(&quot;com&quot;, &quot;net&quot;, &quot;org&quot;)
+        select new Email($&quot;{name}@example.{domain}&quot;);
+    
+    // Generator for DateTime - return type is Gen&lt;DateTime&gt;
+    public static Gen&lt;DateTime&gt; DateTime() =&gt;
+        from days in Gen.Int32(Range.Linear(0, 365))
+        select System.DateTime.Now.AddDays(-days);
+}
+
+// Register the custom generators
+var config = AutoGenConfig.Defaults
+    .AddGenerators&lt;MyGenerators&gt;();
+
+// Now Gen.AutoWith will use MyGenerators.Email() for Email types
+// and MyGenerators.DateTime() for DateTime types
+var property =
+    from user in Gen.AutoWith&lt;User&gt;(config).ForAll()
+    select user.Email.Value.Contains(&quot;@&quot;) &amp;&amp; user.RegisteredAt &lt;= System.DateTime.Now;
+
+property.Check();
+</code></pre>
+</section>
+</div>
+<h2 id="generator-method-signatures">Generator Method Signatures</h2>
+<p>Custom generator methods must follow specific patterns:</p>
+<h3 id="parameterless-generators">Parameterless Generators</h3>
+<p>For types without generic parameters:</p>
+<div class="tabGroup" id="tabgroup_4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_4_fsharp" role="tab" aria-controls="tabpanel_4_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_4_csharp" role="tab" aria-controls="tabpanel_4_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_4_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">static member TypeName() : Gen&lt;TypeName&gt; = ...
+</code></pre>
+</section>
+<section id="tabpanel_4_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public static Gen&lt;TypeName&gt; TypeName() =&gt; ...
+</code></pre>
+</section>
+</div>
+<h3 id="generic-type-generators">Generic Type Generators</h3>
+<p>For generic types, accept <code>Gen&lt;T&gt;</code> parameters for each type parameter:</p>
+<div class="tabGroup" id="tabgroup_5">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_5_fsharp" role="tab" aria-controls="tabpanel_5_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_5_csharp" role="tab" aria-controls="tabpanel_5_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_5_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type GenericGenerators =
+    // Simple generic type
+    static member MyGenericType&lt;'a&gt;(valueGen: Gen&lt;'a&gt;) : Gen&lt;MyGenericType&lt;'a&gt;&gt; =
+        valueGen |&gt; Gen.map (fun x -&gt; MyGenericType(x))
+</code></pre>
+</section>
+<section id="tabpanel_5_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class GenericGenerators
+{
+    // Simple generic type
+    public static Gen&lt;MyGenericType&lt;A&gt;&gt; MyGenericType&lt;A&gt;(Gen&lt;A&gt; valueGen) =&gt;
+        valueGen.Select(x =&gt; new MyGenericType&lt;A&gt;(x));
+}
+</code></pre>
+</section>
+</div>
+<h3 id="using-autogencontext">Using AutoGenContext</h3>
+<p>For recursive types or when you need access to collection range and recursion depth, use <code>AutoGenContext</code>:</p>
+<div class="tabGroup" id="tabgroup_6">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_6_fsharp" role="tab" aria-controls="tabpanel_6_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_6_csharp" role="tab" aria-controls="tabpanel_6_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_6_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type GenericGenerators =
+    // Access to recursion control via AutoGenContext
+    static member ImmutableList&lt;'a&gt;(context: AutoGenContext, valueGen: Gen&lt;'a&gt;) : Gen&lt;ImmutableList&lt;'a&gt;&gt; =
+        if context.CanRecurse then
+            valueGen |&gt; Gen.list context.CollectionRange |&gt; Gen.map ImmutableList.CreateRange
+        else
+            Gen.constant ImmutableList&lt;'a&gt;.Empty
+
+let config =
+    AutoGenConfig.defaults
+    |&gt; AutoGenConfig.addGenerators&lt;GenericGenerators&gt;
+</code></pre>
+</section>
+<section id="tabpanel_6_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class GenericGenerators
+{
+    // Access to recursion control via AutoGenContext
+    public static Gen&lt;ImmutableList&lt;A&gt;&gt; ImmutableList&lt;A&gt;(AutoGenContext context, Gen&lt;A&gt; valueGen) =&gt;
+        context.CanRecurse
+            ? valueGen.List(context.CollectionRange).Select(System.Collections.Immutable.ImmutableList.CreateRange)
+            : Gen.Constant(System.Collections.Immutable.ImmutableList&lt;A&gt;.Empty);
+}
+
+var config = AutoGenConfig.Defaults
+    .AddGenerators&lt;GenericGenerators&gt;();
+</code></pre>
+</section>
+</div>
+<h2 id="advanced-scenarios">Advanced Scenarios</h2>
+<h3 id="multiple-configurations">Multiple Configurations</h3>
+<p>You can create different configurations for different test scenarios:</p>
+<pre><code class="lang-fsharp">let smallDataConfig =
+    AutoGenConfig.defaults
+    |&gt; AutoGenConfig.addGenerator (Gen.string (Range.linear 0 10) Gen.alpha)
+
+let largeDataConfig =
+    AutoGenConfig.defaults
+    |&gt; AutoGenConfig.addGenerator (Gen.string (Range.linear 0 1000) Gen.unicode)
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Start with <code>Gen.auto</code></strong> - Use the default auto-generation first, only customize when needed</li>
+<li><strong>Register generators once</strong> - Create a shared <code>AutoGenConfig</code> for your test suite</li>
+<li><strong>Use type safety</strong> - Let the type system guide generator creation</li>
+<li><strong>Test your generators</strong> - Verify custom generators produce valid data</li>
+<li><strong>Leverage AutoGenContext</strong> - For recursive types, use <code>AutoGenContext</code> to control depth and collection sizes</li>
+</ol>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

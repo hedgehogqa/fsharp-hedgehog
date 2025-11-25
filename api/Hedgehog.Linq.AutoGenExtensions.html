@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class AutoGenExtensions | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AutoGenExtensions | Hedgehog .NET ">
+      
+      <meta name="description" content="Extension methods for IAutoGenConfig to support fluent API for C#. This class provides a C#-friendly interface for configuring automatic generator discovery and registration. Use these methods to customize how generators are created for your custom types when using Auto.Gen().">
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Linq_AutoGenExtensions.md&amp;value=---%0Auid%3A%20Hedgehog.Linq.AutoGenExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.Linq.AutoGenExtensions">
+
+
+
+  <h1 id="Hedgehog_Linq_AutoGenExtensions" data-uid="Hedgehog.Linq.AutoGenExtensions" class="text-break">
+Class AutoGenExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Linq</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Extension methods for <a href="/reference/hedgehog-iautogenconfig.html">IAutoGenConfig</a> to support fluent API for C#.</p>
+<p>This class provides a C#-friendly interface for configuring automatic generator discovery and registration.
+Use these methods to customize how generators are created for your custom types when using Auto.Gen<t>().
+</t></p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AutoGenExtensions {
+  public static IAutoGenConfig AddGenerator(this IAutoGenConfig self, Gen&lt;T&gt; generator)
+  public static IAutoGenConfig AddGenerators(this IAutoGenConfig self)
+  public static Range&lt;int&gt; GetCollectionRange(this IAutoGenConfig self)
+  public static int GetRecursionDepth(IAutoGenConfig self)
+  public static IAutoGenConfig SetCollectionRange(this IAutoGenConfig self, Range&lt;int&gt; range)
+  public static IAutoGenConfig SetRecursionDepth(this IAutoGenConfig self, int depth)
+}</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">AutoGenExtensions</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_AddGenerator_IAutoGenConfig_Gen" data-uid="Hedgehog.Linq.AutoGenExtensions.AddGenerator-IAutoGenConfig-Gen">
+  AddGenerator(IAutoGenConfig, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Registers a custom generator for type T.</p>
+<p>Use this method to override or provide a generator for a specific type.
+This is useful when you want to customize how instances of a particular type are generated.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IAutoGenConfig AddGenerator(this IAutoGenConfig self, Gen&lt;T&gt; generator)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_AddGenerators_IAutoGenConfig" data-uid="Hedgehog.Linq.AutoGenExtensions.AddGenerators-IAutoGenConfig">
+  AddGenerators(IAutoGenConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Registers all generator methods defined in a given type.</p>
+<p>The type is expected to have static methods returning Gen<t>.
+These methods can take parameters that will be automatically injected:
+</t></p>
+<ul>
+<li><code>Hedgehog.AutoGenContext</code> - provides context information such as recursion depth and collection range</li>
+<li><code>Hedgehog.IAutoGenConfig</code> - the current auto-generation configuration</li>
+<li><code>Hedgehog.Gen&amp;lt;U&amp;gt;</code> - other generators that have been registered for type <c>U</c></li>
+</ul>
+<p>This enables dependency injection of generators, allowing you to compose complex generators from simpler ones.</p>
+<p><strong>Example:</strong></p>
+<pre><code> public sealed class MyGenerators
+  {
+      public static Gen&lt;ImmutableList&lt;T&gt;&gt; ImmutableListGen&lt;T&gt;(
+          AutoGenContext ctx, // context can be injected
+          Gen&lt;T&gt; valueGen // value generator is injected
+      ) {
+          if (ctx.CanRecurse)
+              // if recursion is possible then construct a list of values
+              // respecting the configured collection range
+              return valueGen.List(ctx.CollectionRange).Select(ImmutableList.CreateRange);
+          else
+              // cannot recurse anymore, return the base case
+              return ImmutableList.Empty&lt;T&gt;();
+      }
+  }
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IAutoGenConfig AddGenerators(this IAutoGenConfig self)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_GetCollectionRange_IAutoGenConfig" data-uid="Hedgehog.Linq.AutoGenExtensions.GetCollectionRange-IAutoGenConfig">
+  GetCollectionRange(IAutoGenConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the currently configured collection range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int&gt; GetCollectionRange(this IAutoGenConfig self)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_GetRecursionDepth_IAutoGenConfig" data-uid="Hedgehog.Linq.AutoGenExtensions.GetRecursionDepth-IAutoGenConfig">
+  GetRecursionDepth(IAutoGenConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the currently configured recursion depth.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int GetRecursionDepth(IAutoGenConfig self)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_SetCollectionRange_IAutoGenConfig_Range" data-uid="Hedgehog.Linq.AutoGenExtensions.SetCollectionRange-IAutoGenConfig-Range">
+  SetCollectionRange(IAutoGenConfig, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the range for collection sizes when generating collections (lists, arrays, sets, etc.).</p>
+<p>This setting controls how many elements are generated when creating collections.
+The default range is exponential from 0 to 50. Use this to generate smaller or larger collections as needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IAutoGenConfig SetCollectionRange(this IAutoGenConfig self, Range&lt;int&gt; range)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_AutoGenExtensions_SetRecursionDepth_IAutoGenConfig_int" data-uid="Hedgehog.Linq.AutoGenExtensions.SetRecursionDepth-IAutoGenConfig-int">
+  SetRecursionDepth(IAutoGenConfig, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the maximum recursion depth for nested type generation.</p>
+<p>This controls how deeply nested structures can be generated. A depth of 0 means no recursion is allowed.
+A depth of 1 allows one level of recursion, and so on.</p>
+<p>Use this to prevent infinite recursion when generating recursive data structures or to control
+the complexity of generated values. Higher values create more complex nested structures.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IAutoGenConfig SetRecursionDepth(this IAutoGenConfig self, int depth)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

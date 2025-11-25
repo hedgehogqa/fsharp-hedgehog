@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class Range | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Range | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Linq_Range.md&amp;value=---%0Auid%3A%20Hedgehog.Linq.Range%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.Linq.Range">
+
+
+
+  <h1 id="Hedgehog_Linq_Range" data-uid="Hedgehog.Linq.Range" class="text-break">
+Class Range  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Linq</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Range {
+  public static Range&lt;T&gt; Constant(T x, T y)
+  public static Range&lt;T&gt; Constant(T z, T x, T y)
+  public static Range&lt;byte&gt; ConstantBoundedByte()
+  public static Range&lt;decimal&gt; ConstantBoundedDecimal()
+  public static Range&lt;double&gt; ConstantBoundedDouble()
+  public static Range&lt;int16&gt; ConstantBoundedInt16()
+  public static Range&lt;int32&gt; ConstantBoundedInt32()
+  public static Range&lt;int64&gt; ConstantBoundedInt64()
+  public static Range&lt;sbyte&gt; ConstantBoundedSByte()
+  public static Range&lt;single&gt; ConstantBoundedSingle()
+  public static Range&lt;uint16&gt; ConstantBoundedUInt16()
+  public static Range&lt;uint32&gt; ConstantBoundedUInt32()
+  public static Range&lt;uint64&gt; ConstantBoundedUInt64()
+  public static Range&lt;byte&gt; ExponentialBoundedByte()
+  public static Range&lt;decimal&gt; ExponentialBoundedDecimal()
+  public static Range&lt;double&gt; ExponentialBoundedDouble()
+  public static Range&lt;int16&gt; ExponentialBoundedInt16()
+  public static Range&lt;int32&gt; ExponentialBoundedInt32()
+  public static Range&lt;int64&gt; ExponentialBoundedInt64()
+  public static Range&lt;sbyte&gt; ExponentialBoundedSByte()
+  public static Range&lt;single&gt; ExponentialBoundedSingle()
+  public static Range&lt;uint16&gt; ExponentialBoundedUInt16()
+  public static Range&lt;uint32&gt; ExponentialBoundedUInt32()
+  public static Range&lt;uint64&gt; ExponentialBoundedUInt64()
+  public static Range&lt;byte&gt; ExponentialByte(byte x, byte y)
+  public static Range&lt;decimal&gt; ExponentialDecimal(decimal x, decimal y)
+  public static Range&lt;double&gt; ExponentialDouble(double x, double y)
+  public static Range&lt;byte&gt; ExponentialFromByte(byte z, byte x, byte y)
+  public static Range&lt;decimal&gt; ExponentialFromDecimal(decimal z, decimal x, decimal y)
+  public static Range&lt;double&gt; ExponentialFromDouble(double z, double x, double y)
+  public static Range&lt;int16&gt; ExponentialFromInt16(int16 z, int16 x, int16 y)
+  public static Range&lt;int32&gt; ExponentialFromInt32(int32 z, int32 x, int32 y)
+  public static Range&lt;int64&gt; ExponentialFromInt64(int64 z, int64 x, int64 y)
+  public static Range&lt;sbyte&gt; ExponentialFromSByte(sbyte z, sbyte x, sbyte y)
+  public static Range&lt;single&gt; ExponentialFromSingle(single z, single x, single y)
+  public static Range&lt;uint16&gt; ExponentialFromUInt16(uint16 z, uint16 x, uint16 y)
+  public static Range&lt;uint32&gt; ExponentialFromUInt32(uint32 z, uint32 x, uint32 y)
+  public static Range&lt;uint64&gt; ExponentialFromUInt64(uint64 z, uint64 x, uint64 y)
+  public static Range&lt;int16&gt; ExponentialInt16(int16 x, int16 y)
+  public static Range&lt;int32&gt; ExponentialInt32(int32 x, int32 y)
+  public static Range&lt;int64&gt; ExponentialInt64(int64 x, int64 y)
+  public static Range&lt;sbyte&gt; ExponentialSByte(sbyte x, sbyte y)
+  public static Range&lt;single&gt; ExponentialSingle(single x, single y)
+  public static Range&lt;uint16&gt; ExponentialUInt16(uint16 x, uint16 y)
+  public static Range&lt;uint32&gt; ExponentialUInt32(uint32 x, uint32 y)
+  public static Range&lt;uint64&gt; ExponentialUInt64(uint64 x, uint64 y)
+  public static Range&lt;T&gt; FromValue(T value)
+  public static Range&lt;byte&gt; LinearBoundedByte()
+  public static Range&lt;decimal&gt; LinearBoundedDecimal()
+  public static Range&lt;double&gt; LinearBoundedDouble()
+  public static Range&lt;int16&gt; LinearBoundedInt16()
+  public static Range&lt;int32&gt; LinearBoundedInt32()
+  public static Range&lt;int64&gt; LinearBoundedInt64()
+  public static Range&lt;sbyte&gt; LinearBoundedSByte()
+  public static Range&lt;single&gt; LinearBoundedSingle()
+  public static Range&lt;uint16&gt; LinearBoundedUInt16()
+  public static Range&lt;uint32&gt; LinearBoundedUInt32()
+  public static Range&lt;uint64&gt; LinearBoundedUInt64()
+  public static Range&lt;byte&gt; LinearByte(byte x, byte y)
+  public static Range&lt;decimal&gt; LinearDecimal(decimal x, decimal y)
+  public static Range&lt;double&gt; LinearDouble(double x, double y)
+  public static Range&lt;byte&gt; LinearFromByte(byte z, byte x, byte y)
+  public static Range&lt;decimal&gt; LinearFromDecimal(decimal z, decimal x, decimal y)
+  public static Range&lt;double&gt; LinearFromDouble(double z, double x, double y)
+  public static Range&lt;int16&gt; LinearFromInt16(int16 z, int16 x, int16 y)
+  public static Range&lt;int32&gt; LinearFromInt32(int32 z, int32 x, int32 y)
+  public static Range&lt;int64&gt; LinearFromInt64(int64 z, int64 x, int64 y)
+  public static Range&lt;sbyte&gt; LinearFromSByte(sbyte z, sbyte x, sbyte y)
+  public static Range&lt;single&gt; LinearFromSingle(single z, single x, single y)
+  public static Range&lt;uint16&gt; LinearFromUInt16(uint16 z, uint16 x, uint16 y)
+  public static Range&lt;uint32&gt; LinearFromUInt32(uint32 z, uint32 x, uint32 y)
+  public static Range&lt;uint64&gt; LinearFromUInt64(uint64 z, uint64 x, uint64 y)
+  public static Range&lt;int16&gt; LinearInt16(int16 x, int16 y)
+  public static Range&lt;int32&gt; LinearInt32(int32 x, int32 y)
+  public static Range&lt;int64&gt; LinearInt64(int64 x, int64 y)
+  public static Range&lt;sbyte&gt; LinearSByte(sbyte x, sbyte y)
+  public static Range&lt;single&gt; LinearSingle(single x, single y)
+  public static Range&lt;uint16&gt; LinearUInt16(uint16 x, uint16 y)
+  public static Range&lt;uint32&gt; LinearUInt32(uint32 x, uint32 y)
+  public static Range&lt;uint64&gt; LinearUInt64(uint64 x, uint64 y)
+  public static Range&lt;T&gt; Singleton(T value)
+}</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">Range</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_Linq_Range_Constant_T_T" data-uid="Hedgehog.Linq.Range.Constant-T-T">
+  Constant(&#39;T, &#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T x, T y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_Constant_T_T_T" data-uid="Hedgehog.Linq.Range.Constant-T-T-T">
+  Constant(&#39;T, &#39;T, &#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter with a
+origin point which may differ from the bounds.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T z, T x, T y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedByte" data-uid="Hedgehog.Linq.Range.ConstantBoundedByte">
+  ConstantBoundedByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ConstantBoundedByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedDecimal" data-uid="Hedgehog.Linq.Range.ConstantBoundedDecimal">
+  ConstantBoundedDecimal
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ConstantBoundedDecimal()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedDouble" data-uid="Hedgehog.Linq.Range.ConstantBoundedDouble">
+  ConstantBoundedDouble
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ConstantBoundedDouble()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedInt16" data-uid="Hedgehog.Linq.Range.ConstantBoundedInt16">
+  ConstantBoundedInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ConstantBoundedInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedInt32" data-uid="Hedgehog.Linq.Range.ConstantBoundedInt32">
+  ConstantBoundedInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ConstantBoundedInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedInt64" data-uid="Hedgehog.Linq.Range.ConstantBoundedInt64">
+  ConstantBoundedInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ConstantBoundedInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedSByte" data-uid="Hedgehog.Linq.Range.ConstantBoundedSByte">
+  ConstantBoundedSByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ConstantBoundedSByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedSingle" data-uid="Hedgehog.Linq.Range.ConstantBoundedSingle">
+  ConstantBoundedSingle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ConstantBoundedSingle()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedUInt16" data-uid="Hedgehog.Linq.Range.ConstantBoundedUInt16">
+  ConstantBoundedUInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ConstantBoundedUInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedUInt32" data-uid="Hedgehog.Linq.Range.ConstantBoundedUInt32">
+  ConstantBoundedUInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ConstantBoundedUInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ConstantBoundedUInt64" data-uid="Hedgehog.Linq.Range.ConstantBoundedUInt64">
+  ConstantBoundedUInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is unaffected by the size parameter using the
+full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ConstantBoundedUInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedByte" data-uid="Hedgehog.Linq.Range.ExponentialBoundedByte">
+  ExponentialBoundedByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialBoundedByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedDecimal" data-uid="Hedgehog.Linq.Range.ExponentialBoundedDecimal">
+  ExponentialBoundedDecimal
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialBoundedDecimal()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedDouble" data-uid="Hedgehog.Linq.Range.ExponentialBoundedDouble">
+  ExponentialBoundedDouble
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialBoundedDouble()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedInt16" data-uid="Hedgehog.Linq.Range.ExponentialBoundedInt16">
+  ExponentialBoundedInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialBoundedInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedInt32" data-uid="Hedgehog.Linq.Range.ExponentialBoundedInt32">
+  ExponentialBoundedInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialBoundedInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedInt64" data-uid="Hedgehog.Linq.Range.ExponentialBoundedInt64">
+  ExponentialBoundedInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialBoundedInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedSByte" data-uid="Hedgehog.Linq.Range.ExponentialBoundedSByte">
+  ExponentialBoundedSByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialBoundedSByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedSingle" data-uid="Hedgehog.Linq.Range.ExponentialBoundedSingle">
+  ExponentialBoundedSingle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialBoundedSingle()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedUInt16" data-uid="Hedgehog.Linq.Range.ExponentialBoundedUInt16">
+  ExponentialBoundedUInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialBoundedUInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedUInt32" data-uid="Hedgehog.Linq.Range.ExponentialBoundedUInt32">
+  ExponentialBoundedUInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialBoundedUInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialBoundedUInt64" data-uid="Hedgehog.Linq.Range.ExponentialBoundedUInt64">
+  ExponentialBoundedUInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled exponentially relative to the size
+parameter and uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialBoundedUInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialByte_byte_byte" data-uid="Hedgehog.Linq.Range.ExponentialByte-byte-byte">
+  ExponentialByte(byte, byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialByte(byte x, byte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialDecimal_decimal_decimal" data-uid="Hedgehog.Linq.Range.ExponentialDecimal-decimal-decimal">
+  ExponentialDecimal(decimal, decimal)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialDecimal(decimal x, decimal y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialDouble_double_double" data-uid="Hedgehog.Linq.Range.ExponentialDouble-double-double">
+  ExponentialDouble(double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialDouble(double x, double y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromByte_byte_byte_byte" data-uid="Hedgehog.Linq.Range.ExponentialFromByte-byte-byte-byte">
+  ExponentialFromByte(byte, byte, byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialFromByte(byte z, byte x, byte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromDecimal_decimal_decimal_decimal" data-uid="Hedgehog.Linq.Range.ExponentialFromDecimal-decimal-decimal-decimal">
+  ExponentialFromDecimal(decimal, decimal, decimal)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromDouble_double_double_double" data-uid="Hedgehog.Linq.Range.ExponentialFromDouble-double-double-double">
+  ExponentialFromDouble(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialFromDouble(double z, double x, double y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromInt16_int16_int16_int16" data-uid="Hedgehog.Linq.Range.ExponentialFromInt16-int16-int16-int16">
+  ExponentialFromInt16(int16, int16, int16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialFromInt16(int16 z, int16 x, int16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromInt32_int32_int32_int32" data-uid="Hedgehog.Linq.Range.ExponentialFromInt32-int32-int32-int32">
+  ExponentialFromInt32(int32, int32, int32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialFromInt32(int32 z, int32 x, int32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromInt64_int64_int64_int64" data-uid="Hedgehog.Linq.Range.ExponentialFromInt64-int64-int64-int64">
+  ExponentialFromInt64(int64, int64, int64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialFromInt64(int64 z, int64 x, int64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromSByte_sbyte_sbyte_sbyte" data-uid="Hedgehog.Linq.Range.ExponentialFromSByte-sbyte-sbyte-sbyte">
+  ExponentialFromSByte(sbyte, sbyte, sbyte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromSingle_single_single_single" data-uid="Hedgehog.Linq.Range.ExponentialFromSingle-single-single-single">
+  ExponentialFromSingle(single, single, single)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialFromSingle(single z, single x, single y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromUInt16_uint16_uint16_uint16" data-uid="Hedgehog.Linq.Range.ExponentialFromUInt16-uint16-uint16-uint16">
+  ExponentialFromUInt16(uint16, uint16, uint16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromUInt32_uint32_uint32_uint32" data-uid="Hedgehog.Linq.Range.ExponentialFromUInt32-uint32-uint32-uint32">
+  ExponentialFromUInt32(uint32, uint32, uint32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialFromUInt64_uint64_uint64_uint64" data-uid="Hedgehog.Linq.Range.ExponentialFromUInt64-uint64-uint64-uint64">
+  ExponentialFromUInt64(uint64, uint64, uint64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds exponentially relative to the
+size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialInt16_int16_int16" data-uid="Hedgehog.Linq.Range.ExponentialInt16-int16-int16">
+  ExponentialInt16(int16, int16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialInt16(int16 x, int16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialInt32_int32_int32" data-uid="Hedgehog.Linq.Range.ExponentialInt32-int32-int32">
+  ExponentialInt32(int32, int32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialInt32(int32 x, int32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialInt64_int64_int64" data-uid="Hedgehog.Linq.Range.ExponentialInt64-int64-int64">
+  ExponentialInt64(int64, int64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialInt64(int64 x, int64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialSByte_sbyte_sbyte" data-uid="Hedgehog.Linq.Range.ExponentialSByte-sbyte-sbyte">
+  ExponentialSByte(sbyte, sbyte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialSByte(sbyte x, sbyte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialSingle_single_single" data-uid="Hedgehog.Linq.Range.ExponentialSingle-single-single">
+  ExponentialSingle(single, single)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialSingle(single x, single y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialUInt16_uint16_uint16" data-uid="Hedgehog.Linq.Range.ExponentialUInt16-uint16-uint16">
+  ExponentialUInt16(uint16, uint16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialUInt16(uint16 x, uint16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialUInt32_uint32_uint32" data-uid="Hedgehog.Linq.Range.ExponentialUInt32-uint32-uint32">
+  ExponentialUInt32(uint32, uint32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialUInt32(uint32 x, uint32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_ExponentialUInt64_uint64_uint64" data-uid="Hedgehog.Linq.Range.ExponentialUInt64-uint64-uint64">
+  ExponentialUInt64(uint64, uint64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound exponentially relative
+to the size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialUInt64(uint64 x, uint64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_FromValue_T" data-uid="Hedgehog.Linq.Range.FromValue-T">
+  FromValue(&#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which represents a constant single value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; FromValue(T value)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedByte" data-uid="Hedgehog.Linq.Range.LinearBoundedByte">
+  LinearBoundedByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearBoundedByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedDecimal" data-uid="Hedgehog.Linq.Range.LinearBoundedDecimal">
+  LinearBoundedDecimal
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearBoundedDecimal()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedDouble" data-uid="Hedgehog.Linq.Range.LinearBoundedDouble">
+  LinearBoundedDouble
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearBoundedDouble()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedInt16" data-uid="Hedgehog.Linq.Range.LinearBoundedInt16">
+  LinearBoundedInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearBoundedInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedInt32" data-uid="Hedgehog.Linq.Range.LinearBoundedInt32">
+  LinearBoundedInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearBoundedInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedInt64" data-uid="Hedgehog.Linq.Range.LinearBoundedInt64">
+  LinearBoundedInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearBoundedInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedSByte" data-uid="Hedgehog.Linq.Range.LinearBoundedSByte">
+  LinearBoundedSByte
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearBoundedSByte()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedSingle" data-uid="Hedgehog.Linq.Range.LinearBoundedSingle">
+  LinearBoundedSingle
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearBoundedSingle()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedUInt16" data-uid="Hedgehog.Linq.Range.LinearBoundedUInt16">
+  LinearBoundedUInt16
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearBoundedUInt16()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedUInt32" data-uid="Hedgehog.Linq.Range.LinearBoundedUInt32">
+  LinearBoundedUInt32
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearBoundedUInt32()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearBoundedUInt64" data-uid="Hedgehog.Linq.Range.LinearBoundedUInt64">
+  LinearBoundedUInt64
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which is scaled relative to the size parameter and
+uses the full range of a data type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearBoundedUInt64()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearByte_byte_byte" data-uid="Hedgehog.Linq.Range.LinearByte-byte-byte">
+  LinearByte(byte, byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearByte(byte x, byte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearDecimal_decimal_decimal" data-uid="Hedgehog.Linq.Range.LinearDecimal-decimal-decimal">
+  LinearDecimal(decimal, decimal)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearDecimal(decimal x, decimal y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearDouble_double_double" data-uid="Hedgehog.Linq.Range.LinearDouble-double-double">
+  LinearDouble(double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearDouble(double x, double y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromByte_byte_byte_byte" data-uid="Hedgehog.Linq.Range.LinearFromByte-byte-byte-byte">
+  LinearFromByte(byte, byte, byte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearFromByte(byte z, byte x, byte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromDecimal_decimal_decimal_decimal" data-uid="Hedgehog.Linq.Range.LinearFromDecimal-decimal-decimal-decimal">
+  LinearFromDecimal(decimal, decimal, decimal)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromDouble_double_double_double" data-uid="Hedgehog.Linq.Range.LinearFromDouble-double-double-double">
+  LinearFromDouble(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearFromDouble(double z, double x, double y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromInt16_int16_int16_int16" data-uid="Hedgehog.Linq.Range.LinearFromInt16-int16-int16-int16">
+  LinearFromInt16(int16, int16, int16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearFromInt16(int16 z, int16 x, int16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromInt32_int32_int32_int32" data-uid="Hedgehog.Linq.Range.LinearFromInt32-int32-int32-int32">
+  LinearFromInt32(int32, int32, int32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearFromInt32(int32 z, int32 x, int32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromInt64_int64_int64_int64" data-uid="Hedgehog.Linq.Range.LinearFromInt64-int64-int64-int64">
+  LinearFromInt64(int64, int64, int64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearFromInt64(int64 z, int64 x, int64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromSByte_sbyte_sbyte_sbyte" data-uid="Hedgehog.Linq.Range.LinearFromSByte-sbyte-sbyte-sbyte">
+  LinearFromSByte(sbyte, sbyte, sbyte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromSingle_single_single_single" data-uid="Hedgehog.Linq.Range.LinearFromSingle-single-single-single">
+  LinearFromSingle(single, single, single)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearFromSingle(single z, single x, single y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromUInt16_uint16_uint16_uint16" data-uid="Hedgehog.Linq.Range.LinearFromUInt16-uint16-uint16-uint16">
+  LinearFromUInt16(uint16, uint16, uint16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromUInt32_uint32_uint32_uint32" data-uid="Hedgehog.Linq.Range.LinearFromUInt32-uint32-uint32-uint32">
+  LinearFromUInt32(uint32, uint32, uint32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearFromUInt64_uint64_uint64_uint64" data-uid="Hedgehog.Linq.Range.LinearFromUInt64-uint64-uint64-uint64">
+  LinearFromUInt64(uint64, uint64, uint64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the bounds relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearInt16_int16_int16" data-uid="Hedgehog.Linq.Range.LinearInt16-int16-int16">
+  LinearInt16(int16, int16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearInt16(int16 x, int16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearInt32_int32_int32" data-uid="Hedgehog.Linq.Range.LinearInt32-int32-int32">
+  LinearInt32(int32, int32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearInt32(int32 x, int32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearInt64_int64_int64" data-uid="Hedgehog.Linq.Range.LinearInt64-int64-int64">
+  LinearInt64(int64, int64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearInt64(int64 x, int64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearSByte_sbyte_sbyte" data-uid="Hedgehog.Linq.Range.LinearSByte-sbyte-sbyte">
+  LinearSByte(sbyte, sbyte)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearSByte(sbyte x, sbyte y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearSingle_single_single" data-uid="Hedgehog.Linq.Range.LinearSingle-single-single">
+  LinearSingle(single, single)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearSingle(single x, single y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearUInt16_uint16_uint16" data-uid="Hedgehog.Linq.Range.LinearUInt16-uint16-uint16">
+  LinearUInt16(uint16, uint16)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearUInt16(uint16 x, uint16 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearUInt32_uint32_uint32" data-uid="Hedgehog.Linq.Range.LinearUInt32-uint32-uint32">
+  LinearUInt32(uint32, uint32)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearUInt32(uint32 x, uint32 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_LinearUInt64_uint64_uint64" data-uid="Hedgehog.Linq.Range.LinearUInt64-uint64-uint64">
+  LinearUInt64(uint64, uint64)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which scales the second bound relative to the size
+parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearUInt64(uint64 x, uint64 y)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Range_Singleton_T" data-uid="Hedgehog.Linq.Range.Singleton-T">
+  Singleton(&#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Construct a range which represents a constant single value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Singleton(T value)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

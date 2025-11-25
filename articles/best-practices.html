@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Property-Based Testing Best Practices | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Property-Based Testing Best Practices | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/articles/best-practices.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="">
+<h1 id="property-based-testing-best-practices">Property-Based Testing Best Practices</h1>
+
+<h2 id="the-mental-shift-from-examples-to-properties">The Mental Shift: From Examples to Properties</h2>
+<p>Property-based testing requires a fundamental shift in how you think about testing. Instead of asking &quot;what specific examples should I test?&quot;, you ask &quot;what is <strong>always true</strong> about my code?&quot;</p>
+<h3 id="example-based-vs-property-based-thinking">Example-Based vs Property-Based Thinking</h3>
+<table>
+<thead>
+<tr>
+<th>Example-Based</th>
+<th>Property-Based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Test with values 1, 5, and 100&quot;</td>
+<td>&quot;Test with any positive integer&quot;</td>
+</tr>
+<tr>
+<td>&quot;Check this specific case&quot;</td>
+<td>&quot;What's always true?&quot;</td>
+</tr>
+<tr>
+<td>&quot;This input gives this output&quot;</td>
+<td>&quot;What relationship holds between input and output?&quot;</td>
+</tr>
+<tr>
+<td>&quot;Cover branches&quot;</td>
+<td>&quot;Cover invariants and properties&quot;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-core-philosophy">The Core Philosophy</h3>
+<p><strong>Properties over Examples</strong>: Seek universal truths that hold for all valid inputs, not just carefully chosen examples.</p>
+<p><strong>Generative Thinking</strong>: Think about the <em>space of all possible inputs</em>. What happens with empty collections? Maximum values? Negative numbers? Unicode characters?</p>
+<p><strong>Shrinking for Clarity</strong>: When tests fail, the framework automatically finds the minimal failing case, revealing the true cause.</p>
+<p><strong>Specification by Properties</strong>: Properties serve as executable specifications that document how your code should behave.</p>
+<p><strong>Essential over Exhaustive</strong>: Focus on minimal, non-overlapping properties that provide unique value. Quality over quantity.</p>
+<h2 id="discovering-properties-a-systematic-approach">Discovering Properties: A Systematic Approach</h2>
+<h3 id="step-1-understand-the-codes-contracts">Step 1: Understand the Code's Contracts</h3>
+<p>Before writing any test, ask these fundamental questions:</p>
+<ul>
+<li><strong>What are the preconditions?</strong> (What inputs are valid?)</li>
+<li><strong>What are the postconditions?</strong> (What does the code guarantee about outputs?)</li>
+<li><strong>What invariants must always hold?</strong> (What never changes?)</li>
+<li><strong>What relationships exist between inputs and outputs?</strong></li>
+<li><strong>What business rules must never be violated?</strong></li>
+</ul>
+<h3 id="step-2-use-property-pattern-recognition">Step 2: Use Property Pattern Recognition</h3>
+<p>Start with the easiest patterns to identify:</p>
+<ol>
+<li><strong>Type Properties</strong>: Does it return the expected type?</li>
+<li><strong>Boundary Properties</strong>: What happens at edges (empty, zero, max, null)?</li>
+<li><strong>Idempotent Properties</strong>: Does doing it twice = doing it once?</li>
+<li><strong>Inverse Properties</strong>: Can you undo the operation?</li>
+<li><strong>Invariant Properties</strong>: What never changes?</li>
+<li><strong>Commutative Properties</strong>: Does order matter?</li>
+<li><strong>Business Rule Properties</strong>: What domain rules must hold?</li>
+</ol>
+<h2 id="the-seven-core-property-patterns">The Seven Core Property Patterns</h2>
+<h3 id="1-invariants-what-never-changes">1. Invariants: What Never Changes</h3>
+<p><strong>Pattern</strong>: Properties that always hold about the result, regardless of input.</p>
+<p><strong>When to use</strong>: When something about the output must always be true.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>What properties are preserved by this operation?</li>
+<li>What must always be true about the result?</li>
+<li>What can't possibly change?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Sorting preserves all elements (count and contents)</li>
+<li>Mapping over a list preserves its length</li>
+<li>Filtering never increases collection size</li>
+<li>String trimming never increases length</li>
+</ul>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Sort should preserve all elements`` () =
+    property {
+        let! list = Gen.list (Range.linear 0 100) Gen.int32
+        let sorted = List.sort list
+        test &lt;@ List.length sorted = List.length list @&gt;
+        test &lt;@ List.forall (fun x -&gt; List.contains x sorted) list @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+[Fact]
+public void Sort_Should_Preserve_All_Elements()
+{
+    var property =
+        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        let sorted = list.OrderBy(x =&gt; x).ToList()
+        select sorted.Count == list.Count &amp;&amp; list.All(x =&gt; sorted.Contains(x));
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="2-business-rules-domain-constraints">2. Business Rules: Domain Constraints</h3>
+<p><strong>Pattern</strong>: Domain-specific rules that must never be violated.</p>
+<p><strong>When to use</strong>: When you have business logic that defines what's valid.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>What business rules must never be broken?</li>
+<li>What would make the output invalid in the business domain?</li>
+<li>What constraints does the domain impose?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Discounts never exceed the original price</li>
+<li>Age must be within valid range (0-120)</li>
+<li>Account balance can't go negative (unless overdraft allowed)</li>
+<li>Percentages must be between 0 and 100</li>
+</ul>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+let priceGen = Gen.int32 (Range.constant 1 10000) |&gt; Gen.map (fun x -&gt; decimal x / 100m)
+let discountGen = Gen.int32 (Range.constant 0 100) |&gt; Gen.map (fun x -&gt; decimal x / 100m)
+
+[&lt;Fact&gt;]
+let ``Apply discount should never exceed original price`` () =
+    property {
+        let! price = priceGen
+        let! discountPercent = discountGen
+        let discounted = applyDiscount price discountPercent
+        test &lt;@ discounted &lt;= price @&gt;
+        test &lt;@ discounted &gt;= 0m @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+var priceGen = Gen.Int32(Range.Constant(1, 10000)).Select(x =&gt; (decimal)x / 100);
+var discountGen = Gen.Int32(Range.Constant(0, 100)).Select(x =&gt; (decimal)x / 100);
+
+[Fact]
+public void ApplyDiscount_Should_Never_Exceed_Original_Price()
+{
+    var property =
+        from price in priceGen.ForAll()
+        from discountPercent in discountGen.ForAll()
+        let discounted = ApplyDiscount(price, discountPercent)
+        select discounted &lt;= price &amp;&amp; discounted &gt;= 0;
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="3-inverseroundtrip-reversible-operations">3. Inverse/Roundtrip: Reversible Operations</h3>
+<p><strong>Pattern</strong>: Operations that undo each other should return to the original state.</p>
+<p><strong>When to use</strong>: When you have encode/decode, serialize/deserialize, compress/decompress, encrypt/decrypt, or any reversible transformation.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>Can I undo this operation?</li>
+<li>Is there a reverse operation?</li>
+<li>Should encode→decode return the original?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Serialize→Deserialize = identity</li>
+<li>Encode→Decode = identity</li>
+<li>Compress→Decompress = identity</li>
+<li>Add→Subtract = identity</li>
+</ul>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open System.Text.Json
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Serialize should roundtrip when deserializing`` () =
+    property {
+        let! person = Gen.auto&lt;Person&gt;
+        let json = JsonSerializer.Serialize(person)
+        let restored = JsonSerializer.Deserialize&lt;Person&gt;(json)
+        test &lt;@ restored = person @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+var personGen = /* define your Person generator */;
+
+[Fact]
+public void Serialize_Should_RoundTrip_When_Deserializing()
+{
+    var property =
+        from person in personGen.ForAll()
+        let json = JsonSerializer.Serialize(person)
+        let restored = JsonSerializer.Deserialize&lt;Person&gt;(json)
+        select restored.Equals(person);
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="4-idempotence-applying-n-times--applying-once">4. Idempotence: Applying N Times = Applying Once</h3>
+<p><strong>Pattern</strong>: Applying an operation multiple times has the same effect as applying it once.</p>
+<p><strong>When to use</strong>: When operations normalize, clean, or reach a stable state.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>Does applying this twice change the result?</li>
+<li>Does the operation stabilize?</li>
+<li>Is this a normalization?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Normalize(Normalize(x)) = Normalize(x)</li>
+<li>ToUpper(ToUpper(s)) = ToUpper(s)</li>
+<li>Trim(Trim(s)) = Trim(s)</li>
+<li>Absolute value is idempotent: Abs(Abs(x)) = Abs(x)</li>
+</ul>
+<div class="tabGroup" id="tabgroup_4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_4_fsharp" role="tab" aria-controls="tabpanel_4_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_4_csharp" role="tab" aria-controls="tabpanel_4_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_4_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Normalize should be idempotent`` () =
+    property {
+        let! text = Gen.string (Range.linear 0 100) Gen.unicode
+        let once = normalize text
+        let twice = normalize once
+        test &lt;@ twice = once @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_4_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+[Fact]
+public void Normalize_Should_Be_Idempotent()
+{
+    var property =
+        from text in Gen.Unicode.String(Range.Linear(0, 100)).ForAll()
+        let once = Normalize(text)
+        let twice = Normalize(once)
+        select twice == once;
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="5-oracle-comparing-against-known-truth">5. Oracle: Comparing Against Known Truth</h3>
+<p><strong>Pattern</strong>: Compare your implementation against a reference implementation or mathematical truth.</p>
+<p><strong>When to use</strong>: When you have a trusted implementation (standard library, mathematical formula, legacy system).</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>Is there a reference implementation?</li>
+<li>Can I use a mathematical formula?</li>
+<li>Is there a simpler (but slower) correct implementation?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Custom sort should match standard library sort</li>
+<li>Square root: sqrt(x)² ≈ x</li>
+<li>Custom parser should match standard parser</li>
+<li>Optimized algorithm should match naive implementation</li>
+</ul>
+<div class="tabGroup" id="tabgroup_5">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_5_fsharp" role="tab" aria-controls="tabpanel_5_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_5_csharp" role="tab" aria-controls="tabpanel_5_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_5_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Custom sort should match standard sort`` () =
+    property {
+        let! list = Gen.list (Range.linear 0 100) Gen.int32
+        let custom = myCustomSort list
+        let standard = List.sort list
+        test &lt;@ custom = standard @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_5_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+[Fact]
+public void CustomSort_Should_Match_StandardSort()
+{
+    var property =
+        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        let custom = MyCustomSort(list)
+        let standard = list.OrderBy(x =&gt; x).ToList()
+        select custom.SequenceEqual(standard);
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="6-metamorphic-how-input-changes-affect-output">6. Metamorphic: How Input Changes Affect Output</h3>
+<p><strong>Pattern</strong>: How transforming the input should transform the output.</p>
+<p><strong>When to use</strong>: When you understand the mathematical or logical relationship between input and output transformations.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>If I double the input, what happens to the output?</li>
+<li>If I reverse the input, how does the output change?</li>
+<li>What transformations have predictable effects?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Doubling all elements doubles the sum</li>
+<li>Reversing input twice returns original</li>
+<li>Adding constant to all elements adds constant × count to sum</li>
+<li>Multiplying prices by 2 multiplies total by 2</li>
+</ul>
+<div class="tabGroup" id="tabgroup_6">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_6_fsharp" role="tab" aria-controls="tabpanel_6_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_6_csharp" role="tab" aria-controls="tabpanel_6_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_6_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Doubling elements should double the sum`` () =
+    property {
+        let! list = Gen.list (Range.linear 0 100) Gen.int32
+        let originalSum = List.sum list
+        let doubledSum = list |&gt; List.map ((*) 2) |&gt; List.sum
+        test &lt;@ doubledSum = originalSum * 2 @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_6_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+[Fact]
+public void DoublingElements_Should_Double_The_Sum()
+{
+    var property =
+        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        let originalSum = list.Sum()
+        let doubledSum = list.Select(x =&gt; x * 2).Sum()
+        select doubledSum == originalSum * 2;
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h3 id="7-model-based-generate-valid-output-first">7. Model-Based: Generate Valid Output First</h3>
+<p><strong>Pattern</strong>: Generate the expected output first, then derive the input that should produce it.</p>
+<p><strong>When to use</strong>: When it's easier to generate valid output than to generate valid input, or when you want to avoid complex filtering.</p>
+<p><strong>Questions to ask</strong>:</p>
+<ul>
+<li>What does valid output look like?</li>
+<li>Can I work backwards from output to input?</li>
+<li>Is it easier to generate the result than the cause?</li>
+</ul>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li>Generate event → derive command that should produce it</li>
+<li>Generate normalized form → derive denormalized input</li>
+<li>Generate valid parse result → derive string that should parse to it</li>
+</ul>
+<div class="tabGroup" id="tabgroup_7">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_7_fsharp" role="tab" aria-controls="tabpanel_7_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_7_csharp" role="tab" aria-controls="tabpanel_7_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Swensen.Unquote
+
+[&lt;Fact&gt;]
+let ``Create account command should produce expected event`` () =
+    property {
+        let! expectedEvent = Gen.auto&lt;AccountCreatedEvent&gt;
+        // Work backwards: derive command from event
+        let command = 
+            { AccountId = expectedEvent.AccountId
+              Name = expectedEvent.Name
+              InitialBalance = expectedEvent.InitialBalance }
+        let actualEvent = accountService.Handle command
+        test &lt;@ actualEvent = expectedEvent @&gt;
+    }
+    |&gt; Property.check
+</code></pre>
+</section>
+<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+var eventGen = /* define your AccountCreatedEvent generator */;
+
+[Fact]
+public void CreateAccountCommand_Should_Produce_Expected_Event()
+{
+    var property =
+        from expectedEvent in eventGen.ForAll()
+        // Work backwards: derive command from event
+        let command = new CreateAccountCommand(
+            expectedEvent.AccountId,
+            expectedEvent.Name,
+            expectedEvent.InitialBalance)
+        let actualEvent = accountService.Handle(command)
+        select actualEvent.Equals(expectedEvent);
+
+    property.Check();
+}
+</code></pre>
+</section>
+</div>
+<h2 id="avoiding-overlapping-properties">Avoiding Overlapping Properties</h2>
+<p><strong>Critical Rule</strong>: Before implementing tests, ensure your properties are distinct and non-overlapping.</p>
+<h3 id="the-problem-with-overlapping-properties">The Problem with Overlapping Properties</h3>
+<p>Multiple properties that verify the same underlying truth waste effort and create maintenance burden without adding value.</p>
+<h3 id="the-elimination-workflow">The Elimination Workflow</h3>
+<ol>
+<li><strong>Discovery</strong>: List ALL candidate properties you can think of</li>
+<li><strong>Analysis</strong>: Examine relationships between properties</li>
+<li><strong>Elimination</strong>: Remove redundancy using these criteria:
+<ul>
+<li>If property A failing → property B must fail: Keep the stronger one only</li>
+<li>If property A is a special case of B: Keep B only</li>
+<li>If same invariant, different wording: Keep the clearest one</li>
+</ul>
+</li>
+<li><strong>Proposal</strong>: Present minimal set with justification</li>
+</ol>
+<h3 id="example-sorting-function">Example: Sorting Function</h3>
+<p><strong>Initial candidates</strong>:</p>
+<ol>
+<li>Sorted list contains all original elements</li>
+<li>Sorted list has same count as original</li>
+<li>Sorted list has same elements with same frequencies</li>
+<li>Sorted list is in ascending order</li>
+<li>Sorting twice gives same result as sorting once</li>
+</ol>
+<p><strong>Analysis</strong>:</p>
+<ul>
+<li>Property 2 is weaker than property 1 (1 failing → 2 fails)</li>
+<li>Property 3 is weaker than property 1 (1 failing → 3 fails)</li>
+<li>Property 4 tests a different aspect (ordering, not preservation)</li>
+<li>Property 5 tests a different aspect (idempotence)</li>
+</ul>
+<p><strong>Final minimal set</strong>:</p>
+<ol>
+<li>Sorted list contains all original elements (covers count and frequencies)</li>
+<li>Sorted list is in ascending order</li>
+<li>Sorting twice gives same result as sorting once</li>
+</ol>
+<h2 id="designing-effective-generators">Designing Effective Generators</h2>
+<h3 id="when-to-use-auto-generation">When to Use Auto-Generation</h3>
+<p><strong>Use auto-generation (default) when</strong>:</p>
+<ul>
+<li>Testing with primitive types (int, string, bool, etc.)</li>
+<li>Working with simple domain objects with public constructors</li>
+<li>Testing collections of simple types</li>
+<li>You want to explore the full input space without constraints</li>
+</ul>
+<h3 id="when-to-create-custom-generators">When to Create Custom Generators</h3>
+<p><strong>Create custom generators when</strong>:</p>
+<ul>
+<li>You need constrained values (positive numbers, valid emails, etc.)</li>
+<li>Testing complex domain objects with invariants</li>
+<li>Values must follow specific business rules</li>
+<li>Working with recursive data structures</li>
+<li>You need specific distributions (e.g., mostly small values, rare large values)</li>
+</ul>
+<h3 id="generator-design-principles">Generator Design Principles</h3>
+<p><strong>Coverage</strong>: Generate the full valid input space, including edge cases (empty, zero, max, min, null, etc.)</p>
+<p><strong>Relevance</strong>: Focus on valid inputs. Test invalid cases separately with explicit invalid generators.</p>
+<p><strong>Composition</strong>: Build complex generators from simple ones using LINQ.</p>
+<p><strong>Realistic</strong>: Generate data that resembles production scenarios, not just random noise.</p>
+<p><strong>Avoid Over-Filtering</strong>: Don't use <code>where</code> clauses that reject most generated values.</p>
+<h3 id="the-filtering-anti-pattern">The Filtering Anti-Pattern</h3>
+<p>❌ <strong>Bad</strong> - Filtering rejects many values:</p>
+<div class="tabGroup" id="tabgroup_8">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_8_fsharp" role="tab" aria-controls="tabpanel_8_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_8_csharp" role="tab" aria-controls="tabpanel_8_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+// Bad: Rejects ~50% of generated values
+gen {
+    let! x = Gen.int32 (Range.constant -1000 1000)
+    where (x &gt; 0)
+    return x
+}
+
+// Bad: Rejects 50% of values
+gen {
+    let! x = Gen.int32 (Range.constant -100 100)
+    where (x % 2 = 0)
+    return x
+}
+</code></pre>
+</section>
+<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+// Bad: Rejects ~50% of generated values
+from x in Gen.Int32(Range.Constant(-1000, 1000)) 
+where x &gt; 0 
+select x
+
+// Bad: Rejects 50% of values
+from x in Gen.Int32(Range.Constant(-100, 100)) 
+where x % 2 == 0 
+select x
+</code></pre>
+</section>
+</div>
+
+<p>✅ <strong>Good</strong> - Generate only valid values:</p>
+<div class="tabGroup" id="tabgroup_9">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+// Good: Only generates positive values
+Gen.int32 (Range.constant 1 1000)
+
+// Good: Only generates even values
+Gen.int32 (Range.constant -50 50) |&gt; Gen.map ((*) 2)
+</code></pre>
+</section>
+<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+
+// Good: Only generates positive values
+Gen.Int32(Range.Constant(1, 1000))
+
+// Good: Only generates even values
+Gen.Int32(Range.Constant(-50, 50)).Select(x =&gt; x * 2)
+</code></pre>
+</section>
+</div>
+
+<p><strong>Rule of Thumb</strong>: If your generator rejects more than 10-20% of values, redesign it to generate valid values directly.</p>
+<h2 id="common-anti-patterns-to-avoid">Common Anti-Patterns to Avoid</h2>
+<h3 id="testing-anti-patterns">Testing Anti-Patterns</h3>
+<p>❌ <strong>Testing Implementation Details</strong>: Don't test <em>how</em> code works, test <em>what</em> it does.</p>
+<ul>
+<li>Bad: Checking internal state or private fields</li>
+<li>Good: Checking observable behavior and guarantees</li>
+</ul>
+<p>❌ <strong>Over-Constraining Generators</strong>: Don't make generators so specific they only produce passing values.</p>
+<ul>
+<li>Bad: Only generating sorted lists when testing a sort function</li>
+<li>Good: Generating any list and asserting it becomes sorted</li>
+</ul>
+<p>❌ <strong>Hidden Assumptions</strong>: Don't assume specific generated values in your assertions.</p>
+<ul>
+<li>Bad: <code>result.Should().Be(42)</code> in a property test</li>
+<li>Good: <code>result.Should().BeGreaterThan(input)</code></li>
+</ul>
+<p>❌ <strong>Example-Based Thinking in Property Tests</strong>: Don't test specific values; test relationships.</p>
+<ul>
+<li>Bad: <code>[Property] void Test(int x) =&gt; Foo(5).Should().Be(10);</code></li>
+<li>Good: <code>[Property] void Test(int x) =&gt; Foo(x).Should().Be(x * 2);</code></li>
+</ul>
+<p>❌ <strong>Ignoring Shrinking Output</strong>: The minimal failing case is the key to understanding the bug.</p>
+<ul>
+<li>Don't just see &quot;test failed&quot;</li>
+<li>Examine the shrunk input to understand why</li>
+</ul>
+<p>❌ <strong>Too Many Assertions in One Test</strong>: Keep property tests focused on a single property.</p>
+<ul>
+<li>Bad: Testing 5 different invariants in one test</li>
+<li>Good: One property per test, 5 focused tests</li>
+</ul>
+<p>❌ <strong>Redundant Properties</strong>: Don't create multiple tests that verify the same underlying property.</p>
+<ul>
+<li>Analyze relationships between properties</li>
+<li>Keep only distinct, non-overlapping tests</li>
+</ul>
+<p>❌ <strong>Weak Properties Instead of Strong Ones</strong>: Don't write several weak properties when one stronger property would suffice.</p>
+<ul>
+<li>Bad: Separate tests for count, for element presence, for no duplicates</li>
+<li>Good: One test asserting &quot;contains all original elements&quot; (implies count, presence, and frequency)</li>
+</ul>
+<h3 id="generator-anti-patterns">Generator Anti-Patterns</h3>
+<p>❌ <strong>Insufficient Coverage</strong>: Generators that miss important edge cases.</p>
+<ul>
+<li>Consider: empty, zero, negative, max, min, null, whitespace, Unicode</li>
+</ul>
+<p>❌ <strong>Unrealistic Data</strong>: Generating values that would never occur in production.</p>
+<ul>
+<li>Bad: Random strings that don't resemble real data</li>
+<li>Good: Strings that look like actual names, emails, addresses</li>
+</ul>
+<p>❌ <strong>Over-Filtering</strong>: Using <code>where</code> that rejects most generated values (&gt;50% rejection).</p>
+<ul>
+<li>See &quot;The Filtering Anti-Pattern&quot; section above</li>
+</ul>
+<h2 id="the-property-discovery-checklist">The Property Discovery Checklist</h2>
+<p>When analyzing code to test, systematically ask:</p>
+<p><strong>Universal Truths</strong>:</p>
+<ul>
+<li>☐ What's <strong>always true</strong> about the output?</li>
+<li>☐ What <strong>can't possibly happen</strong> if the code is correct?</li>
+<li>☐ What would it mean for this to be <strong>correct</strong>?</li>
+</ul>
+<p><strong>Reversibility</strong>:</p>
+<ul>
+<li>☐ Can I <strong>undo</strong> this operation?</li>
+<li>☐ Is there an inverse operation?</li>
+</ul>
+<p><strong>Stability</strong>:</p>
+<ul>
+<li>☐ Does doing this <strong>twice</strong> differ from <strong>once</strong>?</li>
+<li>☐ Does it reach a stable state?</li>
+</ul>
+<p><strong>Relationships</strong>:</p>
+<ul>
+<li>☐ What <strong>relationships</strong> must hold between input and output?</li>
+<li>☐ How do input transformations affect output?</li>
+</ul>
+<p><strong>Boundaries</strong>:</p>
+<ul>
+<li>☐ What happens at the <strong>edges</strong> (empty, zero, max, null)?</li>
+<li>☐ What separates valid from invalid?</li>
+</ul>
+<p><strong>Domain Rules</strong>:</p>
+<ul>
+<li>☐ What <strong>business rules</strong> must never be violated?</li>
+<li>☐ What domain constraints exist?</li>
+</ul>
+<p><strong>Comparison</strong>:</p>
+<ul>
+<li>☐ Is there a <strong>reference implementation</strong> to compare against?</li>
+<li>☐ Is there a mathematical truth to verify?</li>
+</ul>
+<h2 id="practical-workflow">Practical Workflow</h2>
+<h3 id="1-start-simple">1. Start Simple</h3>
+<p>Begin with the most obvious property and auto-generated parameters.</p>
+<h3 id="2-run-and-observe">2. Run and Observe</h3>
+<p>Let the generator explore the input space. Pay attention to failures.</p>
+<h3 id="3-analyze-shrinking">3. Analyze Shrinking</h3>
+<p>When tests fail, examine the minimal failing case. What does it reveal?</p>
+<h3 id="4-refine-generators">4. Refine Generators</h3>
+<p>If auto-generation is too broad, add constraints with custom generators.</p>
+<h3 id="5-iterate">5. Iterate</h3>
+<p>Add more properties one at a time, ensuring each adds unique value.</p>
+<h3 id="6-review-for-overlap">6. Review for Overlap</h3>
+<p>Before finalizing, eliminate redundant properties.</p>
+<h2 id="the-power-of-property-based-testing">The Power of Property-Based Testing</h2>
+<p><strong>Coverage</strong>: One property test exercises your code with hundreds of different inputs.</p>
+<p><strong>Edge Cases</strong>: Generators automatically explore boundaries you might not think of.</p>
+<p><strong>Documentation</strong>: Properties serve as executable specifications.</p>
+<p><strong>Regression Protection</strong>: Properties continue to verify behavior as code evolves.</p>
+<p><strong>Bug Finding</strong>: Random exploration often finds bugs that example-based tests miss.</p>
+<p><strong>Minimal Failures</strong>: Shrinking reveals the simplest case that breaks your code.</p>
+<hr>
+<p><strong>Remember</strong>: The goal is not to test <em>examples</em>, but to discover and verify <em>universal truths</em> about your code. Think in properties, not examples.</p>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

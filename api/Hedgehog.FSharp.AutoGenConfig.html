@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class AutoGenConfig | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class AutoGenConfig | Hedgehog .NET ">
+      
+      <meta name="description" content="Functions for configuring automatic generator discovery and registration. This module provides an F#-friendly API for customizing how generators are automatically created for your types. Use these functions to set collection ranges, recursion depth, and register custom generators.">
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_FSharp_AutoGenConfig.md&amp;value=---%0Auid%3A%20Hedgehog.FSharp.AutoGenConfig%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.FSharp.AutoGenConfig">
+
+
+
+  <h1 id="Hedgehog_FSharp_AutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig" class="text-break">
+Class AutoGenConfig  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.FSharp</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Functions for configuring automatic generator discovery and registration.</p>
+<p>This module provides an F#-friendly API for customizing how generators are automatically
+created for your types. Use these functions to set collection ranges, recursion depth,
+and register custom generators.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">type AutoGenConfig =
+  member addGenerator : Gen&lt;&#39;a&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig
+  member addGenerators : IAutoGenConfig -&gt; IAutoGenConfig
+  member merge : IAutoGenConfig -&gt; IAutoGenConfig -&gt; IAutoGenConfig
+  member recursionDepth : IAutoGenConfig -&gt; int
+  member seqRange : IAutoGenConfig -&gt; Range&lt;int&gt;
+  member setRecursionDepth : int -&gt; IAutoGenConfig -&gt; IAutoGenConfig
+  member setSeqRange : Range&lt;int&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">AutoGenConfig</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.seqRange-IAutoGenConfig">
+  seqRange
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the collection range from the configuration, or the default if not set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val seqRange : IAutoGenConfig -&gt; Range&lt;int&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.setSeqRange-Range-IAutoGenConfig">
+  setSeqRange
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the range for collection sizes.</p>
+<p>This controls how many elements are generated when creating collections like lists, arrays, and sets.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val setSeqRange : Range&lt;int&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.recursionDepth-IAutoGenConfig">
+  recursionDepth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the recursion depth from the configuration, or the default if not set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val recursionDepth : IAutoGenConfig -&gt; int</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.setRecursionDepth-int-IAutoGenConfig">
+  setRecursionDepth
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets the maximum recursion depth for nested type generation.</p>
+<p>This controls how deeply nested structures can be generated. Use this to prevent infinite
+recursion when generating recursive data structures or to control the complexity of generated values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val setRecursionDepth : int -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.merge-IAutoGenConfig-IAutoGenConfig">
+  merge
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Merges two configurations, with values from the second configuration taking precedence.</p>
+<p>This is useful for creating configuration hierarchies where you can have a base configuration
+and override specific settings with another configuration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val merge : IAutoGenConfig -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen" data-uid="Hedgehog.FSharp.AutoGenConfig.addGenerator-Gen">
+  addGenerator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a custom generator for a specific type to the configuration.</p>
+<p>Use this function to override or provide a generator for a specific type.
+This is useful when you want to customize how instances of a particular type are generated.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val addGenerator : Gen&lt;&#39;a&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.addGenerators-IAutoGenConfig">
+  addGenerators
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Registers all generator methods defined in a given type.</p>
+<p>The type is expected to have static methods that return <a href="/reference/hedgehog-gen-1.html">Gen</a>.
+These methods can have parameters which will be automatically injected:</p>
+<ul>
+<li><code>Hedgehog.AutoGenContext</code> - provides context information such as recursion depth and collection range</li>
+<li><code>Hedgehog.IAutoGenConfig</code> - the current auto-generation configuration</li>
+<li><code>Hedgehog.Gen</code>1` - other generators that have been registered</li>
+</ul>
+<p>This enables dependency injection of generators, allowing you to compose complex generators from simpler ones.
+The system will use reflection to discover methods and automatically wire up their dependencies.</p>
+<p><strong>Example:</strong></p>
+<pre><code> // a type containing generators for generic types
+ // methods should return Gen&lt;_&gt; and are allowed to take Gen&lt;_&gt; and AutoGenContext as parameters
+ type GenericGenerators =
+
+   // Generate generic types
+   static member MyGenericType&lt;'a&gt;(valueGen : Gen&lt;'a&gt;) : Gen&lt;MyGenericType&lt;'a&gt;&gt; =
+      valueGen | Gen.map (fun x -&gt; MyGenericType(x))
+
+   // Generate generic types with recursion support and access to AutoGenContext
+   static member ImmutableList&lt;'a&gt;(context: AutoGenContext, valueGen: Gen&lt;'a&gt;) : Gen&lt;ImmutableList&lt;'a&gt;&gt; =
+     if context.CanRecurse then
+       valueGen |&gt; Gen.list context.CollectionRange |&gt; Gen.map ImmutableList.CreateRange
+     else
+       Gen.constant ImmutableList&lt;'a&gt;.Empty
+
+ // register the generic generators in AutoGenConfig
+ let config =
+   GenX.defaults
+   |&gt; AutoGenConfig.addGenerators&lt;GenericGenerators&gt;
+</code></pre>
+<p>'a</p>
+<p>val valueGen: obj</p>
+<p>val context: obj</p>
+<p>val config: obj</p>
+<p>type GenericGenerators =
+static member ImmutableList: context: obj * valueGen: obj -&gt; obj
+static member MyGenericType: valueGen: obj -&gt; obj</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val addGenerators : IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

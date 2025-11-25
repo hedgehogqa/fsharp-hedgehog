@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class Property | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Property | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_FSharp_Property.md&amp;value=---%0Auid%3A%20Hedgehog.FSharp.Property%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.FSharp.Property">
+
+
+
+  <h1 id="Hedgehog_FSharp_Property" data-uid="Hedgehog.FSharp.Property" class="text-break">
+Class Property  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.FSharp</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">type Property =
+  member bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member check : Property&lt;unit&gt; -&gt; unit
+  member checkBool : Property&lt;bool&gt; -&gt; unit
+  member checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit
+  member checkWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit
+  member counterexample : unit -&gt; string -&gt; Property&lt;unit&gt;
+  member delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member discard : Property&lt;unit&gt;
+  member failure : Property&lt;unit&gt;
+  member falseToFailure : Property&lt;bool&gt; -&gt; Property&lt;unit&gt;
+  member filter : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member forAll : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member forAll&#39; : Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member map : &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member ofBool : bool -&gt; Property&lt;unit&gt;
+  member ofGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt; -&gt; Property&lt;&#39;a&gt;
+  member ofOutcome : Outcome&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member recheck : string -&gt; Property&lt;unit&gt; -&gt; unit
+  member recheckBool : string -&gt; Property&lt;bool&gt; -&gt; unit
+  member recheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit
+  member recheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit
+  member render : Property&lt;unit&gt; -&gt; string
+  member renderBool : Property&lt;bool&gt; -&gt; string
+  member renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string
+  member renderWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; string
+  member report : Property&lt;unit&gt; -&gt; Report
+  member reportBool : Property&lt;bool&gt; -&gt; Report
+  member reportBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report
+  member reportRecheck : string -&gt; Property&lt;unit&gt; -&gt; Report
+  member reportRecheckBool : string -&gt; Property&lt;bool&gt; -&gt; Report
+  member reportRecheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report
+  member reportRecheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report
+  member reportWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report
+  member success : &#39;a -&gt; Property&lt;&#39;a&gt;
+  member toGen : Property&lt;&#39;a&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt;
+  member tryFinally : unit -&gt; unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member tryWith : exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">Property</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_ofGen_Gen" data-uid="Hedgehog.FSharp.Property.ofGen-Gen">
+  ofGen
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_toGen_Property" data-uid="Hedgehog.FSharp.Property.toGen-Property">
+  toGen
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val toGen : Property&lt;&#39;a&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_tryFinally_unit_Property" data-uid="Hedgehog.FSharp.Property.tryFinally-unit-Property">
+  tryFinally
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val tryFinally : unit -&gt; unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_tryWith_exn_Property" data-uid="Hedgehog.FSharp.Property.tryWith-exn-Property">
+  tryWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val tryWith : exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_delay_unit" data-uid="Hedgehog.FSharp.Property.delay-unit">
+  delay
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_using_a_a" data-uid="Hedgehog.FSharp.Property.using-a-a">
+  using
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_filter_a_Property" data-uid="Hedgehog.FSharp.Property.filter-a-Property">
+  filter
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val filter : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_ofOutcome_Outcome" data-uid="Hedgehog.FSharp.Property.ofOutcome-Outcome">
+  ofOutcome
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofOutcome : Outcome&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_failure" data-uid="Hedgehog.FSharp.Property.failure">
+  failure
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val failure : Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_discard" data-uid="Hedgehog.FSharp.Property.discard">
+  discard
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val discard : Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_success_a" data-uid="Hedgehog.FSharp.Property.success-a">
+  success
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val success : &#39;a -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_ofBool_bool" data-uid="Hedgehog.FSharp.Property.ofBool-bool">
+  ofBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofBool : bool -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_counterexample_unit" data-uid="Hedgehog.FSharp.Property.counterexample-unit">
+  counterexample
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val counterexample : unit -&gt; string -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_map_a_Property" data-uid="Hedgehog.FSharp.Property.map-a-Property">
+  map
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_bind_a_Property" data-uid="Hedgehog.FSharp.Property.bind-a-Property">
+  bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_falseToFailure_Property" data-uid="Hedgehog.FSharp.Property.falseToFailure-Property">
+  falseToFailure
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val falseToFailure : Property&lt;bool&gt; -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_forAll_a_Gen" data-uid="Hedgehog.FSharp.Property.forAll-a-Gen">
+  forAll
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val forAll : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_forAll_Gen" data-uid="Hedgehog.FSharp.Property.forAll-Gen">
+  forAll&#39;
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val forAll&#39; : Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportWith-IPropertyConfig-Property">
+  reportWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_report_Property" data-uid="Hedgehog.FSharp.Property.report-Property">
+  report
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val report : Property&lt;unit&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportBoolWith-IPropertyConfig-Property">
+  reportBoolWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBool_Property" data-uid="Hedgehog.FSharp.Property.reportBool-Property">
+  reportBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBool : Property&lt;bool&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkWith-IPropertyConfig-Property">
+  checkWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_check_Property" data-uid="Hedgehog.FSharp.Property.check-Property">
+  check
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val check : Property&lt;unit&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBool_Property" data-uid="Hedgehog.FSharp.Property.checkBool-Property">
+  checkBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBool : Property&lt;bool&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkBoolWith-IPropertyConfig-Property">
+  checkBoolWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckWith-string-IPropertyConfig-Property">
+  reportRecheckWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportRecheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportRecheck_string_Property" data-uid="Hedgehog.FSharp.Property.reportRecheck-string-Property">
+  reportRecheck
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportRecheck : string -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckBoolWith-string-IPropertyConfig-Property">
+  reportRecheckBoolWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportRecheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportRecheckBool_string_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckBool-string-Property">
+  reportRecheckBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportRecheckBool : string -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.recheckWith-string-IPropertyConfig-Property">
+  recheckWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val recheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_recheck_string_Property" data-uid="Hedgehog.FSharp.Property.recheck-string-Property">
+  recheck
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val recheck : string -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.recheckBoolWith-string-IPropertyConfig-Property">
+  recheckBoolWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val recheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_recheckBool_string_Property" data-uid="Hedgehog.FSharp.Property.recheckBool-string-Property">
+  recheckBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val recheckBool : string -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.renderWith-IPropertyConfig-Property">
+  renderWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val renderWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_render_Property" data-uid="Hedgehog.FSharp.Property.render-Property">
+  render
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val render : Property&lt;unit&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_renderBool_Property" data-uid="Hedgehog.FSharp.Property.renderBool-Property">
+  renderBool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val renderBool : Property&lt;bool&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.renderBoolWith-IPropertyConfig-Property">
+  renderBoolWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

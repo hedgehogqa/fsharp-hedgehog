@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="fsharp">
+  <head>
+    <meta charset="utf-8">
+      <title>Class GenExtensions | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class GenExtensions | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Linq_GenExtensions.md&amp;value=---%0Auid%3A%20Hedgehog.Linq.GenExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="Hedgehog.Linq.GenExtensions">
+
+
+
+  <h1 id="Hedgehog_Linq_GenExtensions" data-uid="Hedgehog.Linq.GenExtensions" class="text-break">
+Class GenExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Linq</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class GenExtensions {
+  public static Gen&lt;TResult&gt; Apply(this Gen&lt;Func&lt;T, TResult&gt;&gt; genFunc, Gen&lt;T&gt; genArg)
+  public static Gen&lt;T[]&gt; Array(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)
+  public static Gen&lt;TIEnumerable&gt; Enumerable(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)
+  public static Tree&lt;T&gt; GenerateTree(this Gen&lt;T&gt; gen)
+  public static Gen&lt;ResizeArray&lt;T&gt;&gt; List(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)
+  public static Gen&lt;T&gt; NoShrink(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T&gt; NotNull(this Gen&lt;T&gt; self)
+  public static Gen&lt;T&gt; NullReference(this Gen&lt;T&gt; gen)
+  public static Gen&lt;Nullable&lt;T&gt;&gt; NullValue(this Gen&lt;T&gt; gen)
+  public static string RenderSample(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T&gt; Resize(this Gen&lt;T&gt; gen, Size size)
+  public static ResizeArray&lt;T&gt; Sample(this Gen&lt;T&gt; gen, Size size, int count)
+  public static ResizeArray&lt;Tree&lt;T&gt;&gt; SampleTree(this Gen&lt;T&gt; gen, Size size, int count)
+  public static Gen&lt;T&gt; Scale(this Gen&lt;T&gt; gen, Func&lt;int, int&gt; scaler)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, &#39;W, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB)
+  public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; gen, Func&lt;T, TResult&gt; mapper)
+  public static Gen&lt;TResult&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)
+  public static Gen&lt;&#39;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;&#39;U&gt;&gt; binder)
+  public static Gen&lt;TResult&gt; SelectRandom(this Gen&lt;T&gt; gen, Func&lt;Random&lt;Tree&lt;T&gt;&gt;, Random&lt;Tree&lt;TResult&gt;&gt;&gt; binder)
+  public static Gen&lt;TResult&gt; SelectTree(this Gen&lt;T&gt; gen, Func&lt;Tree&lt;T&gt;, Tree&lt;TResult&gt;&gt; binder)
+  public static Gen&lt;T&gt; Shrink(this Gen&lt;T&gt; gen, Func&lt;T, ResizeArray&lt;T&gt;&gt; shrinker)
+  public static Gen&lt;T&gt; ShrinkLazy(this Gen&lt;T&gt; gen, Func&lt;T, TIEnumerable&gt; shrinker)
+  public static Gen&lt;T&gt; Some(this Gen&lt;Option&lt;T&gt;&gt; gen)
+  public static Gen&lt;string&gt; String(this Gen&lt;char&gt; gen, Range&lt;int&gt; range)
+  public static Gen&lt;T&gt; ToGen(this Random&lt;Tree&lt;T&gt;&gt; random)
+  public static Random&lt;Tree&lt;T&gt;&gt; ToRandom(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T&gt; TryFinally(this Gen&lt;T&gt; gen, Action after)
+  public static Gen&lt;T&gt; TryWith(this Gen&lt;T&gt; gen, Func&lt;exn, Gen&lt;T&gt;&gt; after)
+  public static Gen&lt;T * T&gt; Tuple2(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T * T * T&gt; Tuple3(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T * T * T * T&gt; Tuple4(this Gen&lt;T&gt; gen)
+  public static Gen&lt;T&gt; Where(this Gen&lt;T&gt; gen, Func&lt;T, bool&gt; predicate)
+  public static Gen&lt;T&gt; WithNull(this Gen&lt;T&gt; self)
+  public static Gen&lt;T * &#39;U * &#39;V * &#39;W&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)
+  public static Gen&lt;T * &#39;U * &#39;V&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)
+  public static Gen&lt;T * &#39;U&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB)
+}</code></pre>
+  </div>
+
+
+
+
+      <div><span class="xref">GenExtensions</span></div>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Apply_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Apply-Gen-Gen">
+  Apply(Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Apply(this Gen&lt;Func&lt;T, TResult&gt;&gt; genFunc, Gen&lt;T&gt; genArg)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Array_Gen_Range" data-uid="Hedgehog.Linq.GenExtensions.Array-Gen-Range">
+  Array(Gen, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an array using a 'Range' to determine the length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T[]&gt; Array(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Enumerable_Gen_Range" data-uid="Hedgehog.Linq.GenExtensions.Enumerable-Gen-Range">
+  Enumerable(Gen, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an enumerable using a 'Range' to determine the length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Enumerable(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_GenerateTree_Gen" data-uid="Hedgehog.Linq.GenExtensions.GenerateTree-Gen">
+  GenerateTree(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Run a generator. The size passed to the generator is always 30;
+if you want another size then you should explicitly use 'resize'.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Tree&lt;T&gt; GenerateTree(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_List_Gen_Range" data-uid="Hedgehog.Linq.GenExtensions.List-Gen-Range">
+  List(Gen, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a List using a 'Range' to determine the length and a 'Gen' to produce the elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; List(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_NoShrink_Gen" data-uid="Hedgehog.Linq.GenExtensions.NoShrink-Gen">
+  NoShrink(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Prevent a 'Gen' from shrinking.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NoShrink(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_NotNull_Gen" data-uid="Hedgehog.Linq.GenExtensions.NotNull-Gen">
+  NotNull(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a value that is not null.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NotNull(this Gen&lt;T&gt; self)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_NullReference_Gen" data-uid="Hedgehog.Linq.GenExtensions.NullReference-Gen">
+  NullReference(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <c>null</c> or a value from gen. Null becomes less common with larger Sizes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NullReference(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_NullValue_Gen" data-uid="Hedgehog.Linq.GenExtensions.NullValue-Gen">
+  NullValue(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <c>null</c> or a value from gen. Null becomes less common with larger Sizes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Nullable&lt;T&gt;&gt; NullValue(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_RenderSample_Gen" data-uid="Hedgehog.Linq.GenExtensions.RenderSample-Gen">
+  RenderSample(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Samples the gen 5 times with a Size of 10, called the &quot;Outcome&quot; in the returned string.
+Then the shrink path to each Outcome is produced. This may be useful in debugging
+shrink paths in complex Gens.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string RenderSample(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Resize_Gen_Size" data-uid="Hedgehog.Linq.GenExtensions.Resize-Gen-Size">
+  Resize(Gen, Size)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Overrides the size parameter. Returns a generator which uses the
+given size instead of the runtime-size parameter.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Resize(this Gen&lt;T&gt; gen, Size size)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Sample_Gen_Size_int" data-uid="Hedgehog.Linq.GenExtensions.Sample-Gen-Size-int">
+  Sample(Gen, Size, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a List of values produced by the generator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ResizeArray&lt;T&gt; Sample(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int" data-uid="Hedgehog.Linq.GenExtensions.SampleTree-Gen-Size-int">
+  SampleTree(Gen, Size, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ResizeArray&lt;Tree&lt;T&gt;&gt; SampleTree(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Scale_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.Scale-Gen-Func">
+  Scale(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adjust the size parameter, by transforming it with the given
+function.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Scale(this Gen&lt;T&gt; gen, Func&lt;int, int&gt; scaler)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Select-Gen-Func-Gen-Gen-Gen">
+  Select(Gen, Func, Gen, Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects each value of a generator into a new form. Similar to <code>Enumerable.Select</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><code> Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
+     .Tuple2()
+     .Select(tuple =&gt; new Point(tuple.Item1, tuple.Item2));
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, &#39;W, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Select-Gen-Func-Gen-Gen">
+  Select(Gen, Func, Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects each value of a generator into a new form. Similar to <code>Enumerable.Select</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><code> Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
+     .Tuple2()
+     .Select(tuple =&gt; new Point(tuple.Item1, tuple.Item2));
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, &#39;V, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen" data-uid="Hedgehog.Linq.GenExtensions.Select-Gen-Func-Gen">
+  Select(Gen, Func, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects each value of a generator into a new form. Similar to <code>Enumerable.Select</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><code> Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
+     .Tuple2()
+     .Select(tuple =&gt; new Point(tuple.Item1, tuple.Item2));
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, &#39;U, TResult&gt; mapper, Gen&lt;&#39;U&gt; genB)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Select_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.Select-Gen-Func">
+  Select(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects each value of a generator into a new form. Similar to <code>Enumerable.Select</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><code> Gen&lt;Point&gt; pointGen = Gen.Int32(Range.Constant(0,200))
+     .Tuple2()
+     .Select(tuple =&gt; new Point(tuple.Item1, tuple.Item2));
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; gen, Func&lt;T, TResult&gt; mapper)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func_Func" data-uid="Hedgehog.Linq.GenExtensions.SelectMany-Gen-Func-Func">
+  SelectMany(Gen, Func, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.SelectMany-Gen-Func">
+  SelectMany(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;&#39;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;&#39;U&gt;&gt; binder)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_SelectRandom_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.SelectRandom-Gen-Func">
+  SelectRandom(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectRandom(this Gen&lt;T&gt; gen, Func&lt;Random&lt;Tree&lt;T&gt;&gt;, Random&lt;Tree&lt;TResult&gt;&gt;&gt; binder)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_SelectTree_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.SelectTree-Gen-Func">
+  SelectTree(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectTree(this Gen&lt;T&gt; gen, Func&lt;Tree&lt;T&gt;, Tree&lt;TResult&gt;&gt; binder)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Shrink_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.Shrink-Gen-Func">
+  Shrink(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Apply an additional shrinker to all generated trees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Shrink(this Gen&lt;T&gt; gen, Func&lt;T, ResizeArray&lt;T&gt;&gt; shrinker)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_ShrinkLazy_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.ShrinkLazy-Gen-Func">
+  ShrinkLazy(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Apply an additional shrinker to all generated trees.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ShrinkLazy(this Gen&lt;T&gt; gen, Func&lt;T, TIEnumerable&gt; shrinker)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Some_Gen" data-uid="Hedgehog.Linq.GenExtensions.Some-Gen">
+  Some(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs an option generator until it produces a 'Some'.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Some(this Gen&lt;Option&lt;T&gt;&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_String_Gen_Range" data-uid="Hedgehog.Linq.GenExtensions.String-Gen-Range">
+  String(Gen, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random string using 'Range' to determine the length and the
+given character generator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; String(this Gen&lt;char&gt; gen, Range&lt;int&gt; range)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_ToGen_Random" data-uid="Hedgehog.Linq.GenExtensions.ToGen-Random">
+  ToGen(Random)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ToGen(this Random&lt;Tree&lt;T&gt;&gt; random)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_ToRandom_Gen" data-uid="Hedgehog.Linq.GenExtensions.ToRandom-Gen">
+  ToRandom(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Random&lt;Tree&lt;T&gt;&gt; ToRandom(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action" data-uid="Hedgehog.Linq.GenExtensions.TryFinally-Gen-Action">
+  TryFinally(Gen, Action)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryFinally(this Gen&lt;T&gt; gen, Action after)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_TryWith_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.TryWith-Gen-Func">
+  TryWith(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryWith(this Gen&lt;T&gt; gen, Func&lt;exn, Gen&lt;T&gt;&gt; after)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Tuple2_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple2-Gen">
+  Tuple2(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T&gt; Tuple2(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Tuple3_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple3-Gen">
+  Tuple3(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T * T&gt; Tuple3(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Tuple4_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple4-Gen">
+  Tuple4(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * T * T * T&gt; Tuple4(this Gen&lt;T&gt; gen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Where_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.Where-Gen-Func">
+  Where(Gen, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a value that satisfies a predicate.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Where(this Gen&lt;T&gt; gen, Func&lt;T, bool&gt; predicate)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_WithNull_Gen" data-uid="Hedgehog.Linq.GenExtensions.WithNull-Gen">
+  WithNull(Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; WithNull(this Gen&lt;T&gt; self)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen-Gen">
+  Zip(Gen, Gen, Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U * &#39;V * &#39;W&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC, Gen&lt;&#39;W&gt; genD)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen">
+  Zip(Gen, Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U * &#39;V&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB, Gen&lt;&#39;V&gt; genC)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen">
+  Zip(Gen, Gen)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;T * &#39;U&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;&#39;U&gt; genB)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
