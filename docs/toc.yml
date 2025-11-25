@@ -1,6 +1,9 @@
 - name: Documentation
   href: articles/
   homepage: index.md
+- name: XUnit Integration
+  href: xunit/
+  homepage: xunit/index.md
 - name: API Reference
   href: api/
   homepage: api/index.md

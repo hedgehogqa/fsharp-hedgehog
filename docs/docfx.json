@@ -19,8 +19,16 @@
       {
         "files": [
           "articles/**.md",
+          "articles/**/toc.yml",
           "articles/toc.yml",
           "*.md"
+        ]
+      },
+      {
+        "files": [
+          "xunit/**.md",
+          "xunit/**/toc.yml",
+          "xunit/toc.yml"
         ]
       }
     ],
