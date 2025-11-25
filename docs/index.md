@@ -1,3 +1,7 @@
+---
+_tocRel: articles/toc.yml
+---
+
 # Hedgehog .NET
 
 **Hedgehog will eat all your bugs.**
