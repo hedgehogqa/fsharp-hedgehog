@@ -34,7 +34,7 @@ property {
 
 ```csharp
 var property =
-    from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+    from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().Reverse().SequenceEqual(xs);
 
 property.Check();
@@ -68,7 +68,7 @@ property {
 
 ```csharp
 var property =
-    from xs in versionGen.List(Range.Linear(0, 100)).ForAll()
+    from xs in versionGen.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().SequenceEqual(xs);
 
 property.Check();
@@ -83,11 +83,11 @@ property.Check();
 
 Even complex types like `System.Version` shrink automatically to their simplest failing case.
 
-### Modern F# Syntax
-
-Hedgehog provides `gen` and `property` computation expressions that feel natural in F#:
+### Expressive Syntax
 
 # [F#](#tab/fsharp)
+
+Hedgehog provides `gen` and `property` computation expressions that feel natural in F#:
 
 ```fsharp
 let ipAddressGen = gen {
@@ -98,9 +98,11 @@ let ipAddressGen = gen {
 
 # [C#](#tab/csharp)
 
+Hedgehog provides support for LINQ syntax that allows writing generators and properties easier:
+
 ```csharp
 var ipAddressGen = 
-    from addr in Gen.Byte.Array(Range.FromValue(4))
+    from addr in Gen.Byte.Array(Range.Singleton(4))
     select new System.Net.IPAddress(addr);
 ```
 

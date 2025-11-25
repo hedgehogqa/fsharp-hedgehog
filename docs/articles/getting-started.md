@@ -47,7 +47,7 @@ using Hedgehog;
 using Hedgehog.Linq;
 
 var propReverse =
-    from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+    from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().Reverse().SequenceEqual(xs);
 
 // Run it
@@ -136,8 +136,8 @@ int? TryAdd(int a, int b)
 }
 
 var propAdd =
-    from a in Gen.Int32(Range.ConstantBounded()).ForAll()
-    from b in Gen.Int32(Range.ConstantBounded()).ForAll()
+    from a in Gen.Int32(Range.ConstantBoundedInt32()).ForAll()
+    from b in Gen.Int32(Range.ConstantBoundedInt32()).ForAll()
     select TryAdd(a, b) == a + b;
 
 propAdd.Check();
@@ -186,7 +186,7 @@ using Hedgehog.Linq;
 public void ReverseTwiceIsIdentity()
 {
     var property =
-        from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+        from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
         select xs.Reverse().Reverse().SequenceEqual(xs);
     
     property.Check();
@@ -224,7 +224,7 @@ using Hedgehog.Linq;
 public void ReverseTwiceIsIdentity()
 {
     var property =
-        from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+        from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
         select xs.Reverse().Reverse().SequenceEqual(xs);
     
     property.Check();
@@ -295,12 +295,12 @@ using Hedgehog.Linq;
 
 // Generator for IP addresses
 var ipAddressGen =
-    from bytes in Gen.Byte.Array(Range.FromValue(4))
+    from bytes in Gen.Byte.Array(Range.Singleton(4))
     select new IPAddress(bytes);
 
 // Generator for valid email-like strings
 var emailGen =
-    from name in Gen.AlphaNum.String(Range.Linear(1, 20))
+    from name in Gen.AlphaNum.String(Range.LinearInt32(1, 20))
     from domain in Gen.Item("com", "net", "org")
     select $"{name}@example.{domain}";
 
@@ -387,7 +387,7 @@ var config = PropertyConfig.Defaults
     .WithTests(PropertyConfig.Test.Create(1000));
 
 var property =
-    from xs in Gen.Alpha.List(Range.Linear(0, 100)).ForAll()
+    from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
     select xs.Reverse().Reverse().SequenceEqual(xs);
 
 property.Check(config);

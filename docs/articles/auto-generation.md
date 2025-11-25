@@ -111,8 +111,8 @@ public record User(string Name, int Age, string Email);
 
 // Create a custom config
 var config = AutoGenConfig.Defaults
-    .AddGenerator(Gen.String(Range.Linear(5, 20), Gen.Alpha))  // Custom string generator
-    .AddGenerator(Gen.Int32(Range.Linear(18, 100)));            // Ages between 18-100
+    .AddGenerator(Gen.String(Range.LinearInt32(5, 20), Gen.Alpha))  // Custom string generator
+    .AddGenerator(Gen.Int32(Range.LinearInt32(18, 100)));            // Ages between 18-100
 
 var property =
     from user in Gen.AutoWith<User>(config).ForAll()
@@ -209,13 +209,13 @@ public class MyGenerators
 {
     // Generator for Email type - return type is Gen<Email>
     public static Gen<Email> Email() =>
-        from name in Gen.AlphaNum.String(Range.Linear(3, 10))
+        from name in Gen.AlphaNum.String(Range.LinearInt32(3, 10))
         from domain in Gen.Item("com", "net", "org")
         select new Email($"{name}@example.{domain}");
     
     // Generator for DateTime - return type is Gen<DateTime>
     public static Gen<DateTime> DateTime() =>
-        from days in Gen.Int32(Range.Linear(0, 365))
+        from days in Gen.Int32(Range.LinearInt32(0, 365))
         select System.DateTime.Now.AddDays(-days);
 }
 
@@ -326,6 +326,8 @@ var config = AutoGenConfig.Defaults
 
 You can create different configurations for different test scenarios:
 
+# [F#](#tab/fsharp)
+
 ```fsharp
 let smallDataConfig =
     AutoGenConfig.defaults
@@ -335,6 +337,18 @@ let largeDataConfig =
     AutoGenConfig.defaults
     |> AutoGenConfig.addGenerator (Gen.string (Range.linear 0 1000) Gen.unicode)
 ```
+
+# [C#](#tab/csharp)
+
+```csharp
+var smallDataConfig = AutoGenConfig.Defaults
+    .AddGenerator(Gen.String(Range.LinearInt32(0, 10), Gen.Alpha));
+
+var largeDataConfig = AutoGenConfig.Defaults
+    .AddGenerator(Gen.String(Range.LinearInt32(0, 1000), Gen.Unicode));
+```
+
+---
 
 ## Best Practices
 

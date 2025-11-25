@@ -96,7 +96,7 @@ using Hedgehog.Linq;
 public void Sort_Should_Preserve_All_Elements()
 {
     var property =
-        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        from list in Gen.Int32(Range.ConstantBoundedInt32()).List(Range.LinearInt32(0, 100)).ForAll()
         let sorted = list.OrderBy(x => x).ToList()
         select sorted.Count == list.Count && list.All(x => sorted.Contains(x));
 
@@ -273,7 +273,7 @@ using Hedgehog.Linq;
 public void Normalize_Should_Be_Idempotent()
 {
     var property =
-        from text in Gen.Unicode.String(Range.Linear(0, 100)).ForAll()
+        from text in Gen.Unicode.String(Range.LinearInt32(0, 100)).ForAll()
         let once = Normalize(text)
         let twice = Normalize(once)
         select twice == once;
@@ -329,7 +329,7 @@ using Hedgehog.Linq;
 public void CustomSort_Should_Match_StandardSort()
 {
     var property =
-        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        from list in Gen.Int32(Range.ConstantBoundedInt32()).List(Range.LinearInt32(0, 100)).ForAll()
         let custom = MyCustomSort(list)
         let standard = list.OrderBy(x => x).ToList()
         select custom.SequenceEqual(standard);
@@ -385,7 +385,7 @@ using Hedgehog.Linq;
 public void DoublingElements_Should_Double_The_Sum()
 {
     var property =
-        from list in Gen.Int32(Range.ConstantBounded()).List(Range.Linear(0, 100)).ForAll()
+        from list in Gen.Int32(Range.ConstantBoundedInt32()).List(Range.LinearInt32(0, 100)).ForAll()
         let originalSum = list.Sum()
         let doubledSum = list.Select(x => x * 2).Sum()
         select doubledSum == originalSum * 2;
@@ -586,7 +586,7 @@ open Hedgehog.FSharp
 Gen.int32 (Range.constant 1 1000)
 
 // Good: Only generates even values
-Gen.int32 (Range.constant -50 50) |> Gen.map ((*) 2)
+Gen.int32 (Range.constantBounded ()) |> Gen.map (fun x -> x &&& ~~~1)
 ```
 
 # [C#](#tab/csharp)
@@ -599,7 +599,7 @@ using Hedgehog.Linq;
 Gen.Int32(Range.Constant(1, 1000))
 
 // Good: Only generates even values
-Gen.Int32(Range.Constant(-50, 50)).Select(x => x * 2)
+Gen.Int32(Range.ConstantBoundedInt32()).Select(x => x & ~1)
 ```
 
 ---
