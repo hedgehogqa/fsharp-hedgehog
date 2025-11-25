@@ -1,5 +1,8 @@
 # Auto-Generation
 
+> [!WARNING]
+> Auto-generation is not available when using Fable. You must write custom generators manually for Fable projects.
+
 Hedgehog can automatically generate test data for your types without manually writing generators. This feature works with F# records, discriminated unions, tuples, and C# classes.
 
 ## Basic Usage

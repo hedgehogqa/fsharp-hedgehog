@@ -21,6 +21,7 @@ let shrinkExp : Exp -> List<Exp> = function
 
 // This will not be initialized if using version <= 15.7.0 of Microsoft.NET.Test.SDK
 let genName =
+    let p : int * string = 1, ""
     Gen.item ["a"; "b"; "c"; "d"]
 
 // a vaguely interesting predicate which checks that a certain sub-expression

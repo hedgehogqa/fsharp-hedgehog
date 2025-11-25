@@ -366,13 +366,28 @@ module TypeSignature =
     
     /// Convert F# type to C# type representation
     let fsharpToCSharp (fsharpType: string) : string =
-        fsharpType
-            .Replace("unit", "void")
-            .Replace("'T", "T")
-            .Replace("'a", "T")
-            .Replace(" list", "[]")
-            .Replace(" option", "?")
-            .Replace(" seq", "IEnumerable")
+        // First do specific replacements
+        let intermediate =
+            fsharpType
+                .Replace("unit", "void")
+                .Replace(" list", "[]")
+                .Replace(" option", "?")
+                .Replace(" seq", "IEnumerable")
+        
+        // Replace all F# type parameters (e.g., 'T, 'U, 'V, 'a, etc.) with C# equivalents
+        let withoutQuotes = System.Text.RegularExpressions.Regex.Replace(intermediate, @"'(\w+)", "$1")
+        
+        // Convert F# tuple syntax (T * U * V) to C# tuple syntax (T, U, V)
+        // Strategy: Find tuple patterns (separated by *), wrap in parens, then replace * with ,
+        // Match anything containing * and wrap it in parentheses, then convert * to ,
+        System.Text.RegularExpressions.Regex.Replace(
+            withoutQuotes,
+            @"(\w+(?:\s*\*\s*\w+)+)",
+            (fun (m: System.Text.RegularExpressions.Match) ->
+                // Found a tuple pattern like "T * U" or "T * U * V"
+                let tuple = m.Groups[1].Value
+                let withCommas = tuple.Replace(" * ", ", ")
+                "(" + withCommas + ")"))
     
     /// Generate F# syntax signature for a member
     let generateFSharpSyntax (member': ApiDocMember) : string =
