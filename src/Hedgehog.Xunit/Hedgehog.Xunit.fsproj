@@ -11,11 +11,11 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <Description>Hedgehog with batteries for Xunit included.</Description>
         <Authors>Alex Nguyen, Tyson Williams, Alexey Raga</Authors>
-        <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
-        <PackageTags>f# fsharp testing xunit</PackageTags>
+        <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog</PackageProjectUrl>
+        <PackageTags>f# fsharp c# csharp testing xunit</PackageTags>
         <PackageIcon>hedgehog-logo.png</PackageIcon>
         <Version>1.0.0-beta2</Version>
-        <PackageId>Hedgehog.Xunit</PackageId>
+        <PackageId>Hedgehog.Xunit.v3</PackageId>
         <PackageDescription>
             Hedgehog with convenience attributes for xUnit.
 
@@ -25,6 +25,7 @@
 
             Docs at https://github.com/hedgehogqa/fsharp-hedgehog
         </PackageDescription>
+        <RootNamespace>Hedgehog.Xunit.v3</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
