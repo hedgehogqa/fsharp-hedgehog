@@ -679,7 +679,7 @@ module ``tryRaise tests`` =
   [<Fact>]
   let ``always fails`` () =
     let report = PropertyTest.runReport (nameof ``always fails, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<PropertyFailedException>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     let expectedMessage = """*** Failed! Falsifiable (after 1 test):"""
     Assert.Contains(expectedMessage, actual.Message)
     let expectedMessage = """Recheck seed: "0_"""
@@ -708,7 +708,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property with internal gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property with internal gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<PropertyFailedException>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(typeof<Int13>, Skip = skipReason)>]
@@ -728,7 +728,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property with external gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property with external gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<PropertyFailedException>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(Skip = skipReason)>]
@@ -749,7 +749,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property<bool> with internal gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property<bool> with internal gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<PropertyFailedException>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(typeof<Int13>, Skip = skipReason)>]
@@ -769,7 +769,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property<bool> with external gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property<bool> with external gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<PropertyFailedException>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
 module ``GenAttribute Tests`` =

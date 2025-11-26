@@ -38,7 +38,9 @@
       <Compile Include="RecheckAttribute.fs" />
       <Compile Include="GenAttribute.fs" />
       <Compile Include="PropertyContext.fs" />
+      <Compile Include="ReflectionHelpers.fs" />
       <Compile Include="InternalLogic.fs" />
+      <Compile Include="ReportFormatter.fs" />
       <Compile Include="PropertyTestRunner.fs" />
       <Compile Include="PropertyTestCaseRunner.fs" />
       <Compile Include="PropertyTestCase.fs" />

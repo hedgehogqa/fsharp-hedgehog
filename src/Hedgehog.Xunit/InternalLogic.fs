@@ -41,50 +41,6 @@ let resultIsOk r =
 // Return Value Processing
 // ========================================
 
-module private TypeChecks =
-    let isTask (t: Type) =
-        typeof<Task>.IsAssignableFrom(t)
-
-    let isGenericTask (t: Type) =
-        t.IsGenericType && typeof<Task>.IsAssignableFrom(t)
-
-    let isValueTask (t: Type) =
-        t = typeof<ValueTask> || (t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ValueTask<_>>)
-
-    let isGenericValueTask (t: Type) =
-        t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ValueTask<_>>
-
-    let isAsync (t: Type) =
-        t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Async<_>>
-
-    let isResult (t: Type) =
-        t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Result<_,_>>
-
-module private Reflection =
-    let invokeAwaitTask (taskObj: obj) =
-        let taskType = taskObj.GetType()
-        let awaitTaskMethod =
-            typeof<Async>.GetMethods()
-            |> Array.find (fun m -> m.Name = "AwaitTask" && m.IsGenericMethod)
-
-        awaitTaskMethod
-            .MakeGenericMethod(taskType.GetGenericArguments().[0])
-            .Invoke(null, [|taskObj|])
-
-    let invokeAsyncRunSynchronously (asyncObj: obj) =
-        typeof<Async>
-            .GetMethod("RunSynchronously")
-            .MakeGenericMethod(asyncObj.GetType().GetGenericArguments())
-            .Invoke(null, [| asyncObj; None; Some CancellationToken.None |])
-
-    let invokeResultIsOk (resultObj: obj) =
-        typeof<Marker>
-            .DeclaringType
-            .GetTypeInfo()
-            .GetDeclaredMethod(ResultIsOkMethodName)
-            .MakeGenericMethod(resultObj.GetType().GetGenericArguments())
-            .Invoke(null, [|resultObj|])
-
 /// Recursively awaits async/task values and validates boolean/Result types
 /// Returns true if test passes, false if it fails
 let rec yieldAndCheckReturnValue (x: obj) : bool =
@@ -109,15 +65,16 @@ let rec yieldAndCheckReturnValue (x: obj) : bool =
     | x ->
         let t = x.GetType()
         match t with
-        | t when TypeChecks.isGenericTask t ->
-            Reflection.invokeAwaitTask x |> yieldAndCheckReturnValue
-        | t when TypeChecks.isGenericValueTask t ->
+        | t when ReflectionHelpers.isGenericTask t ->
+            ReflectionHelpers.invokeAwaitTask x |> yieldAndCheckReturnValue
+        | t when ReflectionHelpers.isGenericValueTask t ->
             t.GetMethod("AsTask").Invoke(x, null)
             |> yieldAndCheckReturnValue
-        | t when TypeChecks.isAsync t ->
-            Reflection.invokeAsyncRunSynchronously x |> yieldAndCheckReturnValue
-        | t when TypeChecks.isResult t ->
-            Reflection.invokeResultIsOk x |> yieldAndCheckReturnValue
+        | t when ReflectionHelpers.isAsync t ->
+            ReflectionHelpers.invokeAsyncRunSynchronously x |> yieldAndCheckReturnValue
+        | t when ReflectionHelpers.isResult t ->
+            ReflectionHelpers.invokeResultIsOk x typeof<Marker>.DeclaringType ResultIsOkMethodName
+            |> yieldAndCheckReturnValue
         | _ -> true
 
 // ========================================
@@ -287,92 +244,3 @@ let report (context: PropertyContext) (testMethod: MethodInfo) testClassInstance
     match context.Recheck with
     | Some recheckData -> Property.reportRecheckWith recheckData config property
     | None -> Property.reportWith config property
-
-// ========================================
-// Report Exception Handling
-// ========================================
-
-module private ReportFormatting =
-    open System.Text
-
-    /// Filters exception string to show only user code stack trace.
-    /// When we rethrow using ExceptionDispatchInfo.Capture().Throw() to preserve the original stack trace,
-    /// it adds a "--- End of stack trace from previous location ---" marker and appends Hedgehog's
-    /// internal frames as the exception propagates. We remove everything from that marker onwards
-    /// to show only the user's code in the test failure report.
-    let filterExceptionStackTrace (exceptionEntry: string) : string =
-        match exceptionEntry.IndexOf("---") with
-        | -1 -> exceptionEntry  // No marker found, return as-is
-        | idx -> exceptionEntry.Substring(0, idx).TrimEnd()
-
-    let formatFailureForXunit (failure: FailureData) (report: Report) : string =
-        let sb = StringBuilder()
-        let indent = "  " // 2 spaces to align with xUnit's output format
-
-        let renderTests (tests: int<tests>) =
-            sprintf "%d test%s" (int tests) (if int tests = 1 then "" else "s")
-
-        let renderAndShrinks (shrinks: int<shrinks>) =
-            if int shrinks = 0 then ""
-            else sprintf " and %d shrink%s" (int shrinks) (if int shrinks = 1 then "" else "s")
-
-        let renderAndDiscards (discards: int<discards>) =
-            if int discards = 0 then ""
-            else sprintf " and %d discard%s" (int discards) (if int discards = 1 then "" else "s")
-
-        // Header
-        sb.AppendIndentedLine(
-            indent,
-            sprintf "*** Failed! Falsifiable (after %s%s%s):"
-                (renderTests report.Tests)
-                (renderAndShrinks failure.Shrinks)
-                (renderAndDiscards report.Discards)
-        ) |> ignore
-
-        // Journal structure: first=parameters, middle=entries (optional), last=exception (always present on failure)
-        let journalEntries = Journal.eval failure.Journal |> Array.ofSeq
-        let parametersEntry, entries, exceptionEntryOpt = Array.splitFirstMiddleLast journalEntries
-
-        // Parameters section
-        sb.AppendLine() |> ignore
-        if String.IsNullOrWhiteSpace(parametersEntry) then
-            sb.AppendIndentedLine(indent, "Test doesn't take parameters") |> ignore
-        else
-            sb.AppendIndentedLine(indent, "Input parameters:")
-              .AppendIndentedLine(indent + "  ", parametersEntry) |> ignore
-
-        // Middle entries section (user's debug info from Property.counterexample, etc.)
-        if entries.Length > 0 then
-            sb.AppendLine()
-              .AppendIndentedLine(indent, entries) |> ignore
-
-        // Recheck seed (if available)
-        match failure.RecheckInfo with
-        | Some recheckInfo ->
-            let serialized = RecheckData.serialize recheckInfo.Data
-            sb.AppendLine()
-              .AppendIndentedLine(indent, $"Recheck seed: \"%s{serialized}\"") |> ignore
-        | None -> ()
-
-        // Exception section (filtered to show only user code)
-        match exceptionEntryOpt with
-        | Some exceptionEntry ->
-            let filteredEntry = filterExceptionStackTrace exceptionEntry
-            sb.AppendLine()
-              .AppendIndentedLine(indent, "Actual exception:")
-              .AppendIndentedLine(indent, filteredEntry) |> ignore
-        | None -> ()
-
-        sb.ToStringTrimmed()
-
-let private formatReportForXunit (report: Report) : string =
-    match report.Status with
-    | Failed failure -> ReportFormatting.formatFailureForXunit failure report
-    | _ -> Report.render report
-
-let tryRaise (report: Report) : unit =
-    match report.Status with
-    | Failed _ ->
-        report |> formatReportForXunit |> PropertyFailedException |> raise
-    | _ ->
-        Report.tryRaise report
