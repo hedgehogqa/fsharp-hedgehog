@@ -41,4 +41,21 @@ public class Async
         Assert.Equal(s, result.Value);
         return result;
     }
+
+    public void ThisFunctionThrows()
+    {
+        throw new InvalidOperationException("Boo");
+    }
+
+    [Property]
+    public bool Test(string myString, int myInt, TestValue myValue)
+    {
+        return !myString.Contains("c");
+    }
+
+    [Property]
+    public void ThrowsTest(string myString, int myInt, TestValue myValue)
+    {
+        if (myString.Contains("c")) ThisFunctionThrows();
+    }
 }

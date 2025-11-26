@@ -9,6 +9,19 @@ module Option =
     | Some x -> x
     | None   -> failwith msg
 
+module Array =
+  /// Splits an array into first element, middle elements, and last element
+  /// Returns (first, middle, last option) where last is None if array has only one element
+  let splitFirstMiddleLast (arr: 'a[]) : 'a * 'a[] * 'a option =
+    match arr with
+    | [||] -> failwith "Cannot split empty array"
+    | [| single |] -> (single, [||], None)
+    | _ ->
+        let first = arr[0]
+        let middle = arr[1 .. arr.Length - 2]
+        let last = arr[arr.Length - 1]
+        (first, middle, Some last)
+
 module Seq =
 
   // https://github.com/dotnet/fsharp/blob/b9942004e8ba19bf73862b69b2d71151a98975ba/src/FSharp.Core/seqcore.fs#L172-L174
@@ -36,3 +49,22 @@ module internal Type =
         |> Seq.tryFind (fun attr -> attr :? 'T)
         |> Option.map (fun attr -> attr :?> 'T))
     |> Seq.toList
+
+[<AutoOpen>]
+module StringBuilder =
+  open System.Text
+
+  type StringBuilder with
+    /// Appends each string in the sequence with indentation
+    member this.AppendIndentedLine(indent: string, lines: #seq<string>) =
+      lines |> Seq.iter (fun line -> this.Append(indent).AppendLine(line) |> ignore)
+      this
+
+    /// Splits text into lines and appends each with indentation
+    member this.AppendIndentedLine(indent: string, text: string) =
+      let lines = text.Split([|'\n'; '\r'|], StringSplitOptions.None)
+      this.AppendIndentedLine(indent, lines)
+
+    /// Returns the string content with trailing whitespace removed
+    member this.ToStringTrimmed() =
+      this.ToString().TrimEnd()

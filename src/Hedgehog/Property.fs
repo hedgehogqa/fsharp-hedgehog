@@ -71,7 +71,11 @@ module Property =
         let g (j, outcome) =
             try
                 (j, outcome |> Outcome.map f)
-            with e ->
+            with 
+            | :? TestReturnedFalseException ->
+                // Don't include internal exception in journal - it's just a signal
+                (j, Failure)
+            | e ->
                 (Journal.append j (Journal.singletonMessage (string e)), Failure)
         x |> toGen |> GenLazy.map g |> ofGen
 
@@ -90,6 +94,9 @@ module Property =
             | Success a ->
                 GenLazyTuple.mapFst (Journal.append journal) (f a))
 
+    /// Monadic bind operation for properties.
+    /// Applies a property-returning function to the result of another property,
+    /// sequencing their execution and combining their journals.
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         let kTry a =
             try
@@ -100,6 +107,36 @@ module Property =
         |> toGen
         |> bindGen kTry
         |> ofGen
+
+    /// Binds a generator to a property-returning function while adding custom journal entries.
+    /// This allows you to add contextual information (like formatted parameter names and values)
+    /// that will appear in test failure reports before the property's own journal entries.
+    /// Use this when the property function returns Property<'b> and you want to enhance
+    /// the failure output with information about the generated input values.
+    let bindWith (journalFrom : 'a -> Journal) (k : 'a -> Property<'b>) (m : Gen<'a>) : Property<'b> =
+        m
+        |> Gen.bind (fun a -> 
+            let customJournal = journalFrom a
+            let innerProperty = k a
+            innerProperty 
+            |> toGen
+            |> Gen.map (fun lazyOutcome ->
+                lazy (
+                    let (j, outcome) = lazyOutcome.Value
+                    (Journal.append customJournal j, outcome))))
+        |> ofGen
+
+    /// Binds a generator to a value-returning function while adding custom journal entries.
+    /// This allows you to add contextual information (like formatted parameter names and values)
+    /// that will appear in test failure reports. The function's return value is automatically
+    /// checked for success (e.g., awaiting tasks, validating booleans/Results, handling exceptions).
+    /// Use this for test functions that don't return Property<'b> - instead they return plain values,
+    /// Task, Async, bool, Result, etc. The function is wrapped with exception handling via Property.map.
+    let bindReturnWith (journalFrom : 'a -> Journal) (f: 'a -> 'b) (m : Gen<'a>) : Property<'b> =
+        m
+        |> Gen.map (fun a -> Lazy.constant ((journalFrom a), Success a))
+        |> ofGen
+        |> map f
 
     let falseToFailure p =
         p |> map (fun b -> if not b then raise (TestReturnedFalseException()))
