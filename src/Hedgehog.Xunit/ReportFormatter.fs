@@ -51,22 +51,22 @@ let private formatFailureForXunit (failure: FailureData) (report: Report) : stri
     // Parameters section
     sb.AppendLine() |> ignore
     if String.IsNullOrWhiteSpace(parametersEntry) then
-        sb.AppendIndentedLine(indent, "Test doesn't take parameters") |> ignore
+        sb.AppendLine("Test doesn't take parameters") |> ignore
     else
-        sb.AppendIndentedLine(indent, "Input parameters:")
-          .AppendIndentedLine(indent + "  ", parametersEntry) |> ignore
+        sb.AppendLine("Input parameters:")
+          .AppendIndentedLine(indent, parametersEntry) |> ignore
 
     // Middle entries section (user's debug info from Property.counterexample, etc.)
     if entries.Length > 0 then
         sb.AppendLine()
-          .AppendIndentedLine(indent, entries) |> ignore
+          .AppendLines(entries) |> ignore
 
     // Recheck seed (if available)
     match failure.RecheckInfo with
     | Some recheckInfo ->
         let serialized = RecheckData.serialize recheckInfo.Data
         sb.AppendLine()
-          .AppendIndentedLine(indent, $"Recheck seed: \"%s{serialized}\"") |> ignore
+          .AppendLine($"Recheck seed: \"%s{serialized}\"") |> ignore
     | None -> ()
 
     // Exception section (filtered to show only user code)
@@ -74,8 +74,8 @@ let private formatFailureForXunit (failure: FailureData) (report: Report) : stri
     | Some exceptionEntry ->
         let filteredEntry = filterExceptionStackTrace exceptionEntry
         sb.AppendLine()
-          .AppendIndentedLine(indent, "Actual exception:")
-          .AppendIndentedLine(indent, filteredEntry) |> ignore
+          .AppendLine("Actual exception:")
+          .AppendLine(filteredEntry) |> ignore
     | None -> ()
 
     sb.ToStringTrimmed()
