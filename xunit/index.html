@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fsharp">
+<html>
   <head>
     <meta charset="utf-8">
-      <title>Class RecheckData | Hedgehog .NET </title>
+      <title>xUnit Integration | Hedgehog .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class RecheckData | Hedgehog .NET ">
+      <meta name="title" content="xUnit Integration | Hedgehog .NET ">
       
       
       <link rel="icon" href="../images/favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_RecheckData.md&amp;value=---%0Auid%3A%20Hedgehog.RecheckData%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/xunit/index.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
 
   </head>
 
-  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
@@ -83,95 +83,72 @@
 
         </div>
 
-        <article data-uid="Hedgehog.RecheckData">
+        <article data-uid="">
+<h1 id="xunit-integration">xUnit Integration</h1>
 
+<p>The <code>Hedgehog.Xunit</code> package provides seamless integration with xUnit, making it easy to write property-based tests that fit naturally into your existing xUnit test suite.</p>
+<h2 id="installation">Installation</h2>
+<p>Install Hedgehog.Xunit from NuGet:</p>
+<pre><code class="lang-bash">dotnet add package Hedgehog.Xunit
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<p>The simplest way to write a property test with xUnit is to use the <code>[&lt;Property&gt;]</code> attribute:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
 
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Hedgehog.Xunit
 
-  <h1 id="Hedgehog_RecheckData" data-uid="Hedgehog.RecheckData" class="text-break">
-Class RecheckData  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h1>
+[&lt;Property&gt;]
+let ``reverse twice is identity`` (xs: int list) =
+    List.rev (List.rev xs) = xs
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
-  <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog</span></dd></dl>
-  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
-  </div>
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+using Hedgehog.Xunit;
 
-  <div class="markdown summary"></div>
-  <div class="markdown conceptual"></div>
+public class MyTests
+{
+    [Property]
+    public bool ReverseTwiceIsIdentity(List&lt;int&gt; xs)
+    {
+        return xs.AsEnumerable().Reverse().Reverse().SequenceEqual(xs);
+    }
+}
+</code></pre>
+</section>
+</div>
 
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type RecheckData =
-  member deserialize : string -&gt; RecheckData
-  member serialize : RecheckData -&gt; string</code></pre>
-  </div>
-
-
-
-
-      <div><span class="xref">RecheckData</span></div>
-
-
-
-
-
-
-
-
-
-  <h2 class="section" id="methods">Methods
-</h2>
-
-
-
-  <h3 id="Hedgehog_RecheckData_serialize_RecheckData" data-uid="Hedgehog.RecheckData.serialize-RecheckData">
-  serialize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val serialize : RecheckData -&gt; string</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_RecheckData_deserialize_string" data-uid="Hedgehog.RecheckData.deserialize-string">
-  deserialize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val deserialize : string -&gt; RecheckData</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>The <code>Property</code> attribute automatically:</p>
+<ul>
+<li>Generates test data for all parameters</li>
+<li>Runs the property 100 times by default</li>
+<li>Shrinks failing cases to minimal examples</li>
+<li>Reports results through xUnit's test runner</li>
+</ul>
+<h2 id="property-return-types">Property Return Types</h2>
+<p>Properties can return various types to indicate success or failure:</p>
+<p><strong>Supported return types:</strong></p>
+<ul>
+<li><code>bool</code> - <code>false</code> indicates failure</li>
+<li><code>unit</code> / <code>void</code> - any exception indicates failure</li>
+<li><code>Result&lt;'T, 'Error&gt;</code> (F#) - <code>Error</code> case indicates failure</li>
+<li><code>Property&lt;unit&gt;</code> / <code>Property&lt;bool&gt;</code> (F#) - for using the <code>property</code> computation expression</li>
+<li><code>Task</code>, <code>Task&lt;bool&gt;</code>, <code>Task&lt;T&gt;</code> - async versions of the above</li>
+<li><code>Async&lt;unit&gt;</code>, <code>Async&lt;bool&gt;</code>, <code>Async&lt;Result&lt;'T, 'Error&gt;&gt;</code> (F#) - F# async versions</li>
+</ul>
 
 </article>
 

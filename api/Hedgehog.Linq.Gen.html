@@ -1146,98 +1146,6 @@ This generator shrinks towards the first generator in the list.
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
-  AlphaNumeric
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
-</code></pre>
-<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
-  Unicode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
-  Ascii
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
-<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <h3 id="Hedgehog_Linq_Gen_Upper" data-uid="Hedgehog.Linq.Gen.Upper">
   Upper
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
@@ -1253,32 +1161,6 @@ This generator shrinks towards the first generator in the list.
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Upper()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
-  Guid
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
   </div>
 
 
@@ -1325,21 +1207,51 @@ This generator shrinks towards the first generator in the list.
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
-  Digit
+  <h3 id="Hedgehog_Linq_Gen_Lower" data-uid="Hedgehog.Linq.Gen.Lower">
+  Lower
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
+  <div class="markdown level1 summary"><p>Generates a random lowercase character, i.e. from 'a' to 'z'.</p>
 <p><strong>Example:</strong></p>
 <p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Digit.String(Range.Constant(5, 10))
+<pre><code> Gen.Lower.String(Range.Constant(5, 10))
 </code></pre>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Lower()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
+  Unicode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
   </div>
 
 
@@ -1381,18 +1293,78 @@ This generator shrinks towards the first generator in the list.
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
-  UnicodeAll
+  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
+  Ascii
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
-i.e. from '\000' to '\65535'.</p>
+  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
+<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
+</code></pre>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
+  Guid
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
+  Digit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Digit.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
   </div>
 
 
@@ -1439,21 +1411,49 @@ i.e. from '\000' to '\65535'.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Lower" data-uid="Hedgehog.Linq.Gen.Lower">
-  Lower
+  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
+  UnicodeAll
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random lowercase character, i.e. from 'a' to 'z'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Lower.String(Range.Constant(5, 10))
-</code></pre>
+  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
+i.e. from '\000' to '\65535'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Lower()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
+  AlphaNumeric
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
+</code></pre>
+<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
   </div>
 
 

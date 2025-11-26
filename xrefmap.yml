@@ -937,6 +937,18 @@ references:
   commentId: M:Hedgehog.FSharp.Property.bind-a-Property
   fullName: Hedgehog.FSharp.Property.bind-a-Property
   nameWithType: bind
+- uid: Hedgehog.FSharp.Property.bindReturnWith-a-a-Gen
+  name: bindReturnWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen
+  commentId: M:Hedgehog.FSharp.Property.bindReturnWith-a-a-Gen
+  fullName: Hedgehog.FSharp.Property.bindReturnWith-a-a-Gen
+  nameWithType: bindReturnWith
+- uid: Hedgehog.FSharp.Property.bindWith-a-a-Gen
+  name: bindWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_bindWith_a_a_Gen
+  commentId: M:Hedgehog.FSharp.Property.bindWith-a-a-Gen
+  fullName: Hedgehog.FSharp.Property.bindWith-a-a-Gen
+  nameWithType: bindWith
 - uid: Hedgehog.FSharp.Property.check-Property
   name: check
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_check_Property
@@ -3301,6 +3313,18 @@ references:
   commentId: T:Hedgehog.RecheckData
   fullName: Hedgehog.RecheckData
   nameWithType: RecheckData
+- uid: Hedgehog.RecheckData.deserialize-string
+  name: deserialize
+  href: api/Hedgehog.RecheckData.html#Hedgehog_RecheckData_deserialize_string
+  commentId: M:Hedgehog.RecheckData.deserialize-string
+  fullName: Hedgehog.RecheckData.deserialize-string
+  nameWithType: deserialize
+- uid: Hedgehog.RecheckData.serialize-RecheckData
+  name: serialize
+  href: api/Hedgehog.RecheckData.html#Hedgehog_RecheckData_serialize_RecheckData
+  commentId: M:Hedgehog.RecheckData.serialize-RecheckData
+  fullName: Hedgehog.RecheckData.serialize-RecheckData
+  nameWithType: serialize
 - uid: Hedgehog.RecheckInfo
   name: RecheckInfo
   href: api/Hedgehog.RecheckInfo.html

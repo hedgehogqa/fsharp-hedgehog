@@ -102,6 +102,8 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">type Property =
   member bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member check : Property&lt;unit&gt; -&gt; unit
   member checkBool : Property&lt;bool&gt; -&gt; unit
   member checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit
@@ -514,11 +516,75 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Monadic bind operation for properties.
+Applies a property-returning function to the result of another property,
+sequencing their execution and combining their journals.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_bindWith_a_a_Gen" data-uid="Hedgehog.FSharp.Property.bindWith-a-a-Gen">
+  bindWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Binds a generator to a property-returning function while adding custom journal entries.
+This allows you to add contextual information (like formatted parameter names and values)
+that will appear in test failure reports before the property's own journal entries.
+Use this when the property function returns Property&lt;'b&gt; and you want to enhance
+the failure output with information about the generated input values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen" data-uid="Hedgehog.FSharp.Property.bindReturnWith-a-a-Gen">
+  bindReturnWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Binds a generator to a value-returning function while adding custom journal entries.
+This allows you to add contextual information (like formatted parameter names and values)
+that will appear in test failure reports. The function's return value is automatically
+checked for success (e.g., awaiting tasks, validating booleans/Results, handling exceptions).
+Use this for test functions that don't return Property&lt;'b&gt; - instead they return plain values,
+Task, Async, bool, Result, etc. The function is wrapped with exception handling via Property.map.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
   </div>
 
 

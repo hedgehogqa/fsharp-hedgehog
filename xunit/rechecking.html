@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fsharp">
+<html>
   <head>
     <meta charset="utf-8">
-      <title>Class RecheckData | Hedgehog .NET </title>
+      <title>Rechecking Failures | Hedgehog .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class RecheckData | Hedgehog .NET ">
+      <meta name="title" content="Rechecking Failures | Hedgehog .NET ">
       
       
       <link rel="icon" href="../images/favicon.ico">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_RecheckData.md&amp;value=---%0Auid%3A%20Hedgehog.RecheckData%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/xunit/rechecking.md/#L1">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
 
   </head>
 
-  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
@@ -83,95 +83,74 @@
 
         </div>
 
-        <article data-uid="Hedgehog.RecheckData">
+        <article data-uid="">
+<h1 id="rechecking-failures">Rechecking Failures</h1>
 
+<p>When a property fails, Hedgehog provides recheck data that allows you to reproduce the exact failure. This is invaluable for debugging and creating regression tests.</p>
+<h2 id="using-the-recheck-attribute">Using the Recheck Attribute</h2>
+<p>When a property test fails, Hedgehog outputs recheck data that you can use to reproduce the failure:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
 
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+open Hedgehog.Xunit
 
-  <h1 id="Hedgehog_RecheckData" data-uid="Hedgehog.RecheckData" class="text-break">
-Class RecheckData  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h1>
+[&lt;Property&gt;]
+let ``might fail`` (x: int) =
+    x &lt; 1000
 
-  <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog</span></dd></dl>
-  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
-  </div>
+// When the above fails, Hedgehog outputs:
+// *** Failed! Falsifiable (after 45 tests and 3 shrinks):
+// 1000
+// This failure can be reproduced by running:
+// &gt; Property.recheck &quot;0_16700074754810023652_2867022503662193831_&quot;
 
-  <div class="markdown summary"></div>
-  <div class="markdown conceptual"></div>
+// Use the recheck string to reproduce the exact failure:
+[&lt;Property&gt;]
+[&lt;Recheck(&quot;0_16700074754810023652_2867022503662193831_&quot;)&gt;]
+let ``reproduce the failure`` (x: int) =
+    x &lt; 1000
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type RecheckData =
-  member deserialize : string -&gt; RecheckData
-  member serialize : RecheckData -&gt; string</code></pre>
-  </div>
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+using Hedgehog.Xunit;
 
+[Property]
+public bool MightFail(int x)
+{
+    return x &lt; 1000;
+}
 
+// When the above fails, Hedgehog outputs:
+// *** Failed! Falsifiable (after 45 tests and 3 shrinks):
+// 1000
+// This failure can be reproduced by running:
+// &gt; Property.recheck &quot;0_16700074754810023652_2867022503662193831_&quot;
 
+// Use the recheck string to reproduce the exact failure:
+[Property]
+[Recheck(&quot;0_16700074754810023652_2867022503662193831_&quot;)]
+public bool ReproduceTheFailure(int x)
+{
+    return x &lt; 1000;
+}
+</code></pre>
+</section>
+</div>
 
-      <div><span class="xref">RecheckData</span></div>
-
-
-
-
-
-
-
-
-
-  <h2 class="section" id="methods">Methods
-</h2>
-
-
-
-  <h3 id="Hedgehog_RecheckData_serialize_RecheckData" data-uid="Hedgehog.RecheckData.serialize-RecheckData">
-  serialize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val serialize : RecheckData -&gt; string</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_RecheckData_deserialize_string" data-uid="Hedgehog.RecheckData.deserialize-string">
-  deserialize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val deserialize : string -&gt; RecheckData</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>The <code>Recheck</code> attribute runs the test exactly once with the specific seed and shrink path that caused the original failure, making it a perfect regression test.</p>
 
 </article>
 

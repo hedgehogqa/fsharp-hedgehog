@@ -860,6 +860,69 @@
         }
       },
       "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/best-practices.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/best-practices.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/configuration.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/configuration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/generators.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/generators.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/rechecking.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/rechecking.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "xunit/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/toc.html"
+        },
+        ".json": {
+          "relative_path": "xunit/toc.json"
+        }
+      },
+      "version": ""
     }
   ],
   "groups": [
