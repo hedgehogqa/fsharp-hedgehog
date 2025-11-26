@@ -41,9 +41,9 @@ module GenRandomize =
         let subsetOf (items: #seq<'T>) : Gen<'T seq> =
             let xs = items |> List.ofSeq
             gen {
-                let! bs = Gen.bool |> Gen.list (Range.singleton xs.Length)
+                let! bs = Gen.bool |> Gen.seq (Range.singleton xs.Length)
                 return
-                    List.zip bs xs
+                    Seq.zip bs xs
                     |> Seq.filter fst
                     |> Seq.map snd
             }

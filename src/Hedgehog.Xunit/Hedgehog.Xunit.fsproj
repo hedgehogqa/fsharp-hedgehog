@@ -38,6 +38,7 @@
       <Compile Include="IPropertyAttribute.fs" />
       <Compile Include="RecheckAttribute.fs" />
       <Compile Include="GenAttribute.fs" />
+      <Compile Include="GenAttribute.Prelude.fs" />
       <Compile Include="PropertyContext.fs" />
       <Compile Include="ReflectionHelpers.fs" />
       <Compile Include="InternalLogic.fs" />

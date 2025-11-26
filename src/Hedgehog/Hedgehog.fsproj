@@ -40,11 +40,12 @@ Failures are automatically simplified, giving developers coherent, intelligible 
     <Compile Include="Gen.fs" />
     <Compile Include="Gen.Traversable.fs" />
     <Compile Include="Gen.Primitives.fs" />
+    <Compile Include="Gen.Convenience.fs" />
     <Compile Include="Gen.Randomize.fs" />
     <Compile Include="Gen.DateTime.fs" />
     <Compile Include="Gen.Collections.fs" />
     <Compile Include="Gen.Functions.fs" />
-    <Compile Include="Gen.Uri.fs" />
+    <Compile Include="Gen.Network.fs" />
     <Compile Include="Journal.fs" />
     <Compile Include="Tuple.fs" />
     <Compile Include="Lazy.fs" />
@@ -68,6 +69,7 @@ Failures are automatically simplified, giving developers coherent, intelligible 
     <Compile Include="Autogen\AutoGenHelpers.fs" />
     <Compile Include="Autogen\Gen.fs" />
     <Compile Include="Linq\Gen.fs" />
+    <Compile Include="Linq\Gen.Extensions.fs" />
     <Compile Include="Linq\Gen.Collections.fs" />
     <Compile Include="Linq\AutoGenExtensions.fs" />
     <Compile Include="Linq\PropertyConfig.fs" />
