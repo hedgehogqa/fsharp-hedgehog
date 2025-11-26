@@ -96,7 +96,7 @@ module ``Property module tests`` =
        i2 >= 20 then failwith "Some error."
   [<Fact>]
   let ``Can shrink both ints`` () =
-    assertShrunk (nameof ``Can shrink both ints, skipped``) "i1 = 10\ni2 = 20"
+    assertShrunk (nameof ``Can shrink both ints, skipped``) $"i1 = 10{Environment.NewLine}i2 = 20"
 
   [<Property>]
   let ``Can generate an int and string`` (i: int, s: string) =
@@ -107,7 +107,7 @@ module ``Property module tests`` =
     if i >= 2 && s.Contains "b" then failwith "Some error."
   [<Fact>]
   let ``Can shrink an int and string`` () =
-    assertShrunk (nameof ``Can shrink an int and string, skipped``) "i = 2\ns = \"b\""
+    assertShrunk (nameof ``Can shrink an int and string, skipped``) $"i = 2{Environment.NewLine}s = \"b\""
 
   [<Property(typeof<Int13>, 1<tests>)>]
   let ``runs with 13 once`` () = ()
