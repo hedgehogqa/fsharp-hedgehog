@@ -44,7 +44,7 @@ type Report = {
 }
 
 
-module internal RecheckData =
+module RecheckData =
     open System
 
     let private separator = "_"
@@ -62,14 +62,14 @@ module internal RecheckData =
     let deserialize (s: string) =
         try
             let parts = s.Split([|separator|], StringSplitOptions.None)
-            let size = parts.[0] |> Int32.Parse
+            let size = parts[0] |> Int32.Parse
             let seed =
-                { Value = parts.[1] |> UInt64.Parse
-                  Gamma = parts.[2] |> UInt64.Parse }
+                { Value = parts[1] |> UInt64.Parse
+                  Gamma = parts[2] |> UInt64.Parse }
             let path =
-                if parts.[3] = ""
+                if parts[3] = ""
                 then []
-                else parts.[3].Split([|pathSeparator|], StringSplitOptions.None)
+                else parts[3].Split([|pathSeparator|], StringSplitOptions.None)
                     |> Seq.map (Int32.Parse >> ShrinkOutcome.Pass)
                     |> Seq.toList
             { Size = size
@@ -134,21 +134,29 @@ module Report =
             (renderAndShrinks failure.Shrinks)
             (renderAndDiscards report.Discards)
 
-        Seq.iter (appendLine sb) (Journal.eval failure.Journal)
+        // Split journal entries into parameters and exceptions
+        let journalEntries = Journal.eval failure.Journal |> List.ofSeq
+        let parameters, exceptions = 
+            journalEntries |> List.partition (fun entry -> 
+                not (entry.Contains("Exception") || entry.Contains("   at ")))
+        
+        // Render parameters
+        Seq.iter (appendLine sb) parameters
 
+        // Then render recheck info
         match failure.RecheckInfo with
         | None ->
             ()
+        | Some { Data = recheckData } ->
+            appendLinef sb ""
+            appendLinef sb "Recheck seed: \"%s\"" (RecheckData.serialize recheckData)
 
-        | Some { Language = Language.FSharp; Data = recheckData } ->
-            appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> Property.recheck \"%s\" <property>"
-                (RecheckData.serialize recheckData)
-                
-        | Some { Language = Language.CSharp; Data = recheckData } ->
-            appendLinef sb "This failure can be reproduced by running:"
-            appendLinef sb "> property.Recheck(\"%s\")"
-                (RecheckData.serialize recheckData)
+        // Finally render exceptions
+        if not (List.isEmpty exceptions) then
+            appendLinef sb ""
+            appendLinef sb "Actual error:"
+            appendLinef sb ""
+            Seq.iter (appendLine sb) exceptions
 
         sb.ToString().Trim() // Exclude extra newline.
 

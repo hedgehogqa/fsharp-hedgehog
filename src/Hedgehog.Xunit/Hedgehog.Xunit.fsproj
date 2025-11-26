@@ -14,7 +14,7 @@
         <PackageProjectUrl>https://github.com/hedgehogqa/fsharp-hedgehog</PackageProjectUrl>
         <PackageTags>f# fsharp testing xunit</PackageTags>
         <PackageIcon>hedgehog-logo.png</PackageIcon>
-        <Version>1.0.0-beta1</Version>
+        <Version>1.0.0-beta2</Version>
         <PackageId>Hedgehog.Xunit</PackageId>
         <PackageDescription>
             Hedgehog with convenience attributes for xUnit.
@@ -38,7 +38,9 @@
       <Compile Include="RecheckAttribute.fs" />
       <Compile Include="GenAttribute.fs" />
       <Compile Include="PropertyContext.fs" />
+      <Compile Include="ReflectionHelpers.fs" />
       <Compile Include="InternalLogic.fs" />
+      <Compile Include="ReportFormatter.fs" />
       <Compile Include="PropertyTestRunner.fs" />
       <Compile Include="PropertyTestCaseRunner.fs" />
       <Compile Include="PropertyTestCase.fs" />
@@ -51,6 +53,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="xunit.v3.assert" Version="3.2.0" />
       <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.0" />
     </ItemGroup>
 

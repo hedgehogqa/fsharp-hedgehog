@@ -44,11 +44,11 @@ module ``Property module tests`` =
     | _ -> failwith "impossible"
 
   [<Property(Skip = skipReason)>]
-  let ``fails for false, skipped`` (_: int) = false
+  let ``fails for false, skipped`` (value: int) = false
 
   [<Fact>]
   let ``fails for false`` () =
-    assertShrunk (nameof ``fails for false, skipped``) "[0]"
+    assertShrunk (nameof ``fails for false, skipped``) "value = 0"
 
   [<Property(Skip = skipReason)>]
   let ``Result with Error shrinks, skipped`` (i: int) =
@@ -58,7 +58,7 @@ module ``Property module tests`` =
       Ok ()
   [<Fact>]
   let ``Result with Error shrinks`` () =
-    assertShrunk (nameof ``Result with Error shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``Result with Error shrinks, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``Result with Error reports exception with Error value, skipped`` (i: int) =
@@ -84,7 +84,7 @@ module ``Property module tests`` =
     if i >= 50 then failwith "Some error."
   [<Fact>]
   let ``Can shrink an int`` () =
-    assertShrunk (nameof ``Can shrink an int, skipped``) "[50]"
+    assertShrunk (nameof ``Can shrink an int, skipped``) "i = 50"
 
   [<Property>]
   let ``Can generate two ints`` (i1: int, i2: int) =
@@ -96,7 +96,7 @@ module ``Property module tests`` =
        i2 >= 20 then failwith "Some error."
   [<Fact>]
   let ``Can shrink both ints`` () =
-    assertShrunk (nameof ``Can shrink both ints, skipped``) "[10; 20]"
+    assertShrunk (nameof ``Can shrink both ints, skipped``) $"i1 = 10{Environment.NewLine}i2 = 20"
 
   [<Property>]
   let ``Can generate an int and string`` (i: int, s: string) =
@@ -107,7 +107,7 @@ module ``Property module tests`` =
     if i >= 2 && s.Contains "b" then failwith "Some error."
   [<Fact>]
   let ``Can shrink an int and string`` () =
-    assertShrunk (nameof ``Can shrink an int and string, skipped``) "[2; \"b\"]"
+    assertShrunk (nameof ``Can shrink an int and string, skipped``) $"i = 2{Environment.NewLine}s = \"b\""
 
   [<Property(typeof<Int13>, 1<tests>)>]
   let ``runs with 13 once`` () = ()
@@ -345,14 +345,15 @@ module ``Asynchronous tests`` =
   let getMethod = typeof<Marker>.DeclaringType.GetMethod
   let assertShrunk methodName expected =
     let report = PropertyTest.runReport methodName typeof<Marker>.DeclaringType null
+    printfn "DEBUG: Report status = %A" report.Status
     match report.Status with
     | Status.Failed r ->
       Assert.Equal(expected, r.Journal |> Journal.eval |> Seq.head)
-    | _ -> failwith "impossible"
+    | _ -> failwithf "impossible - status was: %A" report.Status
 
   open System.Threading.Tasks
   let FooAsync() =
-      Task.Delay 100
+      Task.Delay 2
 
   [<Property(Skip = skipReason)>]
   let ``Returning Task with exception fails, skipped`` (i: int) : Task =
@@ -361,7 +362,7 @@ module ``Asynchronous tests`` =
     else FooAsync()
   [<Fact>]
   let ``Returning Task with exception fails`` () =
-    assertShrunk (nameof ``Returning Task with exception fails, skipped``) "[11]"
+    assertShrunk (nameof ``Returning Task with exception fails, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped`` (i: int) : Task<unit> =
@@ -372,23 +373,23 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``TaskBuilder (returning Task<unit>) with exception shrinks`` () =
-    assertShrunk (nameof ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``Async with exception shrinks, skipped`` (i: int) =
     async {
-      do! Async.Sleep 100
+      do! Async.Sleep 2
       if i > 10 then
         raise <| Exception()
     }
   [<Fact>]
   let ``Async with exception shrinks`` () =
-    assertShrunk (nameof ``Async with exception shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``Async with exception shrinks, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``AsyncResult with Error shrinks, skipped`` (i: int) =
     async {
-      do! Async.Sleep 100
+      do! Async.Sleep 2
       if i > 10 then
         return Error ()
       else
@@ -396,7 +397,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``AsyncResult with Error shrinks`` () =
-    assertShrunk (nameof ``AsyncResult with Error shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``AsyncResult with Error shrinks, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``TaskResult with Error shrinks, skipped`` (i: int) =
@@ -409,7 +410,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``TaskResult with Error shrinks`` () =
-    assertShrunk (nameof ``TaskResult with Error shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``TaskResult with Error shrinks, skipped``) "i = 11"
 
   [<Property(Skip = skipReason)>]
   let ``Non-unit TaskResult with Error shrinks, skipped`` (i: int) =
@@ -422,7 +423,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``Non-unit TaskResult with Error shrinks`` () =
-    assertShrunk (nameof ``Non-unit TaskResult with Error shrinks, skipped``) "[11]"
+    assertShrunk (nameof ``Non-unit TaskResult with Error shrinks, skipped``) "i = 11"
 
 module ``IDisposable test module`` =
   let mutable runs = 0
@@ -678,14 +679,12 @@ module ``tryRaise tests`` =
   [<Fact>]
   let ``always fails`` () =
     let report = PropertyTest.runReport (nameof ``always fails, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<Exception>(fun () -> InternalLogic.tryRaise report)
-    let expectedMessage = """*** Failed! Falsifiable (after 1 test):
-[]"""
-    actual.Message.Contains(expectedMessage) |> Assert.True
-    let expectedMessage = """
-This failure can be reproduced by running:
-> Property.recheck "0_"""
-    actual.Message.Contains(expectedMessage) |> Assert.True
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
+    let expectedMessage = """*** Failed! Falsifiable (after 1 test):"""
+    Assert.Contains(expectedMessage, actual.Message)
+    let expectedMessage = """Recheck seed: "0_"""
+    Assert.Contains(expectedMessage, actual.Message)
+
 
 module ``returning a property runs it`` =
   type private Marker = class end
@@ -709,7 +708,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property with internal gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property with internal gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<Exception>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(typeof<Int13>, Skip = skipReason)>]
@@ -729,7 +728,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property with external gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property with external gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<Exception>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(Skip = skipReason)>]
@@ -750,7 +749,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property<bool> with internal gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property<bool> with internal gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<Exception>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
   [<Property(typeof<Int13>, Skip = skipReason)>]
@@ -770,7 +769,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a failing property<bool> with external gen fails and shrinks`` () =
     let report = PropertyTest.runReport (nameof ``returning a failing property<bool> with external gen fails and shrinks, skipped``) typeof<Marker>.DeclaringType null
-    let actual = Assert.Throws<Exception>(fun () -> InternalLogic.tryRaise report)
+    let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     actual.Message.Contains("51") |> Assert.True
 
 module ``GenAttribute Tests`` =

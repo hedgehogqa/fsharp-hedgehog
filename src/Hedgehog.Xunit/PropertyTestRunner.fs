@@ -12,4 +12,4 @@ type internal PropertyTestRunner() =
      // Process the Hedgehog report and raise exceptions for failed tests
      let context = PropertyContext.fromMethod ctx.TestMethod
      let report = InternalLogic.report context ctx.TestMethod testClassInstance
-     InternalLogic.tryRaise report
+     ReportFormatter.tryRaise report
