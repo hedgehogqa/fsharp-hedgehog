@@ -104,6 +104,7 @@ module GenUri =
             return Uri(scheme + authority + path + (query |> Option.defaultValue "") + (fragment |> Option.defaultValue ""))
         }
 
+#if !FABLE_COMPILER
         /// Generates a random IPv4 address.
         let ipv4Address: Gen<IPAddress> =
             let randomIp =
@@ -133,3 +134,4 @@ module GenUri =
                 let! domain = domainName
                 return $"{prefix}@{domain}"
             }
+#endif
