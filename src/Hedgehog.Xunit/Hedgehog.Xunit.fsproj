@@ -22,8 +22,6 @@
             - Test method arguments generated with a custom Gen.auto...
             - ...or with a custom Generator.
             - Property.check called for each test.
-
-            Docs at https://github.com/hedgehogqa/fsharp-hedgehog
         </PackageDescription>
         <RootNamespace>Hedgehog.Xunit.v3</RootNamespace>
     </PropertyGroup>
