@@ -4,6 +4,13 @@ open System
 open Hedgehog
 open Hedgehog.FSharp
 
+/// Generates an integer within a specified range.
+type IntAttribute(min: int, max: int) =
+    inherit GenAttribute<int>()
+    new() = IntAttribute(Int32.MinValue, Int32.MaxValue)
+    override _.Generator =
+        Gen.int32 (Range.linear min max)
+
 /// Generates an odd integer.
 type OddAttribute(min: int, max: int) =
     inherit GenAttribute<int>()

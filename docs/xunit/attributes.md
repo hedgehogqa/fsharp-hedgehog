@@ -65,6 +65,43 @@ public class ListTests
 
 ### Numeric Attributes
 
+#### `Int` Attribute
+Generates integers within a specified range using linear distribution.
+
+# [F#](#tab/fsharp)
+
+```fsharp
+// With custom range
+[<Property>]
+let ``dice roll`` ([<Int(1, 6)>] roll: int) =
+    roll >= 1 && roll <= 6
+
+// Percentage range
+[<Property>]
+let ``percentage values`` ([<Int(0, 100)>] percentage: int) =
+    percentage >= 0 && percentage <= 100
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+// With custom range
+[Property]
+public bool DiceRoll([Int(1, 6)] int roll)
+{
+    return roll >= 1 && roll <= 6;
+}
+
+// Percentage range
+[Property]
+public bool PercentageValues([Int(0, 100)] int percentage)
+{
+    return percentage >= 0 && percentage <= 100;
+}
+```
+
+---
+
 #### `Odd` and `Even` Attributes
 Generate odd or even integers within a specified range.
 
