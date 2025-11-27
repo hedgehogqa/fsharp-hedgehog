@@ -583,7 +583,7 @@ public bool EmailsContainAtSymbol([Email] string email)
 </code></pre>
 </section>
 </div>
-<h4 id="ipaddress-and-ipv6address-attributes"><code>IpAddress</code> and <code>Ipv6Address</code> Attributes</h4>
+<h4 id="ipv4address-and-ipv6address-attributes"><code>Ipv4Address</code> and <code>Ipv6Address</code> Attributes</h4>
 <p>Generate IP addresses (IPv4 or IPv6).</p>
 <div class="tabGroup" id="tabgroup_14">
 <ul role="tablist">
@@ -599,7 +599,7 @@ public bool EmailsContainAtSymbol([Email] string email)
 <pre><code class="lang-fsharp">open System.Net
 
 [&lt;Property&gt;]
-let ``IPv4 addresses are valid`` ([&lt;IpAddress&gt;] ip: IPAddress) =
+let ``IPv4 addresses are valid`` ([&lt;Ipv4Address&gt;] ip: IPAddress) =
     ip.AddressFamily = Sockets.AddressFamily.InterNetwork
 
 [&lt;Property&gt;]
@@ -613,7 +613,7 @@ let ``IPv6 addresses are valid`` ([&lt;Ipv6Address&gt;] ip: IPAddress) =
 using System.Net.Sockets;
 
 [Property]
-public bool IPv4AddressesAreValid([IpAddress] IPAddress ip)
+public bool IPv4AddressesAreValid([Ipv4Address] IPAddress ip)
 {
     return ip.AddressFamily == AddressFamily.InterNetwork;
 }

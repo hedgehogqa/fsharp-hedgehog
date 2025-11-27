@@ -3955,12 +3955,12 @@ references:
   commentId: T:Hedgehog.Xunit.IntAttribute
   fullName: Hedgehog.Xunit.IntAttribute
   nameWithType: IntAttribute
-- uid: Hedgehog.Xunit.IpAddressAttribute
-  name: IpAddressAttribute
-  href: api/Hedgehog.Xunit.IpAddressAttribute.html
-  commentId: T:Hedgehog.Xunit.IpAddressAttribute
-  fullName: Hedgehog.Xunit.IpAddressAttribute
-  nameWithType: IpAddressAttribute
+- uid: Hedgehog.Xunit.Ipv4AddressAttribute
+  name: Ipv4AddressAttribute
+  href: api/Hedgehog.Xunit.Ipv4AddressAttribute.html
+  commentId: T:Hedgehog.Xunit.Ipv4AddressAttribute
+  fullName: Hedgehog.Xunit.Ipv4AddressAttribute
+  nameWithType: Ipv4AddressAttribute
 - uid: Hedgehog.Xunit.Ipv6AddressAttribute
   name: Ipv6AddressAttribute
   href: api/Hedgehog.Xunit.Ipv6AddressAttribute.html

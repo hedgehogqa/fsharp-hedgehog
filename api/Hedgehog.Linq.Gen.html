@@ -1402,6 +1402,63 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
+  Alpha
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L223"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
+</code></pre>
+<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
+  Guid
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L288"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_IpAddress" data-uid="Hedgehog.Linq.Gen.IpAddress">
   IpAddress
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L333"><i class="bi bi-code-slash"></i></a>
@@ -1414,6 +1471,32 @@ with a higher chance of generating an IPv4 address.</p>
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; IpAddress()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Uri" data-uid="Hedgehog.Linq.Gen.Uri">
+  Uri
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L337"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random URI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
   </div>
 
 
@@ -1460,21 +1543,44 @@ with a higher chance of generating an IPv4 address.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
-  Digit
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L144"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
+  UnicodeAll
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L132"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Digit.String(Range.Constant(5, 10))
-</code></pre>
+  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
+i.e. from '\000' to '\65535'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_DomainName" data-uid="Hedgehog.Linq.Gen.DomainName">
+  DomainName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L341"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; DomainName()</code></pre>
   </div>
 
 
@@ -1506,67 +1612,6 @@ with a higher chance of generating an IPv4 address.</p>
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
-  AlphaNumeric
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L236"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
-</code></pre>
-<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
-  Unicode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L210"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
   </div>
 
 
@@ -1619,6 +1664,32 @@ with a higher chance of generating an IPv4 address.</p>
 
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv4Address()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Ipv6Address" data-uid="Hedgehog.Linq.Gen.Ipv6Address">
+  Ipv6Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L328"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv6Address()</code></pre>
   </div>
 
 
@@ -1694,22 +1765,21 @@ with a higher chance of generating an IPv4 address.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
-  Alpha
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L223"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
+  Unicode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L210"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
+  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
 <p><strong>Example:</strong></p>
 <p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
+<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
 </code></pre>
-<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
   </div>
 
 
@@ -1725,17 +1795,21 @@ with a higher chance of generating an IPv4 address.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Ipv6Address" data-uid="Hedgehog.Linq.Gen.Ipv6Address">
-  Ipv6Address
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L328"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
+  Digit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L144"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
+  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Digit.String(Range.Constant(5, 10))
+</code></pre>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv6Address()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
   </div>
 
 
@@ -1777,96 +1851,22 @@ with a higher chance of generating an IPv4 address.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
-  Guid
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L288"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
+  AlphaNumeric
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L236"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
+  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
+</code></pre>
+<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_DomainName" data-uid="Hedgehog.Linq.Gen.DomainName">
-  DomainName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L341"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; DomainName()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
-  UnicodeAll
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L132"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
-i.e. from '\000' to '\65535'.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Uri" data-uid="Hedgehog.Linq.Gen.Uri">
-  Uri
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L337"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random URI</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
   </div>
 
 

@@ -838,17 +838,17 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Hedgehog.Xunit.IpAddressAttribute.yml",
+      "source_relative_path": "api/Hedgehog.Xunit.Ipv4AddressAttribute.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Hedgehog.Xunit.IpAddressAttribute.html"
+          "relative_path": "api/Hedgehog.Xunit.Ipv4AddressAttribute.html"
         }
       },
       "version": "",
       "Uid": null,
       "IsMRef": true,
-      "Title": "Hedgehog.Xunit.IpAddressAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IpAddressAttribute.yml\" sourcestartlinenumber=\"1\">Generates an IP address (IPv4).</p>\n"
+      "Title": "Hedgehog.Xunit.Ipv4AddressAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.Ipv4AddressAttribute.yml\" sourcestartlinenumber=\"1\">Generates an IP address (IPv4).</p>\n"
     },
     {
       "type": "ManagedReference",
