@@ -91,7 +91,10 @@ open FSharp.Formatting.ApiDocs
 open FSharp.Formatting.Templating
 open YamlDotNet.Serialization
 open YamlDotNet.Serialization.NamingConventions
+
 open ReverseMarkdown
+open FSharp.Compiler.Symbols
+open FSharp.Compiler.Text
 
 // ============================================================================
 // CONFIGURATION
@@ -100,20 +103,16 @@ open ReverseMarkdown
 /// Configuration for DocFX generation
 [<CLIMutable>]
 type DocFxConfig = {
-    /// Assembly path to generate documentation from
-    AssemblyPath: string
+    /// Assemblies to generate documentation from (path, collection name)
+    Assemblies: (string * string) list
     /// Output directory for generated YAML files
     OutputDir: string
-    /// Collection name for the documentation
-    CollectionName: string
-    /// Library directories for dependency resolution
-    LibDirs: string list
+
     /// Git repository URL
     RepoUrl: string
     /// Git branch name
     Branch: string
-    /// Source code base path
-    SourcePath: string
+
     /// Root URL for substitutions
     RootUrl: string
     /// Skip AutoOpen wrapper modules and merge their inner RequireQualifiedAccess modules
@@ -124,13 +123,15 @@ type DocFxConfig = {
 
 /// Default configuration for Hedgehog project
 let defaultConfig = {
-    AssemblyPath = "src/Hedgehog/bin/Debug/net8.0/Hedgehog.dll"
+    Assemblies = [
+        ("src/Hedgehog/bin/Debug/net8.0/Hedgehog.dll", "Hedgehog")
+        ("src/Hedgehog.Xunit/bin/Debug/net8.0/Hedgehog.Xunit.dll", "Hedgehog.Xunit")
+    ]
     OutputDir = "docs/api"
-    CollectionName = "Hedgehog"
-    LibDirs = [] // Will be auto-resolved from deps.json
+
     RepoUrl = "https://github.com/hedgehogqa/fsharp-hedgehog.git"
     Branch = "master"
-    SourcePath = "src/Hedgehog/Gen.fs"
+
     RootUrl = "/"
     SkipAutoOpenWrappers = true
     CSharpNamespaces = Set.ofList ["Hedgehog.Linq"]
@@ -496,16 +497,21 @@ module ApiDocHelpers =
         uid.Replace("<", "_").Replace(">", "_").Replace("'", "")
     
     /// Create a source reference from config
-    let createSource (config: DocFxConfig) (id: string) : DocFxSource =
+    /// Create a source reference from config and member info
+    let createSource (config: DocFxConfig) (filePath: string) (line: int) (id: string) : DocFxSource =
+        let relativePath = 
+            if String.IsNullOrWhiteSpace filePath then ""
+            else Path.GetRelativePath(Environment.CurrentDirectory, filePath).Replace("\\", "/")
+        
         {
             remote = { 
-                path = config.SourcePath
+                path = relativePath
                 branch = config.Branch
                 repo = config.RepoUrl 
             }
             id = id
-            path = config.SourcePath
-            startLine = 1
+            path = relativePath
+            startLine = line
         }
     
     /// Check if a namespace should use C# syntax
@@ -595,7 +601,7 @@ module DocFxMapping =
             m.Name
 
     /// Map an API member to a DocFX item
-    let mapMember (config: DocFxConfig) (nsName: string) (entityPath: string) (m: ApiDocMember) : DocFxItem =
+    let mapMember (config: DocFxConfig) (collectionName: string) (nsName: string) (entityPath: string) (m: ApiDocMember) : DocFxItem =
         let uid = generateMemberUid entityPath m
         let displayName = generateDisplayName config nsName m
         let fsharpSyntax = TypeSignature.generateFSharpSyntax m
@@ -611,11 +617,22 @@ module DocFxMapping =
             nameWithType = displayName
             fullName = uid
             type_ = "Method"
-            assemblies = [config.CollectionName]
+            assemblies = [collectionName]
             namespace_ = nsName
             summary = TextProcessing.getSummary m.Comment
             syntax = ApiDocHelpers.createSyntax config nsName fsharpSyntax csharpSyntax
-            source = ApiDocHelpers.createSource config m.Name
+            source = 
+                try
+                    match m.Symbol.DeclarationLocation with
+                    | Some loc -> ApiDocHelpers.createSource config loc.FileName loc.StartLine m.Name
+                    | None -> 
+                        match m.SourceLocation with
+                        | Some file -> ApiDocHelpers.createSource config file 1 m.Name
+                        | None -> ApiDocHelpers.createSource config "" 0 m.Name
+                with _ ->
+                    match m.SourceLocation with
+                    | Some file -> ApiDocHelpers.createSource config file 1 m.Name
+                    | None -> ApiDocHelpers.createSource config "" 0 m.Name
         }
 
 // ============================================================================
@@ -713,6 +730,7 @@ module TocGeneration =
         Uid: string
         Name: string
         Href: string
+        CollectionName: string
     }
     
     /// Tree node for building the hierarchy
@@ -722,7 +740,7 @@ module TocGeneration =
     }
     
     /// Recursively build a flat list of TOC items for an entity and its nested entities
-    let rec collectFlatTocItems (excludePaths: Set<string>) (nsName: string) (parentPath: string) (entity: ApiDocEntity) : FlatTocItem list =
+    let rec collectFlatTocItems (collectionName: string) (excludePaths: Set<string>) (nsName: string) (parentPath: string) (entity: ApiDocEntity) : FlatTocItem list =
         let fullPath = ModuleMerging.buildFullPath parentPath entity.Name
         
         // Skip entities that were merged or are AutoOpen wrappers
@@ -735,63 +753,75 @@ module TocGeneration =
                 Uid = uid
                 Name = entity.Name
                 Href = $"%s{uid}.yml"
+                CollectionName = collectionName
             }
             
             let nested =
                 ApiDocHelpers.getNestedEntities entity
-                |> List.collect (fun ne -> collectFlatTocItems excludePaths nsName fullPath ne)
+                |> List.collect (fun ne -> collectFlatTocItems collectionName excludePaths nsName fullPath ne)
             
             current :: nested
     
-    /// Build a hierarchical tree from a flat list of items based on their paths
+    /// Build a hierarchical tree from a flat list of items, grouped by collection
     let buildTree (items: FlatTocItem list) : TocItem list =
-        // Create a map for quick lookup of items
-        let itemMap = items |> List.map (fun i -> i.FullPath, i) |> Map.ofList
+        // Group items by collection
+        let itemsByCollection = items |> List.groupBy (fun i -> i.CollectionName)
         
-        /// Insert a path into the tree
-        let rec insertPath (segments: string list) (currentPath: string list) (node: TreeNode) : TreeNode =
-            match segments with
-            | [] -> node
-            | segment :: rest ->
-                let childPath = currentPath @ [segment]
-                let childKey = segment
-                let childNode = 
-                    match Map.tryFind childKey node.Children with
-                    | Some existing -> existing
-                    | None -> { Path = String.concat "." childPath; Children = Map.empty }
-                let updatedChild = insertPath rest childPath childNode
-                { node with Children = Map.add childKey updatedChild node.Children }
-        
-        /// Convert tree nodes to TocItems
-        let rec nodeToTocItem (node: TreeNode) : TocItem =
-            let children = 
-                node.Children 
+        // For each collection, build a hierarchy
+        itemsByCollection
+        |> List.map (fun (collectionName, collectionItems) ->
+            // Create a map for quick lookup of items
+            let itemMap = collectionItems |> List.map (fun i -> i.FullPath, i) |> Map.ofList
+            
+            /// Insert a path into the tree
+            let rec insertPath (segments: string list) (currentPath: string list) (node: TreeNode) : TreeNode =
+                match segments with
+                | [] -> node
+                | segment :: rest ->
+                    let childPath = currentPath @ [segment]
+                    let childKey = segment
+                    let childNode = 
+                        match Map.tryFind childKey node.Children with
+                        | Some existing -> existing
+                        | None -> { Path = String.concat "." childPath; Children = Map.empty }
+                    let updatedChild = insertPath rest childPath childNode
+                    { node with Children = Map.add childKey updatedChild node.Children }
+            
+            /// Convert tree nodes to TocItems
+            let rec nodeToTocItem (node: TreeNode) : TocItem =
+                let children = 
+                    node.Children 
+                    |> Map.toList 
+                    |> List.sortBy fst
+                    |> List.map (snd >> nodeToTocItem)
+                
+                match Map.tryFind node.Path itemMap with
+                | Some item ->
+                    // Has an actual file - include uid and href
+                    { uid = item.Uid; name = item.Name; href = item.Href; items = children }
+                | None ->
+                    // Intermediate namespace node - no uid, just a container
+                    let name = node.Path.Split('.') |> Array.last
+                    { uid = ""; name = name; href = ""; items = children }
+            
+            // Build the tree by inserting all paths
+            let root = { Path = ""; Children = Map.empty }
+            let tree = 
+                collectionItems
+                |> List.fold (fun acc item ->
+                    let segments = item.FullPath.Split('.') |> Array.toList
+                    insertPath segments [] acc) root
+            
+            // Convert to TocItems - get all children of root
+            let childItems = 
+                tree.Children 
                 |> Map.toList 
                 |> List.sortBy fst
                 |> List.map (snd >> nodeToTocItem)
             
-            match Map.tryFind node.Path itemMap with
-            | Some item ->
-                // Has an actual file - include uid and href
-                { uid = item.Uid; name = item.Name; href = item.Href; items = children }
-            | None ->
-                // Intermediate namespace node - no uid, just a container
-                let name = node.Path.Split('.') |> Array.last
-                { uid = ""; name = name; href = ""; items = children }
-        
-        // Build the tree by inserting all paths
-        let root = { Path = ""; Children = Map.empty }
-        let tree = 
-            items
-            |> List.fold (fun acc item ->
-                let segments = item.FullPath.Split('.') |> Array.toList
-                insertPath segments [] acc) root
-        
-        // Convert to TocItems
-        tree.Children 
-        |> Map.toList 
-        |> List.sortBy fst
-        |> List.map (snd >> nodeToTocItem)
+            // Create a root node for this collection
+            { uid = ""; name = collectionName; href = ""; items = childItems })
+        |> List.sortBy (fun item -> item.name)
 
 // ============================================================================
 // FILE I/O
@@ -842,7 +872,7 @@ module FileIO =
 module EntityProcessing =
     
     /// Process a merged module and write YAML file
-    let processMergedModule (config: DocFxConfig) (serializer: ISerializer) (merged: MergedModule) : unit =
+    let processMergedModule (config: DocFxConfig) (collectionName: string) (serializer: ISerializer) (merged: MergedModule) : unit =
         let uid = ApiDocHelpers.sanitizeUid merged.FullPath
         
         // Collect all members from all inner entities and sort alphabetically
@@ -875,24 +905,31 @@ module EntityProcessing =
             nameWithType = merged.Name
             fullName = merged.FullPath
             type_ = "Class"
-            assemblies = [config.CollectionName]
+            assemblies = [collectionName]
             namespace_ = merged.NamespaceName
             summary = summary
             syntax = ApiDocHelpers.createSyntax config merged.NamespaceName fsharpSyntax csharpSyntax
-            source = ApiDocHelpers.createSource config merged.Name
+            source = 
+                match merged.InnerEntities with
+                | first :: _ ->
+                    try
+                        let loc = first.Symbol.DeclarationLocation
+                        ApiDocHelpers.createSource config loc.FileName loc.StartLine merged.Name
+                    with _ -> ApiDocHelpers.createSource config "" 0 merged.Name
+                | [] -> ApiDocHelpers.createSource config "" 0 merged.Name
         }
         
         let memberItems = 
             allMembers
             |> List.sortBy (fun m -> m.Name)
-            |> List.map (DocFxMapping.mapMember config merged.NamespaceName merged.FullPath)
+            |> List.map (DocFxMapping.mapMember config collectionName merged.NamespaceName merged.FullPath)
         
         let docFxFile = { items = item :: memberItems }
         let filename = $"%s{uid}.yml"
         FileIO.writeYamlFile serializer config.OutputDir filename docFxFile
     
     /// Process a regular entity and write YAML file
-    let rec processEntity (config: DocFxConfig) (serializer: ISerializer) (excludePaths: Set<string>) (nsName: string) (parentPath: string) (minimalPath: string) (entity: ApiDocEntity) : unit =
+    let rec processEntity (config: DocFxConfig) (collectionName: string) (serializer: ISerializer) (excludePaths: Set<string>) (nsName: string) (parentPath: string) (minimalPath: string) (entity: ApiDocEntity) : unit =
         let fullPath = ModuleMerging.buildFullPath parentPath entity.Name
         let newMinimalPath = ModuleMerging.getMinimalPath minimalPath entity
         
@@ -919,17 +956,21 @@ module EntityProcessing =
                 nameWithType = entity.Name
                 fullName = fullPath
                 type_ = "Class"
-                assemblies = [config.CollectionName]
+                assemblies = [collectionName]
                 namespace_ = nsName
                 summary = TextProcessing.getSummary entity.Comment
                 syntax = ApiDocHelpers.createSyntax config nsName fsharpSyntax csharpSyntax
-                source = ApiDocHelpers.createSource config entity.Name
+                source = 
+                try
+                    let loc = entity.Symbol.DeclarationLocation
+                    ApiDocHelpers.createSource config loc.FileName loc.StartLine entity.Name
+                with _ -> ApiDocHelpers.createSource config "" 0 entity.Name
             }
             
             let memberItems = 
                 members
                 |> List.sortBy (fun m -> m.Name)
-                |> List.map (DocFxMapping.mapMember config nsName fullPath)
+                |> List.map (DocFxMapping.mapMember config collectionName nsName fullPath)
             
             let docFxFile = { items = item :: memberItems }
             let filename = $"%s{uid}.yml"
@@ -937,7 +978,7 @@ module EntityProcessing =
         
         // Process nested entities
         ApiDocHelpers.getNestedEntities entity
-        |> List.iter (fun ne -> processEntity config serializer excludePaths nsName fullPath newMinimalPath ne)
+        |> List.iter (fun ne -> processEntity config collectionName serializer excludePaths nsName fullPath newMinimalPath ne)
 
 // ============================================================================
 // MAIN EXECUTION
@@ -945,33 +986,7 @@ module EntityProcessing =
 
 /// Main entry point
 let generateDocFx (config: DocFxConfig) : unit =
-    printfn $"Generating DocFX documentation for %s{config.CollectionName}..."
-
-    // Resolve library directories from deps.json
-    let libDirs = 
-        if List.isEmpty config.LibDirs then
-            DependencyResolver.resolveLibDirs config.AssemblyPath
-        else
-            config.LibDirs
-
-    // Setup inputs and substitutions
-    let inputs = [ ApiDocInput.FromFile(config.AssemblyPath) ]
-    let substitutions : Substitutions =
-        [ ParamKey("root"), config.RootUrl
-          ParamKey("fsdocs-collection-name"), config.CollectionName ]
-    
-    // Generate API model
-    printfn "Generating ApiDocModel..."
-    let model = 
-        ApiDocs.GenerateModel(
-            inputs = inputs,
-            collectionName = config.CollectionName,
-            substitutions = substitutions,
-            libDirs = libDirs,
-            qualify = false
-        )
-    
-    printfn "Mapping to DocFX format..."
+    printfn "Generating DocFX documentation for multiple assemblies..."
     
     // Setup serializer - disable anchors/aliases for DocFX compatibility
     let serializer = 
@@ -984,62 +999,98 @@ let generateDocFx (config: DocFxConfig) : unit =
     // Setup output directory
     FileIO.setupOutputDirectory config.OutputDir
     
-    // Get all namespaces
-    let namespaces = model.Collection.Namespaces |> List.ofSeq
+    // Process each assembly separately and collect TOC items
+    let allTocItems = ResizeArray<TocGeneration.FlatTocItem>()
     
-    // Find modules that need to be merged
-    let mergedModules = 
-        if config.SkipAutoOpenWrappers then
-            ModuleMerging.findMergedModules namespaces
-        else []
+    for (assemblyPath, collectionName) in config.Assemblies do
+        printfn $"\nProcessing assembly: %s{collectionName} (%s{assemblyPath})"
+        
+        // Resolve library directories from deps.json
+        let libDirs = DependencyResolver.resolveLibDirs assemblyPath
+        
+        // Setup inputs and substitutions
+        let inputs = [ ApiDocInput.FromFile(assemblyPath) ]
+        let substitutions : Substitutions =
+            [ ParamKey("root"), config.RootUrl
+              ParamKey("fsdocs-collection-name"), collectionName ]
+        
+        // Generate API model for this assembly
+        printfn "  Generating ApiDocModel..."
+        let model = 
+            ApiDocs.GenerateModel(
+                inputs = inputs,
+                collectionName = collectionName,
+                substitutions = substitutions,
+                libDirs = libDirs,
+                qualify = false
+            )
+        
+        printfn "  Mapping to DocFX format..."
+        
+        // Get all namespaces
+        let namespaces = model.Collection.Namespaces |> List.ofSeq
+        
+        // Find modules that need to be merged
+        let mergedModules = 
+            if config.SkipAutoOpenWrappers then
+                ModuleMerging.findMergedModules namespaces
+            else []
+        
+        let mergedPaths = mergedModules |> List.map (fun m -> m.FullPath) |> Set.ofList
+        
+        // Collect all AutoOpen paths recursively for TOC exclusion
+        let autoOpenPaths =
+            namespaces
+            |> List.collect (fun ns ->
+                ns.Entities
+                |> List.collect (fun e -> ModuleMerging.collectAutoOpenPaths ns.Name e))
+            |> Set.ofList
+        
+        let excludePaths = Set.union autoOpenPaths mergedPaths
+        
+        // Process merged modules first
+        for merged in mergedModules do
+            EntityProcessing.processMergedModule config collectionName serializer merged
+        
+        // Process regular entities
+        for ns in namespaces do
+            for entity in ns.Entities do
+                EntityProcessing.processEntity config collectionName serializer mergedPaths ns.Name ns.Name ns.Name entity
+        
+        // Collect TOC items for this assembly
+        let flatTocItems = 
+            namespaces
+            |> List.collect (fun ns ->
+                ns.Entities
+                |> List.collect (fun e -> TocGeneration.collectFlatTocItems collectionName excludePaths ns.Name ns.Name e))
+        
+        // Add merged modules as flat items
+        let mergedFlatItems = 
+            mergedModules
+            |> List.map (fun m -> {
+                TocGeneration.FullPath = m.FullPath
+                TocGeneration.Uid = ApiDocHelpers.sanitizeUid m.FullPath
+                TocGeneration.Name = m.Name
+                TocGeneration.Href = $"%s{ApiDocHelpers.sanitizeUid m.FullPath}.yml"
+                TocGeneration.CollectionName = collectionName
+            })
+        
+        // Add all items from this assembly to the global collection
+        allTocItems.AddRange(flatTocItems @ mergedFlatItems)
+        
+        printfn $"  Done! Generated documentation for %d{namespaces.Length} namespaces"
     
-    let mergedPaths = mergedModules |> List.map (fun m -> m.FullPath) |> Set.ofList
-    
-    // Collect all AutoOpen paths recursively for TOC exclusion
-    let autoOpenPaths =
-        namespaces
-        |> List.collect (fun ns ->
-            ns.Entities
-            |> List.collect (fun e -> ModuleMerging.collectAutoOpenPaths ns.Name e))
-        |> Set.ofList
-    
-    let excludePaths = Set.union autoOpenPaths mergedPaths
-    
-    // Process merged modules first
-    for merged in mergedModules do
-        EntityProcessing.processMergedModule config serializer merged
-    
-    // Process regular entities
-    for ns in namespaces do
-        for entity in ns.Entities do
-            EntityProcessing.processEntity config serializer mergedPaths ns.Name ns.Name ns.Name entity
-    
-    // Generate TOC - collect flat items from all entities
-    let flatTocItems = 
-        namespaces
-        |> List.collect (fun ns ->
-            ns.Entities
-            |> List.collect (fun e -> TocGeneration.collectFlatTocItems excludePaths ns.Name ns.Name e))
-    
-    // Add merged modules as flat items
-    let mergedFlatItems = 
-        mergedModules
-        |> List.map (fun m -> {
-            TocGeneration.FullPath = m.FullPath
-            TocGeneration.Uid = ApiDocHelpers.sanitizeUid m.FullPath
-            TocGeneration.Name = m.Name
-            TocGeneration.Href = $"%s{ApiDocHelpers.sanitizeUid m.FullPath}.yml"
-        })
-    
-    // Combine all flat items and build tree
+    // Build hierarchical TOC from all collected items
     let allFlatItems = 
-        (flatTocItems @ mergedFlatItems)
+        allTocItems
+        |> Seq.toList
         |> List.distinctBy (fun i -> i.Uid)
     
     let tocTree = TocGeneration.buildTree allFlatItems
     FileIO.writeTocFile serializer config.OutputDir tocTree
 
-    printfn $"Done! Generated documentation for %d{namespaces.Length} namespaces in %s{config.OutputDir}"
+    printfn $"\nCompleted! Generated documentation for %d{config.Assemblies.Length} assemblies in %s{config.OutputDir}"
+
 
 // ============================================================================
 // COMMAND-LINE ARGUMENTS
@@ -1051,12 +1102,15 @@ let runWithArgs (args: string[]) : unit =
         if args.Length > 0 then args[0]
         else "Debug"
     
-    let assemblyPath = $"src/Hedgehog/bin/%s{buildConfiguration}/net8.0/Hedgehog.dll"
+    let assemblies = [
+        ($"src/Hedgehog/bin/%s{buildConfiguration}/net8.0/Hedgehog.dll", "Hedgehog")
+        ($"src/Hedgehog.Xunit/bin/%s{buildConfiguration}/net8.0/Hedgehog.Xunit.dll", "Hedgehog.Xunit")
+    ]
     
-    let config = { defaultConfig with AssemblyPath = assemblyPath }
+    let config = { defaultConfig with Assemblies = assemblies }
     
     printfn $"Using build configuration: %s{buildConfiguration}"
-    printfn $"Assembly path: %s{assemblyPath}"
+    printfn $"Assemblies: %A{assemblies |> List.map snd}"
     
     generateDocFx config
 

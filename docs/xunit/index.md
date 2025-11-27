@@ -2,12 +2,16 @@
 
 The `Hedgehog.Xunit` package provides seamless integration with xUnit, making it easy to write property-based tests that fit naturally into your existing xUnit test suite.
 
+> [!NOTE]
+> We integrate with [xUnit V3](https://xunit.net/docs/getting-started/v3/getting-started), so please make sure that your test project
+> references [xunit.v3](https://www.nuget.org/packages/xunit.v3) nuget package the older `xunit`.
+
 ## Installation
 
 Install Hedgehog.Xunit from NuGet:
 
 ```bash
-dotnet add package Hedgehog.Xunit
+dotnet add package Hedgehog.Xunit.v3
 ```
 
 ## Quick Start

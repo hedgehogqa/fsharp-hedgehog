@@ -1,6 +1,8 @@
 namespace Hedgehog.FSharp
 
 open System
+open System.Net
+open Hedgehog
 
 [<AutoOpen>]
 module GenUri =
@@ -101,3 +103,35 @@ module GenUri =
             let path = if path = "" then path else "/" + path
             return Uri(scheme + authority + path + (query |> Option.defaultValue "") + (fragment |> Option.defaultValue ""))
         }
+
+#if !FABLE_COMPILER
+        /// Generates a random IPv4 address.
+        let ipv4Address: Gen<IPAddress> =
+            let randomIp =
+                Gen.byte (Range.constant 0uy 255uy)
+                |> Gen.array (Range.singleton 4)
+                |> Gen.map IPAddress
+
+            Gen.frequency [ 1, Gen.constant IPAddress.Loopback; 10, randomIp ]
+
+        /// Generates a random IPv6 address.
+        let ipv6Address: Gen<IPAddress> =
+            let randomIp =
+                Gen.byte (Range.constant 0uy 255uy)
+                |> Gen.array (Range.singleton 16)
+                |> Gen.map IPAddress
+            Gen.frequency [ 1, Gen.constant IPAddress.IPv6Loopback; 10, randomIp ]
+
+        /// Generates a random IP address (either IPv4 or IPv6)
+        /// with a higher chance of generating an IPv4 address.
+        let ipAddress: Gen<IPAddress> =
+            Gen.frequency [ 7, ipv4Address; 3, ipv6Address ]
+
+        /// Generates a random email address.
+        let email: Gen<string> =
+            gen {
+                let! prefix = Gen.latinName 10
+                let! domain = domainName
+                return $"{prefix}@{domain}"
+            }
+#endif

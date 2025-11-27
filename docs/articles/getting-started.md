@@ -6,19 +6,9 @@ This guide will help you write your first property-based tests with Hedgehog in 
 
 Install Hedgehog from NuGet:
 
-# [F#](#tab/fsharp)
-
 ```bash
 dotnet add package Hedgehog
 ```
-
-# [C#](#tab/csharp)
-
-```bash
-dotnet add package Hedgehog
-```
-
----
 
 ## Your First Property Test
 

@@ -65,6 +65,9 @@ module StringBuilder =
       let lines = text.Split([|'\n'; '\r'|], StringSplitOptions.None)
       this.AppendIndentedLine(indent, lines)
 
+    member this.AppendLines(lines: #seq<string>) =
+      this.AppendJoin(Environment.NewLine, lines)
+
     /// Returns the string content with trailing whitespace removed
     member this.ToStringTrimmed() =
       this.ToString().TrimEnd()
