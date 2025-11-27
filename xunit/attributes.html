@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Generator Attributes | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Generator Attributes | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/xunit/attributes.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="">
+<h1 id="generator-attributes">Generator Attributes</h1>
+
+<p><code>Hedgehog.Xunit</code> provides a collection of built-in attributes that make it easy to generate test data for your property-based tests. These attributes inherit from <code>GenAttribute&lt;'T&gt;</code> and can be applied directly to test method parameters.</p>
+<h2 id="why-use-generator-attributes">Why Use Generator Attributes?</h2>
+<p>Generator attributes provide a declarative, reusable way to specify test data generation. They offer several key benefits:</p>
+<p><strong>Readability and Intent</strong>: Attributes make your test's data requirements immediately visible in the method signature. Instead of scrolling through generator setup code, you can see at a glance that a parameter needs to be a positive integer or a valid email address.</p>
+<p><strong>Reusability</strong>: Define a generator once as an attribute, then reuse it across multiple tests. This eliminates duplication and ensures consistency in how you generate specific types of data throughout your test suite.</p>
+<p><strong>Composability</strong>: Combine multiple attributes in a single test to generate complex test scenarios. Each parameter can have its own specialized generator without cluttering your test logic.</p>
+<p><strong>Discoverability</strong>: Built-in attributes serve as documentation, showing what kinds of constrained data generation are available. When you need a specific type of data, you can often find an existing attribute rather than writing a custom generator.</p>
+<p><strong>Separation of Concerns</strong>: Keep your test logic focused on the property being tested, while data generation concerns are handled declaratively through attributes.</p>
+<h2 id="when-to-create-custom-attributes">When to Create Custom Attributes</h2>
+<p>Consider creating your own <code>GenAttribute</code> when you:</p>
+<ul>
+<li>Need to generate domain-specific types (e.g., valid credit card numbers, postal codes, product SKUs)</li>
+<li>Have generation logic that's reused across multiple tests</li>
+<li>Want to make test signatures more self-documenting</li>
+<li>Need parameterized generators with sensible defaults</li>
+</ul>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>Instead of manually creating generators, you can use attributes to declaratively specify what kind of data you want:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog.Xunit
+open Xunit
+
+[&lt;Property&gt;]
+let ``reversing a list twice returns the original`` ([&lt;PositiveInt&gt;] length: int) =
+    let list = List.init length id
+    let reversed = List.rev (List.rev list)
+    list = reversed
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog.Xunit;
+using Xunit;
+
+public class ListTests
+{
+    [Property]
+    public bool ReversingListTwiceReturnsOriginal([PositiveInt] int length)
+    {
+        var list = Enumerable.Range(0, length).ToList();
+        var reversed = list.AsEnumerable().Reverse().Reverse().ToList();
+        return list.SequenceEqual(reversed);
+    }
+}
+</code></pre>
+</section>
+</div>
+<h2 id="available-attributes">Available Attributes</h2>
+<h3 id="numeric-attributes">Numeric Attributes</h3>
+<h4 id="odd-and-even-attributes"><code>Odd</code> and <code>Even</code> Attributes</h4>
+<p>Generate odd or even integers within a specified range.</p>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``odd numbers are not divisible by 2`` ([&lt;Odd&gt;] n: int) =
+    n % 2 &lt;&gt; 0
+
+[&lt;Property&gt;]
+let ``even numbers are divisible by 2`` ([&lt;Even&gt;] n: int) =
+    n % 2 = 0
+
+// With custom range
+[&lt;Property&gt;]
+let ``small odd numbers`` ([&lt;Odd(1, 100)&gt;] n: int) =
+    n &gt;= 1 &amp;&amp; n &lt;= 100 &amp;&amp; n % 2 &lt;&gt; 0
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool OddNumbersAreNotDivisibleBy2([Odd] int n)
+{
+    return n % 2 != 0;
+}
+
+[Property]
+public bool EvenNumbersAreDivisibleBy2([Even] int n)
+{
+    return n % 2 == 0;
+}
+
+// With custom range
+[Property]
+public bool SmallOddNumbers([Odd(1, 100)] int n)
+{
+    return n &gt;= 1 &amp;&amp; n &lt;= 100 &amp;&amp; n % 2 != 0;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="positiveint-attribute"><code>PositiveInt</code> Attribute</h4>
+<p>Generates positive integers (greater than 0).</p>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``positive integers are greater than zero`` ([&lt;PositiveInt&gt;] n: int) =
+    n &gt; 0
+
+// With custom maximum
+[&lt;Property&gt;]
+let ``small positive integers`` ([&lt;PositiveInt(100)&gt;] n: int) =
+    n &gt; 0 &amp;&amp; n &lt;= 100
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool PositiveIntegersAreGreaterThanZero([PositiveInt] int n)
+{
+    return n &gt; 0;
+}
+
+// With custom maximum
+[Property]
+public bool SmallPositiveIntegers([PositiveInt(100)] int n)
+{
+    return n &gt; 0 &amp;&amp; n &lt;= 100;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="nonnegativeint-attribute"><code>NonNegativeInt</code> Attribute</h4>
+<p>Generates non-negative integers (greater than or equal to 0).</p>
+<div class="tabGroup" id="tabgroup_4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_4_fsharp" role="tab" aria-controls="tabpanel_4_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_4_csharp" role="tab" aria-controls="tabpanel_4_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_4_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``array length is non-negative`` ([&lt;NonNegativeInt&gt;] length: int) =
+    let arr = Array.zeroCreate length
+    arr.Length &gt;= 0
+</code></pre>
+</section>
+<section id="tabpanel_4_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool ArrayLengthIsNonNegative([NonNegativeInt] int length)
+{
+    var arr = new int[length];
+    return arr.Length &gt;= 0;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="nonzeroint-attribute"><code>NonZeroInt</code> Attribute</h4>
+<p>Generates integers that are not zero.</p>
+<div class="tabGroup" id="tabgroup_5">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_5_fsharp" role="tab" aria-controls="tabpanel_5_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_5_csharp" role="tab" aria-controls="tabpanel_5_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_5_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``division by non-zero is safe`` ([&lt;NonZeroInt&gt;] divisor: int) =
+    let result = 100 / divisor
+    true // Won't throw DivideByZeroException
+</code></pre>
+</section>
+<section id="tabpanel_5_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool DivisionByNonZeroIsSafe([NonZeroInt] int divisor)
+{
+    var result = 100 / divisor;
+    return true; // Won't throw DivideByZeroException
+}
+</code></pre>
+</section>
+</div>
+<h3 id="string-attributes">String Attributes</h3>
+<h4 id="identifier-attribute"><code>Identifier</code> Attribute</h4>
+<p>Generates valid programming identifiers.</p>
+<div class="tabGroup" id="tabgroup_6">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_6_fsharp" role="tab" aria-controls="tabpanel_6_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_6_csharp" role="tab" aria-controls="tabpanel_6_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_6_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``identifiers start with letter or underscore`` ([&lt;Identifier&gt;] id: string) =
+    let firstChar = id.[0]
+    Char.IsLetter(firstChar) || firstChar = '_'
+
+// With custom max length
+[&lt;Property&gt;]
+let ``short identifiers`` ([&lt;Identifier(10)&gt;] id: string) =
+    id.Length &lt;= 10
+</code></pre>
+</section>
+<section id="tabpanel_6_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool IdentifiersStartWithLetterOrUnderscore([Identifier] string id)
+{
+    var firstChar = id[0];
+    return char.IsLetter(firstChar) || firstChar == '_';
+}
+
+// With custom max length
+[Property]
+public bool ShortIdentifiers([Identifier(10)] string id)
+{
+    return id.Length &lt;= 10;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="latinname-attribute"><code>LatinName</code> Attribute</h4>
+<p>Generates human-readable Latin names.</p>
+<div class="tabGroup" id="tabgroup_7">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_7_fsharp" role="tab" aria-controls="tabpanel_7_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_7_csharp" role="tab" aria-controls="tabpanel_7_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``names are capitalized`` ([&lt;LatinName&gt;] name: string) =
+    Char.IsUpper(name.[0])
+</code></pre>
+</section>
+<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool NamesAreCapitalized([LatinName] string name)
+{
+    return char.IsUpper(name[0]);
+}
+</code></pre>
+</section>
+</div>
+<h4 id="snakecase-and-kebabcase-attributes"><code>SnakeCase</code> and <code>KebabCase</code> Attributes</h4>
+<p>Generate strings in snake_case or kebab-case format.</p>
+<div class="tabGroup" id="tabgroup_8">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_8_fsharp" role="tab" aria-controls="tabpanel_8_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_8_csharp" role="tab" aria-controls="tabpanel_8_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``snake case uses underscores`` ([&lt;SnakeCase&gt;] s: string) =
+    not (s.Contains(&quot;-&quot;))
+
+[&lt;Property&gt;]
+let ``kebab case uses hyphens`` ([&lt;KebabCase&gt;] s: string) =
+    not (s.Contains(&quot;_&quot;))
+
+// With custom parameters (maxWordLength, maxWordsCount)
+[&lt;Property&gt;]
+let ``short snake case`` ([&lt;SnakeCase(3, 2)&gt;] s: string) =
+    true
+</code></pre>
+</section>
+<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool SnakeCaseUsesUnderscores([SnakeCase] string s)
+{
+    return !s.Contains(&quot;-&quot;);
+}
+
+[Property]
+public bool KebabCaseUsesHyphens([KebabCase] string s)
+{
+    return !s.Contains(&quot;_&quot;);
+}
+
+// With custom parameters (maxWordLength, maxWordsCount)
+[Property]
+public bool ShortSnakeCase([SnakeCase(3, 2)] string s)
+{
+    return true;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="alphanumstring-attribute"><code>AlphaNumString</code> Attribute</h4>
+<p>Generates strings containing only alphanumeric characters.</p>
+<div class="tabGroup" id="tabgroup_9">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``alphanumeric strings contain no special chars`` ([&lt;AlphaNumString&gt;] s: string) =
+    s |&gt; Seq.forall Char.IsLetterOrDigit
+
+// With length constraints (minLength, maxLength)
+[&lt;Property&gt;]
+let ``bounded alphanumeric`` ([&lt;AlphaNumString(5, 20)&gt;] s: string) =
+    s.Length &gt;= 5 &amp;&amp; s.Length &lt;= 20
+</code></pre>
+</section>
+<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool AlphanumericStringsContainNoSpecialChars([AlphaNumString] string s)
+{
+    return s.All(char.IsLetterOrDigit);
+}
+
+// With length constraints (minLength, maxLength)
+[Property]
+public bool BoundedAlphanumeric([AlphaNumString(5, 20)] string s)
+{
+    return s.Length &gt;= 5 &amp;&amp; s.Length &lt;= 20;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="unicodestring-attribute"><code>UnicodeString</code> Attribute</h4>
+<p>Generates strings with Unicode characters.</p>
+<div class="tabGroup" id="tabgroup_10">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_10_fsharp" role="tab" aria-controls="tabpanel_10_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_10_csharp" role="tab" aria-controls="tabpanel_10_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_10_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``unicode strings can contain emoji`` ([&lt;UnicodeString(1, 50)&gt;] s: string) =
+    s.Length &gt;= 1 &amp;&amp; s.Length &lt;= 50
+</code></pre>
+</section>
+<section id="tabpanel_10_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool UnicodeStringsCanContainEmoji([UnicodeString(1, 50)] string s)
+{
+    return s.Length &gt;= 1 &amp;&amp; s.Length &lt;= 50;
+}
+</code></pre>
+</section>
+</div>
+<h3 id="network-attributes">Network Attributes</h3>
+<h4 id="domainname-attribute"><code>DomainName</code> Attribute</h4>
+<p>Generates valid domain names.</p>
+<div class="tabGroup" id="tabgroup_11">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_11_fsharp" role="tab" aria-controls="tabpanel_11_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_11_csharp" role="tab" aria-controls="tabpanel_11_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_11_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``domain names contain dots`` ([&lt;DomainName&gt;] domain: string) =
+    domain.Contains(&quot;.&quot;)
+</code></pre>
+</section>
+<section id="tabpanel_11_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool DomainNamesContainDots([DomainName] string domain)
+{
+    return domain.Contains(&quot;.&quot;);
+}
+</code></pre>
+</section>
+</div>
+<h4 id="email-attribute"><code>Email</code> Attribute</h4>
+<p>Generates valid email addresses.</p>
+<div class="tabGroup" id="tabgroup_12">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_12_fsharp" role="tab" aria-controls="tabpanel_12_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_12_csharp" role="tab" aria-controls="tabpanel_12_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_12_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``emails contain @ symbol`` ([&lt;Email&gt;] email: string) =
+    email.Contains(&quot;@&quot;)
+</code></pre>
+</section>
+<section id="tabpanel_12_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool EmailsContainAtSymbol([Email] string email)
+{
+    return email.Contains(&quot;@&quot;);
+}
+</code></pre>
+</section>
+</div>
+<h4 id="ipaddress-and-ipv6address-attributes"><code>IpAddress</code> and <code>Ipv6Address</code> Attributes</h4>
+<p>Generate IP addresses (IPv4 or IPv6).</p>
+<div class="tabGroup" id="tabgroup_13">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_13_fsharp" role="tab" aria-controls="tabpanel_13_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_13_csharp" role="tab" aria-controls="tabpanel_13_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_13_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open System.Net
+
+[&lt;Property&gt;]
+let ``IPv4 addresses are valid`` ([&lt;IpAddress&gt;] ip: IPAddress) =
+    ip.AddressFamily = Sockets.AddressFamily.InterNetwork
+
+[&lt;Property&gt;]
+let ``IPv6 addresses are valid`` ([&lt;Ipv6Address&gt;] ip: IPAddress) =
+    ip.AddressFamily = Sockets.AddressFamily.InterNetworkV6
+</code></pre>
+</section>
+<section id="tabpanel_13_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using System.Net;
+using System.Net.Sockets;
+
+[Property]
+public bool IPv4AddressesAreValid([IpAddress] IPAddress ip)
+{
+    return ip.AddressFamily == AddressFamily.InterNetwork;
+}
+
+[Property]
+public bool IPv6AddressesAreValid([Ipv6Address] IPAddress ip)
+{
+    return ip.AddressFamily == AddressFamily.InterNetworkV6;
+}
+</code></pre>
+</section>
+</div>
+<h3 id="date-and-time-attributes">Date and Time Attributes</h3>
+<h4 id="datetime-attribute"><code>DateTime</code> Attribute</h4>
+<p>Generates DateTime values.</p>
+<div class="tabGroup" id="tabgroup_14">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_14_fsharp" role="tab" aria-controls="tabpanel_14_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_14_csharp" role="tab" aria-controls="tabpanel_14_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_14_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open System
+
+[&lt;Property&gt;]
+let ``dates are in default range`` ([&lt;DateTime&gt;] dt: DateTime) =
+    dt &gt;= DateTime(2000, 1, 1) &amp;&amp; dt &lt; DateTime(2010, 1, 1)
+
+// With custom range (from, duration)
+[&lt;Property&gt;]
+let ``recent dates`` ([&lt;DateTime(DateTime(2020, 1, 1), TimeSpan.FromDays(365))&gt;] dt: DateTime) =
+    dt.Year &gt;= 2020
+
+// With specific DateTimeKind
+[&lt;Property&gt;]
+let ``UTC dates`` ([&lt;DateTime(DateTimeKind.Utc)&gt;] dt: DateTime) =
+    dt.Kind = DateTimeKind.Utc
+</code></pre>
+</section>
+<section id="tabpanel_14_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using System;
+
+[Property]
+public bool DatesAreInDefaultRange([DateTime] DateTime dt)
+{
+    return dt &gt;= new DateTime(2000, 1, 1) &amp;&amp; dt &lt; new DateTime(2010, 1, 1);
+}
+
+// With custom range (from, duration)
+[Property]
+public bool RecentDates([DateTime(typeof(DateTime), &quot;2020-01-01&quot;, &quot;365.00:00:00&quot;)] DateTime dt)
+{
+    return dt.Year &gt;= 2020;
+}
+
+// With specific DateTimeKind
+[Property]
+public bool UtcDates([DateTime(DateTimeKind.Utc)] DateTime dt)
+{
+    return dt.Kind == DateTimeKind.Utc;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="datetimeoffset-attribute"><code>DateTimeOffset</code> Attribute</h4>
+<p>Generates DateTimeOffset values.</p>
+<div class="tabGroup" id="tabgroup_15">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_15_fsharp" role="tab" aria-controls="tabpanel_15_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_15_csharp" role="tab" aria-controls="tabpanel_15_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_15_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``date offsets preserve timezone`` ([&lt;DateTimeOffset&gt;] dto: DateTimeOffset) =
+    dto.Offset.TotalHours &gt;= -14.0 &amp;&amp; dto.Offset.TotalHours &lt;= 14.0
+</code></pre>
+</section>
+<section id="tabpanel_15_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool DateOffsetsPreserveTimezone([DateTimeOffset] DateTimeOffset dto)
+{
+    return dto.Offset.TotalHours &gt;= -14.0 &amp;&amp; dto.Offset.TotalHours &lt;= 14.0;
+}
+</code></pre>
+</section>
+</div>
+<h2 id="combining-multiple-attributes">Combining Multiple Attributes</h2>
+<p>You can use multiple attributes in a single test to generate different types of data:</p>
+<div class="tabGroup" id="tabgroup_16">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_16_fsharp" role="tab" aria-controls="tabpanel_16_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_16_csharp" role="tab" aria-controls="tabpanel_16_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_16_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">[&lt;Property&gt;]
+let ``user registration with generated data`` 
+    ([&lt;Identifier&gt;] username: string)
+    ([&lt;Email&gt;] email: string)
+    ([&lt;PositiveInt(150)&gt;] age: int)
+    ([&lt;LatinName&gt;] firstName: string)
+    ([&lt;LatinName&gt;] lastName: string) =
+    
+    // Test user registration logic
+    let user = createUser username email age firstName lastName
+    user.Username = username &amp;&amp;
+    user.Email = email &amp;&amp;
+    user.Age &gt; 0
+</code></pre>
+</section>
+<section id="tabpanel_16_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">[Property]
+public bool UserRegistrationWithGeneratedData(
+    [Identifier] string username,
+    [Email] string email,
+    [PositiveInt(150)] int age,
+    [LatinName] string firstName,
+    [LatinName] string lastName)
+{
+    // Test user registration logic
+    var user = CreateUser(username, email, age, firstName, lastName);
+    return user.Username == username &amp;&amp;
+           user.Email == email &amp;&amp;
+           user.Age &gt; 0;
+}
+</code></pre>
+</section>
+</div>
+<h2 id="creating-custom-attributes">Creating Custom Attributes</h2>
+<p>You can create your own generator attributes by inheriting from <code>GenAttribute&lt;'T&gt;</code>:</p>
+<div class="tabGroup" id="tabgroup_17">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_17_fsharp" role="tab" aria-controls="tabpanel_17_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_17_csharp" role="tab" aria-controls="tabpanel_17_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_17_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+/// Generates a valid US phone number
+type UsPhoneNumberAttribute() =
+    inherit GenAttribute&lt;string&gt;()
+    override _.Generator = gen {
+        let! areaCode = Gen.int32 (Range.constant 200 999)
+        let! exchange = Gen.int32 (Range.constant 200 999)
+        let! number = Gen.int32 (Range.constant 0 9999)
+        return sprintf &quot;(%03d) %03d-%04d&quot; areaCode exchange number
+    }
+
+[&lt;Property&gt;]
+let ``phone numbers are formatted correctly`` ([&lt;UsPhoneNumber&gt;] phone: string) =
+    phone.Length = 14 &amp;&amp; phone.[0] = '(' &amp;&amp; phone.[4] = ')'
+</code></pre>
+</section>
+<section id="tabpanel_17_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+using Range = Hedgehog.Linq.Range;
+
+/// &lt;summary&gt;Generates a valid US phone number&lt;/summary&gt;
+public class UsPhoneNumberAttribute : GenAttribute&lt;string&gt;
+{
+    public override Gen&lt;string&gt; Generator =&gt;
+        from areaCode in Gen.Int32(Range.Constant(200, 999))
+        from exchange in Gen.Int32(Range.Constant(200, 999))
+        from number in Gen.Int32(Range.Constant(0, 9999))
+        select $&quot;({areaCode:000}) {exchange:000}-{number:0000}&quot;;
+}
+
+[Property]
+public bool PhoneNumbersAreFormattedCorrectly([UsPhoneNumber] string phone)
+{
+    return phone.Length == 14 &amp;&amp; phone[0] == '(' &amp;&amp; phone[4] == ')';
+}
+</code></pre>
+</section>
+</div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><p><strong>Use Specific Attributes</strong>: Choose the most specific attribute for your needs (e.g., <code>[&lt;PositiveInt&gt;]</code> instead of <code>[&lt;NonNegativeInt&gt;]</code> when you need values &gt; 0)</p>
+</li>
+<li><p><strong>Set Reasonable Ranges</strong>: Use constructor parameters to limit ranges to realistic values for your domain</p>
+</li>
+<li><p><strong>Combine with Property Attribute</strong>: Always use generator attributes with <code>[&lt;Property&gt;]</code> or <code>[&lt;Properties&gt;]</code> attributes</p>
+</li>
+<li><p><strong>Document Custom Attributes</strong>: When creating custom attributes, add XML documentation to explain what they generate</p>
+</li>
+</ol>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_FSharp_AutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig" class="text-break">
-Class AutoGenConfig  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+Class AutoGenConfig  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L38"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -134,7 +134,7 @@ and register custom generators.</p>
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.seqRange-IAutoGenConfig">
   seqRange
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L51"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the collection range from the configuration, or the default if not set.</p>
@@ -160,7 +160,7 @@ and register custom generators.</p>
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.setSeqRange-Range-IAutoGenConfig">
   setSeqRange
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Sets the range for collection sizes.</p>
@@ -187,7 +187,7 @@ and register custom generators.</p>
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.recursionDepth-IAutoGenConfig">
   recursionDepth
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L70"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the recursion depth from the configuration, or the default if not set.</p>
@@ -213,7 +213,7 @@ and register custom generators.</p>
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.setRecursionDepth-int-IAutoGenConfig">
   setRecursionDepth
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L82"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Sets the maximum recursion depth for nested type generation.</p>
@@ -241,7 +241,7 @@ recursion when generating recursive data structures or to control the complexity
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.merge-IAutoGenConfig-IAutoGenConfig">
   merge
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L95"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Merges two configurations, with values from the second configuration taking precedence.</p>
@@ -269,7 +269,7 @@ and override specific settings with another configuration.</p>
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen" data-uid="Hedgehog.FSharp.AutoGenConfig.addGenerator-Gen">
   addGenerator
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L111"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Adds a custom generator for a specific type to the configuration.</p>
@@ -297,7 +297,7 @@ This is useful when you want to customize how instances of a particular type are
 
   <h3 id="Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig" data-uid="Hedgehog.FSharp.AutoGenConfig.addGenerators-IAutoGenConfig">
   addGenerators
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/AutoGenConfig.fs/#L159"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Registers all generator methods defined in a given type.</p>

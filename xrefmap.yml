@@ -541,6 +541,12 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.double-Range
   fullName: Hedgehog.FSharp.Gen.double-Range
   nameWithType: double
+- uid: Hedgehog.FSharp.Gen.email
+  name: email
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_email
+  commentId: M:Hedgehog.FSharp.Gen.email
+  fullName: Hedgehog.FSharp.Gen.email
+  nameWithType: email
 - uid: Hedgehog.FSharp.Gen.filter-a-Gen
   name: filter
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_filter_a_Gen
@@ -565,6 +571,12 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.guid
   fullName: Hedgehog.FSharp.Gen.guid
   nameWithType: guid
+- uid: Hedgehog.FSharp.Gen.identifier-int
+  name: identifier
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_identifier_int
+  commentId: M:Hedgehog.FSharp.Gen.identifier-int
+  fullName: Hedgehog.FSharp.Gen.identifier-int
+  nameWithType: identifier
 - uid: Hedgehog.FSharp.Gen.int16-Range
   name: int16
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_int16_Range
@@ -589,18 +601,48 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.integral-Range
   fullName: Hedgehog.FSharp.Gen.integral-Range
   nameWithType: integral
+- uid: Hedgehog.FSharp.Gen.ipAddress
+  name: ipAddress
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_ipAddress
+  commentId: M:Hedgehog.FSharp.Gen.ipAddress
+  fullName: Hedgehog.FSharp.Gen.ipAddress
+  nameWithType: ipAddress
+- uid: Hedgehog.FSharp.Gen.ipv4Address
+  name: ipv4Address
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_ipv4Address
+  commentId: M:Hedgehog.FSharp.Gen.ipv4Address
+  fullName: Hedgehog.FSharp.Gen.ipv4Address
+  nameWithType: ipv4Address
+- uid: Hedgehog.FSharp.Gen.ipv6Address
+  name: ipv6Address
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_ipv6Address
+  commentId: M:Hedgehog.FSharp.Gen.ipv6Address
+  fullName: Hedgehog.FSharp.Gen.ipv6Address
+  nameWithType: ipv6Address
 - uid: Hedgehog.FSharp.Gen.item-a
   name: item
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_item_a
   commentId: M:Hedgehog.FSharp.Gen.item-a
   fullName: Hedgehog.FSharp.Gen.item-a
   nameWithType: item
+- uid: Hedgehog.FSharp.Gen.kebabCase-Range-Range
+  name: kebabCase
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_kebabCase_Range_Range
+  commentId: M:Hedgehog.FSharp.Gen.kebabCase-Range-Range
+  fullName: Hedgehog.FSharp.Gen.kebabCase-Range-Range
+  nameWithType: kebabCase
 - uid: Hedgehog.FSharp.Gen.latin1
   name: latin1
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_latin1
   commentId: M:Hedgehog.FSharp.Gen.latin1
   fullName: Hedgehog.FSharp.Gen.latin1
   nameWithType: latin1
+- uid: Hedgehog.FSharp.Gen.latinName-int
+  name: latinName
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_latinName_int
+  commentId: M:Hedgehog.FSharp.Gen.latinName-int
+  fullName: Hedgehog.FSharp.Gen.latinName-int
+  nameWithType: latinName
 - uid: Hedgehog.FSharp.Gen.list-Range-Gen
   name: list
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_list_Range_Gen
@@ -775,6 +817,12 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.sized-Size
   fullName: Hedgehog.FSharp.Gen.sized-Size
   nameWithType: sized
+- uid: Hedgehog.FSharp.Gen.snakeCase-Range-Range
+  name: snakeCase
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_snakeCase_Range_Range
+  commentId: M:Hedgehog.FSharp.Gen.snakeCase-Range-Range
+  fullName: Hedgehog.FSharp.Gen.snakeCase-Range-Range
+  nameWithType: snakeCase
 - uid: Hedgehog.FSharp.Gen.some-Gen
   name: some
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_some_Gen
@@ -1795,12 +1843,24 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Digit
   fullName: Hedgehog.Linq.Gen.Digit
   nameWithType: Digit
+- uid: Hedgehog.Linq.Gen.DomainName
+  name: DomainName
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_DomainName
+  commentId: M:Hedgehog.Linq.Gen.DomainName
+  fullName: Hedgehog.Linq.Gen.DomainName
+  nameWithType: DomainName
 - uid: Hedgehog.Linq.Gen.Double-Range
   name: Double(Range)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Double_Range
   commentId: M:Hedgehog.Linq.Gen.Double-Range
   fullName: Hedgehog.Linq.Gen.Double-Range
   nameWithType: Double(Range)
+- uid: Hedgehog.Linq.Gen.Email
+  name: Email
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Email
+  commentId: M:Hedgehog.Linq.Gen.Email
+  fullName: Hedgehog.Linq.Gen.Email
+  nameWithType: Email
 - uid: Hedgehog.Linq.Gen.Frequency-(int
   name: Frequency((int)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Frequency__int
@@ -1825,6 +1885,12 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Guid
   fullName: Hedgehog.Linq.Gen.Guid
   nameWithType: Guid
+- uid: Hedgehog.Linq.Gen.Identifier-int
+  name: Identifier(int)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Identifier_int
+  commentId: M:Hedgehog.Linq.Gen.Identifier-int
+  fullName: Hedgehog.Linq.Gen.Identifier-int
+  nameWithType: Identifier(int)
 - uid: Hedgehog.Linq.Gen.Int16-Range
   name: Int16(Range)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Int16_Range
@@ -1849,18 +1915,54 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Integral-Range
   fullName: Hedgehog.Linq.Gen.Integral-Range
   nameWithType: Integral(Range)
+- uid: Hedgehog.Linq.Gen.IpAddress
+  name: IpAddress
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_IpAddress
+  commentId: M:Hedgehog.Linq.Gen.IpAddress
+  fullName: Hedgehog.Linq.Gen.IpAddress
+  nameWithType: IpAddress
+- uid: Hedgehog.Linq.Gen.Ipv4Address
+  name: Ipv4Address
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Ipv4Address
+  commentId: M:Hedgehog.Linq.Gen.Ipv4Address
+  fullName: Hedgehog.Linq.Gen.Ipv4Address
+  nameWithType: Ipv4Address
+- uid: Hedgehog.Linq.Gen.Ipv6Address
+  name: Ipv6Address
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Ipv6Address
+  commentId: M:Hedgehog.Linq.Gen.Ipv6Address
+  fullName: Hedgehog.Linq.Gen.Ipv6Address
+  nameWithType: Ipv6Address
 - uid: Hedgehog.Linq.Gen.Item-T
   name: Item('T)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Item_T
   commentId: M:Hedgehog.Linq.Gen.Item-T
   fullName: Hedgehog.Linq.Gen.Item-T
   nameWithType: Item('T)
+- uid: Hedgehog.Linq.Gen.KebabCase-Range-Range
+  name: KebabCase(Range, Range)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_KebabCase_Range_Range
+  commentId: M:Hedgehog.Linq.Gen.KebabCase-Range-Range
+  fullName: Hedgehog.Linq.Gen.KebabCase-Range-Range
+  nameWithType: KebabCase(Range, Range)
+- uid: Hedgehog.Linq.Gen.KebabCase-int-int
+  name: KebabCase(int, int)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_KebabCase_int_int
+  commentId: M:Hedgehog.Linq.Gen.KebabCase-int-int
+  fullName: Hedgehog.Linq.Gen.KebabCase-int-int
+  nameWithType: KebabCase(int, int)
 - uid: Hedgehog.Linq.Gen.Latin1
   name: Latin1
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Latin1
   commentId: M:Hedgehog.Linq.Gen.Latin1
   fullName: Hedgehog.Linq.Gen.Latin1
   nameWithType: Latin1
+- uid: Hedgehog.Linq.Gen.LatinName-int
+  name: LatinName(int)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_LatinName_int
+  commentId: M:Hedgehog.Linq.Gen.LatinName-int
+  fullName: Hedgehog.Linq.Gen.LatinName-int
+  nameWithType: LatinName(int)
 - uid: Hedgehog.Linq.Gen.Lower
   name: Lower
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Lower
@@ -1873,6 +1975,18 @@ references:
   commentId: M:Hedgehog.Linq.Gen.SByte-Range
   fullName: Hedgehog.Linq.Gen.SByte-Range
   nameWithType: SByte(Range)
+- uid: Hedgehog.Linq.Gen.Shuffle-T
+  name: Shuffle('T)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Shuffle_T
+  commentId: M:Hedgehog.Linq.Gen.Shuffle-T
+  fullName: Hedgehog.Linq.Gen.Shuffle-T
+  nameWithType: Shuffle('T)
+- uid: Hedgehog.Linq.Gen.ShuffleCase-string
+  name: ShuffleCase(string)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_ShuffleCase_string
+  commentId: M:Hedgehog.Linq.Gen.ShuffleCase-string
+  fullName: Hedgehog.Linq.Gen.ShuffleCase-string
+  nameWithType: ShuffleCase(string)
 - uid: Hedgehog.Linq.Gen.Single-Range
   name: Single(Range)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Single_Range
@@ -1885,6 +1999,24 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Sized-Func
   fullName: Hedgehog.Linq.Gen.Sized-Func
   nameWithType: Sized(Func)
+- uid: Hedgehog.Linq.Gen.SnakeCase-Range-Range
+  name: SnakeCase(Range, Range)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_SnakeCase_Range_Range
+  commentId: M:Hedgehog.Linq.Gen.SnakeCase-Range-Range
+  fullName: Hedgehog.Linq.Gen.SnakeCase-Range-Range
+  nameWithType: SnakeCase(Range, Range)
+- uid: Hedgehog.Linq.Gen.SnakeCase-int-int
+  name: SnakeCase(int, int)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_SnakeCase_int_int
+  commentId: M:Hedgehog.Linq.Gen.SnakeCase-int-int
+  fullName: Hedgehog.Linq.Gen.SnakeCase-int-int
+  nameWithType: SnakeCase(int, int)
+- uid: Hedgehog.Linq.Gen.SubsetOf-T
+  name: SubsetOf('T)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_SubsetOf_T
+  commentId: M:Hedgehog.Linq.Gen.SubsetOf-T
+  fullName: Hedgehog.Linq.Gen.SubsetOf-T
+  nameWithType: SubsetOf('T)
 - uid: Hedgehog.Linq.Gen.UInt16-Range
   name: UInt16(Range)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_UInt16_Range
@@ -1921,6 +2053,12 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Upper
   fullName: Hedgehog.Linq.Gen.Upper
   nameWithType: Upper
+- uid: Hedgehog.Linq.Gen.Uri
+  name: Uri
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_Uri
+  commentId: M:Hedgehog.Linq.Gen.Uri
+  fullName: Hedgehog.Linq.Gen.Uri
+  nameWithType: Uri
 - uid: Hedgehog.Linq.GenExtensions
   name: GenExtensions
   href: api/Hedgehog.Linq.GenExtensions.html
@@ -3745,6 +3883,210 @@ references:
   commentId: T:Hedgehog.Tree_a_
   fullName: Hedgehog.Tree<'a>
   nameWithType: Tree<'a>
+- uid: Hedgehog.Xunit.AlphaNumStringAttribute
+  name: AlphaNumStringAttribute
+  href: api/Hedgehog.Xunit.AlphaNumStringAttribute.html
+  commentId: T:Hedgehog.Xunit.AlphaNumStringAttribute
+  fullName: Hedgehog.Xunit.AlphaNumStringAttribute
+  nameWithType: AlphaNumStringAttribute
+- uid: Hedgehog.Xunit.DateTimeAttribute
+  name: DateTimeAttribute
+  href: api/Hedgehog.Xunit.DateTimeAttribute.html
+  commentId: T:Hedgehog.Xunit.DateTimeAttribute
+  fullName: Hedgehog.Xunit.DateTimeAttribute
+  nameWithType: DateTimeAttribute
+- uid: Hedgehog.Xunit.DateTimeOffsetAttribute
+  name: DateTimeOffsetAttribute
+  href: api/Hedgehog.Xunit.DateTimeOffsetAttribute.html
+  commentId: T:Hedgehog.Xunit.DateTimeOffsetAttribute
+  fullName: Hedgehog.Xunit.DateTimeOffsetAttribute
+  nameWithType: DateTimeOffsetAttribute
+- uid: Hedgehog.Xunit.DomainNameAttribute
+  name: DomainNameAttribute
+  href: api/Hedgehog.Xunit.DomainNameAttribute.html
+  commentId: T:Hedgehog.Xunit.DomainNameAttribute
+  fullName: Hedgehog.Xunit.DomainNameAttribute
+  nameWithType: DomainNameAttribute
+- uid: Hedgehog.Xunit.EmailAttribute
+  name: EmailAttribute
+  href: api/Hedgehog.Xunit.EmailAttribute.html
+  commentId: T:Hedgehog.Xunit.EmailAttribute
+  fullName: Hedgehog.Xunit.EmailAttribute
+  nameWithType: EmailAttribute
+- uid: Hedgehog.Xunit.EvenAttribute
+  name: EvenAttribute
+  href: api/Hedgehog.Xunit.EvenAttribute.html
+  commentId: T:Hedgehog.Xunit.EvenAttribute
+  fullName: Hedgehog.Xunit.EvenAttribute
+  nameWithType: EvenAttribute
+- uid: Hedgehog.Xunit.GenAttribute_a_
+  name: GenAttribute<'a>
+  href: api/Hedgehog.Xunit.GenAttribute_a_.html
+  commentId: T:Hedgehog.Xunit.GenAttribute_a_
+  fullName: Hedgehog.Xunit.GenAttribute<'a>
+  nameWithType: GenAttribute<'a>
+- uid: Hedgehog.Xunit.GenAttribute_a_.Box
+  name: Box
+  href: api/Hedgehog.Xunit.GenAttribute_a_.html#Hedgehog_Xunit_GenAttribute_a__Box
+  commentId: M:Hedgehog.Xunit.GenAttribute_a_.Box
+  fullName: Hedgehog.Xunit.GenAttribute_a_.Box
+  nameWithType: Box
+- uid: Hedgehog.Xunit.GenAttribute_a_.Generator
+  name: Generator
+  href: api/Hedgehog.Xunit.GenAttribute_a_.html#Hedgehog_Xunit_GenAttribute_a__Generator
+  commentId: M:Hedgehog.Xunit.GenAttribute_a_.Generator
+  fullName: Hedgehog.Xunit.GenAttribute_a_.Generator
+  nameWithType: Generator
+- uid: Hedgehog.Xunit.IdentifierAttribute
+  name: IdentifierAttribute
+  href: api/Hedgehog.Xunit.IdentifierAttribute.html
+  commentId: T:Hedgehog.Xunit.IdentifierAttribute
+  fullName: Hedgehog.Xunit.IdentifierAttribute
+  nameWithType: IdentifierAttribute
+- uid: Hedgehog.Xunit.IpAddressAttribute
+  name: IpAddressAttribute
+  href: api/Hedgehog.Xunit.IpAddressAttribute.html
+  commentId: T:Hedgehog.Xunit.IpAddressAttribute
+  fullName: Hedgehog.Xunit.IpAddressAttribute
+  nameWithType: IpAddressAttribute
+- uid: Hedgehog.Xunit.Ipv6AddressAttribute
+  name: Ipv6AddressAttribute
+  href: api/Hedgehog.Xunit.Ipv6AddressAttribute.html
+  commentId: T:Hedgehog.Xunit.Ipv6AddressAttribute
+  fullName: Hedgehog.Xunit.Ipv6AddressAttribute
+  nameWithType: Ipv6AddressAttribute
+- uid: Hedgehog.Xunit.KebabCaseAttribute
+  name: KebabCaseAttribute
+  href: api/Hedgehog.Xunit.KebabCaseAttribute.html
+  commentId: T:Hedgehog.Xunit.KebabCaseAttribute
+  fullName: Hedgehog.Xunit.KebabCaseAttribute
+  nameWithType: KebabCaseAttribute
+- uid: Hedgehog.Xunit.LatinNameAttribute
+  name: LatinNameAttribute
+  href: api/Hedgehog.Xunit.LatinNameAttribute.html
+  commentId: T:Hedgehog.Xunit.LatinNameAttribute
+  fullName: Hedgehog.Xunit.LatinNameAttribute
+  nameWithType: LatinNameAttribute
+- uid: Hedgehog.Xunit.NonNegativeIntAttribute
+  name: NonNegativeIntAttribute
+  href: api/Hedgehog.Xunit.NonNegativeIntAttribute.html
+  commentId: T:Hedgehog.Xunit.NonNegativeIntAttribute
+  fullName: Hedgehog.Xunit.NonNegativeIntAttribute
+  nameWithType: NonNegativeIntAttribute
+- uid: Hedgehog.Xunit.NonZeroIntAttribute
+  name: NonZeroIntAttribute
+  href: api/Hedgehog.Xunit.NonZeroIntAttribute.html
+  commentId: T:Hedgehog.Xunit.NonZeroIntAttribute
+  fullName: Hedgehog.Xunit.NonZeroIntAttribute
+  nameWithType: NonZeroIntAttribute
+- uid: Hedgehog.Xunit.OddAttribute
+  name: OddAttribute
+  href: api/Hedgehog.Xunit.OddAttribute.html
+  commentId: T:Hedgehog.Xunit.OddAttribute
+  fullName: Hedgehog.Xunit.OddAttribute
+  nameWithType: OddAttribute
+- uid: Hedgehog.Xunit.PositiveIntAttribute
+  name: PositiveIntAttribute
+  href: api/Hedgehog.Xunit.PositiveIntAttribute.html
+  commentId: T:Hedgehog.Xunit.PositiveIntAttribute
+  fullName: Hedgehog.Xunit.PositiveIntAttribute
+  nameWithType: PositiveIntAttribute
+- uid: Hedgehog.Xunit.PropertiesAttribute
+  name: PropertiesAttribute
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html
+  commentId: T:Hedgehog.Xunit.PropertiesAttribute
+  fullName: Hedgehog.Xunit.PropertiesAttribute
+  nameWithType: PropertiesAttribute
+- uid: Hedgehog.Xunit.PropertiesAttribute.AutoGenConfig
+  name: AutoGenConfig
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html#Hedgehog_Xunit_PropertiesAttribute_AutoGenConfig
+  commentId: M:Hedgehog.Xunit.PropertiesAttribute.AutoGenConfig
+  fullName: Hedgehog.Xunit.PropertiesAttribute.AutoGenConfig
+  nameWithType: AutoGenConfig
+- uid: Hedgehog.Xunit.PropertiesAttribute.AutoGenConfigArgs
+  name: AutoGenConfigArgs
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html#Hedgehog_Xunit_PropertiesAttribute_AutoGenConfigArgs
+  commentId: M:Hedgehog.Xunit.PropertiesAttribute.AutoGenConfigArgs
+  fullName: Hedgehog.Xunit.PropertiesAttribute.AutoGenConfigArgs
+  nameWithType: AutoGenConfigArgs
+- uid: Hedgehog.Xunit.PropertiesAttribute.Shrinks
+  name: Shrinks
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html#Hedgehog_Xunit_PropertiesAttribute_Shrinks
+  commentId: M:Hedgehog.Xunit.PropertiesAttribute.Shrinks
+  fullName: Hedgehog.Xunit.PropertiesAttribute.Shrinks
+  nameWithType: Shrinks
+- uid: Hedgehog.Xunit.PropertiesAttribute.Size
+  name: Size
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html#Hedgehog_Xunit_PropertiesAttribute_Size
+  commentId: M:Hedgehog.Xunit.PropertiesAttribute.Size
+  fullName: Hedgehog.Xunit.PropertiesAttribute.Size
+  nameWithType: Size
+- uid: Hedgehog.Xunit.PropertiesAttribute.Tests
+  name: Tests
+  href: api/Hedgehog.Xunit.PropertiesAttribute.html#Hedgehog_Xunit_PropertiesAttribute_Tests
+  commentId: M:Hedgehog.Xunit.PropertiesAttribute.Tests
+  fullName: Hedgehog.Xunit.PropertiesAttribute.Tests
+  nameWithType: Tests
+- uid: Hedgehog.Xunit.PropertyAttribute
+  name: PropertyAttribute
+  href: api/Hedgehog.Xunit.PropertyAttribute.html
+  commentId: T:Hedgehog.Xunit.PropertyAttribute
+  fullName: Hedgehog.Xunit.PropertyAttribute
+  nameWithType: PropertyAttribute
+- uid: Hedgehog.Xunit.PropertyAttribute.AutoGenConfig
+  name: AutoGenConfig
+  href: api/Hedgehog.Xunit.PropertyAttribute.html#Hedgehog_Xunit_PropertyAttribute_AutoGenConfig
+  commentId: M:Hedgehog.Xunit.PropertyAttribute.AutoGenConfig
+  fullName: Hedgehog.Xunit.PropertyAttribute.AutoGenConfig
+  nameWithType: AutoGenConfig
+- uid: Hedgehog.Xunit.PropertyAttribute.AutoGenConfigArgs
+  name: AutoGenConfigArgs
+  href: api/Hedgehog.Xunit.PropertyAttribute.html#Hedgehog_Xunit_PropertyAttribute_AutoGenConfigArgs
+  commentId: M:Hedgehog.Xunit.PropertyAttribute.AutoGenConfigArgs
+  fullName: Hedgehog.Xunit.PropertyAttribute.AutoGenConfigArgs
+  nameWithType: AutoGenConfigArgs
+- uid: Hedgehog.Xunit.PropertyAttribute.Shrinks
+  name: Shrinks
+  href: api/Hedgehog.Xunit.PropertyAttribute.html#Hedgehog_Xunit_PropertyAttribute_Shrinks
+  commentId: M:Hedgehog.Xunit.PropertyAttribute.Shrinks
+  fullName: Hedgehog.Xunit.PropertyAttribute.Shrinks
+  nameWithType: Shrinks
+- uid: Hedgehog.Xunit.PropertyAttribute.Size
+  name: Size
+  href: api/Hedgehog.Xunit.PropertyAttribute.html#Hedgehog_Xunit_PropertyAttribute_Size
+  commentId: M:Hedgehog.Xunit.PropertyAttribute.Size
+  fullName: Hedgehog.Xunit.PropertyAttribute.Size
+  nameWithType: Size
+- uid: Hedgehog.Xunit.PropertyAttribute.Tests
+  name: Tests
+  href: api/Hedgehog.Xunit.PropertyAttribute.html#Hedgehog_Xunit_PropertyAttribute_Tests
+  commentId: M:Hedgehog.Xunit.PropertyAttribute.Tests
+  fullName: Hedgehog.Xunit.PropertyAttribute.Tests
+  nameWithType: Tests
+- uid: Hedgehog.Xunit.PropertyFailedException
+  name: PropertyFailedException
+  href: api/Hedgehog.Xunit.PropertyFailedException.html
+  commentId: T:Hedgehog.Xunit.PropertyFailedException
+  fullName: Hedgehog.Xunit.PropertyFailedException
+  nameWithType: PropertyFailedException
+- uid: Hedgehog.Xunit.RecheckAttribute
+  name: RecheckAttribute
+  href: api/Hedgehog.Xunit.RecheckAttribute.html
+  commentId: T:Hedgehog.Xunit.RecheckAttribute
+  fullName: Hedgehog.Xunit.RecheckAttribute
+  nameWithType: RecheckAttribute
+- uid: Hedgehog.Xunit.SnakeCaseAttribute
+  name: SnakeCaseAttribute
+  href: api/Hedgehog.Xunit.SnakeCaseAttribute.html
+  commentId: T:Hedgehog.Xunit.SnakeCaseAttribute
+  fullName: Hedgehog.Xunit.SnakeCaseAttribute
+  nameWithType: SnakeCaseAttribute
+- uid: Hedgehog.Xunit.UnicodeStringAttribute
+  name: UnicodeStringAttribute
+  href: api/Hedgehog.Xunit.UnicodeStringAttribute.html
+  commentId: T:Hedgehog.Xunit.UnicodeStringAttribute
+  fullName: Hedgehog.Xunit.UnicodeStringAttribute
+  nameWithType: UnicodeStringAttribute
 - uid: Hedgehog.discards
   name: discards
   href: api/Hedgehog.discards.html

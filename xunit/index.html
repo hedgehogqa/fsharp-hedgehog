@@ -87,9 +87,14 @@
 <h1 id="xunit-integration">xUnit Integration</h1>
 
 <p>The <code>Hedgehog.Xunit</code> package provides seamless integration with xUnit, making it easy to write property-based tests that fit naturally into your existing xUnit test suite.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>We integrate with <a href="https://xunit.net/docs/getting-started/v3/getting-started">xUnit V3</a>, so please make sure that your test project
+references <a href="https://www.nuget.org/packages/xunit.v3">xunit.v3</a> nuget package the older <code>xunit</code>.</p>
+</div>
 <h2 id="installation">Installation</h2>
 <p>Install Hedgehog.Xunit from NuGet:</p>
-<pre><code class="lang-bash">dotnet add package Hedgehog.Xunit
+<pre><code class="lang-bash">dotnet add package Hedgehog.Xunit.v3
 </code></pre>
 <h2 id="quick-start">Quick Start</h2>
 <p>The simplest way to write a property test with xUnit is to use the <code>[&lt;Property&gt;]</code> attribute:</p>

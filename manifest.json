@@ -712,6 +712,314 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.AlphaNumStringAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.AlphaNumStringAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.AlphaNumStringAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.AlphaNumStringAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string containing alphanumeric characters.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.DateTimeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.DateTimeAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.DateTimeAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.DateTimeAttribute.yml\" sourcestartlinenumber=\"1\">Generates a DateTime value.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.DateTimeOffsetAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.DateTimeOffsetAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.DateTimeOffsetAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.DateTimeOffsetAttribute.yml\" sourcestartlinenumber=\"1\">Generates a DateTimeOffset value.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.DomainNameAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.DomainNameAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.DomainNameAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.DomainNameAttribute.yml\" sourcestartlinenumber=\"1\">Generates a valid domain name.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.EmailAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.EmailAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.EmailAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.EmailAttribute.yml\" sourcestartlinenumber=\"1\">Generates a valid email address.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.EvenAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.EvenAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.EvenAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.EvenAttribute.yml\" sourcestartlinenumber=\"1\">Generates an even integer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.GenAttribute_a_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.GenAttribute_a_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.GenAttribute<'a>",
+      "Summary": "<pre><code sourcefile=\"api/Hedgehog.Xunit.GenAttribute_a_.yml\" sourcestartlinenumber=\"1\"> Set a Generator for a parameter of a test annotated with `Property`\n\n Example usage:\n\n</code></pre>\n<p sourcefile=\"api/Hedgehog.Xunit.GenAttribute_a_.yml\" sourcestartlinenumber=\"8\">type ConstantInt(i: int) =\ninherit ParameterGeneraterBaseType()\noverride _.Generator = Gen.constant i</p>\n<p sourcefile=\"api/Hedgehog.Xunit.GenAttribute_a_.yml\" sourcestartlinenumber=\"12\">[]\nlet <code sourcefile=\"api/Hedgehog.Xunit.GenAttribute_a_.yml\" sourcestartlinenumber=\"13\">is always 2</code> ([] i) =\nAssert.StrictEqual(2, i)</p>\n<pre><code sourcefile=\"api/Hedgehog.Xunit.GenAttribute_a_.yml\" sourcestartlinenumber=\"16\"></code></pre>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.IdentifierAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.IdentifierAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.IdentifierAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IdentifierAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string that is a valid identifier.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.IpAddressAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.IpAddressAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.IpAddressAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IpAddressAttribute.yml\" sourcestartlinenumber=\"1\">Generates an IP address (IPv4).</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.Ipv6AddressAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.Ipv6AddressAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.Ipv6AddressAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.Ipv6AddressAttribute.yml\" sourcestartlinenumber=\"1\">Generates an IPv6 address.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.KebabCaseAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.KebabCaseAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.KebabCaseAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.KebabCaseAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string in kebab-case.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.LatinNameAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.LatinNameAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.LatinNameAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.LatinNameAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string representing a Latin name.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.NonNegativeIntAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.NonNegativeIntAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.NonNegativeIntAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonNegativeIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-negative integer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.NonZeroIntAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.NonZeroIntAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.NonZeroIntAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonZeroIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-zero integer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.OddAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.OddAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.OddAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.OddAttribute.yml\" sourcestartlinenumber=\"1\">Generates an odd integer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.PositiveIntAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.PositiveIntAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.PositiveIntAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PositiveIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a positive integer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.PropertiesAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.PropertiesAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.PropertiesAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PropertiesAttribute.yml\" sourcestartlinenumber=\"1\">Set a default AutoGenConfig or <tests> for all [<property>] attributed methods in this class/module</property></tests></p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.PropertyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.PropertyAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.PropertyAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PropertyAttribute.yml\" sourcestartlinenumber=\"1\">Generates arguments using GenX.auto (or autoWith if you provide an AutoGenConfig), then runs Property.check</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.PropertyFailedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.PropertyFailedException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.PropertyFailedException",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PropertyFailedException.yml\" sourcestartlinenumber=\"1\">Exception for property test failures that produces clean output</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.RecheckAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.RecheckAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.RecheckAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.RecheckAttribute.yml\" sourcestartlinenumber=\"1\">Runs Property.reportRecheck</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.SnakeCaseAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.SnakeCaseAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.SnakeCaseAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.SnakeCaseAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string in snake_case.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.UnicodeStringAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.UnicodeStringAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.UnicodeStringAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.UnicodeStringAttribute.yml\" sourcestartlinenumber=\"1\">Generates a string containing unicode characters.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.discards.yml",
       "output": {
         ".html": {
@@ -857,6 +1165,16 @@
         },
         ".json": {
           "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/attributes.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/attributes.html"
         }
       },
       "version": ""

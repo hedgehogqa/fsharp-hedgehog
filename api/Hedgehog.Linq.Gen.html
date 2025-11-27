@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_Linq_Gen" data-uid="Hedgehog.Linq.Gen" class="text-break">
-Class Gen  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+Class Gen  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L9"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -118,12 +118,15 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   public static Gen&lt;decimal&gt; Decimal(Range&lt;decimal&gt; range)
   public static Gen&lt;T&gt; Delay(Func&lt;Gen&lt;T&gt;&gt; func)
   public static Gen&lt;char&gt; Digit()
+  public static Gen&lt;string&gt; DomainName()
   public static Gen&lt;double&gt; Double(Range&lt;double&gt; range)
+  public static Gen&lt;string&gt; Email()
   public static Gen&lt;T&gt; Frequency(((int, T)) array values)
   public static Gen&lt;T&gt; Frequency(((int, Gen)&lt;T&gt;) array gens)
   public static Gen&lt;T&gt; FromRandom(Random&lt;Tree&lt;T&gt;&gt; random)
   public static Gen&lt;T&gt; FromValue(T value)
   public static Gen&lt;Guid&gt; Guid()
+  public static Gen&lt;string&gt; Identifier(int maxLen)
   public static Gen&lt;int16&gt; Int16(Range&lt;int16&gt; range)
   public static Gen&lt;int32&gt; Int32(Range&lt;int32&gt; range)
   public static Gen&lt;int64&gt; Int64(Range&lt;int64&gt; range)
@@ -137,18 +140,30 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   public static Gen&lt;int16&gt; Integral(Range&lt;int16&gt; range)
   public static Gen&lt;sbyte&gt; Integral(Range&lt;sbyte&gt; range)
   public static Gen&lt;byte&gt; Integral(Range&lt;byte&gt; range)
+  public static Gen&lt;IPAddress&gt; IpAddress()
+  public static Gen&lt;IPAddress&gt; Ipv4Address()
+  public static Gen&lt;IPAddress&gt; Ipv6Address()
   public static Gen&lt;T&gt; Item(T array items)
+  public static Gen&lt;string&gt; KebabCase(int maxWordLength, int maxWordsCount)
+  public static Gen&lt;string&gt; KebabCase(Range&lt;int&gt; wordLength, Range&lt;int&gt; wordsCount)
   public static Gen&lt;char&gt; Latin1()
+  public static Gen&lt;string&gt; LatinName(int maxLength)
   public static Gen&lt;char&gt; Lower()
   public static Gen&lt;sbyte&gt; SByte(Range&lt;sbyte&gt; range)
+  public static Gen&lt;TIEnumerable&gt; Shuffle(TIEnumerable items)
+  public static Gen&lt;string&gt; ShuffleCase(string value)
   public static Gen&lt;single&gt; Single(Range&lt;single&gt; range)
   public static Gen&lt;T&gt; Sized(Func&lt;Size, Gen&lt;T&gt;&gt; scaler)
+  public static Gen&lt;string&gt; SnakeCase(int maxWordLength, int maxWordsCount)
+  public static Gen&lt;string&gt; SnakeCase(Range&lt;int&gt; wordLength, Range&lt;int&gt; wordsCount)
+  public static Gen&lt;TIEnumerable&gt; SubsetOf(TIEnumerable items)
   public static Gen&lt;uint16&gt; UInt16(Range&lt;uint16&gt; range)
   public static Gen&lt;uint32&gt; UInt32(Range&lt;uint32&gt; range)
   public static Gen&lt;uint64&gt; UInt64(Range&lt;uint64&gt; range)
   public static Gen&lt;char&gt; Unicode()
   public static Gen&lt;char&gt; UnicodeAll()
   public static Gen&lt;char&gt; Upper()
+  public static Gen&lt;Uri&gt; Uri()
 }</code></pre>
   </div>
 
@@ -172,7 +187,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_Linq_Gen_Auto" data-uid="Hedgehog.Linq.Gen.Auto">
   Auto
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L15"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create a generator that automatically generates values of the specified type.</p>
@@ -198,7 +213,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_Linq_Gen_AutoWith_IAutoGenConfig" data-uid="Hedgehog.Linq.Gen.AutoWith-IAutoGenConfig">
   AutoWith(IAutoGenConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L23"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create a generator that automatically generates values of the specified type,
@@ -225,7 +240,7 @@ using the provided configuration.</p>
 
   <h3 id="Hedgehog_Linq_Gen_Byte_Range" data-uid="Hedgehog.Linq.Gen.Byte-Range">
   Byte(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L251"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random byte.</p>
@@ -251,7 +266,7 @@ using the provided configuration.</p>
 
   <h3 id="Hedgehog_Linq_Gen_Char_char_char" data-uid="Hedgehog.Linq.Gen.Char-char-char">
   Char(char, char)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L130"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random character in the given range.</p>
@@ -277,7 +292,7 @@ using the provided configuration.</p>
 
   <h3 id="Hedgehog_Linq_Gen_Choice_Gen" data-uid="Hedgehog.Linq.Gen.Choice-Gen">
   Choice(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L118"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects one of the gens in the list.
@@ -304,7 +319,7 @@ using the provided configuration.</p>
 
   <h3 id="Hedgehog_Linq_Gen_ChoiceRecursive_Gen_Gen" data-uid="Hedgehog.Linq.Gen.ChoiceRecursive-Gen-Gen">
   ChoiceRecursive(Gen, Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L126"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects from one of the gens in either the non-recursive or the
@@ -334,7 +349,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Constant_T" data-uid="Hedgehog.Linq.Gen.Constant-T">
   Constant(&#39;T)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L37"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create a generator that always yields a constant value.</p>
@@ -360,7 +375,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Create_Func_Random" data-uid="Hedgehog.Linq.Gen.Create-Func-Random">
   Create(Func, Random)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L46"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -385,7 +400,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_DateTime_Range" data-uid="Hedgehog.Linq.Gen.DateTime-Range">
   DateTime(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L306"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random DateTime using the given range.</p>
@@ -417,7 +432,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_DateTimeOffset_Range" data-uid="Hedgehog.Linq.Gen.DateTimeOffset-Range">
   DateTimeOffset(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L310"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random DateTimeOffset using the given range.</p>
@@ -443,7 +458,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Decimal_Range" data-uid="Hedgehog.Linq.Gen.Decimal-Range">
   Decimal(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L287"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random decimal floating-point number.</p>
@@ -469,7 +484,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Delay_Func" data-uid="Hedgehog.Linq.Gen.Delay-Func">
   Delay(Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -494,7 +509,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Double_Range" data-uid="Hedgehog.Linq.Gen.Double-Range">
   Double(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L283"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random 64-bit floating point number.</p>
@@ -520,7 +535,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_Linq_Gen_Frequency__int" data-uid="Hedgehog.Linq.Gen.Frequency-(int">
   Frequency((int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L104"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Uses a weighted distribution to randomly select one of the gens in the list.
@@ -548,7 +563,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Frequency__int" data-uid="Hedgehog.Linq.Gen.Frequency-(int">
   Frequency((int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L104"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Uses a weighted distribution to randomly select one of the gens in the list.
@@ -576,7 +591,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_FromRandom_Random" data-uid="Hedgehog.Linq.Gen.FromRandom-Random">
   FromRandom(Random)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -601,7 +616,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_FromValue_T" data-uid="Hedgehog.Linq.Gen.FromValue-T">
   FromValue(&#39;T)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L30"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create a generator that always yields a constant value.</p>
@@ -625,9 +640,36 @@ This generator shrinks towards the first generator in the list.
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_Identifier_int" data-uid="Hedgehog.Linq.Gen.Identifier-int">
+  Identifier(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L349"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random identifier string (starts with a lowercase letter,
+followed by lowercase letters, digits, or underscores) of up to the specified maximum length</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; Identifier(int maxLen)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_Int16_Range" data-uid="Hedgehog.Linq.Gen.Int16-Range">
   Int16(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L255"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 16-bit integer.</p>
@@ -653,7 +695,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Int32_Range" data-uid="Hedgehog.Linq.Gen.Int32-Range">
   Int32(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L263"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 32-bit integer.</p>
@@ -679,7 +721,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Int64_Range" data-uid="Hedgehog.Linq.Gen.Int64-Range">
   Int64(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L271"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 64-bit integer.</p>
@@ -705,7 +747,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -731,7 +773,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -757,7 +799,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -783,7 +825,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -809,7 +851,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -835,7 +877,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -861,7 +903,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -887,7 +929,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -913,7 +955,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -939,7 +981,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Integral_Range" data-uid="Hedgehog.Linq.Gen.Integral-Range">
   Integral(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L54"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -965,7 +1007,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Item_T" data-uid="Hedgehog.Linq.Gen.Item-T">
   Item(&#39;T)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L98"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects one of the values in the list.
@@ -990,9 +1032,90 @@ This generator shrinks towards the first generator in the list.
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_KebabCase_int_int" data-uid="Hedgehog.Linq.Gen.KebabCase-int-int">
+  KebabCase(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L369"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random kebab-case string composed of words with the specified
+maximum word length and maximum words count.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; KebabCase(int maxWordLength, int maxWordsCount)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_KebabCase_Range_Range" data-uid="Hedgehog.Linq.Gen.KebabCase-Range-Range">
+  KebabCase(Range, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L364"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random kebab-case string composed of words with the specified
+word length and words count ranges.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; KebabCase(Range&lt;int&gt; wordLength, Range&lt;int&gt; wordsCount)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_LatinName_int" data-uid="Hedgehog.Linq.Gen.LatinName-int">
+  LatinName(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L374"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random Latin-style name starting with an uppercase letter,
+followed by lowercase letters, of up to the specified maximum length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; LatinName(int maxLength)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_SByte_Range" data-uid="Hedgehog.Linq.Gen.SByte-Range">
   SByte(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L247"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed byte.</p>
@@ -1016,9 +1139,61 @@ This generator shrinks towards the first generator in the list.
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_Shuffle_T" data-uid="Hedgehog.Linq.Gen.Shuffle-T">
+  Shuffle(&#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L319"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a permutation of the given items.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Shuffle(TIEnumerable items)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_ShuffleCase_string" data-uid="Hedgehog.Linq.Gen.ShuffleCase-string">
+  ShuffleCase(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L323"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Shuffles the case of the given string.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; ShuffleCase(string value)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_Single_Range" data-uid="Hedgehog.Linq.Gen.Single-Range">
   Single(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L279"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random 32-bit floating point number.</p>
@@ -1044,7 +1219,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Sized_Func" data-uid="Hedgehog.Linq.Gen.Sized-Func">
   Sized(Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L50"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Used to construct generators that depend on the size parameter.</p>
@@ -1068,9 +1243,90 @@ This generator shrinks towards the first generator in the list.
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_SnakeCase_int_int" data-uid="Hedgehog.Linq.Gen.SnakeCase-int-int">
+  SnakeCase(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L359"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random snake_case string composed of words with the specified
+maximum word length and maximum words count.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; SnakeCase(int maxWordLength, int maxWordsCount)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_SnakeCase_Range_Range" data-uid="Hedgehog.Linq.Gen.SnakeCase-Range-Range">
+  SnakeCase(Range, Range)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L354"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random snake_case string composed of words with the specified
+word length and words count ranges.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; SnakeCase(Range&lt;int&gt; wordLength, Range&lt;int&gt; wordsCount)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_SubsetOf_T" data-uid="Hedgehog.Linq.Gen.SubsetOf-T">
+  SubsetOf(&#39;T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L315"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates the subset of the provided items.
+The generated subset will be in the same order as the input items.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; SubsetOf(TIEnumerable items)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_UInt16_Range" data-uid="Hedgehog.Linq.Gen.UInt16-Range">
   UInt16(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L259"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 16-bit integer.</p>
@@ -1096,7 +1352,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_UInt32_Range" data-uid="Hedgehog.Linq.Gen.UInt32-Range">
   UInt32(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L267"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 32-bit integer.</p>
@@ -1122,7 +1378,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_UInt64_Range" data-uid="Hedgehog.Linq.Gen.UInt64-Range">
   UInt64(Range)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L275"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 64-bit integer.</p>
@@ -1146,9 +1402,319 @@ This generator shrinks towards the first generator in the list.
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
+  Ascii
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L186"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
+<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
+  Digit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L147"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Digit.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Email" data-uid="Hedgehog.Linq.Gen.Email">
+  Email
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L378"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random email address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; Email()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
+  Unicode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L213"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_DomainName" data-uid="Hedgehog.Linq.Gen.DomainName">
+  DomainName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L344"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; DomainName()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
+  AlphaNumeric
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L239"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
+</code></pre>
+<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Ipv6Address" data-uid="Hedgehog.Linq.Gen.Ipv6Address">
+  Ipv6Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L331"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv6Address()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Ipv4Address" data-uid="Hedgehog.Linq.Gen.Ipv4Address">
+  Ipv4Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L327"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv4 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv4Address()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
+  Alpha
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L226"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
+</code></pre>
+<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
+  Guid
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L291"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_IpAddress" data-uid="Hedgehog.Linq.Gen.IpAddress">
+  IpAddress
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L336"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IP address (either IPv4 or IPv6)
+with a higher chance of generating an IPv4 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; IpAddress()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_Upper" data-uid="Hedgehog.Linq.Gen.Upper">
   Upper
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L171"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random uppercase character, i.e. from 'A' to 'Z'.</p>
@@ -1178,7 +1744,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Latin1" data-uid="Hedgehog.Linq.Gen.Latin1">
   Latin1
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L201"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random Latin-1 character, i.e. from '\000' to '\255', i.e. any 8 bit character.</p>
@@ -1209,7 +1775,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_Linq_Gen_Lower" data-uid="Hedgehog.Linq.Gen.Lower">
   Lower
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L159"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random lowercase character, i.e. from 'a' to 'z'.</p>
@@ -1237,183 +1803,9 @@ This generator shrinks towards the first generator in the list.
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
-  Unicode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Bool" data-uid="Hedgehog.Linq.Gen.Bool">
-  Bool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random boolean.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;bool&gt; Bool()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
-  Ascii
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
-<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Guid" data-uid="Hedgehog.Linq.Gen.Guid">
-  Guid
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
-  Digit
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Digit.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
-  Alpha
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
-</code></pre>
-<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
   UnicodeAll
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L135"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
@@ -1438,22 +1830,43 @@ i.e. from '\000' to '\65535'.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
-  AlphaNumeric
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Uri" data-uid="Hedgehog.Linq.Gen.Uri">
+  Uri
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L340"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
-</code></pre>
-<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
+  <div class="markdown level1 summary"><p>Generates a random URI</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Bool" data-uid="Hedgehog.Linq.Gen.Bool">
+  Bool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L243"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random boolean.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Gen&lt;bool&gt; Bool()</code></pre>
   </div>
 
 

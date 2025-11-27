@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_FSharp_Gen" data-uid="Hedgehog.FSharp.Gen" class="text-break">
-Class Gen  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+Class Gen  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/Gen.fs/#L13"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -123,16 +123,23 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member digit : Gen&lt;char&gt;
   member domainName : Gen&lt;string&gt;
   member double : Range&lt;double&gt; -&gt; Gen&lt;double&gt;
+  member email : Gen&lt;string&gt;
   member filter : &#39;a -&gt; bool -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member frequency : (int * Gen&lt;&#39;a&gt;) seq -&gt; Gen&lt;&#39;a&gt;
   member generateTree : Gen&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
   member guid : Gen&lt;Guid&gt;
+  member identifier : int -&gt; Gen&lt;string&gt;
   member int16 : Range&lt;int16&gt; -&gt; Gen&lt;int16&gt;
   member int32 : Range&lt;int32&gt; -&gt; Gen&lt;int32&gt;
   member int64 : Range&lt;int64&gt; -&gt; Gen&lt;int64&gt;
   member integral : Range&lt;^a&gt; -&gt; Gen&lt;^a&gt;
+  member ipAddress : Gen&lt;IPAddress&gt;
+  member ipv4Address : Gen&lt;IPAddress&gt;
+  member ipv6Address : Gen&lt;IPAddress&gt;
   member item : &#39;a seq -&gt; Gen&lt;&#39;a&gt;
+  member kebabCase : Range&lt;int&gt; -&gt; Range&lt;int&gt; -&gt; Gen&lt;string&gt;
   member latin1 : Gen&lt;char&gt;
+  member latinName : int -&gt; Gen&lt;string&gt;
   member list : Range&lt;int&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;a&gt;&gt;
   member lower : Gen&lt;char&gt;
   member map : &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt;
@@ -162,6 +169,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member shuffleCase : string -&gt; Gen&lt;string&gt;
   member single : Range&lt;single&gt; -&gt; Gen&lt;single&gt;
   member sized : Size -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
+  member snakeCase : Range&lt;int&gt; -&gt; Range&lt;int&gt; -&gt; Gen&lt;string&gt;
   member some : Gen&lt;&#39;a option&gt; -&gt; Gen&lt;&#39;a&gt;
   member string : Range&lt;int&gt; -&gt; Gen&lt;char&gt; -&gt; Gen&lt;string&gt;
   member subsetOf : &#39;a -&gt; Gen&lt;&#39;T seq&gt;
@@ -209,7 +217,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_auto" data-uid="Hedgehog.FSharp.Gen.auto">
   auto
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/Gen.fs/#L204"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Automatically generates a value of the specified type using the default configuration.</p>
@@ -235,7 +243,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_autoWith_IAutoGenConfig" data-uid="Hedgehog.FSharp.Gen.autoWith-IAutoGenConfig">
   autoWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Autogen/Gen.fs/#L207"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Automatically generates a value of the specified type using the provided configuration.</p>
@@ -261,7 +269,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_ofRandom_Random" data-uid="Hedgehog.FSharp.Gen.ofRandom-Random">
   ofRandom
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L18"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -286,7 +294,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_toRandom_Gen" data-uid="Hedgehog.FSharp.Gen.toRandom-Gen">
   toRandom
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L21"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -311,7 +319,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_delay_unit" data-uid="Hedgehog.FSharp.Gen.delay-unit">
   delay
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L24"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -336,7 +344,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_tryFinally_unit_Gen" data-uid="Hedgehog.FSharp.Gen.tryFinally-unit-Gen">
   tryFinally
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L27"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -361,7 +369,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_tryWith_exn_Gen" data-uid="Hedgehog.FSharp.Gen.tryWith-exn-Gen">
   tryWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L30"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -386,7 +394,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_create_a_Random" data-uid="Hedgehog.FSharp.Gen.create-a-Random">
   create
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L33"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -411,7 +419,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_constant_a" data-uid="Hedgehog.FSharp.Gen.constant-a">
   constant
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L40"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Create a generator that always yields a constant value.</p>
@@ -437,7 +445,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_mapRandom_Random_Gen" data-uid="Hedgehog.FSharp.Gen.mapRandom-Random-Gen">
   mapRandom
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -462,7 +470,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_mapTree_Tree_Gen" data-uid="Hedgehog.FSharp.Gen.mapTree-Tree-Gen">
   mapTree
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L46"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -487,7 +495,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_map_a_Gen" data-uid="Hedgehog.FSharp.Gen.map-a-Gen">
   map
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L49"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -512,7 +520,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_bind_a_Gen" data-uid="Hedgehog.FSharp.Gen.bind-a-Gen">
   bind
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -537,7 +545,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_apply_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.apply-Gen-Gen">
   apply
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L69"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -562,7 +570,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_map2_a_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.map2-a-Gen-Gen">
   map2
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L72"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -587,7 +595,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_map3_a_Gen_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.map3-a-Gen-Gen-Gen">
   map3
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L77"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -612,7 +620,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_map4_a_Gen_Gen_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.map4-a-Gen-Gen-Gen-Gen">
   map4
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L83"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -637,7 +645,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_zip_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.zip-Gen-Gen">
   zip
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L90"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -662,7 +670,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_zip3_Gen_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.zip3-Gen-Gen-Gen">
   zip3
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L93"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -687,7 +695,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_zip4_Gen_Gen_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.zip4-Gen-Gen-Gen-Gen">
   zip4
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L96"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -712,7 +720,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_tuple_Gen" data-uid="Hedgehog.FSharp.Gen.tuple-Gen">
   tuple
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L99"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -737,7 +745,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_tuple3_Gen" data-uid="Hedgehog.FSharp.Gen.tuple3-Gen">
   tuple3
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L102"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -762,7 +770,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_tuple4_Gen" data-uid="Hedgehog.FSharp.Gen.tuple4-Gen">
   tuple4
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L105"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -787,7 +795,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_noShrink_Gen" data-uid="Hedgehog.FSharp.Gen.noShrink-Gen">
   noShrink
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L136"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Prevent a 'Gen' from shrinking.</p>
@@ -813,7 +821,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_shrinkLazy_a_Gen" data-uid="Hedgehog.FSharp.Gen.shrinkLazy-a-Gen">
   shrinkLazy
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L142"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Apply an additional shrinker to all generated trees.</p>
@@ -839,7 +847,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_shrink_a_Gen" data-uid="Hedgehog.FSharp.Gen.shrink-a-Gen">
   shrink
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L146"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Apply an additional shrinker to all generated trees.</p>
@@ -865,7 +873,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_sized_Size" data-uid="Hedgehog.FSharp.Gen.sized-Size">
   sized
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L154"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Used to construct generators that depend on the size parameter.</p>
@@ -891,7 +899,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_FSharp_Gen_resize_int_Gen" data-uid="Hedgehog.FSharp.Gen.resize-int-Gen">
   resize
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L159"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Overrides the size parameter. Returns a generator which uses the
@@ -918,7 +926,7 @@ given size instead of the runtime-size parameter.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_scale_int_Gen" data-uid="Hedgehog.FSharp.Gen.scale-int-Gen">
   scale
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L164"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Adjust the size parameter, by transforming it with the given
@@ -945,7 +953,7 @@ function.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_integral_Range" data-uid="Hedgehog.FSharp.Gen.integral-Range">
   integral
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L173"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random number in the given inclusive range.</p>
@@ -971,7 +979,7 @@ function.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_item_a" data-uid="Hedgehog.FSharp.Gen.item-a">
   item
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L202"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects one of the values in the list.
@@ -998,7 +1006,7 @@ function.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_frequency__int" data-uid="Hedgehog.FSharp.Gen.frequency-(int">
   frequency
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L214"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Uses a weighted distribution to randomly select one of the gens in the list.
@@ -1026,7 +1034,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_FSharp_Gen_choice_Gen" data-uid="Hedgehog.FSharp.Gen.choice-Gen">
   choice
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L255"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects one of the gens in the list.
@@ -1053,7 +1061,7 @@ This generator shrinks towards the first generator in the list.
 
   <h3 id="Hedgehog_FSharp_Gen_choiceRec_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.choiceRec-Gen-Gen">
   choiceRec
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L269"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Randomly selects from one of the gens in either the non-recursive or the
@@ -1083,7 +1091,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_filter_a_Gen" data-uid="Hedgehog.FSharp.Gen.filter-a-Gen">
   filter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L304"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a value that satisfies a predicate.</p>
@@ -1109,7 +1117,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_tryFilter_a_Gen" data-uid="Hedgehog.FSharp.Gen.tryFilter-a-Gen">
   tryFilter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L319"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Tries to generate a value that satisfies a predicate.</p>
@@ -1135,7 +1143,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_some_Gen" data-uid="Hedgehog.FSharp.Gen.some-Gen">
   some
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L326"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs an option generator until it produces a 'Some'.</p>
@@ -1161,7 +1169,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_option_Gen" data-uid="Hedgehog.FSharp.Gen.option-Gen">
   option
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L338"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a 'None' or a 'Some'. 'None' becomes less common with larger Sizes.</p>
@@ -1187,7 +1195,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_list_Range_Gen" data-uid="Hedgehog.FSharp.Gen.list-Range-Gen">
   list
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L350"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a list using a 'Range' to determine the length and a 'Gen' to produce the elements.</p>
@@ -1213,7 +1221,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_array_Range_Gen" data-uid="Hedgehog.FSharp.Gen.array-Range-Gen">
   array
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L375"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an array using a 'Range' to determine the length.</p>
@@ -1239,7 +1247,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_seq_Range_Gen" data-uid="Hedgehog.FSharp.Gen.seq-Range-Gen">
   seq
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L379"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an enumerable using a 'Range' to determine the length.</p>
@@ -1265,7 +1273,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_withNull_Gen" data-uid="Hedgehog.FSharp.Gen.withNull-Gen">
   withNull
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L383"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates null part of the time.</p>
@@ -1291,7 +1299,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_notNull_Gen" data-uid="Hedgehog.FSharp.Gen.notNull-Gen">
   notNull
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L391"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a value that is not null.</p>
@@ -1317,7 +1325,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_sampleTree_Size_int_Gen" data-uid="Hedgehog.FSharp.Gen.sampleTree-Size-int-Gen">
   sampleTree
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L398"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1342,7 +1350,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_sample_Size_int_Gen" data-uid="Hedgehog.FSharp.Gen.sample-Size-int-Gen">
   sample
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L407"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns a seq of values produced by the generator.</p>
@@ -1368,7 +1376,7 @@ from the recursive list.
 
   <h3 id="Hedgehog_FSharp_Gen_generateTree_Gen" data-uid="Hedgehog.FSharp.Gen.generateTree-Gen">
   generateTree
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L413"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Run a generator. The size passed to the generator is always 30;
@@ -1395,7 +1403,7 @@ if you want another size then you should explicitly use 'resize'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_renderSample_Gen" data-uid="Hedgehog.FSharp.Gen.renderSample-Gen">
   renderSample
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L421"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Samples the gen 5 times with a Size of 10, called the &quot;Outcome&quot; in the returned string.
@@ -1423,7 +1431,7 @@ shrink paths in complex Gens.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_notIn_a_Gen" data-uid="Hedgehog.FSharp.Gen.notIn-a-Gen">
   notIn
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Collections.fs/#L12"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1448,7 +1456,7 @@ shrink paths in complex Gens.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_notContains_a" data-uid="Hedgehog.FSharp.Gen.notContains-a">
   notContains
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Collections.fs/#L17"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a list that does not contain the specified element.
@@ -1475,7 +1483,7 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
 
   <h3 id="Hedgehog_FSharp_Gen_addElement_a_Gen" data-uid="Hedgehog.FSharp.Gen.addElement-a-Gen">
   addElement
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Collections.fs/#L21"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Inserts the given element at a random place in the list.</p>
@@ -1499,9 +1507,114 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
 
 
 
+  <h3 id="Hedgehog_FSharp_Gen_identifier_int" data-uid="Hedgehog.FSharp.Gen.identifier-int">
+  identifier
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Convenience.fs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random identifier string that starts with a lowercase letter,
+followed by alphanumeric characters or underscores, up to the specified maximum length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val identifier : int -&gt; Gen&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_snakeCase_Range_Range" data-uid="Hedgehog.FSharp.Gen.snakeCase-Range-Range">
+  snakeCase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Convenience.fs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a snake_case string composed of random words of specified lengths and counts.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val snakeCase : Range&lt;int&gt; -&gt; Range&lt;int&gt; -&gt; Gen&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_kebabCase_Range_Range" data-uid="Hedgehog.FSharp.Gen.kebabCase-Range-Range">
+  kebabCase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Convenience.fs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a kebab-case string composed of random words of specified lengths and counts.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val kebabCase : Range&lt;int&gt; -&gt; Range&lt;int&gt; -&gt; Gen&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_latinName_int" data-uid="Hedgehog.FSharp.Gen.latinName-int">
+  latinName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Convenience.fs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a Latin-style name starting with an uppercase letter followed by lowercase letters,</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val latinName : int -&gt; Gen&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_Gen_withMapTo_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.withMapTo-Gen-Gen">
   withMapTo
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Functions.fs/#L18"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a list using inpGen together with a function that maps each
@@ -1532,7 +1645,7 @@ values not present in the input list.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_withDistinctMapTo_Gen_Gen" data-uid="Hedgehog.FSharp.Gen.withDistinctMapTo-Gen-Gen">
   withDistinctMapTo
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Functions.fs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a list using inpGen together with a function that maps each
@@ -1565,7 +1678,7 @@ values not present in the input list.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_char_char_char" data-uid="Hedgehog.FSharp.Gen.char-char-char">
   char
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L14"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random character in the given range.</p>
@@ -1591,7 +1704,7 @@ values not present in the input list.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_unicodeAll" data-uid="Hedgehog.FSharp.Gen.unicodeAll">
   unicodeAll
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L21"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
@@ -1618,7 +1731,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_digit" data-uid="Hedgehog.FSharp.Gen.digit">
   digit
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L35"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
@@ -1648,7 +1761,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_lower" data-uid="Hedgehog.FSharp.Gen.lower">
   lower
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L48"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random lowercase character, i.e. from 'a' to 'z'.</p>
@@ -1678,7 +1791,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_upper" data-uid="Hedgehog.FSharp.Gen.upper">
   upper
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L60"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random uppercase character, i.e. from 'A' to 'Z'.</p>
@@ -1708,7 +1821,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_ascii" data-uid="Hedgehog.FSharp.Gen.ascii">
   ascii
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L75"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
@@ -1739,7 +1852,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_latin1" data-uid="Hedgehog.FSharp.Gen.latin1">
   latin1
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L90"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random Latin-1 character, i.e. from '\000' to '\255', i.e. any 8 bit character.</p>
@@ -1770,7 +1883,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_unicode" data-uid="Hedgehog.FSharp.Gen.unicode">
   unicode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L102"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
@@ -1800,7 +1913,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_alpha" data-uid="Hedgehog.FSharp.Gen.alpha">
   alpha
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L120"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
@@ -1831,7 +1944,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_alphaNum" data-uid="Hedgehog.FSharp.Gen.alphaNum">
   alphaNum
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L133"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
@@ -1862,7 +1975,7 @@ i.e. from '\000' to '\65535'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_string_Range_Gen" data-uid="Hedgehog.FSharp.Gen.string-Range-Gen">
   string
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L138"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random string using 'Range' to determine the length and the
@@ -1889,7 +2002,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_bool" data-uid="Hedgehog.FSharp.Gen.bool">
   bool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L147"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random boolean.</p>
@@ -1915,7 +2028,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_byte_Range" data-uid="Hedgehog.FSharp.Gen.byte-Range">
   byte
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L151"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random byte.</p>
@@ -1941,7 +2054,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_sbyte_Range" data-uid="Hedgehog.FSharp.Gen.sbyte-Range">
   sbyte
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L155"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed byte.</p>
@@ -1967,7 +2080,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_int16_Range" data-uid="Hedgehog.FSharp.Gen.int16-Range">
   int16
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L159"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 16-bit integer.</p>
@@ -1993,7 +2106,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_uint16_Range" data-uid="Hedgehog.FSharp.Gen.uint16-Range">
   uint16
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L163"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 16-bit integer.</p>
@@ -2019,7 +2132,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_int32_Range" data-uid="Hedgehog.FSharp.Gen.int32-Range">
   int32
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L167"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 32-bit integer.</p>
@@ -2045,7 +2158,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_uint32_Range" data-uid="Hedgehog.FSharp.Gen.uint32-Range">
   uint32
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L171"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 32-bit integer.</p>
@@ -2071,7 +2184,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_int64_Range" data-uid="Hedgehog.FSharp.Gen.int64-Range">
   int64
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L175"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random signed 64-bit integer.</p>
@@ -2097,7 +2210,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_uint64_Range" data-uid="Hedgehog.FSharp.Gen.uint64-Range">
   uint64
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L179"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random unsigned 64-bit integer.</p>
@@ -2123,7 +2236,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_double_Range" data-uid="Hedgehog.FSharp.Gen.double-Range">
   double
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L183"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random 64-bit floating point number.</p>
@@ -2149,7 +2262,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_single_Range" data-uid="Hedgehog.FSharp.Gen.single-Range">
   single
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L188"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random 32-bit floating point number.</p>
@@ -2175,7 +2288,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_decimal_Range" data-uid="Hedgehog.FSharp.Gen.decimal-Range">
   decimal
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L192"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random decimal floating-point number.</p>
@@ -2201,7 +2314,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_bigint_Range" data-uid="Hedgehog.FSharp.Gen.bigint-Range">
   bigint
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L196"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random big integer.</p>
@@ -2227,7 +2340,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_guid" data-uid="Hedgehog.FSharp.Gen.guid">
   guid
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Primitives.fs/#L200"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random globally unique identifier.</p>
@@ -2253,7 +2366,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_shuffle_a" data-uid="Hedgehog.FSharp.Gen.shuffle-a">
   shuffle
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Randomize.fs/#L15"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a permutation of the given list.</p>
@@ -2279,7 +2392,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_shuffleCase_string" data-uid="Hedgehog.FSharp.Gen.shuffleCase-string">
   shuffleCase
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Randomize.fs/#L29"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Shuffles the case of the given string.</p>
@@ -2305,7 +2418,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_subsetOf_a" data-uid="Hedgehog.FSharp.Gen.subsetOf-a">
   subsetOf
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Randomize.fs/#L42"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates the subset of the provided items.
@@ -2332,7 +2445,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_traverse_a_a0" data-uid="Hedgehog.FSharp.Gen.traverse-a-a0">
   traverse
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Traversable.fs/#L22"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -2357,7 +2470,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_sequence_a" data-uid="Hedgehog.FSharp.Gen.sequence-a">
   sequence
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Traversable.fs/#L25"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -2382,7 +2495,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_traverseList_a_List" data-uid="Hedgehog.FSharp.Gen.traverseList-a-List">
   traverseList
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Traversable.fs/#L28"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -2407,7 +2520,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_sequenceList_List" data-uid="Hedgehog.FSharp.Gen.sequenceList-List">
   sequenceList
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Traversable.fs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -2432,7 +2545,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_domainName" data-uid="Hedgehog.FSharp.Gen.domainName">
   domainName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L39"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
@@ -2458,7 +2571,7 @@ The generated subset will be in the same order as the input items.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_uri" data-uid="Hedgehog.FSharp.Gen.uri">
   uri
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L2"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L98"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random URI.</p>
@@ -2467,6 +2580,111 @@ The generated subset will be in the same order as the input items.</p>
 
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">val uri : Gen&lt;Uri&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_ipv4Address" data-uid="Hedgehog.FSharp.Gen.ipv4Address">
+  ipv4Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L110"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv4 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ipv4Address : Gen&lt;IPAddress&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_ipv6Address" data-uid="Hedgehog.FSharp.Gen.ipv6Address">
+  ipv6Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L119"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ipv6Address : Gen&lt;IPAddress&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_ipAddress" data-uid="Hedgehog.FSharp.Gen.ipAddress">
+  ipAddress
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L128"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IP address (either IPv4 or IPv6)
+with a higher chance of generating an IPv4 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ipAddress : Gen&lt;IPAddress&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_email" data-uid="Hedgehog.FSharp.Gen.email">
+  email
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.Network.fs/#L132"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random email address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val email : Gen&lt;string&gt;</code></pre>
   </div>
 
 
