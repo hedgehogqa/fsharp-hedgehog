@@ -1,9 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-
-// Import ForAll:
-using static Hedgehog.Linq.Property;
 
 namespace Hedgehog.Linq.Tests
 {
@@ -253,6 +251,56 @@ namespace Hedgehog.Linq.Tests
             Range<int> a =
                 from i in Range.Constant(1, 10)
                 select i + 10;
+        }
+
+        [Fact]
+        public void SubsetOf_Should_Only_Contain_Elements_From_Original_Set()
+        {
+            var prop =
+                from originalItems in Gen.Int32(Range.ExponentialBoundedInt32()).List(Range.LinearInt32(0, 50)).ForAll()
+                from subset in Gen.SubsetOf(originalItems).ForAll()
+                let originalSet = originalItems.ToHashSet()
+                select subset.All(originalSet.Contains);
+
+            prop.Check();
+        }
+
+        [Fact]
+        public void SubsetOf_Should_Preserve_Original_Element_Order()
+        {
+            var prop =
+                from originalItems in Gen.Int32(Range.ExponentialBoundedInt32()).List(Range.LinearInt32(0, 50)).ForAll()
+                from subset in Gen.SubsetOf(originalItems).ForAll()
+                let subsetList = subset.ToList()
+                let inOrder = IsInOrder(originalItems, subsetList)
+                select inOrder;
+
+            prop.Check();
+        }
+
+        private static bool IsInOrder<T>(IList<T> original, IList<T> subset)
+        {
+            var subsetIndex = 0;
+            foreach (var item in original)
+            {
+                if (subsetIndex >= subset.Count) break;
+                if (EqualityComparer<T>.Default.Equals(item, subset[subsetIndex])) subsetIndex++;
+            }
+
+            return subsetIndex == subset.Count;
+        }
+
+        [Fact]
+        public void SubsetOf_Should_Not_Introduce_Duplicate_Elements()
+        {
+            var prop =
+                from originalItems in Gen.Int32(Range.ExponentialBoundedInt32()).List(Range.LinearInt32(0, 50)).ForAll()
+                let distinctOriginal = originalItems.Distinct().ToList()
+                from subset in Gen.SubsetOf(distinctOriginal).ForAll()
+                let subsetList = subset.ToList()
+                select subsetList.Count == subsetList.Distinct().Count();
+
+            prop.Check();
         }
     }
 }

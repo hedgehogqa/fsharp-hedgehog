@@ -131,7 +131,7 @@ type UnicodeStringAttribute(minLength: int, maxLength: int) =
 type Ipv4AddressAttribute() =
     inherit GenAttribute<System.Net.IPAddress>()
     override _.Generator =
-        Gen.ipAddress
+        Gen.ipv4Address
 
 /// Generates an IPv6 address.
 type Ipv6AddressAttribute() =
