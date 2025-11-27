@@ -3,6 +3,7 @@
     <PropertyGroup>
         <IsPackable>true</IsPackable>
         <TargetFramework>net8.0</TargetFramework>
+        <Version>1.0.0-rc1</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -14,7 +15,6 @@
         <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog</PackageProjectUrl>
         <PackageTags>f# fsharp c# csharp testing xunit</PackageTags>
         <PackageIcon>hedgehog-logo.png</PackageIcon>
-        <Version>1.0.0-beta3</Version>
         <PackageId>Hedgehog.Xunit.v3</PackageId>
         <PackageDescription>
             Hedgehog with convenience attributes for xUnit.
