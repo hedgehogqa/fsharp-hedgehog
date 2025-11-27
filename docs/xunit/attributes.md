@@ -445,7 +445,7 @@ public bool EmailsContainAtSymbol([Email] string email)
 
 ---
 
-#### `IpAddress` and `Ipv6Address` Attributes
+#### `Ipv4Address` and `Ipv6Address` Attributes
 Generate IP addresses (IPv4 or IPv6).
 
 # [F#](#tab/fsharp)
@@ -454,7 +454,7 @@ Generate IP addresses (IPv4 or IPv6).
 open System.Net
 
 [<Property>]
-let ``IPv4 addresses are valid`` ([<IpAddress>] ip: IPAddress) =
+let ``IPv4 addresses are valid`` ([<Ipv4Address>] ip: IPAddress) =
     ip.AddressFamily = Sockets.AddressFamily.InterNetwork
 
 [<Property>]
@@ -469,7 +469,7 @@ using System.Net;
 using System.Net.Sockets;
 
 [Property]
-public bool IPv4AddressesAreValid([IpAddress] IPAddress ip)
+public bool IPv4AddressesAreValid([Ipv4Address] IPAddress ip)
 {
     return ip.AddressFamily == AddressFamily.InterNetwork;
 }

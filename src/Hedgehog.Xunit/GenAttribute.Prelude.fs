@@ -128,7 +128,7 @@ type UnicodeStringAttribute(minLength: int, maxLength: int) =
         Gen.string (Range.constant minLength maxLength) Gen.unicode
 
 /// Generates an IP address (IPv4).
-type IpAddressAttribute() =
+type Ipv4AddressAttribute() =
     inherit GenAttribute<System.Net.IPAddress>()
     override _.Generator =
         Gen.ipAddress
