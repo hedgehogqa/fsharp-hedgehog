@@ -4,6 +4,8 @@
   href: configuration.md
 - name: Custom Generators
   href: generators.md
+- name: Attributes
+  href: attributes.md
 - name: Rechecking Failures
   href: rechecking.md
 - name: Best Practices
