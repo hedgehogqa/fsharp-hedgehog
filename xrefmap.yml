@@ -3943,6 +3943,12 @@ references:
   commentId: T:Hedgehog.Xunit.IdentifierAttribute
   fullName: Hedgehog.Xunit.IdentifierAttribute
   nameWithType: IdentifierAttribute
+- uid: Hedgehog.Xunit.IntAttribute
+  name: IntAttribute
+  href: api/Hedgehog.Xunit.IntAttribute.html
+  commentId: T:Hedgehog.Xunit.IntAttribute
+  fullName: Hedgehog.Xunit.IntAttribute
+  nameWithType: IntAttribute
 - uid: Hedgehog.Xunit.IpAddressAttribute
   name: IpAddressAttribute
   href: api/Hedgehog.Xunit.IpAddressAttribute.html

@@ -824,6 +824,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Xunit.IntAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Xunit.IntAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Xunit.IntAttribute",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IntAttribute.yml\" sourcestartlinenumber=\"1\">Generates an integer within a specified range.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.Xunit.IpAddressAttribute.yml",
       "output": {
         ".html": {
