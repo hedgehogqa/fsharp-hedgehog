@@ -36,14 +36,15 @@ module Shrink =
 
     /// Shrink each of the elements in input list using the supplied shrinking
     /// function.
-    let rec elems (shrink : 'a -> seq<'a>) (xs00 : List<'a>) : seq<List<'a>> =
-        match xs00 with
-        | [] ->
-            Seq.empty
-        | x0 :: xs0 ->
-            let ys = Seq.map (fun x1 -> x1 :: xs0) (shrink x0)
-            let zs = Seq.map (fun xs1 -> x0 :: xs1) (elems shrink xs0)
-            Seq.append ys zs
+    /// Iterative implementation to avoid stack overflow on large lists.
+    let elems (shrink : 'a -> seq<'a>) (xs : List<'a>) : seq<List<'a>> =
+        let arr = List.toArray xs
+        seq {
+            for i in 0 .. arr.Length - 1 do
+                for x' in shrink arr.[i] do
+                    yield [ for j in 0 .. arr.Length - 1 do
+                                if i = j then x' else arr.[j] ]
+        }
 
     /// Turn a list of trees in to a tree of lists, using the supplied function to
     /// merge shrinking options.

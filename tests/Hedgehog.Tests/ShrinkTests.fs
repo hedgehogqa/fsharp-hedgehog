@@ -302,4 +302,21 @@ let shrinkTests = testList "Shrink tests" [
             let actual = Shrink.createTree 0 n |> Tree.toSeq |> Seq.sort |> Seq.toList
             let expected = [0..n]
             actual =! expected
+
+    testCase "elems does not stack overflow on large lists" <| fun _ ->
+        // This test would stack overflow with the old recursive implementation.
+        // The iterative implementation handles large lists without issue.
+        let largeList = [ 1 .. 10000 ]
+        let shrinkNothing _ = Seq.empty
+        // Just verify it doesn't throw - we don't need to enumerate all results.
+        let result = Shrink.elems shrinkNothing largeList
+        // Force evaluation of the sequence structure (but not all elements).
+        Expect.isTrue (result |> Seq.isEmpty)
+
+    testCase "elems produces correct shrinks for each position" <| fun _ ->
+        let xs = [ 'a'; 'b'; 'c' ]
+        let shrinkToX _ = Seq.singleton 'x'
+        let actual = Shrink.elems shrinkToX xs |> Seq.toList
+        let expected = [ ['x'; 'b'; 'c']; ['a'; 'x'; 'c']; ['a'; 'b'; 'x'] ]
+        actual =! expected
 ]
