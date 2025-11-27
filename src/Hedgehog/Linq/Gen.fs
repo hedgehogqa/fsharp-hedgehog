@@ -106,11 +106,8 @@ type Gen private () =
     /// Uses a weighted distribution to randomly select one of the gens in the list.
     /// This generator shrinks towards the first generator in the list.
     /// <i>The input list must be non-empty.</i>
-    static member Frequency ([<ParamArray>] values : array<struct (int * 'T)>) : Gen<'T> =
-        values
-        |> Seq.map (fun struct (weight, value) -> (weight, Gen.constant value))
-        |> Gen.frequency
-
+    static member Frequency ([<ParamArray>] values : array<struct (int * Gen<'T>)>) : Gen<'T> =
+        values |> Seq.map (fun struct (weight, gen) -> (weight, gen)) |> Gen.frequency
 
     /// Randomly selects one of the gens in the list.
     /// <i>The input list must be non-empty.</i>
