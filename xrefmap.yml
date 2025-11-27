@@ -145,6 +145,12 @@ references:
   commentId: M:Hedgehog.AutoGen.DefaultGenerators.Int64
   fullName: Hedgehog.AutoGen.DefaultGenerators.Int64
   nameWithType: Int64
+- uid: Hedgehog.AutoGen.DefaultGenerators.IpAddress
+  name: IpAddress
+  href: api/Hedgehog.AutoGen.DefaultGenerators.html#Hedgehog_AutoGen_DefaultGenerators_IpAddress
+  commentId: M:Hedgehog.AutoGen.DefaultGenerators.IpAddress
+  fullName: Hedgehog.AutoGen.DefaultGenerators.IpAddress
+  nameWithType: IpAddress
 - uid: Hedgehog.AutoGen.DefaultGenerators.List-AutoGenContext-Gen
   name: List
   href: api/Hedgehog.AutoGen.DefaultGenerators.html#Hedgehog_AutoGen_DefaultGenerators_List_AutoGenContext_Gen
