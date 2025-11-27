@@ -14,7 +14,7 @@
         <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog</PackageProjectUrl>
         <PackageTags>f# fsharp c# csharp testing xunit</PackageTags>
         <PackageIcon>hedgehog-logo.png</PackageIcon>
-        <Version>1.0.0-beta2</Version>
+        <Version>1.0.0-beta3</Version>
         <PackageId>Hedgehog.Xunit.v3</PackageId>
         <PackageDescription>
             Hedgehog with convenience attributes for xUnit.
