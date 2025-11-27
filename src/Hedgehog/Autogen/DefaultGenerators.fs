@@ -132,3 +132,5 @@ type DefaultGenerators =
             Gen.constant Map.empty<'k, 'v>
 
     static member Uri : Gen<Uri> = Gen.uri
+
+    static member IpAddress : Gen<System.Net.IPAddress> = Gen.ipAddress
