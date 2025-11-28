@@ -34,7 +34,7 @@ type PositiveIntAttribute(max: int) =
     inherit GenAttribute<int>()
     new() = PositiveIntAttribute(Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear 1 max)
+        Gen.int32 (Range.constantFrom 1 1 max)
 
 /// Generates a non-negative integer.
 type NonNegativeIntAttribute(max: int) =

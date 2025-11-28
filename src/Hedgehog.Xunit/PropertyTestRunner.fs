@@ -1,6 +1,7 @@
 namespace Hedgehog.Xunit
 
 open Hedgehog
+open System.Threading.Tasks
 open Xunit.v3
 
 type internal PropertyTestRunner() =
@@ -9,7 +10,9 @@ type internal PropertyTestRunner() =
    static member val Instance = PropertyTestRunner() with get
 
    override this.InvokeTestMethod(ctx, testClassInstance) =
-     // Process the Hedgehog report and raise exceptions for failed tests
+     // Process the Hedgehog report asynchronously and raise exceptions for failed tests
      let context = PropertyContext.fromMethod ctx.TestMethod
-     let report = InternalLogic.report context ctx.TestMethod testClassInstance
-     ReportFormatter.tryRaise report
+     task {
+       let! report = InternalLogic.reportAsync context ctx.TestMethod testClassInstance |> Async.StartAsTask
+       ReportFormatter.tryRaise report
+     }
