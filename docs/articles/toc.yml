@@ -4,5 +4,7 @@
   href: getting-started.md
 - name: Auto-Generation
   href: auto-generation.md
+- name: Async Properties
+  href: async-properties.md
 - name: Best Practices
   href: best-practices.md
