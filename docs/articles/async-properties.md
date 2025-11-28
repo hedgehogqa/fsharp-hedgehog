@@ -91,7 +91,8 @@ var prop =
 
 ---
 
-Why? Because to create the generator `Gen.int32 (Range.linear asyncValue 100)`, Hedgehog needs to know what `asyncValue` is. The only way to get it is to tun the async computation and get the value.
+Why? Because to create the generator `Gen.int32 (Range.linear asyncValue 100)`, Hedgehog needs to know what `asyncValue` is. 
+The only way to get it is to turn the async computation and get the value.
 
 ### When Blocking Does NOT Occur
 
@@ -133,7 +134,7 @@ await prop.CheckAsync();
 
 ---
 
-When you run this with `checkAsync` or `CheckTask`, the entire async chain executes without blocking threads.
+When you run this with `checkAsync` or `CheckAsync`, the entire async chain executes without blocking threads.
 
 ## Best Practices
 
@@ -328,7 +329,7 @@ property { ... }
 await prop.CheckAsync();  // Non-blocking returns F# Async
 
 // Or if you have the Task-returning version:
-await prop.CheckTask();  // Non-blocking C# Task
+await prop.CheckAsync();  // Non-blocking C# Task
 ```
 
 ---
