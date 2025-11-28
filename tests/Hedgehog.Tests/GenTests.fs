@@ -330,4 +330,30 @@ let genTests = testList "Gen tests" [
             xsDistinct |> List.map f |> List.distinct |> List.length =! xsDistinct.Length
         }
 
+    testCase "bind threads seed correctly (seed threading regression)" <| fun () ->
+        // Regression test: ensures that bind properly threads the seed through
+        // so that each subsequent generator produces different values
+        // Bug: hardcoded seed (Seed.from 0UL) caused all subsequent generators to produce same values
+        let firstValues = System.Collections.Generic.HashSet<int>()
+        let secondValues = System.Collections.Generic.HashSet<int>()
+        let thirdValues = System.Collections.Generic.HashSet<int>()
+        
+        property {
+            let! x = Gen.int32 (Range.linear 1 100)
+            let! y = Gen.int32 (Range.linear 1 100)
+            let! z = Gen.int32 (Range.linear 1 100)
+            
+            firstValues.Add(x) |> ignore
+            secondValues.Add(y) |> ignore
+            thirdValues.Add(z) |> ignore
+            
+            return true
+        }
+        |> Property.checkBoolWith (PropertyConfig.withTests 100<tests> PropertyConfig.defaults)
+        
+        // Each generator should produce multiple different values
+        // If the seed wasn't threaded properly, they would all produce the same value
+        firstValues.Count > 10 |> Expect.isTrue
+        secondValues.Count > 10 |> Expect.isTrue
+        thirdValues.Count > 10 |> Expect.isTrue
 ]

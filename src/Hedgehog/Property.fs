@@ -186,24 +186,26 @@ module Property =
             (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
             (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
 
-        // Evaluate the next property and combine journals
-        let evalNext (journal : Journal) (a : 'a) : PropertyResult<'b> =
-            let nextTree = f a |> Gen.toRandom |> Random.run (Seed.from 0UL) 0
-            let nextResult = (Tree.outcome nextTree).Value
-            PropertyResult.map (fun (j2, outcome2) -> (Journal.append journal j2, outcome2)) nextResult
-
-        // Handle the outcome after getting the result
-        let handleOutcome (journal : Journal) (outcome : Outcome<'a>) : PropertyResult<'b> =
-            match outcome with
-            | Failure -> PropertyResult.ofSync journal Failure
-            | Discard -> PropertyResult.ofSync journal Discard
-            | Success a -> evalNext journal a
-
         m |> Gen.bind (fun lazyResult ->
-            Gen.constant (lazy (
-                lazyResult.Value 
-                |> PropertyResult.bind (fun (journal, outcome) ->
-                    handleOutcome journal outcome))))
+            let journal, outcome = PropertyResult.unwrapSync lazyResult
+
+            match outcome with
+            | Failure ->
+                (PropertyResult.ofSync journal Failure : PropertyResult<'b>)
+                |> Lazy.constant
+                |> Gen.constant
+            | Discard ->
+                (PropertyResult.ofSync journal Discard : PropertyResult<'b>)
+                |> Lazy.constant
+                |> Gen.constant
+            | Success a ->
+                // Let Gen.bind handle the seed threading properly
+                f a |> Gen.map (fun nextLazyResult ->
+                    lazy (
+                        nextLazyResult.Value
+                        |> PropertyResult.map (fun (j2, outcome2) ->
+                            (Journal.append journal j2, outcome2))
+                    )))
 
     /// Sequences two properties together, passing the result of the first to a function that produces the second.
     /// This is the monadic bind operation that enables property composition and dependent testing.
