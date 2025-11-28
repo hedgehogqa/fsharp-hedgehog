@@ -271,4 +271,44 @@ type PropertyExtensions private () =
                     projection.Invoke (a, b)))
         Property result
 
+    // Async support - allow binding Task<'T> in LINQ comprehensions
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task<'TCollection>>, projection : Func<'T, 'TCollection, 'TResult>) : Property<'TResult> =
+        property |> Property.bind (fun a ->
+            Property.ofTask (binder.Invoke a) |> Property.map (fun b -> projection.Invoke (a, b)))
+
+    // Async support - allow binding Task<'T> in LINQ comprehensions with Action projection
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task<'TCollection>>, projection : Action<'T, 'TCollection>) : Property =
+        let result =
+            property |> Property.bind (fun a ->
+                Property.ofTask (binder.Invoke a) |> Property.map (fun b ->
+                    projection.Invoke (a, b)))
+        Property result
+
+    // Allow Select with Task<'T> - for simpler task bindings
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task<'TResult>>) : Property<'TResult> =
+        property |> Property.bind (fun a -> Property.ofTask (binder.Invoke a))
+
+    // Async support - allow binding Task (non-generic) in LINQ comprehensions
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task>, projection : Func<'T, unit, 'TResult>) : Property<'TResult> =
+        property |> Property.bind (fun a ->
+            Property.ofTaskUnit (binder.Invoke a) |> Property.map (fun b -> projection.Invoke (a, b)))
+
+    // Async support - allow binding Task (non-generic) in LINQ comprehensions with Action projection
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task>, projection : Action<'T, unit>) : Property =
+        let result =
+            property |> Property.bind (fun a ->
+                Property.ofTaskUnit (binder.Invoke a) |> Property.map (fun b ->
+                    projection.Invoke (a, b)))
+        Property result
+
+    // Allow Select with Task (non-generic) - for simpler task bindings
+    [<Extension>]
+    static member SelectMany (property : Property<'T>, binder : Func<'T, System.Threading.Tasks.Task>) : Property<unit> =
+        property |> Property.bind (fun a -> Property.ofTaskUnit (binder.Invoke a))
+
 #endif
