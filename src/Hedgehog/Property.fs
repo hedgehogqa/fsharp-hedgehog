@@ -15,6 +15,8 @@ namespace Hedgehog.FSharp
 open System
 open Hedgehog
 
+/// Functions for building and executing property-based tests.
+/// Properties represent testable specifications that should hold true for all generated inputs.
 module Property =
 
     // Internal helpers to convert between PropertyResult and plain tuples
@@ -35,9 +37,13 @@ module Property =
 #endif
                 ))
 
+    /// Creates a property from a generator that produces journaled outcomes.
+    /// This is a low-level function primarily used internally.
     let ofGen (x : Gen<Lazy<Journal * Outcome<'a>>>) : Property<'a> =
         Property (wrapSync x)
 
+    /// Extracts the underlying generator from a property.
+    /// This is a low-level function primarily used internally.
     let toGen (Property x : Property<'a>) : Gen<Lazy<Journal * Outcome<'a>>> =
         unwrapSync x
 
@@ -45,15 +51,23 @@ module Property =
     let private toGenInternal (Property x : Property<'a>) : Gen<Lazy<PropertyResult<'a>>> =
         x
 
+    /// Ensures cleanup code runs after a property executes, whether it succeeds or fails.
+    /// Useful for releasing resources like file handles or database connections.
     let tryFinally (after : unit -> unit) (m : Property<'a>) : Property<'a> =
         Gen.tryFinally after (toGenInternal m) |> Property
 
+    /// Handles exceptions thrown during property execution by converting them into alternative properties.
+    /// This allows graceful error handling and custom failure messages.
     let tryWith (k : exn -> Property<'a>) (m : Property<'a>) : Property<'a> =
         Gen.tryWith (toGenInternal << k) (toGenInternal m) |> Property
 
+    /// Delays the evaluation of a property until it's actually needed.
+    /// This enables recursive property definitions and lazy construction.
     let delay (f : unit -> Property<'a>) : Property<'a> =
         Gen.delay (toGenInternal << f) |> Property
 
+    /// Safely uses a disposable resource within a property, ensuring it's properly disposed after use.
+    /// The resource is automatically disposed even if the property fails.
     let using (x : 'a) (k : 'a -> Property<'b>) : Property<'b> when
             'a :> IDisposable and
             'a : null =
@@ -66,10 +80,9 @@ module Property =
                 x.Dispose ())
 
 #if !FABLE_COMPILER
-    /// Converts a Task<'T> into a Property<'T>.
-    /// Evaluates the task and makes its result available to property combinators.
-    /// The property succeeds if the task completes successfully,
-    /// fails if the task throws an exception or is canceled.
+    /// Converts a Task into a property that can be used in property-based tests.
+    /// The property succeeds when the task completes successfully, and fails if the task throws an exception or is canceled.
+    /// This enables testing of async/await code using C# Tasks.
     let ofTask (inputTask : System.Threading.Tasks.Task<'T>) : Property<'T> =
         Gen.constant (lazy (
             PropertyResult.Async (async {
@@ -84,8 +97,8 @@ module Property =
             })))
         |> Property
 
-    /// Converts a non-generic Task into a Property<unit>.
-    /// Helper for tasks that don't return a value.
+    /// Converts a non-generic Task into a property.
+    /// Use this for Tasks that don't return a value (void async methods in C#).
     let ofTaskUnit (inputTask : System.Threading.Tasks.Task) : Property<unit> =
         Gen.constant (lazy (
             PropertyResult.Async (async {
@@ -101,36 +114,54 @@ module Property =
         |> Property
 #endif
 
-    /// Converts an Async<'T> into a Property<'T>.
-    /// The async computation is wrapped in a PropertyResult.Async.
+    /// Converts an F# async computation into a property that can be used in property-based tests.
+    /// The property succeeds when the async computation completes successfully, and fails if it throws an exception.
+    /// This enables testing of asynchronous F# code.
     let ofAsync (asyncComputation : Async<'T>) : Property<'T> =
         Gen.constant (lazy (PropertyResult.ofAsyncWith asyncComputation))
         |> Property
 
+    /// Discards test cases where the predicate returns false, causing Hedgehog to generate a new test case.
+    /// Use sparingly as excessive filtering can lead to "gave up" results when too many cases are discarded.
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
         m |> toGenInternal |> Gen.map (Lazy.map (PropertyResult.map (fun (j, o) -> (j, Outcome.filter p o)))) |> Property
 
+    /// Creates a property from an explicit test outcome (Success, Failure, or Discard).
+    /// This is a low-level function primarily used internally or for custom property combinators.
     let ofOutcome (x : Outcome<'a>) : Property<'a> =
         (Journal.empty, x) |> GenLazy.constant |> ofGen
 
+    /// A property that always fails. Use this to explicitly fail a test.
     let failure : Property<unit> =
         Failure |> ofOutcome
 
+    /// A property that discards the current test case, causing a new one to be generated.
+    /// Use sparingly to avoid "gave up" results.
     let discard : Property<unit> =
         Discard |> ofOutcome
 
+    /// A property that always succeeds with the given value.
+    /// This is the property monad's return/pure operation.
     let success (x : 'a) : Property<'a> =
         Success x |> ofOutcome
 
+    /// Converts a boolean into a property: true becomes success, false becomes failure.
+    /// Useful for asserting simple boolean conditions in property tests.
     let ofBool (x : bool) : Property<unit> =
         if x then
             success ()
         else
             failure
 
+    /// Adds a message to the test journal that will be displayed if the test fails.
+    /// Use this to provide context about generated values or intermediate results that led to a failure.
+    /// The message function is only evaluated if the test fails.
     let counterexample (msg : unit -> string) : Property<unit> =
         (Journal.singleton msg, Success ()) |> GenLazy.constant |> ofGen
 
+    /// Transforms the successful result of a property using the provided function.
+    /// If the function throws an exception, the property fails with the exception message.
+    /// This is the functor map operation for properties.
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
         let applyWithExceptionHandling (j, outcome) =
             try
@@ -174,9 +205,9 @@ module Property =
                 |> PropertyResult.bind (fun (journal, outcome) ->
                     handleOutcome journal outcome))))
 
-    /// Monadic bind operation for properties.
-    /// Applies a property-returning function to the result of another property,
-    /// sequencing their execution and combining their journals.
+    /// Sequences two properties together, passing the result of the first to a function that produces the second.
+    /// This is the monadic bind operation that enables property composition and dependent testing.
+    /// The journals from both properties are combined in the final result.
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         let kTry a =
             try
@@ -220,6 +251,8 @@ module Property =
         |> ofGen
         |> map f
 
+    /// Converts a boolean property to a unit property, treating false as a failure.
+    /// This is used internally to support boolean property testing.
     let falseToFailure p =
         p |> map (fun b -> if not b then raise (TestReturnedFalseException()))
 
@@ -243,6 +276,9 @@ module Property =
 
         value |> prepareForPrinting |> sprintf "%A"
 
+    /// Creates a property that tests whether a condition holds for all values generated by the given generator.
+    /// Generated values are automatically added to the test journal and will be shown if the test fails.
+    /// This is the primary way to introduce generated test data into your properties.
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let prepend (x : 'a) =
             counterexample (fun () -> printValue x)
@@ -252,6 +288,8 @@ module Property =
 
         gen |> Gen.bind prepend |> Property
 
+    /// Creates a property that succeeds with the generated value, logging it to the journal.
+    /// Useful when you just want to generate a value and return it without additional assertions.
     let forAll' (gen : Gen<'a>) : Property<'a> =
         gen |> forAll success
 
@@ -399,30 +437,50 @@ module Property =
 
         loop args.RecheckData 0<tests> 0<discards>
 
+    /// Runs a property test with custom configuration and returns a detailed report.
+    /// The report includes the number of tests run, discards, and failure information with shrunk counterexamples.
+    /// This blocks until all tests complete.
     let reportWith (config : IPropertyConfig) (p : Property<unit>) : Report =
         p |> reportWith' PropertyArgs.init config
 
+    /// Runs a property test with default configuration and returns a detailed report.
+    /// By default, runs 100 tests. This blocks until all tests complete.
     let report (p : Property<unit>) : Report =
         p |> reportWith PropertyConfig.defaults
 
+    /// Runs a boolean property test with custom configuration and returns a detailed report.
+    /// Converts false results to failures. This blocks until all tests complete.
     let reportBoolWith (config : IPropertyConfig) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportWith config
 
+    /// Runs a boolean property test with default configuration and returns a detailed report.
+    /// Converts false results to failures. This blocks until all tests complete.
     let reportBool (p : Property<bool>) : Report =
         p |> falseToFailure |> report
 
+    /// Runs a property test with custom configuration and throws an exception if it fails.
+    /// This blocks until all tests complete. Use this in test frameworks that expect exceptions on failure.
     let checkWith (config : IPropertyConfig) (p : Property<unit>) : unit =
         p |> reportWith config |> Report.tryRaise
 
+    /// Runs a property test with default configuration and throws an exception if it fails.
+    /// This blocks until all tests complete. This is the most common way to run property tests.
     let check (p : Property<unit>) : unit =
         p |> report |> Report.tryRaise
 
+    /// Runs a boolean property test with default configuration and throws an exception if it fails.
+    /// Converts false results to failures. This blocks until all tests complete.
     let checkBool (g : Property<bool>) : unit =
         g |> falseToFailure |> check
 
+    /// Runs a boolean property test with custom configuration and throws an exception if it fails.
+    /// Converts false results to failures. This blocks until all tests complete.
     let checkBoolWith (config : IPropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> checkWith config
 
+    /// Re-runs a previously failed test case using the recheck data from a failure report.
+    /// This is useful for debugging specific failures by reproducing them exactly.
+    /// The config parameter is currently ignored but kept for API consistency.
     let reportRecheckWith (recheckData: string) (_: IPropertyConfig) (p : Property<unit>) : Report =
         let recheckData = recheckData |> RecheckData.deserialize
         let result, _ = splitAndRun p recheckData
@@ -430,36 +488,58 @@ module Property =
           Discards = 0<discards>
           Status = Shrinking.followPath result recheckData.ShrinkPath }
 
+    /// Re-runs a previously failed test case using the recheck data from a failure report.
+    /// This uses default configuration and is useful for quickly reproducing specific failures.
     let reportRecheck (recheckData: string) (p : Property<unit>) : Report =
         p |> reportRecheckWith recheckData PropertyConfig.defaults
 
+    /// Re-runs a previously failed boolean property test using recheck data with custom configuration.
+    /// Converts false results to failures.
     let reportRecheckBoolWith (recheckData: string) (config : IPropertyConfig) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportRecheckWith recheckData config
 
+    /// Re-runs a previously failed boolean property test using recheck data with default configuration.
+    /// Converts false results to failures.
     let reportRecheckBool (recheckData: string) (p : Property<bool>) : Report =
         p |> falseToFailure |> reportRecheck recheckData
 
+    /// Re-runs a previously failed test case and throws an exception if it still fails.
+    /// Uses custom configuration. This is useful for debugging failures in test frameworks.
     let recheckWith (recheckData: string) (config : IPropertyConfig) (p : Property<unit>) : unit =
         p |> reportRecheckWith recheckData config |> Report.tryRaise
 
+    /// Re-runs a previously failed test case and throws an exception if it still fails.
+    /// Uses default configuration. This is the most common way to reproduce specific failures.
     let recheck (recheckData: string) (p : Property<unit>) : unit =
         p |> reportRecheck recheckData |> Report.tryRaise
 
+    /// Re-runs a previously failed boolean property test and throws an exception if it still fails.
+    /// Uses custom configuration. Converts false results to failures.
     let recheckBoolWith (recheckData: string) (config : IPropertyConfig) (g : Property<bool>) : unit =
         g |> falseToFailure |> recheckWith recheckData config
 
+    /// Re-runs a previously failed boolean property test and throws an exception if it still fails.
+    /// Uses default configuration. Converts false results to failures.
     let recheckBool (recheckData: string) (g : Property<bool>) : unit =
         g |> falseToFailure |> recheck recheckData
 
+    /// Runs a property test with custom configuration and returns the report as a formatted string.
+    /// This is useful for custom test result formatting or logging.
     let renderWith (n : IPropertyConfig) (p : Property<unit>) : string =
         p |> reportWith n |> Report.render
 
+    /// Runs a property test with default configuration and returns the report as a formatted string.
+    /// This is useful for custom test result formatting or logging.
     let render (p : Property<unit>) : string =
         p |> report |> Report.render
 
+    /// Runs a boolean property test with default configuration and returns the report as a formatted string.
+    /// Converts false results to failures.
     let renderBool (property : Property<bool>) : string =
         property |> falseToFailure |> render
 
+    /// Runs a boolean property test with custom configuration and returns the report as a formatted string.
+    /// Converts false results to failures.
     let renderBoolWith (config : IPropertyConfig) (p : Property<bool>) : string =
         p |> falseToFailure |> renderWith config
 
@@ -506,78 +586,97 @@ module Property =
 
         loop args.RecheckData 0<tests> 0<discards>
 
-    /// Non-blocking report generation with config that returns Async<Report>
+    /// Runs a property test asynchronously with custom configuration, returning an F# Async that produces a report.
+    /// This is non-blocking and properly handles async properties without blocking threads.
+    /// Use this when testing async code or when you need non-blocking test execution.
     let reportAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<Report> =
         p |> reportWithAsync' PropertyArgs.init config
 
-    /// Non-blocking report generation that returns Async<Report>
+    /// Runs a property test asynchronously with default configuration, returning an F# Async that produces a report.
+    /// This is non-blocking and properly handles async properties without blocking threads.
     let reportAsync (p : Property<unit>) : Async<Report> =
         p |> reportAsyncWith PropertyConfig.defaults
 
-    /// Non-blocking async check with config that returns Async<unit>
+    /// Runs a property test asynchronously with custom configuration, throwing an exception if it fails.
+    /// This is non-blocking and properly handles async properties. Returns an F# Async computation.
     let checkAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<unit> =
         async {
             let! report = reportAsyncWith config p
             return Report.tryRaise report
         }
 
-    /// Non-blocking async check that returns Async<unit>
+    /// Runs a property test asynchronously with default configuration, throwing an exception if it fails.
+    /// This is non-blocking and properly handles async properties. This is the recommended way to test async code.
     let checkAsync (p : Property<unit>) : Async<unit> =
         async {
             let! report = reportAsync p
             return Report.tryRaise report
         }
 
-    /// Non-blocking async report generation with config for bool properties that returns Async<Report>
+    /// Runs a boolean property test asynchronously with custom configuration, returning an F# Async that produces a report.
+    /// Converts false results to failures. This is non-blocking and properly handles async properties.
     let reportBoolAsyncWith (config : IPropertyConfig) (p : Property<bool>) : Async<Report> =
         p |> falseToFailure |> reportAsyncWith config
 
-    /// Non-blocking async report generation for bool properties that returns Async<Report>
+    /// Runs a boolean property test asynchronously with default configuration, returning an F# Async that produces a report.
+    /// Converts false results to failures. This is non-blocking and properly handles async properties.
     let reportBoolAsync (p : Property<bool>) : Async<Report> =
         p |> falseToFailure |> reportAsync
 
-    /// Non-blocking async check with config for bool properties that returns Async<unit>
+    /// Runs a boolean property test asynchronously with custom configuration, throwing an exception if it fails.
+    /// Converts false results to failures. Returns an F# Async computation.
     let checkBoolAsyncWith (config : IPropertyConfig) (p : Property<bool>) : Async<unit> =
         p |> falseToFailure |> checkAsyncWith config
 
-    /// Non-blocking async check for bool properties that returns Async<unit>
+    /// Runs a boolean property test asynchronously with default configuration, throwing an exception if it fails.
+    /// Converts false results to failures. This is the recommended way to test async boolean properties.
     let checkBoolAsync (p : Property<bool>) : Async<unit> =
         p |> falseToFailure |> checkAsync
 
 #if !FABLE_COMPILER
-    /// Non-blocking report generation with config that returns Task<Report>
+    /// Runs a property test asynchronously with custom configuration, returning a C# Task that produces a report.
+    /// This is non-blocking and properly handles async properties. Use this from C# or when you need Task-based APIs.
     let reportTaskWith (config : IPropertyConfig) (p : Property<unit>) : System.Threading.Tasks.Task<Report> =
         p |> reportAsyncWith config |> Async.StartAsTask
 
-    /// Non-blocking report generation that returns Task<Report>
+    /// Runs a property test asynchronously with default configuration, returning a C# Task that produces a report.
+    /// This is non-blocking and properly handles async properties. Use this from C# or when you need Task-based APIs.
     let reportTask (p : Property<unit>) : System.Threading.Tasks.Task<Report> =
         p |> reportAsync |> Async.StartAsTask
 
-    /// Non-blocking check with config that returns Task<unit>
+    /// Runs a property test asynchronously with custom configuration, throwing an exception if it fails.
+    /// Returns a C# Task. This is non-blocking and properly handles async properties. Use this from C# test frameworks.
     let checkTaskWith (config : IPropertyConfig) (p : Property<unit>) : System.Threading.Tasks.Task<unit> =
         p |> checkAsyncWith config |> Async.StartAsTask
 
-    /// Non-blocking check that returns Task<unit>
+    /// Runs a property test asynchronously with default configuration, throwing an exception if it fails.
+    /// Returns a C# Task. This is non-blocking and recommended for testing async C# code.
     let checkTask (p : Property<unit>) : System.Threading.Tasks.Task<unit> =
         p |> checkAsync |> Async.StartAsTask
 
-    /// Non-blocking report generation with config for bool properties that returns Task<Report>
+    /// Runs a boolean property test asynchronously with custom configuration, returning a C# Task that produces a report.
+    /// Converts false results to failures. Use this from C# or when you need Task-based APIs.
     let reportBoolTaskWith (config : IPropertyConfig) (p : Property<bool>) : System.Threading.Tasks.Task<Report> =
         p |> reportBoolAsyncWith config |> Async.StartAsTask
 
-    /// Non-blocking report generation for bool properties that returns Task<Report>
+    /// Runs a boolean property test asynchronously with default configuration, returning a C# Task that produces a report.
+    /// Converts false results to failures. Use this from C# or when you need Task-based APIs.
     let reportBoolTask (p : Property<bool>) : System.Threading.Tasks.Task<Report> =
         p |> reportBoolAsync |> Async.StartAsTask
 
-    /// Non-blocking check with config for bool properties that returns Task<unit>
+    /// Runs a boolean property test asynchronously with custom configuration, throwing an exception if it fails.
+    /// Converts false results to failures. Returns a C# Task. Use this from C# test frameworks.
     let checkBoolTaskWith (config : IPropertyConfig) (p : Property<bool>) : System.Threading.Tasks.Task<unit> =
         p |> checkBoolAsyncWith config |> Async.StartAsTask
 
-    /// Non-blocking check for bool properties that returns Task<unit>
+    /// Runs a boolean property test asynchronously with default configuration, throwing an exception if it fails.
+    /// Converts false results to failures. Returns a C# Task. Recommended for testing async boolean C# code.
     let checkBoolTask (p : Property<bool>) : System.Threading.Tasks.Task<unit> =
         p |> checkBoolAsync |> Async.StartAsTask
 #endif
 
+/// Computation expression builder for properties, enabling F# computation expression syntax.
+/// Use the 'property' builder to write tests in a natural, imperative style while maintaining functional purity.
 [<AutoOpen>]
 module PropertyBuilder =
     let rec private loop (p : unit -> bool) (m : Property<unit>) : Property<unit> =
@@ -707,4 +806,7 @@ module PropertyBuilder =
             Property.ofTaskUnit task
 #endif
 
+    /// The property computation expression builder.
+    /// Use this to write property tests using F#'s computation expression syntax: property { ... }
+    /// Supports let! for generators and async/task values, return for values, and standard control flow.
     let property = Builder ()
