@@ -19,7 +19,8 @@
     <Compile Include="MinimalTests.fs" />
     <Compile Include="ReportTests.fs" />
     <Compile Include="PropertyTests.fs" />
-    <Compile Include="PropertyAsyncTests.fs" />
+    <Compile Include="AsyncTests.fs" />
+    <Compile Include="AsyncAndTaskTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

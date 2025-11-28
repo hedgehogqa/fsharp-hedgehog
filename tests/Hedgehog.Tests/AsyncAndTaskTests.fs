@@ -1,12 +1,11 @@
-module Hedgehog.Tests.PropertyAsyncTests
+module Hedgehog.Tests.PropertyAsyncAndTaskTests
 
 open Hedgehog
 open Hedgehog.FSharp
-open Expecto
 open TestDsl
 
-
-let asyncTests = testList "Property async tests" [
+#if !FABLE_COMPILER
+let asyncAndTaskTests = testList "Property async tests" [
 
     testCase "async and task work correctly" <| fun () ->
         let property =
@@ -63,3 +62,4 @@ let asyncTests = testList "Property async tests" [
         | _ -> 
             failwith "Expected property to fail (x > 50 should cause failure)"
 ]
+#endif
