@@ -149,6 +149,9 @@ Notice Hedgehog didn't just find *a* failing case - it found the **smallest** on
 
 ### xUnit
 
+> [!TIP]
+> Hedgehog provides integrated support for xUnit v3 in [Hedhehog.Xunit](../xunit/) package.
+
 # [F#](#tab/fsharp)
 
 ```fsharp
@@ -345,6 +348,55 @@ property.Check();
 ---
 
 Auto-generation works with records, unions, tuples, classes, and collections. For advanced customization and registering custom generators, see the [Auto-Generation Guide](auto-generation.md).
+
+## Testing Asynchronous Functions
+
+Hedgehog provides first-class support for testing asynchronous code using F# `async` computations and C# `Task`/`Task<T>`. You can bind async operations directly in the `property` computation expression or LINQ query syntax.
+
+# [F#](#tab/fsharp)
+
+```fsharp
+open Hedgehog
+open Hedgehog.FSharp
+
+property {
+    let! x = Gen.int32 (Range.constant 0 100)
+    let! y = async { return x + 1 }
+    return y = x + 1
+}
+|> Property.checkBoolAsync
+```
+
+You can mix `async` and `task`:
+
+```fsharp
+open System.Threading.Tasks
+
+property {
+    let! x = Gen.int32 (Range.constant 0 100)
+    let! y = async { return x + 1 }
+    let! z = task { return y * 2 }
+    return z = (x + 1) * 2
+}
+|> Property.checkBoolAsync
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+using Hedgehog;
+using Hedgehog.Linq;
+using System.Threading.Tasks;
+
+var property =
+    from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
+    from y in Task.FromResult(x + 1)
+    select y == x + 1;
+
+property.CheckAsync();
+```
+
+---
 
 ## Controlling Test Runs
 
