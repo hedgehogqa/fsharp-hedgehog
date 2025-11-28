@@ -7,7 +7,7 @@ namespace Hedgehog.Linq.Tests
     public class PropertyAsyncTests
     {
         [Fact]
-        public void AsyncAndTaskWorkCorrectly()
+        public void BlockingAsync_WorkCorrectly()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
@@ -19,18 +19,19 @@ namespace Hedgehog.Linq.Tests
         }
 
         [Fact]
-        public void AsyncPropertyCanReturnTask()
+        public Task NonBlockingAsync_WorkCorrectly()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
                 from y in Task.FromResult(x + 1)
-                select y == x + 1;
+                from z in Task.FromResult(y + 1)
+                select z == x + 2;
 
-            property.Check();
+            return property.CheckAsync();
         }
 
         [Fact]
-        public void AsyncPropertyCanReturnTaskWithDelay()
+        public Task Async_Property_CanReturn_TaskWithDelay()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
@@ -41,11 +42,11 @@ namespace Hedgehog.Linq.Tests
                 })
                 select y == x + 1;
 
-            property.Check();
+            return property.CheckAsync();
         }
 
         [Fact]
-        public void AsyncPropertyCanFailWithTask()
+        public async Task AsyncProperty_CanFail_WithTask()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
@@ -59,7 +60,7 @@ namespace Hedgehog.Linq.Tests
                 })
                 select true;
 
-            var report = property.Report();
+            var report = await property.ReportAsync();
 
             Assert.True(report.Status.IsFailed, "Expected property to fail");
 
@@ -70,7 +71,7 @@ namespace Hedgehog.Linq.Tests
         }
 
         [Fact]
-        public void MultipleTaskBindings()
+        public Task MultipleTaskBindings()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 50)).ForAll()
@@ -83,11 +84,11 @@ namespace Hedgehog.Linq.Tests
                 from w in Task.FromResult(z - x)
                 select w == x + 10;
 
-            property.Check();
+            return property.CheckAsync();
         }
 
         [Fact]
-        public void TaskWithGenBinding()
+        public Task TaskWithGenBinding()
         {
             var property =
                 from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
@@ -95,7 +96,7 @@ namespace Hedgehog.Linq.Tests
                 from y in Gen.Int32(Range.Constant(0, 10)).ForAll()
                 select task ? y >= 0 : y >= 0;
 
-            property.Check();
+            return property.CheckAsync();
         }
     }
 }
