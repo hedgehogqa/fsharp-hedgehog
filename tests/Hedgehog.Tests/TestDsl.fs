@@ -6,11 +6,13 @@ open Fable.Mocha
 let testCase = Test.testCase
 let ptestCase = Test.ptestCase
 let testList = Test.testList
+let testCaseAsync = Test.testCaseAsync
 
 #else
 open Expecto
 
 let testCase = Tests.testCase
+let testCaseAsync = Tests.testCaseAsync
 let ptestCase = Tests.ptestCase
 let testList = Tests.testList
 
