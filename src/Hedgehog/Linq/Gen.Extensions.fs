@@ -88,11 +88,11 @@ type GenExtensions private () =
     /// This is useful for visualizing how a range scales across different sizes.
     /// Uses a fixed seed for deterministic output.</summary>
     /// <param name="gen">Value generator.</param>
-    /// <param name="startSize">The starting size parameter.</param>
+    /// <param name="size">The starting size parameter.</param>
     /// <param name="count">The number of samples to produce (sizes will increment from startSize).</param>
     [<Extension>]
-    static member SampleFrom (gen : Gen<'T>, startSize : Size, count : int) : ResizeArray<'T> =
-        Gen.sampleFrom startSize count gen
+    static member SampleFrom (gen : Gen<'T>, size: Size, count : int) : ResizeArray<'T> =
+        Gen.sampleFrom size count gen
         |> ResizeArray
 
     [<Extension>]

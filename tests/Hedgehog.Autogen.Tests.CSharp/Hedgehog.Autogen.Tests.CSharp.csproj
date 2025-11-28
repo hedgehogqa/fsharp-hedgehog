@@ -24,7 +24,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Hedgehog.Xunit\Hedgehog.Xunit.fsproj" />
       <ProjectReference Include="..\..\src\Hedgehog\Hedgehog.fsproj" />
     </ItemGroup>
 

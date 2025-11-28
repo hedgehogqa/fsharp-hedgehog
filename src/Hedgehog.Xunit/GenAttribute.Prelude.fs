@@ -4,19 +4,31 @@ open System
 open Hedgehog
 open Hedgehog.FSharp
 
+[<AutoOpen>]
+module private RangeHelpers =
+    /// Choose between linear and exponential range based on the range size.
+    /// For large ranges (> 10,000), use exponential to ensure boundary values are tested.
+    /// For small ranges, linear is fine.
+    let inline chooseRangeInt32 (origin: int) (min: int) (max: int) : Range<int> =
+        let rangeSize = int64 max - int64 min
+        if rangeSize > 10000L then
+            Range.exponentialFrom origin min max
+        else
+            Range.linearFrom origin min max
+
 /// Generates an integer within a specified range.
 type IntAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
     new() = IntAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear min max)
+        Gen.int32 (chooseRangeInt32 min min max)
 
 /// Generates an odd integer.
 type OddAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
     new() = OddAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator = gen {
-        let! n = Gen.int32 (Range.constant min max)
+        let! n = Gen.int32 (chooseRangeInt32 min min max)
         return n ||| 1
     }
 
@@ -25,7 +37,7 @@ type EvenAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
     new() = EvenAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator = gen {
-        let! n = Gen.int32 (Range.constant min max)
+        let! n = Gen.int32 (chooseRangeInt32 min min max)
         return n &&& ~~~1
     }
 
@@ -34,14 +46,14 @@ type PositiveIntAttribute(max: int) =
     inherit GenAttribute<int>()
     new() = PositiveIntAttribute(Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.constantFrom 1 1 max)
+        Gen.int32 (chooseRangeInt32 1 1 max)
 
 /// Generates a non-negative integer.
 type NonNegativeIntAttribute(max: int) =
     inherit GenAttribute<int>()
     new() = NonNegativeIntAttribute(Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear 0 max)
+        Gen.int32 (chooseRangeInt32 0 0 max)
 
 /// Generates a non-zero integer.
 type NonZeroIntAttribute(min: int, max: int) =
@@ -49,8 +61,8 @@ type NonZeroIntAttribute(min: int, max: int) =
     new() = NonZeroIntAttribute(Int32.MinValue + 1, Int32.MaxValue)
     override _.Generator =
         Gen.choice [
-            Gen.int32 (Range.linear min -1)
-            Gen.int32 (Range.linear 1 max)
+            Gen.int32 (chooseRangeInt32 min min -1)
+            Gen.int32 (chooseRangeInt32 1 1 max)
         ]
 
 /// Generates a string that is a valid identifier.
