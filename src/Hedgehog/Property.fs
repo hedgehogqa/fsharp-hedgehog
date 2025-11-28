@@ -6,9 +6,60 @@ type internal TestReturnedFalseException() =
   inherit System.Exception("Expected 'true' but was 'false'.")
 
 
+[<RequireQualifiedAccess>]
+type PropertyResult<'a> =
+    | Sync of Journal * Outcome<'a>
+    | Async of System.Threading.Tasks.Task<Journal * Outcome<'a>>
+
+[<RequireQualifiedAccess>]
+module internal PropertyResult =
+    open System.Threading.Tasks
+
+    /// Apply a function to the outcome, handling both sync and async cases
+    let map (f : Journal * Outcome<'a> -> Journal * Outcome<'b>)
+            (result : PropertyResult<'a>) : PropertyResult<'b> =
+        match result with
+        | PropertyResult.Sync (journal, outcome) ->
+            PropertyResult.Sync (f (journal, outcome))
+        | PropertyResult.Async taskResult ->
+            PropertyResult.Async (task {
+                let! result = taskResult
+                return f result
+            })
+
+    /// Combine two PropertyResults, applying a function to their values
+    let map2 (f : Journal * Outcome<'a> -> Journal * Outcome<'b> -> Journal * Outcome<'c>)
+             (left : PropertyResult<'a>)
+             (right : PropertyResult<'b>) : PropertyResult<'c> =
+        match left, right with
+        | PropertyResult.Sync (j1, o1), PropertyResult.Sync (j2, o2) ->
+            PropertyResult.Sync (f (j1, o1) (j2, o2))
+        | PropertyResult.Sync (j1, o1), PropertyResult.Async taskRight ->
+            PropertyResult.Async (task {
+                let! rightResult = taskRight
+                return f (j1, o1) rightResult
+            })
+        | PropertyResult.Async taskLeft, PropertyResult.Sync (j2, o2) ->
+            PropertyResult.Async (task {
+                let! leftResult = taskLeft
+                return f leftResult (j2, o2)
+            })
+        | PropertyResult.Async taskLeft, PropertyResult.Async taskRight ->
+            PropertyResult.Async (task {
+                let! leftResult = taskLeft
+                let! rightResult = taskRight
+                return f leftResult rightResult
+            })
+
+    /// Unwrap synchronously (blocking for async case - for backward compatibility)
+    let toSync (result : PropertyResult<'a>) : Journal * Outcome<'a> =
+        match result with
+        | PropertyResult.Sync (journal, outcome) -> (journal, outcome)
+        | PropertyResult.Async task -> task.Result
+
 [<Struct>]
 type Property<'a> =
-    | Property of Gen<Lazy<Journal * Outcome<'a>>>
+    | Property of Gen<Lazy<PropertyResult<'a>>>
 
 namespace Hedgehog.FSharp
 
@@ -17,10 +68,26 @@ open Hedgehog
 
 module Property =
 
+    // Internal helpers to convert between PropertyResult and plain tuples
+    // This allows us to keep using existing GenLazy/GenLazyTuple helpers
+    let private wrapSync (gen : Gen<Lazy<Journal * Outcome<'a>>>) : Gen<Lazy<PropertyResult<'a>>> =
+        gen |> Gen.map (Lazy.map PropertyResult.Sync)
+
+    let private unwrapSync (gen : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<Journal * Outcome<'a>>> =
+        gen |> Gen.map (fun lazyResult ->
+            lazy (
+                match lazyResult.Value with
+                | PropertyResult.Sync (journal, outcome) -> (journal, outcome)
+                | PropertyResult.Async task -> task.Result))  // Blocking for now
+
     let ofGen (x : Gen<Lazy<Journal * Outcome<'a>>>) : Property<'a> =
-        Property x
+        Property (wrapSync x)
 
     let toGen (Property x : Property<'a>) : Gen<Lazy<Journal * Outcome<'a>>> =
+        unwrapSync x
+
+    // Internal version that doesn't unwrap - keeps PropertyResult
+    let private toGenInternal (Property x : Property<'a>) : Gen<Lazy<PropertyResult<'a>>> =
         x
 
     let tryFinally (after : unit -> unit) (m : Property<'a>) : Property<'a> =
@@ -42,6 +109,47 @@ module Property =
                 ()
             | _ ->
                 x.Dispose ())
+
+    /// Converts a Task<'T> into a Property<'T>.
+    /// Evaluates the task and makes its result available to property combinators.
+    /// The property succeeds if the task completes successfully,
+    /// fails if the task throws an exception or is canceled.
+    let ofTask (inputTask : System.Threading.Tasks.Task<'T>) : Property<'T> =
+        Gen.constant (lazy (
+            PropertyResult.Async (task {
+                try
+                    let! result = inputTask
+                    return (Journal.empty, Success result)
+                with
+                | :? System.OperationCanceledException ->
+                    return (Journal.singletonMessage "Task was canceled", Failure)
+                | ex ->
+                    return (Journal.singletonMessage (string ex), Failure)
+            })))
+        |> Property
+
+    /// Converts a non-generic Task into a Property<unit>.
+    /// Helper for tasks that don't return a value.
+    let ofTaskUnit (inputTask : System.Threading.Tasks.Task) : Property<unit> =
+        Gen.constant (lazy (
+            PropertyResult.Async (task {
+                try
+                    do! inputTask
+                    return (Journal.empty, Success ())
+                with
+                | :? System.OperationCanceledException ->
+                    return (Journal.singletonMessage "Task was canceled", Failure)
+                | ex ->
+                    return (Journal.singletonMessage (string ex), Failure)
+            })))
+        |> Property
+
+    /// Converts an Async<'T> into a Property<'T>.
+    /// The async computation is converted to Task internally.
+    let ofAsync (asyncComputation : Async<'T>) : Property<'T> =
+        asyncComputation
+        |> Async.StartAsTask
+        |> ofTask
 
     let filter (p : 'a -> bool) (m : Property<'a>) : Property<'a> =
         m |> toGen |> GenLazyTuple.mapSnd (Outcome.filter p) |> ofGen
@@ -68,7 +176,7 @@ module Property =
         (Journal.singleton msg, Success ()) |> GenLazy.constant |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
-        let g (j, outcome) =
+        let applyWithExceptionHandling (j, outcome) =
             try
                 (j, outcome |> Outcome.map f)
             with 
@@ -78,22 +186,37 @@ module Property =
             | e ->
                 let unwrapped = Exceptions.unwrap e
                 (Journal.append j (Journal.singletonMessage (string unwrapped)), Failure)
-        x |> toGen |> GenLazy.map g |> ofGen
+
+        let g (lazyResult : Lazy<PropertyResult<'a>>) =
+            lazy (PropertyResult.map applyWithExceptionHandling lazyResult.Value)
+
+        x |> toGenInternal |> Gen.map g |> Property
 
     let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
 
     let private bindGen
-            (f : 'a -> Gen<Lazy<Journal * Outcome<'b>>>)
-            (m : Gen<Lazy<Journal * Outcome<'a>>>) : Gen<Lazy<Journal * Outcome<'b>>> =
-        m |> GenLazy.bind (fun (journal, result) ->
-            match result with
-            | Failure ->
-                GenLazy.constant (journal, Failure)
-            | Discard ->
-                GenLazy.constant (journal, Discard)
-            | Success a ->
-                GenLazyTuple.mapFst (Journal.append journal) (f a))
+            (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
+            (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
+
+        // Evaluate the next property and combine journals
+        let evalNext (journal : Journal) (a : 'a) : PropertyResult<'b> =
+            let nextTree = f a |> Gen.toRandom |> Random.run (Seed.from 0UL) 0
+            let nextResult = (Tree.outcome nextTree).Value
+            PropertyResult.map (fun (j2, outcome2) -> (Journal.append journal j2, outcome2)) nextResult
+
+        // Handle the outcome after getting the result
+        let handleOutcome (journal : Journal) (outcome : Outcome<'a>) : PropertyResult<'b> =
+            match outcome with
+            | Failure -> PropertyResult.Sync (journal, Failure)
+            | Discard -> PropertyResult.Sync (journal, Discard)
+            | Success a -> evalNext journal a
+
+        m |> Gen.bind (fun lazyResult ->
+            Gen.constant (lazy (
+                lazyResult.Value
+                |> PropertyResult.map (fun (journal, outcome) ->
+                    handleOutcome journal outcome |> PropertyResult.toSync))))
 
     /// Monadic bind operation for properties.
     /// Applies a property-returning function to the result of another property,
@@ -101,13 +224,15 @@ module Property =
     let bind (k : 'a -> Property<'b>) (m : Property<'a>) : Property<'b> =
         let kTry a =
             try
-                k a |> toGen
+                k a |> toGenInternal
             with e ->
-                (Journal.singletonMessage (string e), Failure) |> GenLazy.constant
+                (Journal.singletonMessage (string e), Failure)
+                |> PropertyResult.Sync
+                |> GenLazy.constant
         m
-        |> toGen
+        |> toGenInternal
         |> bindGen kTry
-        |> ofGen
+        |> Property
 
     /// Binds a generator to a property-returning function while adding custom journal entries.
     /// This allows you to add contextual information (like formatted parameter names and values)
@@ -178,6 +303,10 @@ module Property =
     // Runner
     //
 
+    // Helper to unwrap PropertyResult (synchronously for backward compatibility)
+    let private unwrapResult (lazyResult : Lazy<PropertyResult<'a>>) : Journal * Outcome<'a> =
+        PropertyResult.toSync lazyResult.Value
+
     let private shrinkInput
             (language: Language)
             (data : RecheckData)
@@ -185,18 +314,18 @@ module Property =
         let rec loop
                 (nshrinks : int<shrinks>)
                 (shrinkPathRev : ShrinkOutcome list)
-                (Node (root, xs) : Tree<Lazy<Journal * Outcome<'a>>>) =
+                (Node (root, xs) : Tree<Lazy<PropertyResult<'a>>>) =
             let getFailed () =
                 Failed {
                     Shrinks = nshrinks
-                    Journal = root.Value |> fst
+                    Journal = unwrapResult root |> fst
                     RecheckInfo =
                         Some { Language = language
                                Data = { data with ShrinkPath = List.rev shrinkPathRev } } }
             match shrinkLimit with
             | Some shrinkLimit' when nshrinks >= shrinkLimit' -> getFailed ()
             | _ ->
-                match xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> Lazy.value >> snd >> Outcome.isFailure) with
+                match xs |> Seq.indexed |> Seq.tryFind (snd >> Tree.outcome >> unwrapResult >> snd >> Outcome.isFailure) with
                 | None -> getFailed ()
                 | Some (idx, tree) ->
                     let nextShrinkPathRev = ShrinkOutcome.Pass idx :: shrinkPathRev
@@ -204,11 +333,11 @@ module Property =
         loop 0<shrinks> []
 
     let rec private followShrinkPath
-            (Node (root, children) : Tree<Lazy<Journal * Outcome<'a>>>)
+            (Node (root, children) : Tree<Lazy<PropertyResult<'a>>>)
             shrinkPath =
         match shrinkPath with
         | [] ->
-            let journal, outcome = root.Value
+            let journal, outcome = unwrapResult root
             match outcome with
             | Failure ->
                 { Shrinks = 0<shrinks>
@@ -227,7 +356,7 @@ module Property =
 
     let private splitAndRun p data =
         let seed1, seed2 = Seed.split data.Seed
-        let result = p |> toGen |> Gen.toRandom |> Random.run seed1 data.Size
+        let result = p |> toGenInternal |> Gen.toRandom |> Random.run seed1 data.Size
         result, seed2
 
     let private reportWith' (args : PropertyArgs) (config : IPropertyConfig) (p : Property<unit>) : Report =
@@ -254,7 +383,7 @@ module Property =
                         Size = nextSize data.Size
                 }
 
-                match snd (Tree.outcome result).Value with
+                match snd (unwrapResult (Tree.outcome result)) with
                 | Failure ->
                     { Tests = tests + 1<tests>
                       Discards = discards
@@ -330,6 +459,96 @@ module Property =
     let renderBoolWith (config : IPropertyConfig) (p : Property<bool>) : string =
         p |> falseToFailure |> renderWith config
 
+    //
+    // Async Execution (Non-Blocking)
+    //
+
+    /// Helper to unwrap PropertyResult asynchronously without blocking
+    let private unwrapResultAsync (lazyResult : Lazy<PropertyResult<'a>>) : Async<Journal * Outcome<'a>> =
+        async {
+            match lazyResult.Value with
+            | PropertyResult.Sync (journal, outcome) ->
+                return (journal, outcome)
+            | PropertyResult.Async taskResult ->
+                return! taskResult |> Async.AwaitTask
+        }
+
+    let private reportWithAsync' (args : PropertyArgs) (config : IPropertyConfig) (p : Property<unit>) : Async<Report> =
+        let nextSize size =
+            if size >= 100 then
+                1
+            else
+                size + 1
+
+        let rec loop data tests discards = async {
+            if tests = config.TestLimit then
+                return { Tests = tests
+                         Discards = discards
+                         Status = OK }
+            elif discards >= 100<discards> then
+                return { Tests = tests
+                         Discards = discards
+                         Status = GaveUp }
+            else
+                let result, seed2 = splitAndRun p data
+                let nextData = {
+                    data with
+                        Seed = seed2
+                        Size = nextSize data.Size
+                }
+
+                let! journal, outcome = unwrapResultAsync (Tree.outcome result)
+                match outcome with
+                | Failure ->
+                    return { Tests = tests + 1<tests>
+                             Discards = discards
+                             Status = shrinkInput args.Language data config.ShrinkLimit result }
+                | Success () ->
+                    return! loop nextData (tests + 1<tests>) discards
+                | Discard ->
+                    return! loop nextData tests (discards + 1<discards>)
+        }
+
+        loop args.RecheckData 0<tests> 0<discards>
+
+    /// Non-blocking report generation with config that returns Async<Report>
+    let reportAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<Report> =
+        p |> reportWithAsync' PropertyArgs.init config
+
+    /// Non-blocking report generation that returns Async<Report>
+    let reportAsync (p : Property<unit>) : Async<Report> =
+        p |> reportAsyncWith PropertyConfig.defaults
+
+    /// Non-blocking report generation with config that returns Task<Report>
+    let reportTaskWith (config : IPropertyConfig) (p : Property<unit>) : System.Threading.Tasks.Task<Report> =
+        p |> reportAsyncWith config |> Async.StartAsTask
+
+    /// Non-blocking report generation that returns Task<Report>
+    let reportTask (p : Property<unit>) : System.Threading.Tasks.Task<Report> =
+        p |> reportAsync |> Async.StartAsTask
+
+    /// Non-blocking async check with config that returns Async<unit>
+    let checkAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<unit> =
+        async {
+            let! report = reportAsyncWith config p
+            return Report.tryRaise report
+        }
+
+    /// Non-blocking async check that returns Async<unit>
+    let checkAsync (p : Property<unit>) : Async<unit> =
+        async {
+            let! report = reportAsync p
+            return Report.tryRaise report
+        }
+
+    /// Non-blocking check with config that returns Task<unit>
+    let checkTaskWith (config : IPropertyConfig) (p : Property<unit>) : System.Threading.Tasks.Task<unit> =
+        p |> checkAsyncWith config |> Async.StartAsTask
+
+    /// Non-blocking check that returns Task<unit>
+    let checkTask (p : Property<unit>) : System.Threading.Tasks.Task<unit> =
+        p |> checkAsync |> Async.StartAsTask
+
 
 [<AutoOpen>]
 module PropertyBuilder =
@@ -373,8 +592,39 @@ module PropertyBuilder =
         member __.Bind(m : Gen<'a>, k : 'a -> Property<'b>) : Property<'b> =
             m |> Property.forAll k
 
+        member __.Bind(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
+            m |> Property.bind k
+
+        // Allow binding bare Async<'a> - automatically converts to async Property<'a>
+        member __.Bind(m : Async<'a>, k : 'a -> Property<'b>) : Property<'b> =
+            Property.ofAsync m |> Property.bind k
+
+        // Allow binding bare Task<'a> - automatically converts to async Property<'a>
+        member __.Bind(m : System.Threading.Tasks.Task<'a>, k : 'a -> Property<'b>) : Property<'b> =
+            Property.ofTask m |> Property.bind k
+
+        // Allow binding Property<Async<'a>> - automatically converts to async Property<'a>
+        member inline __.Bind(m : Property<Async<'a>>, k : 'a -> Property<'b>) : Property<'b> =
+            m |> Property.bind (fun asyncVal -> Property.ofAsync asyncVal |> Property.bind k)
+
+        // Allow binding Property<Task<'a>> - automatically converts to async Property<'a>
+        member inline __.Bind(m : Property<System.Threading.Tasks.Task<'a>>, k : 'a -> Property<'b>) : Property<'b> =
+            m |> Property.bind (fun taskVal -> Property.ofTask taskVal |> Property.bind k)
+
         member __.Return(b : bool) : Property<unit> =
             Property.ofBool b
+
+        // Allow returning Async<unit> directly - automatically converts to async Property<unit>
+        member __.Return(asyncUnit : Async<unit>) : Property<unit> =
+            Property.ofAsync asyncUnit
+
+        // Allow returning Task<unit> directly - automatically converts to async Property<unit>
+        member __.Return(taskUnit : System.Threading.Tasks.Task<unit>) : Property<unit> =
+            Property.ofTaskUnit taskUnit
+
+        // Allow returning Task directly - automatically converts to async Property<unit>
+        member __.Return(task : System.Threading.Tasks.Task) : Property<unit> =
+            Property.ofTaskUnit task
 
         member __.BindReturn(m : Gen<'a>, f: 'a -> 'b) =
             m
@@ -382,11 +632,31 @@ module PropertyBuilder =
             |> Property.ofGen
             |> Property.map f
 
+        // BindReturn for Async<'a> - handles let! x = async { ... } in return f x
+        member __.BindReturn(m : Async<'a>, f: 'a -> 'b) : Property<'b> =
+            Property.ofAsync m |> Property.map f
+
+        // BindReturn for Task<'a> - handles let! x = task { ... } in return f x
+        member __.BindReturn(m : System.Threading.Tasks.Task<'a>, f: 'a -> 'b) : Property<'b> =
+            Property.ofTask m |> Property.map f
+
         member __.MergeSources(ga, gb) =
             Gen.zip ga gb
 
         member __.ReturnFrom(m : Property<'a>) : Property<'a> =
             m
+
+        // Allow return! with Async<'a> - automatically converts to async Property<'a>
+        member __.ReturnFrom(asyncValue : Async<'a>) : Property<'a> =
+            Property.ofAsync asyncValue
+
+        // Allow return! with Task<'a> - automatically converts to async Property<'a>
+        member __.ReturnFrom(taskValue : System.Threading.Tasks.Task<'a>) : Property<'a> =
+            Property.ofTask taskValue
+
+        // Allow return! with Task (non-generic) - automatically converts to async Property<unit>
+        member __.ReturnFrom(task : System.Threading.Tasks.Task) : Property<unit> =
+            Property.ofTaskUnit task
 
         member __.Delay(f : unit -> Property<'a>) : Property<'a> =
             Property.delay f

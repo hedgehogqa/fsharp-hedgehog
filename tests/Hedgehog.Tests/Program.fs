@@ -16,6 +16,7 @@ let allTests = testList "All tests" [
     MinimalTests.minimalTests
     ReportTests.reportTests
     PropertyTests.propertyTests
+    PropertyAsyncTests.asyncTests
 ]
 
 [<EntryPoint>]
