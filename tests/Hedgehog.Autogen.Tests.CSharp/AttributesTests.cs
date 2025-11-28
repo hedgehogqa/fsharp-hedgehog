@@ -1,6 +1,9 @@
 using System.Net;
 using AwesomeAssertions;
+using Hedgehog.Linq;
 using Hedgehog.Xunit;
+using Xunit;
+using Range = Hedgehog.Linq.Range;
 
 namespace Hedgehog.AutoGen.Tests.CSharp;
 
@@ -14,9 +17,20 @@ public sealed class AttributesTests
     public void Even_Attribute_Should_Generate_Even_Numbers([Even] int evenValue) =>
         (evenValue % 2).Should().Be(0);
 
-    [Property]
+    [Property(Tests = 1000000)]
     public void PositiveInt_Attribute_Should_Generate_Positive_Numbers([PositiveInt] int value) =>
-        value.Should().BeGreaterThan(0);
+        value.Should().BeGreaterThan(3000);
+
+    [Fact]
+    public void Foo()
+    {
+        var property =
+            from i in Gen.Int32(Range.LinearInt32(1, 3000)).ForAll()
+            from s in Gen.AlphaNumeric.String(Range.LinearInt32(1, 500)).ForAll()
+            select !s.Contains("z");
+
+        property.Check();
+    }
 
     [Property]
     public void NonNegativeInt_Attribute_Should_Generate_NonNegative_Numbers([NonNegativeInt] int value) =>
