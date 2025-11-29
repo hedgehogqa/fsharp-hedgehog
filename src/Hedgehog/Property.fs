@@ -19,8 +19,8 @@ open Hedgehog
 /// Properties represent testable specifications that should hold true for all generated inputs.
 module Property =
 
-    // Internal helpers to convert between PropertyResult and plain tuples
-    // This allows us to keep using existing GenLazy/GenLazyTuple helpers
+    // Internal helpers to convert between PropertyResult and plain tuples.
+    // This allows us to keep using existing GenLazy/GenLazyTuple helpers.
     let private wrapSync (gen : Gen<Lazy<Journal * Outcome<'a>>>) : Gen<Lazy<PropertyResult<'a>>> =
         gen |> Gen.map (Lazy.map PropertyResult.Sync)
 
@@ -33,7 +33,7 @@ module Property =
 #if FABLE_COMPILER
                     failwith "Synchronous unwrapping of async PropertyResult is not supported in Fable. Use Property.checkAsync or Property.reportAsync instead of Property.check or Property.report."
 #else
-                    Async.RunSynchronously asyncResult  // Blocking for now
+                    Async.RunSynchronously asyncResult  // Blocking for now.
 #endif
                 ))
 
@@ -47,7 +47,7 @@ module Property =
     let toGen (Property x : Property<'a>) : Gen<Lazy<Journal * Outcome<'a>>> =
         unwrapSync x
 
-    // Internal version that doesn't unwrap - keeps PropertyResult
+    // Internal version that doesn't unwrap - keeps PropertyResult.
     let private toGenInternal (Property x : Property<'a>) : Gen<Lazy<PropertyResult<'a>>> =
         x
 
@@ -168,7 +168,7 @@ module Property =
                 (j, outcome |> Outcome.map f)
             with 
             | :? TestReturnedFalseException ->
-                // Don't include internal exception in journal - it's just a signal
+                // Don't include internal exception in journal - it's just a signal.
                 (j, Failure)
             | e ->
                 let unwrapped = Exceptions.unwrap e
@@ -182,8 +182,8 @@ module Property =
     let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
 
-    // Helper to handle Failure/Discard cases in bind - just wrap and return without calling continuation
-    // Note: Failure and Discard don't carry values, so we can safely change the type parameter
+    // Helper to handle Failure/Discard cases in bind - just wrap and return without calling continuation.
+    // Note: Failure and Discard don't carry values, so we can safely change the type parameter.
     let private shortCircuit (journal : Journal) (outcome : Outcome<'a>) : Gen<Lazy<PropertyResult<'b>>> =
         let outcome' : Outcome<'b> =
             match outcome with
@@ -199,17 +199,17 @@ module Property =
         
         // Use GenLazy.bind pattern (like before async was introduced) but handle PropertyResult.
         m |> GenLazy.bind (fun propertyResultA ->
-            // This function is called with the FORCED PropertyResult (lazy was forced by GenLazy.bind)
-            // This happens during tree construction for proper shrinking via Gen.bind
-
+            // This function is called with the FORCED PropertyResult (lazy was forced by GenLazy.bind).
+            // This happens during tree construction for proper shrinking via Gen.bind.
+            
             match propertyResultA with
             | PropertyResult.Sync (journalA, outcomeA) ->
-                // Synchronous case: pattern match and continue (original behavior)
+                // Synchronous case: pattern match and continue (original behavior).
                 match outcomeA with
                 | Failure -> shortCircuit journalA Failure
                 | Discard -> shortCircuit journalA Discard
                 | Success a ->
-                    // Call continuation and append journals (preserves shrinking via f a)
+                    // Call continuation and append journals (preserves shrinking via f a).
                     f a |> GenLazy.map (PropertyResult.map (fun (journalB, outcomeB) ->
                         (Journal.append journalA journalB, outcomeB)))
 
@@ -221,21 +221,21 @@ module Property =
                 //
                 // Trade-off: We choose Laziness + Full Shrinking over Non-blocking.
                 // The async is awaited during tree construction (generation phase) so we can
-                // get the value 'a' and build the full continuation tree with all its shrinks.
+                // get the value 'a' and build the full continuation tree with all its shrinks..
                 //
                 // This preserves the monad laws and shrinking behavior identical to sync properties.
 #if FABLE_COMPILER
                 failwith "Async property binding with interleaved generators is not supported in Fable. Use Property.checkAsync or Property.reportAsync instead of Property.check or Property.report."
 #else
-                // Block to get the result (this happens during generation phase)
+                // Block to get the result (this happens during generation phase).
                 let journalA, outcomeA = Async.RunSynchronously asyncResultA
-
-                // Now handle just like the sync case
+                
+                // Now handle just like the sync case.
                 match outcomeA with
                 | Failure -> shortCircuit journalA Failure
                 | Discard -> shortCircuit journalA Discard
                 | Success a ->
-                    // Call continuation and append journals (preserves full shrinking via f a)
+                    // Call continuation and append journals (preserves full shrinking via f a).
                     f a |> GenLazy.map (PropertyResult.map (fun (journalB, outcomeB) ->
                         (Journal.append journalA journalB, outcomeB)))
 #endif
@@ -293,7 +293,7 @@ module Property =
         p |> map (fun b -> if not b then raise (TestReturnedFalseException()))
 
     let internal printValue value : string =
-        // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead
+        // sprintf "%A" is not prepared for printing ResizeArray<_> (C# List<T>) so we prepare the value instead.
         let prepareForPrinting (value: obj) : obj =
         #if FABLE_COMPILER
             value
@@ -302,7 +302,6 @@ module Property =
                 value
             else
                 let t = value.GetType()
-                // have to use TypeInfo due to targeting netstandard 1.6
                 let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
                 let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
                 if isList
@@ -333,10 +332,10 @@ module Property =
     // Shrinking
     //
 
-    /// Module containing shrinking logic for property test failures
+    /// Module containing shrinking logic for property test failures.
     module private Shrinking =
-
-        /// Shrink a failing test synchronously, finding the smallest input that still fails
+        
+        /// Shrink a failing test synchronously, finding the smallest input that still fails.
         let shrinkSync
                 (language: Language)
                 (data : RecheckData)
@@ -363,7 +362,7 @@ module Property =
                         loop (nshrinks + 1<shrinks>) nextShrinkPathRev tree
             loop 0<shrinks> [] tree
 
-        /// Shrink a failing test asynchronously, finding the smallest input that still fails
+        /// Shrink a failing test asynchronously, finding the smallest input that still fails.
         let shrinkAsync
                 (language: Language)
                 (data : RecheckData)
@@ -410,7 +409,7 @@ module Property =
             }
             loop 0<shrinks> [] tree
 
-        /// Follow a previously recorded shrink path to replay a failure
+        /// Follow a previously recorded shrink path to replay a failure.
         let followPath (tree : Tree<Lazy<PropertyResult<'a>>>) (shrinkPath : ShrinkOutcome list) : Status =
             let rec loop (Node (root, children)) path =
                 match path with
@@ -763,11 +762,11 @@ module PropertyBuilder =
         member __.Bind(m : Property<'a>, k : 'a -> Property<'b>) : Property<'b> =
             m |> Property.bind k
 
-        // Allow binding bare Async<'a> - automatically converts to async Property<'a>
+        // Allow binding bare Async<'a> - automatically converts to async Property<'a>.
         member __.Bind(m : Async<'a>, k : 'a -> Property<'b>) : Property<'b> =
             Property.ofAsync m |> Property.bind k
 
-        // Allow binding Property<Async<'a>> - automatically converts to async Property<'a>
+        // Allow binding Property<Async<'a>> - automatically converts to async Property<'a>.
         member inline __.Bind(m : Property<Async<'a>>, k : 'a -> Property<'b>) : Property<'b> =
             m |> Property.bind (fun asyncVal -> Property.ofAsync asyncVal |> Property.bind k)
 
@@ -789,7 +788,7 @@ module PropertyBuilder =
         member __.BindReturn(m : Property<'a>, f: 'a -> 'b) : Property<'b> =
             m |> Property.bind (fun a -> Property.success (f a))
 
-        // BindReturn for Async<'a> - handles let! x = async { ... } in return f x
+        // BindReturn for Async<'a> - handles let! x = async { ... } in return f x.
         member __.BindReturn(m : Async<'a>, f: 'a -> 'b) : Property<'b> =
             Property.ofAsync m |> Property.map f
 
@@ -799,7 +798,7 @@ module PropertyBuilder =
         member __.ReturnFrom(m : Property<'a>) : Property<'a> =
             m
 
-        // Allow return! with Async<'a> - automatically converts to async Property<'a>
+        // Allow return! with Async<'a> - automatically converts to async Property<'a>.
         member __.ReturnFrom(asyncValue : Async<'a>) : Property<'a> =
             Property.ofAsync asyncValue
 
@@ -823,31 +822,31 @@ module PropertyBuilder =
         // Task support
         // ========================================
 #if !FABLE_COMPILER
-        // Allow binding bare Task<'a> - automatically converts to async Property<'a>
+        // Allow binding bare Task<'a> - automatically converts to async Property<'a>.
         member __.Bind(m : System.Threading.Tasks.Task<'a>, k : 'a -> Property<'b>) : Property<'b> =
             Property.ofTask m |> Property.bind k
 
-        // Allow binding Property<Task<'a>> - automatically converts to async Property<'a>
+        // Allow binding Property<Task<'a>> - automatically converts to async Property<'a>.
         member inline __.Bind(m : Property<System.Threading.Tasks.Task<'a>>, k : 'a -> Property<'b>) : Property<'b> =
             m |> Property.bind (fun taskVal -> Property.ofTask taskVal |> Property.bind k)
 
-        // Allow returning Task<unit> directly - automatically converts to async Property<unit>
+        // Allow returning Task<unit> directly - automatically converts to async Property<unit>.
         member __.Return(taskUnit : System.Threading.Tasks.Task<unit>) : Property<unit> =
             Property.ofTaskUnit taskUnit
 
-        // Allow returning Task directly - automatically converts to async Property<unit>
+        // Allow returning Task directly - automatically converts to async Property<unit>.
         member __.Return(task : System.Threading.Tasks.Task) : Property<unit> =
             Property.ofTaskUnit task
 
-        // BindReturn for Task<'a> - handles let! x = task { ... } in return f x
+        // BindReturn for Task<'a> - handles let! x = task { ... } in return f x.
         member __.BindReturn(m : System.Threading.Tasks.Task<'a>, f: 'a -> 'b) : Property<'b> =
             Property.ofTask m |> Property.map f
 
-        // Allow return! with Task<'a> - automatically converts to async Property<'a>
+        // Allow return! with Task<'a> - automatically converts to async Property<'a>.
         member __.ReturnFrom(taskValue : System.Threading.Tasks.Task<'a>) : Property<'a> =
             Property.ofTask taskValue
 
-        // Allow return! with Task (non-generic) - automatically converts to async Property<unit>
+        // Allow return! with Task (non-generic) - automatically converts to async Property<unit>.
         member __.ReturnFrom(task : System.Threading.Tasks.Task) : Property<unit> =
             Property.ofTaskUnit task
 #endif
