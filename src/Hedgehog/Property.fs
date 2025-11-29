@@ -193,21 +193,6 @@ module Property =
         PropertyResult.ofSync journal outcome'
         |> GenLazy.constant
 
-    // Helper to run continuation asynchronously and combine journals
-    let private runContinuationAsync
-            (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
-            (a : 'a)
-            (journalA : Journal)
-            (seed : Seed)
-            (size : int) : Async<Journal * Outcome<'b>> =
-        async {
-            let genB = f a
-            let treeB = genB |> Gen.toRandom |> Random.run seed size
-            let lazyResultB = Tree.outcome treeB
-            let! journalB, outcomeB = PropertyResult.unwrapAsync lazyResultB
-            return (Journal.append journalA journalB, outcomeB)
-        }
-
     let private bindGen
             (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
             (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
@@ -229,34 +214,32 @@ module Property =
                         (Journal.append journalA journalB, outcomeB)))
 
             | PropertyResult.Async asyncResultA ->
-                // Async case: we've detected it's async but haven't awaited yet (no blocking!)
+                // Async case: Block during generation to preserve full shrinking.
                 //
-                // We're being called from GenLazy.bind which uses Gen.bind.
-                // Gen.bind will call Tree.bind which runs our returned Gen with seed2 from the split.
-                // So we can capture that seed and use it when the async executes.
+                // Per async-properties.md: Blocking is acceptable when generators are
+                // interleaved with async (gen → async → gen pattern).
                 //
-                // Solution: Return a Gen that captures seed and size when run, then uses them
-                // when the async eventually executes and calls f a.
+                // Trade-off: We choose Laziness + Full Shrinking over Non-blocking.
+                // The async is awaited during tree construction (generation phase) so we can
+                // get the value 'a' and build the full continuation tree with all its shrinks.
+                //
+                // This preserves the monad laws and shrinking behavior identical to sync properties.
+#if FABLE_COMPILER
+                failwith "Async property binding with interleaved generators is not supported in Fable. Use Property.checkAsync or Property.reportAsync instead of Property.check or Property.report."
+#else
+                // Block to get the result (this happens during generation phase)
+                let journalA, outcomeA = Async.RunSynchronously asyncResultA
 
-                Gen.ofRandom (
-                    Random (fun seed size ->
-                        // This seed is already seed2 from Gen.bind's split!
-                        // Capture it in the closure for later use
-
-                        // Create a tree with the async workflow that will execute later
-                        Tree.singleton (lazy (
-                            PropertyResult.Async (async {
-                                let! journalA, outcomeA = asyncResultA
-                                match outcomeA with
-                                | Failure -> return (journalA, Failure)
-                                | Discard -> return (journalA, Discard)
-                                | Success a ->
-                                    // Call f a with the captured seed and size!
-                                    return! runContinuationAsync f a journalA seed size
-                            })
-                        ))
-                    )
-                ))
+                // Now handle just like the sync case
+                match outcomeA with
+                | Failure -> shortCircuit journalA Failure
+                | Discard -> shortCircuit journalA Discard
+                | Success a ->
+                    // Call continuation and append journals (preserves full shrinking via f a)
+                    f a |> GenLazy.map (PropertyResult.map (fun (journalB, outcomeB) ->
+                        (Journal.append journalA journalB, outcomeB)))
+#endif
+        )
 
     /// Sequences two properties together, passing the result of the first to a function that produces the second.
     /// This is the monadic bind operation that enables property composition and dependent testing.
