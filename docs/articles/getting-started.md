@@ -150,7 +150,7 @@ Notice Hedgehog didn't just find *a* failing case - it found the **smallest** on
 ### xUnit
 
 > [!TIP]
-> Hedgehog provides integrated support for xUnit v3 in [Hedhehog.Xunit](../xunit/) package.
+> Hedgehog provides integrated support for xUnit v3 in [Hedgehog.Xunit](../xunit/) package.
 
 # [F#](#tab/fsharp)
 

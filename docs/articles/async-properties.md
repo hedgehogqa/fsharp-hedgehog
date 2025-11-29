@@ -92,7 +92,7 @@ var prop =
 ---
 
 Why? Because to create the generator `Gen.int32 (Range.linear asyncValue 100)`, Hedgehog needs to know what `asyncValue` is. 
-The only way to get it is to turn the async computation and get the value.
+The only way to get it is to run the async computation and get the value.
 
 ### When Blocking Does NOT Occur
 
@@ -135,6 +135,9 @@ await prop.CheckAsync();
 ---
 
 When you run this with `checkAsync` or `CheckAsync`, the entire async chain executes without blocking threads.
+
+> [!NOTE]
+> Cancellation tokens are not currently supported in Hedgehog's async APIs. The `checkAsync` and `reportAsync` methods do not accept `CancellationToken` parameters, and async operations within properties cannot be cancelled externally.
 
 ## Best Practices
 
