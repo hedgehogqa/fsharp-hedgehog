@@ -182,15 +182,37 @@ module Property =
     let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
 
+    // Helper to handle Failure/Discard cases in bind - just wrap and return without calling continuation
+    // Note: Failure and Discard don't carry values, so we can safely change the type parameter
+    let private shortCircuit (journal : Journal) (outcome : Outcome<'a>) : Gen<Lazy<PropertyResult<'b>>> =
+        let outcome' : Outcome<'b> =
+            match outcome with
+            | Failure -> Failure
+            | Discard -> Discard
+            | Success _ -> failwith "shortCircuit should only be called with Failure or Discard"
+        PropertyResult.ofSync journal outcome'
+        |> GenLazy.constant
+
+    // Helper to run continuation asynchronously and combine journals
+    let private runContinuationAsync
+            (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
+            (a : 'a)
+            (journalA : Journal)
+            (seed : Seed)
+            (size : int) : Async<Journal * Outcome<'b>> =
+        async {
+            let genB = f a
+            let treeB = genB |> Gen.toRandom |> Random.run seed size
+            let lazyResultB = Tree.outcome treeB
+            let! journalB, outcomeB = PropertyResult.unwrapAsync lazyResultB
+            return (Journal.append journalA journalB, outcomeB)
+        }
+
     let private bindGen
             (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
             (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
         
         // Use GenLazy.bind pattern (like before async was introduced) but handle PropertyResult.
-        // GenLazy.bind = map f >> join where join uses Gen.bind Lazy.value
-        // This forces the lazy during tree construction, which is OK for sync properties.
-        // For async properties, we handle specially to avoid blocking.
-
         m |> GenLazy.bind (fun propertyResultA ->
             // This function is called with the FORCED PropertyResult (lazy was forced by GenLazy.bind)
             // This happens during tree construction for proper shrinking via Gen.bind
@@ -199,12 +221,8 @@ module Property =
             | PropertyResult.Sync (journalA, outcomeA) ->
                 // Synchronous case: pattern match and continue (original behavior)
                 match outcomeA with
-                | Failure ->
-                    PropertyResult.ofSync journalA Failure
-                    |> GenLazy.constant
-                | Discard ->
-                    PropertyResult.ofSync journalA Discard
-                    |> GenLazy.constant
+                | Failure -> shortCircuit journalA Failure
+                | Discard -> shortCircuit journalA Discard
                 | Success a ->
                     // Call continuation and append journals (preserves shrinking via f a)
                     f a |> GenLazy.map (PropertyResult.map (fun (journalB, outcomeB) ->
@@ -234,12 +252,7 @@ module Property =
                                 | Discard -> return (journalA, Discard)
                                 | Success a ->
                                     // Call f a with the captured seed and size!
-                                    // These are the same seed2 and size that Gen.bind would use
-                                    let genB = f a
-                                    let treeB = genB |> Gen.toRandom |> Random.run seed size
-                                    let lazyResultB = Tree.outcome treeB
-                                    let! journalB, outcomeB = PropertyResult.unwrapAsync lazyResultB
-                                    return (Journal.append journalA journalB, outcomeB)
+                                    return! runContinuationAsync f a journalA seed size
                             })
                         ))
                     )
@@ -787,6 +800,11 @@ module PropertyBuilder =
             |> Gen.map (fun a -> Lazy.constant ((Journal.singleton (fun () -> Property.printValue a)), Success a))
             |> Property.ofGen
             |> Property.map f
+
+        // BindReturn for Property<'a> - handles let! x = prop in return f x
+        // Uses bind + return instead of map to preserve shrinking behavior
+        member __.BindReturn(m : Property<'a>, f: 'a -> 'b) : Property<'b> =
+            m |> Property.bind (fun a -> Property.success (f a))
 
         // BindReturn for Async<'a> - handles let! x = async { ... } in return f x
         member __.BindReturn(m : Async<'a>, f: 'a -> 'b) : Property<'b> =
