@@ -61,32 +61,57 @@ let propertyBindTests = testList "Property.bind semantics" [
         Expect.isTrue asyncStarted "Async executes (and blocks) when toGen unwraps it via Async.RunSynchronously"
 
     testCase "sync bind preserves shrinking - failures shrink to minimal case (CE syntax)" <| fun () ->
+        let mutable finalX = 0
+        let mutable finalY = 0
+        
         let prop = property {
-            let! x = Range.linear 0 100 |> Gen.int32
-            let! y = Range.linear 0 100 |> Gen.int32
-            return y < 50
+            let! x = Range.exponential 1 100 |> Gen.int32
+            let! y = Range.exponential 1 100 |> Gen.int32
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}")
+            // This will fail when y >= 5, should shrink towards y=5, x=1
+            if y < 5 then
+                return true
+            else
+                // Capture values only when failing
+                finalX <- x
+                finalY <- y
+                return false
         }
         
         let report = prop |> Property.reportBool
         
         match report.Status with
         | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Should perform shrinks"
+            // After shrinking completes, finalX and finalY contain the minimal counterexample
+            let journalEntries = failure.Journal |> Journal.eval |> List.ofSeq
+            let counterexample = journalEntries |> String.concat "\n"
+            
+            // The shrunk counterexample should have y=5 (minimal failing value)
+            // and x should be shrunk towards 1 (the origin of the range)
+            Expect.equal finalY 5 $"y should shrink to minimal failing value of 5. Counterexample:\n{counterexample}"
+            Expect.isLessThan finalX 10 $"x should shrink towards origin. Counterexample:\n{counterexample}"
         | _ -> failwith "Expected failure"
 
     testCase "async bind preserves shrinking - same as sync test but with async" <| fun () ->
+        let mutable finalY = 0
+        
         let prop = property {
             let! x = Range.exponential 0 100 |> Gen.int32
             do! async { return () }
             let! y = Range.exponential 0 100 |> Gen.int32
-            return y < 50
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}")
+            if y < 50 then
+                return true
+            else
+                finalY <- y
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Should perform shrinks"
+        | Failed _ ->
+            Expect.equal finalY 50 "Should shrink y to minimal failing value of 50"
         | _ -> failwith "Expected failure"
 
     testCase "sync bind with Failure short-circuits without calling continuation (CE syntax)" <| fun () ->
@@ -130,18 +155,25 @@ let propertyBindTests = testList "Property.bind semantics" [
     // ============================================================================
 
     testCase "interleaved async (gen-async-gen) MUST preserve shrinking after fix" <| fun () ->
+        let mutable finalY = 0
+        
         let prop = property {
             let! x = Range.exponential 0 100 |> Gen.int32
             do! async { return () }
             let! y = Range.exponential 0 100 |> Gen.int32
-            return y < 50
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}")
+            if y < 50 then
+                return true
+            else
+                finalY <- y
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Interleaved async MUST preserve shrinking"
+        | Failed _ ->
+            Expect.equal finalY 50 "Interleaved async MUST shrink to minimal value"
         | _ -> failwith "Expected failure"
 
     // ============================================================================
@@ -149,63 +181,91 @@ let propertyBindTests = testList "Property.bind semantics" [
     // ============================================================================
 
     testCase "async property with single gen MUST shrink fully" <| fun () ->
+        let mutable finalX = 0
+        
         let prop = property {
             let! x = Range.exponential 0 100 |> Gen.int32
+            let! _ = Property.counterexample (fun () -> $"x = {x}")
             do! async { return () }
-            return x < 50
+            if x < 50 then
+                return true
+            else
+                finalX <- x
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Async property MUST shrink"
+        | Failed _ ->
+            Expect.equal finalX 50 "Async property MUST shrink to minimal value"
         | _ -> failwith "Expected failure"
 
     testCase "async bind with two gens MUST preserve shrinking for both" <| fun () ->
+        let mutable finalY = 0
+        
         let prop = property {
             let! x = Range.exponential 0 100 |> Gen.int32
             do! async { return () }
             let! y = Range.exponential 0 100 |> Gen.int32
-            return y < 50
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}")
+            if y < 50 then
+                return true
+            else
+                finalY <- y
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Both generators MUST shrink"
+        | Failed _ ->
+            Expect.equal finalY 50 "Both generators MUST shrink to minimal value"
         | _ -> failwith "Expected failure"
 
     testCase "async bind that returns Gen MUST preserve full shrinking" <| fun () ->
+        let mutable finalY = 0
+        
         let prop = property {
             let! x = Range.exponential 0 100 |> Gen.int32
             let! genY = async { return Range.exponential 0 100 |> Gen.int32 }
             let! y = genY
-            return y < 50
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}")
+            if y < 50 then
+                return true
+            else
+                finalY <- y
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Gen from async MUST preserve shrinking"
+        | Failed _ ->
+            Expect.equal finalY 50 "Gen from async MUST shrink to minimal value"
         | _ -> failwith "Expected failure"
 
     testCase "deeply nested async binds MUST preserve shrinking" <| fun () ->
+        let mutable finalZ = 0
+        
         let prop = property {
             let! x = Range.exponential 0 50 |> Gen.int32
             do! async { return () }
             let! y = Range.exponential 0 50 |> Gen.int32
             do! async { return () }
             let! z = Range.exponential 0 50 |> Gen.int32
-            return z < 25
+            let! _ = Property.counterexample (fun () -> $"x = {x}, y = {y}, z = {z}")
+            if z < 25 then
+                return true
+            else
+                finalZ <- z
+                return false
         }
         
         let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
         
         match report.Status with
-        | Failed failure ->
-            Expect.isTrue (int failure.Shrinks > 0) "Nested async MUST preserve shrinking"
+        | Failed _ ->
+            Expect.equal finalZ 25 "Nested async MUST shrink to minimal value"
         | _ -> failwith "Expected failure"
 ]
