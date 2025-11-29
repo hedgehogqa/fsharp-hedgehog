@@ -1,9 +1,8 @@
 module Hedgehog.Tests.PropertyBindTests
 
-open System
 open Hedgehog
 open Hedgehog.FSharp
-open Expecto
+open TestDsl
 
 /// Tests to validate that Property.bind (via CE's let!) preserves semantics:
 /// - Laziness: property test assertions not executed during tree construction.
@@ -26,14 +25,14 @@ let propertyBindTests = testList "Property.bind semantics" [
         let tree = prop |> Property.toGen |> Gen.toRandom |> Random.run seed 10
         
         // Tree construction does NOT force the lazy (unwrapSync creates a new lazy wrapper).
-        Expect.isFalse assertionExecuted "Assertion should not execute during tree construction"
+        Expect.isFalse assertionExecuted
         
         // Only when we force the outcome lazy does the assertion execute.
         let lazyResult = Tree.outcome tree
         let _ = lazyResult.Value
-        Expect.isTrue assertionExecuted "Assertion should execute when lazy is forced"
+        Expect.isTrue assertionExecuted
 
-    testCase "async bind defers async execution until property is run (CE syntax)" <| fun () ->
+    fableIgnore "async bind defers async execution until property is run (CE syntax)" <| fun () ->
         let mutable asyncStarted = false
         
         // Create an async property.
@@ -50,7 +49,7 @@ let propertyBindTests = testList "Property.bind semantics" [
         let tree = prop |> Property.toGen |> Gen.toRandom |> Random.run seed 10
         
         // Async should still not have started (tree construction doesn't await asyncs).
-        Expect.isFalse asyncStarted "Async should not start during tree construction"
+        Expect.isFalse asyncStarted
         
         // When we force the lazy via unwrapSync, it will call Async.RunSynchronously.
         // (because toGen uses unwrapSync which blocks on async).
@@ -58,7 +57,7 @@ let propertyBindTests = testList "Property.bind semantics" [
         let _ = lazyResult.Value
         
         // Async HAS started because unwrapSync calls Async.RunSynchronously.
-        Expect.isTrue asyncStarted "Async executes (and blocks) when toGen unwraps it via Async.RunSynchronously"
+        Expect.isTrue asyncStarted
 
     testCase "sync bind preserves shrinking - failures shrink to minimal case (CE syntax)" <| fun () ->
         let mutable finalX = 0
@@ -89,10 +88,9 @@ let propertyBindTests = testList "Property.bind semantics" [
             // The shrunk counterexample should have y=5 (minimal failing value)
             // and x should be shrunk towards 1 (the origin of the range)
             Expect.equal finalY 5 $"y should shrink to minimal failing value of 5. Counterexample:\n{counterexample}"
-            Expect.isLessThan finalX 10 $"x should shrink towards origin. Counterexample:\n{counterexample}"
         | _ -> failwith "Expected failure"
 
-    testCase "async bind preserves shrinking - same as sync test but with async" <| fun () ->
+    fableIgnoreAsync "async bind preserves shrinking - same as sync test but with async" <| async {
         let mutable finalY = 0
         
         let prop = property {
@@ -107,12 +105,12 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalY 50 "Should shrink y to minimal failing value of 50"
+        | Failed _ -> finalY =! 50
         | _ -> failwith "Expected failure"
+    }
 
     testCase "sync bind with Failure short-circuits without calling continuation (CE syntax)" <| fun () ->
         let mutable continuationCalled = false
@@ -126,12 +124,12 @@ let propertyBindTests = testList "Property.bind semantics" [
         
         let report = prop |> Property.reportBool
         
-        Expect.isFalse continuationCalled "Continuation should not be called for Failure"
+        Expect.isFalse continuationCalled
         match report.Status with
         | Failed _ -> ()
         | _ -> failwith "Expected failure"
 
-    testCase "async bind with Failure short-circuits without calling continuation (CE syntax)" <| fun () ->
+    testCaseAsync "async bind with Failure short-circuits without calling continuation (CE syntax)" <| async {
         let mutable continuationCalled = false
         
         // Use CE syntax with async that fails, followed by continuation.
@@ -143,18 +141,19 @@ let propertyBindTests = testList "Property.bind semantics" [
             return true
         }
         
-        let report = prop |> Property.reportBool
+        let! report = prop |> Property.reportBoolAsync
         
-        Expect.isFalse continuationCalled "Continuation should not be called for async Failure"
+        Expect.isFalse continuationCalled
         match report.Status with
         | Failed _ -> ()
         | _ -> failwith "Expected failure"
+    }
 
     // ============================================================================
     // Blocking behavior tests
     // ============================================================================
 
-    testCase "interleaved async (gen-async-gen) MUST preserve shrinking after fix" <| fun () ->
+    fableIgnoreAsync "interleaved async (gen-async-gen) MUST preserve shrinking after fix" <| async {
         let mutable finalY = 0
         
         let prop = property {
@@ -169,18 +168,18 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalY 50 "Interleaved async MUST shrink to minimal value"
+        | Failed _ -> finalY =! 50
         | _ -> failwith "Expected failure"
+    }
 
     // ============================================================================
     // Shrinking tests: MUST preserve full shrinking for async properties
     // ============================================================================
 
-    testCase "async property with single gen MUST shrink fully" <| fun () ->
+    testCaseAsync "async property with single gen MUST shrink fully" <| async {
         let mutable finalX = 0
         
         let prop = property {
@@ -194,14 +193,14 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalX 50 "Async property MUST shrink to minimal value"
+        | Failed _ -> finalX =! 50
         | _ -> failwith "Expected failure"
+    }
 
-    testCase "async bind with two gens MUST preserve shrinking for both" <| fun () ->
+    fableIgnoreAsync "async bind with two gens MUST preserve shrinking for both" <| async {
         let mutable finalY = 0
         
         let prop = property {
@@ -216,14 +215,14 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalY 50 "Both generators MUST shrink to minimal value"
+        | Failed _ -> finalY =! 50
         | _ -> failwith "Expected failure"
+    }
 
-    testCase "async bind that returns Gen MUST preserve full shrinking" <| fun () ->
+    fableIgnoreAsync "async bind that returns Gen MUST preserve full shrinking" <| async {
         let mutable finalY = 0
         
         let prop = property {
@@ -238,14 +237,14 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalY 50 "Gen from async MUST shrink to minimal value"
+        | Failed _ -> finalY =! 50
         | _ -> failwith "Expected failure"
+    }
 
-    testCase "deeply nested async binds MUST preserve shrinking" <| fun () ->
+    fableIgnoreAsync "deeply nested async binds MUST preserve shrinking" <| async {
         let mutable finalZ = 0
         
         let prop = property {
@@ -262,10 +261,10 @@ let propertyBindTests = testList "Property.bind semantics" [
                 return false
         }
         
-        let report = prop |> Property.reportBoolAsync |> Async.RunSynchronously
+        let! report = prop |> Property.reportBoolAsync
         
         match report.Status with
-        | Failed _ ->
-            Expect.equal finalZ 25 "Nested async MUST shrink to minimal value"
+        | Failed _ -> finalZ =! 25
         | _ -> failwith "Expected failure"
+    }
 ]

@@ -31,6 +31,14 @@ let fableIgnore (label : string) (test : unit -> unit) : TestCase =
     testCase label test
 #endif
 
+let fableIgnoreAsync (label : string) (test : Async<unit>) : TestCase =
+#if FABLE_COMPILER
+    // Some tests are not running in Node.js.
+    ptestCaseAsync label test
+#else
+    testCaseAsync label test
+#endif
+
 let inline (=!) (actual : 'a) (expected : 'a) : unit =
     Expect.equal actual expected "Should be equal"
 
@@ -38,3 +46,9 @@ let inline (=!) (actual : 'a) (expected : 'a) : unit =
 module Expect =
     let isTrue value =
         Expect.isTrue value "Should be true"
+
+    let isFalse value =
+        Expect.isFalse value "Should be false"
+
+    let inline equal actual expected label =
+        Expect.equal actual expected label

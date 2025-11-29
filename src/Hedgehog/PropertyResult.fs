@@ -24,8 +24,10 @@ module internal PropertyResult =
                 let! result = asyncComputation
                 return (Journal.empty, Success result)
             with
+#if !FABLE_COMPILER
             | :? System.OperationCanceledException ->
                 return (Journal.singletonMessage "Async computation was canceled", Failure)
+#endif
             | ex ->
                 return (Journal.singletonMessage (string ex), Failure)
         })
