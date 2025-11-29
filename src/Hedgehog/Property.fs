@@ -185,27 +185,65 @@ module Property =
     let private bindGen
             (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
             (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
+        
+        // Use GenLazy.bind pattern (like before async was introduced) but handle PropertyResult.
+        // GenLazy.bind = map f >> join where join uses Gen.bind Lazy.value
+        // This forces the lazy during tree construction, which is OK for sync properties.
+        // For async properties, we handle specially to avoid blocking.
 
-        m |> Gen.bind (fun lazyResult ->
-            let journal, outcome = PropertyResult.unwrapSync lazyResult
+        m |> GenLazy.bind (fun propertyResultA ->
+            // This function is called with the FORCED PropertyResult (lazy was forced by GenLazy.bind)
+            // This happens during tree construction for proper shrinking via Gen.bind
 
-            match outcome with
-            | Failure ->
-                (PropertyResult.ofSync journal Failure : PropertyResult<'b>)
-                |> Lazy.constant
-                |> Gen.constant
-            | Discard ->
-                (PropertyResult.ofSync journal Discard : PropertyResult<'b>)
-                |> Lazy.constant
-                |> Gen.constant
-            | Success a ->
-                // Let Gen.bind handle the seed threading properly
-                f a |> Gen.map (fun nextLazyResult ->
-                    lazy (
-                        nextLazyResult.Value
-                        |> PropertyResult.map (fun (j2, outcome2) ->
-                            (Journal.append journal j2, outcome2))
-                    )))
+            match propertyResultA with
+            | PropertyResult.Sync (journalA, outcomeA) ->
+                // Synchronous case: pattern match and continue (original behavior)
+                match outcomeA with
+                | Failure ->
+                    PropertyResult.ofSync journalA Failure
+                    |> GenLazy.constant
+                | Discard ->
+                    PropertyResult.ofSync journalA Discard
+                    |> GenLazy.constant
+                | Success a ->
+                    // Call continuation and append journals (preserves shrinking via f a)
+                    f a |> GenLazy.map (PropertyResult.map (fun (journalB, outcomeB) ->
+                        (Journal.append journalA journalB, outcomeB)))
+
+            | PropertyResult.Async asyncResultA ->
+                // Async case: we've detected it's async but haven't awaited yet (no blocking!)
+                //
+                // We're being called from GenLazy.bind which uses Gen.bind.
+                // Gen.bind will call Tree.bind which runs our returned Gen with seed2 from the split.
+                // So we can capture that seed and use it when the async executes.
+                //
+                // Solution: Return a Gen that captures seed and size when run, then uses them
+                // when the async eventually executes and calls f a.
+
+                Gen.ofRandom (
+                    Random (fun seed size ->
+                        // This seed is already seed2 from Gen.bind's split!
+                        // Capture it in the closure for later use
+
+                        // Create a tree with the async workflow that will execute later
+                        Tree.singleton (lazy (
+                            PropertyResult.Async (async {
+                                let! journalA, outcomeA = asyncResultA
+                                match outcomeA with
+                                | Failure -> return (journalA, Failure)
+                                | Discard -> return (journalA, Discard)
+                                | Success a ->
+                                    // Call f a with the captured seed and size!
+                                    // These are the same seed2 and size that Gen.bind would use
+                                    let genB = f a
+                                    let treeB = genB |> Gen.toRandom |> Random.run seed size
+                                    let lazyResultB = Tree.outcome treeB
+                                    let! journalB, outcomeB = PropertyResult.unwrapAsync lazyResultB
+                                    return (Journal.append journalA journalB, outcomeB)
+                            })
+                        ))
+                    )
+                ))
 
     /// Sequences two properties together, passing the result of the first to a function that produces the second.
     /// This is the monadic bind operation that enables property composition and dependent testing.

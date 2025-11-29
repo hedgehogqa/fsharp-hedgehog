@@ -16,6 +16,7 @@ let allTests = testList "All tests" [
     MinimalTests.minimalTests
     ReportTests.reportTests
     PropertyTests.propertyTests
+    PropertyBindTests.propertyBindTests
     PropertyAsyncTests.asyncTests
 #if !FABLE_COMPILER
     PropertyAsyncAndTaskTests.asyncAndTaskTests
