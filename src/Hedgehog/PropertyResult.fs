@@ -23,7 +23,10 @@ module internal PropertyResult =
             try
                 let! result = asyncComputation
                 return (Journal.empty, Success result)
-            with ex ->
+            with
+            | :? System.OperationCanceledException ->
+                return (Journal.singletonMessage "Async computation was canceled", Failure)
+            | ex ->
                 return (Journal.singletonMessage (string ex), Failure)
         })
 

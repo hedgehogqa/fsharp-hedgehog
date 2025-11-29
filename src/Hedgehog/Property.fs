@@ -351,18 +351,23 @@ module Property =
                 match shrinkLimit with
                 | Some shrinkLimit' when nshrinks >= shrinkLimit' -> return! getFailed ()
                 | _ ->
-                    let rec findFirstFailure trees = async {
-                        match trees with
-                        | [] -> return None
-                        | (idx, tree) :: rest ->
-                            let! _, outcome = PropertyResult.unwrapAsync (Tree.outcome tree)
-                            if Outcome.isFailure outcome then
-                                return Some (idx, tree)
+                    let rec findFirstFailure (trees : seq<int * Tree<Lazy<PropertyResult<'a>>>>) = async {
+                        use enumerator = trees.GetEnumerator()
+                        let rec loop () = async {
+                            if enumerator.MoveNext() then
+                                let idx, tree = enumerator.Current
+                                let! _, outcome = PropertyResult.unwrapAsync (Tree.outcome tree)
+                                if Outcome.isFailure outcome then
+                                    return Some (idx, tree)
+                                else
+                                    return! loop ()
                             else
-                                return! findFirstFailure rest
+                                return None
+                        }
+                        return! loop ()
                     }
-
-                    let! found = xs |> Seq.indexed |> List.ofSeq |> findFirstFailure
+                    
+                    let! found = xs |> Seq.indexed |> findFirstFailure
                     match found with
                     | None -> return! getFailed ()
                     | Some (idx, tree) ->
