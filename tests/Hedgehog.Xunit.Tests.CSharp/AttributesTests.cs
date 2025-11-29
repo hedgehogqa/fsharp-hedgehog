@@ -1,18 +1,19 @@
 using System.Net;
 using AwesomeAssertions;
-using Hedgehog.Xunit;
+using Hedgehog.Linq;
+using Range = Hedgehog.Linq.Range;
 
-namespace Hedgehog.AutoGen.Tests.CSharp;
+namespace Hedgehog.Xunit.Tests.CSharp;
 
 public sealed class AttributesTests
 {
     [Property]
-    public void Odd_Attribute_Should_Generate_Odd_Numbers([Odd] int oddValue) =>
-        Math.Abs(oddValue % 2).Should().Be(1);
+    public bool Odd_Attribute_Should_Generate_Odd_Numbers([Odd] int oddValue) =>
+        Math.Abs(oddValue % 2) == 1;
 
     [Property]
-    public void Even_Attribute_Should_Generate_Even_Numbers([Even] int evenValue) =>
-        (evenValue % 2).Should().Be(0);
+    public bool Even_Attribute_Should_Generate_Even_Numbers([Even] int evenValue) =>
+        (evenValue % 2) == 0;
 
     [Property]
     public void PositiveInt_Attribute_Should_Generate_Positive_Numbers([PositiveInt] int value) =>

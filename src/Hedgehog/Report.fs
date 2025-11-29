@@ -155,7 +155,6 @@ module Report =
         if not (List.isEmpty exceptions) then
             appendLinef sb ""
             appendLinef sb "Actual error:"
-            appendLinef sb ""
             Seq.iter (appendLine sb) exceptions
 
         sb.ToString().Trim() // Exclude extra newline.

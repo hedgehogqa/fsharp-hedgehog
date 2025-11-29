@@ -2,7 +2,11 @@
   href: ../index.md
 - name: Getting Started
   href: getting-started.md
+- name: Understanding Ranges
+  href: ranges.md
 - name: Auto-Generation
   href: auto-generation.md
+- name: Async Properties
+  href: async-properties.md
 - name: Best Practices
   href: best-practices.md
