@@ -320,6 +320,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Linq.GenFunctionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Linq.GenFunctionExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Linq.GenFunctionExtensions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.Linq.GenListExtensions.yml",
       "output": {
         ".html": {

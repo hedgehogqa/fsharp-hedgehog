@@ -2299,6 +2299,24 @@ references:
   commentId: M:Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen-Gen
   fullName: Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen-Gen
   nameWithType: Zip(Gen, Gen, Gen, Gen)
+- uid: Hedgehog.Linq.GenFunctionExtensions
+  name: GenFunctionExtensions
+  href: api/Hedgehog.Linq.GenFunctionExtensions.html
+  commentId: T:Hedgehog.Linq.GenFunctionExtensions
+  fullName: Hedgehog.Linq.GenFunctionExtensions
+  nameWithType: GenFunctionExtensions
+- uid: Hedgehog.Linq.GenFunctionExtensions.WithDistinctMapTo-Gen-Gen
+  name: WithDistinctMapTo(Gen, Gen)
+  href: api/Hedgehog.Linq.GenFunctionExtensions.html#Hedgehog_Linq_GenFunctionExtensions_WithDistinctMapTo_Gen_Gen
+  commentId: M:Hedgehog.Linq.GenFunctionExtensions.WithDistinctMapTo-Gen-Gen
+  fullName: Hedgehog.Linq.GenFunctionExtensions.WithDistinctMapTo-Gen-Gen
+  nameWithType: WithDistinctMapTo(Gen, Gen)
+- uid: Hedgehog.Linq.GenFunctionExtensions.WithMapTo-Gen-Gen
+  name: WithMapTo(Gen, Gen)
+  href: api/Hedgehog.Linq.GenFunctionExtensions.html#Hedgehog_Linq_GenFunctionExtensions_WithMapTo_Gen_Gen
+  commentId: M:Hedgehog.Linq.GenFunctionExtensions.WithMapTo-Gen-Gen
+  fullName: Hedgehog.Linq.GenFunctionExtensions.WithMapTo-Gen-Gen
+  nameWithType: WithMapTo(Gen, Gen)
 - uid: Hedgehog.Linq.GenListExtensions
   name: GenListExtensions
   href: api/Hedgehog.Linq.GenListExtensions.html
@@ -2323,6 +2341,18 @@ references:
   commentId: M:Hedgehog.Linq.GenListExtensions.NotIn-Gen-ResizeArray
   fullName: Hedgehog.Linq.GenListExtensions.NotIn-Gen-ResizeArray
   nameWithType: NotIn(Gen, ResizeArray)
+- uid: Hedgehog.Linq.GenListExtensions.Sequence-a
+  name: Sequence('a)
+  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Sequence_a
+  commentId: M:Hedgehog.Linq.GenListExtensions.Sequence-a
+  fullName: Hedgehog.Linq.GenListExtensions.Sequence-a
+  nameWithType: Sequence('a)
+- uid: Hedgehog.Linq.GenListExtensions.Traverse-a-Func
+  name: Traverse('a, Func)
+  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Traverse_a_Func
+  commentId: M:Hedgehog.Linq.GenListExtensions.Traverse-a-Func
+  fullName: Hedgehog.Linq.GenListExtensions.Traverse-a-Func
+  nameWithType: Traverse('a, Func)
 - uid: Hedgehog.Linq.Property
   name: Property
   href: api/Hedgehog.Linq.Property.html

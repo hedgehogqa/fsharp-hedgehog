@@ -318,7 +318,7 @@ if you want another size then you should explicitly use 'resize'.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_NotNull_Gen" data-uid="Hedgehog.Linq.GenExtensions.NotNull-Gen">
   NotNull(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L256"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L272"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a value that is not null.</p>
@@ -908,10 +908,11 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action" data-uid="Hedgehog.Linq.GenExtensions.TryFinally-Gen-Action">
   TryFinally(Gen, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L214"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L219"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Ensures a cleanup action runs after the generator executes, even if an exception is thrown.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -933,10 +934,15 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_TryWith_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.TryWith-Gen-Func">
   TryWith(Gen, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L218"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L234"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Catches exceptions thrown by a generator and handles them with a recovery function.
+Use this to provide fallback behavior when a generator might throw an exception.</p>
+<p><strong>Example:</strong></p>
+<pre><code> var gen = riskyGen.TryWith(ex =&gt; Gen.Constant(defaultValue));
+</code></pre>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -958,7 +964,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Tuple2_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple2-Gen">
   Tuple2(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L222"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L238"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -983,7 +989,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Tuple3_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple3-Gen">
   Tuple3(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L226"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L242"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1008,7 +1014,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Tuple4_Gen" data-uid="Hedgehog.Linq.GenExtensions.Tuple4-Gen">
   Tuple4(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L230"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L246"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1033,7 +1039,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Where_Gen_Func" data-uid="Hedgehog.Linq.GenExtensions.Where-Gen-Func">
   Where(Gen, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L235"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L251"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a value that satisfies a predicate.</p>
@@ -1059,7 +1065,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_WithNull_Gen" data-uid="Hedgehog.Linq.GenExtensions.WithNull-Gen">
   WithNull(Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L251"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L267"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1084,7 +1090,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen-Gen">
   Zip(Gen, Gen, Gen, Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L247"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L263"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1109,7 +1115,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen-Gen">
   Zip(Gen, Gen, Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L243"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L259"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1134,7 +1140,7 @@ given character generator.</p>
 
   <h3 id="Hedgehog_Linq_GenExtensions_Zip_Gen_Gen" data-uid="Hedgehog.Linq.GenExtensions.Zip-Gen-Gen">
   Zip(Gen, Gen)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L239"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Extensions.fs/#L255"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
