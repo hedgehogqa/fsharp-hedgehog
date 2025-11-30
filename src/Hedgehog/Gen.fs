@@ -23,9 +23,11 @@ module Gen =
     let delay (f : unit -> Gen<'a>) : Gen<'a> =
         Random.delay (toRandom << f) |> ofRandom
 
+    /// Ensures a cleanup function runs after a generator executes, even if it throws an exception.
     let tryFinally (after : unit -> unit) (m : Gen<'a>) : Gen<'a> =
         toRandom m |> Random.tryFinally after |> ofRandom
 
+    /// Catches exceptions thrown by a generator and handles them with a recovery function.
     let tryWith (k : exn -> Gen<'a>) (m : Gen<'a>) : Gen<'a> =
         toRandom m |> Random.tryWith (toRandom << k) |> ofRandom
 
