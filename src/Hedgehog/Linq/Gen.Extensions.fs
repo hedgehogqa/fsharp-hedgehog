@@ -209,10 +209,26 @@ type GenExtensions private () =
     static member ToRandom (gen : Gen<'T>) : Random<Tree<'T>> =
         Gen.toRandom gen
 
+    /// <summary>
+    /// Ensures a cleanup action runs after the generator executes, even if an exception is thrown.
+    /// </summary>
+    /// <param name="gen">The generator to wrap with cleanup logic.</param>
+    /// <param name="after">Action to execute after the generator completes or fails.</param>
     [<Extension>]
     static member TryFinally (gen : Gen<'T>, after : Action) : Gen<'T> =
         Gen.tryFinally after.Invoke gen
 
+    /// <summary>
+    /// Catches exceptions thrown by a generator and handles them with a recovery function.
+    /// Use this to provide fallback behavior when a generator might throw an exception.
+    /// </summary>
+    /// <param name="gen">The generator that might throw an exception.</param>
+    /// <param name="after">Function that receives the exception and returns a recovery generator.</param>
+    /// <example>
+    /// <code>
+    /// var gen = riskyGen.TryWith(ex => Gen.Constant(defaultValue));
+    /// </code>
+    /// </example>
     [<Extension>]
     static member TryWith (gen : Gen<'T>, after : Func<exn, Gen<'T>>) : Gen<'T> =
         Gen.tryWith after.Invoke gen

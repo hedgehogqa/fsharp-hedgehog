@@ -71,6 +71,7 @@ Failures are automatically simplified, giving developers coherent, intelligible 
     <Compile Include="Linq\Gen.fs" />
     <Compile Include="Linq\Gen.Extensions.fs" />
     <Compile Include="Linq\Gen.Collections.fs" />
+    <Compile Include="Linq\Gen.Functions.fs" />
     <Compile Include="Linq\AutoGenExtensions.fs" />
     <Compile Include="Linq\PropertyConfig.fs" />
     <Compile Include="Linq\Property.fs" />
