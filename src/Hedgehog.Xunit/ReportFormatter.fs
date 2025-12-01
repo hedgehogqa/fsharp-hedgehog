@@ -16,7 +16,7 @@ open System.Text
 /// internal frames as the exception propagates. We remove everything from that marker onwards
 /// to show only the user's code in the test failure report.
 let private filterExceptionStackTrace (exceptionEntry: string) : string =
-    match exceptionEntry.IndexOf("---") with
+    match exceptionEntry.IndexOf("--- End of inner exception stack trace ---") with
     | -1 -> exceptionEntry  // No marker found, return as-is
     | idx -> exceptionEntry.Substring(0, idx).TrimEnd()
 

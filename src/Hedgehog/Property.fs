@@ -13,6 +13,7 @@ type Property<'a> =
 namespace Hedgehog.FSharp
 
 open System
+open System.Reflection
 open Hedgehog
 
 module Property =
@@ -68,6 +69,14 @@ module Property =
         (Journal.singleton msg, Success ()) |> GenLazy.constant |> ofGen
 
     let map (f : 'a -> 'b) (x : Property<'a>) : Property<'b> =
+        let rec unwrapException (e : exn) : exn =
+            match e with
+            | :? TargetInvocationException as tie when not (isNull tie.InnerException) ->
+                unwrapException tie.InnerException
+            | :? AggregateException as ae when ae.InnerExceptions.Count = 1 ->
+                unwrapException ae.InnerException
+            | _ -> e
+
         let g (j, outcome) =
             try
                 (j, outcome |> Outcome.map f)
@@ -76,7 +85,8 @@ module Property =
                 // Don't include internal exception in journal - it's just a signal
                 (j, Failure)
             | e ->
-                (Journal.append j (Journal.singletonMessage (string e)), Failure)
+                let unwrapped = unwrapException e
+                (Journal.append j (Journal.singletonMessage (string unwrapped)), Failure)
         x |> toGen |> GenLazy.map g |> ofGen
 
     let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
