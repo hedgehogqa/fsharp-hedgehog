@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Release with confidence.</Description>
     <Authors>Jacob Stanley;Nikos Baxevanis</Authors>
     <Copyright>Copyright © 2017</Copyright>
