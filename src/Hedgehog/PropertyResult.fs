@@ -29,7 +29,7 @@ module internal PropertyResult =
                 return (Journal.singletonMessage "Async computation was canceled", Failure)
 #endif
             | ex ->
-                return (Journal.singletonMessage (string ex), Failure)
+                return (Journal.exn ex, Failure)
         })
 
     /// Apply a function to the outcome, handling both sync and async cases

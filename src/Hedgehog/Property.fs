@@ -93,7 +93,7 @@ module Property =
                 | :? System.OperationCanceledException ->
                     return (Journal.singletonMessage "Task was canceled", Failure)
                 | ex ->
-                    return (Journal.singletonMessage (string ex), Failure)
+                    return (Journal.exn ex, Failure)
             })))
         |> Property
 
@@ -109,7 +109,7 @@ module Property =
                 | :? System.OperationCanceledException ->
                     return (Journal.singletonMessage "Task was canceled", Failure)
                 | ex ->
-                    return (Journal.singletonMessage (string ex), Failure)
+                    return (Journal.exn ex, Failure)
             })))
         |> Property
 #endif
@@ -171,8 +171,7 @@ module Property =
                 // Don't include internal exception in journal - it's just a signal.
                 (j, Failure)
             | e ->
-                let unwrapped = Exceptions.unwrap e
-                (Journal.append j (Journal.singletonMessage (string unwrapped)), Failure)
+                (Journal.append j (Journal.exn e), Failure)
 
         let g (lazyResult : Lazy<PropertyResult<'a>>) =
             lazy (PropertyResult.map applyWithExceptionHandling lazyResult.Value)
@@ -249,7 +248,7 @@ module Property =
             try
                 k a |> toGenInternal
             with e ->
-                PropertyResult.ofSync (Journal.singletonMessage (string e)) Failure
+                PropertyResult.ofSync (Journal.exn e) Failure
                 |> GenLazy.constant
         m
         |> toGenInternal

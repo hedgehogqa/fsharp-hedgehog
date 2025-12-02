@@ -23,6 +23,8 @@ module Array =
         (first, middle, Some last)
 
 module Seq =
+  let inline tryMin xs =
+    if Seq.isEmpty xs then None else Some (Seq.min xs)
 
   // https://github.com/dotnet/fsharp/blob/b9942004e8ba19bf73862b69b2d71151a98975ba/src/FSharp.Core/seqcore.fs#L172-L174
   let inline private checkNonNull argName arg =

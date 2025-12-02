@@ -258,10 +258,8 @@ module private PropertyBuilder =
             match result with
             | :? exn as e -> 
                 // Exception was thrown - create a failing property
-                Property.failure
-                |> Property.bind (fun () -> 
-                    Property.counterexample (fun () -> string e)
-                    |> Property.bind (fun () -> Property.failure))
+                Property.counterexample (fun () -> string e)
+                |> Property.bind (fun () -> Property.failure)
             | _ -> wrapReturnValue result
 
 

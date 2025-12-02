@@ -1,5 +1,5 @@
 [<RequireQualifiedAccess>]
-module internal Hedgehog.Exceptions
+module Hedgehog.Exceptions
 
 open System
 open System.Reflection
