@@ -157,6 +157,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member renderSample : Gen&lt;&#39;a&gt; -&gt; string
   member resize : int -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member sample : Size -&gt; int -&gt; Gen&lt;&#39;a&gt; -&gt; &#39;a seq
+  member sampleFrom : Size -&gt; int -&gt; Gen&lt;&#39;a&gt; -&gt; &#39;a seq
   member sampleTree : Size -&gt; int -&gt; Gen&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; seq
   member sbyte : Range&lt;sbyte&gt; -&gt; Gen&lt;sbyte&gt;
   member scale : int -&gt; int -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
@@ -1376,9 +1377,37 @@ from the recursive list.
 
 
 
+  <h3 id="Hedgehog_FSharp_Gen_sampleFrom_Size_int_Gen" data-uid="Hedgehog.FSharp.Gen.sampleFrom-Size-int-Gen">
+  sampleFrom
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L419"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a sample sequence of values by scaling through sizes from startSize.
+This is useful for visualizing how a range scales across different sizes.
+Uses a random seed for generating output.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val sampleFrom : Size -&gt; int -&gt; Gen&lt;&#39;a&gt; -&gt; &#39;a seq</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_Gen_generateTree_Gen" data-uid="Hedgehog.FSharp.Gen.generateTree-Gen">
   generateTree
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L415"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L429"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Run a generator. The size passed to the generator is always 30;
@@ -1405,7 +1434,7 @@ if you want another size then you should explicitly use 'resize'.</p>
 
   <h3 id="Hedgehog_FSharp_Gen_renderSample_Gen" data-uid="Hedgehog.FSharp.Gen.renderSample-Gen">
   renderSample
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L423"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.fs/#L437"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Samples the gen 5 times with a Size of 10, called the &quot;Outcome&quot; in the returned string.

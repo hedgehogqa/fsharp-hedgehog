@@ -2,11 +2,11 @@
 <html lang="fsharp">
   <head>
     <meta charset="utf-8">
-      <title>Class PropertiesAttribute | Hedgehog .NET </title>
+      <title>Class Exceptions | Hedgehog .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class PropertiesAttribute | Hedgehog .NET ">
+      <meta name="title" content="Class Exceptions | Hedgehog .NET ">
       
-      <meta name="description" content="Set a default AutoGenConfig or  for all [] attributed methods in this class/module">
+      
       <link rel="icon" href="../images/favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Xunit_PropertiesAttribute.md&amp;value=---%0Auid%3A%20Hedgehog.Xunit.PropertiesAttribute%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Exceptions.md&amp;value=---%0Auid%3A%20Hedgehog.Exceptions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -83,36 +83,31 @@
 
         </div>
 
-        <article data-uid="Hedgehog.Xunit.PropertiesAttribute">
+        <article data-uid="Hedgehog.Exceptions">
 
 
 
-  <h1 id="Hedgehog_Xunit_PropertiesAttribute" data-uid="Hedgehog.Xunit.PropertiesAttribute" class="text-break">
-Class PropertiesAttribute  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L44"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Hedgehog_Exceptions" data-uid="Hedgehog.Exceptions" class="text-break">
+Class Exceptions  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Exceptions.fs/#L3"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Xunit</span></dd></dl>
-  <dl><dt>Assembly</dt><dd>Hedgehog.Xunit.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog</span></dd></dl>
+  <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Set a default AutoGenConfig or <tests> for all [<property>] attributed methods in this class/module</property></tests></p>
-</div>
+  <div class="markdown summary"></div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type PropertiesAttribute =
-  member AutoGenConfig : unit
-  member AutoGenConfigArgs : unit
-  member Shrinks : unit
-  member Size : unit
-  member Tests : unit</code></pre>
+    <pre><code class="lang-fsharp hljs">type Exceptions =
+  member unwrap : exn -&gt; exn</code></pre>
   </div>
 
 
 
 
-      <div><span class="xref">PropertiesAttribute</span></div>
+      <div><span class="xref">Exceptions</span></div>
 
 
 
@@ -127,116 +122,18 @@ Class PropertiesAttribute  <a class="header-action link-secondary" title="View s
 
 
 
-  <h3 id="Hedgehog_Xunit_PropertiesAttribute_Shrinks" data-uid="Hedgehog.Xunit.PropertiesAttribute.Shrinks">
-  Shrinks
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L56"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Exceptions_unwrap_exn" data-uid="Hedgehog.Exceptions.unwrap-exn">
+  unwrap
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Exceptions.fs/#L10"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Recursively unwraps wrapper exceptions to get to the actual meaningful exception.
+Unwraps TargetInvocationException (from reflection) and single-inner AggregateException (from async/tasks).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Shrinks : unit</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Xunit_PropertiesAttribute_AutoGenConfigArgs" data-uid="Hedgehog.Xunit.PropertiesAttribute.AutoGenConfigArgs">
-  AutoGenConfigArgs
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L54"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val AutoGenConfigArgs : unit</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Xunit_PropertiesAttribute_Size" data-uid="Hedgehog.Xunit.PropertiesAttribute.Size">
-  Size
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L57"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Size : unit</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Xunit_PropertiesAttribute_AutoGenConfig" data-uid="Hedgehog.Xunit.PropertiesAttribute.AutoGenConfig">
-  AutoGenConfig
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L53"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val AutoGenConfig : unit</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Xunit_PropertiesAttribute_Tests" data-uid="Hedgehog.Xunit.PropertiesAttribute.Tests">
-  Tests
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Xunit/PropertyTestAttributes.fs/#L55"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Tests : unit</code></pre>
+    <pre><code class="lang-fsharp hljs">val unwrap : exn -&gt; exn</code></pre>
   </div>
 
 

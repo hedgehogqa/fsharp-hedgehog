@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_FSharp_PropertyBuilder_Builder" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder" class="text-break">
-Class Builder  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L343"><i class="bi bi-code-slash"></i></a>
+Class Builder  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L728"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -101,7 +101,15 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">type Builder =
+  member Bind : Property&lt;Task&lt;&#39;a&gt;&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : Property&lt;Async&lt;&#39;a&gt;&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
   member Bind : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
   member BindReturn : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
   member Combine : Property&lt;unit&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member Counterexample : &#39;a -&gt; string -&gt; Property&lt;&#39;a&gt;
@@ -109,7 +117,13 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   member For : &#39;a -&gt; &#39;a0 -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;
   member For : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
   member MergeSources : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;
+  member Return : Task -&gt; Property&lt;unit&gt;
+  member Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;
+  member Return : Async&lt;unit&gt; -&gt; Property&lt;unit&gt;
   member Return : bool -&gt; Property&lt;unit&gt;
+  member ReturnFrom : Task -&gt; Property&lt;unit&gt;
+  member ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member ReturnFrom : Async&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member ReturnFrom : Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member TryFinally : Property&lt;&#39;a&gt; -&gt; unit -&gt; unit -&gt; Property&lt;&#39;a&gt;
   member TryWith : Property&lt;&#39;a&gt; -&gt; exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
@@ -138,9 +152,134 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
 
 
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a">
+  Bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L762"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Task-a">
+  Bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L826"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Bind : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a">
+  Bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L762"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Async-a">
+  Bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L766"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Bind : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a">
+  Bind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L762"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Gen-a">
   Bind
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L374"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L759"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -163,9 +302,84 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
 
 
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Task-a">
+  BindReturn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L842"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val BindReturn : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Async-a">
+  BindReturn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L792"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val BindReturn : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Property-a">
+  BindReturn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L788"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val BindReturn : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Gen-a">
   BindReturn
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L380"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L780"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -190,7 +404,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Combine_Property_Property" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Combine-Property-Property">
   Combine
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L360"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L745"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -215,7 +429,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Counterexample_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Counterexample-a">
   Counterexample
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L399"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L812"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -240,7 +454,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Delay_unit" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Delay-unit">
   Delay
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L392"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L805"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -265,7 +479,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_For_a_a0" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.For-a-a0">
   For
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L347"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L732"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -290,7 +504,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_For_Property_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.For-Property-a">
   For
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L344"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L729"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -315,7 +529,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_MergeSources_Gen_Gen" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.MergeSources-Gen-Gen">
   MergeSources
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L386"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L795"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -338,9 +552,84 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
 
 
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Return-Task">
+  Return
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L834"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Return-Task">
+  Return
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L834"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Return-Async">
+  Return
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L777"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val Return : Async&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Return-bool">
   Return
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L377"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L773"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -363,9 +652,84 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
 
 
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Task">
+  ReturnFrom
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L846"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Task">
+  ReturnFrom
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L846"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Async">
+  ReturnFrom
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L802"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ReturnFrom : Async&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Property">
   ReturnFrom
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L389"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L798"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -390,7 +754,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_TryFinally_Property_unit" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.TryFinally-Property-unit">
   TryFinally
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L363"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L748"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -415,7 +779,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_TryWith_Property_exn" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.TryWith-Property-exn">
   TryWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L366"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L751"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -440,7 +804,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Using_a_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Using-a-a">
   Using
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L369"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L754"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -465,7 +829,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Where_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Where-a">
   Where
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L405"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L818"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -490,7 +854,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_While_unit_Property" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.While-unit-Property">
   While
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L354"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L739"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -515,7 +879,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Yield_a" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Yield-a">
   Yield
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L357"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L742"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -540,7 +904,7 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
 
   <h3 id="Hedgehog_FSharp_PropertyBuilder_Builder_Zero" data-uid="Hedgehog.FSharp.PropertyBuilder.Builder.Zero">
   Zero
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L395"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L808"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>

@@ -221,6 +221,10 @@ propAdd.Check();
 <p>Notice Hedgehog didn't just find <em>a</em> failing case - it found the <strong>smallest</strong> one: <code>a = 101, b = 0</code>. This is automatic shrinking in action.</p>
 <h2 id="integration-with-test-frameworks">Integration with Test Frameworks</h2>
 <h3 id="xunit">xUnit</h3>
+<div class="TIP">
+<h5>Tip</h5>
+<p>Hedgehog provides integrated support for xUnit v3 in <a href="../xunit/">Hedgehog.Xunit</a> package.</p>
+</div>
 <div class="tabGroup" id="tabgroup_3">
 <ul role="tablist">
 <li role="presentation">
@@ -434,8 +438,8 @@ property.Check();
 </div>
 
 <p>Auto-generation works with records, unions, tuples, classes, and collections. For advanced customization and registering custom generators, see the <a href="auto-generation.html">Auto-Generation Guide</a>.</p>
-<h2 id="controlling-test-runs">Controlling Test Runs</h2>
-<p>You can customize how many tests to run and other settings:</p>
+<h2 id="testing-asynchronous-functions">Testing Asynchronous Functions</h2>
+<p>Hedgehog provides first-class support for testing asynchronous code using F# <code>async</code> computations and C# <code>Task</code>/<code>Task&lt;T&gt;</code>. You can bind async operations directly in the <code>property</code> computation expression or LINQ query syntax.</p>
 <div class="tabGroup" id="tabgroup_7">
 <ul role="tablist">
 <li role="presentation">
@@ -446,6 +450,56 @@ property.Check();
 </li>
 </ul>
 <section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open Hedgehog
+open Hedgehog.FSharp
+
+property {
+    let! x = Gen.int32 (Range.constant 0 100)
+    let! y = async { return x + 1 }
+    return y = x + 1
+}
+|&gt; Property.checkBoolAsync
+</code></pre>
+<p>You can mix <code>async</code> and <code>task</code>:</p>
+<pre><code class="lang-fsharp">open System.Threading.Tasks
+
+property {
+    let! x = Gen.int32 (Range.constant 0 100)
+    let! y = async { return x + 1 }
+    let! z = task { return y * 2 }
+    return z = (x + 1) * 2
+}
+|&gt; Property.checkBoolAsync
+</code></pre>
+</section>
+<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using Hedgehog;
+using Hedgehog.Linq;
+using System.Threading.Tasks;
+
+var property =
+    from x in Gen.Int32(Range.Constant(0, 100)).ForAll()
+    from y in Task.FromResult(x + 1)
+    select y == x + 1;
+
+property.CheckAsync();
+</code></pre>
+</section>
+</div>
+<h2 id="controlling-test-runs">Controlling Test Runs</h2>
+<p>You can customize how many tests to run and other settings:</p>
+<div class="tabGroup" id="tabgroup_8">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_8_fsharp" role="tab" aria-controls="tabpanel_8_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_8_csharp" role="tab" aria-controls="tabpanel_8_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">open Hedgehog
 open Hedgehog.FSharp
@@ -461,7 +515,7 @@ property {
 |&gt; Property.checkWith config
 </code></pre>
 </section>
-<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">using Hedgehog;
 using Hedgehog.Linq;
@@ -480,16 +534,16 @@ property.Check(config);
 <h2 id="common-patterns">Common Patterns</h2>
 <h3 id="re-running-failing-tests">Re-running Failing Tests</h3>
 <p>When a property fails, Hedgehog provides a seed that you can use to reproduce the exact failure:</p>
-<div class="tabGroup" id="tabgroup_8">
+<div class="tabGroup" id="tabgroup_9">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_8_fsharp" role="tab" aria-controls="tabpanel_8_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_8_csharp" role="tab" aria-controls="tabpanel_8_csharp" data-tab="csharp" tabindex="-1">C#</a>
+<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
 </li>
 </ul>
-<section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
+<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">open Hedgehog
 open Hedgehog.FSharp
@@ -512,7 +566,7 @@ Property.check prop
 Property.recheck &quot;1a2b3c4d&quot; prop
 </code></pre>
 </section>
-<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">using Hedgehog;
 using Hedgehog.Linq;
@@ -544,16 +598,16 @@ prop.Recheck(&quot;1a2b3c4d&quot;);
 </ul>
 <h3 id="adding-debug-information">Adding Debug Information</h3>
 <p>Use <code>counterexample</code> to add context when tests fail:</p>
-<div class="tabGroup" id="tabgroup_9">
+<div class="tabGroup" id="tabgroup_10">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+<a href="#tabpanel_10_fsharp" role="tab" aria-controls="tabpanel_10_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+<a href="#tabpanel_10_csharp" role="tab" aria-controls="tabpanel_10_csharp" data-tab="csharp" tabindex="-1">C#</a>
 </li>
 </ul>
-<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+<section id="tabpanel_10_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">open Hedgehog
 open Hedgehog.FSharp
@@ -567,7 +621,7 @@ property {
 |&gt; Property.check
 </code></pre>
 </section>
-<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_10_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">using Hedgehog;
 using Hedgehog.Linq;

@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class Property | Hedgehog .NET ">
       
-      
+      <meta name="description" content="Functions for building and executing property-based tests. Properties represent testable specifications that should hold true for all generated inputs.">
       <link rel="icon" href="../images/favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_FSharp_Property" data-uid="Hedgehog.FSharp.Property" class="text-break">
-Class Property  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L19"><i class="bi bi-code-slash"></i></a>
+Class Property  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L21"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -96,7 +96,9 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <dl><dt>Assembly</dt><dd>Hedgehog.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"></div>
+  <div class="markdown summary"><p>Functions for building and executing property-based tests.
+Properties represent testable specifications that should hold true for all generated inputs.</p>
+</div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
@@ -105,8 +107,16 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   member bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member check : Property&lt;unit&gt; -&gt; unit
+  member checkAsync : Property&lt;unit&gt; -&gt; Async&lt;unit&gt;
+  member checkAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;unit&gt;
   member checkBool : Property&lt;bool&gt; -&gt; unit
+  member checkBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;unit&gt;
+  member checkBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;unit&gt;
+  member checkBoolTask : Property&lt;bool&gt; -&gt; Task&lt;unit&gt;
+  member checkBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;unit&gt;
   member checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit
+  member checkTask : Property&lt;unit&gt; -&gt; Task&lt;unit&gt;
+  member checkTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;unit&gt;
   member checkWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit
   member counterexample : unit -&gt; string -&gt; Property&lt;unit&gt;
   member delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
@@ -117,9 +127,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   member forAll : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member forAll&#39; : Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member map : &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
+  member ofAsync : Async&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;
   member ofBool : bool -&gt; Property&lt;unit&gt;
   member ofGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt; -&gt; Property&lt;&#39;a&gt;
   member ofOutcome : Outcome&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member ofTask : Task&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;
+  member ofTaskUnit : Task -&gt; Property&lt;unit&gt;
   member recheck : string -&gt; Property&lt;unit&gt; -&gt; unit
   member recheckBool : string -&gt; Property&lt;bool&gt; -&gt; unit
   member recheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit
@@ -129,12 +142,20 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   member renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string
   member renderWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; string
   member report : Property&lt;unit&gt; -&gt; Report
+  member reportAsync : Property&lt;unit&gt; -&gt; Async&lt;Report&gt;
+  member reportAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;Report&gt;
   member reportBool : Property&lt;bool&gt; -&gt; Report
+  member reportBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;Report&gt;
+  member reportBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;Report&gt;
+  member reportBoolTask : Property&lt;bool&gt; -&gt; Task&lt;Report&gt;
+  member reportBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;Report&gt;
   member reportBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report
   member reportRecheck : string -&gt; Property&lt;unit&gt; -&gt; Report
   member reportRecheckBool : string -&gt; Property&lt;bool&gt; -&gt; Report
   member reportRecheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report
   member reportRecheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report
+  member reportTask : Property&lt;unit&gt; -&gt; Task&lt;Report&gt;
+  member reportTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;Report&gt;
   member reportWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report
   member success : &#39;a -&gt; Property&lt;&#39;a&gt;
   member toGen : Property&lt;&#39;a&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt;
@@ -163,10 +184,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_ofGen_Gen" data-uid="Hedgehog.FSharp.Property.ofGen-Gen">
   ofGen
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L21"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L43"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a property from a generator that produces journaled outcomes.
+This is a low-level function primarily used internally.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -188,10 +211,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_toGen_Property" data-uid="Hedgehog.FSharp.Property.toGen-Property">
   toGen
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L24"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L48"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Extracts the underlying generator from a property.
+This is a low-level function primarily used internally.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -213,10 +238,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_tryFinally_unit_Property" data-uid="Hedgehog.FSharp.Property.tryFinally-unit-Property">
   tryFinally
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L27"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L57"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Ensures cleanup code runs after a property executes, whether it succeeds or fails.
+Useful for releasing resources like file handles or database connections.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -238,10 +265,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_tryWith_exn_Property" data-uid="Hedgehog.FSharp.Property.tryWith-exn-Property">
   tryWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L30"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L62"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Handles exceptions thrown during property execution by converting them into alternative properties.
+This allows graceful error handling and custom failure messages.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -263,10 +292,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_delay_unit" data-uid="Hedgehog.FSharp.Property.delay-unit">
   delay
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L33"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L67"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Delays the evaluation of a property until it's actually needed.
+This enables recursive property definitions and lazy construction.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -288,10 +319,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_using_a_a" data-uid="Hedgehog.FSharp.Property.using-a-a">
   using
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L36"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L72"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Safely uses a disposable resource within a property, ensuring it's properly disposed after use.
+The resource is automatically disposed even if the property fails.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -311,12 +344,97 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
 
 
-  <h3 id="Hedgehog_FSharp_Property_filter_a_Property" data-uid="Hedgehog.FSharp.Property.filter-a-Property">
-  filter
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L47"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_FSharp_Property_ofTask_Task" data-uid="Hedgehog.FSharp.Property.ofTask-Task">
+  ofTask
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L87"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Converts a Task into a property that can be used in property-based tests.
+The property succeeds when the task completes successfully, and fails if the task throws an exception or is canceled.
+This enables testing of async/await code using C# Tasks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofTask : Task&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_ofTaskUnit_Task" data-uid="Hedgehog.FSharp.Property.ofTaskUnit-Task">
+  ofTaskUnit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L103"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts a non-generic Task into a property.
+Use this for Tasks that don't return a value (void async methods in C#).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofTaskUnit : Task -&gt; Property&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_ofAsync_Async" data-uid="Hedgehog.FSharp.Property.ofAsync-Async">
+  ofAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L121"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts an F# async computation into a property that can be used in property-based tests.
+The property succeeds when the async computation completes successfully, and fails if it throws an exception.
+This enables testing of asynchronous F# code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val ofAsync : Async&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_filter_a_Property" data-uid="Hedgehog.FSharp.Property.filter-a-Property">
+  filter
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Discards test cases where the predicate returns false, causing Hedgehog to generate a new test case.
+Use sparingly as excessive filtering can lead to &quot;gave up&quot; results when too many cases are discarded.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -338,10 +456,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_ofOutcome_Outcome" data-uid="Hedgehog.FSharp.Property.ofOutcome-Outcome">
   ofOutcome
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L50"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L132"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a property from an explicit test outcome (Success, Failure, or Discard).
+This is a low-level function primarily used internally or for custom property combinators.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -363,10 +483,11 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_failure" data-uid="Hedgehog.FSharp.Property.failure">
   failure
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L53"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L136"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A property that always fails. Use this to explicitly fail a test.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -388,10 +509,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_discard" data-uid="Hedgehog.FSharp.Property.discard">
   discard
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L56"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L141"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A property that discards the current test case, causing a new one to be generated.
+Use sparingly to avoid &quot;gave up&quot; results.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -413,10 +536,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_success_a" data-uid="Hedgehog.FSharp.Property.success-a">
   success
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L59"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L146"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A property that always succeeds with the given value.
+This is the property monad's return/pure operation.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -438,10 +563,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_ofBool_bool" data-uid="Hedgehog.FSharp.Property.ofBool-bool">
   ofBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L62"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L151"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Converts a boolean into a property: true becomes success, false becomes failure.
+Useful for asserting simple boolean conditions in property tests.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -463,10 +590,13 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_counterexample_unit" data-uid="Hedgehog.FSharp.Property.counterexample-unit">
   counterexample
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L68"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L160"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds a message to the test journal that will be displayed if the test fails.
+Use this to provide context about generated values or intermediate results that led to a failure.
+The message function is only evaluated if the test fails.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -488,10 +618,13 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_map_a_Property" data-uid="Hedgehog.FSharp.Property.map-a-Property">
   map
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L71"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L166"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Transforms the successful result of a property using the provided function.
+If the function throws an exception, the property fails with the exception message.
+This is the functor map operation for properties.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -513,12 +646,12 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <h3 id="Hedgehog_FSharp_Property_bind_a_Property" data-uid="Hedgehog.FSharp.Property.bind-a-Property">
   bind
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L102"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L247"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Monadic bind operation for properties.
-Applies a property-returning function to the result of another property,
-sequencing their execution and combining their journals.</p>
+  <div class="markdown level1 summary"><p>Sequences two properties together, passing the result of the first to a function that produces the second.
+This is the monadic bind operation that enables property composition and dependent testing.
+The journals from both properties are combined in the final result.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
@@ -541,7 +674,7 @@ sequencing their execution and combining their journals.</p>
 
   <h3 id="Hedgehog_FSharp_Property_bindWith_a_a_Gen" data-uid="Hedgehog.FSharp.Property.bindWith-a-a-Gen">
   bindWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L118"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L264"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Binds a generator to a property-returning function while adding custom journal entries.
@@ -571,7 +704,7 @@ the failure output with information about the generated input values.</p>
 
   <h3 id="Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen" data-uid="Hedgehog.FSharp.Property.bindReturnWith-a-a-Gen">
   bindReturnWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L137"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L284"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Binds a generator to a value-returning function while adding custom journal entries.
@@ -602,10 +735,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_falseToFailure_Property" data-uid="Hedgehog.FSharp.Property.falseToFailure-Property">
   falseToFailure
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L143"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L292"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Converts a boolean property to a unit property, treating false as a failure.
+This is used internally to support boolean property testing.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -627,10 +762,13 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_forAll_a_Gen" data-uid="Hedgehog.FSharp.Property.forAll-a-Gen">
   forAll
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L166"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L317"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a property that tests whether a condition holds for all values generated by the given generator.
+Generated values are automatically added to the test journal and will be shown if the test fails.
+This is the primary way to introduce generated test data into your properties.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -652,10 +790,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_forAll_Gen" data-uid="Hedgehog.FSharp.Property.forAll-Gen">
   forAll&#39;
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L175"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L328"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a property that succeeds with the generated value, logging it to the journal.
+Useful when you just want to generate a value and return it without additional assertions.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -677,10 +817,13 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportWith-IPropertyConfig-Property">
   reportWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L270"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L483"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with custom configuration and returns a detailed report.
+The report includes the number of tests run, discards, and failure information with shrunk counterexamples.
+This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -702,10 +845,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_report_Property" data-uid="Hedgehog.FSharp.Property.report-Property">
   report
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L273"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L488"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with default configuration and returns a detailed report.
+By default, runs 100 tests. This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -727,10 +872,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportBoolWith-IPropertyConfig-Property">
   reportBoolWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L276"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L493"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with custom configuration and returns a detailed report.
+Converts false results to failures. This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -752,10 +899,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportBool_Property" data-uid="Hedgehog.FSharp.Property.reportBool-Property">
   reportBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L279"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L498"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with default configuration and returns a detailed report.
+Converts false results to failures. This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -777,10 +926,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkWith-IPropertyConfig-Property">
   checkWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L282"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L503"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with custom configuration and throws an exception if it fails.
+This blocks until all tests complete. Use this in test frameworks that expect exceptions on failure.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -802,10 +953,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_check_Property" data-uid="Hedgehog.FSharp.Property.check-Property">
   check
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L285"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L508"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with default configuration and throws an exception if it fails.
+This blocks until all tests complete. This is the most common way to run property tests.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -827,10 +980,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_checkBool_Property" data-uid="Hedgehog.FSharp.Property.checkBool-Property">
   checkBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L288"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L513"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with default configuration and throws an exception if it fails.
+Converts false results to failures. This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -852,10 +1007,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkBoolWith-IPropertyConfig-Property">
   checkBoolWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L291"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L518"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with custom configuration and throws an exception if it fails.
+Converts false results to failures. This blocks until all tests complete.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -877,10 +1034,13 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckWith-string-IPropertyConfig-Property">
   reportRecheckWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L294"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L524"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed test case using the recheck data from a failure report.
+This is useful for debugging specific failures by reproducing them exactly.
+The config parameter is currently ignored but kept for API consistency.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -902,10 +1062,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportRecheck_string_Property" data-uid="Hedgehog.FSharp.Property.reportRecheck-string-Property">
   reportRecheck
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L301"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L533"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed test case using the recheck data from a failure report.
+This uses default configuration and is useful for quickly reproducing specific failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -927,10 +1089,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckBoolWith-string-IPropertyConfig-Property">
   reportRecheckBoolWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L304"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L538"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed boolean property test using recheck data with custom configuration.
+Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -952,10 +1116,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_reportRecheckBool_string_Property" data-uid="Hedgehog.FSharp.Property.reportRecheckBool-string-Property">
   reportRecheckBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L307"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L543"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed boolean property test using recheck data with default configuration.
+Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -977,10 +1143,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.recheckWith-string-IPropertyConfig-Property">
   recheckWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L310"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L548"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed test case and throws an exception if it still fails.
+Uses custom configuration. This is useful for debugging failures in test frameworks.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1002,10 +1170,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_recheck_string_Property" data-uid="Hedgehog.FSharp.Property.recheck-string-Property">
   recheck
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L313"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L553"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed test case and throws an exception if it still fails.
+Uses default configuration. This is the most common way to reproduce specific failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1027,10 +1197,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.recheckBoolWith-string-IPropertyConfig-Property">
   recheckBoolWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L316"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L558"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed boolean property test and throws an exception if it still fails.
+Uses custom configuration. Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1052,10 +1224,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_recheckBool_string_Property" data-uid="Hedgehog.FSharp.Property.recheckBool-string-Property">
   recheckBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L319"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L563"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Re-runs a previously failed boolean property test and throws an exception if it still fails.
+Uses default configuration. Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1077,10 +1251,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.renderWith-IPropertyConfig-Property">
   renderWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L322"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L568"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with custom configuration and returns the report as a formatted string.
+This is useful for custom test result formatting or logging.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1102,10 +1278,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_render_Property" data-uid="Hedgehog.FSharp.Property.render-Property">
   render
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L325"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L573"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a property test with default configuration and returns the report as a formatted string.
+This is useful for custom test result formatting or logging.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1127,10 +1305,12 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_renderBool_Property" data-uid="Hedgehog.FSharp.Property.renderBool-Property">
   renderBool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L328"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L578"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with default configuration and returns the report as a formatted string.
+Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
@@ -1152,14 +1332,449 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
 
   <h3 id="Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.renderBoolWith-IPropertyConfig-Property">
   renderBoolWith
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L331"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L583"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Runs a boolean property test with custom configuration and returns the report as a formatted string.
+Converts false results to failures.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">val renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportAsyncWith-IPropertyConfig-Property">
+  reportAsyncWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L632"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with custom configuration, returning an F# Async that produces a report.
+This is non-blocking and properly handles async properties without blocking threads.
+Use this when testing async code or when you need non-blocking test execution.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportAsync_Property" data-uid="Hedgehog.FSharp.Property.reportAsync-Property">
+  reportAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L637"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with default configuration, returning an F# Async that produces a report.
+This is non-blocking and properly handles async properties without blocking threads.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportAsync : Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkAsyncWith-IPropertyConfig-Property">
+  checkAsyncWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L642"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with custom configuration, throwing an exception if it fails.
+This is non-blocking and properly handles async properties. Returns an F# Async computation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkAsync_Property" data-uid="Hedgehog.FSharp.Property.checkAsync-Property">
+  checkAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L650"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with default configuration, throwing an exception if it fails.
+This is non-blocking and properly handles async properties. This is the recommended way to test async code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkAsync : Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportBoolAsyncWith-IPropertyConfig-Property">
+  reportBoolAsyncWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L658"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with custom configuration, returning an F# Async that produces a report.
+Converts false results to failures. This is non-blocking and properly handles async properties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBoolAsync_Property" data-uid="Hedgehog.FSharp.Property.reportBoolAsync-Property">
+  reportBoolAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L663"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with default configuration, returning an F# Async that produces a report.
+Converts false results to failures. This is non-blocking and properly handles async properties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkBoolAsyncWith-IPropertyConfig-Property">
+  checkBoolAsyncWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L668"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with custom configuration, throwing an exception if it fails.
+Converts false results to failures. Returns an F# Async computation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBoolAsync_Property" data-uid="Hedgehog.FSharp.Property.checkBoolAsync-Property">
+  checkBoolAsync
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L673"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with default configuration, throwing an exception if it fails.
+Converts false results to failures. This is the recommended way to test async boolean properties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportTaskWith-IPropertyConfig-Property">
+  reportTaskWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L679"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with custom configuration, returning a C# Task that produces a report.
+This is non-blocking and properly handles async properties. Use this from C# or when you need Task-based APIs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportTask_Property" data-uid="Hedgehog.FSharp.Property.reportTask-Property">
+  reportTask
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L684"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with default configuration, returning a C# Task that produces a report.
+This is non-blocking and properly handles async properties. Use this from C# or when you need Task-based APIs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportTask : Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkTaskWith-IPropertyConfig-Property">
+  checkTaskWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L689"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with custom configuration, throwing an exception if it fails.
+Returns a C# Task. This is non-blocking and properly handles async properties. Use this from C# test frameworks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkTask_Property" data-uid="Hedgehog.FSharp.Property.checkTask-Property">
+  checkTask
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L694"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a property test asynchronously with default configuration, throwing an exception if it fails.
+Returns a C# Task. This is non-blocking and recommended for testing async C# code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkTask : Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.reportBoolTaskWith-IPropertyConfig-Property">
+  reportBoolTaskWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L699"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with custom configuration, returning a C# Task that produces a report.
+Converts false results to failures. Use this from C# or when you need Task-based APIs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_reportBoolTask_Property" data-uid="Hedgehog.FSharp.Property.reportBoolTask-Property">
+  reportBoolTask
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L704"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with default configuration, returning a C# Task that produces a report.
+Converts false results to failures. Use this from C# or when you need Task-based APIs.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val reportBoolTask : Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property" data-uid="Hedgehog.FSharp.Property.checkBoolTaskWith-IPropertyConfig-Property">
+  checkBoolTaskWith
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L709"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with custom configuration, throwing an exception if it fails.
+Converts false results to failures. Returns a C# Task. Use this from C# test frameworks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Property_checkBoolTask_Property" data-uid="Hedgehog.FSharp.Property.checkBoolTask-Property">
+  checkBoolTask
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Property.fs/#L714"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs a boolean property test asynchronously with default configuration, throwing an exception if it fails.
+Converts false results to failures. Returns a C# Task. Recommended for testing async boolean C# code.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val checkBoolTask : Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
   </div>
 
 

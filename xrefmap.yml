@@ -277,6 +277,18 @@ references:
   commentId: M:Hedgehog.AutoGenContext.CurrentRecursionDepth
   fullName: Hedgehog.AutoGenContext.CurrentRecursionDepth
   nameWithType: CurrentRecursionDepth
+- uid: Hedgehog.Exceptions
+  name: Exceptions
+  href: api/Hedgehog.Exceptions.html
+  commentId: T:Hedgehog.Exceptions
+  fullName: Hedgehog.Exceptions
+  nameWithType: Exceptions
+- uid: Hedgehog.Exceptions.unwrap-exn
+  name: unwrap
+  href: api/Hedgehog.Exceptions.html#Hedgehog_Exceptions_unwrap_exn
+  commentId: M:Hedgehog.Exceptions.unwrap-exn
+  fullName: Hedgehog.Exceptions.unwrap-exn
+  nameWithType: unwrap
 - uid: Hedgehog.FSharp.AutoGenConfig
   name: AutoGenConfig
   href: api/Hedgehog.FSharp.AutoGenConfig.html
@@ -751,6 +763,12 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.sample-Size-int-Gen
   fullName: Hedgehog.FSharp.Gen.sample-Size-int-Gen
   nameWithType: sample
+- uid: Hedgehog.FSharp.Gen.sampleFrom-Size-int-Gen
+  name: sampleFrom
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_sampleFrom_Size_int_Gen
+  commentId: M:Hedgehog.FSharp.Gen.sampleFrom-Size-int-Gen
+  fullName: Hedgehog.FSharp.Gen.sampleFrom-Size-int-Gen
+  nameWithType: sampleFrom
 - uid: Hedgehog.FSharp.Gen.sampleTree-Size-int-Gen
   name: sampleTree
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_sampleTree_Size_int_Gen
@@ -1009,18 +1027,66 @@ references:
   commentId: M:Hedgehog.FSharp.Property.check-Property
   fullName: Hedgehog.FSharp.Property.check-Property
   nameWithType: check
+- uid: Hedgehog.FSharp.Property.checkAsync-Property
+  name: checkAsync
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkAsync_Property
+  commentId: M:Hedgehog.FSharp.Property.checkAsync-Property
+  fullName: Hedgehog.FSharp.Property.checkAsync-Property
+  nameWithType: checkAsync
+- uid: Hedgehog.FSharp.Property.checkAsyncWith-IPropertyConfig-Property
+  name: checkAsyncWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.checkAsyncWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.checkAsyncWith-IPropertyConfig-Property
+  nameWithType: checkAsyncWith
 - uid: Hedgehog.FSharp.Property.checkBool-Property
   name: checkBool
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBool_Property
   commentId: M:Hedgehog.FSharp.Property.checkBool-Property
   fullName: Hedgehog.FSharp.Property.checkBool-Property
   nameWithType: checkBool
+- uid: Hedgehog.FSharp.Property.checkBoolAsync-Property
+  name: checkBoolAsync
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBoolAsync_Property
+  commentId: M:Hedgehog.FSharp.Property.checkBoolAsync-Property
+  fullName: Hedgehog.FSharp.Property.checkBoolAsync-Property
+  nameWithType: checkBoolAsync
+- uid: Hedgehog.FSharp.Property.checkBoolAsyncWith-IPropertyConfig-Property
+  name: checkBoolAsyncWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.checkBoolAsyncWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.checkBoolAsyncWith-IPropertyConfig-Property
+  nameWithType: checkBoolAsyncWith
+- uid: Hedgehog.FSharp.Property.checkBoolTask-Property
+  name: checkBoolTask
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBoolTask_Property
+  commentId: M:Hedgehog.FSharp.Property.checkBoolTask-Property
+  fullName: Hedgehog.FSharp.Property.checkBoolTask-Property
+  nameWithType: checkBoolTask
+- uid: Hedgehog.FSharp.Property.checkBoolTaskWith-IPropertyConfig-Property
+  name: checkBoolTaskWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.checkBoolTaskWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.checkBoolTaskWith-IPropertyConfig-Property
+  nameWithType: checkBoolTaskWith
 - uid: Hedgehog.FSharp.Property.checkBoolWith-IPropertyConfig-Property
   name: checkBoolWith
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property
   commentId: M:Hedgehog.FSharp.Property.checkBoolWith-IPropertyConfig-Property
   fullName: Hedgehog.FSharp.Property.checkBoolWith-IPropertyConfig-Property
   nameWithType: checkBoolWith
+- uid: Hedgehog.FSharp.Property.checkTask-Property
+  name: checkTask
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkTask_Property
+  commentId: M:Hedgehog.FSharp.Property.checkTask-Property
+  fullName: Hedgehog.FSharp.Property.checkTask-Property
+  nameWithType: checkTask
+- uid: Hedgehog.FSharp.Property.checkTaskWith-IPropertyConfig-Property
+  name: checkTaskWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.checkTaskWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.checkTaskWith-IPropertyConfig-Property
+  nameWithType: checkTaskWith
 - uid: Hedgehog.FSharp.Property.checkWith-IPropertyConfig-Property
   name: checkWith
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property
@@ -1081,6 +1147,12 @@ references:
   commentId: M:Hedgehog.FSharp.Property.map-a-Property
   fullName: Hedgehog.FSharp.Property.map-a-Property
   nameWithType: map
+- uid: Hedgehog.FSharp.Property.ofAsync-Async
+  name: ofAsync
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_ofAsync_Async
+  commentId: M:Hedgehog.FSharp.Property.ofAsync-Async
+  fullName: Hedgehog.FSharp.Property.ofAsync-Async
+  nameWithType: ofAsync
 - uid: Hedgehog.FSharp.Property.ofBool-bool
   name: ofBool
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_ofBool_bool
@@ -1099,6 +1171,18 @@ references:
   commentId: M:Hedgehog.FSharp.Property.ofOutcome-Outcome
   fullName: Hedgehog.FSharp.Property.ofOutcome-Outcome
   nameWithType: ofOutcome
+- uid: Hedgehog.FSharp.Property.ofTask-Task
+  name: ofTask
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_ofTask_Task
+  commentId: M:Hedgehog.FSharp.Property.ofTask-Task
+  fullName: Hedgehog.FSharp.Property.ofTask-Task
+  nameWithType: ofTask
+- uid: Hedgehog.FSharp.Property.ofTaskUnit-Task
+  name: ofTaskUnit
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_ofTaskUnit_Task
+  commentId: M:Hedgehog.FSharp.Property.ofTaskUnit-Task
+  fullName: Hedgehog.FSharp.Property.ofTaskUnit-Task
+  nameWithType: ofTaskUnit
 - uid: Hedgehog.FSharp.Property.recheck-string-Property
   name: recheck
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_recheck_string_Property
@@ -1153,12 +1237,48 @@ references:
   commentId: M:Hedgehog.FSharp.Property.report-Property
   fullName: Hedgehog.FSharp.Property.report-Property
   nameWithType: report
+- uid: Hedgehog.FSharp.Property.reportAsync-Property
+  name: reportAsync
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportAsync_Property
+  commentId: M:Hedgehog.FSharp.Property.reportAsync-Property
+  fullName: Hedgehog.FSharp.Property.reportAsync-Property
+  nameWithType: reportAsync
+- uid: Hedgehog.FSharp.Property.reportAsyncWith-IPropertyConfig-Property
+  name: reportAsyncWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.reportAsyncWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.reportAsyncWith-IPropertyConfig-Property
+  nameWithType: reportAsyncWith
 - uid: Hedgehog.FSharp.Property.reportBool-Property
   name: reportBool
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBool_Property
   commentId: M:Hedgehog.FSharp.Property.reportBool-Property
   fullName: Hedgehog.FSharp.Property.reportBool-Property
   nameWithType: reportBool
+- uid: Hedgehog.FSharp.Property.reportBoolAsync-Property
+  name: reportBoolAsync
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBoolAsync_Property
+  commentId: M:Hedgehog.FSharp.Property.reportBoolAsync-Property
+  fullName: Hedgehog.FSharp.Property.reportBoolAsync-Property
+  nameWithType: reportBoolAsync
+- uid: Hedgehog.FSharp.Property.reportBoolAsyncWith-IPropertyConfig-Property
+  name: reportBoolAsyncWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.reportBoolAsyncWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.reportBoolAsyncWith-IPropertyConfig-Property
+  nameWithType: reportBoolAsyncWith
+- uid: Hedgehog.FSharp.Property.reportBoolTask-Property
+  name: reportBoolTask
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBoolTask_Property
+  commentId: M:Hedgehog.FSharp.Property.reportBoolTask-Property
+  fullName: Hedgehog.FSharp.Property.reportBoolTask-Property
+  nameWithType: reportBoolTask
+- uid: Hedgehog.FSharp.Property.reportBoolTaskWith-IPropertyConfig-Property
+  name: reportBoolTaskWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.reportBoolTaskWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.reportBoolTaskWith-IPropertyConfig-Property
+  nameWithType: reportBoolTaskWith
 - uid: Hedgehog.FSharp.Property.reportBoolWith-IPropertyConfig-Property
   name: reportBoolWith
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property
@@ -1189,6 +1309,18 @@ references:
   commentId: M:Hedgehog.FSharp.Property.reportRecheckWith-string-IPropertyConfig-Property
   fullName: Hedgehog.FSharp.Property.reportRecheckWith-string-IPropertyConfig-Property
   nameWithType: reportRecheckWith
+- uid: Hedgehog.FSharp.Property.reportTask-Property
+  name: reportTask
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportTask_Property
+  commentId: M:Hedgehog.FSharp.Property.reportTask-Property
+  fullName: Hedgehog.FSharp.Property.reportTask-Property
+  nameWithType: reportTask
+- uid: Hedgehog.FSharp.Property.reportTaskWith-IPropertyConfig-Property
+  name: reportTaskWith
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property
+  commentId: M:Hedgehog.FSharp.Property.reportTaskWith-IPropertyConfig-Property
+  fullName: Hedgehog.FSharp.Property.reportTaskWith-IPropertyConfig-Property
+  nameWithType: reportTaskWith
 - uid: Hedgehog.FSharp.Property.reportWith-IPropertyConfig-Property
   name: reportWith
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property
@@ -1231,17 +1363,53 @@ references:
   commentId: T:Hedgehog.FSharp.PropertyBuilder.Builder
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder
   nameWithType: Builder
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Async-a
+  name: Bind
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Async-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Async-a
+  nameWithType: Bind
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Gen-a
   name: Bind
   href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a
   commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Gen-a
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Gen-a
   nameWithType: Bind
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a
+  name: Bind
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Property-a
+  nameWithType: Bind
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Task-a
+  name: Bind
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Task-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Bind-Task-a
+  nameWithType: Bind
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Async-a
+  name: BindReturn
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Async-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Async-a
+  nameWithType: BindReturn
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Gen-a
   name: BindReturn
   href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a
   commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Gen-a
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Gen-a
+  nameWithType: BindReturn
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Property-a
+  name: BindReturn
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Property-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Property-a
+  nameWithType: BindReturn
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Task-a
+  name: BindReturn
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Task-a
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.BindReturn-Task-a
   nameWithType: BindReturn
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.Combine-Property-Property
   name: Combine
@@ -1279,17 +1447,41 @@ references:
   commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.MergeSources-Gen-Gen
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder.MergeSources-Gen-Gen
   nameWithType: MergeSources
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.Return-Async
+  name: Return
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Return-Async
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Return-Async
+  nameWithType: Return
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.Return-Task
+  name: Return
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Return-Task
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Return-Task
+  nameWithType: Return
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.Return-bool
   name: Return
   href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool
   commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.Return-bool
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder.Return-bool
   nameWithType: Return
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Async
+  name: ReturnFrom
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Async
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Async
+  nameWithType: ReturnFrom
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Property
   name: ReturnFrom
   href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property
   commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Property
   fullName: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Property
+  nameWithType: ReturnFrom
+- uid: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Task
+  name: ReturnFrom
+  href: api/Hedgehog.FSharp.PropertyBuilder.Builder.html#Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task
+  commentId: M:Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Task
+  fullName: Hedgehog.FSharp.PropertyBuilder.Builder.ReturnFrom-Task
   nameWithType: ReturnFrom
 - uid: Hedgehog.FSharp.PropertyBuilder.Builder.TryFinally-Property-unit
   name: TryFinally
@@ -1675,6 +1867,12 @@ references:
   commentId: M:Hedgehog.Journal.eval-Journal
   fullName: Hedgehog.Journal.eval-Journal
   nameWithType: eval
+- uid: Hedgehog.Journal.exn-exn
+  name: exn
+  href: api/Hedgehog.Journal.html#Hedgehog_Journal_exn_exn
+  commentId: M:Hedgehog.Journal.exn-exn
+  fullName: Hedgehog.Journal.exn-exn
+  nameWithType: exn
 - uid: Hedgehog.Journal.ofSeq-(unit
   name: ofSeq
   href: api/Hedgehog.Journal.html#Hedgehog_Journal_ofSeq__unit
@@ -2143,6 +2341,12 @@ references:
   commentId: M:Hedgehog.Linq.GenExtensions.Sample-Gen-Size-int
   fullName: Hedgehog.Linq.GenExtensions.Sample-Gen-Size-int
   nameWithType: Sample(Gen, Size, int)
+- uid: Hedgehog.Linq.GenExtensions.SampleFrom-Gen-Size-int
+  name: SampleFrom(Gen, Size, int)
+  href: api/Hedgehog.Linq.GenExtensions.html#Hedgehog_Linq_GenExtensions_SampleFrom_Gen_Size_int
+  commentId: M:Hedgehog.Linq.GenExtensions.SampleFrom-Gen-Size-int
+  fullName: Hedgehog.Linq.GenExtensions.SampleFrom-Gen-Size-int
+  nameWithType: SampleFrom(Gen, Size, int)
 - uid: Hedgehog.Linq.GenExtensions.SampleTree-Gen-Size-int
   name: SampleTree(Gen, Size, int)
   href: api/Hedgehog.Linq.GenExtensions.html#Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int
@@ -2467,6 +2671,18 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig
   fullName: Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig
   nameWithType: Check(Property, IPropertyConfig)
+- uid: Hedgehog.Linq.PropertyExtensions.CheckAsync-Property
+  name: CheckAsync(Property)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_CheckAsync_Property
+  commentId: M:Hedgehog.Linq.PropertyExtensions.CheckAsync-Property
+  fullName: Hedgehog.Linq.PropertyExtensions.CheckAsync-Property
+  nameWithType: CheckAsync(Property)
+- uid: Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig
+  name: CheckAsync(Property, IPropertyConfig)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig
+  commentId: M:Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig
+  fullName: Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig
+  nameWithType: CheckAsync(Property, IPropertyConfig)
 - uid: Hedgehog.Linq.PropertyExtensions.ForAll-Gen
   name: ForAll(Gen)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ForAll_Gen
@@ -2491,6 +2707,18 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig
   fullName: Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig
   nameWithType: Recheck(Property, string, IPropertyConfig)
+- uid: Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string
+  name: RecheckAsync(Property, string)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string
+  commentId: M:Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string
+  fullName: Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string
+  nameWithType: RecheckAsync(Property, string)
+- uid: Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig
+  name: RecheckAsync(Property, string, IPropertyConfig)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig
+  commentId: M:Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig
+  fullName: Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig
+  nameWithType: RecheckAsync(Property, string, IPropertyConfig)
 - uid: Hedgehog.Linq.PropertyExtensions.Render-Property
   name: Render(Property)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_Render_Property
@@ -2515,6 +2743,18 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.Report-Property-IPropertyConfig
   fullName: Hedgehog.Linq.PropertyExtensions.Report-Property-IPropertyConfig
   nameWithType: Report(Property, IPropertyConfig)
+- uid: Hedgehog.Linq.PropertyExtensions.ReportAsync-Property
+  name: ReportAsync(Property)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ReportAsync_Property
+  commentId: M:Hedgehog.Linq.PropertyExtensions.ReportAsync-Property
+  fullName: Hedgehog.Linq.PropertyExtensions.ReportAsync-Property
+  nameWithType: ReportAsync(Property)
+- uid: Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig
+  name: ReportAsync(Property, IPropertyConfig)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig
+  commentId: M:Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig
+  fullName: Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig
+  nameWithType: ReportAsync(Property, IPropertyConfig)
 - uid: Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-RecheckData
   name: ReportRecheck(Property, RecheckData)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData
@@ -2533,6 +2773,18 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig
   fullName: Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig
   nameWithType: ReportRecheck(Property, string, IPropertyConfig)
+- uid: Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string
+  name: ReportRecheckAsync(Property, string)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string
+  commentId: M:Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string
+  fullName: Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string
+  nameWithType: ReportRecheckAsync(Property, string)
+- uid: Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig
+  name: ReportRecheckAsync(Property, string, IPropertyConfig)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig
+  commentId: M:Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig
+  fullName: Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig
+  nameWithType: ReportRecheckAsync(Property, string, IPropertyConfig)
 - uid: Hedgehog.Linq.PropertyExtensions.Select-Property-Action
   name: Select(Property, Action)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_Select_Property_Action
@@ -2545,6 +2797,12 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.Select-Property-Func
   fullName: Hedgehog.Linq.PropertyExtensions.Select-Property-Func
   nameWithType: Select(Property, Func)
+- uid: Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func
+  name: SelectMany(Property, Func)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func
+  commentId: M:Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func
+  fullName: Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func
+  nameWithType: SelectMany(Property, Func)
 - uid: Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action
   name: SelectMany(Property, Func, Action)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action

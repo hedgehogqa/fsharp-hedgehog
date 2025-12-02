@@ -54,6 +54,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Exceptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Exceptions",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.FSharp.AutoGenConfig.yml",
       "output": {
         ".html": {
@@ -120,7 +134,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.FSharp.Property",
-      "Summary": ""
+      "Summary": "<p sourcefile=\"api/Hedgehog.FSharp.Property.yml\" sourcestartlinenumber=\"1\">Functions for building and executing property-based tests.\nProperties represent testable specifications that should hold true for all generated inputs.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -806,7 +820,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.EvenAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.EvenAttribute.yml\" sourcestartlinenumber=\"1\">Generates an even integer.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.EvenAttribute.yml\" sourcestartlinenumber=\"1\">Generates an even integer.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.EvenAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -848,7 +862,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.IntAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IntAttribute.yml\" sourcestartlinenumber=\"1\">Generates an integer within a specified range.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.IntAttribute.yml\" sourcestartlinenumber=\"1\">Generates an integer within a specified range.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.IntAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -918,7 +932,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.NonNegativeIntAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonNegativeIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-negative integer.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonNegativeIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-negative integer.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.NonNegativeIntAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -932,7 +946,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.NonZeroIntAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonZeroIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-zero integer.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.NonZeroIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a non-zero integer.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.NonZeroIntAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -946,7 +960,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.OddAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.OddAttribute.yml\" sourcestartlinenumber=\"1\">Generates an odd integer.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.OddAttribute.yml\" sourcestartlinenumber=\"1\">Generates an odd integer.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.OddAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -960,7 +974,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Xunit.PositiveIntAttribute",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PositiveIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a positive integer.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Xunit.PositiveIntAttribute.yml\" sourcestartlinenumber=\"1\">Generates a positive integer.</p>\n<p sourcefile=\"api/Hedgehog.Xunit.PositiveIntAttribute.yml\" sourcestartlinenumber=\"3\">Range strategy: exponential (&gt;1000), linear (&gt;100), or constant (≤100).</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -1113,6 +1127,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "articles/async-properties.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/async-properties.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "articles/auto-generation.md",
       "output": {
         ".html": {
@@ -1137,6 +1161,16 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/ranges.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/ranges.html"
         }
       },
       "version": ""
