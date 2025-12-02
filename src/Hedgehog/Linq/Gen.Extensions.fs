@@ -84,9 +84,9 @@ type GenExtensions private () =
         Gen.sample size count gen
         |> ResizeArray
 
-    /// <summary>Returns a List of deterministic values by scaling through sizes from startSize.
+    /// <summary>Returns a sample sequence of values by scaling through sizes from startSize.
     /// This is useful for visualizing how a range scales across different sizes.
-    /// Uses a fixed seed for deterministic output.</summary>
+    /// Uses a random seed for generating output.</summary>
     /// <param name="gen">Value generator.</param>
     /// <param name="size">The starting size parameter.</param>
     /// <param name="count">The number of samples to produce (sizes will increment from startSize).</param>
