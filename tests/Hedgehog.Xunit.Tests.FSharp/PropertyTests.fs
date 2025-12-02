@@ -29,7 +29,7 @@ module PropertyTest =
   let runReport methodName (typ: Type) instance =
     let method = typ.GetMethod(methodName)
     let context = PropertyContext.fromMethod method
-    InternalLogic.report context method instance
+    InternalLogic.reportAsync context method instance |> Async.RunSynchronously
 
 module ``Property module tests`` =
 
@@ -40,7 +40,8 @@ module ``Property module tests`` =
     let report = PropertyTest.runReport methodName typeof<Marker>.DeclaringType null
     match report.Status with
     | Status.Failed r ->
-      Assert.Equal(expected, r.Journal |> Journal.eval |> Seq.head)
+      let rep = r.Journal |> Journal.eval
+      Assert.Equal(expected, rep |> Seq.head)
     | _ -> failwith "impossible"
 
   [<Property(Skip = skipReason)>]
@@ -759,7 +760,7 @@ module ``returning a property runs it`` =
   [<Fact>]
   let ``returning a passing property<bool> with external gen passes`` () =
     let report = PropertyTest.runReport (nameof ``returning a passing property<bool> with external gen passes, skipped``) typeof<Marker>.DeclaringType null
-    Assert.Equal(100<tests>, report.Tests)
+    Assert.Equal<int<tests>>(100<tests>, report.Tests)
 
   [<Property(Skip = skipReason)>]
   let ``returning a failing property<bool> with external gen fails and shrinks, skipped`` i = property {

@@ -21,11 +21,23 @@ let private GenxAutoBoxMethodName = "genxAutoBoxWith"
 [<Literal>]
 let private ResultIsOkMethodName = "resultIsOk"
 
+[<Literal>]
+let private ConvertAsyncToObjMethodName = "convertAsyncToObj"
+
+let private convertAsyncToObj<'T> (a: Async<'T>) : Async<obj> =
+    async {
+        let! x = a
+        return box x
+    }
+
 let private genxAutoBoxWith<'T> x =
     x |> Gen.autoWith<'T> |> Gen.map box
 
 let private genxAutoBoxWithMethodInfo =
     typeof<Marker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(GenxAutoBoxMethodName)
+
+let private convertAsyncToObjMethodInfo =
+    typeof<Marker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(ConvertAsyncToObjMethodName)
 
 // ========================================
 // Result Validation
@@ -41,41 +53,63 @@ let resultIsOk r =
 // Return Value Processing
 // ========================================
 
-/// Recursively awaits async/task values and validates boolean/Result types
-/// Returns true if test passes, false if it fails
-let rec yieldAndCheckReturnValue (x: obj) : bool =
+let private toAsyncObj (asyncVal: obj) (t: Type) : Async<obj> =
+    convertAsyncToObjMethodInfo
+        .MakeGenericMethod(t)
+        .Invoke(null, [| asyncVal |])
+    |> unbox<Async<obj>>
+
+/// Wraps a test method return value into a Property, handling async/task natively
+let rec wrapReturnValue (x: obj) : Property<unit> =
     match x with
-    | null -> true
-    | :? bool as b -> b
+    | null -> Property.success ()
+    | :? bool as b -> Property.ofBool b
+    | :? Property<unit> as p -> p
+    | :? Property<bool> as p -> p |> Property.falseToFailure
     
     // Non-generic Task
     | :? Task as t when not (t.GetType().IsGenericType) ->
-        Async.AwaitTask t |> yieldAndCheckReturnValue
+        Property.ofTaskUnit t
     
     // Non-generic ValueTask
     | :? ValueTask as vt ->
-        vt.AsTask() |> Async.AwaitTask |> yieldAndCheckReturnValue
+        vt.AsTask() |> Property.ofTaskUnit
     
     // Async<unit> - common case, avoid reflection
     | :? Async<unit> as a ->
-        Async.RunSynchronously(a, cancellationToken = CancellationToken.None)
-        |> yieldAndCheckReturnValue
+        Property.ofAsync a |> Property.map (fun _ -> ())
     
     // Generic types requiring reflection
     | x ->
         let t = x.GetType()
         match t with
         | t when ReflectionHelpers.isGenericTask t ->
-            ReflectionHelpers.invokeAwaitTask x |> yieldAndCheckReturnValue
+            let taskResultType = t.GetGenericArguments().[0]
+            let asyncVal = ReflectionHelpers.invokeAwaitTask x
+            // Use toAsyncObj to avoid InvalidCastException, then wrap in Property
+            let asyncObj = toAsyncObj asyncVal taskResultType
+            Property.ofAsync asyncObj |> Property.map wrapReturnValue |> Property.bind id
+            
         | t when ReflectionHelpers.isGenericValueTask t ->
-            t.GetMethod("AsTask").Invoke(x, null)
-            |> yieldAndCheckReturnValue
+            let task = t.GetMethod("AsTask").Invoke(x, null)
+            wrapReturnValue task
+            
         | t when ReflectionHelpers.isAsync t ->
-            ReflectionHelpers.invokeAsyncRunSynchronously x |> yieldAndCheckReturnValue
+            let asyncResultType = t.GetGenericArguments().[0]
+            // Use toAsyncObj to avoid InvalidCastException, then wrap in Property
+            let asyncObj = toAsyncObj x asyncResultType
+            Property.ofAsync asyncObj |> Property.map wrapReturnValue |> Property.bind id
+            
         | t when ReflectionHelpers.isResult t ->
-            ReflectionHelpers.invokeResultIsOk x typeof<Marker>.DeclaringType ResultIsOkMethodName
-            |> yieldAndCheckReturnValue
-        | _ -> true
+            // Wrap the Result in a Property and use map to check it
+            // This ensures exceptions from resultIsOk are caught by Property.map
+            Property.success x
+            |> Property.map (fun r ->
+                let isOk = ReflectionHelpers.invokeResultIsOk r typeof<Marker>.DeclaringType ResultIsOkMethodName :?> bool
+                if not isOk then failwith "Result is Error")
+            
+        | _ -> Property.success ()
+
 
 // ========================================
 // Resource Management
@@ -205,33 +239,49 @@ module private PropertyBuilder =
 
         let invoke args =
             try
-                invokeTestMethod testMethod testClassInstance args
-            finally
-                List.iter dispose args
+                try
+                    invokeTestMethod testMethod testClassInstance args
+                finally
+                    List.iter dispose args
+            with e ->
+                // If the test method throws an exception, we need to handle it
+                // For Property<_> return types, the exception will be caught by Property.map
+                // For other return types, we need to wrap it in a failing property
+                // We return a special marker that wrapReturnValue will recognize
+                box e
 
         let createJournal args =
             let formattedParams = formatParametersWithNames parameters args
             Journal.singleton (fun () -> formattedParams)
+        
+        let wrapWithExceptionHandling (result: obj) : Property<unit> =
+            match result with
+            | :? exn as e -> 
+                // Exception was thrown - create a failing property
+                Property.counterexample (fun () -> string e)
+                |> Property.bind (fun () -> Property.failure)
+            | _ -> wrapReturnValue result
+
 
         // Handle Property<unit> return type
         if testMethod.ReturnType = typeof<Property<unit>> then
             Property.bindWith createJournal (invoke >> unbox<Property<unit>>) gens
-
+        
         // Handle Property<bool> return type
         elif testMethod.ReturnType = typeof<Property<bool>> then
             Property.bindWith createJournal (invoke >> unbox<Property<bool>>) gens
             |> Property.falseToFailure
-
+        
         // Handle all other return types (Task, Async, bool, Result, etc.)
         else
-            Property.bindReturnWith createJournal (invoke >> yieldAndCheckReturnValue) gens
-            |> Property.falseToFailure
+            Property.bindWith createJournal (invoke >> wrapWithExceptionHandling) gens
+
 
 // ========================================
 // Report Generation
 // ========================================
 
-let report (context: PropertyContext) (testMethod: MethodInfo) testClassInstance : Report =
+let reportAsync (context: PropertyContext) (testMethod: MethodInfo) testClassInstance : Async<Report> =
     let parameters = testMethod.GetParameters()
     let gens = GeneratorFactory.createParameterListGenerator context parameters
     let property = PropertyBuilder.createProperty testMethod testClassInstance parameters gens
@@ -242,5 +292,7 @@ let report (context: PropertyContext) (testMethod: MethodInfo) testClassInstance
         |> withShrinks context.Shrinks
 
     match context.Recheck with
-    | Some recheckData -> Property.reportRecheckWith recheckData config property
-    | None -> Property.reportWith config property
+    | Some recheckData -> 
+        Property.reportRecheckWith recheckData config property |> async.Return
+    | None -> 
+        Property.reportAsyncWith config property

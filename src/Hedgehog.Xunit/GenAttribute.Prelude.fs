@@ -4,54 +4,90 @@ open System
 open Hedgehog
 open Hedgehog.FSharp
 
-/// Generates an integer within a specified range.
+[<AutoOpen>]
+module private RangeHelpers =
+    /// Choose between constant, linear, and exponential range based on the range size.
+    /// - For ranges > 1000: use exponential to ensure boundary values are tested
+    /// - For ranges > 100: use linear for balanced shrinking
+    /// - For ranges <= 100: use constant (no shrinking needed for small ranges)
+    let inline chooseRangeInt32 (min: int) (max: int) : Range<int> =
+        let rangeSize = int64 max - int64 min
+        let origin = if min <= 0 && 0 <= max then 0 else min
+        match rangeSize with
+        | size when size > 1000L -> Range.exponentialFrom origin min max
+        | size when size > 100L -> Range.linearFrom origin min max
+        | _ -> Range.constantFrom origin min max
+
+/// <summary>Generates an integer within a specified range.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type IntAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates an integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = IntAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear min max)
+        Gen.int32 (chooseRangeInt32 min max)
 
-/// Generates an odd integer.
+/// <summary>Generates an odd integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type OddAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates an odd integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = OddAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator = gen {
-        let! n = Gen.int32 (Range.constant min max)
+        let! n = Gen.int32 (chooseRangeInt32 min max)
         return n ||| 1
     }
 
-/// Generates an even integer.
+/// <summary>Generates an even integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type EvenAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates an even integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = EvenAttribute(Int32.MinValue, Int32.MaxValue)
     override _.Generator = gen {
-        let! n = Gen.int32 (Range.constant min max)
+        let! n = Gen.int32 (chooseRangeInt32 min max)
         return n &&& ~~~1
     }
 
-/// Generates a positive integer.
+/// <summary>Generates a positive integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type PositiveIntAttribute(max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates a positive integer from 1 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = PositiveIntAttribute(Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear 1 max)
+        Gen.int32 (chooseRangeInt32 1 max)
 
-/// Generates a non-negative integer.
+/// <summary>Generates a non-negative integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type NonNegativeIntAttribute(max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates a non-negative integer from 0 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = NonNegativeIntAttribute(Int32.MaxValue)
     override _.Generator =
-        Gen.int32 (Range.linear 0 max)
+        Gen.int32 (chooseRangeInt32 0 max)
 
-/// Generates a non-zero integer.
+/// <summary>Generates a non-zero integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type NonZeroIntAttribute(min: int, max: int) =
     inherit GenAttribute<int>()
+    /// <summary>Generates a non-zero integer from Int32.MinValue+1 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = NonZeroIntAttribute(Int32.MinValue + 1, Int32.MaxValue)
     override _.Generator =
-        Gen.choice [
-            Gen.int32 (Range.linear min -1)
-            Gen.int32 (Range.linear 1 max)
-        ]
+        match min, max with
+        | _, m when m < 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely negative
+        | n, _ when n > 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely positive
+        | n, m ->                                                   // 0 is in range, split it
+            Gen.choice [
+                Gen.int32 (chooseRangeInt32 n -1)
+                Gen.int32 (chooseRangeInt32 1 m)
+            ]
 
 /// Generates a string that is a valid identifier.
 type IdentifierAttribute(maxLen: int) =

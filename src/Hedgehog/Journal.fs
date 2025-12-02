@@ -26,6 +26,10 @@ module Journal =
     let singletonMessage (message : string) : Journal =
         ofSeq [ fun () -> message ]
 
+    /// Adds exception to the journal as a single entry.
+    let exn (error: exn): Journal =
+        singletonMessage (string (Exceptions.unwrap error))
+
     /// Creates a single entry journal from a given entry.
     let singleton (entry : unit -> string) : Journal =
         ofSeq [ entry ]

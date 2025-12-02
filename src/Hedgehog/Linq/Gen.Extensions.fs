@@ -84,6 +84,17 @@ type GenExtensions private () =
         Gen.sample size count gen
         |> ResizeArray
 
+    /// <summary>Returns a sample sequence of values by scaling through sizes from startSize.
+    /// This is useful for visualizing how a range scales across different sizes.
+    /// Uses a random seed for generating output.</summary>
+    /// <param name="gen">Value generator.</param>
+    /// <param name="size">The starting size parameter.</param>
+    /// <param name="count">The number of samples to produce (sizes will increment from startSize).</param>
+    [<Extension>]
+    static member SampleFrom (gen : Gen<'T>, size: Size, count : int) : ResizeArray<'T> =
+        Gen.sampleFrom size count gen
+        |> ResizeArray
+
     [<Extension>]
     static member SampleTree (gen : Gen<'T>, size : Size, count : int) : ResizeArray<Tree<'T>> =
         Gen.sampleTree size count gen

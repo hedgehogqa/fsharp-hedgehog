@@ -6,11 +6,13 @@ open Fable.Mocha
 let testCase = Test.testCase
 let ptestCase = Test.ptestCase
 let testList = Test.testList
+let testCaseAsync = Test.testCaseAsync
 
 #else
 open Expecto
 
 let testCase = Tests.testCase
+let testCaseAsync = Tests.testCaseAsync
 let ptestCase = Tests.ptestCase
 let testList = Tests.testList
 
@@ -29,6 +31,14 @@ let fableIgnore (label : string) (test : unit -> unit) : TestCase =
     testCase label test
 #endif
 
+let fableIgnoreAsync (label : string) (test : Async<unit>) : TestCase =
+#if FABLE_COMPILER
+    // Some tests are not running in Node.js.
+    ptestCaseAsync label test
+#else
+    testCaseAsync label test
+#endif
+
 let inline (=!) (actual : 'a) (expected : 'a) : unit =
     Expect.equal actual expected "Should be equal"
 
@@ -36,3 +46,9 @@ let inline (=!) (actual : 'a) (expected : 'a) : unit =
 module Expect =
     let isTrue value =
         Expect.isTrue value "Should be true"
+
+    let isFalse value =
+        Expect.isFalse value "Should be false"
+
+    let inline equal actual expected label =
+        Expect.equal actual expected label

@@ -409,6 +409,20 @@ module Gen =
         sampleTree size count g
         |> Seq.map Tree.outcome
 
+    /// <summary>Returns a sample sequence of values by scaling through sizes from startSize.
+    /// This is useful for visualizing how a range scales across different sizes.
+    /// Uses a random seed for generating output.</summary>
+    /// <param name="startSize">The starting size parameter.</param>
+    /// <param name="count">The number of samples to produce (sizes will increment from startSize).</param>
+    /// <param name="g">The generator to sample from.</param>
+    let sampleFrom (startSize : Size) (count : int) (g : Gen<'a>) : seq<'a> =
+        let mutable seed = Seed.random ()
+        Seq.init count (fun i ->
+            let size = startSize + i
+            let result, newSeed = toRandom g |> Random.run seed size |> fun r -> r, Seed.split seed |> snd
+            seed <- newSeed
+            Tree.outcome result)
+
     /// Run a generator. The size passed to the generator is always 30;
     /// if you want another size then you should explicitly use 'resize'.
     let generateTree (g : Gen<'a>) : Tree<'a> =
