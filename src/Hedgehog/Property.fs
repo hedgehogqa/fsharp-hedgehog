@@ -480,7 +480,7 @@ module Property =
     /// The report includes the number of tests run, discards, and failure information with shrunk counterexamples.
     /// This blocks until all tests complete.
     let reportWith (config : IPropertyConfig) (p : Property<unit>) : Report =
-        p |> reportWith' PropertyArgs.init config
+        p |> reportWith' (PropertyArgs.init ()) config
 
     /// Runs a property test with default configuration and returns a detailed report.
     /// By default, runs 100 tests. This blocks until all tests complete.
@@ -629,7 +629,7 @@ module Property =
     /// This is non-blocking and properly handles async properties without blocking threads.
     /// Use this when testing async code or when you need non-blocking test execution.
     let reportAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<Report> =
-        p |> reportWithAsync' PropertyArgs.init config
+        p |> reportWithAsync' (PropertyArgs.init ()) config
 
     /// Runs a property test asynchronously with default configuration, returning an F# Async that produces a report.
     /// This is non-blocking and properly handles async properties without blocking threads.
