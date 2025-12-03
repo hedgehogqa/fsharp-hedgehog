@@ -3679,11 +3679,11 @@ references:
   commentId: T:Hedgehog.PropertyArgs
   fullName: Hedgehog.PropertyArgs
   nameWithType: PropertyArgs
-- uid: Hedgehog.PropertyArgs.init
+- uid: Hedgehog.PropertyArgs.init-unit
   name: init
-  href: api/Hedgehog.PropertyArgs.html#Hedgehog_PropertyArgs_init
-  commentId: M:Hedgehog.PropertyArgs.init
-  fullName: Hedgehog.PropertyArgs.init
+  href: api/Hedgehog.PropertyArgs.html#Hedgehog_PropertyArgs_init_unit
+  commentId: M:Hedgehog.PropertyArgs.init-unit
+  fullName: Hedgehog.PropertyArgs.init-unit
   nameWithType: init
 - uid: Hedgehog.PropertyConfig
   name: PropertyConfig
