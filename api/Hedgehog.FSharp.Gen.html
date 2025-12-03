@@ -118,6 +118,8 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member choiceRec : Gen&lt;&#39;a&gt; seq -&gt; Gen&lt;&#39;a&gt; seq -&gt; Gen&lt;&#39;a&gt;
   member constant : &#39;a -&gt; Gen&lt;&#39;a&gt;
   member create : &#39;a -&gt; &#39;a seq -&gt; Random&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
+  member dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;
+  member dateTimeOffset : Range&lt;DateTimeOffset&gt; -&gt; Gen&lt;DateTimeOffset&gt;
   member decimal : Range&lt;decimal&gt; -&gt; Gen&lt;decimal&gt;
   member delay : unit -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member digit : Gen&lt;char&gt;
@@ -174,6 +176,7 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member some : Gen&lt;&#39;a option&gt; -&gt; Gen&lt;&#39;a&gt;
   member string : Range&lt;int&gt; -&gt; Gen&lt;char&gt; -&gt; Gen&lt;string&gt;
   member subsetOf : &#39;a -&gt; Gen&lt;&#39;T seq&gt;
+  member timeSpan : Range&lt;TimeSpan&gt; -&gt; Gen&lt;TimeSpan&gt;
   member toRandom : Gen&lt;&#39;a&gt; -&gt; Random&lt;Tree&lt;&#39;a&gt;&gt;
   member traverse : &#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; &#39;a0 -&gt; Gen&lt;&#39;b seq&gt;
   member traverseList : &#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; List&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;b&gt;&gt;
@@ -1628,6 +1631,91 @@ followed by alphanumeric characters or underscores, up to the specified maximum 
 
   <div class="codewrapper">
     <pre><code class="lang-fsharp hljs">val latinName : int -&gt; Gen&lt;string&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTime_Range" data-uid="Hedgehog.FSharp.Gen.dateTime-Range">
+  dateTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random DateTime using the given range.</p>
+<p><strong>Example:</strong></p>
+<pre><code> let range =
+    Range.constantFrom
+        (DateTime (2000, 1, 1)) DateTime.MinValue DateTime.MaxValue
+ Gen.dateTime range
+</code></pre>
+<p>val range: obj</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTimeOffset_Range" data-uid="Hedgehog.FSharp.Gen.dateTimeOffset-Range">
+  dateTimeOffset
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L33"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random DateTimeOffset using the given range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val dateTimeOffset : Range&lt;DateTimeOffset&gt; -&gt; Gen&lt;DateTimeOffset&gt;</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_timeSpan_Range" data-uid="Hedgehog.FSharp.Gen.timeSpan-Range">
+  timeSpan
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L51"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random TimeSpan using the specified range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-fsharp hljs">val timeSpan : Range&lt;TimeSpan&gt; -&gt; Gen&lt;TimeSpan&gt;</code></pre>
   </div>
 
 

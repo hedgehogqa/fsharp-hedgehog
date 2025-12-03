@@ -208,20 +208,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Hedgehog.GenDateTime.Gen.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Hedgehog.GenDateTime.Gen.html"
-        }
-      },
-      "version": "",
-      "Uid": null,
-      "IsMRef": true,
-      "Title": "Hedgehog.GenDateTime.Gen",
-      "Summary": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.Gen_a_.yml",
       "output": {
         ".html": {

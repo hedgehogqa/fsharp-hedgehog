@@ -529,6 +529,18 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.create-a-Random
   fullName: Hedgehog.FSharp.Gen.create-a-Random
   nameWithType: create
+- uid: Hedgehog.FSharp.Gen.dateTime-Range
+  name: dateTime
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTime_Range
+  commentId: M:Hedgehog.FSharp.Gen.dateTime-Range
+  fullName: Hedgehog.FSharp.Gen.dateTime-Range
+  nameWithType: dateTime
+- uid: Hedgehog.FSharp.Gen.dateTimeOffset-Range
+  name: dateTimeOffset
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeOffset_Range
+  commentId: M:Hedgehog.FSharp.Gen.dateTimeOffset-Range
+  fullName: Hedgehog.FSharp.Gen.dateTimeOffset-Range
+  nameWithType: dateTimeOffset
 - uid: Hedgehog.FSharp.Gen.decimal-Range
   name: decimal
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_decimal_Range
@@ -865,6 +877,12 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.subsetOf-a
   fullName: Hedgehog.FSharp.Gen.subsetOf-a
   nameWithType: subsetOf
+- uid: Hedgehog.FSharp.Gen.timeSpan-Range
+  name: timeSpan
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_timeSpan_Range
+  commentId: M:Hedgehog.FSharp.Gen.timeSpan-Range
+  fullName: Hedgehog.FSharp.Gen.timeSpan-Range
+  nameWithType: timeSpan
 - uid: Hedgehog.FSharp.Gen.toRandom-Gen
   name: toRandom
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_toRandom_Gen
@@ -1801,30 +1819,6 @@ references:
   commentId: M:Hedgehog.FromBigInt.Invoke-bigint
   fullName: Hedgehog.FromBigInt.Invoke-bigint
   nameWithType: Invoke
-- uid: Hedgehog.GenDateTime.Gen
-  name: Gen
-  href: api/Hedgehog.GenDateTime.Gen.html
-  commentId: T:Hedgehog.GenDateTime.Gen
-  fullName: Hedgehog.GenDateTime.Gen
-  nameWithType: Gen
-- uid: Hedgehog.GenDateTime.Gen.dateTime-Range
-  name: dateTime
-  href: api/Hedgehog.GenDateTime.Gen.html#Hedgehog_GenDateTime_Gen_dateTime_Range
-  commentId: M:Hedgehog.GenDateTime.Gen.dateTime-Range
-  fullName: Hedgehog.GenDateTime.Gen.dateTime-Range
-  nameWithType: dateTime
-- uid: Hedgehog.GenDateTime.Gen.dateTimeOffset-Range
-  name: dateTimeOffset
-  href: api/Hedgehog.GenDateTime.Gen.html#Hedgehog_GenDateTime_Gen_dateTimeOffset_Range
-  commentId: M:Hedgehog.GenDateTime.Gen.dateTimeOffset-Range
-  fullName: Hedgehog.GenDateTime.Gen.dateTimeOffset-Range
-  nameWithType: dateTimeOffset
-- uid: Hedgehog.GenDateTime.Gen.timeSpan-Range
-  name: timeSpan
-  href: api/Hedgehog.GenDateTime.Gen.html#Hedgehog_GenDateTime_Gen_timeSpan_Range
-  commentId: M:Hedgehog.GenDateTime.Gen.timeSpan-Range
-  fullName: Hedgehog.GenDateTime.Gen.timeSpan-Range
-  nameWithType: timeSpan
 - uid: Hedgehog.Gen_a_
   name: Gen<'a>
   href: api/Hedgehog.Gen_a_.html
@@ -2545,18 +2539,18 @@ references:
   commentId: M:Hedgehog.Linq.GenListExtensions.NotIn-Gen-ResizeArray
   fullName: Hedgehog.Linq.GenListExtensions.NotIn-Gen-ResizeArray
   nameWithType: NotIn(Gen, ResizeArray)
-- uid: Hedgehog.Linq.GenListExtensions.Sequence-a
-  name: Sequence('a)
-  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Sequence_a
-  commentId: M:Hedgehog.Linq.GenListExtensions.Sequence-a
-  fullName: Hedgehog.Linq.GenListExtensions.Sequence-a
-  nameWithType: Sequence('a)
-- uid: Hedgehog.Linq.GenListExtensions.Traverse-a-Func
-  name: Traverse('a, Func)
-  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Traverse_a_Func
-  commentId: M:Hedgehog.Linq.GenListExtensions.Traverse-a-Func
-  fullName: Hedgehog.Linq.GenListExtensions.Traverse-a-Func
-  nameWithType: Traverse('a, Func)
+- uid: Hedgehog.Linq.GenListExtensions.Sequence-Gen
+  name: Sequence(Gen)
+  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Sequence_Gen
+  commentId: M:Hedgehog.Linq.GenListExtensions.Sequence-Gen
+  fullName: Hedgehog.Linq.GenListExtensions.Sequence-Gen
+  nameWithType: Sequence(Gen)
+- uid: Hedgehog.Linq.GenListExtensions.Traverse-T-Func
+  name: Traverse('T, Func)
+  href: api/Hedgehog.Linq.GenListExtensions.html#Hedgehog_Linq_GenListExtensions_Traverse_T_Func
+  commentId: M:Hedgehog.Linq.GenListExtensions.Traverse-T-Func
+  fullName: Hedgehog.Linq.GenListExtensions.Traverse-T-Func
+  nameWithType: Traverse('T, Func)
 - uid: Hedgehog.Linq.Property
   name: Property
   href: api/Hedgehog.Linq.Property.html

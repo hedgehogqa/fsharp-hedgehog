@@ -104,8 +104,8 @@ Class GenListExtensions  <a class="header-action link-secondary" title="View sou
   public static Gen&lt;ResizeArray&lt;T&gt;&gt; AddElement(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T x)
   public static Gen&lt;ResizeArray&lt;T&gt;&gt; NotContains(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T value)
   public static Gen&lt;T&gt; NotIn(this Gen&lt;T&gt; self, ResizeArray&lt;T&gt; values)
-  public static Gen&lt;TIEnumerable&gt; Sequence(this a self)
-  public static Gen&lt;TResultIEnumerable&gt; Traverse(this a self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)
+  public static Gen&lt;TIEnumerable&gt; Sequence(this Gen&lt;T&gt;IEnumerable self)
+  public static Gen&lt;TResultIEnumerable&gt; Traverse(this TIEnumerable self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)
 }</code></pre>
   </div>
 
@@ -205,8 +205,8 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
 
 
 
-  <h3 id="Hedgehog_Linq_GenListExtensions_Sequence_a" data-uid="Hedgehog.Linq.GenListExtensions.Sequence-a">
-  Sequence(&#39;a)
+  <h3 id="Hedgehog_Linq_GenListExtensions_Sequence_Gen" data-uid="Hedgehog.Linq.GenListExtensions.Sequence-Gen">
+  Sequence(Gen)
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Collections.fs/#L31"><i class="bi bi-code-slash"></i></a>
   </h3>
 
@@ -215,7 +215,7 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Sequence(this a self)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Sequence(this Gen&lt;T&gt;IEnumerable self)</code></pre>
   </div>
 
 
@@ -231,8 +231,8 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
 
 
 
-  <h3 id="Hedgehog_Linq_GenListExtensions_Traverse_a_Func" data-uid="Hedgehog.Linq.GenListExtensions.Traverse-a-Func">
-  Traverse(&#39;a, Func)
+  <h3 id="Hedgehog_Linq_GenListExtensions_Traverse_T_Func" data-uid="Hedgehog.Linq.GenListExtensions.Traverse-T-Func">
+  Traverse(&#39;T, Func)
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.Collections.fs/#L36"><i class="bi bi-code-slash"></i></a>
   </h3>
 
@@ -241,7 +241,7 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResultIEnumerable&gt; Traverse(this a self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Gen&lt;TResultIEnumerable&gt; Traverse(this TIEnumerable self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)</code></pre>
   </div>
 
 
