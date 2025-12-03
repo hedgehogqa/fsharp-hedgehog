@@ -96,6 +96,26 @@ type PropertyExtensions private () =
     static member TryWith (property : Property<'T>, onError : Func<exn, Property<'T>>) : Property<'T> =
         Property.tryWith onError.Invoke property
 
+    /// <summary>
+    /// Discards the result of a property, converting it to <see cref="Property"/>.
+    /// This is useful when using assertion libraries that return non-unit types (e.g., fluent assertions).
+    /// Assertions that throw exceptions will still cause the property to fail.
+    /// </summary>
+    /// <param name="property">The property whose result should be ignored.</param>
+    /// <returns>A property that produces unit.</returns>
+    /// <example>
+    /// <code>
+    /// var property =
+    ///     from x in Gen.Int32(Range.Linear(0, 100)).ForAll()
+    ///     select x.Should().Be(42); // Returns IAssertion
+    /// 
+    /// property.IgnoreResult().Check(); // Convert to <see cref="Property"/> and run
+    /// </code>
+    /// </example>
+    [<Extension>]
+    static member IgnoreResult (property : Property<'T>) : Property =
+        property |> Property.ignoreResult |> Property
+
     [<Extension>]
     static member Report (property : Property) : Report =
         let (Property property) = property

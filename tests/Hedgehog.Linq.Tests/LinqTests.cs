@@ -302,5 +302,42 @@ namespace Hedgehog.Linq.Tests
 
             prop.Check();
         }
+
+        // Test record to simulate fluent assertion library
+        private record AssertionResult(bool Success);
+
+        private static AssertionResult ShouldBe(int expected, int actual)
+        {
+            if (actual == expected)
+                return new AssertionResult(true);
+            throw new Exception($"Expected {expected} but got {actual}");
+        }
+
+        [Fact]
+        public void IgnoreResult_ConvertsNonUnitPropertyToUnit()
+        {
+            var testRan = false;
+            var property =
+                from x in Gen.Int32(Range.Constant(42, 42)).ForAll()
+                let _ = testRan = true
+                select ShouldBe(42, x); // Returns AssertionResult, not unit
+
+            // Should compile and run
+            property.IgnoreResult().Check();
+            
+            Assert.True(testRan);
+        }
+
+        [Fact]
+        public void IgnoreResult_PreservesFailures()
+        {
+            var property =
+                from x in Gen.Int32(Range.Constant(42, 42)).ForAll()
+                select ShouldBe(99, x); // Will throw
+
+            var report = property.IgnoreResult().Report();
+            
+            Assert.True(report.Status.IsFailed);
+        }
     }
 }
