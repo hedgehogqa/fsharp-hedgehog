@@ -8,7 +8,7 @@ type PropertyArgs = internal {
 
 module PropertyArgs =
 
-    let init = {
+    let init () = {
         Language = Language.FSharp
         RecheckData = {
             Size = 0
