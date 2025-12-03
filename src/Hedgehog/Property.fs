@@ -181,6 +181,12 @@ module Property =
     let internal set (a: 'a) (property : Property<'b>) : Property<'a> =
         property |> map (fun _ -> a)
 
+    /// Discards the result of a property, converting it to Property<unit>.
+    /// This is useful when using assertion libraries that return non-unit types (e.g., fluent assertions).
+    /// Assertions that throw exceptions will still cause the property to fail.
+    let ignoreResult (property : Property<'a>) : Property<unit> =
+        property |> map (fun _ -> ())
+
     // Helper to handle Failure/Discard cases in bind - just wrap and return without calling continuation.
     // Note: Failure and Discard don't carry values, so we can safely change the type parameter.
     let private shortCircuit (journal : Journal) (outcome : Outcome<'a>) : Gen<Lazy<PropertyResult<'b>>> =
