@@ -1,6 +1,6 @@
-namespace Hedgehog
+namespace Hedgehog.FSharp
 
-open Hedgehog.FSharp
+open Hedgehog
 
 [<AutoOpen>]
 module GenDateTime =

@@ -27,10 +27,10 @@ type GenListExtensions() =
 
     /// Turn a sequence of generators into a generator of a sequence.
     [<Extension>]
-    static member Sequence(self : #seq<Gen<'T>>) : Gen<seq<'T>> =
+    static member Sequence(self : seq<Gen<'T>>) : Gen<seq<'T>> =
         self |> Gen.sequence
 
     /// Apply a generator-producing function to each element and collect the results.
     [<Extension>]
-    static member Traverse(self : #seq<'T>, f : Func<'T, Gen<'TResult>>) : Gen<seq<'TResult>> =
+    static member Traverse(self : seq<'T>, f : Func<'T, Gen<'TResult>>) : Gen<seq<'TResult>> =
         self |> Gen.traverse f.Invoke
