@@ -1159,6 +1159,12 @@ references:
   commentId: M:Hedgehog.FSharp.Property.forAll-a-Gen
   fullName: Hedgehog.FSharp.Property.forAll-a-Gen
   nameWithType: forAll
+- uid: Hedgehog.FSharp.Property.ignoreResult-Property
+  name: ignoreResult
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_ignoreResult_Property
+  commentId: M:Hedgehog.FSharp.Property.ignoreResult-Property
+  fullName: Hedgehog.FSharp.Property.ignoreResult-Property
+  nameWithType: ignoreResult
 - uid: Hedgehog.FSharp.Property.map-a-Property
   name: map
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_map_a_Property
@@ -2689,6 +2695,12 @@ references:
   commentId: M:Hedgehog.Linq.PropertyExtensions.ForAll-Gen-Func
   fullName: Hedgehog.Linq.PropertyExtensions.ForAll-Gen-Func
   nameWithType: ForAll(Gen, Func)
+- uid: Hedgehog.Linq.PropertyExtensions.IgnoreResult-Property
+  name: IgnoreResult(Property)
+  href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property
+  commentId: M:Hedgehog.Linq.PropertyExtensions.IgnoreResult-Property
+  fullName: Hedgehog.Linq.PropertyExtensions.IgnoreResult-Property
+  nameWithType: IgnoreResult(Property)
 - uid: Hedgehog.Linq.PropertyExtensions.Recheck-Property-string
   name: Recheck(Property, string)
   href: api/Hedgehog.Linq.PropertyExtensions.html#Hedgehog_Linq_PropertyExtensions_Recheck_Property_string

@@ -111,6 +111,7 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
   public static Task CheckAsync(this Property property)
   public static Property&lt;TResult&gt; ForAll(this Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; bind)
   public static Property&lt;T&gt; ForAll(this Gen&lt;T&gt; gen)
+  public static Property IgnoreResult(this Property&lt;T&gt; property)
   public static void Recheck(this Property&lt;bool&gt; property, string recheckData, IPropertyConfig config)
   public static void Recheck(this Property&lt;bool&gt; property, string recheckData)
   public static void Recheck(this Property property, string recheckData, IPropertyConfig config)
@@ -177,7 +178,7 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig">
   Check(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L175"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L196"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test with custom configuration and throws an exception if it fails.
@@ -204,7 +205,7 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property">
   Check(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L164"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L185"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test and throws an exception if it fails.
@@ -231,7 +232,7 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig">
   Check(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L175"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L196"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test with custom configuration and throws an exception if it fails.
@@ -258,7 +259,7 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property">
   Check(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L164"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L185"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test and throws an exception if it fails.
@@ -285,7 +286,7 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig">
   CheckAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L215"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L236"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and throws an exception if it fails.
@@ -312,7 +313,7 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property">
   CheckAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L204"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L225"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and throws an exception if it fails.
@@ -339,7 +340,7 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig">
   CheckAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L215"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L236"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and throws an exception if it fails.
@@ -366,7 +367,7 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property">
   CheckAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L204"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L225"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and throws an exception if it fails.
@@ -445,9 +446,45 @@ Use this for non-blocking execution in async contexts.</p>
 
 
 
+  <h3 id="Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property" data-uid="Hedgehog.Linq.PropertyExtensions.IgnoreResult-Property">
+  IgnoreResult(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L118"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Discards the result of a property, converting it to <a href="/reference/hedgehog-linq-property.html">Property</a>.
+This is useful when using assertion libraries that return non-unit types (e.g., fluent assertions).
+Note: The assertion must throw an exception on failure for the property to fail.
+Assertions that throw exceptions will still cause the property to fail.</p>
+<p><strong>Example:</strong></p>
+<pre><code> var property =
+     from x in Gen.Int32(Range.Linear(0, 100)).ForAll()
+     select x.Should().Be(42); // Returns IAssertion
+ 
+ property.IgnoreResult().Check(); // Convert to  and run
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Property IgnoreResult(this Property&lt;T&gt; property)</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig">
   Recheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L257"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L278"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
@@ -474,7 +511,7 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string">
   Recheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L245"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L266"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs.
@@ -501,7 +538,7 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig">
   Recheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L257"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L278"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
@@ -528,7 +565,7 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string">
   Recheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L245"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L266"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs.
@@ -555,7 +592,7 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig">
   RecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L300"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L321"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
@@ -582,7 +619,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string">
   RecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L289"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L310"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
@@ -609,7 +646,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig">
   RecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L300"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L321"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
@@ -636,7 +673,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string">
   RecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L289"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L310"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
@@ -663,7 +700,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property-IPropertyConfig">
   Render(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L395"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L416"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -688,7 +725,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property">
   Render(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L390"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L411"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -713,7 +750,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property-IPropertyConfig">
   Render(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L395"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L416"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -738,7 +775,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property">
   Render(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L390"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L411"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -763,7 +800,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property-IPropertyConfig">
   Report(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L106"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L127"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -788,7 +825,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property">
   Report(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L101"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L122"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -813,7 +850,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property-IPropertyConfig">
   Report(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L106"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L127"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -838,7 +875,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property">
   Report(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L101"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L122"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -863,7 +900,7 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig">
   ReportAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L135"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L156"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and returns a task with the test report.
@@ -890,7 +927,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property">
   ReportAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L124"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L145"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and returns a task with the test report.
@@ -917,7 +954,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig">
   ReportAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L135"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L156"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and returns a task with the test report.
@@ -944,7 +981,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property">
   ReportAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L124"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L145"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and returns a task with the test report.
@@ -971,7 +1008,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig">
   ReportRecheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L335"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L356"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -996,7 +1033,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-RecheckData">
   ReportRecheck(Property, RecheckData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L344"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L365"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1021,7 +1058,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string">
   ReportRecheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L325"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L346"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1046,7 +1083,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig">
   ReportRecheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L335"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L356"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1071,7 +1108,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string">
   ReportRecheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L325"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L346"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1096,7 +1133,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig">
   ReportRecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L367"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L388"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.</p>
@@ -1122,7 +1159,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string">
   ReportRecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L357"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L378"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously and returns the test report.</p>
@@ -1148,7 +1185,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig">
   ReportRecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L367"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L388"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.</p>
@@ -1174,7 +1211,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string">
   ReportRecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L357"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L378"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously and returns the test report.</p>
@@ -1200,7 +1237,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Select_Property_Action" data-uid="Hedgehog.Linq.PropertyExtensions.Select-Property-Action">
   Select(Property, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L417"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L438"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1225,7 +1262,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Select_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.Select-Property-Func">
   Select(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L412"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L433"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1250,7 +1287,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func">
   SelectMany(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L452"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L473"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1275,7 +1312,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L428"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1300,7 +1337,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L423"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1325,7 +1362,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func">
   SelectMany(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L452"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L473"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1350,7 +1387,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L428"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1375,7 +1412,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L423"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1400,7 +1437,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L428"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1425,7 +1462,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L423"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
@@ -1525,7 +1562,7 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Where_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.Where-Property-Func">
   Where(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L408"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L429"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
