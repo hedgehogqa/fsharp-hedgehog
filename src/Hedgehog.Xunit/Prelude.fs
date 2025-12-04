@@ -23,28 +23,6 @@ module Array =
         (first, middle, Some last)
 
 module Seq =
-  /// Groups consecutive elements by a classifier function, preserving order.
-  /// Returns a list of (key * items list) tuples where items with the same consecutive key are grouped together.
-  /// Example: [1;1;2;1] with classifier (fun x -> x) produces [(1, [1;1]); (2, [2]); (1, [1])]
-  let groupConsecutiveBy (classifier: 'T -> 'Key) (source: 'T seq) : ('Key * 'T list) list =
-    let folder (groups, currentKey, currentGroup) item =
-      let key = classifier item
-      match currentKey with
-      | None -> (groups, Some key, [item])
-      | Some prevKey when key = prevKey -> (groups, currentKey, item :: currentGroup)
-      | Some prevKey -> ((prevKey, List.rev currentGroup) :: groups, Some key, [item])
-    
-    let (groups, finalKey, finalGroup) = 
-      source |> Seq.fold folder ([], None, [])
-    
-    match finalKey with
-    | None -> []
-    | Some key -> (key, List.rev finalGroup) :: groups
-    |> List.rev
-
-  let inline tryMin xs =
-    if Seq.isEmpty xs then None else Some (Seq.min xs)
-
   // https://github.com/dotnet/fsharp/blob/b9942004e8ba19bf73862b69b2d71151a98975ba/src/FSharp.Core/seqcore.fs#L172-L174
   let inline private checkNonNull argName arg =
     if isNull arg then
@@ -70,25 +48,3 @@ module internal Type =
         |> Seq.tryFind (fun attr -> attr :? 'T)
         |> Option.map (fun attr -> attr :?> 'T))
     |> Seq.toList
-
-[<AutoOpen>]
-module StringBuilder =
-  open System.Text
-
-  type StringBuilder with
-    /// Appends each string in the sequence with indentation
-    member this.AppendIndentedLine(indent: string, lines: #seq<string>) =
-      lines |> Seq.iter (fun line -> this.Append(indent).AppendLine(line) |> ignore)
-      this
-
-    /// Splits text into lines and appends each with indentation
-    member this.AppendIndentedLine(indent: string, text: string) =
-      let lines = text.Split([|'\n'; '\r'|], StringSplitOptions.None)
-      this.AppendIndentedLine(indent, lines)
-
-    member this.AppendLines(lines: #seq<string>) =
-      this.AppendJoin(Environment.NewLine, lines)
-
-    /// Returns the string content with trailing whitespace removed
-    member this.ToStringTrimmed() =
-      this.ToString().TrimEnd()
