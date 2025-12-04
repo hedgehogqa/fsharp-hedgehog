@@ -124,22 +124,7 @@ let dispose (o: obj) =
 // Value Formatting & Display
 // ========================================
 
-let printValue (value: obj) : string =
-    let prepareForPrinting (value: obj) : obj =
-        if isNull value then
-            value
-        else
-            let typeInfo = IntrospectionExtensions.GetTypeInfo(value.GetType())
-            let isResizeArray = typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
-            if isResizeArray then
-                value :?> System.Collections.IEnumerable
-                |> Seq.cast<obj>
-                |> List.ofSeq
-                :> obj
-            else
-                value
-
-    value |> prepareForPrinting |> sprintf "%A"
+let printValue = Hedgehog.FSharp.ValueFormatting.printValue
 
 let formatParametersWithNames (parameters: ParameterInfo[]) (values: obj list) : string =
     Array.zip parameters (List.toArray values)
@@ -251,8 +236,12 @@ module private PropertyBuilder =
                 box e
 
         let createJournal args =
-            let formattedParams = formatParametersWithNames parameters args
-            Journal.singleton (fun () -> formattedParams)
+            let parameterEntries =
+                Array.zip parameters (List.toArray args)
+                |> Array.map (fun (param, value) -> 
+                    fun () -> TestParameter (param.Name, value))
+                |> Array.toSeq
+            Journal.ofSeq parameterEntries
         
         let wrapWithExceptionHandling (result: obj) : Property<unit> =
             match result with

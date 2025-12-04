@@ -1,4 +1,8 @@
-﻿namespace Hedgehog.Xunit.Tests.CSharp;
+﻿using AwesomeAssertions;
+using Hedgehog.Linq;
+using Range = Hedgehog.Linq.Range;
+
+namespace Hedgehog.Xunit.Tests.CSharp;
 
 public class Async
 {
@@ -41,4 +45,12 @@ public class Async
         Assert.Equal(s, result.Value);
         return result;
     }
+
+    [Property]
+    public Property<bool> Foo(List<byte> myBytes, byte myInt) =>
+        from x in Gen.Alpha.String(Range.Constant(1, 20)).ForAll()
+        from y in Gen.Bool.ForAll()
+        from _ in Property.CounterExample(() => $"{x} is longer than {myInt}")
+        select myBytes.Count < 2;
+
 }

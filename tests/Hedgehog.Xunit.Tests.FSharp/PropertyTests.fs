@@ -36,12 +36,18 @@ module ``Property module tests`` =
   type private Marker = class end
   let getMethod = typeof<Marker>.DeclaringType.GetMethod
 
-  let assertShrunk methodName expected =
+  let assertShrunk methodName (expectedParams: (string * obj) list) =
     let report = PropertyTest.runReport methodName typeof<Marker>.DeclaringType null
     match report.Status with
     | Status.Failed r ->
-      let rep = r.Journal |> Journal.eval
-      Assert.Equal(expected, rep |> Seq.head)
+      let actualParams =
+        r.Journal
+        |> Journal.eval
+        |> Seq.choose (function
+          | TestParameter (name, value) -> Some (name, value)
+          | _ -> None)
+        |> Seq.toList
+      Assert.Equal<(string * obj) list>(expectedParams, actualParams)
     | _ -> failwith "impossible"
 
   [<Property(Skip = skipReason)>]
@@ -49,7 +55,7 @@ module ``Property module tests`` =
 
   [<Fact>]
   let ``fails for false`` () =
-    assertShrunk (nameof ``fails for false, skipped``) "value = 0"
+    assertShrunk (nameof ``fails for false, skipped``) [("value", box 0)]
 
   [<Property(Skip = skipReason)>]
   let ``Result with Error shrinks, skipped`` (i: int) =
@@ -59,7 +65,7 @@ module ``Property module tests`` =
       Ok ()
   [<Fact>]
   let ``Result with Error shrinks`` () =
-    assertShrunk (nameof ``Result with Error shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``Result with Error shrinks, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``Result with Error reports exception with Error value, skipped`` (i: int) =
@@ -72,7 +78,13 @@ module ``Property module tests`` =
     let report = PropertyTest.runReport (nameof ``Result with Error reports exception with Error value, skipped``) typeof<Marker>.DeclaringType null
     match report.Status with
     | Status.Failed r ->
-      let errorMessage = r.Journal |> Journal.eval |> Seq.skip 1 |> Seq.exactlyOne
+      let errorMessage =
+        r.Journal
+        |> Journal.eval
+        |> Seq.choose (function
+          | JournalLine.Exception exn -> Some (exn.ToString())
+          | _ -> None)
+        |> Seq.exactlyOne
       Assert.Contains($"System.Exception: Result is in the Error case with the following value:{Environment.NewLine}\"Too many digits!\"", errorMessage)
     | _ -> failwith "impossible"
 
@@ -85,7 +97,7 @@ module ``Property module tests`` =
     if i >= 50 then failwith "Some error."
   [<Fact>]
   let ``Can shrink an int`` () =
-    assertShrunk (nameof ``Can shrink an int, skipped``) "i = 50"
+    assertShrunk (nameof ``Can shrink an int, skipped``) [("i", box 50)]
 
   [<Property>]
   let ``Can generate two ints`` (i1: int, i2: int) =
@@ -97,7 +109,7 @@ module ``Property module tests`` =
        i2 >= 20 then failwith "Some error."
   [<Fact>]
   let ``Can shrink both ints`` () =
-    assertShrunk (nameof ``Can shrink both ints, skipped``) $"i1 = 10{Environment.NewLine}i2 = 20"
+    assertShrunk (nameof ``Can shrink both ints, skipped``) [("i1", box 10); ("i2", box 20)]
 
   [<Property>]
   let ``Can generate an int and string`` (i: int, s: string) =
@@ -108,7 +120,7 @@ module ``Property module tests`` =
     if i >= 2 && s.Contains "b" then failwith "Some error."
   [<Fact>]
   let ``Can shrink an int and string`` () =
-    assertShrunk (nameof ``Can shrink an int and string, skipped``) $"i = 2{Environment.NewLine}s = \"b\""
+    assertShrunk (nameof ``Can shrink an int and string, skipped``) [("i", box 2); ("s", box "b")]
 
   [<Property(typeof<Int13>, 1<tests>)>]
   let ``runs with 13 once`` () = ()
@@ -344,12 +356,19 @@ module ``Asynchronous tests`` =
 
   type private Marker = class end
   let getMethod = typeof<Marker>.DeclaringType.GetMethod
-  let assertShrunk methodName expected =
+  let assertShrunk methodName (expectedParams: (string * obj) list) =
     let report = PropertyTest.runReport methodName typeof<Marker>.DeclaringType null
     printfn "DEBUG: Report status = %A" report.Status
     match report.Status with
     | Status.Failed r ->
-      Assert.Equal(expected, r.Journal |> Journal.eval |> Seq.head)
+      let actualParams =
+        r.Journal
+        |> Journal.eval
+        |> Seq.choose (function
+          | TestParameter (name, value) -> Some (name, value)
+          | _ -> None)
+        |> Seq.toList
+      Assert.Equal<(string * obj) list>(expectedParams, actualParams)
     | _ -> failwithf "impossible - status was: %A" report.Status
 
   open System.Threading.Tasks
@@ -359,33 +378,33 @@ module ``Asynchronous tests`` =
   [<Property(Skip = skipReason)>]
   let ``Returning Task with exception fails, skipped`` (i: int) : Task =
     if i > 10 then
-      Exception() |> Task.FromException
+      raise <| System.Exception()
     else FooAsync()
   [<Fact>]
   let ``Returning Task with exception fails`` () =
-    assertShrunk (nameof ``Returning Task with exception fails, skipped``) "i = 11"
+    assertShrunk (nameof ``Returning Task with exception fails, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped`` (i: int) : Task<unit> =
     task {
       do! FooAsync()
       if i > 10 then
-        raise <| Exception()
+        raise <| System.Exception()
     }
   [<Fact>]
   let ``TaskBuilder (returning Task<unit>) with exception shrinks`` () =
-    assertShrunk (nameof ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``TaskBuilder (returning Task<unit>) with exception shrinks, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``Async with exception shrinks, skipped`` (i: int) =
     async {
       do! Async.Sleep 2
       if i > 10 then
-        raise <| Exception()
+        raise <| System.Exception()
     }
   [<Fact>]
   let ``Async with exception shrinks`` () =
-    assertShrunk (nameof ``Async with exception shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``Async with exception shrinks, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``AsyncResult with Error shrinks, skipped`` (i: int) =
@@ -398,7 +417,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``AsyncResult with Error shrinks`` () =
-    assertShrunk (nameof ``AsyncResult with Error shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``AsyncResult with Error shrinks, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``TaskResult with Error shrinks, skipped`` (i: int) =
@@ -411,7 +430,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``TaskResult with Error shrinks`` () =
-    assertShrunk (nameof ``TaskResult with Error shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``TaskResult with Error shrinks, skipped``) [("i", box 11)]
 
   [<Property(Skip = skipReason)>]
   let ``Non-unit TaskResult with Error shrinks, skipped`` (i: int) =
@@ -424,7 +443,7 @@ module ``Asynchronous tests`` =
     }
   [<Fact>]
   let ``Non-unit TaskResult with Error shrinks`` () =
-    assertShrunk (nameof ``Non-unit TaskResult with Error shrinks, skipped``) "i = 11"
+    assertShrunk (nameof ``Non-unit TaskResult with Error shrinks, skipped``) [("i", box 11)]
 
 module ``IDisposable test module`` =
   let mutable runs = 0
@@ -439,7 +458,7 @@ module ``IDisposable test module`` =
   [<Property(Skip = skipReason)>]
   let ``IDisposable arg get disposed even if exception thrown, skipped`` (_: DisposableImplementation) (i: int) =
     runs <- runs + 1
-    if i > 10 then raise <| Exception()
+    if i > 10 then raise <| System.Exception()
   [<Fact>]
   let ``IDisposable arg get disposed even if exception thrown`` () =
     let report = PropertyTest.runReport (nameof ``IDisposable arg get disposed even if exception thrown, skipped``) typeof<DisposableImplementation>.DeclaringType null

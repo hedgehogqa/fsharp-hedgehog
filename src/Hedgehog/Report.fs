@@ -84,6 +84,8 @@ module Report =
     open System
     open System.Text
 
+    let private printValue = Hedgehog.FSharp.ValueFormatting.printValue
+
     let private renderTests : int<tests> -> string = function
         | 1<tests> ->
             "1 test"
@@ -134,14 +136,38 @@ module Report =
             (renderAndShrinks failure.Shrinks)
             (renderAndDiscards report.Discards)
 
-        // Split journal entries into parameters and exceptions
-        let journalEntries = Journal.eval failure.Journal |> List.ofSeq
-        let parameters, exceptions = 
-            journalEntries |> List.partition (fun entry -> 
-                not (entry.Contains("Exception") || entry.Contains("   at ")))
+        // Evaluate journal entries and group by type
+        let journalLines = Journal.eval failure.Journal |> List.ofSeq
         
-        // Render parameters
-        Seq.iter (appendLine sb) parameters
+        // Separate different types of journal entries
+        let testParams, generated, counterexamples, texts, cancellations, exceptions =
+            journalLines |> List.fold (fun (tp, gv, ce, tx, ca, ex) line ->
+                match line with
+                | TestParameter (name, value) -> ((name, value) :: tp, gv, ce, tx, ca, ex)
+                | GeneratedValue value -> (tp, value :: gv, ce, tx, ca, ex)
+                | Counterexample msg -> (tp, gv, msg :: ce, tx, ca, ex)
+                | Text msg -> (tp, gv, ce, msg :: tx, ca, ex)
+                | Cancellation msg -> (tp, gv, ce, tx, msg :: ca, ex)
+                | Exception exn -> (tp, gv, ce, tx, ca, exn :: ex)
+            ) ([], [], [], [], [], [])
+        
+        // Render test parameters
+        if not (List.isEmpty testParams) then
+            testParams 
+            |> List.rev 
+            |> List.iter (fun (name, value) -> 
+                appendLinef sb "%s = %s" name (printValue value))
+        
+        // Render generated values
+        if not (List.isEmpty generated) then
+            generated 
+            |> List.rev 
+            |> List.iter (fun value -> 
+                appendLine sb (printValue value))
+        
+        // Render counterexamples and text entries (preserve order)
+        counterexamples |> List.rev |> List.iter (appendLine sb)
+        texts |> List.rev |> List.iter (appendLine sb)
 
         // Then render recheck info
         match failure.RecheckInfo with
@@ -151,11 +177,18 @@ module Report =
             appendLinef sb ""
             appendLinef sb "Recheck seed: \"%s\"" (RecheckData.serialize recheckData)
 
-        // Finally render exceptions
+        // Render cancellations or exceptions
+        if not (List.isEmpty cancellations) then
+            appendLinef sb ""
+            cancellations |> List.rev |> List.iter (appendLine sb)
+        
         if not (List.isEmpty exceptions) then
             appendLinef sb ""
             appendLinef sb "Actual error:"
-            Seq.iter (appendLine sb) exceptions
+            exceptions 
+            |> List.rev 
+            |> List.iter (fun ex -> 
+                appendLine sb (string (Exceptions.unwrap ex)))
 
         sb.ToString().Trim() // Exclude extra newline.
 

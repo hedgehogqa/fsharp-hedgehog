@@ -91,7 +91,7 @@ module Property =
                     return (Journal.empty, Success result)
                 with
                 | :? System.OperationCanceledException ->
-                    return (Journal.singletonMessage "Task was canceled", Failure)
+                    return (Journal.singleton (fun () -> Cancellation "Task was canceled"), Failure)
                 | ex ->
                     return (Journal.exn ex, Failure)
             })))
@@ -107,7 +107,7 @@ module Property =
                     return (Journal.empty, Success ())
                 with
                 | :? System.OperationCanceledException ->
-                    return (Journal.singletonMessage "Task was canceled", Failure)
+                    return (Journal.singleton (fun () -> Cancellation "Task was canceled"), Failure)
                 | ex ->
                     return (Journal.exn ex, Failure)
             })))
@@ -157,7 +157,7 @@ module Property =
     /// Use this to provide context about generated values or intermediate results that led to a failure.
     /// The message function is only evaluated if the test fails.
     let counterexample (msg : unit -> string) : Property<unit> =
-        (Journal.singleton msg, Success ()) |> GenLazy.constant |> ofGen
+        (Journal.singleton (fun () -> Counterexample (msg ())), Success ()) |> GenLazy.constant |> ofGen
 
     /// Transforms the successful result of a property using the provided function.
     /// If the function throws an exception, the property fails with the exception message.
@@ -315,8 +315,8 @@ module Property =
     /// This is the primary way to introduce generated test data into your properties.
     let forAll (k : 'a -> Property<'b>) (gen : Gen<'a>) : Property<'b> =
         let prepend (x : 'a) =
-            counterexample (fun () -> printValue x)
-            |> set x
+            let journalEntry = Journal.singleton (fun () -> GeneratedValue (box x))
+            (journalEntry, Success x) |> GenLazy.constant |> ofGen
             |> bind k
             |> toGenInternal
 
@@ -778,7 +778,7 @@ module PropertyBuilder =
 
         member __.BindReturn(m : Gen<'a>, f: 'a -> 'b) =
             m
-            |> Gen.map (fun a -> Lazy.constant ((Journal.singleton (fun () -> Property.printValue a)), Success a))
+            |> Gen.map (fun a -> Lazy.constant ((Journal.singleton (fun () -> GeneratedValue (box a))), Success a))
             |> Property.ofGen
             |> Property.map f
 
