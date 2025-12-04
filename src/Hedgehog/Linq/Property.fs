@@ -99,6 +99,7 @@ type PropertyExtensions private () =
     /// <summary>
     /// Discards the result of a property, converting it to <see cref="Property"/>.
     /// This is useful when using assertion libraries that return non-unit types (e.g., fluent assertions).
+    /// Note: The assertion must throw an exception on failure for the property to fail.
     /// Assertions that throw exceptions will still cause the property to fail.
     /// </summary>
     /// <param name="property">The property whose result should be ignored.</param>
