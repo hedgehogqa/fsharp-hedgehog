@@ -2,12 +2,12 @@ namespace Hedgehog
 
 /// Represents a single line in a property test journal with semantic meaning
 type JournalLine =
-    | TestParameter of name: string * value: obj    // Individual xUnit test method parameter
+    | TestParameter of name: string * value: obj     // Individual test method parameter
     | GeneratedValue of value: obj                   // forAll generated values (no name)
     | Counterexample of message: string              // Property.counterexample user messages
     | Exception of exn: exn                          // Original exception, unwrap at render
     | Cancellation of message: string                // OperationCanceledException messages
-    | Text of message: string                        // Future-proof escape hatch
+    | Text of message: string                        // Plane text messages (info, etc.)
 
 [<Struct>]
 type Journal =

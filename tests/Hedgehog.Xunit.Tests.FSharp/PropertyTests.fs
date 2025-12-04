@@ -702,8 +702,10 @@ module ``tryRaise tests`` =
     let actual = Assert.Throws<PropertyFailedException>(fun () -> ReportFormatter.tryRaise report)
     let expectedMessage = """*** Failed! Falsifiable (after 1 test):"""
     Assert.Contains(expectedMessage, actual.Message)
-    let expectedMessage = """Recheck seed: "0_"""
+    let expectedMessage = """You can reproduce this failure with the following Recheck Seed:"""
     Assert.Contains(expectedMessage, actual.Message)
+    let expectedSeed = """"0_"""
+    Assert.Contains(expectedSeed, actual.Message)
 
 
 module ``returning a property runs it`` =

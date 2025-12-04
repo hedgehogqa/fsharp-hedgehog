@@ -5,8 +5,6 @@ open Hedgehog.FSharp
 open Hedgehog.Xunit
 open System
 open System.Reflection
-open System.Runtime.ExceptionServices
-open System.Threading
 open System.Threading.Tasks
 
 // ========================================
@@ -110,7 +108,6 @@ let rec wrapReturnValue (x: obj) : Property<unit> =
             
         | _ -> Property.success ()
 
-
 // ========================================
 // Resource Management
 // ========================================
@@ -119,18 +116,6 @@ let dispose (o: obj) =
     match o with
     | :? IDisposable as d -> d.Dispose()
     | _ -> ()
-
-// ========================================
-// Value Formatting & Display
-// ========================================
-
-let printValue = Hedgehog.FSharp.ValueFormatting.printValue
-
-let formatParametersWithNames (parameters: ParameterInfo[]) (values: obj list) : string =
-    Array.zip parameters (List.toArray values)
-    |> Array.map (fun (param, value) ->
-        $"%s{param.Name} = %s{printValue value}")
-    |> String.concat Environment.NewLine
 
 // ========================================
 // Configuration Helpers
@@ -204,16 +189,8 @@ module private PropertyBuilder =
             else
                 testMethod
 
-        try
-            methodToInvoke.Invoke(testClassInstance, args |> Array.ofList)
-        with
-        | :? TargetInvocationException as tie when not (isNull tie.InnerException) ->
-            // Unwrap reflection exception to show the actual user exception instead of TargetInvocationException.
-            // We use ExceptionDispatchInfo.Capture().Throw() to preserve the original stack trace.
-            // Note: This adds a "--- End of stack trace from previous location ---" marker
-            // and appends additional frames as the exception propagates, which we filter out later.
-            ExceptionDispatchInfo.Capture(tie.InnerException).Throw()
-            failwith "unreachable"
+        methodToInvoke.Invoke(testClassInstance, args |> Array.ofList)
+
 
     /// Creates a property based on the test method's return type
     let createProperty
@@ -228,12 +205,12 @@ module private PropertyBuilder =
                     invokeTestMethod testMethod testClassInstance args
                 finally
                     List.iter dispose args
-            with e ->
-                // If the test method throws an exception, we need to handle it
-                // For Property<_> return types, the exception will be caught by Property.map
-                // For other return types, we need to wrap it in a failing property
-                // We return a special marker that wrapReturnValue will recognize
-                box e
+            with
+                // Unwrap TargetInvocationException to get the actual exception.
+                // It is safe to do it because invokeTestMethod uses reflection that adds this wrapper.
+                | :? TargetInvocationException as e when not (isNull e.InnerException) ->
+                    box e.InnerException
+                | e -> box e
 
         let createJournal args =
             let parameterEntries =
@@ -245,10 +222,7 @@ module private PropertyBuilder =
         
         let wrapWithExceptionHandling (result: obj) : Property<unit> =
             match result with
-            | :? exn as e -> 
-                // Exception was thrown - create a failing property
-                Property.counterexample (fun () -> string e)
-                |> Property.bind (fun () -> Property.failure)
+            | :? exn as e -> Property.exn e
             | _ -> wrapReturnValue result
 
 

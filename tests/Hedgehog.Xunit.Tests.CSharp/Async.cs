@@ -37,6 +37,7 @@ public class Async
         return result;
     }
 
+
     [Property]
     public async ValueTask<TestValue> Async_property_returning_ValueTask_with_custom_type(string s)
     {
@@ -45,12 +46,4 @@ public class Async
         Assert.Equal(s, result.Value);
         return result;
     }
-
-    [Property]
-    public Property<bool> Foo(List<byte> myBytes, byte myInt) =>
-        from x in Gen.Alpha.String(Range.Constant(1, 20)).ForAll()
-        from y in Gen.Bool.ForAll()
-        from _ in Property.CounterExample(() => $"{x} is longer than {myInt}")
-        select myBytes.Count < 2;
-
 }

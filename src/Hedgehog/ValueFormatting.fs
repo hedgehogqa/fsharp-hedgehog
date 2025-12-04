@@ -2,23 +2,24 @@ namespace Hedgehog.FSharp
 
 /// Utilities for formatting values in test output
 [<RequireQualifiedAccess>]
-module ValueFormatting =
+module internal ValueFormatting =
 
     /// Formats a value for display in test output.
     /// Converts ResizeArray to list for better readability.
     let printValue (value: obj) : string =
         let prepareForPrinting (value: obj) : obj =
-            if isNull value then
+        #if FABLE_COMPILER
+            value
+        #else
+            if value = null then
                 value
             else
-                let typeInfo = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType())
-                let isResizeArray = typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
-                if isResizeArray then
-                    value :?> System.Collections.IEnumerable
-                    |> Seq.cast<obj>
-                    |> List.ofSeq
-                    :> obj
-                else
-                    value
+                let t = value.GetType()
+                let t = System.Reflection.IntrospectionExtensions.GetTypeInfo(t)
+                let isList = t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ResizeArray<_>>
+                if isList
+                then value :?> System.Collections.IEnumerable |> Seq.cast<obj> |> List.ofSeq :> obj
+                else value
+        #endif
 
         value |> prepareForPrinting |> sprintf "%A"

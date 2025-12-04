@@ -148,37 +148,33 @@ let propertyTests = testList "Property tests" [
 
 
     testCase "BindReturn adds value to Journal" <| fun () ->
-        let actual =
+        let generatedValues =
             property {
                 let! b = Gen.bool
                 return Expect.isTrue b
             }
-            |> Property.report
-            |> Report.render
-            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
-            |> Array.item 1
-        actual =! "false"
+            |> expectFailureWithGeneratedValues
+        
+        if List.isEmpty generatedValues then
+            failwith "Should have generated values in journal"
+        
+        Expect.equal (List.head generatedValues) false "Should have generated 'false'"
 
 
     testCase "and! syntax is applicative" <| fun () ->
         // Based on https://well-typed.com/blog/2019/05/integrated-shrinking/#:~:text=For%20example%2C%20consider%20the%20property%20that
-        let actual =
+        let generatedValues =
             property {
                 let! x = Range.constant 0 1_000_000_000 |> Gen.int32
                 and! y = Range.constant 0 1_000_000_000 |> Gen.int32
                 return x <= y |> Expect.isTrue
             }
-            |> Property.report
-            |> Report.render
-            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
-            |> Array.item 1
+            |> expectFailureWithGeneratedValues
 
-        let actual =
-            // normalize printing of a pair between .NET and Fable/JS
-            actual.Replace("(", "")
-                  .Replace(" ", "")
-                  .Replace(")", "")
-
-        actual =! "1,0"
+        if List.length generatedValues <> 1 then
+            failwithf "Should have 1 generated value (tuple) in journal, but got %d" (List.length generatedValues)
+        
+        let (x, y) = generatedValues.[0] :?> (int * int)
+        Expect.equal (x, y) (1, 0) "Should have shrunk to (1, 0)"
 ]
 
