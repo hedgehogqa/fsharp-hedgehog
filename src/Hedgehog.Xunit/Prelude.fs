@@ -23,9 +23,6 @@ module Array =
         (first, middle, Some last)
 
 module Seq =
-  let inline tryMin xs =
-    if Seq.isEmpty xs then None else Some (Seq.min xs)
-
   // https://github.com/dotnet/fsharp/blob/b9942004e8ba19bf73862b69b2d71151a98975ba/src/FSharp.Core/seqcore.fs#L172-L174
   let inline private checkNonNull argName arg =
     if isNull arg then
@@ -51,25 +48,3 @@ module internal Type =
         |> Seq.tryFind (fun attr -> attr :? 'T)
         |> Option.map (fun attr -> attr :?> 'T))
     |> Seq.toList
-
-[<AutoOpen>]
-module StringBuilder =
-  open System.Text
-
-  type StringBuilder with
-    /// Appends each string in the sequence with indentation
-    member this.AppendIndentedLine(indent: string, lines: #seq<string>) =
-      lines |> Seq.iter (fun line -> this.Append(indent).AppendLine(line) |> ignore)
-      this
-
-    /// Splits text into lines and appends each with indentation
-    member this.AppendIndentedLine(indent: string, text: string) =
-      let lines = text.Split([|'\n'; '\r'|], StringSplitOptions.None)
-      this.AppendIndentedLine(indent, lines)
-
-    member this.AppendLines(lines: #seq<string>) =
-      this.AppendJoin(Environment.NewLine, lines)
-
-    /// Returns the string content with trailing whitespace removed
-    member this.ToStringTrimmed() =
-      this.ToString().TrimEnd()

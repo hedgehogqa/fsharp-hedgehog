@@ -121,7 +121,7 @@ let genTests = testList "Gen tests" [
         actual =! expected
 
     testCase "dateTime shrinks to correct mid-value" <| fun _ ->
-        let actual =
+        let generatedValues =
             property {
                 let! actual =
                   (Range.constantFrom
@@ -131,12 +131,12 @@ let genTests = testList "Gen tests" [
                   |> Gen.dateTime
                 actual =! DateTime.Now
             }
-            |> Property.report
-            |> Report.render
-            |> (fun x -> x.Split ([|Environment.NewLine|], StringSplitOptions.None))
-            |> Array.item 1
-            |> DateTime.Parse
+            |> expectFailureWithGeneratedValues
 
+        if List.isEmpty generatedValues then
+            failwith "Should have generated values in journal"
+        
+        let actual = generatedValues.[0] :?> DateTime
         actual =! DateTime (2000, 1, 1)
 
     fableIgnore "int64 can create exponentially bounded integer" <| fun _ ->

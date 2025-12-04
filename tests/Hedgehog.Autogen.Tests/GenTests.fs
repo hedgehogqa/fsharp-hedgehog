@@ -499,7 +499,7 @@ module ShrinkTests =
       test <@ not (value.String.Contains('b')) @>
     }
     let rendered = render property
-    test <@ rendered.Contains "{ String = \"b\"\n  Int = 0 }" @>
+    test <@ rendered.Contains $"{{ String = \"b\"{Environment.NewLine}  Int = 0 }}" @>
 
 
   type MyCliMutable() =
@@ -612,7 +612,7 @@ module ShrinkTests =
     }
     let rendered = render property
     test <@ rendered.Contains "[[1; 0" ||
-            rendered.Contains "[[1]\n [0]" ||
+            rendered.Contains $"[[1]{Environment.NewLine} [0]" ||
             rendered.Contains "[[1]]"@>
 
   [<Fact>]

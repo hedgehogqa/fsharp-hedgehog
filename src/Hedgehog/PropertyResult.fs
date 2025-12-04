@@ -26,7 +26,7 @@ module internal PropertyResult =
             with
 #if !FABLE_COMPILER
             | :? System.OperationCanceledException ->
-                return (Journal.singletonMessage "Async computation was canceled", Failure)
+                return (Journal.singleton (fun () -> Cancellation "Async computation was canceled"), Failure)
 #endif
             | ex ->
                 return (Journal.exn ex, Failure)

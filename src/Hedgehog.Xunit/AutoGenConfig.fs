@@ -22,7 +22,7 @@ type %s{configType.Name} =
         let methodInfo =
           if methodInfo.IsGenericMethod then
             methodInfo.GetParameters()
-            |> Array.map (_.ParameterType.IsGenericParameter)
+            |> Array.map _.ParameterType.IsGenericParameter
             |> Array.zip configArgs
             |> Array.filter snd
             |> Array.map (fun (arg, _) -> arg.GetType())

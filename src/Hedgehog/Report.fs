@@ -84,17 +84,134 @@ module Report =
     open System
     open System.Text
 
+    let private printValue = Hedgehog.FSharp.ValueFormatting.printValue
+    let private indent = "  " // 2 spaces for indentation
+
+    // ========================================
+    // StringBuilder Extensions
+    // ========================================
+
+    type private StringBuilder with
+        /// Appends each string in the sequence with indentation
+        member this.AppendIndentedLine(indent: string, lines: #seq<string>) =
+            lines |> Seq.iter (fun line -> this.Append(indent).AppendLine(line) |> ignore)
+            this
+
+        /// Splits text into lines and appends each with indentation
+        member this.AppendIndentedLine(indent: string, text: string) =
+            let lines = text.Split([|'\n'; '\r'|], StringSplitOptions.None)
+            this.AppendIndentedLine(indent, lines)
+
+    // ========================================
+    // Consecutive Grouping
+    // ========================================
+
+    /// Groups consecutive elements by a classifier function, preserving order.
+    /// Returns a list of (key * items list) tuples where items with the same consecutive key are grouped together.
+    let private groupConsecutiveBy (classifier: 'T -> 'Key) (source: 'T seq) : ('Key * 'T list) list =
+        let folder (groups, currentKey, currentGroup) item =
+            let key = classifier item
+            match currentKey with
+            | None -> (groups, Some key, [item])
+            | Some prevKey when key = prevKey -> (groups, currentKey, item :: currentGroup)
+            | Some prevKey -> ((prevKey, List.rev currentGroup) :: groups, Some key, [item])
+        
+        let groups, finalKey, finalGroup =
+            source |> Seq.fold folder ([], None, [])
+        
+        match finalKey with
+        | None -> []
+        | Some key -> (key, List.rev finalGroup) :: groups
+        |> List.rev
+
+    // ========================================
+    // Journal Entry Groups
+    // ========================================
+
+    type private JournalEntryGroup =
+        | ParametersGroup of (string * obj) list
+        | GeneratedGroup of obj list
+        | CounterexamplesGroup of string list
+        | TextsGroup of string list
+        | CancellationsGroup of string list
+        | ExceptionsGroup of exn list
+
+    let private classifyJournalLine (line: JournalLine) : JournalEntryGroup =
+        match line with
+        | TestParameter (name, value) -> ParametersGroup [(name, value)]
+        | GeneratedValue value -> GeneratedGroup [value]
+        | Counterexample msg -> CounterexamplesGroup [msg]
+        | Text msg -> TextsGroup [msg]
+        | Cancellation msg -> CancellationsGroup [msg]
+        | Exception exn -> ExceptionsGroup [exn]
+
+    let private groupKey (group: JournalEntryGroup) : int =
+        match group with
+        | ParametersGroup _ -> 0
+        | GeneratedGroup _ -> 1
+        | CounterexamplesGroup _ -> 2
+        | TextsGroup _ -> 3
+        | CancellationsGroup _ -> 4
+        | ExceptionsGroup _ -> 5
+
+    let private mergeGroups (groups: JournalEntryGroup list) : JournalEntryGroup =
+        match groups with
+        | [] -> failwith "Cannot merge empty group list"
+        | ParametersGroup _ :: _ ->
+            groups |> List.collect (function ParametersGroup items -> items | _ -> []) |> ParametersGroup
+        | GeneratedGroup _ :: _ ->
+            groups |> List.collect (function GeneratedGroup items -> items | _ -> []) |> GeneratedGroup
+        | CounterexamplesGroup _ :: _ ->
+            groups |> List.collect (function CounterexamplesGroup items -> items | _ -> []) |> CounterexamplesGroup
+        | TextsGroup _ :: _ ->
+            groups |> List.collect (function TextsGroup items -> items | _ -> []) |> TextsGroup
+        | CancellationsGroup _ :: _ ->
+            groups |> List.collect (function CancellationsGroup items -> items | _ -> []) |> CancellationsGroup
+        | ExceptionsGroup _ :: _ ->
+            groups |> List.collect (function ExceptionsGroup items -> items | _ -> []) |> ExceptionsGroup
+
+    // ========================================
+    // Group Rendering Functions
+    // ========================================
+
+    let private renderParameters (sb: StringBuilder) (parameters: (string * obj) list) : unit =
+        sb.AppendLine().AppendLine("Test parameters:") |> ignore
+        parameters |> List.iter (fun (name, value) ->
+            sb.AppendIndentedLine(indent, $"%s{name} = %s{printValue value}") |> ignore)
+
+    let private renderGenerated (sb: StringBuilder) (values: obj list) : unit =
+        sb.AppendLine().AppendLine("Generated values:") |> ignore
+        values |> List.iter (fun value ->
+            sb.AppendIndentedLine(indent, printValue value) |> ignore)
+
+    let private renderCounterexamples (sb: StringBuilder) (messages: string list) : unit =
+        sb.AppendLine().AppendLine("Counterexamples:") |> ignore
+        messages |> List.iter (fun msg -> sb.AppendIndentedLine(indent, msg) |> ignore)
+
+    let private renderTexts (sb: StringBuilder) (messages: string list) : unit =
+        sb.AppendLine() |> ignore
+        messages |> List.iter (fun msg -> sb.AppendLine(msg) |> ignore)
+
+    let private renderCancellations (sb: StringBuilder) (messages: string list) : unit =
+        sb.AppendLine() |> ignore
+        messages |> List.iter (fun msg -> sb.AppendLine(msg) |> ignore)
+
+    let private renderExceptions (sb: StringBuilder) (exceptions: exn list) : unit =
+        exceptions |> List.iter (fun exn ->
+            let exceptionString = string (Exceptions.unwrap exn)
+            sb.AppendLine().AppendLine("Actual exception:").AppendLine(exceptionString) |> ignore)
+
     let private renderTests : int<tests> -> string = function
         | 1<tests> ->
             "1 test"
         | n ->
-            sprintf "%d tests" n
+            $"%d{n} tests"
 
     let private renderDiscards : int<discards> -> string = function
         | 1<discards> ->
             "1 discard"
         | n ->
-            sprintf "%d discards" n
+            $"%d{n} discards"
 
     let private renderAndDiscards : int<discards> -> string = function
         | 0<discards> ->
@@ -102,7 +219,7 @@ module Report =
         | 1<discards> ->
             " and 1 discard"
         | n ->
-            sprintf " and %d discards" n
+            $" and %d{n} discards"
 
     let private renderAndShrinks : int<shrinks> -> string = function
         | 0<shrinks> ->
@@ -110,13 +227,7 @@ module Report =
         | 1<shrinks> ->
             " and 1 shrink"
         | n ->
-            sprintf " and %d shrinks" n
-
-    let private appendLine (sb : StringBuilder) (msg : string) : unit =
-        sb.AppendLine msg |> ignore
-
-    let private appendLinef (sb : StringBuilder) (fmt : Printf.StringFormat<'a, unit>) : 'a =
-        Printf.ksprintf (appendLine sb) fmt
+            $" and %d{n} shrinks"
 
     let private renderOK (report : Report) : string =
         sprintf "+++ OK, passed %s." (renderTests report.Tests)
@@ -129,35 +240,46 @@ module Report =
     let private renderFailed (failure : FailureData) (report : Report) : string =
         let sb = StringBuilder ()
 
-        appendLinef sb "*** Failed! Falsifiable (after %s%s%s):"
-            (renderTests report.Tests)
-            (renderAndShrinks failure.Shrinks)
-            (renderAndDiscards report.Discards)
+        sb.AppendIndentedLine(
+            indent,
+            sprintf
+                "*** Failed! Falsifiable (after %s%s%s):"
+                (renderTests report.Tests)
+                (renderAndShrinks failure.Shrinks)
+                (renderAndDiscards report.Discards)
+        )
+        |> ignore
 
-        // Split journal entries into parameters and exceptions
-        let journalEntries = Journal.eval failure.Journal |> List.ofSeq
-        let parameters, exceptions = 
-            journalEntries |> List.partition (fun entry -> 
-                not (entry.Contains("Exception") || entry.Contains("   at ")))
-        
-        // Render parameters
-        Seq.iter (appendLine sb) parameters
-
-        // Then render recheck info
+        // Recheck seed (if available) - render after journal entries
         match failure.RecheckInfo with
-        | None ->
-            ()
         | Some { Data = recheckData } ->
-            appendLinef sb ""
-            appendLinef sb "Recheck seed: \"%s\"" (RecheckData.serialize recheckData)
+            let serialized = RecheckData.serialize recheckData
+            sb.AppendLine()
+              .AppendLine("You can reproduce this failure with the following Recheck Seed:")
+              .AppendIndentedLine(indent, $"\"%s{serialized}\"") |> ignore
+        | None -> ()
 
-        // Finally render exceptions
-        if not (List.isEmpty exceptions) then
-            appendLinef sb ""
-            appendLinef sb "Actual error:"
-            Seq.iter (appendLine sb) exceptions
+        // Evaluate journal entries and group consecutively by type
+        let journalLines = Journal.eval failure.Journal
+        
+        // Classify each journal line and group consecutive entries of the same type
+        let groups =
+            journalLines
+            |> Seq.map classifyJournalLine
+            |> groupConsecutiveBy groupKey
+            |> List.map (fun (_, groupList) -> mergeGroups groupList)
+        
+        // Render each group in order
+        groups |> List.iter (fun group ->
+            match group with
+            | ParametersGroup parameters -> renderParameters sb parameters
+            | GeneratedGroup values -> renderGenerated sb values
+            | CounterexamplesGroup messages -> renderCounterexamples sb messages
+            | TextsGroup messages -> renderTexts sb messages
+            | CancellationsGroup messages -> renderCancellations sb messages
+            | ExceptionsGroup exceptions -> renderExceptions sb exceptions)
 
-        sb.ToString().Trim() // Exclude extra newline.
+        sb.ToString()
 
     let render (report : Report) : string =
         match report.Status with
