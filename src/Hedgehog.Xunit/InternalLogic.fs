@@ -213,12 +213,11 @@ module private PropertyBuilder =
                 | e -> box e
 
         let createJournal args =
-            let parameterEntries =
-                Array.zip parameters (List.toArray args)
-                |> Array.map (fun (param, value) -> 
-                    fun () -> TestParameter (param.Name, value))
-                |> Array.toSeq
-            Journal.ofSeq parameterEntries
+            args
+            |> Seq.zip parameters
+            |> Seq.map (fun (param, value) -> fun () -> TestParameter (param.Name, value))
+            |> Array.ofSeq // not sure if journal will do multiple enumerations
+            |> Journal.ofSeq
         
         let wrapWithExceptionHandling (result: obj) : Property<unit> =
             match result with
