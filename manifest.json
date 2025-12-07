@@ -264,6 +264,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.JournalLine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.JournalLine.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.JournalLine",
+      "Summary": "<p sourcefile=\"api/Hedgehog.JournalLine.yml\" sourcestartlinenumber=\"1\">Represents a single line in a property test journal with semantic meaning</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.Language.yml",
       "output": {
         ".html": {

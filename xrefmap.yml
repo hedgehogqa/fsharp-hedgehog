@@ -1129,6 +1129,12 @@ references:
   commentId: M:Hedgehog.FSharp.Property.discard
   fullName: Hedgehog.FSharp.Property.discard
   nameWithType: discard
+- uid: Hedgehog.FSharp.Property.exn-exn
+  name: exn
+  href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_exn_exn
+  commentId: M:Hedgehog.FSharp.Property.exn-exn
+  fullName: Hedgehog.FSharp.Property.exn-exn
+  nameWithType: exn
 - uid: Hedgehog.FSharp.Property.failure
   name: failure
   href: api/Hedgehog.FSharp.Property.html#Hedgehog_FSharp_Property_failure
@@ -1891,6 +1897,12 @@ references:
   commentId: M:Hedgehog.Journal.singletonMessage-string
   fullName: Hedgehog.Journal.singletonMessage-string
   nameWithType: singletonMessage
+- uid: Hedgehog.JournalLine
+  name: JournalLine
+  href: api/Hedgehog.JournalLine.html
+  commentId: T:Hedgehog.JournalLine
+  fullName: Hedgehog.JournalLine
+  nameWithType: JournalLine
 - uid: Hedgehog.Language
   name: Language
   href: api/Hedgehog.Language.html
