@@ -30,6 +30,7 @@ Failures are automatically simplified, giving developers coherent, intelligible 
   <ItemGroup>
     <Compile Include="AutoOpen.fs" />
     <Compile Include="Exceptions.fs" />
+    <Compile Include="ValueFormatting.fs" />
     <Compile Include="Numeric.fs" />
     <Compile Include="Seed.fs" />
     <Compile Include="Seq.fs" />

@@ -1,4 +1,8 @@
-﻿namespace Hedgehog.Xunit.Tests.CSharp;
+﻿using AwesomeAssertions;
+using Hedgehog.Linq;
+using Range = Hedgehog.Linq.Range;
+
+namespace Hedgehog.Xunit.Tests.CSharp;
 
 public class Async
 {
@@ -32,6 +36,7 @@ public class Async
         Assert.Equal(s, result.Value);
         return result;
     }
+
 
     [Property]
     public async ValueTask<TestValue> Async_property_returning_ValueTask_with_custom_type(string s)

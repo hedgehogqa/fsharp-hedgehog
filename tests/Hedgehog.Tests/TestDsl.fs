@@ -1,5 +1,8 @@
 module internal Hedgehog.Tests.TestDsl
 
+open Hedgehog
+open Hedgehog.FSharp
+
 #if FABLE_COMPILER
 open Fable.Mocha
 
@@ -41,6 +44,21 @@ let fableIgnoreAsync (label : string) (test : Async<unit>) : TestCase =
 
 let inline (=!) (actual : 'a) (expected : 'a) : unit =
     Expect.equal actual expected "Should be equal"
+
+/// Runs a property, expects it to fail, and returns the journal for inspection
+let expectFailure (prop : Property<unit>) : Journal =
+    let report = Property.report prop
+    match report.Status with
+    | Failed failure -> failure.Journal
+    | OK -> failwith "Expected property to fail but it passed"
+    | GaveUp -> failwith "Expected property to fail but it gave up"
+
+/// Expects the property to fail and returns the generated values from the journal
+let expectFailureWithGeneratedValues (prop: Property<unit>) : obj list =
+    let journal = expectFailure prop
+    Journal.eval journal
+    |> Seq.choose (function GeneratedValue v -> Some v | _ -> None)
+    |> List.ofSeq
 
 [<RequireQualifiedAccess>]
 module Expect =

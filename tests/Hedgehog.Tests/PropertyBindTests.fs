@@ -82,12 +82,16 @@ let propertyBindTests = testList "Property.bind semantics" [
         match report.Status with
         | Failed failure ->
             // After shrinking completes, finalX and finalY contain the minimal counterexample
-            let journalEntries = failure.Journal |> Journal.eval |> List.ofSeq
-            let counterexample = journalEntries |> String.concat "\n"
+            let journalLines = failure.Journal |> Journal.eval |> List.ofSeq
+            
+            // Verify we have the expected journal structure
+            let counterexamples = 
+                journalLines 
+                |> List.choose (function Counterexample msg -> Some msg | _ -> None)
             
             // The shrunk counterexample should have y=5 (minimal failing value)
             // and x should be shrunk towards 1 (the origin of the range)
-            Expect.equal finalY 5 $"y should shrink to minimal failing value of 5. Counterexample:\n{counterexample}"
+            Expect.equal finalY 5 $"y should shrink to minimal failing value of 5. Journal: {counterexamples}"
         | _ -> failwith "Expected failure"
 
     fableIgnoreAsync "async bind preserves shrinking - same as sync test but with async" <| async {
