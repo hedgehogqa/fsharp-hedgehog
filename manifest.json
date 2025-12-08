@@ -1190,6 +1190,16 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "assets/Hedgehog-Xunit-CSharp-Tester.chatmode.md",
+      "output": {
+        "resource": {
+          "relative_path": "assets/Hedgehog-Xunit-CSharp-Tester.chatmode.md"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/favicon.ico",
       "output": {
         "resource": {
@@ -1257,6 +1267,16 @@
       "output": {
         ".html": {
           "relative_path": "xunit/configuration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "xunit/csharp-chatmode.md",
+      "output": {
+        ".html": {
+          "relative_path": "xunit/csharp-chatmode.html"
         }
       },
       "version": ""
