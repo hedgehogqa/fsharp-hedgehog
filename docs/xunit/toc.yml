@@ -10,3 +10,7 @@
   href: rechecking.md
 - name: Best Practices
   href: best-practices.md
+- name: AI Agents
+  items:
+  - name: C# Chatmode
+    href: csharp-chatmode.md
