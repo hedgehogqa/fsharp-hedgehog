@@ -128,6 +128,14 @@ type PropertyExtensions private () =
         Property.reportWith config property
 
     [<Extension>]
+    static member Report (property : Property<unit>) : Report =
+        Property.report property
+
+    [<Extension>]
+    static member Report (property : Property<unit>, config : IPropertyConfig) : Report =
+        Property.reportWith config property
+
+    [<Extension>]
     static member Report (property : Property<bool>) : Report =
         property |> Property.falseToFailure |> Property.report
 
@@ -154,6 +162,25 @@ type PropertyExtensions private () =
     [<Extension>]
     static member ReportAsync (property : Property, config : IPropertyConfig) : System.Threading.Tasks.Task<Report> =
         let (Property property) = property
+        Property.reportAsyncWith config property |> Async.StartAsTask
+
+    /// <summary>
+    /// Runs the property test asynchronously and returns a task with the test report.
+    /// Use this for non-blocking execution of property tests.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    [<Extension>]
+    static member ReportAsync (property : Property<unit>) : System.Threading.Tasks.Task<Report> =
+        Property.reportAsync property |> Async.StartAsTask
+
+    /// <summary>
+    /// Runs the property test asynchronously with custom configuration and returns a task with the test report.
+    /// Use this for non-blocking execution of property tests.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    /// <param name="config">Custom property configuration (e.g., number of test cases).</param>
+    [<Extension>]
+    static member ReportAsync (property : Property<unit>, config : IPropertyConfig) : System.Threading.Tasks.Task<Report> =
         Property.reportAsyncWith config property |> Async.StartAsTask
 
     /// <summary>
@@ -197,6 +224,25 @@ type PropertyExtensions private () =
         Property.checkWith config property
 
     /// <summary>
+    /// Runs the property test and throws an exception if it fails.
+    /// Use this in unit tests to verify that a property holds for randomly generated test cases.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    [<Extension>]
+    static member Check (property : Property<unit>) : unit =
+        Property.check property
+
+    /// <summary>
+    /// Runs the property test with custom configuration and throws an exception if it fails.
+    /// Use this in unit tests to verify that a property holds for randomly generated test cases.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    /// <param name="config">Custom property configuration (e.g., number of test cases).</param>
+    [<Extension>]
+    static member Check (property : Property<unit>, config : IPropertyConfig) : unit =
+        Property.checkWith config property
+
+    /// <summary>
     /// Runs the boolean property test and throws an exception if it fails.
     /// Use this in unit tests to verify that a property holds for randomly generated test cases.
     /// </summary>
@@ -234,6 +280,25 @@ type PropertyExtensions private () =
     [<Extension>]
     static member CheckAsync (property : Property, config : IPropertyConfig) : System.Threading.Tasks.Task =
         let (Property property) = property
+        Property.checkAsyncWith config property |> Async.StartAsTask :> System.Threading.Tasks.Task
+
+    /// <summary>
+    /// Runs the property test asynchronously and throws an exception if it fails.
+    /// Use this for non-blocking execution in async contexts.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    [<Extension>]
+    static member CheckAsync (property : Property<unit>) : System.Threading.Tasks.Task =
+        Property.checkAsync property |> Async.StartAsTask :> System.Threading.Tasks.Task
+
+    /// <summary>
+    /// Runs the property test asynchronously with custom configuration and throws an exception if it fails.
+    /// Use this for non-blocking execution in async contexts.
+    /// </summary>
+    /// <param name="property">The property to check.</param>
+    /// <param name="config">Custom property configuration (e.g., number of test cases).</param>
+    [<Extension>]
+    static member CheckAsync (property : Property<unit>, config : IPropertyConfig) : System.Threading.Tasks.Task =
         Property.checkAsyncWith config property |> Async.StartAsTask :> System.Threading.Tasks.Task
 
     /// <summary>
@@ -279,6 +344,27 @@ type PropertyExtensions private () =
         Property.recheckWith recheckData config property
 
     /// <summary>
+    /// Rechecks a previously failed property test using the same random seed and test inputs.
+    /// Use this to reproduce and debug a specific failure without running all test cases again.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    [<Extension>]
+    static member Recheck (property : Property<unit>, recheckData: string) : unit =
+        Property.recheck recheckData property
+
+    /// <summary>
+    /// Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
+    /// Use this to reproduce and debug a specific failure without running all test cases again.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    /// <param name="config">Custom property configuration.</param>
+    [<Extension>]
+    static member Recheck (property : Property<unit>, recheckData: string, config : IPropertyConfig) : unit =
+        Property.recheckWith recheckData config property
+
+    /// <summary>
     /// Rechecks a previously failed boolean property test using the same random seed and test inputs.
     /// Use this to reproduce and debug a specific failure without running all test cases again.
     /// </summary>
@@ -321,6 +407,27 @@ type PropertyExtensions private () =
         System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.Recheck(property, recheckData, config))
 
     /// <summary>
+    /// Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
+    /// Returns a task that completes when the recheck is done, throwing an exception if it fails.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    [<Extension>]
+    static member RecheckAsync (property : Property<unit>, recheckData: string) : System.Threading.Tasks.Task =
+        System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.Recheck(property, recheckData))
+
+    /// <summary>
+    /// Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
+    /// Returns a task that completes when the recheck is done, throwing an exception if it fails.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    /// <param name="config">Custom property configuration.</param>
+    [<Extension>]
+    static member RecheckAsync (property : Property<unit>, recheckData: string, config : IPropertyConfig) : System.Threading.Tasks.Task =
+        System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.Recheck(property, recheckData, config))
+
+    /// <summary>
     /// Rechecks a previously failed boolean property test asynchronously using the same random seed and test inputs.
     /// Returns a task that completes when the recheck is done, throwing an exception if it fails.
     /// </summary>
@@ -357,6 +464,14 @@ type PropertyExtensions private () =
         Property.reportRecheckWith recheckData config property
 
     [<Extension>]
+    static member ReportRecheck (property : Property<unit>, recheckData: string) : Report =
+        Property.reportRecheck recheckData property
+
+    [<Extension>]
+    static member ReportRecheck (property : Property<unit>, recheckData: string, config : IPropertyConfig) : Report =
+        Property.reportRecheckWith recheckData config property
+
+    [<Extension>]
     static member ReportRecheck (property : Property<bool>, recheckData: string) : Report =
         property |> Property.falseToFailure |> Property.reportRecheck recheckData
 
@@ -388,6 +503,25 @@ type PropertyExtensions private () =
         System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.ReportRecheck(property, recheckData, config))
 
     /// <summary>
+    /// Rechecks a previously failed property test asynchronously and returns the test report.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    [<Extension>]
+    static member ReportRecheckAsync (property : Property<unit>, recheckData: string) : System.Threading.Tasks.Task<Report> =
+        System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.ReportRecheck(property, recheckData))
+
+    /// <summary>
+    /// Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.
+    /// </summary>
+    /// <param name="property">The property to recheck.</param>
+    /// <param name="recheckData">The recheck data string from a previous test failure report.</param>
+    /// <param name="config">Custom property configuration.</param>
+    [<Extension>]
+    static member ReportRecheckAsync (property : Property<unit>, recheckData: string, config : IPropertyConfig) : System.Threading.Tasks.Task<Report> =
+        System.Threading.Tasks.Task.Run(fun () -> PropertyExtensions.ReportRecheck(property, recheckData, config))
+
+    /// <summary>
     /// Rechecks a previously failed boolean property test asynchronously and returns the test report.
     /// </summary>
     /// <param name="property">The boolean property to recheck.</param>
@@ -414,6 +548,14 @@ type PropertyExtensions private () =
     [<Extension>]
     static member Render (property : Property, config : IPropertyConfig) : string =
         let (Property property) = property
+        Property.renderWith config property
+
+    [<Extension>]
+    static member Render (property : Property<unit>) : string =
+        Property.render property
+
+    [<Extension>]
+    static member Render (property : Property<unit>, config : IPropertyConfig) : string =
         Property.renderWith config property
 
     [<Extension>]
