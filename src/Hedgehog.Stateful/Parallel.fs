@@ -178,32 +178,22 @@ module Parallel =
 
             // Run branches in parallel
             let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(string * obj) list, exn>> =
-                async {
-                    let results = ResizeArray<string * obj>()
-                    let mutable branchEnv = env
-                    let mutable branchState = state
-                    let mutable error = None
-
-                    for action in branch do
-                        match error with
-                        | Some _ -> ()
-                        | None ->
+                let rec loop results branchEnv branchState = function
+                    | [] -> async { return Ok (List.rev results) }
+                    | action :: rest ->
+                        async {
                             let! result = action.Execute sut branchEnv branchState |> Async.AwaitTask
-
                             match result with
-                            | ActionResult.Failure ex -> error <- Some ex
+                            | ActionResult.Failure ex ->
+                                return Error ex
                             | ActionResult.Success output ->
-                                results.Add(action.Name, output)
                                 let name, env' = Env.freshName branchEnv
                                 let outputVar = Var.bound name
-                                branchEnv <- Env.add outputVar output env'
-                                branchState <- action.Update branchState outputVar
-
-                    return
-                        match error with
-                        | Some ex -> Error ex
-                        | None -> Ok (results |> Seq.toList)
-                }
+                                let newEnv = Env.add outputVar output env'
+                                let newState = action.Update branchState outputVar
+                                return! loop ((action.Name, output) :: results) newEnv newState rest
+                        }
+                loop [] env state branch
 
             let! branchResults =
                 async {

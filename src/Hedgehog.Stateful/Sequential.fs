@@ -118,15 +118,12 @@ module Sequential =
 
         // Project final state by applying Updates from action lists
         let projectFinalState (setupActions: Action<'TSystem, 'TState> list) (testActions: Action<'TSystem, 'TState> list) (initial: 'TState) : 'TState =
-            let mutable state = initial
-            let mutable counter = 0
-            for action in setupActions do
-                state <- action.Update state (Var.bound (Name counter))
-                counter <- counter + 1
-            for action in testActions do
-                state <- action.Update state (Var.bound (Name counter))
-                counter <- counter + 1
-            state
+            let allActions = setupActions @ testActions
+            allActions
+            |> List.indexed
+            |> List.fold (fun state (counter, action) ->
+                action.Update state (Var.bound (Name counter))
+            ) initial
 
         // Main generator
         gen {
