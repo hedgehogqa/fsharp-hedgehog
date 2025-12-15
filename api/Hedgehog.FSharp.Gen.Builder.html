@@ -100,22 +100,46 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Builder =
-  member Bind : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;b&gt;
-  member BindReturn : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;b&gt;
-  member Combine : Gen&lt;unit&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder">
+        <pre><code class="lang-fsharp hljs">type Builder =
+  member Bind : g:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;b&gt;
+  member BindReturn : g:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;b&gt;
+  member Combine : m:Gen&lt;unit&gt; * n:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member Delay : unit -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
-  member For : &#39;a seq -&gt; &#39;a -&gt; Gen&lt;&#39;a0&gt; -&gt; Gen&lt;unit&gt;
-  member MergeSources : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;
+  member For : xs:&#39;a seq * k:&#39;a -&gt; Gen&lt;&#39;a0&gt; -&gt; Gen&lt;unit&gt;
+  member MergeSources : ga:Gen&lt;&#39;a&gt; * gb:Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;
   member Return : &#39;a -&gt; Gen&lt;&#39;a&gt;
   member ReturnFrom : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member Zero : Gen&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder">
+        <pre><code class="lang-csharp hljs">public class Builder {
+  public static Gen&lt;b&gt; Bind(Gen&lt;a&gt; g, a -&gt; Gen&lt;b&gt; f)
+  public static Gen&lt;b&gt; BindReturn(Gen&lt;a&gt; g, a -&gt; b f)
+  public static Gen&lt;a&gt; Combine(Gen&lt;void&gt; m, Gen&lt;a&gt; n)
+  public static Gen&lt;a&gt; Delay(void -&gt; Gen&lt;a&gt; f)
+  public static Gen&lt;void&gt; For(aIEnumerable xs, a -&gt; Gen&lt;a0&gt; k)
+  public static Gen&lt;(a, b)&gt; MergeSources(Gen&lt;a&gt; ga, Gen&lt;b&gt; gb)
+  public static Gen&lt;a&gt; Return(a a)
+  public static Gen&lt;a&gt; ReturnFrom(Gen&lt;a&gt; g)
+  public static Gen&lt;void&gt; Zero()
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Builder</span></div>
 
 
 
@@ -139,7 +163,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_Bind_Gen_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_Bind_Gen_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_Bind_Gen_a">
+        <pre><code class="lang-fsharp hljs">member Bind : g:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_Bind_Gen_a">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;b&gt; Bind(Gen&lt;a&gt; g, a -&gt; Gen&lt;b&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -164,7 +203,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val BindReturn : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_BindReturn_Gen_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_BindReturn_Gen_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_BindReturn_Gen_a">
+        <pre><code class="lang-fsharp hljs">member BindReturn : g:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_BindReturn_Gen_a">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;b&gt; BindReturn(Gen&lt;a&gt; g, a -&gt; b f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -189,7 +243,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Combine : Gen&lt;unit&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_Combine_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_Combine_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_Combine_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Combine : m:Gen&lt;unit&gt; * n:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_Combine_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a&gt; Combine(Gen&lt;void&gt; m, Gen&lt;a&gt; n)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -214,7 +283,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Delay : unit -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_Delay_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_Delay_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_Delay_unit">
+        <pre><code class="lang-fsharp hljs">member Delay : unit -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_Delay_unit">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a&gt; Delay(void -&gt; Gen&lt;a&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -239,7 +323,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val For : &#39;a seq -&gt; &#39;a -&gt; Gen&lt;&#39;a0&gt; -&gt; Gen&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_For_a_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_For_a_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_For_a_a">
+        <pre><code class="lang-fsharp hljs">member For : xs:&#39;a seq * k:&#39;a -&gt; Gen&lt;&#39;a0&gt; -&gt; Gen&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_For_a_a">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;void&gt; For(aIEnumerable xs, a -&gt; Gen&lt;a0&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -264,7 +363,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MergeSources : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_MergeSources_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_MergeSources_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_MergeSources_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member MergeSources : ga:Gen&lt;&#39;a&gt; * gb:Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_MergeSources_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(a, b)&gt; MergeSources(Gen&lt;a&gt; ga, Gen&lt;b&gt; gb)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -289,7 +403,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Return : &#39;a -&gt; Gen&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_Return_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_Return_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_Return_a">
+        <pre><code class="lang-fsharp hljs">member Return : &#39;a -&gt; Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_Return_a">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a&gt; Return(a a)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -314,7 +443,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReturnFrom : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_ReturnFrom_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_ReturnFrom_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_ReturnFrom_Gen">
+        <pre><code class="lang-fsharp hljs">member ReturnFrom : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_ReturnFrom_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a&gt; ReturnFrom(Gen&lt;a&gt; g)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -339,7 +483,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Zero : Gen&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_Builder_Zero" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_Builder_Zero" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_Builder_Zero">
+        <pre><code class="lang-fsharp hljs">member Zero : Gen&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_Builder_Zero">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;void&gt; Zero()</code></pre>
+      </div>
+    </div>
   </div>
 
 

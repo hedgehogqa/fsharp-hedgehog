@@ -100,13 +100,102 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class PropertyExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions">
+        <pre><code class="lang-fsharp hljs">type PropertyExtensions =
+  member Check : property:Property&lt;bool&gt; * config:IPropertyConfig -&gt; unit
+  member Check : Property&lt;bool&gt; -&gt; unit
+  member Check : property:Property&lt;unit&gt; * config:IPropertyConfig -&gt; unit
+  member Check : Property&lt;unit&gt; -&gt; unit
+  member Check : property:Property * config:IPropertyConfig -&gt; unit
+  member Check : Property -&gt; unit
+  member CheckAsync : property:Property&lt;bool&gt; * config:IPropertyConfig -&gt; Task
+  member CheckAsync : Property&lt;bool&gt; -&gt; Task
+  member CheckAsync : property:Property&lt;unit&gt; * config:IPropertyConfig -&gt; Task
+  member CheckAsync : Property&lt;unit&gt; -&gt; Task
+  member CheckAsync : property:Property * config:IPropertyConfig -&gt; Task
+  member CheckAsync : Property -&gt; Task
+  member ForAll : gen:Gen&lt;&#39;T&gt; * bind:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member ForAll : Gen&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;
+  member IgnoreResult : Property&lt;&#39;T&gt; -&gt; Property
+  member Recheck : property:Property&lt;bool&gt; * recheckData:string * config:IPropertyConfig -&gt; unit
+  member Recheck : property:Property&lt;bool&gt; * recheckData:string -&gt; unit
+  member Recheck : property:Property&lt;unit&gt; * recheckData:string * config:IPropertyConfig -&gt; unit
+  member Recheck : property:Property&lt;unit&gt; * recheckData:string -&gt; unit
+  member Recheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; unit
+  member Recheck : property:Property * recheckData:string -&gt; unit
+  member RecheckAsync : property:Property&lt;bool&gt; * recheckData:string * config:IPropertyConfig -&gt; Task
+  member RecheckAsync : property:Property&lt;bool&gt; * recheckData:string -&gt; Task
+  member RecheckAsync : property:Property&lt;unit&gt; * recheckData:string * config:IPropertyConfig -&gt; Task
+  member RecheckAsync : property:Property&lt;unit&gt; * recheckData:string -&gt; Task
+  member RecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task
+  member RecheckAsync : property:Property * recheckData:string -&gt; Task
+  member Render : property:Property&lt;bool&gt; * config:IPropertyConfig -&gt; string
+  member Render : Property&lt;bool&gt; -&gt; string
+  member Render : property:Property&lt;unit&gt; * config:IPropertyConfig -&gt; string
+  member Render : Property&lt;unit&gt; -&gt; string
+  member Render : property:Property * config:IPropertyConfig -&gt; string
+  member Render : Property -&gt; string
+  member Report : property:Property&lt;bool&gt; * config:IPropertyConfig -&gt; Report
+  member Report : Property&lt;bool&gt; -&gt; Report
+  member Report : property:Property&lt;unit&gt; * config:IPropertyConfig -&gt; Report
+  member Report : Property&lt;unit&gt; -&gt; Report
+  member Report : property:Property * config:IPropertyConfig -&gt; Report
+  member Report : Property -&gt; Report
+  member ReportAsync : property:Property&lt;bool&gt; * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportAsync : Property&lt;bool&gt; -&gt; Task&lt;Report&gt;
+  member ReportAsync : property:Property&lt;unit&gt; * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportAsync : Property&lt;unit&gt; -&gt; Task&lt;Report&gt;
+  member ReportAsync : property:Property * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportAsync : Property -&gt; Task&lt;Report&gt;
+  member ReportRecheck : property:Property&lt;bool&gt; * recheckData:string * config:IPropertyConfig -&gt; Report
+  member ReportRecheck : property:Property&lt;bool&gt; * recheckData:RecheckData -&gt; Report
+  member ReportRecheck : property:Property&lt;bool&gt; * recheckData:string -&gt; Report
+  member ReportRecheck : property:Property&lt;unit&gt; * recheckData:string * config:IPropertyConfig -&gt; Report
+  member ReportRecheck : property:Property&lt;unit&gt; * recheckData:string -&gt; Report
+  member ReportRecheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; Report
+  member ReportRecheck : property:Property * recheckData:string -&gt; Report
+  member ReportRecheckAsync : property:Property&lt;bool&gt; * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportRecheckAsync : property:Property&lt;bool&gt; * recheckData:string -&gt; Task&lt;Report&gt;
+  member ReportRecheckAsync : property:Property&lt;unit&gt; * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportRecheckAsync : property:Property&lt;unit&gt; * recheckData:string -&gt; Task&lt;Report&gt;
+  member ReportRecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;
+  member ReportRecheckAsync : property:Property * recheckData:string -&gt; Task&lt;Report&gt;
+  member Select : property:Property&lt;&#39;T&gt; * mapper:Action&lt;&#39;T&gt; -&gt; Property
+  member Select : property:Property&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&gt; -&gt; Property&lt;unit&gt;
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&gt; * projection:Action&lt;&#39;T, unit&gt; -&gt; Property
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&gt; * projection:Func&lt;&#39;T, unit, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&lt;&#39;TCollection&gt;&gt; * projection:Action&lt;&#39;T, &#39;TCollection&gt; -&gt; Property
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Action&lt;&#39;T, &#39;TCollection&gt; -&gt; Property
+  member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member ToGen : Property&lt;&#39;T&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;T&gt;&gt;&gt;
+  member TryFinally : property:Property&lt;&#39;T&gt; * onFinally:Action -&gt; Property&lt;&#39;T&gt;
+  member TryWith : property:Property&lt;&#39;T&gt; * onError:Func&lt;exn, Property&lt;&#39;T&gt;&gt; -&gt; Property&lt;&#39;T&gt;
+  member Where : property:Property&lt;&#39;T&gt; * filter:Func&lt;&#39;T, bool&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions">
+        <pre><code class="lang-csharp hljs">public class PropertyExtensions {
   public static void Check(this Property&lt;bool&gt; property, IPropertyConfig config)
   public static void Check(this Property&lt;bool&gt; property)
+  public static void Check(this Property&lt;void&gt; property, IPropertyConfig config)
+  public static void Check(this Property&lt;void&gt; property)
   public static void Check(this Property property, IPropertyConfig config)
   public static void Check(this Property property)
   public static Task CheckAsync(this Property&lt;bool&gt; property, IPropertyConfig config)
   public static Task CheckAsync(this Property&lt;bool&gt; property)
+  public static Task CheckAsync(this Property&lt;void&gt; property, IPropertyConfig config)
+  public static Task CheckAsync(this Property&lt;void&gt; property)
   public static Task CheckAsync(this Property property, IPropertyConfig config)
   public static Task CheckAsync(this Property property)
   public static Property&lt;TResult&gt; ForAll(this Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; bind)
@@ -114,31 +203,45 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
   public static Property IgnoreResult(this Property&lt;T&gt; property)
   public static void Recheck(this Property&lt;bool&gt; property, string recheckData, IPropertyConfig config)
   public static void Recheck(this Property&lt;bool&gt; property, string recheckData)
+  public static void Recheck(this Property&lt;void&gt; property, string recheckData, IPropertyConfig config)
+  public static void Recheck(this Property&lt;void&gt; property, string recheckData)
   public static void Recheck(this Property property, string recheckData, IPropertyConfig config)
   public static void Recheck(this Property property, string recheckData)
   public static Task RecheckAsync(this Property&lt;bool&gt; property, string recheckData, IPropertyConfig config)
   public static Task RecheckAsync(this Property&lt;bool&gt; property, string recheckData)
+  public static Task RecheckAsync(this Property&lt;void&gt; property, string recheckData, IPropertyConfig config)
+  public static Task RecheckAsync(this Property&lt;void&gt; property, string recheckData)
   public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)
   public static Task RecheckAsync(this Property property, string recheckData)
   public static string Render(this Property&lt;bool&gt; property, IPropertyConfig config)
   public static string Render(this Property&lt;bool&gt; property)
+  public static string Render(this Property&lt;void&gt; property, IPropertyConfig config)
+  public static string Render(this Property&lt;void&gt; property)
   public static string Render(this Property property, IPropertyConfig config)
   public static string Render(this Property property)
   public static Report Report(this Property&lt;bool&gt; property, IPropertyConfig config)
   public static Report Report(this Property&lt;bool&gt; property)
+  public static Report Report(this Property&lt;void&gt; property, IPropertyConfig config)
+  public static Report Report(this Property&lt;void&gt; property)
   public static Report Report(this Property property, IPropertyConfig config)
   public static Report Report(this Property property)
   public static Task&lt;Report&gt; ReportAsync(this Property&lt;bool&gt; property, IPropertyConfig config)
   public static Task&lt;Report&gt; ReportAsync(this Property&lt;bool&gt; property)
+  public static Task&lt;Report&gt; ReportAsync(this Property&lt;void&gt; property, IPropertyConfig config)
+  public static Task&lt;Report&gt; ReportAsync(this Property&lt;void&gt; property)
   public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)
   public static Task&lt;Report&gt; ReportAsync(this Property property)
   public static Report ReportRecheck(this Property&lt;bool&gt; property, string recheckData, IPropertyConfig config)
   public static Report ReportRecheck(this Property&lt;bool&gt; property, RecheckData recheckData)
   public static Report ReportRecheck(this Property&lt;bool&gt; property, string recheckData)
+  public static Report ReportRecheck(this Property&lt;void&gt; property, string recheckData, IPropertyConfig config)
+  public static Report ReportRecheck(this Property&lt;void&gt; property, string recheckData)
   public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)
   public static Report ReportRecheck(this Property property, string recheckData)
   public static Task&lt;Report&gt; ReportRecheckAsync(this Property&lt;bool&gt; property, string recheckData, IPropertyConfig config)
   public static Task&lt;Report&gt; ReportRecheckAsync(this Property&lt;bool&gt; property, string recheckData)
+  public static Task&lt;Report&gt; ReportRecheckAsync(this Property&lt;void&gt; property, string recheckData, IPropertyConfig config)
+  public static Task&lt;Report&gt; ReportRecheckAsync(this Property&lt;void&gt; property, string recheckData)
   public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)
   public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)
   public static Property Select(this Property&lt;T&gt; property, Action&lt;T&gt; mapper)
@@ -156,12 +259,13 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
   public static Property&lt;T&gt; TryWith(this Property&lt;T&gt; property, Func&lt;exn, Property&lt;T&gt;&gt; onError)
   public static Property&lt;T&gt; Where(this Property&lt;T&gt; property, Func&lt;T, bool&gt; filter)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">PropertyExtensions</span></div>
 
 
 
@@ -178,16 +282,36 @@ Class PropertyExtensions  <a class="header-action link-secondary" title="View so
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig">
   Check(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L196"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L223"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test with custom configuration and throws an exception if it fails.
 Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Check(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Check : property:Property * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -205,16 +329,35 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property">
   Check(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L185"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L212"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test and throws an exception if it fails.
 Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Check(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-fsharp hljs">member Check : Property -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -232,16 +375,36 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig">
   Check(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L196"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L223"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test with custom configuration and throws an exception if it fails.
 Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Check(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Check : property:Property * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -259,16 +422,128 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property">
   Check(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L185"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L212"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test and throws an exception if it fails.
 Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Check(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-fsharp hljs">member Check : Property -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property-IPropertyConfig">
+  Check(Property, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L223"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test with custom configuration and throws an exception if it fails.
+Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Check : property:Property * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Check_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Check-Property">
+  Check(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L212"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test and throws an exception if it fails.
+Use this in unit tests to verify that a property holds for randomly generated test cases.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-fsharp hljs">member Check : Property -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Check_Property">
+        <pre><code class="lang-csharp hljs">public static void Check(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -286,16 +561,36 @@ Use this in unit tests to verify that a property holds for randomly generated te
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig">
   CheckAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L236"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L282"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and throws an exception if it fails.
 Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : property:Property * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -313,16 +608,35 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property">
   CheckAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L225"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L271"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and throws an exception if it fails.
 Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : Property -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -340,16 +654,36 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig">
   CheckAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L236"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L282"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and throws an exception if it fails.
 Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : property:Property * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -367,16 +701,128 @@ Use this for non-blocking execution in async contexts.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property">
   CheckAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L225"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L271"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and throws an exception if it fails.
 Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : Property -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property-IPropertyConfig">
+  CheckAsync(Property, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L282"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and throws an exception if it fails.
+Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : property:Property * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.CheckAsync-Property">
+  CheckAsync(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L271"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test asynchronously and throws an exception if it fails.
+Use this for non-blocking execution in async contexts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-fsharp hljs">member CheckAsync : Property -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_CheckAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task CheckAsync(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -399,11 +845,31 @@ Use this for non-blocking execution in async contexts.</p>
 
   <div class="markdown level1 summary"><p>Creates a property from a generator and applies a function to it, allowing it to be used in LINQ query comprehensions.
 &quot;For all&quot; means the property will be tested for all values of that type generated by the generator.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: The generator to create a property from.</li>
+<li><code>bind</code>: The function to apply to each generated value.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; ForAll(this Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; bind)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member ForAll : gen:Gen&lt;&#39;T&gt; * bind:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; ForAll(this Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; bind)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -426,11 +892,30 @@ Use this for non-blocking execution in async contexts.</p>
 
   <div class="markdown level1 summary"><p>Creates a property from a generator, allowing it to be used in LINQ query comprehensions.
 &quot;For all&quot; means the property will be tested for all values of that type generated by the generator.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: The generator to create a property from.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ForAll(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen">
+        <pre><code class="lang-fsharp hljs">member ForAll : Gen&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ForAll_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ForAll(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -455,6 +940,10 @@ Use this for non-blocking execution in async contexts.</p>
 This is useful when using assertion libraries that return non-unit types (e.g., fluent assertions).
 Note: The assertion must throw an exception on failure for the property to fail.
 Assertions that throw exceptions will still cause the property to fail.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property whose result should be ignored.</li>
+</ul>
 <p><strong>Example:</strong></p>
 <pre><code> var property =
      from x in Gen.Int32(Range.Linear(0, 100)).ForAll()
@@ -466,7 +955,22 @@ Assertions that throw exceptions will still cause the property to fail.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property IgnoreResult(this Property&lt;T&gt; property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property">
+        <pre><code class="lang-fsharp hljs">member IgnoreResult : Property&lt;&#39;T&gt; -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_IgnoreResult_Property">
+        <pre><code class="lang-csharp hljs">public static Property IgnoreResult(this Property&lt;T&gt; property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -484,16 +988,37 @@ Assertions that throw exceptions will still cause the property to fail.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig">
   Recheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L278"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L343"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
 Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -511,16 +1036,36 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string">
   Recheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L266"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L331"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs.
 Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -538,16 +1083,37 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig">
   Recheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L278"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L343"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
 Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -565,16 +1131,131 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string">
   Recheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L266"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L331"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs.
 Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string-IPropertyConfig">
+  Recheck(Property, string, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L343"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs, with custom configuration.
+Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.Recheck-Property-string">
+  Recheck(Property, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L331"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test using the same random seed and test inputs.
+Use this to reproduce and debug a specific failure without running all test cases again.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member Recheck : property:Property * recheckData:string -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Recheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static void Recheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -592,16 +1273,37 @@ Use this to reproduce and debug a specific failure without running all test case
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig">
   RecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L321"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L407"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
 Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -619,16 +1321,36 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string">
   RecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L310"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L396"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
 Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -646,16 +1368,37 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig">
   RecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L321"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L407"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
 Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -673,16 +1416,131 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string">
   RecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L310"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L396"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
 Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string-IPropertyConfig">
+  RecheckAsync(Property, string, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L407"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs, with custom configuration.
+Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.RecheckAsync-Property-string">
+  RecheckAsync(Property, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L396"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously using the same random seed and test inputs.
+Returns a task that completes when the recheck is done, throwing an exception if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member RecheckAsync : property:Property * recheckData:string -&gt; Task</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_RecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task RecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -700,14 +1558,29 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property-IPropertyConfig">
   Render(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L416"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L550"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string Render(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Render : property:Property * config:IPropertyConfig -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -725,14 +1598,29 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property">
   Render(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L411"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L545"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string Render(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-fsharp hljs">member Render : Property -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -750,14 +1638,29 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property-IPropertyConfig">
   Render(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L416"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L550"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string Render(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Render : property:Property * config:IPropertyConfig -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -775,14 +1678,109 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property">
   Render(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L411"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L545"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string Render(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-fsharp hljs">member Render : Property -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property-IPropertyConfig">
+  Render(Property, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L550"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Render : property:Property * config:IPropertyConfig -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Render_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Render-Property">
+  Render(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L545"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-fsharp hljs">member Render : Property -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Render_Property">
+        <pre><code class="lang-csharp hljs">public static string Render(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -807,7 +1805,22 @@ Returns a task that completes when the recheck is done, throwing an exception if
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report Report(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Report : property:Property * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -832,7 +1845,22 @@ Returns a task that completes when the recheck is done, throwing an exception if
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report Report(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-fsharp hljs">member Report : Property -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -857,7 +1885,22 @@ Returns a task that completes when the recheck is done, throwing an exception if
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report Report(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Report : property:Property * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -882,7 +1925,102 @@ Returns a task that completes when the recheck is done, throwing an exception if
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report Report(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-fsharp hljs">member Report : Property -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property-IPropertyConfig">
+  Report(Property, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L127"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member Report : property:Property * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_Report_Property" data-uid="Hedgehog.Linq.PropertyExtensions.Report-Property">
+  Report(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L122"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-fsharp hljs">member Report : Property -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Report_Property">
+        <pre><code class="lang-csharp hljs">public static Report Report(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -900,16 +2038,36 @@ Returns a task that completes when the recheck is done, throwing an exception if
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig">
   ReportAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L156"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L164"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and returns a task with the test report.
 Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : property:Property * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -927,16 +2085,35 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property">
   ReportAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L145"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L153"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and returns a task with the test report.
 Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : Property -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -954,16 +2131,36 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig">
   ReportAsync(Property, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L156"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L164"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and returns a task with the test report.
 Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : property:Property * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -981,16 +2178,128 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property">
   ReportAsync(Property)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L145"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L153"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Runs the property test asynchronously and returns a task with the test report.
 Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : Property -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property-IPropertyConfig">
+  ReportAsync(Property, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test asynchronously with custom configuration and returns a task with the test report.
+Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+<li><code>config</code>: Custom property configuration (e.g., number of test cases).</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : property:Property * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" data-uid="Hedgehog.Linq.PropertyExtensions.ReportAsync-Property">
+  ReportAsync(Property)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Runs the property test asynchronously and returns a task with the test report.
+Use this for non-blocking execution of property tests.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to check.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-fsharp hljs">member ReportAsync : Property -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportAsync(this Property property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1008,14 +2317,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig">
   ReportRecheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L356"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L463"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1033,14 +2357,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-RecheckData">
   ReportRecheck(Property, RecheckData)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L365"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L480"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property&lt;bool&gt; property, RecheckData recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property&lt;bool&gt; * recheckData:RecheckData -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_RecheckData">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property&lt;bool&gt; property, RecheckData recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1058,14 +2397,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string">
   ReportRecheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L346"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L453"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1083,14 +2437,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig">
   ReportRecheck(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L356"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L463"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1108,14 +2477,109 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string">
   ReportRecheck(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L346"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L453"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string-IPropertyConfig">
+  ReportRecheck(Property, string, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L463"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string * config:IPropertyConfig -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheck-Property-string">
+  ReportRecheck(Property, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L453"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheck : property:Property * recheckData:string -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheck_Property_string">
+        <pre><code class="lang-csharp hljs">public static Report ReportRecheck(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1133,15 +2597,36 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig">
   ReportRecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L388"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L503"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1159,15 +2644,35 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string">
   ReportRecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L378"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L493"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1185,15 +2690,36 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig">
   ReportRecheckAsync(Property, string, IPropertyConfig)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L388"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L503"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1211,15 +2737,128 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string">
   ReportRecheckAsync(Property, string)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L378"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L493"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string-IPropertyConfig">
+  ReportRecheckAsync(Property, string, IPropertyConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L503"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously with custom configuration and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+<li><code>config</code>: Custom property configuration.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string * config:IPropertyConfig -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData, IPropertyConfig config)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" data-uid="Hedgehog.Linq.PropertyExtensions.ReportRecheckAsync-Property-string">
+  ReportRecheckAsync(Property, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L493"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rechecks a previously failed property test asynchronously and returns the test report.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>property</code>: The property to recheck.</li>
+<li><code>recheckData</code>: The recheck data string from a previous test failure report.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-fsharp hljs">member ReportRecheckAsync : property:Property * recheckData:string -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ReportRecheckAsync_Property_string">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; ReportRecheckAsync(this Property property, string recheckData)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1237,14 +2876,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Select_Property_Action" data-uid="Hedgehog.Linq.PropertyExtensions.Select-Property-Action">
   Select(Property, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L438"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L580"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property Select(this Property&lt;T&gt; property, Action&lt;T&gt; mapper)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Action">
+        <pre><code class="lang-fsharp hljs">member Select : property:Property&lt;&#39;T&gt; * mapper:Action&lt;&#39;T&gt; -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Action">
+        <pre><code class="lang-csharp hljs">public static Property Select(this Property&lt;T&gt; property, Action&lt;T&gt; mapper)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1262,14 +2916,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Select_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.Select-Property-Func">
   Select(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L433"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L575"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; Select(this Property&lt;T&gt; property, Func&lt;T, TResult&gt; mapper)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Func">
+        <pre><code class="lang-fsharp hljs">member Select : property:Property&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Select_Property_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; Select(this Property&lt;T&gt; property, Func&lt;T, TResult&gt; mapper)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1287,14 +2956,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func">
   SelectMany(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L473"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L615"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Task&lt;TResult&gt;&gt; binder)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Task&lt;TResult&gt;&gt; binder)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1312,14 +2996,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L591"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Action&lt;&#39;T, &#39;TCollection&gt; -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1337,14 +3036,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L586"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1362,14 +3076,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func">
   SelectMany(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L473"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L615"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Task&lt;TResult&gt;&gt; binder)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Task&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Task&lt;TResult&gt;&gt; binder)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1387,14 +3116,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L591"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Action&lt;&#39;T, &#39;TCollection&gt; -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1412,14 +3156,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L586"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1437,14 +3196,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Action">
   SelectMany(Property, Func, Action)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L449"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L591"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Action&lt;&#39;T, &#39;TCollection&gt; -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Action">
+        <pre><code class="lang-csharp hljs">public static Property SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Action&lt;T, TCollection&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1462,14 +3236,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" data-uid="Hedgehog.Linq.PropertyExtensions.SelectMany-Property-Func-Func">
   SelectMany(Property, Func, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L444"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L586"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : property:Property&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Property&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_SelectMany_Property_Func_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; SelectMany(this Property&lt;T&gt; property, Func&lt;T, Property&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1494,7 +3283,22 @@ Use this for non-blocking execution of property tests.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; ToGen(this Property&lt;T&gt; property)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_ToGen_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_ToGen_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_ToGen_Property">
+        <pre><code class="lang-fsharp hljs">member ToGen : Property&lt;&#39;T&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;T&gt;&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_ToGen_Property">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; ToGen(this Property&lt;T&gt; property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1519,7 +3323,22 @@ Use this for non-blocking execution of property tests.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; TryFinally(this Property&lt;T&gt; property, Action onFinally)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_TryFinally_Property_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_TryFinally_Property_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_TryFinally_Property_Action">
+        <pre><code class="lang-fsharp hljs">member TryFinally : property:Property&lt;&#39;T&gt; * onFinally:Action -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_TryFinally_Property_Action">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; TryFinally(this Property&lt;T&gt; property, Action onFinally)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1544,7 +3363,22 @@ Use this for non-blocking execution of property tests.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; TryWith(this Property&lt;T&gt; property, Func&lt;exn, Property&lt;T&gt;&gt; onError)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_TryWith_Property_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_TryWith_Property_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_TryWith_Property_Func">
+        <pre><code class="lang-fsharp hljs">member TryWith : property:Property&lt;&#39;T&gt; * onError:Func&lt;exn, Property&lt;&#39;T&gt;&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_TryWith_Property_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; TryWith(this Property&lt;T&gt; property, Func&lt;exn, Property&lt;T&gt;&gt; onError)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1562,14 +3396,29 @@ Use this for non-blocking execution of property tests.</p>
 
   <h3 id="Hedgehog_Linq_PropertyExtensions_Where_Property_Func" data-uid="Hedgehog.Linq.PropertyExtensions.Where-Property-Func">
   Where(Property, Func)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L429"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Property.fs/#L571"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Where(this Property&lt;T&gt; property, Func&lt;T, bool&gt; filter)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyExtensions_Where_Property_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyExtensions_Where_Property_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyExtensions_Where_Property_Func">
+        <pre><code class="lang-fsharp hljs">member Where : property:Property&lt;&#39;T&gt; * filter:Func&lt;&#39;T, bool&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyExtensions_Where_Property_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Where(this Property&lt;T&gt; property, Func&lt;T, bool&gt; filter)</code></pre>
+      </div>
+    </div>
   </div>
 
 

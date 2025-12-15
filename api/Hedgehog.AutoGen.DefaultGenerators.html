@@ -100,50 +100,102 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type DefaultGenerators =
-  static member Bool : Gen&lt;bool&gt;
-  static member Byte : Gen&lt;byte&gt;
-  static member Char : Gen&lt;char&gt;
-  static member DateTime : Gen&lt;DateTime&gt;
-  static member DateTimeOffset : Gen&lt;DateTimeOffset&gt;
-  static member Decimal : Gen&lt;decimal&gt;
-  static member Dictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;Dictionary&lt;&#39;k, &#39;v&gt;&gt;
-  static member Double : Gen&lt;double&gt;
-  static member FSharpList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a list&gt;
-  static member Guid : Gen&lt;Guid&gt;
-  static member IDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;IDictionary&lt;&#39;k, &#39;v&gt;&gt;
-  static member IImmutableList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableList&lt;&#39;a&gt;&gt;
-  static member IImmutableSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableSet&lt;&#39;a&gt;&gt;
-  static member IList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IList&lt;&#39;a&gt;&gt;
-  static member IReadOnlyDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;IReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;
-  static member IReadOnlyList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IReadOnlyList&lt;&#39;a&gt;&gt;
-  static member ImmutableArray : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableArray&lt;&#39;a&gt;&gt;
-  static member ImmutableHashSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableHashSet&lt;&#39;a&gt;&gt;
-  static member ImmutableList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableList&lt;&#39;a&gt;&gt;
-  static member ImmutableSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableSortedSet&lt;&#39;a&gt;&gt;
-  static member Int16 : Gen&lt;int16&gt;
-  static member Int32 : Gen&lt;int32&gt;
-  static member Int64 : Gen&lt;int64&gt;
-  static member IpAddress : Gen&lt;IPAddress&gt;
-  static member List : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;a&gt;&gt;
-  static member Map : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;Map&lt;&#39;k, &#39;v&gt;&gt;
-  static member Nullable : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;Nullable&lt;&#39;a&gt;&gt;
-  static member Option : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a option&gt;
-  static member ReadOnlyDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;ReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;
-  static member Seq : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a seq&gt;
-  static member Set : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;Set&lt;&#39;a&gt;&gt;
-  static member Single : Gen&lt;single&gt;
-  static member String : Gen&lt;string&gt;
-  static member UInt16 : Gen&lt;uint16&gt;
-  static member UInt32 : Gen&lt;uint32&gt;
-  static member UInt64 : Gen&lt;uint64&gt;
-  static member Uri : Gen&lt;Uri&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators">
+        <pre><code class="lang-fsharp hljs">type DefaultGenerators =
+  member Bool : Gen&lt;bool&gt;
+  member Byte : Gen&lt;byte&gt;
+  member Char : Gen&lt;char&gt;
+  member DateTime : Gen&lt;DateTime&gt;
+  member DateTimeOffset : Gen&lt;DateTimeOffset&gt;
+  member Decimal : Gen&lt;decimal&gt;
+  member Dictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;Dictionary&lt;&#39;k, &#39;v&gt;&gt;
+  member Double : Gen&lt;double&gt;
+  member FSharpList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a list&gt;
+  member Guid : Gen&lt;Guid&gt;
+  member IDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;IDictionary&lt;&#39;k, &#39;v&gt;&gt;
+  member IImmutableList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableList&lt;&#39;a&gt;&gt;
+  member IImmutableSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableSet&lt;&#39;a&gt;&gt;
+  member IList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IList&lt;&#39;a&gt;&gt;
+  member IReadOnlyDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;IReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;
+  member IReadOnlyList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IReadOnlyList&lt;&#39;a&gt;&gt;
+  member ImmutableArray : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableArray&lt;&#39;a&gt;&gt;
+  member ImmutableHashSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableHashSet&lt;&#39;a&gt;&gt;
+  member ImmutableList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableList&lt;&#39;a&gt;&gt;
+  member ImmutableSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableSortedSet&lt;&#39;a&gt;&gt;
+  member Int16 : Gen&lt;int16&gt;
+  member Int32 : Gen&lt;int32&gt;
+  member Int64 : Gen&lt;int64&gt;
+  member IpAddress : Gen&lt;IPAddress&gt;
+  member List : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;a&gt;&gt;
+  member Map : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;Map&lt;&#39;k, &#39;v&gt;&gt;
+  member Nullable : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;Nullable&lt;&#39;a&gt;&gt;
+  member Option : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a option&gt;
+  member ReadOnlyDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;ReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;
+  member Seq : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a seq&gt;
+  member Set : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;Set&lt;&#39;a&gt;&gt;
+  member Single : Gen&lt;single&gt;
+  member String : Gen&lt;string&gt;
+  member UInt16 : Gen&lt;uint16&gt;
+  member UInt32 : Gen&lt;uint32&gt;
+  member UInt64 : Gen&lt;uint64&gt;
+  member Uri : Gen&lt;Uri&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators">
+        <pre><code class="lang-csharp hljs">public class DefaultGenerators {
+  public static Gen&lt;bool&gt; Bool()
+  public static Gen&lt;byte&gt; Byte()
+  public static Gen&lt;char&gt; Char()
+  public static Gen&lt;DateTime&gt; DateTime()
+  public static Gen&lt;DateTimeOffset&gt; DateTimeOffset()
+  public static Gen&lt;decimal&gt; Decimal()
+  public static Gen&lt;Dictionary&lt;k, v&gt;&gt; Dictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)
+  public static Gen&lt;double&gt; Double()
+  public static Gen&lt;a[]&gt; FSharpList(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;Guid&gt; Guid()
+  public static Gen&lt;IDictionary&lt;k, v&gt;&gt; IDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)
+  public static Gen&lt;IImmutableList&lt;a&gt;&gt; IImmutableList(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;IImmutableSet&lt;a&gt;&gt; IImmutableSet(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;IList&lt;a&gt;&gt; IList(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;IReadOnlyDictionary&lt;k, v&gt;&gt; IReadOnlyDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)
+  public static Gen&lt;IReadOnlyList&lt;a&gt;&gt; IReadOnlyList(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;ImmutableArray&lt;a&gt;&gt; ImmutableArray(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;ImmutableHashSet&lt;a&gt;&gt; ImmutableHashSet(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;ImmutableList&lt;a&gt;&gt; ImmutableList(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;ImmutableSortedSet&lt;a&gt;&gt; ImmutableSet(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;int16&gt; Int16()
+  public static Gen&lt;int32&gt; Int32()
+  public static Gen&lt;int64&gt; Int64()
+  public static Gen&lt;IPAddress&gt; IpAddress()
+  public static Gen&lt;List&lt;a&gt;&gt; List(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;Map&lt;k, v&gt;&gt; Map(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)
+  public static Gen&lt;Nullable&lt;a&gt;&gt; Nullable(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;a?&gt; Option(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;ReadOnlyDictionary&lt;k, v&gt;&gt; ReadOnlyDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)
+  public static Gen&lt;aIEnumerable&gt; Seq(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;Set&lt;a&gt;&gt; Set(AutoGenContext context, Gen&lt;a&gt; valueGen)
+  public static Gen&lt;single&gt; Single()
+  public static Gen&lt;string&gt; String()
+  public static Gen&lt;uint16&gt; UInt16()
+  public static Gen&lt;uint32&gt; UInt32()
+  public static Gen&lt;uint64&gt; UInt64()
+  public static Gen&lt;Uri&gt; Uri()
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">DefaultGenerators</span></div>
 
 
 
@@ -167,7 +219,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bool : Gen&lt;bool&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Bool" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Bool" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Bool">
+        <pre><code class="lang-fsharp hljs">member Bool : Gen&lt;bool&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Bool">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;bool&gt; Bool()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -192,7 +259,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Byte : Gen&lt;byte&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Byte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Byte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Byte">
+        <pre><code class="lang-fsharp hljs">member Byte : Gen&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Byte">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;byte&gt; Byte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -217,7 +299,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Char : Gen&lt;char&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Char" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Char" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Char">
+        <pre><code class="lang-fsharp hljs">member Char : Gen&lt;char&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Char">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Char()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -242,7 +339,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val DateTime : Gen&lt;DateTime&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_DateTime" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_DateTime" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_DateTime">
+        <pre><code class="lang-fsharp hljs">member DateTime : Gen&lt;DateTime&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_DateTime">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; DateTime()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -267,7 +379,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val DateTimeOffset : Gen&lt;DateTimeOffset&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_DateTimeOffset" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_DateTimeOffset" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_DateTimeOffset">
+        <pre><code class="lang-fsharp hljs">member DateTimeOffset : Gen&lt;DateTimeOffset&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_DateTimeOffset">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTimeOffset&gt; DateTimeOffset()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -292,7 +419,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Decimal : Gen&lt;decimal&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Decimal">
+        <pre><code class="lang-fsharp hljs">member Decimal : Gen&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Decimal">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;decimal&gt; Decimal()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -317,7 +459,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Dictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;Dictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Dictionary_AutoGenContext_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Dictionary_AutoGenContext_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Dictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Dictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;Dictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Dictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Dictionary&lt;k, v&gt;&gt; Dictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -342,7 +499,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Double : Gen&lt;double&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Double">
+        <pre><code class="lang-fsharp hljs">member Double : Gen&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Double">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;double&gt; Double()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -367,7 +539,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FSharpList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a list&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_FSharpList_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_FSharpList_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_FSharpList_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member FSharpList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a list&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_FSharpList_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a[]&gt; FSharpList(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -392,7 +579,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Guid : Gen&lt;Guid&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Guid" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Guid" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Guid">
+        <pre><code class="lang-fsharp hljs">member Guid : Gen&lt;Guid&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Guid">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Guid&gt; Guid()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -417,7 +619,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;IDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IDictionary_AutoGenContext_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IDictionary_AutoGenContext_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member IDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;IDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IDictionary&lt;k, v&gt;&gt; IDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -442,7 +659,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IImmutableList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableList&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableList_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableList_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableList_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member IImmutableList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableList&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableList_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IImmutableList&lt;a&gt;&gt; IImmutableList(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -467,7 +699,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IImmutableSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableSet&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableSet_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableSet_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableSet_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member IImmutableSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IImmutableSet&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IImmutableSet_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IImmutableSet&lt;a&gt;&gt; IImmutableSet(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -492,7 +739,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IList&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IList_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IList_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IList_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member IList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IList&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IList_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IList&lt;a&gt;&gt; IList(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -517,7 +779,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IReadOnlyDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;IReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyDictionary_AutoGenContext_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyDictionary_AutoGenContext_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member IReadOnlyDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;IReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IReadOnlyDictionary&lt;k, v&gt;&gt; IReadOnlyDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -542,7 +819,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IReadOnlyList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;IReadOnlyList&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyList_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyList_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyList_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member IReadOnlyList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;IReadOnlyList&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IReadOnlyList_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IReadOnlyList&lt;a&gt;&gt; IReadOnlyList(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -567,7 +859,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ImmutableArray : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableArray&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableArray_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableArray_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableArray_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member ImmutableArray : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableArray&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableArray_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ImmutableArray&lt;a&gt;&gt; ImmutableArray(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -592,7 +899,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ImmutableHashSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableHashSet&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableHashSet_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableHashSet_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableHashSet_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member ImmutableHashSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableHashSet&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableHashSet_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ImmutableHashSet&lt;a&gt;&gt; ImmutableHashSet(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -617,7 +939,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ImmutableList : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableList&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableList_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableList_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableList_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member ImmutableList : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableList&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableList_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ImmutableList&lt;a&gt;&gt; ImmutableList(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -642,7 +979,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ImmutableSet : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableSortedSet&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableSet_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableSet_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableSet_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member ImmutableSet : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;ImmutableSortedSet&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ImmutableSet_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ImmutableSortedSet&lt;a&gt;&gt; ImmutableSet(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -667,7 +1019,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Int16 : Gen&lt;int16&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int16">
+        <pre><code class="lang-fsharp hljs">member Int16 : Gen&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int16">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;int16&gt; Int16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -692,7 +1059,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Int32 : Gen&lt;int32&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int32">
+        <pre><code class="lang-fsharp hljs">member Int32 : Gen&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int32">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;int32&gt; Int32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -717,7 +1099,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Int64 : Gen&lt;int64&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Int64">
+        <pre><code class="lang-fsharp hljs">member Int64 : Gen&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Int64">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;int64&gt; Int64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -742,7 +1139,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val List : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_List_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_List_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_List_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member List : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_List_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;List&lt;a&gt;&gt; List(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -767,7 +1179,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Map : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;Map&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Map_AutoGenContext_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Map_AutoGenContext_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Map_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Map : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;Map&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Map_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Map&lt;k, v&gt;&gt; Map(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -792,7 +1219,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Nullable : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;Nullable&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Nullable_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Nullable_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Nullable_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member Nullable : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;Nullable&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Nullable_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Nullable&lt;a&gt;&gt; Nullable(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -817,7 +1259,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Option : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a option&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Option_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Option_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Option_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member Option : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a option&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Option_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;a?&gt; Option(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -842,7 +1299,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReadOnlyDictionary : AutoGenContext -&gt; Gen&lt;&#39;k&gt; -&gt; Gen&lt;&#39;v&gt; -&gt; Gen&lt;ReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ReadOnlyDictionary_AutoGenContext_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ReadOnlyDictionary_AutoGenContext_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_ReadOnlyDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member ReadOnlyDictionary : context:AutoGenContext * keyGen:Gen&lt;&#39;k&gt; * valueGen:Gen&lt;&#39;v&gt; -&gt; Gen&lt;ReadOnlyDictionary&lt;&#39;k, &#39;v&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_ReadOnlyDictionary_AutoGenContext_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ReadOnlyDictionary&lt;k, v&gt;&gt; ReadOnlyDictionary(AutoGenContext context, Gen&lt;k&gt; keyGen, Gen&lt;v&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -867,7 +1339,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Seq : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a seq&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Seq_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Seq_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Seq_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member Seq : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Seq_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;aIEnumerable&gt; Seq(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -892,7 +1379,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Set : AutoGenContext -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;Set&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Set_AutoGenContext_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Set_AutoGenContext_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Set_AutoGenContext_Gen">
+        <pre><code class="lang-fsharp hljs">member Set : context:AutoGenContext * valueGen:Gen&lt;&#39;a&gt; -&gt; Gen&lt;Set&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Set_AutoGenContext_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Set&lt;a&gt;&gt; Set(AutoGenContext context, Gen&lt;a&gt; valueGen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -917,7 +1419,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Single : Gen&lt;single&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Single">
+        <pre><code class="lang-fsharp hljs">member Single : Gen&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Single">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;single&gt; Single()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -942,7 +1459,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val String : Gen&lt;string&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_String" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_String" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_String">
+        <pre><code class="lang-fsharp hljs">member String : Gen&lt;string&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_String">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; String()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -967,7 +1499,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val UInt16 : Gen&lt;uint16&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt16">
+        <pre><code class="lang-fsharp hljs">member UInt16 : Gen&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt16">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;uint16&gt; UInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -992,7 +1539,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val UInt32 : Gen&lt;uint32&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt32">
+        <pre><code class="lang-fsharp hljs">member UInt32 : Gen&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt32">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;uint32&gt; UInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1017,7 +1579,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val UInt64 : Gen&lt;uint64&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_UInt64">
+        <pre><code class="lang-fsharp hljs">member UInt64 : Gen&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_UInt64">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;uint64&gt; UInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1042,7 +1619,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Uri : Gen&lt;Uri&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Uri" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Uri" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_Uri">
+        <pre><code class="lang-fsharp hljs">member Uri : Gen&lt;Uri&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_Uri">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1067,7 +1659,22 @@ Class DefaultGenerators  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val IpAddress : Gen&lt;IPAddress&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IpAddress" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IpAddress" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGen_DefaultGenerators_IpAddress">
+        <pre><code class="lang-fsharp hljs">member IpAddress : Gen&lt;IPAddress&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGen_DefaultGenerators_IpAddress">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; IpAddress()</code></pre>
+      </div>
+    </div>
   </div>
 
 

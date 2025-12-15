@@ -100,7 +100,17 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Random =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random">
+        <pre><code class="lang-fsharp hljs">type Random =
   member bind : &#39;a -&gt; Random&lt;&#39;b&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;b&gt;
   member constant : &#39;a -&gt; Random&lt;&#39;a&gt;
   member delay : unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;
@@ -113,12 +123,29 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   member sized : Size -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;
   member tryFinally : unit -&gt; unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;
   member tryWith : exn -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random">
+        <pre><code class="lang-csharp hljs">public class Random {
+  public static Random&lt;b&gt; bind(a -&gt; Random&lt;b&gt; k, Random&lt;a&gt; r)
+  public static Random&lt;a&gt; constant(a x)
+  public static Random&lt;a&gt; delay(void -&gt; Random&lt;a&gt; f)
+  public static Random&lt;double&gt; double(Range&lt;double&gt; range)
+  public static Random&lt;^a&gt; integral(Range&lt;^a&gt; range)
+  public static Random&lt;b&gt; map(a -&gt; b f, Random&lt;a&gt; r)
+  public static Random&lt;aIEnumerable&gt; replicate(int times, Random&lt;a&gt; r)
+  public static Random&lt;a&gt; resize(Size newSize, Random&lt;a&gt; r)
+  public static a run(Seed seed, Size size, Random&lt;a&gt; r)
+  public static Random&lt;a&gt; sized(Size -&gt; Random&lt;a&gt; f)
+  public static Random&lt;a&gt; tryFinally(void -&gt; void after, Random&lt;a&gt; r)
+  public static Random&lt;a&gt; tryWith(exn -&gt; Random&lt;a&gt; k, Random&lt;a&gt; r)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Random</span></div>
 
 
 
@@ -142,7 +169,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val run : Seed -&gt; Size -&gt; Random&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_run_Seed_Size_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_run_Seed_Size_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_run_Seed_Size_Random">
+        <pre><code class="lang-fsharp hljs">member run : Seed -&gt; Size -&gt; Random&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_run_Seed_Size_Random">
+        <pre><code class="lang-csharp hljs">public static a run(Seed seed, Size size, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -167,7 +209,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val delay : unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_delay_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_delay_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_delay_unit">
+        <pre><code class="lang-fsharp hljs">member delay : unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_delay_unit">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; delay(void -&gt; Random&lt;a&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -192,7 +249,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val tryFinally : unit -&gt; unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_tryFinally_unit_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_tryFinally_unit_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_tryFinally_unit_Random">
+        <pre><code class="lang-fsharp hljs">member tryFinally : unit -&gt; unit -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_tryFinally_unit_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; tryFinally(void -&gt; void after, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -217,7 +289,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val tryWith : exn -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_tryWith_exn_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_tryWith_exn_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_tryWith_exn_Random">
+        <pre><code class="lang-fsharp hljs">member tryWith : exn -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_tryWith_exn_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; tryWith(exn -&gt; Random&lt;a&gt; k, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -242,7 +329,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val constant : &#39;a -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_constant_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_constant_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_constant_a">
+        <pre><code class="lang-fsharp hljs">member constant : &#39;a -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_constant_a">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; constant(a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -267,7 +369,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_map_a_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_map_a_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_map_a_Random">
+        <pre><code class="lang-fsharp hljs">member map : &#39;a -&gt; &#39;b -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_map_a_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;b&gt; map(a -&gt; b f, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -292,7 +409,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Random&lt;&#39;b&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_bind_a_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_bind_a_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_bind_a_Random">
+        <pre><code class="lang-fsharp hljs">member bind : &#39;a -&gt; Random&lt;&#39;b&gt; -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_bind_a_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;b&gt; bind(a -&gt; Random&lt;b&gt; k, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -317,7 +449,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val replicate : int -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a seq&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_replicate_int_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_replicate_int_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_replicate_int_Random">
+        <pre><code class="lang-fsharp hljs">member replicate : int -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_replicate_int_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;aIEnumerable&gt; replicate(int times, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -343,7 +490,22 @@ Class Random  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val sized : Size -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_sized_Size" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_sized_Size" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_sized_Size">
+        <pre><code class="lang-fsharp hljs">member sized : Size -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_sized_Size">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; sized(Size -&gt; Random&lt;a&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -370,7 +532,22 @@ given size instead of the runtime-size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val resize : Size -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_resize_Size_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_resize_Size_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_resize_Size_Random">
+        <pre><code class="lang-fsharp hljs">member resize : Size -&gt; Random&lt;&#39;a&gt; -&gt; Random&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_resize_Size_Random">
+        <pre><code class="lang-csharp hljs">public static Random&lt;a&gt; resize(Size newSize, Random&lt;a&gt; r)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -396,7 +573,22 @@ given size instead of the runtime-size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val integral : Range&lt;^a&gt; -&gt; Random&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_integral_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_integral_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_integral_Range">
+        <pre><code class="lang-fsharp hljs">member integral : Range&lt;^a&gt; -&gt; Random&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_integral_Range">
+        <pre><code class="lang-csharp hljs">public static Random&lt;^a&gt; integral(Range&lt;^a&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -422,7 +614,22 @@ given size instead of the runtime-size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val double : Range&lt;double&gt; -&gt; Random&lt;double&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Random_double_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Random_double_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Random_double_Range">
+        <pre><code class="lang-fsharp hljs">member double : Range&lt;double&gt; -&gt; Random&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Random_double_Range">
+        <pre><code class="lang-csharp hljs">public static Random&lt;double&gt; double(Range&lt;double&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 

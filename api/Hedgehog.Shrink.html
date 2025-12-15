@@ -100,7 +100,17 @@ Class Shrink  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Shrink =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink">
+        <pre><code class="lang-fsharp hljs">type Shrink =
   member createTree : ^a -&gt; ^a -&gt; Tree&lt;^a&gt;
   member elems : &#39;a -&gt; &#39;a seq -&gt; List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq
   member halves : ^a -&gt; ^a seq
@@ -111,12 +121,27 @@ Class Shrink  <a class="header-action link-secondary" title="View source" href="
   member sequenceList : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;
   member towards : ^a -&gt; ^a -&gt; ^a seq
   member towardsDouble : double -&gt; double -&gt; double seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink">
+        <pre><code class="lang-csharp hljs">public class Shrink {
+  public static Tree&lt;^a&gt; createTree(^a destination, ^a x)
+  public static List&lt;a&gt;IEnumerable elems(a -&gt; aIEnumerable shrink, List&lt;a&gt; xs)
+  public static ^aIEnumerable halves(^a n)
+  public static List&lt;a&gt;IEnumerable list(List&lt;a&gt; xs)
+  public static List&lt;a&gt;IEnumerable removes(int k0, List&lt;a&gt; xs0)
+  public static Tree&lt;List&lt;a&gt;&gt; sequence(List&lt;Tree&lt;a&gt;&gt; -&gt; List&lt;Tree&lt;a&gt;&gt;IEnumerable merge, List&lt;Tree&lt;a&gt;&gt; xs)
+  public static Tree&lt;List&lt;a&gt;&gt; sequenceElems(List&lt;Tree&lt;a&gt;&gt; xs0)
+  public static Tree&lt;List&lt;a&gt;&gt; sequenceList(List&lt;Tree&lt;a&gt;&gt; xs0)
+  public static ^aIEnumerable towards(^a destination, ^a x)
+  public static doubleIEnumerable towardsDouble(double destination, double x)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Shrink</span></div>
 
 
 
@@ -141,7 +166,22 @@ Class Shrink  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val removes : int -&gt; List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_removes_int_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_removes_int_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_removes_int_List">
+        <pre><code class="lang-fsharp hljs">member removes : int -&gt; List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_removes_int_List">
+        <pre><code class="lang-csharp hljs">public static List&lt;a&gt;IEnumerable removes(int k0, List&lt;a&gt; xs0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -167,7 +207,22 @@ Class Shrink  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val halves : ^a -&gt; ^a seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_halves__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_halves__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_halves__a">
+        <pre><code class="lang-fsharp hljs">member halves : ^a -&gt; ^a seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_halves__a">
+        <pre><code class="lang-csharp hljs">public static ^aIEnumerable halves(^a n)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -194,7 +249,22 @@ Note we always try the empty list first, as that is the optimal shrink.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val list : List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_list_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_list_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_list_List">
+        <pre><code class="lang-fsharp hljs">member list : List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_list_List">
+        <pre><code class="lang-csharp hljs">public static List&lt;a&gt;IEnumerable list(List&lt;a&gt; xs)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -222,7 +292,22 @@ Iterative implementation to avoid stack overflow on large lists.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val elems : &#39;a -&gt; &#39;a seq -&gt; List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_elems_a_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_elems_a_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_elems_a_List">
+        <pre><code class="lang-fsharp hljs">member elems : &#39;a -&gt; &#39;a seq -&gt; List&lt;&#39;a&gt; -&gt; List&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_elems_a_List">
+        <pre><code class="lang-csharp hljs">public static List&lt;a&gt;IEnumerable elems(a -&gt; aIEnumerable shrink, List&lt;a&gt; xs)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -249,7 +334,22 @@ merge shrinking options.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val sequence : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; List&lt;Tree&lt;&#39;a&gt;&gt; seq -&gt; List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_sequence_List_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_sequence_List_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_sequence_List_List">
+        <pre><code class="lang-fsharp hljs">member sequence : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; List&lt;Tree&lt;&#39;a&gt;&gt; seq -&gt; List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_sequence_List_List">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;List&lt;a&gt;&gt; sequence(List&lt;Tree&lt;a&gt;&gt; -&gt; List&lt;Tree&lt;a&gt;&gt;IEnumerable merge, List&lt;Tree&lt;a&gt;&gt; xs)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -276,7 +376,22 @@ itself and the elements in the list during traversal.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val sequenceList : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_sequenceList_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_sequenceList_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_sequenceList_List">
+        <pre><code class="lang-fsharp hljs">member sequenceList : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_sequenceList_List">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;List&lt;a&gt;&gt; sequenceList(List&lt;Tree&lt;a&gt;&gt; xs0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -303,7 +418,22 @@ elements of the list (i.e. the size of the list will always be the same).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val sequenceElems : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_sequenceElems_List" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_sequenceElems_List" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_sequenceElems_List">
+        <pre><code class="lang-fsharp hljs">member sequenceElems : List&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;List&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_sequenceElems_List">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;List&lt;a&gt;&gt; sequenceElems(List&lt;Tree&lt;a&gt;&gt; xs0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -329,7 +459,22 @@ elements of the list (i.e. the size of the list will always be the same).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val towards : ^a -&gt; ^a -&gt; ^a seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_towards__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_towards__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_towards__a__a">
+        <pre><code class="lang-fsharp hljs">member towards : ^a -&gt; ^a -&gt; ^a seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_towards__a__a">
+        <pre><code class="lang-csharp hljs">public static ^aIEnumerable towards(^a destination, ^a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -356,7 +501,22 @@ Note we always try the destination first, as that is the optimal shrink.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val towardsDouble : double -&gt; double -&gt; double seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_towardsDouble_double_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_towardsDouble_double_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_towardsDouble_double_double">
+        <pre><code class="lang-fsharp hljs">member towardsDouble : double -&gt; double -&gt; double seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_towardsDouble_double_double">
+        <pre><code class="lang-csharp hljs">public static doubleIEnumerable towardsDouble(double destination, double x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -381,7 +541,22 @@ Note we always try the destination first, as that is the optimal shrink.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val createTree : ^a -&gt; ^a -&gt; Tree&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Shrink_createTree__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Shrink_createTree__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Shrink_createTree__a__a">
+        <pre><code class="lang-fsharp hljs">member createTree : ^a -&gt; ^a -&gt; Tree&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Shrink_createTree__a__a">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;^a&gt; createTree(^a destination, ^a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 

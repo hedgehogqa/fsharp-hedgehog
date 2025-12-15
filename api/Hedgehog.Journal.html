@@ -100,7 +100,17 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Journal =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal">
+        <pre><code class="lang-fsharp hljs">type Journal =
   member append : Journal -&gt; Journal -&gt; Journal
   member empty : Journal
   member eval : Journal -&gt; JournalLine seq
@@ -108,12 +118,24 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   member ofSeq : (unit -&gt; JournalLine) seq -&gt; Journal
   member singleton : unit -&gt; JournalLine -&gt; Journal
   member singletonMessage : string -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal">
+        <pre><code class="lang-csharp hljs">public class Journal {
+  public static Journal append(Journal arg0, Journal arg1)
+  public static Journal empty()
+  public static JournalLineIEnumerable eval(Journal arg0)
+  public static Journal exn(exn error)
+  public static Journal ofSeq((void -&gt; JournalLine)IEnumerable entries)
+  public static Journal singleton(void -&gt; JournalLine entry)
+  public static Journal singletonMessage(string message)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Journal</span></div>
 
 
 
@@ -138,7 +160,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofSeq : (unit -&gt; JournalLine) seq -&gt; Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_ofSeq__unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_ofSeq__unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_ofSeq__unit">
+        <pre><code class="lang-fsharp hljs">member ofSeq : (unit -&gt; JournalLine) seq -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_ofSeq__unit">
+        <pre><code class="lang-csharp hljs">public static Journal ofSeq((void -&gt; JournalLine)IEnumerable entries)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -164,7 +201,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val eval : Journal -&gt; JournalLine seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_eval_Journal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_eval_Journal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_eval_Journal">
+        <pre><code class="lang-fsharp hljs">member eval : Journal -&gt; JournalLine seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_eval_Journal">
+        <pre><code class="lang-csharp hljs">public static JournalLineIEnumerable eval(Journal arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -190,7 +242,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val empty : Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_empty" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_empty" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_empty">
+        <pre><code class="lang-fsharp hljs">member empty : Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_empty">
+        <pre><code class="lang-csharp hljs">public static Journal empty()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -216,7 +283,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val singletonMessage : string -&gt; Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_singletonMessage_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_singletonMessage_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_singletonMessage_string">
+        <pre><code class="lang-fsharp hljs">member singletonMessage : string -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_singletonMessage_string">
+        <pre><code class="lang-csharp hljs">public static Journal singletonMessage(string message)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -242,7 +324,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val exn : exn -&gt; Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_exn_exn" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_exn_exn" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_exn_exn">
+        <pre><code class="lang-fsharp hljs">member exn : exn -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_exn_exn">
+        <pre><code class="lang-csharp hljs">public static Journal exn(exn error)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -268,7 +365,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val singleton : unit -&gt; JournalLine -&gt; Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_singleton_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_singleton_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_singleton_unit">
+        <pre><code class="lang-fsharp hljs">member singleton : unit -&gt; JournalLine -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_singleton_unit">
+        <pre><code class="lang-csharp hljs">public static Journal singleton(void -&gt; JournalLine entry)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -294,7 +406,22 @@ Class Journal  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val append : Journal -&gt; Journal -&gt; Journal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Journal_append_Journal_Journal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Journal_append_Journal_Journal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Journal_append_Journal_Journal">
+        <pre><code class="lang-fsharp hljs">member append : Journal -&gt; Journal -&gt; Journal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Journal_append_Journal_Journal">
+        <pre><code class="lang-csharp hljs">public static Journal append(Journal arg0, Journal arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 

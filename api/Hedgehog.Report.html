@@ -100,15 +100,32 @@ Class Report  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Report =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Report" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Report" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Report">
+        <pre><code class="lang-fsharp hljs">type Report =
   member render : Report -&gt; string
   member tryRaise : Report -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Report">
+        <pre><code class="lang-csharp hljs">public class Report {
+  public static string render(Report report)
+  public static void tryRaise(Report report)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Report</span></div>
 
 
 
@@ -132,7 +149,22 @@ Class Report  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val render : Report -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Report_render_Report" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Report_render_Report" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Report_render_Report">
+        <pre><code class="lang-fsharp hljs">member render : Report -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Report_render_Report">
+        <pre><code class="lang-csharp hljs">public static string render(Report report)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -157,7 +189,22 @@ Class Report  <a class="header-action link-secondary" title="View source" href="
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val tryRaise : Report -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Report_tryRaise_Report" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Report_tryRaise_Report" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Report_tryRaise_Report">
+        <pre><code class="lang-fsharp hljs">member tryRaise : Report -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Report_tryRaise_Report">
+        <pre><code class="lang-csharp hljs">public static void tryRaise(Report report)</code></pre>
+      </div>
+    </div>
   </div>
 
 

@@ -100,14 +100,30 @@ Class Exceptions  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Exceptions =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Exceptions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Exceptions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Exceptions">
+        <pre><code class="lang-fsharp hljs">type Exceptions =
   member unwrap : exn -&gt; exn</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Exceptions">
+        <pre><code class="lang-csharp hljs">public class Exceptions {
+  public static exn unwrap(exn e)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Exceptions</span></div>
 
 
 
@@ -133,7 +149,22 @@ Unwraps single-inner AggregateException (from async/tasks).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val unwrap : exn -&gt; exn</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Exceptions_unwrap_exn" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Exceptions_unwrap_exn" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Exceptions_unwrap_exn">
+        <pre><code class="lang-fsharp hljs">member unwrap : exn -&gt; exn</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Exceptions_unwrap_exn">
+        <pre><code class="lang-csharp hljs">public static exn unwrap(exn e)</code></pre>
+      </div>
+    </div>
   </div>
 
 

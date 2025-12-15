@@ -104,7 +104,17 @@ and register custom generators.</p>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type AutoGenConfig =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig">
+        <pre><code class="lang-fsharp hljs">type AutoGenConfig =
   member addGenerator : Gen&lt;&#39;a&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig
   member addGenerators : IAutoGenConfig -&gt; IAutoGenConfig
   member merge : IAutoGenConfig -&gt; IAutoGenConfig -&gt; IAutoGenConfig
@@ -112,12 +122,24 @@ and register custom generators.</p>
   member seqRange : IAutoGenConfig -&gt; Range&lt;int&gt;
   member setRecursionDepth : int -&gt; IAutoGenConfig -&gt; IAutoGenConfig
   member setSeqRange : Range&lt;int&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig">
+        <pre><code class="lang-csharp hljs">public class AutoGenConfig {
+  public static IAutoGenConfig -&gt; IAutoGenConfig addGenerator(Gen&lt;a&gt; gen)
+  public static IAutoGenConfig addGenerators(IAutoGenConfig config)
+  public static IAutoGenConfig merge(IAutoGenConfig baseConfig, IAutoGenConfig extraConfig)
+  public static int recursionDepth(IAutoGenConfig config)
+  public static Range&lt;int&gt; seqRange(IAutoGenConfig config)
+  public static IAutoGenConfig setRecursionDepth(int depth, IAutoGenConfig config)
+  public static IAutoGenConfig setSeqRange(Range&lt;int&gt; range, IAutoGenConfig config)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">AutoGenConfig</span></div>
 
 
 
@@ -138,11 +160,30 @@ and register custom generators.</p>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the collection range from the configuration, or the default if not set.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>config</code>: The configuration to query.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val seqRange : IAutoGenConfig -&gt; Range&lt;int&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member seqRange : IAutoGenConfig -&gt; Range&lt;int&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_seqRange_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int&gt; seqRange(IAutoGenConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -165,11 +206,31 @@ and register custom generators.</p>
 
   <div class="markdown level1 summary"><p>Sets the range for collection sizes.</p>
 <p>This controls how many elements are generated when creating collections like lists, arrays, and sets.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>range</code>: The range defining minimum and maximum collection sizes.</li>
+<li><code>config</code>: The configuration to modify.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val setSeqRange : Range&lt;int&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member setSeqRange : Range&lt;int&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_setSeqRange_Range_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig setSeqRange(Range&lt;int&gt; range, IAutoGenConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -191,11 +252,30 @@ and register custom generators.</p>
   </h3>
 
   <div class="markdown level1 summary"><p>Gets the recursion depth from the configuration, or the default if not set.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>config</code>: The configuration to query.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val recursionDepth : IAutoGenConfig -&gt; int</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member recursionDepth : IAutoGenConfig -&gt; int</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_recursionDepth_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static int recursionDepth(IAutoGenConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -219,11 +299,31 @@ and register custom generators.</p>
   <div class="markdown level1 summary"><p>Sets the maximum recursion depth for nested type generation.</p>
 <p>This controls how deeply nested structures can be generated. Use this to prevent infinite
 recursion when generating recursive data structures or to control the complexity of generated values.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>depth</code>: The maximum recursion depth. A depth of 0 means no recursion is allowed.</li>
+<li><code>config</code>: The configuration to modify.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val setRecursionDepth : int -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member setRecursionDepth : int -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_setRecursionDepth_int_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig setRecursionDepth(int depth, IAutoGenConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -247,11 +347,31 @@ recursion when generating recursive data structures or to control the complexity
   <div class="markdown level1 summary"><p>Merges two configurations, with values from the second configuration taking precedence.</p>
 <p>This is useful for creating configuration hierarchies where you can have a base configuration
 and override specific settings with another configuration.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>baseConfig</code>: The base configuration.</li>
+<li><code>extraConfig</code>: The configuration whose values take precedence when set.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val merge : IAutoGenConfig -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member merge : IAutoGenConfig -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_merge_IAutoGenConfig_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig merge(IAutoGenConfig baseConfig, IAutoGenConfig extraConfig)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -275,11 +395,30 @@ and override specific settings with another configuration.</p>
   <div class="markdown level1 summary"><p>Adds a custom generator for a specific type to the configuration.</p>
 <p>Use this function to override or provide a generator for a specific type.
 This is useful when you want to customize how instances of a particular type are generated.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: The generator to register.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val addGenerator : Gen&lt;&#39;a&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen">
+        <pre><code class="lang-fsharp hljs">member addGenerator : Gen&lt;&#39;a&gt; -&gt; IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_addGenerator_Gen">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig -&gt; IAutoGenConfig addGenerator(Gen&lt;a&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -310,6 +449,10 @@ These methods can have parameters which will be automatically injected:</p>
 </ul>
 <p>This enables dependency injection of generators, allowing you to compose complex generators from simpler ones.
 The system will use reflection to discover methods and automatically wire up their dependencies.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>config</code>: The configuration to modify.</li>
+</ul>
 <p><strong>Example:</strong></p>
 <pre><code> // a type containing generators for generic types
  // methods should return Gen&lt;_&gt; and are allowed to take Gen&lt;_&gt; and AutoGenContext as parameters
@@ -342,7 +485,22 @@ static member MyGenericType: valueGen: obj -&gt; obj</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val addGenerators : IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig">
+        <pre><code class="lang-fsharp hljs">member addGenerators : IAutoGenConfig -&gt; IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_AutoGenConfig_addGenerators_IAutoGenConfig">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig addGenerators(IAutoGenConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 

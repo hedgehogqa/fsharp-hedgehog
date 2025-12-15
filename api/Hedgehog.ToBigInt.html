@@ -100,28 +100,58 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type ToBigInt =
-  static member Invoke : ^Integral -&gt; bigint
-  static member ToBigInt : unativeint -&gt; bigint
-  static member ToBigInt : nativeint -&gt; bigint
-  static member ToBigInt : decimal -&gt; bigint
-  static member ToBigInt : double -&gt; bigint
-  static member ToBigInt : single -&gt; bigint
-  static member ToBigInt : int64 -&gt; bigint
-  static member ToBigInt : int32 -&gt; bigint
-  static member ToBigInt : int16 -&gt; bigint
-  static member ToBigInt : int8 -&gt; bigint
-  static member ToBigInt : uint64 -&gt; bigint
-  static member ToBigInt : uint32 -&gt; bigint
-  static member ToBigInt : uint16 -&gt; bigint
-  static member ToBigInt : uint8 -&gt; bigint
-  static member ToBigInt : bigint -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt">
+        <pre><code class="lang-fsharp hljs">type ToBigInt =
+  member Invoke : ^Integral -&gt; bigint
+  member ToBigInt : unativeint -&gt; bigint
+  member ToBigInt : nativeint -&gt; bigint
+  member ToBigInt : decimal -&gt; bigint
+  member ToBigInt : double -&gt; bigint
+  member ToBigInt : single -&gt; bigint
+  member ToBigInt : int64 -&gt; bigint
+  member ToBigInt : int32 -&gt; bigint
+  member ToBigInt : int16 -&gt; bigint
+  member ToBigInt : int8 -&gt; bigint
+  member ToBigInt : uint64 -&gt; bigint
+  member ToBigInt : uint32 -&gt; bigint
+  member ToBigInt : uint16 -&gt; bigint
+  member ToBigInt : uint8 -&gt; bigint
+  member ToBigInt : bigint -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt">
+        <pre><code class="lang-csharp hljs">public class ToBigInt {
+  public static bigint Invoke(^Integral x)
+  public static bigint ToBigInt(unativeint x)
+  public static bigint ToBigInt(nativeint x)
+  public static bigint ToBigInt(decimal x)
+  public static bigint ToBigInt(double x)
+  public static bigint ToBigInt(single x)
+  public static bigint ToBigInt(int64 x)
+  public static bigint ToBigInt(int32 x)
+  public static bigint ToBigInt(int16 x)
+  public static bigint ToBigInt(int8 x)
+  public static bigint ToBigInt(uint64 x)
+  public static bigint ToBigInt(uint32 x)
+  public static bigint ToBigInt(uint16 x)
+  public static bigint ToBigInt(uint8 x)
+  public static bigint ToBigInt(bigint x)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">ToBigInt</span></div>
 
 
 
@@ -145,7 +175,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Invoke : ^Integral -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_Invoke__Integral" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_Invoke__Integral" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_Invoke__Integral">
+        <pre><code class="lang-fsharp hljs">member Invoke : ^Integral -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_Invoke__Integral">
+        <pre><code class="lang-csharp hljs">public static bigint Invoke(^Integral x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -170,7 +215,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : unativeint -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_unativeint" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_unativeint" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_unativeint">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : unativeint -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_unativeint">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(unativeint x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -195,7 +255,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : nativeint -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_nativeint" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_nativeint" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_nativeint">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : nativeint -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_nativeint">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(nativeint x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -220,7 +295,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : decimal -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_decimal">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : decimal -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_decimal">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(decimal x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -245,7 +335,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : double -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_double">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : double -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_double">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(double x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -270,7 +375,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : single -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_single">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : single -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_single">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(single x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -295,7 +415,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : int64 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int64">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : int64 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_int64">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(int64 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -320,7 +455,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : int32 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int32">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : int32 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_int32">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(int32 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -345,7 +495,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : int16 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int16">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : int16 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_int16">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(int16 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -370,7 +535,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : int8 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int8" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_int8" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_int8">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : int8 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_int8">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(int8 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -395,7 +575,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : uint64 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint64">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : uint64 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint64">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(uint64 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -420,7 +615,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : uint32 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint32">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : uint32 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint32">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(uint32 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -445,7 +655,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : uint16 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint16">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : uint16 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint16">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(uint16 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -470,7 +695,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : uint8 -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint8" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint8" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_uint8">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : uint8 -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_uint8">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(uint8 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -495,7 +735,22 @@ Class ToBigInt  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ToBigInt : bigint -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_ToBigInt_ToBigInt_bigint" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_ToBigInt_ToBigInt_bigint" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_ToBigInt_ToBigInt_bigint">
+        <pre><code class="lang-fsharp hljs">member ToBigInt : bigint -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_ToBigInt_ToBigInt_bigint">
+        <pre><code class="lang-csharp hljs">public static bigint ToBigInt(bigint x)</code></pre>
+      </div>
+    </div>
   </div>
 
 

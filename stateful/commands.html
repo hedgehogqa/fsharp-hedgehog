@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Commands | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Commands | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/stateful/commands.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="">
+<h1 id="commands">Commands</h1>
+
+<p>Commands are the heart of stateful testing. Each command represents a single operation you can perform on your system - like opening a door, adding an item to a cart, or incrementing a counter.</p>
+<p>Hedgehog then uses these individual actions (commands) to build up valid sequences that simulate client's behaviour.</p>
+<p>This page dives deep into the <code>Command</code> interface, explaining how commands work, when they execute, and how to use state to chain operations together.</p>
+<h2 id="understanding-state">Understanding State</h2>
+<p>Before diving into commands, you need to understand how state works in stateful testing.</p>
+<p>State is shared throughout the lifecycle of testing: first during <strong>sequence generation</strong> (when Hedgehog builds up a series of commands to execute), and then during <strong>sequence execution</strong> (when those commands actually run against your system).</p>
+<p>The key insight is that some parts of the state can be known during generation, while others only become known during execution:</p>
+<ul>
+<li><p><strong>Known at generation time</strong>: When generating a sequence that includes <code>LockDoorCommand</code>, we know the door will be &quot;Locked&quot; for the next action in the sequence - even before executing anything. This is <strong>concrete state</strong>.</p>
+</li>
+<li><p><strong>Known only at execution time</strong>: If the system returns a lock code when the door is locked, we know <em>that a code exists</em> during generation, but the actual value is only available after execution. This is <strong>symbolic state</strong>.</p>
+</li>
+</ul>
+<p>We represent concrete state using regular properties (like <code>bool IsLocked</code>), and symbolic state using the <code>Var&lt;T&gt;</code> type (like <code>Var&lt;string&gt; LockCode</code>).</p>
+<p>Here's an example of a door state that combines both:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type DoorState = {
+    IsLocked: bool           // Concrete: we know immediately after LockDoor
+    LockCode: Var&lt;string&gt;    // Symbolic: actual code only known after execution
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public record DoorState
+{
+    public bool IsLocked { get; init; }      // Concrete: we know immediately after LockDoor
+    public Var&lt;string&gt; LockCode { get; init; } // Symbolic: actual code only known after execution
+}
+</code></pre>
+</section>
+</div>
+
+<p><strong>The key rule:</strong> At generation time, you can only access the <strong>concrete parts</strong> of the state. You cannot resolve symbolic variables because execution hasn't happened yet!</p>
+<h2 id="the-command-interface">The Command Interface</h2>
+<p>Every command inherits from <code>Command&lt;TSystem, TState, TInput, TOutput&gt;</code> and implements these methods:</p>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type MyCommand() =
+    inherit Command&lt;MySystem, MyState, MyInput, MyOutput&gt;()
+    
+    // 1. Name for reporting
+    override _.Name = &quot;MyCommand&quot;
+    
+    // 2. Should this command be generated in this state?
+    override _.Precondition(state) = true
+    
+    // 3. Generate input for this command
+    override _.Generate(state) = 
+        Gen.int32 (Range.linear 0 100)
+    
+    // 4. Should we execute this command with these inputs?
+    override _.Require(env, state, input) = true
+    
+    // 5. Execute the real operation
+    override _.Execute(sut, env, state, input) =
+        let result = sut.DoSomething(input)
+        Task.FromResult(result)
+    
+    // 6. Update the model state
+    override _.Update(state, input, outputVar) =
+        { state with Value = outputVar }
+    
+    // 7. Verify the result is correct
+    override _.Ensure(env, oldState, newState, input, output) =
+        // Check output matches expectations
+        true
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class MyCommand : Command&lt;MySystem, MyState, MyInput, MyOutput&gt;
+{
+    // 1. Name for reporting
+    public override string Name =&gt; &quot;MyCommand&quot;;
+    
+    // 2. Should this command be generated in this state?
+    public override bool Precondition(MyState state) =&gt; true;
+    
+    // 3. Generate input for this command
+    public override Gen&lt;MyInput&gt; Generate(MyState state) =&gt;
+        Gen.Int32(Range.LinearInt32(0, 100));
+    
+    // 4. Should we execute this command with these inputs?
+    public override bool Require(Env env, MyState state, MyInput input) =&gt; 
+        this.Precondition(state);
+    
+    // 5. Execute the real operation
+    public override Task&lt;MyOutput&gt; Execute(MySystem sut, Env env, MyState state, MyInput input)
+    {
+        var result = sut.DoSomething(input);
+        return Task.FromResult(result);
+    }
+    
+    // 6. Update the model state
+    public override MyState Update(MyState state, MyInput input, Var&lt;MyOutput&gt; outputVar) =&gt;
+        state with { Value = outputVar };
+    
+    // 7. Verify the result is correct
+    public override bool Ensure(Env env, MyState oldState, MyState newState, MyInput input, MyOutput output) =&gt;
+        // Check output matches expectations
+        true;
+}
+</code></pre>
+</section>
+</div>
+
+<p>Let's understand each piece and how they work together.</p>
+<h3 id="understanding-env">Understanding Env</h3>
+<p>The <code>Env</code> (environment) is a key concept that allows you to resolve symbolic state values into concrete values, giving you access to the real execution-time values.</p>
+<p><strong>Methods with Env</strong> (can resolve symbolic values):</p>
+<ul>
+<li><code>Require</code> - Check preconditions using actual runtime values</li>
+<li><code>Execute</code> - Perform operations using resolved values</li>
+<li><code>Ensure</code> - Verify results using actual values</li>
+</ul>
+<p><strong>Methods without Env</strong> (can only access concrete state):</p>
+<ul>
+<li><code>Generate</code> - Only has access to structural/concrete state</li>
+<li><code>Update</code> - Works with symbolic variables, doesn't resolve them</li>
+</ul>
+<p>During sequence generation, symbolic values don't have concrete runtime values yet, so <code>Generate</code> cannot receive an <code>Env</code>. However, during execution, <code>Require</code>, <code>Execute</code>, and <code>Ensure</code> all receive an <code>Env</code> that lets you resolve any <code>Var&lt;T&gt;</code> to its actual runtime value.</p>
+<h2 id="the-command-lifecycle">The Command Lifecycle</h2>
+<p>When Hedgehog builds and executes a test sequence, each command goes through these stages:</p>
+<pre><code class="lang-text">1. Precondition → Should we include this command? (check concrete state only - no Env)
+2. Generate     → Generate input for this command (only called if Precondition returns true)
+3. Require      → Can we execute it now? (has Env - can resolve symbolic values)  
+4. Execute      → Run the operation on the real system
+5. Update       → Update the model state with new symbolic output
+6. Ensure       → Verify the result matches our expectations
+</code></pre>
+<h3 id="1-precondition-deciding-whether-to-generate">1. Precondition: Deciding Whether to Generate</h3>
+<p><strong>When it runs:</strong> During test <em>generation</em>, before execution</p>
+<p><strong>Purpose:</strong> Decide whether this command makes sense based on the <strong>concrete structure</strong> of the state</p>
+<p><strong>Returns:</strong> <code>true</code> to include the command (and call <code>Generate</code>), <code>false</code> to skip this command</p>
+<p><strong>Critical:</strong> You can only access concrete parts of the state here. No <code>Env</code> means no resolving symbolic variables!</p>
+<p>For example, checking a simple boolean:</p>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type DoorState = {
+    IsLocked: bool  // Concrete value we can check
+}
+
+type KnockKnockDoorCommand() =
+    inherit Command&lt;Door, DoorState, int, bool&gt;()
+    
+    override _.Name = &quot;KnockKnock&quot;
+    
+    override _.Precondition(state) =
+        // Check concrete state directly - no Env needed!
+        state.IsLocked  // Only generate when door is locked
+    
+    override _.Generate(state) =
+        // Generate the number of knocks
+        Gen.int32 (Range.linear 1 5)
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public record DoorState
+{
+    public bool IsLocked { get; init; }  // Concrete value we can check
+}
+
+public class KnockKnockDoorCommand : Command&lt;Door, DoorState, int, bool&gt;
+{
+    public override string Name =&gt; &quot;KnockKnock&quot;;
+    
+    public override bool Precondition(DoorState state)
+    {
+        // Check concrete state directly - no Env needed!
+        return state.IsLocked;  // Only generate when door is locked
+    }
+    
+    public override Gen&lt;int&gt; Generate(DoorState state)
+    {
+        // Generate the number of knocks
+        return Gen.Int32(Range.LinearInt32(1, 5));
+    }
+}
+</code></pre>
+</section>
+</div>
+
+<p><strong>Key insight:</strong> At generation time, you only know the <em>structure</em> - &quot;the door is locked&quot;, &quot;the stack has 3 items&quot; - but not the actual values like &quot;the lock code is 1234&quot; or &quot;the top item is 42&quot;. Those require execution.</p>
+<h3 id="2-generate-creating-command-input">2. Generate: Creating Command Input</h3>
+<p><strong>When it runs:</strong> During test <em>generation</em>, after <code>Precondition</code> returns <code>true</code></p>
+<p><strong>Purpose:</strong> Generate random input for this command</p>
+<p><strong>Returns:</strong> A <code>Gen&lt;TInput&gt;</code> generator that produces input values</p>
+<p><strong>Important:</strong> This is only called when <code>Precondition</code> returns <code>true</code>, so you can assume the structural preconditions are already satisfied.</p>
+<h3 id="3-require-runtime-precondition-check">3. Require: Runtime Precondition Check</h3>
+<p><strong>When it runs:</strong> Just before execution, after the sequence is generated</p>
+<p><strong>Purpose:</strong> Verify that the command can still be executed with these specific inputs.</p>
+<p><strong>Returns:</strong> <code>true</code> to proceed with execution, <code>false</code> to skip this command (the test continues with remaining commands)</p>
+<p><strong>Important:</strong> Returning <code>false</code> does NOT fail the test - it simply skips the command. This is different from <code>Ensure</code>, which validates correctness.</p>
+<p><strong>Key difference from Precondition:</strong> <code>Require</code> DOES receive an <code>Env</code> parameter, so it CAN resolve symbolic variables! This is where you check concrete runtime values that weren't known during generation.</p>
+<p><strong>Best practice:</strong> Only override this method if you need to check runtime state values (resolved symbolic variables) or validate the generated input. Since <code>Precondition</code> is checked during both generation and shrinking, most commands can rely on the default <code>Require</code> implementation.</p>
+<p><strong>In practice:</strong> The default <code>Require</code> implementation returns <code>true</code>, which works for most commands.</p>
+<h3 id="4-execute-running-the-real-operation">4. Execute: Running the Real Operation</h3>
+<p><strong>When it runs:</strong> During test execution</p>
+<p><strong>Purpose:</strong> Perform the actual operation on your system under test</p>
+<p><strong>Returns:</strong> A <code>Task&lt;TOutput&gt;</code> with the result</p>
+<p>This is straightforward - call your system's method and return the result:</p>
+<div class="tabGroup" id="tabgroup_4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_4_fsharp" role="tab" aria-controls="tabpanel_4_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_4_csharp" role="tab" aria-controls="tabpanel_4_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_4_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Execute(sut, env, state, input) =
+    let result = sut.IncrementCounter()
+    Task.FromResult(result)
+</code></pre>
+</section>
+<section id="tabpanel_4_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override Task&lt;int&gt; Execute(Counter sut, Env env, CounterState state, bool input)
+{
+    var result = sut.Increment();
+    return Task.FromResult(result);
+}
+</code></pre>
+</section>
+</div>
+
+<p><strong>Important:</strong> The <code>Execute</code> method receives:</p>
+<ul>
+<li><code>sut</code>: Your system under test (the real object)</li>
+<li><code>env</code>: The environment with resolved values from previous commands</li>
+<li><code>state</code>: The current model state</li>
+<li><code>input</code>: The generated input for this command</li>
+</ul>
+<p>Use <code>env</code> to resolve any symbolic variables you need from the state:</p>
+<div class="tabGroup" id="tabgroup_5">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_5_fsharp" role="tab" aria-controls="tabpanel_5_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_5_csharp" role="tab" aria-controls="tabpanel_5_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_5_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Execute(sut, env, state, input) =
+    let code = state.LockCode.Resolve(env)
+    sut.UnlockDoorAsync(code, input)
+</code></pre>
+</section>
+<section id="tabpanel_5_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override Task&lt;bool&gt; Execute(DoorState sut, Env env, CartState state, string input)
+{
+    var code = state.LockCode.Resolve(env);
+    return sut.UnlockDoorAsync(code, input);
+}
+</code></pre>
+</section>
+</div>
+<h3 id="5-update-tracking-symbolic-state">5. Update: Tracking Symbolic State</h3>
+<p><strong>When it runs:</strong> After execution, before the next command</p>
+<p><strong>Purpose:</strong> Update your model state with the new symbolic output</p>
+<p><strong>Returns:</strong> The new state</p>
+<p>This is where you store the command's output as a <strong>symbolic variable</strong> (<code>Var&lt;TOutput&gt;</code>) that future commands can reference:</p>
+<div class="tabGroup" id="tabgroup_6">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_6_fsharp" role="tab" aria-controls="tabpanel_6_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_6_csharp" role="tab" aria-controls="tabpanel_6_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_6_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Update(state, input, outputVar) =
+    { state with CurrentCount = outputVar }
+</code></pre>
+</section>
+<section id="tabpanel_6_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override CounterState Update(CounterState state, bool input, Var&lt;int&gt; outputVar) =&gt;
+    state with { CurrentCount = outputVar };
+</code></pre>
+</section>
+</div>
+
+<p>The <code>outputVar</code> is a symbolic reference to this command's output. Later commands can resolve it to get the actual value.</p>
+<h3 id="6-ensure-verifying-correctness">6. Ensure: Verifying Correctness</h3>
+<p><strong>When it runs:</strong> After execution and state update</p>
+<p><strong>Purpose:</strong> Assert that the output matches expectations</p>
+<p><strong>Returns:</strong> <code>true</code> if the assertion passes, <code>false</code> or throw an exception if it fails</p>
+<p>This is your postcondition check:</p>
+<div class="tabGroup" id="tabgroup_7">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_7_fsharp" role="tab" aria-controls="tabpanel_7_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_7_csharp" role="tab" aria-controls="tabpanel_7_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Ensure(env, oldState, newState, input, output) =
+    let oldCount = oldState.CurrentCount.Resolve(env)
+    output = oldCount + 1  // Increment should increase by exactly 1
+</code></pre>
+</section>
+<section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override bool Ensure(Env env, CounterState oldState, CounterState newState, bool input, int output)
+{
+    var oldCount = oldState.CurrentCount.Resolve(env);
+    return output == oldCount + 1;  // Increment should increase by exactly 1
+}
+</code></pre>
+</section>
+</div>
+
+<p>You can also throw exceptions for more detailed error messages:</p>
+<div class="tabGroup" id="tabgroup_8">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_8_fsharp" role="tab" aria-controls="tabpanel_8_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_8_csharp" role="tab" aria-controls="tabpanel_8_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Ensure(env, oldState, newState, input, output) =
+    let oldCount = oldState.CurrentCount.Resolve(env)
+    if output &lt;&gt; oldCount + 1 then
+        failwith $&quot;Expected {oldCount + 1}, got {output}&quot;
+    true
+</code></pre>
+</section>
+<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override bool Ensure(Env env, CounterState oldState, CounterState newState, bool input, int output)
+{
+    var oldCount = oldState.CurrentCount.Resolve(env);
+    Assert.Equal(output, oldCount + 1);
+    return true;
+}
+</code></pre>
+</section>
+</div>
+<h2 id="commands-without-outputs">Commands Without Outputs</h2>
+<p>Sometimes operations don't return meaningful values - they just perform side effects. For these, use <code>ActionCommand&lt;TSystem, TState, TInput&gt;</code>:</p>
+<div class="tabGroup" id="tabgroup_9">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type CloseConnectionCommand() =
+    inherit ActionCommand&lt;Database, DbState, unit&gt;()
+    
+    override _.Name = &quot;CloseConnection&quot;
+    
+    override _.Precondition(state) = true
+    
+    override _.Generate(state) = 
+        Gen.constant ()
+    
+    override _.Execute(sut, env, state, input) =
+        sut.CloseConnection()
+        Task.CompletedTask  // No return value
+    
+    override _.Update(state, input) =
+        { state with IsConnected = false }  // No output var
+    
+    override _.Ensure(env, oldState, newState, input) =
+        // Verify side effect without checking output
+        true
+</code></pre>
+</section>
+<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class CloseConnectionCommand : ActionCommand&lt;Database, DbState, NoInput&gt;
+{
+    public override string Name =&gt; &quot;CloseConnection&quot;;
+    
+    public override bool Precondition(DbState state) =&gt; true;
+    
+    public override Gen&lt;NoInput&gt; Generate(DbState state) =&gt;
+        Gen.Constant(NoInput.Value);
+    
+    public override Task Execute(Database sut, Env env, DbState state, NoInput input)
+    {
+        sut.CloseConnection();
+        return Task.CompletedTask;  // No return value
+    }
+    
+    public override DbState Update(DbState state, NoInput input) =&gt;
+        state with { IsConnected = false };  // No output var
+    
+    public override bool Ensure(Env env, DbState oldState, DbState newState, NoInput input) =&gt;
+        true;
+}
+</code></pre>
+</section>
+</div>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

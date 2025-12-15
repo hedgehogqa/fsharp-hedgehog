@@ -102,15 +102,32 @@ Class AutoGenConfig  <a class="header-action link-secondary" title="View source"
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type AutoGenConfig =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGenConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGenConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGenConfig">
+        <pre><code class="lang-fsharp hljs">type AutoGenConfig =
   member defaults : IAutoGenConfig
   member empty : IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGenConfig">
+        <pre><code class="lang-csharp hljs">public class AutoGenConfig {
+  public static IAutoGenConfig defaults()
+  public static IAutoGenConfig empty()
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">AutoGenConfig</span></div>
 
 
 
@@ -136,7 +153,22 @@ Class AutoGenConfig  <a class="header-action link-secondary" title="View source"
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val empty : IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGenConfig_empty" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGenConfig_empty" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGenConfig_empty">
+        <pre><code class="lang-fsharp hljs">member empty : IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGenConfig_empty">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig empty()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -165,7 +197,22 @@ and add your own custom generators as needed.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val defaults : IAutoGenConfig</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_AutoGenConfig_defaults" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_AutoGenConfig_defaults" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_AutoGenConfig_defaults">
+        <pre><code class="lang-fsharp hljs">member defaults : IAutoGenConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_AutoGenConfig_defaults">
+        <pre><code class="lang-csharp hljs">public static IAutoGenConfig defaults()</code></pre>
+      </div>
+    </div>
   </div>
 
 

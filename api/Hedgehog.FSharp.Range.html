@@ -100,7 +100,17 @@ Class Range  <a class="header-action link-secondary" title="View source" href="h
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Range =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range">
+        <pre><code class="lang-fsharp hljs">type Range =
   member bounds : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a * &#39;a
   member constant : &#39;a -&gt; &#39;a -&gt; Range&lt;&#39;a&gt;
   member constantBounded : unit -&gt; Range&lt;^a&gt;
@@ -116,12 +126,32 @@ Class Range  <a class="header-action link-secondary" title="View source" href="h
   member origin : Range&lt;&#39;a&gt; -&gt; &#39;a
   member singleton : &#39;a -&gt; Range&lt;&#39;a&gt;
   member upperBound : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range">
+        <pre><code class="lang-csharp hljs">public class Range {
+  public static (a, a) bounds(Size sz, Range&lt;a&gt; arg1)
+  public static Range&lt;a&gt; constant(a lowerBound, a upperBound)
+  public static Range&lt;^a&gt; constantBounded(void ())
+  public static Range&lt;a&gt; constantFrom(a origin, a lowerBound, a upperBound)
+  public static Range&lt;^a&gt; exponential(^a lowerBound, ^a upperBound)
+  public static Range&lt;^a&gt; exponentialBounded(void ())
+  public static Range&lt;^a&gt; exponentialFrom(^a origin, ^a lowerBound, ^a upperBound)
+  public static Range&lt;^a&gt; linear(^a lowerBound, ^a upperBound)
+  public static Range&lt;^a&gt; linearBounded(void ())
+  public static Range&lt;^a&gt; linearFrom(^a origin, ^a lowerBound, ^a upperBound)
+  public static a lowerBound(Size sz, Range&lt;a&gt; range)
+  public static Range&lt;b&gt; map(a -&gt; b f, Range&lt;a&gt; arg1)
+  public static a origin(Range&lt;a&gt; arg0)
+  public static Range&lt;a&gt; singleton(a x)
+  public static a upperBound(Size sz, Range&lt;a&gt; range)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Range</span></div>
 
 
 
@@ -151,7 +181,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val origin : Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_origin_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_origin_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_origin_Range">
+        <pre><code class="lang-fsharp hljs">member origin : Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_origin_Range">
+        <pre><code class="lang-csharp hljs">public static a origin(Range&lt;a&gt; arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -177,7 +222,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Range&lt;&#39;a&gt; -&gt; Range&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_map_a_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_map_a_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_map_a_Range">
+        <pre><code class="lang-fsharp hljs">member map : &#39;a -&gt; &#39;b -&gt; Range&lt;&#39;a&gt; -&gt; Range&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_map_a_Range">
+        <pre><code class="lang-csharp hljs">public static Range&lt;b&gt; map(a -&gt; b f, Range&lt;a&gt; arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -203,7 +263,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bounds : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a * &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_bounds_Size_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_bounds_Size_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_bounds_Size_Range">
+        <pre><code class="lang-fsharp hljs">member bounds : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a * &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_bounds_Size_Range">
+        <pre><code class="lang-csharp hljs">public static (a, a) bounds(Size sz, Range&lt;a&gt; arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -229,7 +304,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val lowerBound : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_lowerBound_Size_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_lowerBound_Size_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_lowerBound_Size_Range">
+        <pre><code class="lang-fsharp hljs">member lowerBound : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_lowerBound_Size_Range">
+        <pre><code class="lang-csharp hljs">public static a lowerBound(Size sz, Range&lt;a&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -255,7 +345,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val upperBound : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_upperBound_Size_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_upperBound_Size_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_upperBound_Size_Range">
+        <pre><code class="lang-fsharp hljs">member upperBound : Size -&gt; Range&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_upperBound_Size_Range">
+        <pre><code class="lang-csharp hljs">public static a upperBound(Size sz, Range&lt;a&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -281,7 +386,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val singleton : &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_singleton_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_singleton_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_singleton_a">
+        <pre><code class="lang-fsharp hljs">member singleton : &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_singleton_a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;a&gt; singleton(a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -308,7 +428,22 @@ origin point which may differ from the bounds.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val constantFrom : &#39;a -&gt; &#39;a -&gt; &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_constantFrom_a_a_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_constantFrom_a_a_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_constantFrom_a_a_a">
+        <pre><code class="lang-fsharp hljs">member constantFrom : &#39;a -&gt; &#39;a -&gt; &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_constantFrom_a_a_a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;a&gt; constantFrom(a origin, a lowerBound, a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -334,7 +469,22 @@ origin point which may differ from the bounds.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val constant : &#39;a -&gt; &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_constant_a_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_constant_a_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_constant_a_a">
+        <pre><code class="lang-fsharp hljs">member constant : &#39;a -&gt; &#39;a -&gt; Range&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_constant_a_a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;a&gt; constant(a lowerBound, a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -361,7 +511,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val constantBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_constantBounded_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_constantBounded_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_constantBounded_unit">
+        <pre><code class="lang-fsharp hljs">member constantBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_constantBounded_unit">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; constantBounded(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -388,7 +553,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val linearFrom : ^a -&gt; ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_linearFrom__a__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_linearFrom__a__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_linearFrom__a__a__a">
+        <pre><code class="lang-fsharp hljs">member linearFrom : ^a -&gt; ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_linearFrom__a__a__a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; linearFrom(^a origin, ^a lowerBound, ^a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -415,7 +595,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val linear : ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_linear__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_linear__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_linear__a__a">
+        <pre><code class="lang-fsharp hljs">member linear : ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_linear__a__a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; linear(^a lowerBound, ^a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -442,7 +637,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val linearBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_linearBounded_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_linearBounded_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_linearBounded_unit">
+        <pre><code class="lang-fsharp hljs">member linearBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_linearBounded_unit">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; linearBounded(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -469,7 +679,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val exponentialFrom : ^a -&gt; ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_exponentialFrom__a__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_exponentialFrom__a__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_exponentialFrom__a__a__a">
+        <pre><code class="lang-fsharp hljs">member exponentialFrom : ^a -&gt; ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_exponentialFrom__a__a__a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; exponentialFrom(^a origin, ^a lowerBound, ^a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -496,7 +721,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val exponential : ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_exponential__a__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_exponential__a__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_exponential__a__a">
+        <pre><code class="lang-fsharp hljs">member exponential : ^a -&gt; ^a -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_exponential__a__a">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; exponential(^a lowerBound, ^a upperBound)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -523,7 +763,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val exponentialBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Range_exponentialBounded_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Range_exponentialBounded_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Range_exponentialBounded_unit">
+        <pre><code class="lang-fsharp hljs">member exponentialBounded : unit -&gt; Range&lt;^a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Range_exponentialBounded_unit">
+        <pre><code class="lang-csharp hljs">public static Range&lt;^a&gt; exponentialBounded(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 

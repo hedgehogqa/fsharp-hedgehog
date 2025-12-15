@@ -100,7 +100,101 @@ Class Range  <a class="header-action link-secondary" title="View source" href="h
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Range {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range">
+        <pre><code class="lang-fsharp hljs">type Range =
+  member Constant : x:&#39;T * y:&#39;T -&gt; Range&lt;&#39;T&gt;
+  member Constant : z:&#39;T * x:&#39;T * y:&#39;T -&gt; Range&lt;&#39;T&gt;
+  member ConstantBoundedByte : Range&lt;byte&gt;
+  member ConstantBoundedDecimal : Range&lt;decimal&gt;
+  member ConstantBoundedDouble : Range&lt;double&gt;
+  member ConstantBoundedInt16 : Range&lt;int16&gt;
+  member ConstantBoundedInt32 : Range&lt;int32&gt;
+  member ConstantBoundedInt64 : Range&lt;int64&gt;
+  member ConstantBoundedSByte : Range&lt;sbyte&gt;
+  member ConstantBoundedSingle : Range&lt;single&gt;
+  member ConstantBoundedUInt16 : Range&lt;uint16&gt;
+  member ConstantBoundedUInt32 : Range&lt;uint32&gt;
+  member ConstantBoundedUInt64 : Range&lt;uint64&gt;
+  member ExponentialBoundedByte : Range&lt;byte&gt;
+  member ExponentialBoundedDecimal : Range&lt;decimal&gt;
+  member ExponentialBoundedDouble : Range&lt;double&gt;
+  member ExponentialBoundedInt16 : Range&lt;int16&gt;
+  member ExponentialBoundedInt32 : Range&lt;int32&gt;
+  member ExponentialBoundedInt64 : Range&lt;int64&gt;
+  member ExponentialBoundedSByte : Range&lt;sbyte&gt;
+  member ExponentialBoundedSingle : Range&lt;single&gt;
+  member ExponentialBoundedUInt16 : Range&lt;uint16&gt;
+  member ExponentialBoundedUInt32 : Range&lt;uint32&gt;
+  member ExponentialBoundedUInt64 : Range&lt;uint64&gt;
+  member ExponentialByte : x:byte * y:byte -&gt; Range&lt;byte&gt;
+  member ExponentialDecimal : x:decimal * y:decimal -&gt; Range&lt;decimal&gt;
+  member ExponentialDouble : x:double * y:double -&gt; Range&lt;double&gt;
+  member ExponentialFromByte : z:byte * x:byte * y:byte -&gt; Range&lt;byte&gt;
+  member ExponentialFromDecimal : z:decimal * x:decimal * y:decimal -&gt; Range&lt;decimal&gt;
+  member ExponentialFromDouble : z:double * x:double * y:double -&gt; Range&lt;double&gt;
+  member ExponentialFromInt16 : z:int16 * x:int16 * y:int16 -&gt; Range&lt;int16&gt;
+  member ExponentialFromInt32 : z:int32 * x:int32 * y:int32 -&gt; Range&lt;int32&gt;
+  member ExponentialFromInt64 : z:int64 * x:int64 * y:int64 -&gt; Range&lt;int64&gt;
+  member ExponentialFromSByte : z:sbyte * x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;
+  member ExponentialFromSingle : z:single * x:single * y:single -&gt; Range&lt;single&gt;
+  member ExponentialFromUInt16 : z:uint16 * x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;
+  member ExponentialFromUInt32 : z:uint32 * x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;
+  member ExponentialFromUInt64 : z:uint64 * x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;
+  member ExponentialInt16 : x:int16 * y:int16 -&gt; Range&lt;int16&gt;
+  member ExponentialInt32 : x:int32 * y:int32 -&gt; Range&lt;int32&gt;
+  member ExponentialInt64 : x:int64 * y:int64 -&gt; Range&lt;int64&gt;
+  member ExponentialSByte : x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;
+  member ExponentialSingle : x:single * y:single -&gt; Range&lt;single&gt;
+  member ExponentialUInt16 : x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;
+  member ExponentialUInt32 : x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;
+  member ExponentialUInt64 : x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;
+  member FromValue : &#39;T -&gt; Range&lt;&#39;T&gt;
+  member LinearBoundedByte : Range&lt;byte&gt;
+  member LinearBoundedDecimal : Range&lt;decimal&gt;
+  member LinearBoundedDouble : Range&lt;double&gt;
+  member LinearBoundedInt16 : Range&lt;int16&gt;
+  member LinearBoundedInt32 : Range&lt;int32&gt;
+  member LinearBoundedInt64 : Range&lt;int64&gt;
+  member LinearBoundedSByte : Range&lt;sbyte&gt;
+  member LinearBoundedSingle : Range&lt;single&gt;
+  member LinearBoundedUInt16 : Range&lt;uint16&gt;
+  member LinearBoundedUInt32 : Range&lt;uint32&gt;
+  member LinearBoundedUInt64 : Range&lt;uint64&gt;
+  member LinearByte : x:byte * y:byte -&gt; Range&lt;byte&gt;
+  member LinearDecimal : x:decimal * y:decimal -&gt; Range&lt;decimal&gt;
+  member LinearDouble : x:double * y:double -&gt; Range&lt;double&gt;
+  member LinearFromByte : z:byte * x:byte * y:byte -&gt; Range&lt;byte&gt;
+  member LinearFromDecimal : z:decimal * x:decimal * y:decimal -&gt; Range&lt;decimal&gt;
+  member LinearFromDouble : z:double * x:double * y:double -&gt; Range&lt;double&gt;
+  member LinearFromInt16 : z:int16 * x:int16 * y:int16 -&gt; Range&lt;int16&gt;
+  member LinearFromInt32 : z:int32 * x:int32 * y:int32 -&gt; Range&lt;int32&gt;
+  member LinearFromInt64 : z:int64 * x:int64 * y:int64 -&gt; Range&lt;int64&gt;
+  member LinearFromSByte : z:sbyte * x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;
+  member LinearFromSingle : z:single * x:single * y:single -&gt; Range&lt;single&gt;
+  member LinearFromUInt16 : z:uint16 * x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;
+  member LinearFromUInt32 : z:uint32 * x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;
+  member LinearFromUInt64 : z:uint64 * x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;
+  member LinearInt16 : x:int16 * y:int16 -&gt; Range&lt;int16&gt;
+  member LinearInt32 : x:int32 * y:int32 -&gt; Range&lt;int32&gt;
+  member LinearInt64 : x:int64 * y:int64 -&gt; Range&lt;int64&gt;
+  member LinearSByte : x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;
+  member LinearSingle : x:single * y:single -&gt; Range&lt;single&gt;
+  member LinearUInt16 : x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;
+  member LinearUInt32 : x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;
+  member LinearUInt64 : x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;
+  member Singleton : &#39;T -&gt; Range&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range">
+        <pre><code class="lang-csharp hljs">public class Range {
   public static Range&lt;T&gt; Constant(T x, T y)
   public static Range&lt;T&gt; Constant(T z, T x, T y)
   public static Range&lt;byte&gt; ConstantBoundedByte()
@@ -183,12 +277,13 @@ Class Range  <a class="header-action link-secondary" title="View source" href="h
   public static Range&lt;uint64&gt; LinearUInt64(uint64 x, uint64 y)
   public static Range&lt;T&gt; Singleton(T value)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Range</span></div>
 
 
 
@@ -213,7 +308,22 @@ Class Range  <a class="header-action link-secondary" title="View source" href="h
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T x, T y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_Constant_T_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_Constant_T_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_Constant_T_T">
+        <pre><code class="lang-fsharp hljs">member Constant : x:&#39;T * y:&#39;T -&gt; Range&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_Constant_T_T">
+        <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T x, T y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -240,7 +350,22 @@ origin point which may differ from the bounds.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T z, T x, T y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_Constant_T_T_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_Constant_T_T_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_Constant_T_T_T">
+        <pre><code class="lang-fsharp hljs">member Constant : z:&#39;T * x:&#39;T * y:&#39;T -&gt; Range&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_Constant_T_T_T">
+        <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Constant(T z, T x, T y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -267,7 +392,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ConstantBoundedByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedByte">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedByte : Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ConstantBoundedByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -294,7 +434,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ConstantBoundedDecimal()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedDecimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedDecimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedDecimal">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedDecimal : Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedDecimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ConstantBoundedDecimal()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -321,7 +476,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ConstantBoundedDouble()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedDouble" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedDouble" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedDouble">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedDouble : Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedDouble">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ConstantBoundedDouble()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -348,7 +518,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ConstantBoundedInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt16">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedInt16 : Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ConstantBoundedInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -375,7 +560,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ConstantBoundedInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt32">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedInt32 : Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ConstantBoundedInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -402,7 +602,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ConstantBoundedInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedInt64">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedInt64 : Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ConstantBoundedInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -429,7 +644,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ConstantBoundedSByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedSByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedSByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedSByte">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedSByte : Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedSByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ConstantBoundedSByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -456,7 +686,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ConstantBoundedSingle()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedSingle" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedSingle" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedSingle">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedSingle : Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedSingle">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ConstantBoundedSingle()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -483,7 +728,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ConstantBoundedUInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt16">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedUInt16 : Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ConstantBoundedUInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -510,7 +770,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ConstantBoundedUInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt32">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedUInt32 : Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ConstantBoundedUInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -537,7 +812,22 @@ full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ConstantBoundedUInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ConstantBoundedUInt64">
+        <pre><code class="lang-fsharp hljs">member ConstantBoundedUInt64 : Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ConstantBoundedUInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ConstantBoundedUInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -564,7 +854,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialBoundedByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedByte">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedByte : Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialBoundedByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -591,7 +896,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialBoundedDecimal()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedDecimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedDecimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedDecimal">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedDecimal : Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedDecimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialBoundedDecimal()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -618,7 +938,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialBoundedDouble()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedDouble" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedDouble" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedDouble">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedDouble : Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedDouble">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialBoundedDouble()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -645,7 +980,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialBoundedInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt16">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedInt16 : Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialBoundedInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -672,7 +1022,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialBoundedInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt32">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedInt32 : Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialBoundedInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -699,7 +1064,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialBoundedInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedInt64">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedInt64 : Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialBoundedInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -726,7 +1106,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialBoundedSByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedSByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedSByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedSByte">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedSByte : Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedSByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialBoundedSByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -753,7 +1148,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialBoundedSingle()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedSingle" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedSingle" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedSingle">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedSingle : Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedSingle">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialBoundedSingle()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -780,7 +1190,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialBoundedUInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt16">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedUInt16 : Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialBoundedUInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -807,7 +1232,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialBoundedUInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt32">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedUInt32 : Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialBoundedUInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -834,7 +1274,22 @@ parameter and uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialBoundedUInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialBoundedUInt64">
+        <pre><code class="lang-fsharp hljs">member ExponentialBoundedUInt64 : Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialBoundedUInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialBoundedUInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -861,7 +1316,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialByte(byte x, byte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialByte_byte_byte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialByte_byte_byte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialByte_byte_byte">
+        <pre><code class="lang-fsharp hljs">member ExponentialByte : x:byte * y:byte -&gt; Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialByte_byte_byte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialByte(byte x, byte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -888,7 +1358,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialDecimal(decimal x, decimal y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialDecimal_decimal_decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialDecimal_decimal_decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialDecimal_decimal_decimal">
+        <pre><code class="lang-fsharp hljs">member ExponentialDecimal : x:decimal * y:decimal -&gt; Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialDecimal_decimal_decimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialDecimal(decimal x, decimal y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -915,7 +1400,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialDouble(double x, double y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialDouble_double_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialDouble_double_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialDouble_double_double">
+        <pre><code class="lang-fsharp hljs">member ExponentialDouble : x:double * y:double -&gt; Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialDouble_double_double">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialDouble(double x, double y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -942,7 +1442,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialFromByte(byte z, byte x, byte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromByte_byte_byte_byte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromByte_byte_byte_byte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromByte_byte_byte_byte">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromByte : z:byte * x:byte * y:byte -&gt; Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromByte_byte_byte_byte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; ExponentialFromByte(byte z, byte x, byte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -969,7 +1484,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromDecimal_decimal_decimal_decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromDecimal_decimal_decimal_decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromDecimal_decimal_decimal_decimal">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromDecimal : z:decimal * x:decimal * y:decimal -&gt; Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromDecimal_decimal_decimal_decimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; ExponentialFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -996,7 +1526,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialFromDouble(double z, double x, double y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromDouble_double_double_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromDouble_double_double_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromDouble_double_double_double">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromDouble : z:double * x:double * y:double -&gt; Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromDouble_double_double_double">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; ExponentialFromDouble(double z, double x, double y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1023,7 +1568,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialFromInt16(int16 z, int16 x, int16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt16_int16_int16_int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt16_int16_int16_int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt16_int16_int16_int16">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromInt16 : z:int16 * x:int16 * y:int16 -&gt; Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt16_int16_int16_int16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialFromInt16(int16 z, int16 x, int16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1050,7 +1610,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialFromInt32(int32 z, int32 x, int32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt32_int32_int32_int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt32_int32_int32_int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt32_int32_int32_int32">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromInt32 : z:int32 * x:int32 * y:int32 -&gt; Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt32_int32_int32_int32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialFromInt32(int32 z, int32 x, int32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1077,7 +1652,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialFromInt64(int64 z, int64 x, int64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt64_int64_int64_int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt64_int64_int64_int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromInt64_int64_int64_int64">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromInt64 : z:int64 * x:int64 * y:int64 -&gt; Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromInt64_int64_int64_int64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialFromInt64(int64 z, int64 x, int64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1104,7 +1694,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromSByte_sbyte_sbyte_sbyte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromSByte_sbyte_sbyte_sbyte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromSByte_sbyte_sbyte_sbyte">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromSByte : z:sbyte * x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromSByte_sbyte_sbyte_sbyte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1131,7 +1736,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialFromSingle(single z, single x, single y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromSingle_single_single_single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromSingle_single_single_single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromSingle_single_single_single">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromSingle : z:single * x:single * y:single -&gt; Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromSingle_single_single_single">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialFromSingle(single z, single x, single y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1158,7 +1778,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt16_uint16_uint16_uint16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt16_uint16_uint16_uint16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt16_uint16_uint16_uint16">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromUInt16 : z:uint16 * x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt16_uint16_uint16_uint16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1185,7 +1820,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt32_uint32_uint32_uint32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt32_uint32_uint32_uint32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt32_uint32_uint32_uint32">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromUInt32 : z:uint32 * x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt32_uint32_uint32_uint32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1212,7 +1862,22 @@ size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt64_uint64_uint64_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt64_uint64_uint64_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialFromUInt64_uint64_uint64_uint64">
+        <pre><code class="lang-fsharp hljs">member ExponentialFromUInt64 : z:uint64 * x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialFromUInt64_uint64_uint64_uint64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1239,7 +1904,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialInt16(int16 x, int16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialInt16_int16_int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialInt16_int16_int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialInt16_int16_int16">
+        <pre><code class="lang-fsharp hljs">member ExponentialInt16 : x:int16 * y:int16 -&gt; Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialInt16_int16_int16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; ExponentialInt16(int16 x, int16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1266,7 +1946,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialInt32(int32 x, int32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialInt32_int32_int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialInt32_int32_int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialInt32_int32_int32">
+        <pre><code class="lang-fsharp hljs">member ExponentialInt32 : x:int32 * y:int32 -&gt; Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialInt32_int32_int32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; ExponentialInt32(int32 x, int32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1293,7 +1988,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialInt64(int64 x, int64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialInt64_int64_int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialInt64_int64_int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialInt64_int64_int64">
+        <pre><code class="lang-fsharp hljs">member ExponentialInt64 : x:int64 * y:int64 -&gt; Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialInt64_int64_int64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; ExponentialInt64(int64 x, int64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1320,7 +2030,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialSByte(sbyte x, sbyte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialSByte_sbyte_sbyte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialSByte_sbyte_sbyte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialSByte_sbyte_sbyte">
+        <pre><code class="lang-fsharp hljs">member ExponentialSByte : x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialSByte_sbyte_sbyte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; ExponentialSByte(sbyte x, sbyte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1347,7 +2072,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialSingle(single x, single y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialSingle_single_single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialSingle_single_single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialSingle_single_single">
+        <pre><code class="lang-fsharp hljs">member ExponentialSingle : x:single * y:single -&gt; Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialSingle_single_single">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; ExponentialSingle(single x, single y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1374,7 +2114,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialUInt16(uint16 x, uint16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt16_uint16_uint16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialUInt16_uint16_uint16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt16_uint16_uint16">
+        <pre><code class="lang-fsharp hljs">member ExponentialUInt16 : x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialUInt16_uint16_uint16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; ExponentialUInt16(uint16 x, uint16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1401,7 +2156,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialUInt32(uint32 x, uint32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt32_uint32_uint32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialUInt32_uint32_uint32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt32_uint32_uint32">
+        <pre><code class="lang-fsharp hljs">member ExponentialUInt32 : x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialUInt32_uint32_uint32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; ExponentialUInt32(uint32 x, uint32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1428,7 +2198,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialUInt64(uint64 x, uint64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt64_uint64_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_ExponentialUInt64_uint64_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_ExponentialUInt64_uint64_uint64">
+        <pre><code class="lang-fsharp hljs">member ExponentialUInt64 : x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_ExponentialUInt64_uint64_uint64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; ExponentialUInt64(uint64 x, uint64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1454,7 +2239,22 @@ to the size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; FromValue(T value)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_FromValue_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_FromValue_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_FromValue_T">
+        <pre><code class="lang-fsharp hljs">member FromValue : &#39;T -&gt; Range&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_FromValue_T">
+        <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; FromValue(T value)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1481,7 +2281,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearBoundedByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedByte">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedByte : Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearBoundedByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1508,7 +2323,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearBoundedDecimal()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedDecimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedDecimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedDecimal">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedDecimal : Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedDecimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearBoundedDecimal()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1535,7 +2365,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearBoundedDouble()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedDouble" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedDouble" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedDouble">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedDouble : Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedDouble">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearBoundedDouble()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1562,7 +2407,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearBoundedInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt16">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedInt16 : Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearBoundedInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1589,7 +2449,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearBoundedInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt32">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedInt32 : Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearBoundedInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1616,7 +2491,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearBoundedInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedInt64">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedInt64 : Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearBoundedInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1643,7 +2533,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearBoundedSByte()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedSByte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedSByte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedSByte">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedSByte : Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedSByte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearBoundedSByte()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1670,7 +2575,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearBoundedSingle()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedSingle" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedSingle" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedSingle">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedSingle : Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedSingle">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearBoundedSingle()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1697,7 +2617,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearBoundedUInt16()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt16">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedUInt16 : Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearBoundedUInt16()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1724,7 +2659,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearBoundedUInt32()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt32">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedUInt32 : Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearBoundedUInt32()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1751,7 +2701,22 @@ uses the full range of a data type.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearBoundedUInt64()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearBoundedUInt64">
+        <pre><code class="lang-fsharp hljs">member LinearBoundedUInt64 : Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearBoundedUInt64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearBoundedUInt64()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1778,7 +2743,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearByte(byte x, byte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearByte_byte_byte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearByte_byte_byte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearByte_byte_byte">
+        <pre><code class="lang-fsharp hljs">member LinearByte : x:byte * y:byte -&gt; Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearByte_byte_byte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearByte(byte x, byte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1805,7 +2785,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearDecimal(decimal x, decimal y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearDecimal_decimal_decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearDecimal_decimal_decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearDecimal_decimal_decimal">
+        <pre><code class="lang-fsharp hljs">member LinearDecimal : x:decimal * y:decimal -&gt; Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearDecimal_decimal_decimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearDecimal(decimal x, decimal y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1832,7 +2827,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearDouble(double x, double y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearDouble_double_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearDouble_double_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearDouble_double_double">
+        <pre><code class="lang-fsharp hljs">member LinearDouble : x:double * y:double -&gt; Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearDouble_double_double">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearDouble(double x, double y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1859,7 +2869,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearFromByte(byte z, byte x, byte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromByte_byte_byte_byte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromByte_byte_byte_byte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromByte_byte_byte_byte">
+        <pre><code class="lang-fsharp hljs">member LinearFromByte : z:byte * x:byte * y:byte -&gt; Range&lt;byte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromByte_byte_byte_byte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;byte&gt; LinearFromByte(byte z, byte x, byte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1886,7 +2911,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromDecimal_decimal_decimal_decimal" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromDecimal_decimal_decimal_decimal" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromDecimal_decimal_decimal_decimal">
+        <pre><code class="lang-fsharp hljs">member LinearFromDecimal : z:decimal * x:decimal * y:decimal -&gt; Range&lt;decimal&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromDecimal_decimal_decimal_decimal">
+        <pre><code class="lang-csharp hljs">public static Range&lt;decimal&gt; LinearFromDecimal(decimal z, decimal x, decimal y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1913,7 +2953,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearFromDouble(double z, double x, double y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromDouble_double_double_double" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromDouble_double_double_double" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromDouble_double_double_double">
+        <pre><code class="lang-fsharp hljs">member LinearFromDouble : z:double * x:double * y:double -&gt; Range&lt;double&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromDouble_double_double_double">
+        <pre><code class="lang-csharp hljs">public static Range&lt;double&gt; LinearFromDouble(double z, double x, double y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1940,7 +2995,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearFromInt16(int16 z, int16 x, int16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromInt16_int16_int16_int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromInt16_int16_int16_int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromInt16_int16_int16_int16">
+        <pre><code class="lang-fsharp hljs">member LinearFromInt16 : z:int16 * x:int16 * y:int16 -&gt; Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromInt16_int16_int16_int16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearFromInt16(int16 z, int16 x, int16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1967,7 +3037,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearFromInt32(int32 z, int32 x, int32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromInt32_int32_int32_int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromInt32_int32_int32_int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromInt32_int32_int32_int32">
+        <pre><code class="lang-fsharp hljs">member LinearFromInt32 : z:int32 * x:int32 * y:int32 -&gt; Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromInt32_int32_int32_int32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearFromInt32(int32 z, int32 x, int32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1994,7 +3079,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearFromInt64(int64 z, int64 x, int64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromInt64_int64_int64_int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromInt64_int64_int64_int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromInt64_int64_int64_int64">
+        <pre><code class="lang-fsharp hljs">member LinearFromInt64 : z:int64 * x:int64 * y:int64 -&gt; Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromInt64_int64_int64_int64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearFromInt64(int64 z, int64 x, int64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2021,7 +3121,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromSByte_sbyte_sbyte_sbyte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromSByte_sbyte_sbyte_sbyte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromSByte_sbyte_sbyte_sbyte">
+        <pre><code class="lang-fsharp hljs">member LinearFromSByte : z:sbyte * x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromSByte_sbyte_sbyte_sbyte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearFromSByte(sbyte z, sbyte x, sbyte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2048,7 +3163,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearFromSingle(single z, single x, single y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromSingle_single_single_single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromSingle_single_single_single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromSingle_single_single_single">
+        <pre><code class="lang-fsharp hljs">member LinearFromSingle : z:single * x:single * y:single -&gt; Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromSingle_single_single_single">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearFromSingle(single z, single x, single y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2075,7 +3205,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt16_uint16_uint16_uint16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromUInt16_uint16_uint16_uint16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt16_uint16_uint16_uint16">
+        <pre><code class="lang-fsharp hljs">member LinearFromUInt16 : z:uint16 * x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromUInt16_uint16_uint16_uint16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearFromUInt16(uint16 z, uint16 x, uint16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2102,7 +3247,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt32_uint32_uint32_uint32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromUInt32_uint32_uint32_uint32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt32_uint32_uint32_uint32">
+        <pre><code class="lang-fsharp hljs">member LinearFromUInt32 : z:uint32 * x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromUInt32_uint32_uint32_uint32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearFromUInt32(uint32 z, uint32 x, uint32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2129,7 +3289,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt64_uint64_uint64_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearFromUInt64_uint64_uint64_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearFromUInt64_uint64_uint64_uint64">
+        <pre><code class="lang-fsharp hljs">member LinearFromUInt64 : z:uint64 * x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearFromUInt64_uint64_uint64_uint64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearFromUInt64(uint64 z, uint64 x, uint64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2156,7 +3331,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearInt16(int16 x, int16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearInt16_int16_int16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearInt16_int16_int16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearInt16_int16_int16">
+        <pre><code class="lang-fsharp hljs">member LinearInt16 : x:int16 * y:int16 -&gt; Range&lt;int16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearInt16_int16_int16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int16&gt; LinearInt16(int16 x, int16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2183,7 +3373,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearInt32(int32 x, int32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearInt32_int32_int32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearInt32_int32_int32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearInt32_int32_int32">
+        <pre><code class="lang-fsharp hljs">member LinearInt32 : x:int32 * y:int32 -&gt; Range&lt;int32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearInt32_int32_int32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int32&gt; LinearInt32(int32 x, int32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2210,7 +3415,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearInt64(int64 x, int64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearInt64_int64_int64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearInt64_int64_int64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearInt64_int64_int64">
+        <pre><code class="lang-fsharp hljs">member LinearInt64 : x:int64 * y:int64 -&gt; Range&lt;int64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearInt64_int64_int64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;int64&gt; LinearInt64(int64 x, int64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2237,7 +3457,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearSByte(sbyte x, sbyte y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearSByte_sbyte_sbyte" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearSByte_sbyte_sbyte" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearSByte_sbyte_sbyte">
+        <pre><code class="lang-fsharp hljs">member LinearSByte : x:sbyte * y:sbyte -&gt; Range&lt;sbyte&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearSByte_sbyte_sbyte">
+        <pre><code class="lang-csharp hljs">public static Range&lt;sbyte&gt; LinearSByte(sbyte x, sbyte y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2264,7 +3499,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearSingle(single x, single y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearSingle_single_single" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearSingle_single_single" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearSingle_single_single">
+        <pre><code class="lang-fsharp hljs">member LinearSingle : x:single * y:single -&gt; Range&lt;single&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearSingle_single_single">
+        <pre><code class="lang-csharp hljs">public static Range&lt;single&gt; LinearSingle(single x, single y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2291,7 +3541,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearUInt16(uint16 x, uint16 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearUInt16_uint16_uint16" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearUInt16_uint16_uint16" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearUInt16_uint16_uint16">
+        <pre><code class="lang-fsharp hljs">member LinearUInt16 : x:uint16 * y:uint16 -&gt; Range&lt;uint16&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearUInt16_uint16_uint16">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint16&gt; LinearUInt16(uint16 x, uint16 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2318,7 +3583,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearUInt32(uint32 x, uint32 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearUInt32_uint32_uint32" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearUInt32_uint32_uint32" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearUInt32_uint32_uint32">
+        <pre><code class="lang-fsharp hljs">member LinearUInt32 : x:uint32 * y:uint32 -&gt; Range&lt;uint32&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearUInt32_uint32_uint32">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint32&gt; LinearUInt32(uint32 x, uint32 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2345,7 +3625,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearUInt64(uint64 x, uint64 y)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_LinearUInt64_uint64_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_LinearUInt64_uint64_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_LinearUInt64_uint64_uint64">
+        <pre><code class="lang-fsharp hljs">member LinearUInt64 : x:uint64 * y:uint64 -&gt; Range&lt;uint64&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_LinearUInt64_uint64_uint64">
+        <pre><code class="lang-csharp hljs">public static Range&lt;uint64&gt; LinearUInt64(uint64 x, uint64 y)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -2371,7 +3666,22 @@ parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Singleton(T value)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Range_Singleton_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Range_Singleton_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Range_Singleton_T">
+        <pre><code class="lang-fsharp hljs">member Singleton : &#39;T -&gt; Range&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Range_Singleton_T">
+        <pre><code class="lang-csharp hljs">public static Range&lt;T&gt; Singleton(T value)</code></pre>
+      </div>
+    </div>
   </div>
 
 

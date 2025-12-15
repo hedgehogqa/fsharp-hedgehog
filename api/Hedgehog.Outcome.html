@@ -100,16 +100,34 @@ Class Outcome  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Outcome =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Outcome">
+        <pre><code class="lang-fsharp hljs">type Outcome =
   member filter : &#39;a -&gt; bool -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;a&gt;
   member isFailure : Outcome&lt;&#39;a&gt; -&gt; bool
   member map : &#39;a -&gt; &#39;b -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Outcome">
+        <pre><code class="lang-csharp hljs">public class Outcome {
+  public static Outcome&lt;a&gt; filter(a -&gt; bool f, Outcome&lt;a&gt; result)
+  public static bool isFailure(Outcome&lt;a&gt; result)
+  public static Outcome&lt;b&gt; map(a -&gt; b f, Outcome&lt;a&gt; result)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Outcome</span></div>
 
 
 
@@ -133,7 +151,22 @@ Class Outcome  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Outcome_map_a_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Outcome_map_a_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Outcome_map_a_Outcome">
+        <pre><code class="lang-fsharp hljs">member map : &#39;a -&gt; &#39;b -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Outcome_map_a_Outcome">
+        <pre><code class="lang-csharp hljs">public static Outcome&lt;b&gt; map(a -&gt; b f, Outcome&lt;a&gt; result)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -158,7 +191,22 @@ Class Outcome  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val filter : &#39;a -&gt; bool -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Outcome_filter_a_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Outcome_filter_a_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Outcome_filter_a_Outcome">
+        <pre><code class="lang-fsharp hljs">member filter : &#39;a -&gt; bool -&gt; Outcome&lt;&#39;a&gt; -&gt; Outcome&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Outcome_filter_a_Outcome">
+        <pre><code class="lang-csharp hljs">public static Outcome&lt;a&gt; filter(a -&gt; bool f, Outcome&lt;a&gt; result)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -183,7 +231,22 @@ Class Outcome  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val isFailure : Outcome&lt;&#39;a&gt; -&gt; bool</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Outcome_isFailure_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Outcome_isFailure_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Outcome_isFailure_Outcome">
+        <pre><code class="lang-fsharp hljs">member isFailure : Outcome&lt;&#39;a&gt; -&gt; bool</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Outcome_isFailure_Outcome">
+        <pre><code class="lang-csharp hljs">public static bool isFailure(Outcome&lt;a&gt; result)</code></pre>
+      </div>
+    </div>
   </div>
 
 

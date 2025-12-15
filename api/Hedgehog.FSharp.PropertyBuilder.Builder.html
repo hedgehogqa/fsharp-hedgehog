@@ -100,23 +100,33 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Builder =
-  member Bind : Property&lt;Task&lt;&#39;a&gt;&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Bind : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Bind : Property&lt;Async&lt;&#39;a&gt;&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Bind : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Bind : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member BindReturn : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
-  member BindReturn : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
-  member BindReturn : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
-  member BindReturn : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
-  member Combine : Property&lt;unit&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
-  member Counterexample : &#39;a -&gt; string -&gt; Property&lt;&#39;a&gt;
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder">
+        <pre><code class="lang-fsharp hljs">type Builder =
+  member Bind : m:Property&lt;Task&lt;&#39;a&gt;&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : m:Task&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : m:Property&lt;Async&lt;&#39;a&gt;&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : m:Async&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Bind : m:Gen&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : m:Task&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : m:Async&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : m:Property&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member BindReturn : m:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;
+  member Combine : m:Property&lt;unit&gt; * n:Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member Counterexample : f:&#39;a -&gt; string -&gt; Property&lt;&#39;a&gt;
   member Delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
-  member For : &#39;a -&gt; &#39;a0 -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;
-  member For : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member MergeSources : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;
+  member For : xs:&#39;a * k:&#39;a0 -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;
+  member For : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member MergeSources : ga:Gen&lt;&#39;a&gt; * gb:Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;
   member Return : Task -&gt; Property&lt;unit&gt;
   member Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;
   member Return : Async&lt;unit&gt; -&gt; Property&lt;unit&gt;
@@ -125,19 +135,55 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   member ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member ReturnFrom : Async&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member ReturnFrom : Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
-  member TryFinally : Property&lt;&#39;a&gt; -&gt; unit -&gt; unit -&gt; Property&lt;&#39;a&gt;
-  member TryWith : Property&lt;&#39;a&gt; -&gt; exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
-  member Using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
-  member Where : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt;
-  member While : unit -&gt; bool -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;
+  member TryFinally : m:Property&lt;&#39;a&gt; * after:unit -&gt; unit -&gt; Property&lt;&#39;a&gt;
+  member TryWith : m:Property&lt;&#39;a&gt; * k:exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
+  member Using : a:&#39;a * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;
+  member Where : p:&#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt;
+  member While : p:unit -&gt; bool * m:Property&lt;unit&gt; -&gt; Property&lt;unit&gt;
   member Yield : &#39;a -&gt; Property&lt;&#39;a&gt;
   member Zero : Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder">
+        <pre><code class="lang-csharp hljs">public class Builder {
+  public static Property&lt;b&gt; Bind(Property&lt;Task&lt;a&gt;&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; Bind(Task&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; Bind(Property&lt;Async&lt;a&gt;&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; Bind(Async&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; Bind(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; Bind(Gen&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;b&gt; BindReturn(Task&lt;a&gt; m, a -&gt; b f)
+  public static Property&lt;b&gt; BindReturn(Async&lt;a&gt; m, a -&gt; b f)
+  public static Property&lt;b&gt; BindReturn(Property&lt;a&gt; m, a -&gt; b f)
+  public static Property&lt;b&gt; BindReturn(Gen&lt;a&gt; m, a -&gt; b f)
+  public static Property&lt;a&gt; Combine(Property&lt;void&gt; m, Property&lt;a&gt; n)
+  public static Property&lt;a&gt; Counterexample(a -&gt; string f)
+  public static Property&lt;a&gt; Delay(void -&gt; Property&lt;a&gt; f)
+  public static Property&lt;void&gt; For(a xs, a0 -&gt; Property&lt;void&gt; k)
+  public static Property&lt;b&gt; For(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)
+  public static Gen&lt;(a, b)&gt; MergeSources(Gen&lt;a&gt; ga, Gen&lt;b&gt; gb)
+  public static Property&lt;void&gt; Return(Task task)
+  public static Property&lt;void&gt; Return(Task&lt;void&gt; taskUnit)
+  public static Property&lt;void&gt; Return(Async&lt;void&gt; asyncUnit)
+  public static Property&lt;void&gt; Return(bool b)
+  public static Property&lt;void&gt; ReturnFrom(Task task)
+  public static Property&lt;a&gt; ReturnFrom(Task&lt;a&gt; taskValue)
+  public static Property&lt;a&gt; ReturnFrom(Async&lt;a&gt; asyncValue)
+  public static Property&lt;a&gt; ReturnFrom(Property&lt;a&gt; m)
+  public static Property&lt;a&gt; TryFinally(Property&lt;a&gt; m, void -&gt; void after)
+  public static Property&lt;a&gt; TryWith(Property&lt;a&gt; m, exn -&gt; Property&lt;a&gt; k)
+  public static Property&lt;b&gt; Using(a a, a -&gt; Property&lt;b&gt; k)
+  public static Property&lt;a&gt; Where(a -&gt; bool p)
+  public static Property&lt;void&gt; While(void -&gt; bool p, Property&lt;void&gt; m)
+  public static Property&lt;a&gt; Yield(a x)
+  public static Property&lt;void&gt; Zero()
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Builder</span></div>
 
 
 
@@ -161,7 +207,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -186,7 +247,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Task&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Task_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Task&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -211,7 +287,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -236,7 +327,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Async&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Async_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Async&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -261,7 +367,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Property_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -286,7 +407,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Bind : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a">
+        <pre><code class="lang-fsharp hljs">member Bind : m:Gen&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Bind_Gen_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Bind(Gen&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -311,7 +447,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val BindReturn : Task&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a">
+        <pre><code class="lang-fsharp hljs">member BindReturn : m:Task&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Task_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; BindReturn(Task&lt;a&gt; m, a -&gt; b f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -336,7 +487,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val BindReturn : Async&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a">
+        <pre><code class="lang-fsharp hljs">member BindReturn : m:Async&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Async_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; BindReturn(Async&lt;a&gt; m, a -&gt; b f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -361,7 +527,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val BindReturn : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a">
+        <pre><code class="lang-fsharp hljs">member BindReturn : m:Property&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Property_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; BindReturn(Property&lt;a&gt; m, a -&gt; b f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -386,7 +567,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val BindReturn : Gen&lt;&#39;a&gt; -&gt; &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a">
+        <pre><code class="lang-fsharp hljs">member BindReturn : m:Gen&lt;&#39;a&gt; * f:&#39;a -&gt; &#39;b -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_BindReturn_Gen_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; BindReturn(Gen&lt;a&gt; m, a -&gt; b f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -411,7 +607,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Combine : Property&lt;unit&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Combine_Property_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Combine_Property_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Combine_Property_Property">
+        <pre><code class="lang-fsharp hljs">member Combine : m:Property&lt;unit&gt; * n:Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Combine_Property_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; Combine(Property&lt;void&gt; m, Property&lt;a&gt; n)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -436,7 +647,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Counterexample : &#39;a -&gt; string -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Counterexample_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Counterexample_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Counterexample_a">
+        <pre><code class="lang-fsharp hljs">member Counterexample : f:&#39;a -&gt; string -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Counterexample_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; Counterexample(a -&gt; string f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -461,7 +687,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Delay_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Delay_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Delay_unit">
+        <pre><code class="lang-fsharp hljs">member Delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Delay_unit">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; Delay(void -&gt; Property&lt;a&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -486,7 +727,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val For : &#39;a -&gt; &#39;a0 -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_a_a0" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_a_a0" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_a_a0">
+        <pre><code class="lang-fsharp hljs">member For : xs:&#39;a * k:&#39;a0 -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_a_a0">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; For(a xs, a0 -&gt; Property&lt;void&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -511,7 +767,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val For : Property&lt;&#39;a&gt; -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_Property_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_Property_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_Property_a">
+        <pre><code class="lang-fsharp hljs">member For : m:Property&lt;&#39;a&gt; * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_For_Property_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; For(Property&lt;a&gt; m, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -536,7 +807,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MergeSources : Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_MergeSources_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_MergeSources_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_MergeSources_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member MergeSources : ga:Gen&lt;&#39;a&gt; * gb:Gen&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a * &#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_MergeSources_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(a, b)&gt; MergeSources(Gen&lt;a&gt; ga, Gen&lt;b&gt; gb)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -561,7 +847,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task">
+        <pre><code class="lang-fsharp hljs">member Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; Return(Task&lt;void&gt; taskUnit)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -586,7 +887,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task">
+        <pre><code class="lang-fsharp hljs">member Return : Task&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; Return(Task&lt;void&gt; taskUnit)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -611,7 +927,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Return : Async&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async">
+        <pre><code class="lang-fsharp hljs">member Return : Async&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_Async">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; Return(Async&lt;void&gt; asyncUnit)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -636,7 +967,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Return : bool -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool">
+        <pre><code class="lang-fsharp hljs">member Return : bool -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Return_bool">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; Return(bool b)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -661,7 +1007,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task">
+        <pre><code class="lang-fsharp hljs">member ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ReturnFrom(Task&lt;a&gt; taskValue)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -686,7 +1047,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task">
+        <pre><code class="lang-fsharp hljs">member ReturnFrom : Task&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ReturnFrom(Task&lt;a&gt; taskValue)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -711,7 +1087,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReturnFrom : Async&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async">
+        <pre><code class="lang-fsharp hljs">member ReturnFrom : Async&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Async">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ReturnFrom(Async&lt;a&gt; asyncValue)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -736,7 +1127,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ReturnFrom : Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property">
+        <pre><code class="lang-fsharp hljs">member ReturnFrom : Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_ReturnFrom_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ReturnFrom(Property&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -761,7 +1167,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val TryFinally : Property&lt;&#39;a&gt; -&gt; unit -&gt; unit -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryFinally_Property_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryFinally_Property_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryFinally_Property_unit">
+        <pre><code class="lang-fsharp hljs">member TryFinally : m:Property&lt;&#39;a&gt; * after:unit -&gt; unit -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryFinally_Property_unit">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; TryFinally(Property&lt;a&gt; m, void -&gt; void after)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -786,7 +1207,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val TryWith : Property&lt;&#39;a&gt; -&gt; exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryWith_Property_exn" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryWith_Property_exn" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryWith_Property_exn">
+        <pre><code class="lang-fsharp hljs">member TryWith : m:Property&lt;&#39;a&gt; * k:exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_TryWith_Property_exn">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; TryWith(Property&lt;a&gt; m, exn -&gt; Property&lt;a&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -811,7 +1247,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Using_a_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Using_a_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Using_a_a">
+        <pre><code class="lang-fsharp hljs">member Using : a:&#39;a * k:&#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Using_a_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; Using(a a, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -836,7 +1287,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Where : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Where_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Where_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Where_a">
+        <pre><code class="lang-fsharp hljs">member Where : p:&#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Where_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; Where(a -&gt; bool p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -861,7 +1327,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val While : unit -&gt; bool -&gt; Property&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_While_unit_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_While_unit_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_While_unit_Property">
+        <pre><code class="lang-fsharp hljs">member While : p:unit -&gt; bool * m:Property&lt;unit&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_While_unit_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; While(void -&gt; bool p, Property&lt;void&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -886,7 +1367,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Yield : &#39;a -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Yield_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Yield_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Yield_a">
+        <pre><code class="lang-fsharp hljs">member Yield : &#39;a -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Yield_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; Yield(a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -911,7 +1407,22 @@ Class Builder  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Zero : Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Zero" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Zero" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_PropertyBuilder_Builder_Zero">
+        <pre><code class="lang-fsharp hljs">member Zero : Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_PropertyBuilder_Builder_Zero">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; Zero()</code></pre>
+      </div>
+    </div>
   </div>
 
 

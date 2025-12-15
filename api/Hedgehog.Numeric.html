@@ -100,17 +100,36 @@ Class Numeric  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Numeric =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Numeric" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Numeric" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Numeric">
+        <pre><code class="lang-fsharp hljs">type Numeric =
   member fromBigInt : bigint -&gt; ^a
   member maxValue : unit -&gt; ^a
   member minValue : unit -&gt; ^a
   member toBigInt : ^a -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Numeric">
+        <pre><code class="lang-csharp hljs">public class Numeric {
+  public static ^a fromBigInt(bigint x)
+  public static ^a maxValue(void ())
+  public static ^a minValue(void ())
+  public static bigint toBigInt(^a x)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Numeric</span></div>
 
 
 
@@ -135,7 +154,22 @@ Class Numeric  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val minValue : unit -&gt; ^a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Numeric_minValue_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Numeric_minValue_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Numeric_minValue_unit">
+        <pre><code class="lang-fsharp hljs">member minValue : unit -&gt; ^a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Numeric_minValue_unit">
+        <pre><code class="lang-csharp hljs">public static ^a minValue(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -161,7 +195,22 @@ Class Numeric  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val maxValue : unit -&gt; ^a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Numeric_maxValue_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Numeric_maxValue_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Numeric_maxValue_unit">
+        <pre><code class="lang-fsharp hljs">member maxValue : unit -&gt; ^a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Numeric_maxValue_unit">
+        <pre><code class="lang-csharp hljs">public static ^a maxValue(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -187,7 +236,22 @@ Class Numeric  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val fromBigInt : bigint -&gt; ^a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Numeric_fromBigInt_bigint" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Numeric_fromBigInt_bigint" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Numeric_fromBigInt_bigint">
+        <pre><code class="lang-fsharp hljs">member fromBigInt : bigint -&gt; ^a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Numeric_fromBigInt_bigint">
+        <pre><code class="lang-csharp hljs">public static ^a fromBigInt(bigint x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -213,7 +277,22 @@ Class Numeric  <a class="header-action link-secondary" title="View source" href=
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val toBigInt : ^a -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Numeric_toBigInt__a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Numeric_toBigInt__a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Numeric_toBigInt__a">
+        <pre><code class="lang-fsharp hljs">member toBigInt : ^a -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Numeric_toBigInt__a">
+        <pre><code class="lang-csharp hljs">public static bigint toBigInt(^a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 

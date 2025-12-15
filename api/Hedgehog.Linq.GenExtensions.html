@@ -100,7 +100,59 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class GenExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions">
+        <pre><code class="lang-fsharp hljs">type GenExtensions =
+  member Apply : genFunc:Gen&lt;Func&lt;&#39;T, &#39;TResult&gt;&gt; * genArg:Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member Array : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;&#39;T[]&gt;
+  member Enumerable : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;&#39;T seq&gt;
+  member GenerateTree : Gen&lt;&#39;T&gt; -&gt; Tree&lt;&#39;T&gt;
+  member List : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;
+  member NoShrink : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;
+  member NotNull : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;
+  member NullReference : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;
+  member NullValue : Gen&lt;&#39;T&gt; -&gt; Gen&lt;Nullable&lt;&#39;T&gt;&gt;
+  member RenderSample : Gen&lt;&#39;T&gt; -&gt; string
+  member Resize : gen:Gen&lt;&#39;T&gt; * size:Size -&gt; Gen&lt;&#39;T&gt;
+  member Sample : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;&#39;T&gt;
+  member SampleFrom : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;&#39;T&gt;
+  member SampleTree : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;Tree&lt;&#39;T&gt;&gt;
+  member Scale : gen:Gen&lt;&#39;T&gt; * scaler:Func&lt;int, int&gt; -&gt; Gen&lt;&#39;T&gt;
+  member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;V, &#39;W, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; * genD:Gen&lt;&#39;W&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;V, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member Select : gen:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member SelectMany : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Gen&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member SelectMany : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Gen&lt;&#39;U&gt;&gt; -&gt; Gen&lt;&#39;U&gt;
+  member SelectRandom : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;Random&lt;Tree&lt;&#39;T&gt;&gt;, Random&lt;Tree&lt;&#39;TResult&gt;&gt;&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member SelectTree : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;Tree&lt;&#39;T&gt;, Tree&lt;&#39;TResult&gt;&gt; -&gt; Gen&lt;&#39;TResult&gt;
+  member Shrink : gen:Gen&lt;&#39;T&gt; * shrinker:Func&lt;&#39;T, ResizeArray&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;
+  member ShrinkLazy : gen:Gen&lt;&#39;T&gt; * shrinker:Func&lt;&#39;T, &#39;T seq&gt; -&gt; Gen&lt;&#39;T&gt;
+  member Some : Gen&lt;Option&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;
+  member String : gen:Gen&lt;char&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;string&gt;
+  member ToGen : Random&lt;Tree&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;
+  member ToRandom : Gen&lt;&#39;T&gt; -&gt; Random&lt;Tree&lt;&#39;T&gt;&gt;
+  member TryFinally : gen:Gen&lt;&#39;T&gt; * after:Action -&gt; Gen&lt;&#39;T&gt;
+  member TryWith : gen:Gen&lt;&#39;T&gt; * after:Func&lt;exn, Gen&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;
+  member Tuple2 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T&gt;
+  member Tuple3 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T * &#39;T&gt;
+  member Tuple4 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T * &#39;T * &#39;T&gt;
+  member Where : gen:Gen&lt;&#39;T&gt; * predicate:Func&lt;&#39;T, bool&gt; -&gt; Gen&lt;&#39;T&gt;
+  member WithNull : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;
+  member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; * genD:Gen&lt;&#39;W&gt; -&gt; Gen&lt;&#39;T * &#39;U * &#39;V * &#39;W&gt;
+  member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; -&gt; Gen&lt;&#39;T * &#39;U * &#39;V&gt;
+  member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; -&gt; Gen&lt;&#39;T * &#39;U&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions">
+        <pre><code class="lang-csharp hljs">public class GenExtensions {
   public static Gen&lt;TResult&gt; Apply(this Gen&lt;Func&lt;T, TResult&gt;&gt; genFunc, Gen&lt;T&gt; genArg)
   public static Gen&lt;T[]&gt; Array(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)
   public static Gen&lt;TIEnumerable&gt; Enumerable(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)
@@ -141,12 +193,13 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   public static Gen&lt;(T, U, V)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)
   public static Gen&lt;(T, U)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">GenExtensions</span></div>
 
 
 
@@ -170,7 +223,22 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Apply(this Gen&lt;Func&lt;T, TResult&gt;&gt; genFunc, Gen&lt;T&gt; genArg)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Apply_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Apply_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Apply_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Apply : genFunc:Gen&lt;Func&lt;&#39;T, &#39;TResult&gt;&gt; * genArg:Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Apply_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Apply(this Gen&lt;Func&lt;T, TResult&gt;&gt; genFunc, Gen&lt;T&gt; genArg)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -192,11 +260,31 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an array using a 'Range' to determine the length.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: Item generator.</li>
+<li><code>range</code>: Range determining the length of the array.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T[]&gt; Array(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Array_Gen_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Array_Gen_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Array_Gen_Range">
+        <pre><code class="lang-fsharp hljs">member Array : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;&#39;T[]&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Array_Gen_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T[]&gt; Array(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -218,11 +306,31 @@ Class GenExtensions  <a class="header-action link-secondary" title="View source"
   </h3>
 
   <div class="markdown level1 summary"><p>Generates an enumerable using a 'Range' to determine the length.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: Item generator.</li>
+<li><code>range</code>: Range determining the length of the enumerable.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Enumerable(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Enumerable_Gen_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Enumerable_Gen_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Enumerable_Gen_Range">
+        <pre><code class="lang-fsharp hljs">member Enumerable : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;&#39;T seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Enumerable_Gen_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Enumerable(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -249,7 +357,22 @@ if you want another size then you should explicitly use 'resize'.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Tree&lt;T&gt; GenerateTree(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_GenerateTree_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_GenerateTree_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_GenerateTree_Gen">
+        <pre><code class="lang-fsharp hljs">member GenerateTree : Gen&lt;&#39;T&gt; -&gt; Tree&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_GenerateTree_Gen">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;T&gt; GenerateTree(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -271,11 +394,31 @@ if you want another size then you should explicitly use 'resize'.</p>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a List using a 'Range' to determine the length and a 'Gen' to produce the elements.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: Generates the items in the List.</li>
+<li><code>range</code>: Range determining the length of the List.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; List(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_List_Gen_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_List_Gen_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_List_Gen_Range">
+        <pre><code class="lang-fsharp hljs">member List : gen:Gen&lt;&#39;T&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_List_Gen_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; List(this Gen&lt;T&gt; gen, Range&lt;int&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -301,7 +444,22 @@ if you want another size then you should explicitly use 'resize'.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NoShrink(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_NoShrink_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_NoShrink_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_NoShrink_Gen">
+        <pre><code class="lang-fsharp hljs">member NoShrink : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_NoShrink_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NoShrink(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -327,7 +485,22 @@ if you want another size then you should explicitly use 'resize'.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NotNull(this Gen&lt;T&gt; self)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_NotNull_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_NotNull_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_NotNull_Gen">
+        <pre><code class="lang-fsharp hljs">member NotNull : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_NotNull_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NotNull(this Gen&lt;T&gt; self)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -353,7 +526,22 @@ if you want another size then you should explicitly use 'resize'.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NullReference(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_NullReference_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_NullReference_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_NullReference_Gen">
+        <pre><code class="lang-fsharp hljs">member NullReference : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_NullReference_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NullReference(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -379,7 +567,22 @@ if you want another size then you should explicitly use 'resize'.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;Nullable&lt;T&gt;&gt; NullValue(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_NullValue_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_NullValue_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_NullValue_Gen">
+        <pre><code class="lang-fsharp hljs">member NullValue : Gen&lt;&#39;T&gt; -&gt; Gen&lt;Nullable&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_NullValue_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Nullable&lt;T&gt;&gt; NullValue(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -407,7 +610,22 @@ shrink paths in complex Gens.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string RenderSample(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_RenderSample_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_RenderSample_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_RenderSample_Gen">
+        <pre><code class="lang-fsharp hljs">member RenderSample : Gen&lt;&#39;T&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_RenderSample_Gen">
+        <pre><code class="lang-csharp hljs">public static string RenderSample(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -434,7 +652,22 @@ given size instead of the runtime-size parameter.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Resize(this Gen&lt;T&gt; gen, Size size)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Resize_Gen_Size" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Resize_Gen_Size" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Resize_Gen_Size">
+        <pre><code class="lang-fsharp hljs">member Resize : gen:Gen&lt;&#39;T&gt; * size:Size -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Resize_Gen_Size">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Resize(this Gen&lt;T&gt; gen, Size size)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -456,11 +689,32 @@ given size instead of the runtime-size parameter.</p>
   </h3>
 
   <div class="markdown level1 summary"><p>Returns a List of values produced by the generator.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: Value generator.</li>
+<li><code>size</code>: The size parameter for the generator.</li>
+<li><code>count</code>: The number of samples to produce, i.e. the length of the List.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ResizeArray&lt;T&gt; Sample(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Sample_Gen_Size_int" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Sample_Gen_Size_int" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Sample_Gen_Size_int">
+        <pre><code class="lang-fsharp hljs">member Sample : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Sample_Gen_Size_int">
+        <pre><code class="lang-csharp hljs">public static ResizeArray&lt;T&gt; Sample(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -484,11 +738,32 @@ given size instead of the runtime-size parameter.</p>
   <div class="markdown level1 summary"><p>Returns a sample sequence of values by scaling through sizes from startSize.
 This is useful for visualizing how a range scales across different sizes.
 Uses a random seed for generating output.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: Value generator.</li>
+<li><code>size</code>: The starting size parameter.</li>
+<li><code>count</code>: The number of samples to produce (sizes will increment from startSize).</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ResizeArray&lt;T&gt; SampleFrom(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SampleFrom_Gen_Size_int" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SampleFrom_Gen_Size_int" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SampleFrom_Gen_Size_int">
+        <pre><code class="lang-fsharp hljs">member SampleFrom : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SampleFrom_Gen_Size_int">
+        <pre><code class="lang-csharp hljs">public static ResizeArray&lt;T&gt; SampleFrom(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -513,7 +788,22 @@ Uses a random seed for generating output.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ResizeArray&lt;Tree&lt;T&gt;&gt; SampleTree(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int">
+        <pre><code class="lang-fsharp hljs">member SampleTree : gen:Gen&lt;&#39;T&gt; * size:Size * count:int -&gt; ResizeArray&lt;Tree&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SampleTree_Gen_Size_int">
+        <pre><code class="lang-csharp hljs">public static ResizeArray&lt;Tree&lt;T&gt;&gt; SampleTree(this Gen&lt;T&gt; gen, Size size, int count)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -540,7 +830,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Scale(this Gen&lt;T&gt; gen, Func&lt;int, int&gt; scaler)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Scale_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Scale_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Scale_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member Scale : gen:Gen&lt;&#39;T&gt; * scaler:Func&lt;int, int&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Scale_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Scale(this Gen&lt;T&gt; gen, Func&lt;int, int&gt; scaler)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -571,7 +876,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, W, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;V, &#39;W, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; * genD:Gen&lt;&#39;W&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, W, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -602,7 +922,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;V, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, V, TResult&gt; mapper, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -633,7 +968,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, TResult&gt; mapper, Gen&lt;U&gt; genB)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen">
+        <pre><code class="lang-fsharp hljs">member Select : genA:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;U, &#39;TResult&gt; * genB:Gen&lt;&#39;U&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; genA, Func&lt;T, U, TResult&gt; mapper, Gen&lt;U&gt; genB)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -664,7 +1014,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; gen, Func&lt;T, TResult&gt; mapper)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member Select : gen:Gen&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Select_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; Select(this Gen&lt;T&gt; gen, Func&lt;T, TResult&gt; mapper)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -689,7 +1054,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Gen&lt;&#39;TCollection&gt;&gt; * projection:Func&lt;&#39;T, &#39;TCollection, &#39;TResult&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;TCollection&gt;&gt; binder, Func&lt;T, TCollection, TResult&gt; projection)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -714,7 +1094,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;U&gt;&gt; binder)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member SelectMany : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;&#39;T, Gen&lt;&#39;U&gt;&gt; -&gt; Gen&lt;&#39;U&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SelectMany_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;U&gt; SelectMany(this Gen&lt;T&gt; gen, Func&lt;T, Gen&lt;U&gt;&gt; binder)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -739,7 +1134,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectRandom(this Gen&lt;T&gt; gen, Func&lt;Random&lt;Tree&lt;T&gt;&gt;, Random&lt;Tree&lt;TResult&gt;&gt;&gt; binder)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SelectRandom_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SelectRandom_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SelectRandom_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member SelectRandom : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;Random&lt;Tree&lt;&#39;T&gt;&gt;, Random&lt;Tree&lt;&#39;TResult&gt;&gt;&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SelectRandom_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectRandom(this Gen&lt;T&gt; gen, Func&lt;Random&lt;Tree&lt;T&gt;&gt;, Random&lt;Tree&lt;TResult&gt;&gt;&gt; binder)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -764,7 +1174,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectTree(this Gen&lt;T&gt; gen, Func&lt;Tree&lt;T&gt;, Tree&lt;TResult&gt;&gt; binder)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_SelectTree_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_SelectTree_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_SelectTree_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member SelectTree : gen:Gen&lt;&#39;T&gt; * binder:Func&lt;Tree&lt;&#39;T&gt;, Tree&lt;&#39;TResult&gt;&gt; -&gt; Gen&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_SelectTree_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResult&gt; SelectTree(this Gen&lt;T&gt; gen, Func&lt;Tree&lt;T&gt;, Tree&lt;TResult&gt;&gt; binder)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -790,7 +1215,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Shrink(this Gen&lt;T&gt; gen, Func&lt;T, ResizeArray&lt;T&gt;&gt; shrinker)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Shrink_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Shrink_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Shrink_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member Shrink : gen:Gen&lt;&#39;T&gt; * shrinker:Func&lt;&#39;T, ResizeArray&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Shrink_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Shrink(this Gen&lt;T&gt; gen, Func&lt;T, ResizeArray&lt;T&gt;&gt; shrinker)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -816,7 +1256,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ShrinkLazy(this Gen&lt;T&gt; gen, Func&lt;T, TIEnumerable&gt; shrinker)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_ShrinkLazy_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_ShrinkLazy_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_ShrinkLazy_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member ShrinkLazy : gen:Gen&lt;&#39;T&gt; * shrinker:Func&lt;&#39;T, &#39;T seq&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_ShrinkLazy_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ShrinkLazy(this Gen&lt;T&gt; gen, Func&lt;T, TIEnumerable&gt; shrinker)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -842,7 +1297,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Some(this Gen&lt;Option&lt;T&gt;&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Some_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Some_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Some_Gen">
+        <pre><code class="lang-fsharp hljs">member Some : Gen&lt;Option&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Some_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Some(this Gen&lt;Option&lt;T&gt;&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -869,7 +1339,22 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; String(this Gen&lt;char&gt; gen, Range&lt;int&gt; range)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_String_Gen_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_String_Gen_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_String_Gen_Range">
+        <pre><code class="lang-fsharp hljs">member String : gen:Gen&lt;char&gt; * range:Range&lt;int&gt; -&gt; Gen&lt;string&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_String_Gen_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; String(this Gen&lt;char&gt; gen, Range&lt;int&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -894,7 +1379,22 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ToGen(this Random&lt;Tree&lt;T&gt;&gt; random)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_ToGen_Random" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_ToGen_Random" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_ToGen_Random">
+        <pre><code class="lang-fsharp hljs">member ToGen : Random&lt;Tree&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_ToGen_Random">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; ToGen(this Random&lt;Tree&lt;T&gt;&gt; random)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -919,7 +1419,22 @@ given character generator.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Random&lt;Tree&lt;T&gt;&gt; ToRandom(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_ToRandom_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_ToRandom_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_ToRandom_Gen">
+        <pre><code class="lang-fsharp hljs">member ToRandom : Gen&lt;&#39;T&gt; -&gt; Random&lt;Tree&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_ToRandom_Gen">
+        <pre><code class="lang-csharp hljs">public static Random&lt;Tree&lt;T&gt;&gt; ToRandom(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -941,11 +1456,31 @@ given character generator.</p>
   </h3>
 
   <div class="markdown level1 summary"><p>Ensures a cleanup action runs after the generator executes, even if an exception is thrown.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: The generator to wrap with cleanup logic.</li>
+<li><code>after</code>: Action to execute after the generator completes or fails.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryFinally(this Gen&lt;T&gt; gen, Action after)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action">
+        <pre><code class="lang-fsharp hljs">member TryFinally : gen:Gen&lt;&#39;T&gt; * after:Action -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_TryFinally_Gen_Action">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryFinally(this Gen&lt;T&gt; gen, Action after)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -968,6 +1503,11 @@ given character generator.</p>
 
   <div class="markdown level1 summary"><p>Catches exceptions thrown by a generator and handles them with a recovery function.
 Use this to provide fallback behavior when a generator might throw an exception.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>gen</code>: The generator that might throw an exception.</li>
+<li><code>after</code>: Function that receives the exception and returns a recovery generator.</li>
+</ul>
 <p><strong>Example:</strong></p>
 <pre><code> var gen = riskyGen.TryWith(ex =&gt; Gen.Constant(defaultValue));
 </code></pre>
@@ -975,7 +1515,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryWith(this Gen&lt;T&gt; gen, Func&lt;exn, Gen&lt;T&gt;&gt; after)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_TryWith_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_TryWith_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_TryWith_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member TryWith : gen:Gen&lt;&#39;T&gt; * after:Func&lt;exn, Gen&lt;&#39;T&gt;&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_TryWith_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; TryWith(this Gen&lt;T&gt; gen, Func&lt;exn, Gen&lt;T&gt;&gt; after)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1000,7 +1555,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T)&gt; Tuple2(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple2_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Tuple2_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple2_Gen">
+        <pre><code class="lang-fsharp hljs">member Tuple2 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Tuple2_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T)&gt; Tuple2(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1025,7 +1595,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T)&gt; Tuple3(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple3_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Tuple3_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple3_Gen">
+        <pre><code class="lang-fsharp hljs">member Tuple3 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T * &#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Tuple3_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T)&gt; Tuple3(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1050,7 +1635,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T, T)&gt; Tuple4(this Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple4_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Tuple4_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Tuple4_Gen">
+        <pre><code class="lang-fsharp hljs">member Tuple4 : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T * &#39;T * &#39;T * &#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Tuple4_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, T, T, T)&gt; Tuple4(this Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1076,7 +1676,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Where(this Gen&lt;T&gt; gen, Func&lt;T, bool&gt; predicate)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Where_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Where_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Where_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member Where : gen:Gen&lt;&#39;T&gt; * predicate:Func&lt;&#39;T, bool&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Where_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; Where(this Gen&lt;T&gt; gen, Func&lt;T, bool&gt; predicate)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1101,7 +1716,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; WithNull(this Gen&lt;T&gt; self)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_WithNull_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_WithNull_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_WithNull_Gen">
+        <pre><code class="lang-fsharp hljs">member WithNull : Gen&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_WithNull_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; WithNull(this Gen&lt;T&gt; self)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1126,7 +1756,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V, W)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; * genD:Gen&lt;&#39;W&gt; -&gt; Gen&lt;&#39;T * &#39;U * &#39;V * &#39;W&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V, W)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC, Gen&lt;W&gt; genD)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1151,7 +1796,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; * genC:Gen&lt;&#39;V&gt; -&gt; Gen&lt;&#39;T * &#39;U * &#39;V&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U, V)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB, Gen&lt;V&gt; genC)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1176,7 +1836,22 @@ Use this to provide fallback behavior when a generator might throw an exception.
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen">
+        <pre><code class="lang-fsharp hljs">member Zip : genA:Gen&lt;&#39;T&gt; * genB:Gen&lt;&#39;U&gt; -&gt; Gen&lt;&#39;T * &#39;U&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenExtensions_Zip_Gen_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;(T, U)&gt; Zip(this Gen&lt;T&gt; genA, Gen&lt;U&gt; genB)</code></pre>
+      </div>
+    </div>
   </div>
 
 

@@ -100,15 +100,30 @@ Class ReportExtensions  <a class="header-action link-secondary" title="View sour
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ReportExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_ReportExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_ReportExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_ReportExtensions">
+        <pre><code class="lang-fsharp hljs">type ReportExtensions =
+  member Render : Report -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_ReportExtensions">
+        <pre><code class="lang-csharp hljs">public class ReportExtensions {
   public static string Render(this Report report)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">ReportExtensions</span></div>
 
 
 
@@ -132,7 +147,22 @@ Class ReportExtensions  <a class="header-action link-secondary" title="View sour
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static string Render(this Report report)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_ReportExtensions_Render_Report" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_ReportExtensions_Render_Report" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_ReportExtensions_Render_Report">
+        <pre><code class="lang-fsharp hljs">member Render : Report -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_ReportExtensions_Render_Report">
+        <pre><code class="lang-csharp hljs">public static string Render(this Report report)</code></pre>
+      </div>
+    </div>
   </div>
 
 

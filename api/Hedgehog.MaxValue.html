@@ -100,38 +100,78 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type MaxValue =
-  static member Invoke : ^a
-  static member MaxValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * &#39;h -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7
-  static member MaxValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6
-  static member MaxValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5
-  static member MaxValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4
-  static member MaxValue : &#39;a * &#39;b * &#39;c * &#39;d -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3
-  static member MaxValue : &#39;a * &#39;b * &#39;c -&gt; MaxValue -&gt; ^a0 * ^b1 * ^c2
-  static member MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1
-  static member MaxValue : TimeSpan -&gt; MaxValue -&gt; TimeSpan
-  static member MaxValue : DateTimeOffset -&gt; MaxValue -&gt; DateTimeOffset
-  static member MaxValue : DateTime -&gt; MaxValue -&gt; DateTime
-  static member MaxValue : decimal -&gt; MaxValue -&gt; decimal
-  static member MaxValue : double -&gt; MaxValue -&gt; double
-  static member MaxValue : single -&gt; MaxValue -&gt; single
-  static member MaxValue : int64 -&gt; MaxValue -&gt; int64
-  static member MaxValue : int32 -&gt; MaxValue -&gt; int32
-  static member MaxValue : int16 -&gt; MaxValue -&gt; int16
-  static member MaxValue : int8 -&gt; MaxValue -&gt; int8
-  static member MaxValue : uint64 -&gt; MaxValue -&gt; uint64
-  static member MaxValue : uint32 -&gt; MaxValue -&gt; uint32
-  static member MaxValue : uint16 -&gt; MaxValue -&gt; uint16
-  static member MaxValue : uint8 -&gt; MaxValue -&gt; uint8
-  static member MaxValue : char -&gt; MaxValue -&gt; char
-  static member MaxValue : bool -&gt; MaxValue -&gt; bool
-  static member MaxValue : unit -&gt; MaxValue -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue">
+        <pre><code class="lang-fsharp hljs">type MaxValue =
+  member Invoke : ^a
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * &#39;h * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2 * ^d3
+  member MaxValue : arg0:&#39;a * &#39;b * &#39;c * arg1:MaxValue -&gt; ^a0 * ^b1 * ^c2
+  member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1
+  member MaxValue : arg0:TimeSpan * arg1:MaxValue -&gt; TimeSpan
+  member MaxValue : arg0:DateTimeOffset * arg1:MaxValue -&gt; DateTimeOffset
+  member MaxValue : arg0:DateTime * arg1:MaxValue -&gt; DateTime
+  member MaxValue : arg0:decimal * arg1:MaxValue -&gt; decimal
+  member MaxValue : arg0:double * arg1:MaxValue -&gt; double
+  member MaxValue : arg0:single * arg1:MaxValue -&gt; single
+  member MaxValue : arg0:int64 * arg1:MaxValue -&gt; int64
+  member MaxValue : arg0:int32 * arg1:MaxValue -&gt; int32
+  member MaxValue : arg0:int16 * arg1:MaxValue -&gt; int16
+  member MaxValue : arg0:int8 * arg1:MaxValue -&gt; int8
+  member MaxValue : arg0:uint64 * arg1:MaxValue -&gt; uint64
+  member MaxValue : arg0:uint32 * arg1:MaxValue -&gt; uint32
+  member MaxValue : arg0:uint16 * arg1:MaxValue -&gt; uint16
+  member MaxValue : arg0:uint8 * arg1:MaxValue -&gt; uint8
+  member MaxValue : arg0:char * arg1:MaxValue -&gt; char
+  member MaxValue : arg0:bool * arg1:MaxValue -&gt; bool
+  member MaxValue : ():unit * arg1:MaxValue -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue">
+        <pre><code class="lang-csharp hljs">public class MaxValue {
+  public static ^a Invoke()
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7 MaxValue((a, b, c, d, e, f, g, h) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 MaxValue((a, b, c, d, e, f, g) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 MaxValue((a, b, c, d, e, f) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 MaxValue((a, b, c, d, e) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 MaxValue((a, b, c, d) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 * ^c2 MaxValue((a, b, c) arg0, MaxValue arg1)
+  public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)
+  public static TimeSpan MaxValue(TimeSpan arg0, MaxValue arg1)
+  public static DateTimeOffset MaxValue(DateTimeOffset arg0, MaxValue arg1)
+  public static DateTime MaxValue(DateTime arg0, MaxValue arg1)
+  public static decimal MaxValue(decimal arg0, MaxValue arg1)
+  public static double MaxValue(double arg0, MaxValue arg1)
+  public static single MaxValue(single arg0, MaxValue arg1)
+  public static int64 MaxValue(int64 arg0, MaxValue arg1)
+  public static int32 MaxValue(int32 arg0, MaxValue arg1)
+  public static int16 MaxValue(int16 arg0, MaxValue arg1)
+  public static int8 MaxValue(int8 arg0, MaxValue arg1)
+  public static uint64 MaxValue(uint64 arg0, MaxValue arg1)
+  public static uint32 MaxValue(uint32 arg0, MaxValue arg1)
+  public static uint16 MaxValue(uint16 arg0, MaxValue arg1)
+  public static uint8 MaxValue(uint8 arg0, MaxValue arg1)
+  public static char MaxValue(char arg0, MaxValue arg1)
+  public static bool MaxValue(bool arg0, MaxValue arg1)
+  public static void MaxValue(void (), MaxValue arg1)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">MaxValue</span></div>
 
 
 
@@ -155,7 +195,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Invoke : ^a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_Invoke" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_Invoke" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_Invoke">
+        <pre><code class="lang-fsharp hljs">member Invoke : ^a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_Invoke">
+        <pre><code class="lang-csharp hljs">public static ^a Invoke()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -180,7 +235,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -205,7 +275,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -230,7 +315,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -255,7 +355,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -280,7 +395,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -305,7 +435,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -330,7 +475,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : &#39;a * &#39;b -&gt; MaxValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:&#39;a * &#39;b * arg1:MaxValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_a_MaxValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MaxValue((a, b) arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -355,7 +515,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : TimeSpan -&gt; MaxValue -&gt; TimeSpan</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_TimeSpan_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_TimeSpan_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_TimeSpan_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:TimeSpan * arg1:MaxValue -&gt; TimeSpan</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_TimeSpan_MaxValue">
+        <pre><code class="lang-csharp hljs">public static TimeSpan MaxValue(TimeSpan arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -380,7 +555,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : DateTimeOffset -&gt; MaxValue -&gt; DateTimeOffset</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_DateTimeOffset_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_DateTimeOffset_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_DateTimeOffset_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:DateTimeOffset * arg1:MaxValue -&gt; DateTimeOffset</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_DateTimeOffset_MaxValue">
+        <pre><code class="lang-csharp hljs">public static DateTimeOffset MaxValue(DateTimeOffset arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -405,7 +595,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : DateTime -&gt; MaxValue -&gt; DateTime</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_DateTime_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_DateTime_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_DateTime_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:DateTime * arg1:MaxValue -&gt; DateTime</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_DateTime_MaxValue">
+        <pre><code class="lang-csharp hljs">public static DateTime MaxValue(DateTime arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -430,7 +635,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : decimal -&gt; MaxValue -&gt; decimal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_decimal_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_decimal_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_decimal_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:decimal * arg1:MaxValue -&gt; decimal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_decimal_MaxValue">
+        <pre><code class="lang-csharp hljs">public static decimal MaxValue(decimal arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -455,7 +675,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : double -&gt; MaxValue -&gt; double</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_double_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_double_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_double_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:double * arg1:MaxValue -&gt; double</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_double_MaxValue">
+        <pre><code class="lang-csharp hljs">public static double MaxValue(double arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -480,7 +715,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : single -&gt; MaxValue -&gt; single</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_single_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_single_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_single_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:single * arg1:MaxValue -&gt; single</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_single_MaxValue">
+        <pre><code class="lang-csharp hljs">public static single MaxValue(single arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -505,7 +755,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : int64 -&gt; MaxValue -&gt; int64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_int64_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_int64_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_int64_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:int64 * arg1:MaxValue -&gt; int64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_int64_MaxValue">
+        <pre><code class="lang-csharp hljs">public static int64 MaxValue(int64 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -530,7 +795,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : int32 -&gt; MaxValue -&gt; int32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_int32_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_int32_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_int32_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:int32 * arg1:MaxValue -&gt; int32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_int32_MaxValue">
+        <pre><code class="lang-csharp hljs">public static int32 MaxValue(int32 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -555,7 +835,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : int16 -&gt; MaxValue -&gt; int16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_int16_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_int16_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_int16_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:int16 * arg1:MaxValue -&gt; int16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_int16_MaxValue">
+        <pre><code class="lang-csharp hljs">public static int16 MaxValue(int16 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -580,7 +875,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : int8 -&gt; MaxValue -&gt; int8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_int8_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_int8_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_int8_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:int8 * arg1:MaxValue -&gt; int8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_int8_MaxValue">
+        <pre><code class="lang-csharp hljs">public static int8 MaxValue(int8 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -605,7 +915,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : uint64 -&gt; MaxValue -&gt; uint64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_uint64_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_uint64_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_uint64_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:uint64 * arg1:MaxValue -&gt; uint64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_uint64_MaxValue">
+        <pre><code class="lang-csharp hljs">public static uint64 MaxValue(uint64 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -630,7 +955,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : uint32 -&gt; MaxValue -&gt; uint32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_uint32_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_uint32_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_uint32_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:uint32 * arg1:MaxValue -&gt; uint32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_uint32_MaxValue">
+        <pre><code class="lang-csharp hljs">public static uint32 MaxValue(uint32 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -655,7 +995,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : uint16 -&gt; MaxValue -&gt; uint16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_uint16_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_uint16_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_uint16_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:uint16 * arg1:MaxValue -&gt; uint16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_uint16_MaxValue">
+        <pre><code class="lang-csharp hljs">public static uint16 MaxValue(uint16 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -680,7 +1035,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : uint8 -&gt; MaxValue -&gt; uint8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_uint8_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_uint8_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_uint8_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:uint8 * arg1:MaxValue -&gt; uint8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_uint8_MaxValue">
+        <pre><code class="lang-csharp hljs">public static uint8 MaxValue(uint8 arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -705,7 +1075,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : char -&gt; MaxValue -&gt; char</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_char_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_char_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_char_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:char * arg1:MaxValue -&gt; char</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_char_MaxValue">
+        <pre><code class="lang-csharp hljs">public static char MaxValue(char arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -730,7 +1115,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : bool -&gt; MaxValue -&gt; bool</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_bool_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_bool_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_bool_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : arg0:bool * arg1:MaxValue -&gt; bool</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_bool_MaxValue">
+        <pre><code class="lang-csharp hljs">public static bool MaxValue(bool arg0, MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -755,7 +1155,22 @@ Class MaxValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MaxValue : unit -&gt; MaxValue -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MaxValue_MaxValue_unit_MaxValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MaxValue_MaxValue_unit_MaxValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MaxValue_MaxValue_unit_MaxValue">
+        <pre><code class="lang-fsharp hljs">member MaxValue : ():unit * arg1:MaxValue -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MaxValue_MaxValue_unit_MaxValue">
+        <pre><code class="lang-csharp hljs">public static void MaxValue(void (), MaxValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 

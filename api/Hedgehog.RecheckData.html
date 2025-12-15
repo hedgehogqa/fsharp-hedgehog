@@ -100,15 +100,32 @@ Class RecheckData  <a class="header-action link-secondary" title="View source" h
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type RecheckData =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_RecheckData" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_RecheckData" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_RecheckData">
+        <pre><code class="lang-fsharp hljs">type RecheckData =
   member deserialize : string -&gt; RecheckData
   member serialize : RecheckData -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_RecheckData">
+        <pre><code class="lang-csharp hljs">public class RecheckData {
+  public static RecheckData deserialize(string s)
+  public static string serialize(RecheckData data)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">RecheckData</span></div>
 
 
 
@@ -132,7 +149,22 @@ Class RecheckData  <a class="header-action link-secondary" title="View source" h
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val serialize : RecheckData -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_RecheckData_serialize_RecheckData" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_RecheckData_serialize_RecheckData" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_RecheckData_serialize_RecheckData">
+        <pre><code class="lang-fsharp hljs">member serialize : RecheckData -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_RecheckData_serialize_RecheckData">
+        <pre><code class="lang-csharp hljs">public static string serialize(RecheckData data)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -157,7 +189,22 @@ Class RecheckData  <a class="header-action link-secondary" title="View source" h
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val deserialize : string -&gt; RecheckData</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_RecheckData_deserialize_string" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_RecheckData_deserialize_string" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_RecheckData_deserialize_string">
+        <pre><code class="lang-fsharp hljs">member deserialize : string -&gt; RecheckData</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_RecheckData_deserialize_string">
+        <pre><code class="lang-csharp hljs">public static RecheckData deserialize(string s)</code></pre>
+      </div>
+    </div>
   </div>
 
 

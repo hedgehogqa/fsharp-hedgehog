@@ -100,19 +100,38 @@ Class RangeExtensions  <a class="header-action link-secondary" title="View sourc
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RangeExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions">
+        <pre><code class="lang-fsharp hljs">type RangeExtensions =
+  member Bounds : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T * &#39;T
+  member LowerBound : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T
+  member Origin : Range&lt;&#39;T&gt; -&gt; &#39;T
+  member Select : range:Range&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Range&lt;&#39;TResult&gt;
+  member UpperBound : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions">
+        <pre><code class="lang-csharp hljs">public class RangeExtensions {
   public static (T, T) Bounds(this Range&lt;T&gt; range, Size sz)
   public static T LowerBound(this Range&lt;T&gt; range, Size sz)
   public static T Origin(this Range&lt;T&gt; range)
   public static Range&lt;TResult&gt; Select(this Range&lt;T&gt; range, Func&lt;T, TResult&gt; mapper)
   public static T UpperBound(this Range&lt;T&gt; range, Size sz)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">RangeExtensions</span></div>
 
 
 
@@ -137,7 +156,22 @@ Class RangeExtensions  <a class="header-action link-secondary" title="View sourc
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static (T, T) Bounds(this Range&lt;T&gt; range, Size sz)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions_Bounds_Range_Size" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions_Bounds_Range_Size" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions_Bounds_Range_Size">
+        <pre><code class="lang-fsharp hljs">member Bounds : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T * &#39;T</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions_Bounds_Range_Size">
+        <pre><code class="lang-csharp hljs">public static (T, T) Bounds(this Range&lt;T&gt; range, Size sz)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -163,7 +197,22 @@ Class RangeExtensions  <a class="header-action link-secondary" title="View sourc
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T LowerBound(this Range&lt;T&gt; range, Size sz)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions_LowerBound_Range_Size" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions_LowerBound_Range_Size" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions_LowerBound_Range_Size">
+        <pre><code class="lang-fsharp hljs">member LowerBound : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions_LowerBound_Range_Size">
+        <pre><code class="lang-csharp hljs">public static T LowerBound(this Range&lt;T&gt; range, Size sz)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -194,7 +243,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T Origin(this Range&lt;T&gt; range)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions_Origin_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions_Origin_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions_Origin_Range">
+        <pre><code class="lang-fsharp hljs">member Origin : Range&lt;&#39;T&gt; -&gt; &#39;T</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions_Origin_Range">
+        <pre><code class="lang-csharp hljs">public static T Origin(this Range&lt;T&gt; range)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -219,7 +283,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Range&lt;TResult&gt; Select(this Range&lt;T&gt; range, Func&lt;T, TResult&gt; mapper)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions_Select_Range_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions_Select_Range_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions_Select_Range_Func">
+        <pre><code class="lang-fsharp hljs">member Select : range:Range&lt;&#39;T&gt; * mapper:Func&lt;&#39;T, &#39;TResult&gt; -&gt; Range&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions_Select_Range_Func">
+        <pre><code class="lang-csharp hljs">public static Range&lt;TResult&gt; Select(this Range&lt;T&gt; range, Func&lt;T, TResult&gt; mapper)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -245,7 +324,22 @@ shrink towards the origin.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static T UpperBound(this Range&lt;T&gt; range, Size sz)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_RangeExtensions_UpperBound_Range_Size" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_RangeExtensions_UpperBound_Range_Size" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_RangeExtensions_UpperBound_Range_Size">
+        <pre><code class="lang-fsharp hljs">member UpperBound : range:Range&lt;&#39;T&gt; * sz:Size -&gt; &#39;T</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_RangeExtensions_UpperBound_Range_Size">
+        <pre><code class="lang-csharp hljs">public static T UpperBound(this Range&lt;T&gt; range, Size sz)</code></pre>
+      </div>
+    </div>
   </div>
 
 

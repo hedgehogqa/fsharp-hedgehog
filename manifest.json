@@ -684,6 +684,202 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.ActionCommand_TSystem, TState, TInput_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.ActionCommand_TSystem, TState, TInput_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.ActionCommand<'TSystem, 'TState, 'TInput>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.ActionCommand_TSystem, TState, TInput_.yml\" sourcestartlinenumber=\"1\">Base class for commands that perform side-effects without returning meaningful values.\nExamples: closing a connection, clearing a cache, deleting a file.\nSimpler than Command because no output variable is needed.\nExecute returns a Task to support both synchronous and asynchronous operations.\nThe SUT is passed as a typed parameter to Execute and Ensure.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.ActionGen_TSystem, TState_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.ActionGen_TSystem, TState_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.ActionGen<'TSystem, 'TState>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.ActionGen_TSystem, TState_.yml\" sourcestartlinenumber=\"1\">Existential wrapper to allow heterogeneous command lists.\nThis erases the input/output types so different commands can be in the same list.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Command_TSystem, TState, TInput, TOutput_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Command_TSystem, TState, TInput, TOutput_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Command<'TSystem, 'TState, 'TInput, 'TOutput>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Command_TSystem, TState, TInput, TOutput_.yml\" sourcestartlinenumber=\"1\">Base class for commands that perform stateful operations and return values.\nCommands are the building blocks of state machine tests - they represent operations\non a system under test (SUT) that can be generated, executed, and verified.\nThe SUT is passed as a typed parameter to Execute and Ensure.\nExecute returns a Task to support both synchronous and asynchronous operations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Env.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Env.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Env",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Env.yml\" sourcestartlinenumber=\"1\">Environment mapping symbolic variable names to concrete values.\nThe SUT is passed separately to Execute, not stored in Env.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.FSharp.Var.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.FSharp.Var.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.FSharp.Var",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.ICommand_TSystem, TState_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.ICommand_TSystem, TState_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.ICommand<'TSystem, 'TState>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.ICommand_TSystem, TState_.yml\" sourcestartlinenumber=\"1\">Interface for types that helps with converting commands to executable actions.\nThis allows seamless mixing of different commands and action commands.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Linq.NoInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Linq.NoInput.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Linq.NoInput",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Linq.NoInput.yml\" sourcestartlinenumber=\"1\">Represents the absence of input for commands that don't require input parameters.\nSimilar to F#'s unit type, this is a zero-sized struct with a single instance.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Name.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Name.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Name",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Name.yml\" sourcestartlinenumber=\"1\">Unique identifier for a symbolic variable.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Parallel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Parallel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Parallel",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.ParallelSpecification_TSystem, TState_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.ParallelSpecification_TSystem, TState_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.ParallelSpecification<'TSystem, 'TState>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.ParallelSpecification_TSystem, TState_.yml\" sourcestartlinenumber=\"1\">Abstract base class for parallel state machine tests.\nTests concurrent execution by running two branches in parallel after a sequential prefix.\nThe SUT (System Under Test) is created externally and passed to Check/ToProperty methods.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Sequential.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Sequential.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Sequential",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.SequentialSpecification_TSystem, TState_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.SequentialSpecification_TSystem, TState_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.SequentialSpecification<'TSystem, 'TState>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.SequentialSpecification_TSystem, TState_.yml\" sourcestartlinenumber=\"1\">Abstract base class for sequential state machine tests.\nThe SUT (System Under Test) is created externally and passed to Check/ToProperty methods.\nSetup and cleanup are modeled as command lists that execute before/after test actions.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Var.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Var.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Var",
+      "Summary": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Hedgehog.Stateful.Var_T_.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Hedgehog.Stateful.Var_T_.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Hedgehog.Stateful.Var<'T>",
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Var_T_.yml\" sourcestartlinenumber=\"1\">Symbolic variable referencing a command's output. Symbolic variables are placeholders\nthat let us chain commands by using one command's result as input to another, even before execution.\nA symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Hedgehog.Status.yml",
       "output": {
         ".html": {
@@ -1224,6 +1420,59 @@
       "output": {
         ".html": {
           "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "stateful/commands.md",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/commands.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "stateful/complete-example.md",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/complete-example.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "stateful/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "stateful/specifications.md",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/specifications.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "stateful/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/toc.html"
+        },
+        ".json": {
+          "relative_path": "stateful/toc.json"
         }
       },
       "version": ""

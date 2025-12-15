@@ -112,15 +112,32 @@ Assert.StrictEqual(2, i)</p>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type GenAttribute&lt;&#39;a&gt; =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Xunit_GenAttribute_a_" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Xunit_GenAttribute_a_" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Xunit_GenAttribute_a_">
+        <pre><code class="lang-fsharp hljs">type GenAttribute&lt;&#39;a&gt; =
   member Box : Gen&lt;obj&gt;
-  member Generator : Gen&lt;&#39;a&gt;</code></pre>
+  abstract member Generator : Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Xunit_GenAttribute_a_">
+        <pre><code class="lang-csharp hljs">public class GenAttribute&lt;a&gt; {
+  public static Gen&lt;obj&gt; Box()
+  abstract Gen&lt;a&gt; Generator()
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">GenAttribute&lt;&#39;a&gt;</span></div>
 
 
 
@@ -144,7 +161,22 @@ Assert.StrictEqual(2, i)</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Box : Gen&lt;obj&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Xunit_GenAttribute_a__Box" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Xunit_GenAttribute_a__Box" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Xunit_GenAttribute_a__Box">
+        <pre><code class="lang-fsharp hljs">member Box : Gen&lt;obj&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Xunit_GenAttribute_a__Box">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;obj&gt; Box()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -169,7 +201,22 @@ Assert.StrictEqual(2, i)</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Generator : Gen&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Xunit_GenAttribute_a__Generator" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Xunit_GenAttribute_a__Generator" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Xunit_GenAttribute_a__Generator">
+        <pre><code class="lang-fsharp hljs">abstract member Generator : Gen&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Xunit_GenAttribute_a__Generator">
+        <pre><code class="lang-csharp hljs">abstract Gen&lt;a&gt; Generator()</code></pre>
+      </div>
+    </div>
   </div>
 
 

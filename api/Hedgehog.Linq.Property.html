@@ -100,7 +100,31 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Property {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property">
+        <pre><code class="lang-fsharp hljs">type Property =
+  member CounterExample : Func&lt;string&gt; -&gt; Property&lt;unit&gt;
+  member Delay : Func&lt;Property&lt;&#39;T&gt;&gt; -&gt; Property&lt;&#39;T&gt;
+  member Discard : Property
+  member Failure : Property
+  member ForAll : Gen&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;
+  member ForAll : gen:Gen&lt;&#39;T&gt; * k:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;
+  member FromBool : bool -&gt; Property
+  member FromGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;T&gt;&gt;&gt; -&gt; Property&lt;&#39;T&gt;
+  member FromOutcome : Outcome&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;
+  member Success : &#39;T -&gt; Property&lt;&#39;T&gt;
+  member Using : resource:&#39;T * action:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property">
+        <pre><code class="lang-csharp hljs">public class Property {
   public static Property&lt;void&gt; CounterExample(Func&lt;string&gt; message)
   public static Property&lt;T&gt; Delay(Func&lt;Property&lt;T&gt;&gt; f)
   public static Property Discard()
@@ -113,12 +137,13 @@ Class Property  <a class="header-action link-secondary" title="View source" href
   public static Property&lt;T&gt; Success(T value)
   public static Property&lt;TResult&gt; Using(T resource, Func&lt;T, Property&lt;TResult&gt;&gt; action)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Property</span></div>
 
 
 
@@ -140,6 +165,10 @@ Class Property  <a class="header-action link-secondary" title="View source" href
 
   <div class="markdown level1 summary"><p>Adds custom debug information that will be displayed when a property test fails.
 Use this to include variable values or other context to help diagnose failures.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>message</code>: A function that returns the debug message to display.</li>
+</ul>
 <p><strong>Example:</strong></p>
 <pre><code> var property =
      from x in Gen.Int32(Range.Constant(0, 1000)).ForAll()
@@ -151,7 +180,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; CounterExample(Func&lt;string&gt; message)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_CounterExample_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_CounterExample_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_CounterExample_Func">
+        <pre><code class="lang-fsharp hljs">member CounterExample : Func&lt;string&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_CounterExample_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; CounterExample(Func&lt;string&gt; message)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -176,7 +220,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Delay(Func&lt;Property&lt;T&gt;&gt; f)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_Delay_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_Delay_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_Delay_Func">
+        <pre><code class="lang-fsharp hljs">member Delay : Func&lt;Property&lt;&#39;T&gt;&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_Delay_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Delay(Func&lt;Property&lt;T&gt;&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -201,7 +260,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ForAll(Gen&lt;T&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_ForAll_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_ForAll_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_ForAll_Gen">
+        <pre><code class="lang-fsharp hljs">member ForAll : Gen&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_ForAll_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ForAll(Gen&lt;T&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -226,7 +300,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; ForAll(Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; k)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_ForAll_Gen_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_ForAll_Gen_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_ForAll_Gen_Func">
+        <pre><code class="lang-fsharp hljs">member ForAll : gen:Gen&lt;&#39;T&gt; * k:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_ForAll_Gen_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; ForAll(Gen&lt;T&gt; gen, Func&lt;T, Property&lt;TResult&gt;&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -251,7 +340,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property FromBool(bool value)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_FromBool_bool" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_FromBool_bool" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_FromBool_bool">
+        <pre><code class="lang-fsharp hljs">member FromBool : bool -&gt; Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_FromBool_bool">
+        <pre><code class="lang-csharp hljs">public static Property FromBool(bool value)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -276,7 +380,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; gen)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_FromGen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_FromGen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_FromGen_Gen">
+        <pre><code class="lang-fsharp hljs">member FromGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;T&gt;&gt;&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_FromGen_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;T&gt;&gt;&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -301,7 +420,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromOutcome(Outcome&lt;T&gt; result)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_FromOutcome_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_FromOutcome_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_FromOutcome_Outcome">
+        <pre><code class="lang-fsharp hljs">member FromOutcome : Outcome&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_FromOutcome_Outcome">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; FromOutcome(Outcome&lt;T&gt; result)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -326,7 +460,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Success(T value)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_Success_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_Success_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_Success_T">
+        <pre><code class="lang-fsharp hljs">member Success : &#39;T -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_Success_T">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; Success(T value)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -351,7 +500,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; Using(T resource, Func&lt;T, Property&lt;TResult&gt;&gt; action)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_Using_T_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_Using_T_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_Using_T_Func">
+        <pre><code class="lang-fsharp hljs">member Using : resource:&#39;T * action:Func&lt;&#39;T, Property&lt;&#39;TResult&gt;&gt; -&gt; Property&lt;&#39;TResult&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_Using_T_Func">
+        <pre><code class="lang-csharp hljs">public static Property&lt;TResult&gt; Using(T resource, Func&lt;T, Property&lt;TResult&gt;&gt; action)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -376,7 +540,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property Failure()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_Failure" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_Failure" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_Failure">
+        <pre><code class="lang-fsharp hljs">member Failure : Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_Failure">
+        <pre><code class="lang-csharp hljs">public static Property Failure()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -401,7 +580,22 @@ Use this to include variable values or other context to help diagnose failures.<
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Property Discard()</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Property_Discard" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Property_Discard" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Property_Discard">
+        <pre><code class="lang-fsharp hljs">member Discard : Property</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Property_Discard">
+        <pre><code class="lang-csharp hljs">public static Property Discard()</code></pre>
+      </div>
+    </div>
   </div>
 
 

@@ -102,7 +102,17 @@ Properties represent testable specifications that should hold true for all gener
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Property =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property">
+        <pre><code class="lang-fsharp hljs">type Property =
   member bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
   member bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;
@@ -164,12 +174,78 @@ Properties represent testable specifications that should hold true for all gener
   member tryFinally : unit -&gt; unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member tryWith : exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;
   member using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property">
+        <pre><code class="lang-csharp hljs">public class Property {
+  public static Property&lt;b&gt; bind(a -&gt; Property&lt;b&gt; k, Property&lt;a&gt; m)
+  public static Property&lt;b&gt; bindReturnWith(a -&gt; Journal journalFrom, a -&gt; b f, Gen&lt;a&gt; m)
+  public static Property&lt;b&gt; bindWith(a -&gt; Journal journalFrom, a -&gt; Property&lt;b&gt; k, Gen&lt;a&gt; m)
+  public static void check(Property&lt;void&gt; p)
+  public static Async&lt;void&gt; checkAsync(Property&lt;void&gt; p)
+  public static Async&lt;void&gt; checkAsyncWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static void checkBool(Property&lt;bool&gt; g)
+  public static Async&lt;void&gt; checkBoolAsync(Property&lt;bool&gt; p)
+  public static Async&lt;void&gt; checkBoolAsyncWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static Task&lt;void&gt; checkBoolTask(Property&lt;bool&gt; p)
+  public static Task&lt;void&gt; checkBoolTaskWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static void checkBoolWith(IPropertyConfig config, Property&lt;bool&gt; g)
+  public static Task&lt;void&gt; checkTask(Property&lt;void&gt; p)
+  public static Task&lt;void&gt; checkTaskWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static void checkWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static Property&lt;void&gt; counterexample(void -&gt; string msg)
+  public static Property&lt;a&gt; delay(void -&gt; Property&lt;a&gt; f)
+  public static Property&lt;void&gt; discard()
+  public static Property&lt;void&gt; exn(exn ex)
+  public static Property&lt;void&gt; failure()
+  public static Property&lt;void&gt; falseToFailure(Property&lt;bool&gt; p)
+  public static Property&lt;a&gt; filter(a -&gt; bool p, Property&lt;a&gt; m)
+  public static Property&lt;b&gt; forAll(a -&gt; Property&lt;b&gt; k, Gen&lt;a&gt; gen)
+  public static Property&lt;a&gt; forAll&#39;(Gen&lt;a&gt; gen)
+  public static Property&lt;void&gt; ignoreResult(Property&lt;a&gt; property)
+  public static Property&lt;b&gt; map(a -&gt; b f, Property&lt;a&gt; x)
+  public static Property&lt;T&gt; ofAsync(Async&lt;T&gt; asyncComputation)
+  public static Property&lt;void&gt; ofBool(bool x)
+  public static Property&lt;a&gt; ofGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;a&gt;&gt;&gt; x)
+  public static Property&lt;a&gt; ofOutcome(Outcome&lt;a&gt; x)
+  public static Property&lt;T&gt; ofTask(Task&lt;T&gt; inputTask)
+  public static Property&lt;void&gt; ofTaskUnit(Task inputTask)
+  public static void recheck(string recheckData, Property&lt;void&gt; p)
+  public static void recheckBool(string recheckData, Property&lt;bool&gt; g)
+  public static void recheckBoolWith(string recheckData, IPropertyConfig config, Property&lt;bool&gt; g)
+  public static void recheckWith(string recheckData, IPropertyConfig config, Property&lt;void&gt; p)
+  public static string render(Property&lt;void&gt; p)
+  public static string renderBool(Property&lt;bool&gt; property)
+  public static string renderBoolWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static string renderWith(IPropertyConfig n, Property&lt;void&gt; p)
+  public static Report report(Property&lt;void&gt; p)
+  public static Async&lt;Report&gt; reportAsync(Property&lt;void&gt; p)
+  public static Async&lt;Report&gt; reportAsyncWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static Report reportBool(Property&lt;bool&gt; p)
+  public static Async&lt;Report&gt; reportBoolAsync(Property&lt;bool&gt; p)
+  public static Async&lt;Report&gt; reportBoolAsyncWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static Task&lt;Report&gt; reportBoolTask(Property&lt;bool&gt; p)
+  public static Task&lt;Report&gt; reportBoolTaskWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static Report reportBoolWith(IPropertyConfig config, Property&lt;bool&gt; p)
+  public static Report reportRecheck(string recheckData, Property&lt;void&gt; p)
+  public static Report reportRecheckBool(string recheckData, Property&lt;bool&gt; p)
+  public static Report reportRecheckBoolWith(string recheckData, IPropertyConfig config, Property&lt;bool&gt; p)
+  public static Report reportRecheckWith(string recheckData, IPropertyConfig arg1, Property&lt;void&gt; p)
+  public static Task&lt;Report&gt; reportTask(Property&lt;void&gt; p)
+  public static Task&lt;Report&gt; reportTaskWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static Report reportWith(IPropertyConfig config, Property&lt;void&gt; p)
+  public static Property&lt;a&gt; success(a x)
+  public static Gen&lt;Lazy&lt;(Journal, Outcome)&lt;a&gt;&gt;&gt; toGen(Property&lt;a&gt; arg0)
+  public static Property&lt;a&gt; tryFinally(void -&gt; void after, Property&lt;a&gt; m)
+  public static Property&lt;a&gt; tryWith(exn -&gt; Property&lt;a&gt; k, Property&lt;a&gt; m)
+  public static Property&lt;b&gt; using(a x, a -&gt; Property&lt;b&gt; k)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Property</span></div>
 
 
 
@@ -195,7 +271,22 @@ This is a low-level function primarily used internally.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofGen_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofGen_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofGen_Gen">
+        <pre><code class="lang-fsharp hljs">member ofGen : Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofGen_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ofGen(Gen&lt;Lazy&lt;(Journal, Outcome)&lt;a&gt;&gt;&gt; x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -222,7 +313,22 @@ This is a low-level function primarily used internally.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val toGen : Property&lt;&#39;a&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_toGen_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_toGen_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_toGen_Property">
+        <pre><code class="lang-fsharp hljs">member toGen : Property&lt;&#39;a&gt; -&gt; Gen&lt;Lazy&lt;Journal * Outcome&lt;&#39;a&gt;&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_toGen_Property">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Lazy&lt;(Journal, Outcome)&lt;a&gt;&gt;&gt; toGen(Property&lt;a&gt; arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -249,7 +355,22 @@ Useful for releasing resources like file handles or database connections.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val tryFinally : unit -&gt; unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_tryFinally_unit_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_tryFinally_unit_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_tryFinally_unit_Property">
+        <pre><code class="lang-fsharp hljs">member tryFinally : unit -&gt; unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_tryFinally_unit_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; tryFinally(void -&gt; void after, Property&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -276,7 +397,22 @@ This allows graceful error handling and custom failure messages.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val tryWith : exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_tryWith_exn_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_tryWith_exn_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_tryWith_exn_Property">
+        <pre><code class="lang-fsharp hljs">member tryWith : exn -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_tryWith_exn_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; tryWith(exn -&gt; Property&lt;a&gt; k, Property&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -303,7 +439,22 @@ This enables recursive property definitions and lazy construction.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_delay_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_delay_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_delay_unit">
+        <pre><code class="lang-fsharp hljs">member delay : unit -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_delay_unit">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; delay(void -&gt; Property&lt;a&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -330,7 +481,22 @@ The resource is automatically disposed even if the property fails.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_using_a_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_using_a_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_using_a_a">
+        <pre><code class="lang-fsharp hljs">member using : &#39;a -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_using_a_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; using(a x, a -&gt; Property&lt;b&gt; k)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -358,7 +524,22 @@ This enables testing of async/await code using C# Tasks.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofTask : Task&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofTask_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofTask_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofTask_Task">
+        <pre><code class="lang-fsharp hljs">member ofTask : Task&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofTask_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ofTask(Task&lt;T&gt; inputTask)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -385,7 +566,22 @@ Use this for Tasks that don't return a value (void async methods in C#).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofTaskUnit : Task -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofTaskUnit_Task" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofTaskUnit_Task" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofTaskUnit_Task">
+        <pre><code class="lang-fsharp hljs">member ofTaskUnit : Task -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofTaskUnit_Task">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; ofTaskUnit(Task inputTask)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -413,7 +609,22 @@ This enables testing of asynchronous F# code.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofAsync : Async&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofAsync_Async" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofAsync_Async" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofAsync_Async">
+        <pre><code class="lang-fsharp hljs">member ofAsync : Async&lt;&#39;T&gt; -&gt; Property&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofAsync_Async">
+        <pre><code class="lang-csharp hljs">public static Property&lt;T&gt; ofAsync(Async&lt;T&gt; asyncComputation)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -440,7 +651,22 @@ Use sparingly as excessive filtering can lead to &quot;gave up&quot; results whe
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val filter : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_filter_a_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_filter_a_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_filter_a_Property">
+        <pre><code class="lang-fsharp hljs">member filter : &#39;a -&gt; bool -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_filter_a_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; filter(a -&gt; bool p, Property&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -467,7 +693,22 @@ This is a low-level function primarily used internally or for custom property co
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofOutcome : Outcome&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofOutcome_Outcome" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofOutcome_Outcome" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofOutcome_Outcome">
+        <pre><code class="lang-fsharp hljs">member ofOutcome : Outcome&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofOutcome_Outcome">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; ofOutcome(Outcome&lt;a&gt; x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -493,7 +734,22 @@ This is a low-level function primarily used internally or for custom property co
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val failure : Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_failure" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_failure" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_failure">
+        <pre><code class="lang-fsharp hljs">member failure : Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_failure">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; failure()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -518,7 +774,22 @@ This is a low-level function primarily used internally or for custom property co
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val exn : exn -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_exn_exn" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_exn_exn" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_exn_exn">
+        <pre><code class="lang-fsharp hljs">member exn : exn -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_exn_exn">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; exn(exn ex)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -545,7 +816,22 @@ Use sparingly to avoid &quot;gave up&quot; results.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val discard : Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_discard" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_discard" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_discard">
+        <pre><code class="lang-fsharp hljs">member discard : Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_discard">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; discard()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -572,7 +858,22 @@ This is the property monad's return/pure operation.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val success : &#39;a -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_success_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_success_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_success_a">
+        <pre><code class="lang-fsharp hljs">member success : &#39;a -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_success_a">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; success(a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -599,7 +900,22 @@ Useful for asserting simple boolean conditions in property tests.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ofBool : bool -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ofBool_bool" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ofBool_bool" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ofBool_bool">
+        <pre><code class="lang-fsharp hljs">member ofBool : bool -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ofBool_bool">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; ofBool(bool x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -627,7 +943,22 @@ The message function is only evaluated if the test fails.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val counterexample : unit -&gt; string -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_counterexample_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_counterexample_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_counterexample_unit">
+        <pre><code class="lang-fsharp hljs">member counterexample : unit -&gt; string -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_counterexample_unit">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; counterexample(void -&gt; string msg)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -655,7 +986,22 @@ This is the functor map operation for properties.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_map_a_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_map_a_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_map_a_Property">
+        <pre><code class="lang-fsharp hljs">member map : &#39;a -&gt; &#39;b -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_map_a_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; map(a -&gt; b f, Property&lt;a&gt; x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -683,7 +1029,22 @@ Assertions that throw exceptions will still cause the property to fail.</unit></
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val ignoreResult : Property&lt;&#39;a&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_ignoreResult_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_ignoreResult_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_ignoreResult_Property">
+        <pre><code class="lang-fsharp hljs">member ignoreResult : Property&lt;&#39;a&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_ignoreResult_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; ignoreResult(Property&lt;a&gt; property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -711,7 +1072,22 @@ The journals from both properties are combined in the final result.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_bind_a_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_bind_a_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_bind_a_Property">
+        <pre><code class="lang-fsharp hljs">member bind : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Property&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_bind_a_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; bind(a -&gt; Property&lt;b&gt; k, Property&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -741,7 +1117,22 @@ the failure output with information about the generated input values.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_bindWith_a_a_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_bindWith_a_a_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_bindWith_a_a_Gen">
+        <pre><code class="lang-fsharp hljs">member bindWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_bindWith_a_a_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; bindWith(a -&gt; Journal journalFrom, a -&gt; Property&lt;b&gt; k, Gen&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -772,7 +1163,22 @@ Task, Async, bool, Result, etc. The function is wrapped with exception handling 
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen">
+        <pre><code class="lang-fsharp hljs">member bindReturnWith : &#39;a -&gt; Journal -&gt; &#39;a -&gt; &#39;b -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_bindReturnWith_a_a_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; bindReturnWith(a -&gt; Journal journalFrom, a -&gt; b f, Gen&lt;a&gt; m)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -799,7 +1205,22 @@ This is used internally to support boolean property testing.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val falseToFailure : Property&lt;bool&gt; -&gt; Property&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_falseToFailure_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_falseToFailure_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_falseToFailure_Property">
+        <pre><code class="lang-fsharp hljs">member falseToFailure : Property&lt;bool&gt; -&gt; Property&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_falseToFailure_Property">
+        <pre><code class="lang-csharp hljs">public static Property&lt;void&gt; falseToFailure(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -827,7 +1248,22 @@ This is the primary way to introduce generated test data into your properties.</
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val forAll : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_forAll_a_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_forAll_a_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_forAll_a_Gen">
+        <pre><code class="lang-fsharp hljs">member forAll : &#39;a -&gt; Property&lt;&#39;b&gt; -&gt; Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_forAll_a_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;b&gt; forAll(a -&gt; Property&lt;b&gt; k, Gen&lt;a&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -854,7 +1290,22 @@ Useful when you just want to generate a value and return it without additional a
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val forAll&#39; : Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_forAll_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_forAll_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_forAll_Gen">
+        <pre><code class="lang-fsharp hljs">member forAll&#39; : Gen&lt;&#39;a&gt; -&gt; Property&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_forAll_Gen">
+        <pre><code class="lang-csharp hljs">public static Property&lt;a&gt; forAll&#39;(Gen&lt;a&gt; gen)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -882,7 +1333,22 @@ This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -909,7 +1375,22 @@ By default, runs 100 tests. This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val report : Property&lt;unit&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_report_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_report_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_report_Property">
+        <pre><code class="lang-fsharp hljs">member report : Property&lt;unit&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_report_Property">
+        <pre><code class="lang-csharp hljs">public static Report report(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -936,7 +1417,22 @@ Converts false results to failures. This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportBoolWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -963,7 +1459,22 @@ Converts false results to failures. This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBool : Property&lt;bool&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBool_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBool_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBool_Property">
+        <pre><code class="lang-fsharp hljs">member reportBool : Property&lt;bool&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBool_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportBool(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -990,7 +1501,22 @@ This blocks until all tests complete. Use this in test frameworks that expect ex
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static void checkWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1017,7 +1543,22 @@ This blocks until all tests complete. This is the most common way to run propert
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val check : Property&lt;unit&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_check_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_check_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_check_Property">
+        <pre><code class="lang-fsharp hljs">member check : Property&lt;unit&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_check_Property">
+        <pre><code class="lang-csharp hljs">public static void check(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1044,7 +1585,22 @@ Converts false results to failures. This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBool : Property&lt;bool&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBool_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBool_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBool_Property">
+        <pre><code class="lang-fsharp hljs">member checkBool : Property&lt;bool&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBool_Property">
+        <pre><code class="lang-csharp hljs">public static void checkBool(Property&lt;bool&gt; g)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1071,7 +1627,22 @@ Converts false results to failures. This blocks until all tests complete.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static void checkBoolWith(IPropertyConfig config, Property&lt;bool&gt; g)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1099,7 +1670,22 @@ The config parameter is currently ignored but kept for API consistency.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportRecheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportRecheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportRecheckWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportRecheckWith(string recheckData, IPropertyConfig arg1, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1126,7 +1712,22 @@ This uses default configuration and is useful for quickly reproducing specific f
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportRecheck : string -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportRecheck_string_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportRecheck_string_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportRecheck_string_Property">
+        <pre><code class="lang-fsharp hljs">member reportRecheck : string -&gt; Property&lt;unit&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportRecheck_string_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportRecheck(string recheckData, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1153,7 +1754,22 @@ Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportRecheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportRecheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportRecheckBoolWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportRecheckBoolWith(string recheckData, IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1180,7 +1796,22 @@ Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportRecheckBool : string -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportRecheckBool_string_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportRecheckBool_string_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportRecheckBool_string_Property">
+        <pre><code class="lang-fsharp hljs">member reportRecheckBool : string -&gt; Property&lt;bool&gt; -&gt; Report</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportRecheckBool_string_Property">
+        <pre><code class="lang-csharp hljs">public static Report reportRecheckBool(string recheckData, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1207,7 +1838,22 @@ Uses custom configuration. This is useful for debugging failures in test framewo
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val recheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member recheckWith : string -&gt; IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_recheckWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static void recheckWith(string recheckData, IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1234,7 +1880,22 @@ Uses default configuration. This is the most common way to reproduce specific fa
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val recheck : string -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_recheck_string_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_recheck_string_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_recheck_string_Property">
+        <pre><code class="lang-fsharp hljs">member recheck : string -&gt; Property&lt;unit&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_recheck_string_Property">
+        <pre><code class="lang-csharp hljs">public static void recheck(string recheckData, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1261,7 +1922,22 @@ Uses custom configuration. Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val recheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member recheckBoolWith : string -&gt; IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_recheckBoolWith_string_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static void recheckBoolWith(string recheckData, IPropertyConfig config, Property&lt;bool&gt; g)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1288,7 +1964,22 @@ Uses default configuration. Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val recheckBool : string -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_recheckBool_string_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_recheckBool_string_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_recheckBool_string_Property">
+        <pre><code class="lang-fsharp hljs">member recheckBool : string -&gt; Property&lt;bool&gt; -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_recheckBool_string_Property">
+        <pre><code class="lang-csharp hljs">public static void recheckBool(string recheckData, Property&lt;bool&gt; g)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1315,7 +2006,22 @@ This is useful for custom test result formatting or logging.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val renderWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member renderWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_renderWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static string renderWith(IPropertyConfig n, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1342,7 +2048,22 @@ This is useful for custom test result formatting or logging.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val render : Property&lt;unit&gt; -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_render_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_render_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_render_Property">
+        <pre><code class="lang-fsharp hljs">member render : Property&lt;unit&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_render_Property">
+        <pre><code class="lang-csharp hljs">public static string render(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1369,7 +2090,22 @@ Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val renderBool : Property&lt;bool&gt; -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_renderBool_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_renderBool_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_renderBool_Property">
+        <pre><code class="lang-fsharp hljs">member renderBool : Property&lt;bool&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_renderBool_Property">
+        <pre><code class="lang-csharp hljs">public static string renderBool(Property&lt;bool&gt; property)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1396,7 +2132,22 @@ Converts false results to failures.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member renderBoolWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_renderBoolWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static string renderBoolWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1424,7 +2175,22 @@ Use this when testing async code or when you need non-blocking test execution.</
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;Report&gt; reportAsyncWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1451,7 +2217,22 @@ This is non-blocking and properly handles async properties without blocking thre
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportAsync : Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportAsync_Property">
+        <pre><code class="lang-fsharp hljs">member reportAsync : Property&lt;unit&gt; -&gt; Async&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;Report&gt; reportAsync(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1478,7 +2259,22 @@ This is non-blocking and properly handles async properties. Returns an F# Async 
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkAsyncWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;void&gt; checkAsyncWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1505,7 +2301,22 @@ This is non-blocking and properly handles async properties. This is the recommen
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkAsync : Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkAsync_Property">
+        <pre><code class="lang-fsharp hljs">member checkAsync : Property&lt;unit&gt; -&gt; Async&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;void&gt; checkAsync(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1532,7 +2343,22 @@ Converts false results to failures. This is non-blocking and properly handles as
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBoolAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;Report&gt; reportBoolAsyncWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1559,7 +2385,22 @@ Converts false results to failures. This is non-blocking and properly handles as
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBoolAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBoolAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBoolAsync_Property">
+        <pre><code class="lang-fsharp hljs">member reportBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBoolAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;Report&gt; reportBoolAsync(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1586,7 +2427,22 @@ Converts false results to failures. Returns an F# Async computation.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkBoolAsyncWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBoolAsyncWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;void&gt; checkBoolAsyncWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1613,7 +2469,22 @@ Converts false results to failures. This is the recommended way to test async bo
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBoolAsync_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBoolAsync_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBoolAsync_Property">
+        <pre><code class="lang-fsharp hljs">member checkBoolAsync : Property&lt;bool&gt; -&gt; Async&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBoolAsync_Property">
+        <pre><code class="lang-csharp hljs">public static Async&lt;void&gt; checkBoolAsync(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1640,7 +2511,22 @@ This is non-blocking and properly handles async properties. Use this from C# or 
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; reportTaskWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1667,7 +2553,22 @@ This is non-blocking and properly handles async properties. Use this from C# or 
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportTask : Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportTask_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportTask_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportTask_Property">
+        <pre><code class="lang-fsharp hljs">member reportTask : Property&lt;unit&gt; -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportTask_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; reportTask(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1694,7 +2595,22 @@ Returns a C# Task. This is non-blocking and properly handles async properties. U
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkTaskWith : IPropertyConfig -&gt; Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;void&gt; checkTaskWith(IPropertyConfig config, Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1721,7 +2637,22 @@ Returns a C# Task. This is non-blocking and recommended for testing async C# cod
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkTask : Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkTask_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkTask_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkTask_Property">
+        <pre><code class="lang-fsharp hljs">member checkTask : Property&lt;unit&gt; -&gt; Task&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkTask_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;void&gt; checkTask(Property&lt;void&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1748,7 +2679,22 @@ Converts false results to failures. Use this from C# or when you need Task-based
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member reportBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBoolTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; reportBoolTaskWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1775,7 +2721,22 @@ Converts false results to failures. Use this from C# or when you need Task-based
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val reportBoolTask : Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_reportBoolTask_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_reportBoolTask_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_reportBoolTask_Property">
+        <pre><code class="lang-fsharp hljs">member reportBoolTask : Property&lt;bool&gt; -&gt; Task&lt;Report&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_reportBoolTask_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;Report&gt; reportBoolTask(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1802,7 +2763,22 @@ Converts false results to failures. Returns a C# Task. Use this from C# test fra
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-fsharp hljs">member checkBoolTaskWith : IPropertyConfig -&gt; Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBoolTaskWith_IPropertyConfig_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;void&gt; checkBoolTaskWith(IPropertyConfig config, Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -1829,7 +2805,22 @@ Converts false results to failures. Returns a C# Task. Recommended for testing a
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val checkBoolTask : Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Property_checkBoolTask_Property" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Property_checkBoolTask_Property" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Property_checkBoolTask_Property">
+        <pre><code class="lang-fsharp hljs">member checkBoolTask : Property&lt;bool&gt; -&gt; Task&lt;unit&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Property_checkBoolTask_Property">
+        <pre><code class="lang-csharp hljs">public static Task&lt;void&gt; checkBoolTask(Property&lt;bool&gt; p)</code></pre>
+      </div>
+    </div>
   </div>
 
 

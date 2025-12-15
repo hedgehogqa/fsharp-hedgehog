@@ -100,28 +100,58 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type FromBigInt =
-  static member FromBigInt : unativeint -&gt; FromBigInt -&gt; bigint -&gt; unativeint
-  static member FromBigInt : nativeint -&gt; FromBigInt -&gt; bigint -&gt; nativeint
-  static member FromBigInt : decimal -&gt; FromBigInt -&gt; bigint -&gt; decimal
-  static member FromBigInt : double -&gt; FromBigInt -&gt; bigint -&gt; double
-  static member FromBigInt : single -&gt; FromBigInt -&gt; bigint -&gt; single
-  static member FromBigInt : int64 -&gt; FromBigInt -&gt; bigint -&gt; int64
-  static member FromBigInt : int32 -&gt; FromBigInt -&gt; bigint -&gt; int32
-  static member FromBigInt : int16 -&gt; FromBigInt -&gt; bigint -&gt; int16
-  static member FromBigInt : int8 -&gt; FromBigInt -&gt; bigint -&gt; int8
-  static member FromBigInt : uint64 -&gt; FromBigInt -&gt; bigint -&gt; uint64
-  static member FromBigInt : uint32 -&gt; FromBigInt -&gt; bigint -&gt; uint32
-  static member FromBigInt : uint16 -&gt; FromBigInt -&gt; bigint -&gt; uint16
-  static member FromBigInt : uint8 -&gt; FromBigInt -&gt; bigint -&gt; uint8
-  static member FromBigInt : bigint -&gt; FromBigInt -&gt; bigint -&gt; bigint
-  static member Invoke : bigint -&gt; ^Num</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt">
+        <pre><code class="lang-fsharp hljs">type FromBigInt =
+  member FromBigInt : arg0:unativeint * arg1:FromBigInt -&gt; bigint -&gt; unativeint
+  member FromBigInt : arg0:nativeint * arg1:FromBigInt -&gt; bigint -&gt; nativeint
+  member FromBigInt : arg0:decimal * arg1:FromBigInt -&gt; bigint -&gt; decimal
+  member FromBigInt : arg0:double * arg1:FromBigInt -&gt; bigint -&gt; double
+  member FromBigInt : arg0:single * arg1:FromBigInt -&gt; bigint -&gt; single
+  member FromBigInt : arg0:int64 * arg1:FromBigInt -&gt; bigint -&gt; int64
+  member FromBigInt : arg0:int32 * arg1:FromBigInt -&gt; bigint -&gt; int32
+  member FromBigInt : arg0:int16 * arg1:FromBigInt -&gt; bigint -&gt; int16
+  member FromBigInt : arg0:int8 * arg1:FromBigInt -&gt; bigint -&gt; int8
+  member FromBigInt : arg0:uint64 * arg1:FromBigInt -&gt; bigint -&gt; uint64
+  member FromBigInt : arg0:uint32 * arg1:FromBigInt -&gt; bigint -&gt; uint32
+  member FromBigInt : arg0:uint16 * arg1:FromBigInt -&gt; bigint -&gt; uint16
+  member FromBigInt : arg0:uint8 * arg1:FromBigInt -&gt; bigint -&gt; uint8
+  member FromBigInt : arg0:bigint * arg1:FromBigInt -&gt; bigint -&gt; bigint
+  member Invoke : bigint -&gt; ^Num</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt">
+        <pre><code class="lang-csharp hljs">public class FromBigInt {
+  public static bigint -&gt; unativeint FromBigInt(unativeint arg0, FromBigInt arg1)
+  public static bigint -&gt; nativeint FromBigInt(nativeint arg0, FromBigInt arg1)
+  public static bigint -&gt; decimal FromBigInt(decimal arg0, FromBigInt arg1)
+  public static bigint -&gt; double FromBigInt(double arg0, FromBigInt arg1)
+  public static bigint -&gt; single FromBigInt(single arg0, FromBigInt arg1)
+  public static bigint -&gt; int64 FromBigInt(int64 arg0, FromBigInt arg1)
+  public static bigint -&gt; int32 FromBigInt(int32 arg0, FromBigInt arg1)
+  public static bigint -&gt; int16 FromBigInt(int16 arg0, FromBigInt arg1)
+  public static bigint -&gt; int8 FromBigInt(int8 arg0, FromBigInt arg1)
+  public static bigint -&gt; uint64 FromBigInt(uint64 arg0, FromBigInt arg1)
+  public static bigint -&gt; uint32 FromBigInt(uint32 arg0, FromBigInt arg1)
+  public static bigint -&gt; uint16 FromBigInt(uint16 arg0, FromBigInt arg1)
+  public static bigint -&gt; uint8 FromBigInt(uint8 arg0, FromBigInt arg1)
+  public static bigint -&gt; bigint FromBigInt(bigint arg0, FromBigInt arg1)
+  public static ^Num Invoke(bigint x)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">FromBigInt</span></div>
 
 
 
@@ -145,7 +175,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : unativeint -&gt; FromBigInt -&gt; bigint -&gt; unativeint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_unativeint_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_unativeint_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_unativeint_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:unativeint * arg1:FromBigInt -&gt; bigint -&gt; unativeint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_unativeint_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; unativeint FromBigInt(unativeint arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -170,7 +215,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : nativeint -&gt; FromBigInt -&gt; bigint -&gt; nativeint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_nativeint_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_nativeint_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_nativeint_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:nativeint * arg1:FromBigInt -&gt; bigint -&gt; nativeint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_nativeint_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; nativeint FromBigInt(nativeint arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -195,7 +255,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : decimal -&gt; FromBigInt -&gt; bigint -&gt; decimal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_decimal_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_decimal_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_decimal_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:decimal * arg1:FromBigInt -&gt; bigint -&gt; decimal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_decimal_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; decimal FromBigInt(decimal arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -220,7 +295,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : double -&gt; FromBigInt -&gt; bigint -&gt; double</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_double_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_double_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_double_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:double * arg1:FromBigInt -&gt; bigint -&gt; double</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_double_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; double FromBigInt(double arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -245,7 +335,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : single -&gt; FromBigInt -&gt; bigint -&gt; single</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_single_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_single_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_single_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:single * arg1:FromBigInt -&gt; bigint -&gt; single</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_single_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; single FromBigInt(single arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -270,7 +375,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : int64 -&gt; FromBigInt -&gt; bigint -&gt; int64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int64_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_int64_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int64_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:int64 * arg1:FromBigInt -&gt; bigint -&gt; int64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_int64_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; int64 FromBigInt(int64 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -295,7 +415,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : int32 -&gt; FromBigInt -&gt; bigint -&gt; int32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int32_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_int32_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int32_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:int32 * arg1:FromBigInt -&gt; bigint -&gt; int32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_int32_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; int32 FromBigInt(int32 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -320,7 +455,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : int16 -&gt; FromBigInt -&gt; bigint -&gt; int16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int16_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_int16_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int16_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:int16 * arg1:FromBigInt -&gt; bigint -&gt; int16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_int16_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; int16 FromBigInt(int16 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -345,7 +495,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : int8 -&gt; FromBigInt -&gt; bigint -&gt; int8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int8_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_int8_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_int8_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:int8 * arg1:FromBigInt -&gt; bigint -&gt; int8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_int8_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; int8 FromBigInt(int8 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -370,7 +535,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : uint64 -&gt; FromBigInt -&gt; bigint -&gt; uint64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint64_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint64_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint64_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:uint64 * arg1:FromBigInt -&gt; bigint -&gt; uint64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint64_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; uint64 FromBigInt(uint64 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -395,7 +575,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : uint32 -&gt; FromBigInt -&gt; bigint -&gt; uint32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint32_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint32_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint32_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:uint32 * arg1:FromBigInt -&gt; bigint -&gt; uint32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint32_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; uint32 FromBigInt(uint32 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -420,7 +615,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : uint16 -&gt; FromBigInt -&gt; bigint -&gt; uint16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint16_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint16_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint16_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:uint16 * arg1:FromBigInt -&gt; bigint -&gt; uint16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint16_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; uint16 FromBigInt(uint16 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -445,7 +655,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : uint8 -&gt; FromBigInt -&gt; bigint -&gt; uint8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint8_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint8_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_uint8_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:uint8 * arg1:FromBigInt -&gt; bigint -&gt; uint8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_uint8_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; uint8 FromBigInt(uint8 arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -470,7 +695,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val FromBigInt : bigint -&gt; FromBigInt -&gt; bigint -&gt; bigint</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_FromBigInt_bigint_FromBigInt" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_FromBigInt_bigint_FromBigInt" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_FromBigInt_bigint_FromBigInt">
+        <pre><code class="lang-fsharp hljs">member FromBigInt : arg0:bigint * arg1:FromBigInt -&gt; bigint -&gt; bigint</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_FromBigInt_bigint_FromBigInt">
+        <pre><code class="lang-csharp hljs">public static bigint -&gt; bigint FromBigInt(bigint arg0, FromBigInt arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -495,7 +735,22 @@ Class FromBigInt  <a class="header-action link-secondary" title="View source" hr
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Invoke : bigint -&gt; ^Num</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FromBigInt_Invoke_bigint" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FromBigInt_Invoke_bigint" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FromBigInt_Invoke_bigint">
+        <pre><code class="lang-fsharp hljs">member Invoke : bigint -&gt; ^Num</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FromBigInt_Invoke_bigint">
+        <pre><code class="lang-csharp hljs">public static ^Num Invoke(bigint x)</code></pre>
+      </div>
+    </div>
   </div>
 
 

@@ -100,38 +100,78 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type MinValue =
-  static member Invoke : ^a
-  static member MinValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * &#39;h -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7
-  static member MinValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6
-  static member MinValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5
-  static member MinValue : &#39;a * &#39;b * &#39;c * &#39;d * &#39;e -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4
-  static member MinValue : &#39;a * &#39;b * &#39;c * &#39;d -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3
-  static member MinValue : &#39;a * &#39;b * &#39;c -&gt; MinValue -&gt; ^a0 * ^b1 * ^c2
-  static member MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1
-  static member MinValue : TimeSpan -&gt; MinValue -&gt; TimeSpan
-  static member MinValue : DateTimeOffset -&gt; MinValue -&gt; DateTimeOffset
-  static member MinValue : DateTime -&gt; MinValue -&gt; DateTime
-  static member MinValue : decimal -&gt; MinValue -&gt; decimal
-  static member MinValue : double -&gt; MinValue -&gt; double
-  static member MinValue : single -&gt; MinValue -&gt; single
-  static member MinValue : int64 -&gt; MinValue -&gt; int64
-  static member MinValue : int32 -&gt; MinValue -&gt; int32
-  static member MinValue : int16 -&gt; MinValue -&gt; int16
-  static member MinValue : int8 -&gt; MinValue -&gt; int8
-  static member MinValue : uint64 -&gt; MinValue -&gt; uint64
-  static member MinValue : uint32 -&gt; MinValue -&gt; uint32
-  static member MinValue : uint16 -&gt; MinValue -&gt; uint16
-  static member MinValue : uint8 -&gt; MinValue -&gt; uint8
-  static member MinValue : char -&gt; MinValue -&gt; char
-  static member MinValue : bool -&gt; MinValue -&gt; bool
-  static member MinValue : unit -&gt; MinValue -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue">
+        <pre><code class="lang-fsharp hljs">type MinValue =
+  member Invoke : ^a
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * &#39;h * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * &#39;g * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * &#39;f * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * &#39;e * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3 * ^e4
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * &#39;d * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2 * ^d3
+  member MinValue : arg0:&#39;a * &#39;b * &#39;c * arg1:MinValue -&gt; ^a0 * ^b1 * ^c2
+  member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1
+  member MinValue : arg0:TimeSpan * arg1:MinValue -&gt; TimeSpan
+  member MinValue : arg0:DateTimeOffset * arg1:MinValue -&gt; DateTimeOffset
+  member MinValue : arg0:DateTime * arg1:MinValue -&gt; DateTime
+  member MinValue : arg0:decimal * arg1:MinValue -&gt; decimal
+  member MinValue : arg0:double * arg1:MinValue -&gt; double
+  member MinValue : arg0:single * arg1:MinValue -&gt; single
+  member MinValue : arg0:int64 * arg1:MinValue -&gt; int64
+  member MinValue : arg0:int32 * arg1:MinValue -&gt; int32
+  member MinValue : arg0:int16 * arg1:MinValue -&gt; int16
+  member MinValue : arg0:int8 * arg1:MinValue -&gt; int8
+  member MinValue : arg0:uint64 * arg1:MinValue -&gt; uint64
+  member MinValue : arg0:uint32 * arg1:MinValue -&gt; uint32
+  member MinValue : arg0:uint16 * arg1:MinValue -&gt; uint16
+  member MinValue : arg0:uint8 * arg1:MinValue -&gt; uint8
+  member MinValue : arg0:char * arg1:MinValue -&gt; char
+  member MinValue : arg0:bool * arg1:MinValue -&gt; bool
+  member MinValue : ():unit * arg1:MinValue -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue">
+        <pre><code class="lang-csharp hljs">public class MinValue {
+  public static ^a Invoke()
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 * ^h7 MinValue((a, b, c, d, e, f, g, h) arg0, MinValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 * ^g6 MinValue((a, b, c, d, e, f, g) arg0, MinValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 * ^f5 MinValue((a, b, c, d, e, f) arg0, MinValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 * ^e4 MinValue((a, b, c, d, e) arg0, MinValue arg1)
+  public static ^a0 * ^b1 * ^c2 * ^d3 MinValue((a, b, c, d) arg0, MinValue arg1)
+  public static ^a0 * ^b1 * ^c2 MinValue((a, b, c) arg0, MinValue arg1)
+  public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)
+  public static TimeSpan MinValue(TimeSpan arg0, MinValue arg1)
+  public static DateTimeOffset MinValue(DateTimeOffset arg0, MinValue arg1)
+  public static DateTime MinValue(DateTime arg0, MinValue arg1)
+  public static decimal MinValue(decimal arg0, MinValue arg1)
+  public static double MinValue(double arg0, MinValue arg1)
+  public static single MinValue(single arg0, MinValue arg1)
+  public static int64 MinValue(int64 arg0, MinValue arg1)
+  public static int32 MinValue(int32 arg0, MinValue arg1)
+  public static int16 MinValue(int16 arg0, MinValue arg1)
+  public static int8 MinValue(int8 arg0, MinValue arg1)
+  public static uint64 MinValue(uint64 arg0, MinValue arg1)
+  public static uint32 MinValue(uint32 arg0, MinValue arg1)
+  public static uint16 MinValue(uint16 arg0, MinValue arg1)
+  public static uint8 MinValue(uint8 arg0, MinValue arg1)
+  public static char MinValue(char arg0, MinValue arg1)
+  public static bool MinValue(bool arg0, MinValue arg1)
+  public static void MinValue(void (), MinValue arg1)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">MinValue</span></div>
 
 
 
@@ -155,7 +195,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val Invoke : ^a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_Invoke" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_Invoke" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_Invoke">
+        <pre><code class="lang-fsharp hljs">member Invoke : ^a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_Invoke">
+        <pre><code class="lang-csharp hljs">public static ^a Invoke()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -180,7 +235,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -205,7 +275,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -230,7 +315,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -255,7 +355,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -280,7 +395,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -305,7 +435,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -330,7 +475,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : &#39;a * &#39;b -&gt; MinValue -&gt; ^a0 * ^b1</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:&#39;a * &#39;b * arg1:MinValue -&gt; ^a0 * ^b1</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_a_MinValue">
+        <pre><code class="lang-csharp hljs">public static ^a0 * ^b1 MinValue((a, b) arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -355,7 +515,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : TimeSpan -&gt; MinValue -&gt; TimeSpan</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_TimeSpan_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_TimeSpan_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_TimeSpan_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:TimeSpan * arg1:MinValue -&gt; TimeSpan</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_TimeSpan_MinValue">
+        <pre><code class="lang-csharp hljs">public static TimeSpan MinValue(TimeSpan arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -380,7 +555,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : DateTimeOffset -&gt; MinValue -&gt; DateTimeOffset</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_DateTimeOffset_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_DateTimeOffset_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_DateTimeOffset_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:DateTimeOffset * arg1:MinValue -&gt; DateTimeOffset</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_DateTimeOffset_MinValue">
+        <pre><code class="lang-csharp hljs">public static DateTimeOffset MinValue(DateTimeOffset arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -405,7 +595,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : DateTime -&gt; MinValue -&gt; DateTime</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_DateTime_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_DateTime_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_DateTime_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:DateTime * arg1:MinValue -&gt; DateTime</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_DateTime_MinValue">
+        <pre><code class="lang-csharp hljs">public static DateTime MinValue(DateTime arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -430,7 +635,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : decimal -&gt; MinValue -&gt; decimal</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_decimal_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_decimal_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_decimal_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:decimal * arg1:MinValue -&gt; decimal</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_decimal_MinValue">
+        <pre><code class="lang-csharp hljs">public static decimal MinValue(decimal arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -455,7 +675,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : double -&gt; MinValue -&gt; double</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_double_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_double_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_double_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:double * arg1:MinValue -&gt; double</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_double_MinValue">
+        <pre><code class="lang-csharp hljs">public static double MinValue(double arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -480,7 +715,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : single -&gt; MinValue -&gt; single</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_single_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_single_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_single_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:single * arg1:MinValue -&gt; single</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_single_MinValue">
+        <pre><code class="lang-csharp hljs">public static single MinValue(single arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -505,7 +755,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : int64 -&gt; MinValue -&gt; int64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_int64_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_int64_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_int64_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:int64 * arg1:MinValue -&gt; int64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_int64_MinValue">
+        <pre><code class="lang-csharp hljs">public static int64 MinValue(int64 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -530,7 +795,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : int32 -&gt; MinValue -&gt; int32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_int32_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_int32_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_int32_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:int32 * arg1:MinValue -&gt; int32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_int32_MinValue">
+        <pre><code class="lang-csharp hljs">public static int32 MinValue(int32 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -555,7 +835,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : int16 -&gt; MinValue -&gt; int16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_int16_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_int16_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_int16_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:int16 * arg1:MinValue -&gt; int16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_int16_MinValue">
+        <pre><code class="lang-csharp hljs">public static int16 MinValue(int16 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -580,7 +875,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : int8 -&gt; MinValue -&gt; int8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_int8_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_int8_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_int8_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:int8 * arg1:MinValue -&gt; int8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_int8_MinValue">
+        <pre><code class="lang-csharp hljs">public static int8 MinValue(int8 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -605,7 +915,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : uint64 -&gt; MinValue -&gt; uint64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_uint64_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_uint64_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_uint64_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:uint64 * arg1:MinValue -&gt; uint64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_uint64_MinValue">
+        <pre><code class="lang-csharp hljs">public static uint64 MinValue(uint64 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -630,7 +955,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : uint32 -&gt; MinValue -&gt; uint32</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_uint32_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_uint32_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_uint32_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:uint32 * arg1:MinValue -&gt; uint32</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_uint32_MinValue">
+        <pre><code class="lang-csharp hljs">public static uint32 MinValue(uint32 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -655,7 +995,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : uint16 -&gt; MinValue -&gt; uint16</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_uint16_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_uint16_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_uint16_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:uint16 * arg1:MinValue -&gt; uint16</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_uint16_MinValue">
+        <pre><code class="lang-csharp hljs">public static uint16 MinValue(uint16 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -680,7 +1035,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : uint8 -&gt; MinValue -&gt; uint8</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_uint8_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_uint8_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_uint8_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:uint8 * arg1:MinValue -&gt; uint8</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_uint8_MinValue">
+        <pre><code class="lang-csharp hljs">public static uint8 MinValue(uint8 arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -705,7 +1075,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : char -&gt; MinValue -&gt; char</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_char_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_char_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_char_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:char * arg1:MinValue -&gt; char</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_char_MinValue">
+        <pre><code class="lang-csharp hljs">public static char MinValue(char arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -730,7 +1115,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : bool -&gt; MinValue -&gt; bool</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_bool_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_bool_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_bool_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : arg0:bool * arg1:MinValue -&gt; bool</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_bool_MinValue">
+        <pre><code class="lang-csharp hljs">public static bool MinValue(bool arg0, MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -755,7 +1155,22 @@ Class MinValue  <a class="header-action link-secondary" title="View source" href
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val MinValue : unit -&gt; MinValue -&gt; unit</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_MinValue_MinValue_unit_MinValue" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_MinValue_MinValue_unit_MinValue" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_MinValue_MinValue_unit_MinValue">
+        <pre><code class="lang-fsharp hljs">member MinValue : ():unit * arg1:MinValue -&gt; unit</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_MinValue_MinValue_unit_MinValue">
+        <pre><code class="lang-csharp hljs">public static void MinValue(void (), MinValue arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 

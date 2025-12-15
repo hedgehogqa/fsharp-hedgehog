@@ -101,7 +101,17 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Seed =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed">
+        <pre><code class="lang-fsharp hljs">type Seed =
   member from : uint64 -&gt; Seed
   member nextBigInt : bigint -&gt; bigint -&gt; Seed -&gt; bigint * Seed
   member nextDouble : double -&gt; double -&gt; Seed -&gt; double * Seed
@@ -111,12 +121,26 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   member random : unit -&gt; Seed
   member range : int64 * int64
   member split : Seed -&gt; Seed * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed">
+        <pre><code class="lang-csharp hljs">public class Seed {
+  public static Seed from(uint64 x)
+  public static (bigint, Seed) nextBigInt(bigint lo, bigint hi, Seed seed)
+  public static (double, Seed) nextDouble(double lo, double hi, Seed seed)
+  public static (int32, Seed) nextInt32(int32 lo, int32 hi, Seed seed)
+  public static (int64, Seed) nextInt64(int64 lo, int64 hi, Seed seed)
+  public static (uint64, Seed) nextUInt64(Seed seed)
+  public static Seed random(void ())
+  public static (int64, int64) range()
+  public static (Seed, Seed) split(Seed seed)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Seed</span></div>
 
 
 
@@ -141,7 +165,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val from : uint64 -&gt; Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_from_uint64" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_from_uint64" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_from_uint64">
+        <pre><code class="lang-fsharp hljs">member from : uint64 -&gt; Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_from_uint64">
+        <pre><code class="lang-csharp hljs">public static Seed from(uint64 x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -167,7 +206,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val random : unit -&gt; Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_random_unit" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_random_unit" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_random_unit">
+        <pre><code class="lang-fsharp hljs">member random : unit -&gt; Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_random_unit">
+        <pre><code class="lang-csharp hljs">public static Seed random(void ())</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -193,7 +247,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val range : int64 * int64</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_range">
+        <pre><code class="lang-fsharp hljs">member range : int64 * int64</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_range">
+        <pre><code class="lang-csharp hljs">public static (int64, int64) range()</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -219,7 +288,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val nextUInt64 : Seed -&gt; uint64 * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_nextUInt64_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_nextUInt64_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_nextUInt64_Seed">
+        <pre><code class="lang-fsharp hljs">member nextUInt64 : Seed -&gt; uint64 * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_nextUInt64_Seed">
+        <pre><code class="lang-csharp hljs">public static (uint64, Seed) nextUInt64(Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -245,7 +329,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val nextBigInt : bigint -&gt; bigint -&gt; Seed -&gt; bigint * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_nextBigInt_bigint_bigint_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_nextBigInt_bigint_bigint_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_nextBigInt_bigint_bigint_Seed">
+        <pre><code class="lang-fsharp hljs">member nextBigInt : bigint -&gt; bigint -&gt; Seed -&gt; bigint * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_nextBigInt_bigint_bigint_Seed">
+        <pre><code class="lang-csharp hljs">public static (bigint, Seed) nextBigInt(bigint lo, bigint hi, Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -271,7 +370,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val nextInt32 : int32 -&gt; int32 -&gt; Seed -&gt; int32 * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_nextInt32_int32_int32_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_nextInt32_int32_int32_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_nextInt32_int32_int32_Seed">
+        <pre><code class="lang-fsharp hljs">member nextInt32 : int32 -&gt; int32 -&gt; Seed -&gt; int32 * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_nextInt32_int32_int32_Seed">
+        <pre><code class="lang-csharp hljs">public static (int32, Seed) nextInt32(int32 lo, int32 hi, Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -297,7 +411,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val nextInt64 : int64 -&gt; int64 -&gt; Seed -&gt; int64 * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_nextInt64_int64_int64_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_nextInt64_int64_int64_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_nextInt64_int64_int64_Seed">
+        <pre><code class="lang-fsharp hljs">member nextInt64 : int64 -&gt; int64 -&gt; Seed -&gt; int64 * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_nextInt64_int64_int64_Seed">
+        <pre><code class="lang-csharp hljs">public static (int64, Seed) nextInt64(int64 lo, int64 hi, Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -323,7 +452,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val nextDouble : double -&gt; double -&gt; Seed -&gt; double * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_nextDouble_double_double_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_nextDouble_double_double_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_nextDouble_double_double_Seed">
+        <pre><code class="lang-fsharp hljs">member nextDouble : double -&gt; double -&gt; Seed -&gt; double * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_nextDouble_double_double_Seed">
+        <pre><code class="lang-csharp hljs">public static (double, Seed) nextDouble(double lo, double hi, Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -349,7 +493,22 @@ Class Seed  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val split : Seed -&gt; Seed * Seed</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Seed_split_Seed" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Seed_split_Seed" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Seed_split_Seed">
+        <pre><code class="lang-fsharp hljs">member split : Seed -&gt; Seed * Seed</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Seed_split_Seed">
+        <pre><code class="lang-csharp hljs">public static (Seed, Seed) split(Seed seed)</code></pre>
+      </div>
+    </div>
   </div>
 
 

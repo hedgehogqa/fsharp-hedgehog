@@ -100,17 +100,34 @@ Class PropertyConfigExtensions  <a class="header-action link-secondary" title="V
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class PropertyConfigExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyConfigExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions">
+        <pre><code class="lang-fsharp hljs">type PropertyConfigExtensions =
+  member WithShrinks : config:IPropertyConfig * shrinkLimit:int&lt;MeasureProduct&lt;shrinks, MeasureOne&gt;&gt; -&gt; IPropertyConfig
+  member WithTests : config:IPropertyConfig * testLimit:int&lt;MeasureProduct&lt;tests, MeasureOne&gt;&gt; -&gt; IPropertyConfig
+  member WithoutShrinks : IPropertyConfig -&gt; IPropertyConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyConfigExtensions">
+        <pre><code class="lang-csharp hljs">public class PropertyConfigExtensions {
   public static IPropertyConfig WithShrinks(this IPropertyConfig config, int&lt;MeasureProduct&lt;shrinks, MeasureOne&gt;&gt; shrinkLimit)
   public static IPropertyConfig WithTests(this IPropertyConfig config, int&lt;MeasureProduct&lt;tests, MeasureOne&gt;&gt; testLimit)
   public static IPropertyConfig WithoutShrinks(this IPropertyConfig config)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">PropertyConfigExtensions</span></div>
 
 
 
@@ -136,7 +153,22 @@ runner gives up and displays the counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IPropertyConfig WithShrinks(this IPropertyConfig config, int&lt;MeasureProduct&lt;shrinks, MeasureOne&gt;&gt; shrinkLimit)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithShrinks_IPropertyConfig_int" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithShrinks_IPropertyConfig_int" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithShrinks_IPropertyConfig_int">
+        <pre><code class="lang-fsharp hljs">member WithShrinks : config:IPropertyConfig * shrinkLimit:int&lt;MeasureProduct&lt;shrinks, MeasureOne&gt;&gt; -&gt; IPropertyConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithShrinks_IPropertyConfig_int">
+        <pre><code class="lang-csharp hljs">public static IPropertyConfig WithShrinks(this IPropertyConfig config, int&lt;MeasureProduct&lt;shrinks, MeasureOne&gt;&gt; shrinkLimit)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -163,7 +195,22 @@ considered successful.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IPropertyConfig WithTests(this IPropertyConfig config, int&lt;MeasureProduct&lt;tests, MeasureOne&gt;&gt; testLimit)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithTests_IPropertyConfig_int" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithTests_IPropertyConfig_int" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithTests_IPropertyConfig_int">
+        <pre><code class="lang-fsharp hljs">member WithTests : config:IPropertyConfig * testLimit:int&lt;MeasureProduct&lt;tests, MeasureOne&gt;&gt; -&gt; IPropertyConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithTests_IPropertyConfig_int">
+        <pre><code class="lang-csharp hljs">public static IPropertyConfig WithTests(this IPropertyConfig config, int&lt;MeasureProduct&lt;tests, MeasureOne&gt;&gt; testLimit)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -189,7 +236,22 @@ considered successful.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IPropertyConfig WithoutShrinks(this IPropertyConfig config)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithoutShrinks_IPropertyConfig" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithoutShrinks_IPropertyConfig" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_PropertyConfigExtensions_WithoutShrinks_IPropertyConfig">
+        <pre><code class="lang-fsharp hljs">member WithoutShrinks : IPropertyConfig -&gt; IPropertyConfig</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_PropertyConfigExtensions_WithoutShrinks_IPropertyConfig">
+        <pre><code class="lang-csharp hljs">public static IPropertyConfig WithoutShrinks(this IPropertyConfig config)</code></pre>
+      </div>
+    </div>
   </div>
 
 

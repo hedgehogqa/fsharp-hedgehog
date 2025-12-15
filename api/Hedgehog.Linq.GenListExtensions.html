@@ -100,19 +100,38 @@ Class GenListExtensions  <a class="header-action link-secondary" title="View sou
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class GenListExtensions {
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions">
+        <pre><code class="lang-fsharp hljs">type GenListExtensions =
+  member AddElement : self:Gen&lt;ResizeArray&lt;&#39;T&gt;&gt; * x:&#39;T -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;
+  member NotContains : self:Gen&lt;ResizeArray&lt;&#39;T&gt;&gt; * value:&#39;T -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;
+  member NotIn : self:Gen&lt;&#39;T&gt; * values:ResizeArray&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;
+  member Sequence : Gen&lt;&#39;T&gt; seq -&gt; Gen&lt;&#39;T seq&gt;
+  member Traverse : self:&#39;T seq * f:Func&lt;&#39;T, Gen&lt;&#39;TResult&gt;&gt; -&gt; Gen&lt;&#39;TResult seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions">
+        <pre><code class="lang-csharp hljs">public class GenListExtensions {
   public static Gen&lt;ResizeArray&lt;T&gt;&gt; AddElement(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T x)
   public static Gen&lt;ResizeArray&lt;T&gt;&gt; NotContains(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T value)
   public static Gen&lt;T&gt; NotIn(this Gen&lt;T&gt; self, ResizeArray&lt;T&gt; values)
   public static Gen&lt;TIEnumerable&gt; Sequence(this Gen&lt;T&gt;IEnumerable self)
   public static Gen&lt;TResultIEnumerable&gt; Traverse(this TIEnumerable self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)
 }</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">GenListExtensions</span></div>
 
 
 
@@ -136,7 +155,22 @@ Class GenListExtensions  <a class="header-action link-secondary" title="View sou
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; AddElement(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T x)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions_AddElement_Gen_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions_AddElement_Gen_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions_AddElement_Gen_T">
+        <pre><code class="lang-fsharp hljs">member AddElement : self:Gen&lt;ResizeArray&lt;&#39;T&gt;&gt; * x:&#39;T -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions_AddElement_Gen_T">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; AddElement(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -163,7 +197,22 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; NotContains(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T value)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions_NotContains_Gen_T" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions_NotContains_Gen_T" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions_NotContains_Gen_T">
+        <pre><code class="lang-fsharp hljs">member NotContains : self:Gen&lt;ResizeArray&lt;&#39;T&gt;&gt; * value:&#39;T -&gt; Gen&lt;ResizeArray&lt;&#39;T&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions_NotContains_Gen_T">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;ResizeArray&lt;T&gt;&gt; NotContains(this Gen&lt;ResizeArray&lt;T&gt;&gt; self, T value)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -189,7 +238,22 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NotIn(this Gen&lt;T&gt; self, ResizeArray&lt;T&gt; values)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions_NotIn_Gen_ResizeArray" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions_NotIn_Gen_ResizeArray" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions_NotIn_Gen_ResizeArray">
+        <pre><code class="lang-fsharp hljs">member NotIn : self:Gen&lt;&#39;T&gt; * values:ResizeArray&lt;&#39;T&gt; -&gt; Gen&lt;&#39;T&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions_NotIn_Gen_ResizeArray">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;T&gt; NotIn(this Gen&lt;T&gt; self, ResizeArray&lt;T&gt; values)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -215,7 +279,22 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Sequence(this Gen&lt;T&gt;IEnumerable self)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions_Sequence_Gen" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions_Sequence_Gen" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions_Sequence_Gen">
+        <pre><code class="lang-fsharp hljs">member Sequence : Gen&lt;&#39;T&gt; seq -&gt; Gen&lt;&#39;T seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions_Sequence_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TIEnumerable&gt; Sequence(this Gen&lt;T&gt;IEnumerable self)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -241,7 +320,22 @@ Shortcut for Gen.filter (not &lt;&lt; List.contains x).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Gen&lt;TResultIEnumerable&gt; Traverse(this TIEnumerable self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_GenListExtensions_Traverse_T_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_GenListExtensions_Traverse_T_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_GenListExtensions_Traverse_T_Func">
+        <pre><code class="lang-fsharp hljs">member Traverse : self:&#39;T seq * f:Func&lt;&#39;T, Gen&lt;&#39;TResult&gt;&gt; -&gt; Gen&lt;&#39;TResult seq&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_GenListExtensions_Traverse_T_Func">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;TResultIEnumerable&gt; Traverse(this TIEnumerable self, Func&lt;T, Gen&lt;TResult&gt;&gt; f)</code></pre>
+      </div>
+    </div>
   </div>
 
 

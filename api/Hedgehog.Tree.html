@@ -100,7 +100,17 @@ Class Tree  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">type Tree =
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree">
+        <pre><code class="lang-fsharp hljs">type Tree =
   member addChild : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
   member addChildValue : &#39;a -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;
   member apply : Tree&lt;&#39;a&gt; -&gt; Tree&lt;(&#39;a -&gt; &#39;b)&gt; -&gt; Tree&lt;&#39;b&gt;
@@ -125,12 +135,41 @@ Class Tree  <a class="header-action link-secondary" title="View source" href="ht
   member toSeq : Tree&lt;&#39;a&gt; -&gt; &#39;a seq
   member unfold : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt;
   member unfoldForest : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree">
+        <pre><code class="lang-csharp hljs">public class Tree {
+  public static Tree&lt;a&gt; addChild(Tree&lt;a&gt; child, Tree&lt;a&gt; parent)
+  public static Tree&lt;a&gt; addChildValue(a a, Tree&lt;a&gt; tree)
+  public static Tree&lt;b&gt; apply(Tree&lt;a&gt; ta, Tree&lt;(a -&gt; b)&gt; tf)
+  public static Tree&lt;b&gt; bind(a -&gt; Tree&lt;b&gt; f, Tree&lt;a&gt; tree)
+  public static b cata(a -&gt; bIEnumerable -&gt; b f, Tree&lt;a&gt; arg1)
+  public static Tree&lt;a&gt; create(a a, Tree&lt;a&gt;IEnumerable children)
+  public static int depth(Tree&lt;a&gt; tree)
+  public static Tree&lt;Tree&lt;a&gt;&gt; duplicate(Tree&lt;a&gt; x)
+  public static Tree&lt;a&gt; expand(a -&gt; aIEnumerable f, Tree&lt;a&gt; arg1)
+  public static Tree&lt;a&gt; filter(a -&gt; bool f, Tree&lt;a&gt; arg1)
+  public static Tree&lt;a&gt;IEnumerable filterForest(a -&gt; bool f, Tree&lt;a&gt;IEnumerable xs)
+  public static b fold(a -&gt; x -&gt; b f, bIEnumerable -&gt; x g, Tree&lt;a&gt; arg2)
+  public static x foldForest(a -&gt; x -&gt; b f, bIEnumerable -&gt; x g, Tree&lt;a&gt;IEnumerable xs)
+  public static Tree&lt;a&gt; join(Tree&lt;Tree&lt;a&gt;&gt; xss)
+  public static Tree&lt;b&gt; map(a -&gt; b f, Tree&lt;a&gt; tree)
+  public static Tree&lt;b&gt; mapWithSubtrees(a -&gt; Tree&lt;b&gt;IEnumerable -&gt; b f, Tree&lt;a&gt; tree)
+  public static a outcome(Tree&lt;a&gt; arg0)
+  public static string render(Tree&lt;string&gt; t)
+  public static List&lt;string&gt; renderList(Tree&lt;string&gt; arg0)
+  public static Tree&lt;a&gt;IEnumerable shrinks(Tree&lt;a&gt; arg0)
+  public static Tree&lt;a&gt; singleton(a x)
+  public static aIEnumerable toSeq(Tree&lt;a&gt; tree)
+  public static Tree&lt;a&gt; unfold(b -&gt; a f, b -&gt; bIEnumerable g, b x)
+  public static Tree&lt;a&gt;IEnumerable unfoldForest(b -&gt; a f, b -&gt; bIEnumerable g, b x)
+}</code></pre>
+      </div>
+    </div>
   </div>
 
 
 
 
-      <div><span class="xref">Tree</span></div>
 
 
 
@@ -155,7 +194,22 @@ Class Tree  <a class="header-action link-secondary" title="View source" href="ht
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val outcome : Tree&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_outcome_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_outcome_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_outcome_Tree">
+        <pre><code class="lang-fsharp hljs">member outcome : Tree&lt;&#39;a&gt; -&gt; &#39;a</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_outcome_Tree">
+        <pre><code class="lang-csharp hljs">public static a outcome(Tree&lt;a&gt; arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -184,7 +238,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val shrinks : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_shrinks_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_shrinks_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_shrinks_Tree">
+        <pre><code class="lang-fsharp hljs">member shrinks : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_shrinks_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt;IEnumerable shrinks(Tree&lt;a&gt; arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -209,7 +278,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val create : &#39;a -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_create_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_create_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_create_a_Tree">
+        <pre><code class="lang-fsharp hljs">member create : &#39;a -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_create_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; create(a a, Tree&lt;a&gt;IEnumerable children)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -235,7 +319,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val singleton : &#39;a -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_singleton_a" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_singleton_a" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_singleton_a">
+        <pre><code class="lang-fsharp hljs">member singleton : &#39;a -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_singleton_a">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; singleton(a x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -260,7 +359,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val addChild : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_addChild_Tree_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_addChild_Tree_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_addChild_Tree_Tree">
+        <pre><code class="lang-fsharp hljs">member addChild : Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_addChild_Tree_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; addChild(Tree&lt;a&gt; child, Tree&lt;a&gt; parent)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -285,7 +399,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val addChildValue : &#39;a -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_addChildValue_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_addChildValue_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_addChildValue_a_Tree">
+        <pre><code class="lang-fsharp hljs">member addChildValue : &#39;a -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_addChildValue_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; addChildValue(a a, Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -310,7 +439,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val cata : &#39;a -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_cata_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_cata_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_cata_a_Tree">
+        <pre><code class="lang-fsharp hljs">member cata : &#39;a -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_cata_a_Tree">
+        <pre><code class="lang-csharp hljs">public static b cata(a -&gt; bIEnumerable -&gt; b f, Tree&lt;a&gt; arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -335,7 +479,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val depth : Tree&lt;&#39;a&gt; -&gt; int</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_depth_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_depth_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_depth_Tree">
+        <pre><code class="lang-fsharp hljs">member depth : Tree&lt;&#39;a&gt; -&gt; int</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_depth_Tree">
+        <pre><code class="lang-csharp hljs">public static int depth(Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -360,7 +519,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val toSeq : Tree&lt;&#39;a&gt; -&gt; &#39;a seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_toSeq_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_toSeq_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_toSeq_Tree">
+        <pre><code class="lang-fsharp hljs">member toSeq : Tree&lt;&#39;a&gt; -&gt; &#39;a seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_toSeq_Tree">
+        <pre><code class="lang-csharp hljs">public static aIEnumerable toSeq(Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -386,7 +560,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val map : &#39;a -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_map_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_map_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_map_a_Tree">
+        <pre><code class="lang-fsharp hljs">member map : &#39;a -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_map_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;b&gt; map(a -&gt; b f, Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -411,7 +600,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val mapWithSubtrees : &#39;a -&gt; Tree&lt;&#39;b&gt; seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_mapWithSubtrees_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_mapWithSubtrees_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_mapWithSubtrees_a_Tree">
+        <pre><code class="lang-fsharp hljs">member mapWithSubtrees : &#39;a -&gt; Tree&lt;&#39;b&gt; seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_mapWithSubtrees_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;b&gt; mapWithSubtrees(a -&gt; Tree&lt;b&gt;IEnumerable -&gt; b f, Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -436,7 +640,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val apply : Tree&lt;&#39;a&gt; -&gt; Tree&lt;(&#39;a -&gt; &#39;b)&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_apply_Tree_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_apply_Tree_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_apply_Tree_Tree">
+        <pre><code class="lang-fsharp hljs">member apply : Tree&lt;&#39;a&gt; -&gt; Tree&lt;(&#39;a -&gt; &#39;b)&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_apply_Tree_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;b&gt; apply(Tree&lt;a&gt; ta, Tree&lt;(a -&gt; b)&gt; tf)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -461,7 +680,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val bind : &#39;a -&gt; Tree&lt;&#39;b&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_bind_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_bind_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_bind_a_Tree">
+        <pre><code class="lang-fsharp hljs">member bind : &#39;a -&gt; Tree&lt;&#39;b&gt; -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;b&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_bind_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;b&gt; bind(a -&gt; Tree&lt;b&gt; f, Tree&lt;a&gt; tree)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -486,7 +720,22 @@ be tried (i.e. there is no backtracking).</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val join : Tree&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_join_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_join_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_join_Tree">
+        <pre><code class="lang-fsharp hljs">member join : Tree&lt;Tree&lt;&#39;a&gt;&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_join_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; join(Tree&lt;Tree&lt;a&gt;&gt; xss)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -515,7 +764,22 @@ counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val duplicate : Tree&lt;&#39;a&gt; -&gt; Tree&lt;Tree&lt;&#39;a&gt;&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_duplicate_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_duplicate_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_duplicate_Tree">
+        <pre><code class="lang-fsharp hljs">member duplicate : Tree&lt;&#39;a&gt; -&gt; Tree&lt;Tree&lt;&#39;a&gt;&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_duplicate_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;Tree&lt;a&gt;&gt; duplicate(Tree&lt;a&gt; x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -541,7 +805,22 @@ counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val fold : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_fold_a_b_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_fold_a_b_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_fold_a_b_Tree">
+        <pre><code class="lang-fsharp hljs">member fold : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; -&gt; &#39;b</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_fold_a_b_Tree">
+        <pre><code class="lang-csharp hljs">public static b fold(a -&gt; x -&gt; b f, bIEnumerable -&gt; x g, Tree&lt;a&gt; arg2)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -567,7 +846,22 @@ counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val foldForest : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; seq -&gt; &#39;x</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_foldForest_a_b_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_foldForest_a_b_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_foldForest_a_b_Tree">
+        <pre><code class="lang-fsharp hljs">member foldForest : &#39;a -&gt; &#39;x -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;x -&gt; Tree&lt;&#39;a&gt; seq -&gt; &#39;x</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_foldForest_a_b_Tree">
+        <pre><code class="lang-csharp hljs">public static x foldForest(a -&gt; x -&gt; b f, bIEnumerable -&gt; x g, Tree&lt;a&gt;IEnumerable xs)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -593,7 +887,22 @@ counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val unfold : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_unfold_b_b_b" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_unfold_b_b_b" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_unfold_b_b_b">
+        <pre><code class="lang-fsharp hljs">member unfold : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_unfold_b_b_b">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; unfold(b -&gt; a f, b -&gt; bIEnumerable g, b x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -619,7 +928,22 @@ counterexample.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val unfoldForest : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_unfoldForest_b_b_b" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_unfoldForest_b_b_b" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_unfoldForest_b_b_b">
+        <pre><code class="lang-fsharp hljs">member unfoldForest : &#39;b -&gt; &#39;a -&gt; &#39;b -&gt; &#39;b seq -&gt; &#39;b -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_unfoldForest_b_b_b">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt;IEnumerable unfoldForest(b -&gt; a f, b -&gt; bIEnumerable g, b x)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -650,7 +974,22 @@ function.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val expand : &#39;a -&gt; &#39;a seq -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_expand_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_expand_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_expand_a_Tree">
+        <pre><code class="lang-fsharp hljs">member expand : &#39;a -&gt; &#39;a seq -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_expand_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; expand(a -&gt; aIEnumerable f, Tree&lt;a&gt; arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -677,7 +1016,22 @@ Note that the root outcome can never be discarded.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val filter : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_filter_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_filter_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_filter_a_Tree">
+        <pre><code class="lang-fsharp hljs">member filter : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; -&gt; Tree&lt;&#39;a&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_filter_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt; filter(a -&gt; bool f, Tree&lt;a&gt; arg1)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -703,7 +1057,22 @@ Note that the root outcome can never be discarded.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val filterForest : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_filterForest_a_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_filterForest_a_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_filterForest_a_Tree">
+        <pre><code class="lang-fsharp hljs">member filterForest : &#39;a -&gt; bool -&gt; Tree&lt;&#39;a&gt; seq -&gt; Tree&lt;&#39;a&gt; seq</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_filterForest_a_Tree">
+        <pre><code class="lang-csharp hljs">public static Tree&lt;a&gt;IEnumerable filterForest(a -&gt; bool f, Tree&lt;a&gt;IEnumerable xs)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -728,7 +1097,22 @@ Note that the root outcome can never be discarded.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val renderList : Tree&lt;string&gt; -&gt; List&lt;string&gt;</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_renderList_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_renderList_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_renderList_Tree">
+        <pre><code class="lang-fsharp hljs">member renderList : Tree&lt;string&gt; -&gt; List&lt;string&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_renderList_Tree">
+        <pre><code class="lang-csharp hljs">public static List&lt;string&gt; renderList(Tree&lt;string&gt; arg0)</code></pre>
+      </div>
+    </div>
   </div>
 
 
@@ -753,7 +1137,22 @@ Note that the root outcome can never be discarded.</p>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-fsharp hljs">val render : Tree&lt;string&gt; -&gt; string</code></pre>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Tree_render_Tree" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Tree_render_Tree" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Tree_render_Tree">
+        <pre><code class="lang-fsharp hljs">member render : Tree&lt;string&gt; -&gt; string</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Tree_render_Tree">
+        <pre><code class="lang-csharp hljs">public static string render(Tree&lt;string&gt; t)</code></pre>
+      </div>
+    </div>
   </div>
 
 
