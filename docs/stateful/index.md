@@ -16,7 +16,7 @@ Let's build up the idea step by step. We'll use pseudocode to focus on concepts 
 
 Every command needs a name for clarity:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogIn"
 }
@@ -28,7 +28,7 @@ Here's where stateful testing gets interesting. Not all commands make sense at a
 
 We track this with a **model state**—a simple state representing what we know from interacting with the system. Commands can check this state and decide whether they're allowed to run:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogOut"
 
@@ -43,12 +43,12 @@ This way, Hedgehog only generates valid sequences. The `LogOut` command appears 
 
 Just like regular property tests, commands need test data. Each command defines how to generate its input:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogIn"
     Precondition(currentState): currentState.isLoggedIn
 
-    Gen: generateRandomUsername()
+    Generate(currentState): generateRandomUsername()
 }
 ```
 
@@ -56,11 +56,11 @@ Command {
 
 Now we need to actually *run* the command against the real system:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogIn"
     Precondition(currentState): currentState.isLoggedIn
-    Gen(currentState): generateRandomUsername()
+    Generate(currentState): generateRandomUsername()
     
     Execute(input):
         actualSystem.login(input.username)
@@ -73,11 +73,11 @@ The `Execute` method takes the generated input and performs the actual operation
 
 After executing a command, we need to update our model state to reflect what happened:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogIn"
     Precondition(currentState): currentState.isLoggedIn
-    Gen(currentState): generateRandomUsername()
+    Generate(currentState): generateRandomUsername()
     Execute(input): actualSystem.login(input.username)
     
     UpdateState(oldState, input, output):
@@ -91,11 +91,11 @@ This method takes the old state, the input we used, and the output we got, and p
 
 Finally, we need to verify that the system behaved correctly. The `Ensure` method checks whether everything went as expected:
 
-```pseudocode
+```javascript
 Command {
     Name: "LogIn"
     Precondition(currentState): currentState.isLoggedIn
-    Gen(currentState): generateRandomUsername()
+    Generate(currentState): generateRandomUsername()
     Execute(input): actualSystem.login(input.username)
     UpdateState(oldState, input, output): 
         oldState with { isLoggedIn: true, username: input.username }
