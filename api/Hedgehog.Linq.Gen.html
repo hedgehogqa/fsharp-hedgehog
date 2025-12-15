@@ -2189,75 +2189,31 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
-  Digit
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L144"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
+  UnicodeAll
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L132"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Digit.String(Range.Constant(5, 10))
-</code></pre>
+  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
+i.e. from '\000' to '\65535'.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Digit" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_UnicodeAll" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Digit" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_UnicodeAll" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Digit">
-        <pre><code class="lang-fsharp hljs">member Digit : Gen&lt;char&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_UnicodeAll">
+        <pre><code class="lang-fsharp hljs">member UnicodeAll : Gen&lt;char&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Digit">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Ipv4Address" data-uid="Hedgehog.Linq.Gen.Ipv4Address">
-  Ipv4Address
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L324"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random IPv4 address.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ipv4Address" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ipv4Address" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ipv4Address">
-        <pre><code class="lang-fsharp hljs">member Ipv4Address : Gen&lt;IPAddress&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ipv4Address">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv4Address()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_UnicodeAll">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
       </div>
     </div>
   </div>
@@ -2320,92 +2276,6 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Bool" data-uid="Hedgehog.Linq.Gen.Bool">
-  Bool
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L240"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random boolean.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Bool" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Bool" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Bool">
-        <pre><code class="lang-fsharp hljs">member Bool : Gen&lt;bool&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Bool">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;bool&gt; Bool()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
-  Unicode
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L210"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
-<p><strong>Example:</strong></p>
-<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
-</code></pre>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Unicode" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Unicode" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Unicode">
-        <pre><code class="lang-fsharp hljs">member Unicode : Gen&lt;char&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Unicode">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <h3 id="Hedgehog_Linq_Gen_Upper" data-uid="Hedgehog.Linq.Gen.Upper">
   Upper
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L168"><i class="bi bi-code-slash"></i></a>
@@ -2451,30 +2321,30 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_DomainName" data-uid="Hedgehog.Linq.Gen.DomainName">
-  DomainName
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L341"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Ipv4Address" data-uid="Hedgehog.Linq.Gen.Ipv4Address">
+  Ipv4Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L324"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
+  <div class="markdown level1 summary"><p>Generates a random IPv4 address.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_DomainName" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ipv4Address" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_DomainName" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ipv4Address" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_DomainName">
-        <pre><code class="lang-fsharp hljs">member DomainName : Gen&lt;string&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ipv4Address">
+        <pre><code class="lang-fsharp hljs">member Ipv4Address : Gen&lt;IPAddress&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_DomainName">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; DomainName()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ipv4Address">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv4Address()</code></pre>
       </div>
     </div>
   </div>
@@ -2492,117 +2362,34 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Ipv6Address" data-uid="Hedgehog.Linq.Gen.Ipv6Address">
-  Ipv6Address
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L328"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Digit" data-uid="Hedgehog.Linq.Gen.Digit">
+  Digit
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L144"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ipv6Address" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ipv6Address" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ipv6Address">
-        <pre><code class="lang-fsharp hljs">member Ipv6Address : Gen&lt;IPAddress&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ipv6Address">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv6Address()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
-  AlphaNumeric
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L236"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
+  <div class="markdown level1 summary"><p>Generates a random numerical character, i.e. from '0' to '9'.</p>
 <p><strong>Example:</strong></p>
 <p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
+<pre><code> Gen.Digit.String(Range.Constant(5, 10))
 </code></pre>
-<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_AlphaNumeric" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Digit" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_AlphaNumeric" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Digit" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_AlphaNumeric">
-        <pre><code class="lang-fsharp hljs">member AlphaNumeric : Gen&lt;char&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Digit">
+        <pre><code class="lang-fsharp hljs">member Digit : Gen&lt;char&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_AlphaNumeric">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_Uri" data-uid="Hedgehog.Linq.Gen.Uri">
-  Uri
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L337"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a random URI</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Uri" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Uri" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Uri">
-        <pre><code class="lang-fsharp hljs">member Uri : Gen&lt;Uri&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Uri">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Digit">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Digit()</code></pre>
       </div>
     </div>
   </div>
@@ -2666,35 +2453,35 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
-  Ascii
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L183"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
+  Alpha
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L223"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
-<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
+  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
 <p><strong>Example:</strong></p>
 <p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
+<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
 </code></pre>
+<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ascii" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Alpha" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ascii" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Alpha" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ascii">
-        <pre><code class="lang-fsharp hljs">member Ascii : Gen&lt;char&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Alpha">
+        <pre><code class="lang-fsharp hljs">member Alpha : Gen&lt;char&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ascii">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Alpha">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
       </div>
     </div>
   </div>
@@ -2753,77 +2540,35 @@ The generated subset will be in the same order as the input items.</p>
 
 
 
-  <h3 id="Hedgehog_Linq_Gen_Alpha" data-uid="Hedgehog.Linq.Gen.Alpha">
-  Alpha
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L223"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Linq_Gen_AlphaNumeric" data-uid="Hedgehog.Linq.Gen.AlphaNumeric">
+  AlphaNumeric
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L236"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates an alphabetic character, i.e. 'a' to 'z' or 'A' to 'Z'.</p>
+  <div class="markdown level1 summary"><p>Generates an alphanumeric character, i.e. 'a' to 'z', 'A' to 'Z', or '0' to '9'.</p>
 <p><strong>Example:</strong></p>
 <p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
-<pre><code> Gen.Alpha.String(Range.Constant(5, 10))
+<pre><code> Gen.AlphaNumeric.String(Range.Constant(5, 10))
 </code></pre>
-<p>This generates strings such as <code>Ldklk</code> or <code>aFDG</code></p>
+<p>This generates strings such as <code>Ld5lk</code> or <code>4dFDG</code></p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Alpha" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_AlphaNumeric" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Alpha" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_AlphaNumeric" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Alpha">
-        <pre><code class="lang-fsharp hljs">member Alpha : Gen&lt;char&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_AlphaNumeric">
+        <pre><code class="lang-fsharp hljs">member AlphaNumeric : Gen&lt;char&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Alpha">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Alpha()</code></pre>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <h3 id="Hedgehog_Linq_Gen_UnicodeAll" data-uid="Hedgehog.Linq.Gen.UnicodeAll">
-  UnicodeAll
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L132"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>Generates a Unicode character, including invalid standalone surrogates,
-i.e. from '\000' to '\65535'.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_UnicodeAll" type="button">F#</button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_UnicodeAll" type="button">C#</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_UnicodeAll">
-        <pre><code class="lang-fsharp hljs">member UnicodeAll : Gen&lt;char&gt;</code></pre>
-      </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_UnicodeAll">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; UnicodeAll()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_AlphaNumeric">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; AlphaNumeric()</code></pre>
       </div>
     </div>
   </div>
@@ -2883,6 +2628,93 @@ with a higher chance of generating an IPv4 address.</p>
 
 
 
+  <h3 id="Hedgehog_Linq_Gen_Uri" data-uid="Hedgehog.Linq.Gen.Uri">
+  Uri
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L337"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random URI</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Uri" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Uri" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Uri">
+        <pre><code class="lang-fsharp hljs">member Uri : Gen&lt;Uri&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Uri">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;Uri&gt; Uri()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Ascii" data-uid="Hedgehog.Linq.Gen.Ascii">
+  Ascii
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L183"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random ASCII character, i.e. from '\000' to '\127', i.e. any 7 bit character.</p>
+<p>Non-printable and control characters can be generated, e.g. NULL and BEL.</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Ascii.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ascii" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ascii" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ascii">
+        <pre><code class="lang-fsharp hljs">member Ascii : Gen&lt;char&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ascii">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Ascii()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3 id="Hedgehog_Linq_Gen_Email" data-uid="Hedgehog.Linq.Gen.Email">
   Email
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L375"><i class="bi bi-code-slash"></i></a>
@@ -2907,6 +2739,174 @@ with a higher chance of generating an IPv4 address.</p>
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Email">
         <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; Email()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Ipv6Address" data-uid="Hedgehog.Linq.Gen.Ipv6Address">
+  Ipv6Address
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L328"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random IPv6 address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Ipv6Address" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Ipv6Address" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Ipv6Address">
+        <pre><code class="lang-fsharp hljs">member Ipv6Address : Gen&lt;IPAddress&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Ipv6Address">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;IPAddress&gt; Ipv6Address()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_DomainName" data-uid="Hedgehog.Linq.Gen.DomainName">
+  DomainName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L341"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random valid domain name.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_DomainName" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_DomainName" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_DomainName">
+        <pre><code class="lang-fsharp hljs">member DomainName : Gen&lt;string&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_DomainName">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;string&gt; DomainName()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Unicode" data-uid="Hedgehog.Linq.Gen.Unicode">
+  Unicode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L210"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a Unicode character, excluding non-characters ('\65534' and '\65535') and invalid standalone surrogates (from '\55296' to '\57343').</p>
+<p><strong>Example:</strong></p>
+<p>Combine with <a href="https://learn.microsoft.com/dotnet/api/hedgehog.linq.genextensions.string">String</a> to create strings of a desired length.</p>
+<pre><code> Gen.Unicode.String(Range.Constant(5, 10))
+</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Unicode" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Unicode" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Unicode">
+        <pre><code class="lang-fsharp hljs">member Unicode : Gen&lt;char&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Unicode">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;char&gt; Unicode()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Linq_Gen_Bool" data-uid="Hedgehog.Linq.Gen.Bool">
+  Bool
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Linq/Gen.fs/#L240"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random boolean.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Linq_Gen_Bool" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Linq_Gen_Bool" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Linq_Gen_Bool">
+        <pre><code class="lang-fsharp hljs">member Bool : Gen&lt;bool&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Linq_Gen_Bool">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;bool&gt; Bool()</code></pre>
       </div>
     </div>
   </div>

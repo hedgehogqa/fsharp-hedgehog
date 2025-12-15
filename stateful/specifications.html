@@ -235,17 +235,17 @@ public void Counter_BehavesCorrectly()
         ];
     
     // Main test commands
-    public override ICommand&lt;Counter, CounterState&gt;[] Commands =&gt; new[]
-    {
-        new IncrementCommand(),
-        new DecrementCommand()
-    };
+    public override ICommand&lt;Counter, CounterState&gt;[] Commands =&gt; 
+        [
+            new IncrementCommand(),
+            new DecrementCommand()
+        ];
     
     // Cleanup runs AFTER the test sequence
-    public override ICommand&lt;Counter, CounterState&gt;[] CleanupCommands =&gt; new[]
-    {
-        new ResetCommand()  // e.g., reset counter to 0
-    };
+    public override ICommand&lt;Counter, CounterState&gt;[] CleanupCommands =&gt; 
+        [
+            new ResetCommand()  // e.g., reset counter to 0
+        ];
 }
 </code></pre>
 </section>
