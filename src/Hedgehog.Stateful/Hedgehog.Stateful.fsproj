@@ -3,6 +3,19 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Version>0.5.0-beta1</Version>
+        <Description>Stateful testing for Hedgehog</Description>
+        <Authors>Alexey Raga</Authors>
+        <Copyright>Copyright © 2025</Copyright>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageId>Hedgehog.Stateful</PackageId>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog/</PackageProjectUrl>
+        <PackageIcon>hedgehog-logo.png</PackageIcon>
+        <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
+        <PackageTags>fsharp;f#;c#;csharp;dotnet;testing</PackageTags>
+        <RepositoryUrl>https://github.com/hedgehogqa/fsharp-hedgehog</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +33,12 @@
       <Compile Include="SequentialSpecification.fs" />
       <Compile Include="ParallelSpecification.fs" />
       <Compile Include="Linq\NoInput.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
     </ItemGroup>
 
 </Project>
