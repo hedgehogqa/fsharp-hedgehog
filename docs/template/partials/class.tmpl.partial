@@ -24,7 +24,22 @@
 
 {{#syntax}}
 <div class="codewrapper">
-  <pre><code class="lang-{{#langs.0}}{{langs.0}}{{/langs.0}}{{^langs.0}}csharp{{/langs.0}} hljs">{{syntax.content.0.value}}</code></pre>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-{{id}}" type="button">F#</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-{{id}}" type="button">C#</button>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane show active" id="tab-fsharp-{{id}}">
+      <pre><code class="lang-fsharp hljs">{{syntax.content.0.value}}</code></pre>
+    </div>
+    <div class="tab-pane" id="tab-csharp-{{id}}">
+      <pre><code class="lang-csharp hljs">{{syntax.content.1.value}}</code></pre>
+    </div>
+  </div>
 </div>
 
 {{#syntax.parameters.0}}

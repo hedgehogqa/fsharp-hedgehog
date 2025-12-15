@@ -30,6 +30,13 @@
           "xunit/**/toc.yml",
           "xunit/toc.yml"
         ]
+      },
+      {
+        "files": [
+          "stateful/**.md",
+          "stateful/**/toc.yml",
+          "stateful/toc.yml"
+        ]
       }
     ],
     "resource": [
@@ -57,6 +64,7 @@
       "_enableSearch": true,
       "pdf": false,
       "_languages": {
+        "Hedgehog.Stateful.Linq": "csharp",
         "Hedgehog.Linq": "csharp",
         "Hedgehog.FSharp": "fsharp"
       },
@@ -64,6 +72,7 @@
     },
     "fileMetadata": {
       "_lang": {
+        "api/Hedgehog.Stateful.Linq*.yml": "csharp",
         "api/Hedgehog.Linq*.yml": "csharp",
         "api/Hedgehog.FSharp*.yml": "fsharp",
         "api/Hedgehog*.yml": "fsharp"
