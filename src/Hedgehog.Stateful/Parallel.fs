@@ -64,45 +64,75 @@ module Parallel =
             }
         }
 
-    let interleavings (xs: 'a list) (ys: 'a list) : 'a list seq =
-        let rec loop xs ys =
-            seq {
-                match xs, ys with
-                | [], [] -> yield []
-                | x :: xs', [] -> yield! loop xs' [] |> Seq.map (fun rest -> x :: rest)
-                | [], y :: ys' -> yield! loop [] ys' |> Seq.map (fun rest -> y :: rest)
-                | x :: xs', y :: ys' ->
-                    yield! loop xs' ys |> Seq.map (fun rest -> x :: rest)
-                    yield! loop xs ys' |> Seq.map (fun rest -> y :: rest)
-            }
-        loop xs ys
-
-    let internal checkLinearization
+    /// Check if there exists a valid interleaving of two action branches.
+    /// This function integrates interleaving generation with validation, allowing early
+    /// termination and pruning of invalid branches for better performance.
+    /// Instead of generating all O(2^(n+m)) interleavings, it searches depth-first
+    /// and stops as soon as a valid interleaving is found.
+    let internal isLinearizable
         (initial: 'TState)
         (prefix: Action<'TSystem, 'TState> list)
-        (interleaving: Action<'TSystem, 'TState> list)
+        (branch1: Action<'TSystem, 'TState> list)
+        (branch2: Action<'TSystem, 'TState> list)
         (results: Map<string, obj>)
         : bool =
-        let rec runActions state env actions =
-            match actions with
-            | [] -> Some (state, env)
-            | a :: rest ->
-                if not (a.Precondition state && a.Require env state) then None
-                else
-                    match Map.tryFind a.Name results with
-                    | None -> None
-                    | Some output ->
-                        let name, env' = Env.freshName env
-                        let outputVar = Var.bound name
-                        let env'' = Env.add outputVar output env'
-                        let state' = a.Update state outputVar
-                        runActions state' env'' rest
 
-        match runActions initial Env.empty prefix with
+        /// Try to execute a single action and return the new state/env if successful
+        let tryExecuteAction state env (action: Action<'TSystem, 'TState>) =
+            if not (action.Precondition state && action.Require env state) then
+                None
+            else
+                match Map.tryFind action.Name results with
+                | None -> None
+                | Some output ->
+                    let name, env' = Env.freshName env
+                    let outputVar = Var.bound name
+                    let env'' = Env.add outputVar output env'
+                    let state' = action.Update state outputVar
+                    Some (state', env'')
+
+        /// Recursively search for a valid interleaving of the two branches.
+        /// Returns true as soon as a valid interleaving is found (early termination).
+        /// Prunes branches that fail preconditions or action execution.
+        let rec searchInterleavings state env xs ys =
+            match xs, ys with
+            | [], [] ->
+                // Successfully reached the end - found a valid interleaving
+                true
+            | x :: xs', [] ->
+                // Only branch1 actions remaining
+                match tryExecuteAction state env x with
+                | Some (state', env') -> searchInterleavings state' env' xs' []
+                | None -> false
+            | [], y :: ys' ->
+                // Only branch2 actions remaining
+                match tryExecuteAction state env y with
+                | Some (state', env') -> searchInterleavings state' env' [] ys'
+                | None -> false
+            | x :: xs', y :: ys' ->
+                // Both branches have actions - try both orderings
+                // First try executing action from branch1
+                match tryExecuteAction state env x with
+                | Some (state', env') when searchInterleavings state' env' xs' ys ->
+                    true  // Found valid path through branch1 first
+                | _ ->
+                    // Branch1 first either failed or led to invalid path, try branch2 first
+                    match tryExecuteAction state env y with
+                    | Some (state', env') -> searchInterleavings state' env' xs ys'
+                    | None -> false
+
+        /// First execute the prefix sequentially
+        let rec runPrefix state env = function
+            | [] -> Some (state, env)
+            | action :: rest ->
+                match tryExecuteAction state env action with
+                | Some (state', env') -> runPrefix state' env' rest
+                | None -> None
+
+        // Execute prefix, then search for valid interleaving of branches
+        match runPrefix initial Env.empty prefix with
         | None -> false
-        | Some (stateAfterPrefix, envAfterPrefix) ->
-            runActions stateAfterPrefix envAfterPrefix interleaving
-            |> Option.isSome
+        | Some (state, env) -> searchInterleavings state env branch1 branch2
 
     let internal executeWithSUT (sut: 'TSystem) (actions: ParallelActions<'TSystem, 'TState>) : Property<unit> =
         let formatActionName (action: Action<'TSystem, 'TState>) : string =
@@ -194,13 +224,10 @@ module Parallel =
                         [ yield! prefixResults; yield! results1; yield! results2 ]
                         |> Map.ofList
 
-                    let isLinearizable =
-                        interleavings actions.Branch1 actions.Branch2
-                        |> Seq.exists (fun interleaving ->
-                            checkLinearization actions.Initial actions.Prefix interleaving allResults
-                        )
+                    let linearizable =
+                        isLinearizable actions.Initial actions.Prefix actions.Branch1 actions.Branch2 allResults
 
-                    if not isLinearizable then
+                    if not linearizable then
                         property {
                             do! Property.counterexample (fun () -> "No valid interleaving found")
                             return! Property.failure

@@ -26,42 +26,50 @@ module Sequential =
             : Random<Tree<Action<'TSystem, 'TState> list> * Env> =
 
             Random (fun seed size ->
-                match actions with
-                | [] -> Tree.singleton [], env
-                | spec :: rest ->
-                    match spec.TryGen category state env with
-                    | None ->
-                        failwithf "Required setup/cleanup command cannot generate in the current state"
-                    | Some actionGen ->
-                        // Convert Gen to Random<Tree<Action * Env>>
-                        let actionAndEnvRandom = Gen.toRandom actionGen
+                // Helper to thread state through action generation
+                // Returns list of (action tree, updated env) pairs and final env
+                let rec generateWithStateThreading seeds currentState currentEnv = function
+                    | [] -> [], currentEnv
+                    | spec :: rest ->
+                        match spec.TryGen category currentState currentEnv with
+                        | None ->
+                            failwithf $"Required setup/cleanup command cannot generate in the current state (Category: %A{category})"
+                        | Some actionGen ->
+                            let seed1, seed2 = Seed.split seeds
 
-                        // Split seed for this action and rest
-                        let seed1, seed2 = Seed.split seed
+                            // Generate action tree with environment
+                            let actionAndEnvTree = Random.run seed1 size (Gen.toRandom actionGen)
 
-                        // Run to get the tree
-                        let actionAndEnvTree = Random.run seed1 size actionAndEnvRandom
+                            // Use outcome to compute next state for subsequent actions
+                            let outcomeAction, outcomeEnv = Tree.outcome actionAndEnvTree
+                            let name, nextEnv = Env.freshName outcomeEnv
+                            let outputVar = Var.bound name
+                            let nextState = outcomeAction.Update currentState outputVar
 
-                        // Get outcome to compute next state
-                        let outcomeAction, outcomeEnv = Tree.outcome actionAndEnvTree
-                        let name, env'' = Env.freshName outcomeEnv
-                        let outputVar = Var.bound name
-                        let state' = outcomeAction.Update state outputVar
+                            // Recursively generate rest with updated state
+                            let restTrees, finalEnv = generateWithStateThreading seed2 nextState nextEnv rest
 
-                        // Generate rest
-                        let restTree, envFinal = Random.run seed2 size (genFixedActionsRandom category rest state' env'')
+                            // Extract just action tree (discard env from tree structure)
+                            let actionTree = Tree.map fst actionAndEnvTree
 
-                        // Extract just the action from the tree (drop env)
-                        let actionOnlyTree = Tree.map fst actionAndEnvTree
+                            (actionTree :: restTrees), finalEnv
 
-                        // Combine this action tree with rest tree
-                        let combinedTree =
-                            actionOnlyTree
-                            |> Tree.bind (fun actionShrunk ->
-                                restTree |> Tree.map (fun restList -> actionShrunk :: restList)
+                // Generate all action trees with proper state threading
+                let actionTrees, finalEnv = generateWithStateThreading seed state env actions
+
+                // Combine trees into a single tree of action lists
+                // This preserves shrinking: each action can shrink independently,
+                // and the tree structure ensures we test all valid combinations
+                let rec combineTrees = function
+                    | [] -> Tree.singleton []
+                    | tree :: rest ->
+                        tree |> Tree.bind (fun action ->
+                            combineTrees rest |> Tree.map (fun actions ->
+                                action :: actions
                             )
+                        )
 
-                        combinedTree, envFinal
+                combineTrees actionTrees, finalEnv
             )
 
 
