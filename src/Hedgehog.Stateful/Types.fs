@@ -3,23 +3,42 @@ namespace Hedgehog.Stateful
 open System.Threading.Tasks
 open Hedgehog
 
-/// Unique identifier for a symbolic variable
+
+/// <summary>
+/// Unique identifier for a symbolic variable.
+/// </summary>
 [<Struct>]
 type Name = internal Name of int
 
-/// Environment mapping symbolic names to concrete values.
+
+/// <summary>
+/// Environment mapping symbolic variable names to concrete values.
 /// The SUT is passed separately to Execute, not stored in Env.
+/// </summary>
 type Env = private {
     values: Map<Name, obj>
     nextId: int
 }
 
-/// Symbolic variable referencing a command's output. Variables let us chain commands
-/// by using one command's result as input to another, even before execution.
+
+/// <summary>
+/// Symbolic variable referencing a command's output. Symbolic variables are placeholders
+/// that let us chain commands by using one command's result as input to another, even before execution.
+/// A symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.
+/// </summary>
 [<StructuredFormatDisplay("{DisplayText}")>]
 type Var<'T> = private {
+    /// <summary>
+    /// The unique integer name of the variable.
+    /// </summary>
     Name: int
+    /// <summary>
+    /// Indicates if the variable is bound to a generated value.
+    /// </summary>
     Bounded: bool
+    /// <summary>
+    /// The optional default value for the variable.
+    /// </summary>
     Default: 'T option
 }
 with
@@ -33,7 +52,11 @@ with
             | Some d -> $"%A{d} (symbolic)"
             | None -> "<no value> (symbolic)"
 
-    /// Resolve the variable using its default if not found in env
+    /// <summary>
+    /// Resolve the variable using its default if not found in the environment.
+    /// </summary>
+    /// <param name="env">The environment to resolve the variable from.</param>
+    /// <returns>The resolved value of the variable.</returns>
     member this.Resolve(env: Env) : 'T =
         if not this.Bounded then
             match this.Default with
@@ -47,7 +70,12 @@ with
                 | Some d -> d
                 | None -> failwithf $"Var %A{Name this.Name} not bound in environment and no default provided"
 
-    /// Resolve the variable with an explicit fallback (overrides var's default)
+    /// <summary>
+    /// Resolve the variable with an explicit fallback value, overriding the variable's default.
+    /// </summary>
+    /// <param name="env">The environment to resolve the variable from.</param>
+    /// <param name="fallback">The fallback value to use if the variable is not found.</param>
+    /// <returns>The resolved value or the fallback if not found.</returns>
     member this.ResolveOr(env: Env, fallback: 'T) : 'T =
         if not this.Bounded then
             fallback  // Override default for unbounded

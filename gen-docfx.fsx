@@ -135,7 +135,7 @@ let defaultConfig = {
 
     RootUrl = "/"
     SkipAutoOpenWrappers = true
-    CSharpNamespaces = Set.ofList ["Hedgehog.Linq"]
+    CSharpNamespaces = Set.ofList ["Hedgehog.Linq"; "Hedgehog.Stateful.Linq"]
 }
 
 // ============================================================================
@@ -201,9 +201,9 @@ module DependencyResolver =
 type DocFxSyntax = {
     content: string
     [<YamlMember(Alias = "content.fsharp")>]
-    contentFSharp: string
+    content_fsharp: string
     [<YamlMember(Alias = "content.csharp")>]
-    contentCSharp: string
+    content_csharp: string
     // parameters: ... (optional, for detailed breakdown)
     // return: ... (optional)
 }
@@ -316,6 +316,21 @@ module TextProcessing =
         if not (String.IsNullOrWhiteSpace remarks) then
             parts.Add(remarks)
         
+        // Add parameter documentation if available
+        if not (List.isEmpty comment.Parameters) then
+            let paramDocs = ResizeArray<string>()
+            paramDocs.Add("**Parameters:**\n")
+            for (paramName, paramDoc) in comment.Parameters do
+                let paramText =
+                    paramDoc
+                    |> getHtmlText
+                    |> htmlToMarkdown
+                if not (String.IsNullOrWhiteSpace paramText) then
+                    paramDocs.Add($"- `%s{paramName}`: %s{paramText}")
+
+            if paramDocs.Count > 1 then // More than just the header
+                parts.Add(String.concat "\n" paramDocs)
+
         // Add examples if available
         for example in comment.Examples do
             let exampleText = 
@@ -343,6 +358,25 @@ module TypeSignature =
         |> List.exists (fun attr -> 
             attr.FullName = "System.Runtime.CompilerServices.ExtensionAttribute")
     
+    /// Check if a member is abstract (dispatch slot)
+    let isAbstract (member': ApiDocMember) : bool =
+        try
+            match member'.Symbol with
+            | :? FSharpMemberOrFunctionOrValue as mfv -> mfv.IsDispatchSlot
+            | _ -> false
+        with _ -> false
+
+    /// Check if member uses tuple syntax (single parameter group with multiple parameters)
+    let usesTupleSyntax (member': ApiDocMember) : bool =
+        try
+            match member'.Symbol with
+            | :? FSharpMemberOrFunctionOrValue as mfv ->
+                // Tuple syntax = 1 parameter group with multiple params
+                mfv.CurriedParameterGroups.Count = 1 &&
+                mfv.CurriedParameterGroups.[0].Count > 1
+            | _ -> false
+        with _ -> false
+
     /// Extract all parameter types from a member
     let extractParameters (member': ApiDocMember) : string list =
         [ for p in member'.Parameters ->
@@ -395,15 +429,31 @@ module TypeSignature =
     let generateFSharpSyntax (member': ApiDocMember) : string =
         try
             let paramTypes = extractParameters member'
+            let paramNames = extractParameterNames member'
             let returnType = extractReturnType member'
-            
+            let isAbstract' = isAbstract member'
+            let usesTuples = usesTupleSyntax member'
+
+            // Build the abstract prefix
+            let abstractPrefix = if isAbstract' then "abstract " else ""
+
             if List.isEmpty paramTypes then
-                $"val %s{member'.Name} : %s{returnType}"
+                $"%s{abstractPrefix}member %s{member'.Name} : %s{returnType}"
             else
-                let paramsStr = String.concat " -> " paramTypes
-                $"val %s{member'.Name} : %s{paramsStr} -> %s{returnType}"
+                // If it uses tuple syntax, format as name:Type * name:Type * ...
+                if usesTuples && paramTypes.Length = paramNames.Length then
+                    let paramsWithNames = List.zip paramNames paramTypes
+                    let paramsStr =
+                        paramsWithNames
+                        |> List.map (fun (name, typ) -> $"%s{name}:%s{typ}")
+                        |> String.concat " * "
+                    $"%s{abstractPrefix}member %s{member'.Name} : %s{paramsStr} -> %s{returnType}"
+                else
+                    // Otherwise use curried arrow syntax
+                    let paramsStr = String.concat " -> " paramTypes
+                    $"%s{abstractPrefix}member %s{member'.Name} : %s{paramsStr} -> %s{returnType}"
         with _ ->
-            $"val %s{member'.Name} : ..."
+            $"member %s{member'.Name} : ..."
 
     /// Generate C# syntax signature for a member
     let generateCSharpSyntax (member': ApiDocMember) : string =
@@ -412,23 +462,27 @@ module TypeSignature =
             let paramNames = extractParameterNames member'
             let returnType = extractReturnType member' |> fsharpToCSharp
             let isExtension = isExtensionMethod member'
-            
+            let isAbstract' = isAbstract member'
+
+            // Abstract members in C# should not be static
+            let abstractModifier = if isAbstract' then "abstract " else "public static "
+
             if List.isEmpty paramTypes then
-                $"public static %s{returnType} %s{member'.Name}()"
+                $"%s{abstractModifier}%s{returnType} %s{member'.Name}()"
             else
                 let paramsWithNames = List.zip paramTypes paramNames
                 let paramsStr = 
                     paramsWithNames 
                     |> List.mapi (fun i (paramType, paramName) -> 
                         let csharpType = fsharpToCSharp paramType
-                        // Add "this" to the first parameter if it's an extension method
-                        let thisKeyword = if isExtension && i = 0 then "this " else ""
+                        // Add "this" to the first parameter if it's an extension method (and not abstract)
+                        let thisKeyword = if isExtension && i = 0 && not isAbstract' then "this " else ""
                         $"%s{thisKeyword}%s{csharpType} %s{paramName}")
                     |> String.concat ", "
 
-                $"public static %s{returnType} %s{member'.Name}(%s{paramsStr})"
+                $"%s{abstractModifier}%s{returnType} %s{member'.Name}(%s{paramsStr})"
         with _ ->
-            $"public static void %s{member'.Name}(...)"
+            $"public void %s{member'.Name}(...)"
 
 // ============================================================================
 // API DOC ENTITY HELPERS
@@ -454,25 +508,20 @@ module ApiDocHelpers =
                 members
                 |> List.sortBy _.Name
                 |> List.map (fun m ->
-                    let isStatic = m.Kind = ApiDocMemberKind.StaticMember
-                    let prefix = if isStatic then "static " else ""
                     let signature = TypeSignature.generateFSharpSyntax m
-                    // Extract just the signature part (after the "val name : ")
-                    let typeStr = 
-                        if signature.Contains(" : ") then
-                            signature.Substring(signature.IndexOf(" : ") + 3)
-                        else
-                            "..."
-
-                    $"  %s{prefix}member %s{m.Name} : %s{typeStr}")
+                    // The signature already includes abstract/member prefix, just indent it
+                    $"  %s{signature}")
                 |> fun sigs -> String.concat "\n" sigs
 
             $"type %s{typeName} =\n%s{memberSignatures}"
 
     /// Generate type syntax showing its members (C# style)
     let generateTypeSyntaxCSharp (typeName: string) (members: ApiDocMember list) : string =
+        // Convert F# generic parameters to C# syntax (remove ticks from 'T, 'U, etc.)
+        let csharpTypeName = TypeSignature.fsharpToCSharp typeName
+
         if List.isEmpty members then
-            $"public class %s{typeName}"
+            $"public class %s{csharpTypeName}"
         else
             let memberSignatures = 
                 members
@@ -480,7 +529,7 @@ module ApiDocHelpers =
                 |> List.map TypeSignature.generateCSharpSyntax
                 |> fun sigs -> String.concat "\n  " sigs
 
-            $"public class %s{typeName} {{\n  %s{memberSignatures}\n}}"
+            $"public class %s{csharpTypeName} {{\n  %s{memberSignatures}\n}}"
 
     /// Get nested entities from an entity
     let getNestedEntities (entity: ApiDocEntity) : ApiDocEntity list =
@@ -524,14 +573,14 @@ module ApiDocHelpers =
         if isCSharpNamespace config nsName then
             {
                 content = csharpContent
-                contentFSharp = fsharpContent
-                contentCSharp = csharpContent
+                content_fsharp = fsharpContent
+                content_csharp = csharpContent
             }
         else
             {
                 content = fsharpContent
-                contentFSharp = fsharpContent
-                contentCSharp = csharpContent
+                content_fsharp = fsharpContent
+                content_csharp = csharpContent
             }
 
 // ============================================================================
@@ -613,7 +662,7 @@ module DocFxMapping =
             id = m.Name
             parent = ApiDocHelpers.sanitizeUid entityPath
             children = []
-            langs = if ApiDocHelpers.isCSharpNamespace config nsName then ["csharp"; "fsharp"] else ["fsharp"]
+            langs = ["fsharp"; "csharp"]
             name = displayName
             nameWithType = displayName
             fullName = uid
@@ -901,7 +950,7 @@ module EntityProcessing =
             id = merged.Name
             parent = merged.ParentPath
             children = memberChildren
-            langs = if ApiDocHelpers.isCSharpNamespace config merged.NamespaceName then ["csharp"; "fsharp"] else ["fsharp"]
+            langs = ["fsharp"; "csharp"]
             name = merged.Name
             nameWithType = merged.Name
             fullName = merged.FullPath
@@ -952,7 +1001,7 @@ module EntityProcessing =
                 id = entity.Name
                 parent = parentPath
                 children = memberChildren
-                langs = if ApiDocHelpers.isCSharpNamespace config nsName then ["csharp"; "fsharp"] else ["fsharp"]
+                langs = ["fsharp"; "csharp"]
                 name = entity.Name
                 nameWithType = entity.Name
                 fullName = fullPath

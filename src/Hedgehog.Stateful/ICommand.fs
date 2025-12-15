@@ -8,6 +8,7 @@ open Hedgehog
 type ICommand<'TSystem, 'TState> =
     abstract member ToActionGen: unit -> ActionGen<'TSystem, 'TState>
 
+/// <b>Used internally.</b>
 /// Existential wrapper to allow heterogeneous command lists.
 /// This erases the input/output types so different commands can be in the same list.
 and ActionGen<'TSystem, 'TState> =

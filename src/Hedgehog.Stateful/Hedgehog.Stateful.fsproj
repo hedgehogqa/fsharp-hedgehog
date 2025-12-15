@@ -20,9 +20,6 @@
       <Compile Include="SequentialSpecification.fs" />
       <Compile Include="ParallelSpecification.fs" />
       <Compile Include="Linq\NoInput.fs" />
-      <Compile Include="Linq\StateMachine.fs" />
-      <Compile Include="Linq\Sequential.fs" />
-      <Compile Include="Linq\Parallel.fs" />
     </ItemGroup>
 
 </Project>
