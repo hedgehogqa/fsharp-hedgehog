@@ -30,6 +30,13 @@
           "xunit/**/toc.yml",
           "xunit/toc.yml"
         ]
+      },
+      {
+        "files": [
+          "stateful/**.md",
+          "stateful/**/toc.yml",
+          "stateful/toc.yml"
+        ]
       }
     ],
     "resource": [
