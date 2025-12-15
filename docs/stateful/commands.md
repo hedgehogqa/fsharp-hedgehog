@@ -99,8 +99,7 @@ public class MyCommand : Command<MySystem, MyState, MyInput, MyOutput>
         Gen.Int32(Range.LinearInt32(0, 100));
     
     // 4. Should we execute this command with these inputs?
-    public override bool Require(Env env, MyState state, MyInput input) => 
-        this.Precondition(state);
+    public override bool Require(Env env, MyState state, MyInput input) => true;
     
     // 5. Execute the real operation
     public override Task<MyOutput> Execute(MySystem sut, Env env, MyState state, MyInput input)
@@ -137,19 +136,25 @@ The `Env` (environment) is a key concept that allows you to resolve symbolic sta
 - `Generate` - Only has access to structural/concrete state
 - `Update` - Works with symbolic variables, doesn't resolve them
 
-During sequence generation, symbolic values don't have concrete runtime values yet, so `Generate` cannot receive an `Env`. However, during execution, `Require`, `Execute`, and `Ensure` all receive an `Env` that lets you resolve any `Var<T>` to its actual runtime value.
+During sequence generation, symbolic values don't have concrete runtime values yet, so `Generate` and `Update` cannot receive an `Env`. However, during execution, `Require`, `Execute`, and `Ensure` all receive an `Env` that lets you resolve any `Var<T>` to its actual runtime value.
 
 ## The Command Lifecycle
 
 When Hedgehog builds and executes a test sequence, each command goes through these stages:
 
+**During Generation:**
 ```text
 1. Precondition → Should we include this command? (check concrete state only - no Env)
 2. Generate     → Generate input for this command (only called if Precondition returns true)
-3. Require      → Can we execute it now? (has Env - can resolve symbolic values)  
-4. Execute      → Run the operation on the real system
-5. Update       → Update the model state with new symbolic output
-6. Ensure       → Verify the result matches our expectations
+3. Update       → Update model state symbolically (enables next command's Precondition check)
+```
+
+**During Execution:**
+```text
+1. Require      → Can we execute it now? (has Env - can resolve symbolic values)  
+2. Execute      → Run the operation on the real system
+3. Update       → Update model state symbolically (same call as generation, now env has real values)
+4. Ensure       → Verify the result matches our expectations
 ```
 
 ### 1. Precondition: Deciding Whether to Generate
@@ -301,11 +306,15 @@ public override Task<bool> Execute(DoorState sut, Env env, CartState state, stri
 
 ### 5. Update: Tracking Symbolic State
 
-**When it runs:** After execution, before the next command
+**When it runs:** During *both* generation **and** execution phases - after each command in the sequence
 
-**Purpose:** Update your model state with the new symbolic output
+**Purpose:** Update your model state with the new symbolic output to evolve the structural state
 
 **Returns:** The new state
+
+**Critical insight:** `Update` is called during *generation* (before any real execution happens) to maintain the structural state. 
+This allows subsequent commands in the sequence to evaluate their `Precondition` based on the evolved state. 
+During *execution*, these variables are bound to actual runtime values in the `Env`.
 
 This is where you store the command's output as a **symbolic variable** (`Var<TOutput>`) that future commands can reference:
 

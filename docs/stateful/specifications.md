@@ -137,17 +137,17 @@ public class CounterSpec : SequentialSpecification<Counter, CounterState>
         ];
     
     // Main test commands
-    public override ICommand<Counter, CounterState>[] Commands => new[]
-    {
-        new IncrementCommand(),
-        new DecrementCommand()
-    };
+    public override ICommand<Counter, CounterState>[] Commands => 
+        [
+            new IncrementCommand(),
+            new DecrementCommand()
+        ];
     
     // Cleanup runs AFTER the test sequence
-    public override ICommand<Counter, CounterState>[] CleanupCommands => new[]
-    {
-        new ResetCommand()  // e.g., reset counter to 0
-    };
+    public override ICommand<Counter, CounterState>[] CleanupCommands => 
+        [
+            new ResetCommand()  // e.g., reset counter to 0
+        ];
 }
 ```
 
