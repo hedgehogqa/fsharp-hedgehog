@@ -215,7 +215,9 @@ public class CounterSpec : SequentialSpecification<Counter, CounterState>
 {
     public override ICommand<Counter, CounterState>[] SetupCommands => [new ResetCommand()];
 
-    public override ICommand<Counter, CounterState>[] CleanupCommands => [];
+    public override ICommand<Counter, CounterState>[] CleanupCommands => [
+        new ResetCommand()
+    ];
 
     public override CounterState InitialState => new() { CurrentCount = Var.Symbolic(0) };
 

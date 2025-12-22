@@ -49,7 +49,7 @@ with
             | None -> $"Var_%d{this.Name}"
         else
             match this.Default with
-            | Some d -> $"%A{d} (symbolic)"
+            | Some d -> $"%A{d} (default)"
             | None -> "<no value> (symbolic)"
 
     /// <summary>

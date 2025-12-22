@@ -152,6 +152,7 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
+                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     let name, env' = Env.freshName env
@@ -168,6 +169,7 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
+                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     prefixResults.Add(action.Id, output)
@@ -175,6 +177,9 @@ module Parallel =
                     let outputVar = Var.bound name
                     env <- Env.add outputVar output env'
                     state <- action.Update state outputVar
+
+            // Save state before parallel branches (which is also before cleanup)
+            let stateBeforeBranches = state
 
             // Run branches in parallel
             let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(Name * obj) list, exn>> =
@@ -207,8 +212,11 @@ module Parallel =
             let linearizabilityCheck =
                 match results[0], results[1] with
                 | Error ex, _ | _, Error ex ->
-                    // Still need to run cleanup even on failure
-                    Property.exn ex
+                    // Branch failed - report state before branches
+                    property {
+                        do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
+                        return! Property.exn ex
+                    }
                 | Ok results1, Ok results2 ->
                     let allResults =
                         [ yield! prefixResults; yield! results1; yield! results2 ]
@@ -220,6 +228,7 @@ module Parallel =
                     if not linearizable then
                         property {
                             do! Property.counterexample (fun () -> "No valid interleaving found")
+                            do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
                             return! Property.failure
                         }
                     else
