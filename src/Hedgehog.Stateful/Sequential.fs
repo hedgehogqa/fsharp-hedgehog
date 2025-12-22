@@ -33,7 +33,7 @@ module Sequential =
                     | spec :: rest ->
                         match spec.TryGen category currentState currentEnv with
                         | None ->
-                            failwithf $"Required setup/cleanup command cannot generate in the current state (Category: %A{category})"
+                            failwithf $"Required %A{category} command failed to generate in current state. Command: %s{spec.GetType().Name}"
                         | Some actionGen ->
                             let seed1, seed2 = Seed.split seeds
 

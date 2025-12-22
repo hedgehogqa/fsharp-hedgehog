@@ -18,6 +18,8 @@ type internal ActionCategory =
 /// The SUT is passed as a typed parameter, separate from Env.
 [<StructuredFormatDisplay("{DisplayText}")>]
 type internal Action<'TSystem, 'TState> = private {
+    /// Unique identifier for this action instance (generated from Env.freshName)
+    Id: Name
     /// Human-readable description
     Name: string
     /// The input to the command (boxed)

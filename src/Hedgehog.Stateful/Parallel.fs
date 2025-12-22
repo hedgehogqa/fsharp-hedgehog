@@ -74,7 +74,7 @@ module Parallel =
         (prefix: Action<'TSystem, 'TState> list)
         (branch1: Action<'TSystem, 'TState> list)
         (branch2: Action<'TSystem, 'TState> list)
-        (results: Map<string, obj>)
+        (results: Map<Name, obj>)
         : bool =
 
         /// Try to execute a single action and return the new state/env if successful
@@ -82,7 +82,7 @@ module Parallel =
             if not (action.Precondition state && action.Require env state) then
                 None
             else
-                match Map.tryFind action.Name results with
+                match Map.tryFind action.Id results with
                 | None -> None
                 | Some output ->
                     let name, env' = Env.freshName env
@@ -160,7 +160,7 @@ module Parallel =
                     state <- action.Update state outputVar
 
             // Run prefix sequentially
-            let prefixResults = ResizeArray<string * obj>()
+            let prefixResults = ResizeArray<Name * obj>()
 
             for action in actions.Prefix do
                 let! result = Property.ofTask (action.Execute sut env state)
@@ -170,14 +170,14 @@ module Parallel =
                     do! Property.counterexample (fun () -> formatActionName action)
                     return! Property.exn ex
                 | ActionResult.Success output ->
-                    prefixResults.Add(action.Name, output)
+                    prefixResults.Add(action.Id, output)
                     let name, env' = Env.freshName env
                     let outputVar = Var.bound name
                     env <- Env.add outputVar output env'
                     state <- action.Update state outputVar
 
             // Run branches in parallel
-            let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(string * obj) list, exn>> =
+            let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(Name * obj) list, exn>> =
                 let rec loop results branchEnv branchState = function
                     | [] -> async { return Ok (List.rev results) }
                     | action :: rest ->
@@ -191,7 +191,7 @@ module Parallel =
                                 let outputVar = Var.bound name
                                 let newEnv = Env.add outputVar output env'
                                 let newState = action.Update branchState outputVar
-                                return! loop ((action.Name, output) :: results) newEnv newState rest
+                                return! loop ((action.Id, output) :: results) newEnv newState rest
                         }
                 loop [] env state branch
 
@@ -200,7 +200,7 @@ module Parallel =
                     return! Async.Parallel [runBranch actions.Branch1; runBranch actions.Branch2]
                 }
 
-            let results = branchResults : Result<(string * obj) list, exn> array
+            let results = branchResults : Result<(Name * obj) list, exn> array
 
             // Check linearizability regardless of branch success/failure
             // Then run cleanup actions
