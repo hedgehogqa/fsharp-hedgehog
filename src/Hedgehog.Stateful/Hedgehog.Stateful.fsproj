@@ -24,7 +24,7 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.FSharp" />
-        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.FSharp" />
+        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.CSharp" />
     </ItemGroup>
     
     <ItemGroup>
