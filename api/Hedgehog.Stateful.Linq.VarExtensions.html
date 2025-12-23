@@ -2,11 +2,11 @@
 <html lang="fsharp">
   <head>
     <meta charset="utf-8">
-      <title>Class Name | Hedgehog .NET </title>
+      <title>Class VarExtensions | Hedgehog .NET </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class Name | Hedgehog .NET ">
+      <meta name="title" content="Class VarExtensions | Hedgehog .NET ">
       
-      <meta name="description" content="Unique identifier for a symbolic variable.">
+      <meta name="description" content="Extension methods for working with Var&amp;lt;T&amp;gt; in C#.">
       <link rel="icon" href="../images/favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="../">
       
       
-      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Stateful_Name.md&amp;value=---%0Auid%3A%20Hedgehog.Stateful.Name%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/new/master/apiSpec/new?filename=Hedgehog_Stateful_Linq_VarExtensions.md&amp;value=---%0Auid%3A%20Hedgehog.Stateful.Linq.VarExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -83,38 +83,92 @@
 
         </div>
 
-        <article data-uid="Hedgehog.Stateful.Name">
+        <article data-uid="Hedgehog.Stateful.Linq.VarExtensions">
 
 
 
-  <h1 id="Hedgehog_Stateful_Name" data-uid="Hedgehog.Stateful.Name" class="text-break">
-Class Name  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L8"><i class="bi bi-code-slash"></i></a>
+  <h1 id="Hedgehog_Stateful_Linq_VarExtensions" data-uid="Hedgehog.Stateful.Linq.VarExtensions" class="text-break">
+Class VarExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Linq/VarExtensions.fs/#L14"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Stateful</span></dd></dl>
+    <dl><dt>Namespace</dt><dd><span class="xref">Hedgehog.Stateful.Linq</span></dd></dl>
   <dl><dt>Assembly</dt><dd>Hedgehog.Stateful.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>Unique identifier for a symbolic variable.</p>
+  <div class="markdown summary"><p>Extension methods for working with <code>Var&lt;T&gt;</code> in C#.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Name" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Linq_VarExtensions" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Name" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Linq_VarExtensions" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Name">
-        <pre><code class="lang-fsharp hljs">type Name</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Linq_VarExtensions">
+        <pre><code class="lang-fsharp hljs">type VarExtensions =
+  member Select : var:Var&lt;&#39;T&gt; * selector:Func&lt;&#39;T, &#39;U&gt; -&gt; Var&lt;&#39;U&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Name">
-        <pre><code class="lang-csharp hljs">public class Name</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Linq_VarExtensions">
+        <pre><code class="lang-csharp hljs">public class VarExtensions {
+  public static Var&lt;U&gt; Select(this Var&lt;T&gt; var, Func&lt;T, U&gt; selector)
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+
+  <h3 id="Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func" data-uid="Hedgehog.Stateful.Linq.VarExtensions.Select-Var-Func">
+  Select(Var, Func)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Linq/VarExtensions.fs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects the value of a variable using a selector function.
+This allows extracting fields from structured command outputs.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>var</code>: The variable to project from.</li>
+<li><code>selector</code>: A function to apply to the variable's value.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func">
+        <pre><code class="lang-fsharp hljs">member Select : var:Var&lt;&#39;T&gt; * selector:Func&lt;&#39;T, &#39;U&gt; -&gt; Var&lt;&#39;U&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func">
+        <pre><code class="lang-csharp hljs">public static Var&lt;U&gt; Select(this Var&lt;T&gt; var, Func&lt;T, U&gt; selector)</code></pre>
       </div>
     </div>
   </div>

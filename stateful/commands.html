@@ -413,11 +413,8 @@ During <em>execution</em>, these variables are bound to actual runtime values in
 </div>
 
 <p>The <code>outputVar</code> is a symbolic reference to this command's output. Later commands can resolve it to get the actual value.</p>
-<h3 id="6-ensure-verifying-correctness">6. Ensure: Verifying Correctness</h3>
-<p><strong>When it runs:</strong> After execution and state update</p>
-<p><strong>Purpose:</strong> Assert that the output matches expectations</p>
-<p><strong>Returns:</strong> <code>true</code> if the assertion passes, <code>false</code> or throw an exception if it fails</p>
-<p>This is your postcondition check:</p>
+<h4 id="projecting-fields-from-structured-outputs">Projecting Fields from Structured Outputs</h4>
+<p>When a command returns a structured type (like a record or class), you often want to store individual fields in your state rather than the entire object. Use <code>Var.map</code> (F#) or <code>.Select()</code> (C#) to project fields from the output:</p>
 <div class="tabGroup" id="tabgroup_7">
 <ul role="tablist">
 <li role="presentation">
@@ -429,23 +426,64 @@ During <em>execution</em>, these variables are bound to actual runtime values in
 </ul>
 <section id="tabpanel_7_fsharp" role="tabpanel" data-tab="fsharp">
 
-<pre><code class="lang-fsharp">override _.Ensure(env, oldState, newState, input, output) =
-    let oldCount = oldState.CurrentCount.Resolve(env)
-    output = oldCount + 1  // Increment should increase by exactly 1
+<pre><code class="lang-fsharp">// Command that returns a structured Person type
+type Person = {
+    Name: string
+    Age: int
+}
+
+type RegistryState = {
+    LastPersonName: Var&lt;string&gt;
+    LastPersonAge: Var&lt;int&gt;
+}
+
+type AddPersonCommand() =
+    inherit Command&lt;PersonRegistry, RegistryState, string * int, Person&gt;()
+    
+    override _.Execute(sut, env, state, (name, age)) =
+        let person = sut.AddPerson(name, age)
+        Task.FromResult(person)
+    
+    // Project individual fields from the Person output
+    override _.Update(state, input, personVar) =
+        { LastPersonName = Var.map (fun p -&gt; p.Name) personVar
+          LastPersonAge = Var.map (fun p -&gt; p.Age) personVar }
 </code></pre>
 </section>
 <section id="tabpanel_7_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
-<pre><code class="lang-csharp">public override bool Ensure(Env env, CounterState oldState, CounterState newState, bool input, int output)
+<pre><code class="lang-csharp">// Command that returns a structured Person type
+public record Person(string Name, int Age);
+
+public record RegistryState
 {
-    var oldCount = oldState.CurrentCount.Resolve(env);
-    return output == oldCount + 1;  // Increment should increase by exactly 1
+    public Var&lt;string&gt; LastPersonName { get; init; }
+    public Var&lt;int&gt; LastPersonAge { get; init; }
+}
+
+public class AddPersonCommand : Command&lt;PersonRegistry, RegistryState, (string, int), Person&gt;
+{
+    public override Task&lt;Person&gt; Execute(PersonRegistry sut, Env env, RegistryState state, (string, int) input)
+    {
+        var (name, age) = input;
+        var person = sut.AddPerson(name, age);
+        return Task.FromResult(person);
+    }
+    
+    // Project individual fields from the Person output
+    public override RegistryState Update(RegistryState state, (string, int) input, Var&lt;Person&gt; personVar) =&gt;
+        state with 
+        { 
+            LastPersonName = personVar.Select(p =&gt; p.Name),
+            LastPersonAge = personVar.Select(p =&gt; p.Age)
+        };
 }
 </code></pre>
 </section>
 </div>
 
-<p>You can also throw exceptions for more detailed error messages:</p>
+<p><strong>How it works:</strong> Both projected variables (<code>LastPersonName</code> and <code>LastPersonAge</code>) share the same underlying variable name - they point to the same <code>Person</code> object in the environment. When you resolve them, the projection function is applied to extract the specific field.</p>
+<p><strong>You can chain projections:</strong></p>
 <div class="tabGroup" id="tabgroup_8">
 <ul role="tablist">
 <li role="presentation">
@@ -457,6 +495,69 @@ During <em>execution</em>, these variables are bound to actual runtime values in
 </ul>
 <section id="tabpanel_8_fsharp" role="tabpanel" data-tab="fsharp">
 
+<pre><code class="lang-fsharp">override _.Update(state, input, personVar) =
+    let nameVar = Var.map (fun p -&gt; p.Name) personVar
+    let nameLengthVar = Var.map String.length nameVar
+    { state with NameLength = nameLengthVar }
+</code></pre>
+</section>
+<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override RegistryState Update(RegistryState state, (string, int) input, Var&lt;Person&gt; personVar)
+{
+    var nameVar = personVar.Select(p =&gt; p.Name);
+    var nameLengthVar = nameVar.Select(name =&gt; name.Length);
+    return state with { NameLength = nameLengthVar };
+}
+</code></pre>
+</section>
+</div>
+
+<p>This is particularly useful when you need to pass different parts of a command's output to different subsequent commands.</p>
+<h3 id="6-ensure-verifying-correctness">6. Ensure: Verifying Correctness</h3>
+<p><strong>When it runs:</strong> After execution and state update</p>
+<p><strong>Purpose:</strong> Assert that the output matches expectations</p>
+<p><strong>Returns:</strong> <code>true</code> if the assertion passes, <code>false</code> or throw an exception if it fails</p>
+<p>This is your postcondition check:</p>
+<div class="tabGroup" id="tabgroup_9">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Ensure(env, oldState, newState, input, output) =
+    let oldCount = oldState.CurrentCount.Resolve(env)
+    output = oldCount + 1  // Increment should increase by exactly 1
+</code></pre>
+</section>
+<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public override bool Ensure(Env env, CounterState oldState, CounterState newState, bool input, int output)
+{
+    var oldCount = oldState.CurrentCount.Resolve(env);
+    return output == oldCount + 1;  // Increment should increase by exactly 1
+}
+</code></pre>
+</section>
+</div>
+
+<p>You can also throw exceptions for more detailed error messages:</p>
+<div class="tabGroup" id="tabgroup_10">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_10_fsharp" role="tab" aria-controls="tabpanel_10_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_10_csharp" role="tab" aria-controls="tabpanel_10_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_10_fsharp" role="tabpanel" data-tab="fsharp">
+
 <pre><code class="lang-fsharp">override _.Ensure(env, oldState, newState, input, output) =
     let oldCount = oldState.CurrentCount.Resolve(env)
     if output &lt;&gt; oldCount + 1 then
@@ -464,7 +565,7 @@ During <em>execution</em>, these variables are bound to actual runtime values in
     true
 </code></pre>
 </section>
-<section id="tabpanel_8_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_10_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">public override bool Ensure(Env env, CounterState oldState, CounterState newState, bool input, int output)
 {
@@ -477,16 +578,16 @@ During <em>execution</em>, these variables are bound to actual runtime values in
 </div>
 <h2 id="commands-without-outputs">Commands Without Outputs</h2>
 <p>Sometimes operations don't return meaningful values - they just perform side effects. For these, use <code>ActionCommand&lt;TSystem, TState, TInput&gt;</code>:</p>
-<div class="tabGroup" id="tabgroup_9">
+<div class="tabGroup" id="tabgroup_11">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_9_fsharp" role="tab" aria-controls="tabpanel_9_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+<a href="#tabpanel_11_fsharp" role="tab" aria-controls="tabpanel_11_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_9_csharp" role="tab" aria-controls="tabpanel_9_csharp" data-tab="csharp" tabindex="-1">C#</a>
+<a href="#tabpanel_11_csharp" role="tab" aria-controls="tabpanel_11_csharp" data-tab="csharp" tabindex="-1">C#</a>
 </li>
 </ul>
-<section id="tabpanel_9_fsharp" role="tabpanel" data-tab="fsharp">
+<section id="tabpanel_11_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">type CloseConnectionCommand() =
     inherit ActionCommand&lt;Database, DbState, unit&gt;()
@@ -510,7 +611,7 @@ During <em>execution</em>, these variables are bound to actual runtime values in
         true
 </code></pre>
 </section>
-<section id="tabpanel_9_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_11_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">public class CloseConnectionCommand : ActionCommand&lt;Database, DbState, NoInput&gt;
 {

@@ -88,7 +88,7 @@
 
 
   <h1 id="Hedgehog_Stateful_Var_T_" data-uid="Hedgehog.Stateful.Var_T_" class="text-break">
-Class Var&lt;&#39;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L31"><i class="bi bi-code-slash"></i></a>
+Class Var&lt;&#39;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L27"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -114,13 +114,17 @@ A symbolic variable is not yet bound to a generated value and is used to represe
     <div class="tab-content">
       <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T_">
         <pre><code class="lang-fsharp hljs">type Var&lt;&#39;T&gt; =
+  member IsBounded : bool
   member Resolve : Env -&gt; &#39;T
-  member ResolveOr : env:Env * fallback:&#39;T -&gt; &#39;T</code></pre>
+  member ResolveOr : env:Env * fallback:&#39;T -&gt; &#39;T
+  member VarName : int</code></pre>
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T_">
         <pre><code class="lang-csharp hljs">public class Var&lt;T&gt; {
+  public static bool IsBounded()
   public static T Resolve(Env env)
   public static T ResolveOr(Env env, T fallback)
+  public static int VarName()
 }</code></pre>
       </div>
     </div>
@@ -145,7 +149,7 @@ A symbolic variable is not yet bound to a generated value and is used to represe
 
   <h3 id="Hedgehog_Stateful_Var_T__Resolve_Env" data-uid="Hedgehog.Stateful.Var_T_.Resolve-Env">
   Resolve
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L61"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L86"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Resolve the variable using its default if not found in the environment.</p>
@@ -190,7 +194,7 @@ A symbolic variable is not yet bound to a generated value and is used to represe
 
   <h3 id="Hedgehog_Stateful_Var_T__ResolveOr_Env_T" data-uid="Hedgehog.Stateful.Var_T_.ResolveOr-Env-T">
   ResolveOr
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L80"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L105"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Resolve the variable with an explicit fallback value, overriding the variable's default.</p>
@@ -217,6 +221,88 @@ A symbolic variable is not yet bound to a generated value and is used to represe
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T__ResolveOr_Env_T">
         <pre><code class="lang-csharp hljs">public static T ResolveOr(Env env, T fallback)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Stateful_Var_T__IsBounded" data-uid="Hedgehog.Stateful.Var_T_.IsBounded">
+  IsBounded
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets whether the variable is bound to a generated value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Var_T__IsBounded" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Var_T__IsBounded" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T__IsBounded">
+        <pre><code class="lang-fsharp hljs">member IsBounded : bool</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T__IsBounded">
+        <pre><code class="lang-csharp hljs">public static bool IsBounded()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Stateful_Var_T__VarName" data-uid="Hedgehog.Stateful.Var_T_.VarName">
+  VarName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the unique integer name of the variable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Var_T__VarName" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Var_T__VarName" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T__VarName">
+        <pre><code class="lang-fsharp hljs">member VarName : int</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T__VarName">
+        <pre><code class="lang-csharp hljs">public static int VarName()</code></pre>
       </div>
     </div>
   </div>

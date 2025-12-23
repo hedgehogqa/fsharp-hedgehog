@@ -111,15 +111,17 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
     <div class="tab-content">
       <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_FSharp_Var">
         <pre><code class="lang-fsharp hljs">type Var =
+  member map : &#39;T -&gt; &#39;U -&gt; Var&lt;&#39;T&gt; -&gt; Var&lt;&#39;U&gt;
   member resolve : Env -&gt; Var&lt;&#39;T&gt; -&gt; &#39;T
   member resolveOr : &#39;T -&gt; Env -&gt; Var&lt;&#39;T&gt; -&gt; &#39;T
-  member tryResolve : Var&lt;&#39;T&gt; -&gt; Env -&gt; &#39;T option</code></pre>
+  member tryResolve : Var&lt;&#39;T&gt; -&gt; Env -&gt; Result&lt;&#39;T, string&gt;</code></pre>
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_FSharp_Var">
         <pre><code class="lang-csharp hljs">public class Var {
+  public static Var&lt;U&gt; map(T -&gt; U f, Var&lt;T&gt; v)
   public static T resolve(Env env, Var&lt;T&gt; v)
   public static T resolveOr(T fallback, Env env, Var&lt;T&gt; v)
-  public static T? tryResolve(Var&lt;T&gt; v, Env env)
+  public static Result&lt;T, string&gt; tryResolve(Var&lt;T&gt; v, Env env)
 }</code></pre>
       </div>
     </div>
@@ -240,7 +242,7 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L51"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve a variable, returning <code>None</code> if not found in the environment.</p>
+  <div class="markdown level1 summary"><p>Resolve a variable, returning <code>Error</code> if not found in the environment or if resolution fails.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><code>v</code>: The variable to resolve.</li>
@@ -260,10 +262,58 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
     </ul>
     <div class="tab-content">
       <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_FSharp_Var_tryResolve_Var_Env">
-        <pre><code class="lang-fsharp hljs">member tryResolve : Var&lt;&#39;T&gt; -&gt; Env -&gt; &#39;T option</code></pre>
+        <pre><code class="lang-fsharp hljs">member tryResolve : Var&lt;&#39;T&gt; -&gt; Env -&gt; Result&lt;&#39;T, string&gt;</code></pre>
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_FSharp_Var_tryResolve_Var_Env">
-        <pre><code class="lang-csharp hljs">public static T? tryResolve(Var&lt;T&gt; v, Env env)</code></pre>
+        <pre><code class="lang-csharp hljs">public static Result&lt;T, string&gt; tryResolve(Var&lt;T&gt; v, Env env)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_Stateful_FSharp_Var_map_T_Var" data-uid="Hedgehog.Stateful.FSharp.Var.map-T-Var">
+  map
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L73"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Map a function over a variable, creating a new variable that projects
+a value from the original variable's output. This allows extracting
+fields from structured command outputs.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>f</code>: The projection function to apply.</li>
+<li><code>v</code>: The variable to map over.</li>
+</ul>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_FSharp_Var_map_T_Var" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_FSharp_Var_map_T_Var" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_FSharp_Var_map_T_Var">
+        <pre><code class="lang-fsharp hljs">member map : &#39;T -&gt; &#39;U -&gt; Var&lt;&#39;T&gt; -&gt; Var&lt;&#39;U&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_FSharp_Var_map_T_Var">
+        <pre><code class="lang-csharp hljs">public static Var&lt;U&gt; map(T -&gt; U f, Var&lt;T&gt; v)</code></pre>
       </div>
     </div>
   </div>

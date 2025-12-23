@@ -4051,6 +4051,12 @@ references:
   commentId: T:Hedgehog.Stateful.FSharp.Var
   fullName: Hedgehog.Stateful.FSharp.Var
   nameWithType: Var
+- uid: Hedgehog.Stateful.FSharp.Var.map-T-Var
+  name: map
+  href: api/Hedgehog.Stateful.FSharp.Var.html#Hedgehog_Stateful_FSharp_Var_map_T_Var
+  commentId: M:Hedgehog.Stateful.FSharp.Var.map-T-Var
+  fullName: Hedgehog.Stateful.FSharp.Var.map-T-Var
+  nameWithType: map
 - uid: Hedgehog.Stateful.FSharp.Var.resolve-Env-Var
   name: resolve
   href: api/Hedgehog.Stateful.FSharp.Var.html#Hedgehog_Stateful_FSharp_Var_resolve_Env_Var
@@ -4081,18 +4087,30 @@ references:
   commentId: M:Hedgehog.Stateful.ICommand_TSystem, TState_.ToActionGen
   fullName: Hedgehog.Stateful.ICommand_TSystem, TState_.ToActionGen
   nameWithType: ToActionGen
-- uid: Hedgehog.Stateful.Linq.NoInput
-  name: NoInput
-  href: api/Hedgehog.Stateful.Linq.NoInput.html
-  commentId: T:Hedgehog.Stateful.Linq.NoInput
-  fullName: Hedgehog.Stateful.Linq.NoInput
-  nameWithType: NoInput
-- uid: Hedgehog.Stateful.Linq.NoInput.Value
+- uid: Hedgehog.Stateful.Linq.NoValue
+  name: NoValue
+  href: api/Hedgehog.Stateful.Linq.NoValue.html
+  commentId: T:Hedgehog.Stateful.Linq.NoValue
+  fullName: Hedgehog.Stateful.Linq.NoValue
+  nameWithType: NoValue
+- uid: Hedgehog.Stateful.Linq.NoValue.Value
   name: Value
-  href: api/Hedgehog.Stateful.Linq.NoInput.html#Hedgehog_Stateful_Linq_NoInput_Value
-  commentId: M:Hedgehog.Stateful.Linq.NoInput.Value
-  fullName: Hedgehog.Stateful.Linq.NoInput.Value
+  href: api/Hedgehog.Stateful.Linq.NoValue.html#Hedgehog_Stateful_Linq_NoValue_Value
+  commentId: M:Hedgehog.Stateful.Linq.NoValue.Value
+  fullName: Hedgehog.Stateful.Linq.NoValue.Value
   nameWithType: Value
+- uid: Hedgehog.Stateful.Linq.VarExtensions
+  name: VarExtensions
+  href: api/Hedgehog.Stateful.Linq.VarExtensions.html
+  commentId: T:Hedgehog.Stateful.Linq.VarExtensions
+  fullName: Hedgehog.Stateful.Linq.VarExtensions
+  nameWithType: VarExtensions
+- uid: Hedgehog.Stateful.Linq.VarExtensions.Select-Var-Func
+  name: Select(Var, Func)
+  href: api/Hedgehog.Stateful.Linq.VarExtensions.html#Hedgehog_Stateful_Linq_VarExtensions_Select_Var_Func
+  commentId: M:Hedgehog.Stateful.Linq.VarExtensions.Select-Var-Func
+  fullName: Hedgehog.Stateful.Linq.VarExtensions.Select-Var-Func
+  nameWithType: Select(Var, Func)
 - uid: Hedgehog.Stateful.Name
   name: Name
   href: api/Hedgehog.Stateful.Name.html
@@ -4231,6 +4249,12 @@ references:
   commentId: T:Hedgehog.Stateful.Var_T_
   fullName: Hedgehog.Stateful.Var<'T>
   nameWithType: Var<'T>
+- uid: Hedgehog.Stateful.Var_T_.IsBounded
+  name: IsBounded
+  href: api/Hedgehog.Stateful.Var_T_.html#Hedgehog_Stateful_Var_T__IsBounded
+  commentId: M:Hedgehog.Stateful.Var_T_.IsBounded
+  fullName: Hedgehog.Stateful.Var_T_.IsBounded
+  nameWithType: IsBounded
 - uid: Hedgehog.Stateful.Var_T_.Resolve-Env
   name: Resolve
   href: api/Hedgehog.Stateful.Var_T_.html#Hedgehog_Stateful_Var_T__Resolve_Env
@@ -4243,6 +4267,12 @@ references:
   commentId: M:Hedgehog.Stateful.Var_T_.ResolveOr-Env-T
   fullName: Hedgehog.Stateful.Var_T_.ResolveOr-Env-T
   nameWithType: ResolveOr
+- uid: Hedgehog.Stateful.Var_T_.VarName
+  name: VarName
+  href: api/Hedgehog.Stateful.Var_T_.html#Hedgehog_Stateful_Var_T__VarName
+  commentId: M:Hedgehog.Stateful.Var_T_.VarName
+  fullName: Hedgehog.Stateful.Var_T_.VarName
+  nameWithType: VarName
 - uid: Hedgehog.Status
   name: Status
   href: api/Hedgehog.Status.html
