@@ -1,9 +1,5 @@
 namespace Hedgehog.Stateful
 
-open System.Threading.Tasks
-open Hedgehog
-
-
 /// <summary>
 /// Unique identifier for a symbolic variable.
 /// </summary>
@@ -40,8 +36,23 @@ type Var<'T> = private {
     /// The optional default value for the variable.
     /// </summary>
     Default: 'T option
+    /// <summary>
+    /// Transform function applied when resolving the variable from the environment.
+    /// Handles unboxing and any projections/mappings applied via Var.map.
+    /// </summary>
+    Transform: obj -> 'T
 }
 with
+    /// <summary>
+    /// Gets the unique integer name of the variable.
+    /// </summary>
+    member this.VarName = this.Name
+
+    /// <summary>
+    /// Gets whether the variable is bound to a generated value.
+    /// </summary>
+    member this.IsBounded = this.Bounded
+
     member private this.DisplayText =
         if this.Bounded then
             match this.Default with
@@ -64,7 +75,7 @@ with
             | None -> failwithf "Symbolic var must have a default value"
         else
             match Map.tryFind (Name this.Name) env.values with
-            | Some v -> unbox<'T> v
+            | Some v -> this.Transform v
             | None ->
                 match this.Default with
                 | Some d -> d
@@ -81,7 +92,7 @@ with
             fallback  // Override default for unbounded
         else
             match Map.tryFind (Name this.Name) env.values with
-            | Some v -> unbox<'T> v
+            | Some v -> this.Transform v
             | None -> fallback
 
 

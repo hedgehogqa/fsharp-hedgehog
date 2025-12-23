@@ -32,6 +32,7 @@
       <Compile Include="Parallel.fs" />
       <Compile Include="SequentialSpecification.fs" />
       <Compile Include="ParallelSpecification.fs" />
+      <Compile Include="Linq\VarExtensions.fs" />
       <Compile Include="Linq\NoInput.fs" />
     </ItemGroup>
 

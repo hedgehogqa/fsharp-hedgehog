@@ -13,7 +13,7 @@ module Var =
     /// <returns>A new symbolic (unbound) <c>Var&lt;T&gt;</c> with the given default value.</returns>
     [<CompiledName("Symbolic")>]
     let symbolic (defaultValue: 'T) : Var<'T> =
-        { Name = -1; Bounded = false; Default = Some defaultValue }
+        { Name = -1; Bounded = false; Default = Some defaultValue; Transform = unbox<'T> }
 
 namespace Hedgehog.Stateful.FSharp
 
@@ -53,14 +53,29 @@ module Var =
         else
             env.values
             |> Map.tryFind (Name v.Name)
-            |> Option.map unbox<'T>
+            |> Option.map v.Transform
+
+    /// <summary>
+    /// Map a function over a variable, creating a new variable that projects
+    /// a value from the original variable's output. This allows extracting
+    /// fields from structured command outputs.
+    /// </summary>
+    /// <param name="f">The projection function to apply.</param>
+    /// <param name="v">The variable to map over.</param>
+    /// <returns>A new variable with the projection applied.</returns>
+    let map (f: 'T -> 'U) (v: Var<'T>) : Var<'U> =
+        { Name = v.Name
+          Bounded = v.Bounded
+          Default = v.Default |> Option.map f
+          Transform = v.Transform >> f }
 
     /// Create a bounded var from a Name (used during generation)
     let internal bound (name: Name) : Var<'T> =
         let (Name n) = name
-        { Name = n; Bounded = true; Default = None }
+        { Name = n; Bounded = true; Default = None; Transform = unbox<'T> }
 
     let internal convertFrom<'T> (v: Var<obj>) : Var<'T> =
         { Name = v.Name
           Bounded = v.Bounded
-          Default = v.Default |> Option.map unbox<'T> }
+          Default = v.Default |> Option.map unbox<'T>
+          Transform = unbox<'T> }

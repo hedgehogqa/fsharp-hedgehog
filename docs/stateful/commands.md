@@ -336,6 +336,98 @@ public override CounterState Update(CounterState state, bool input, Var<int> out
 
 The `outputVar` is a symbolic reference to this command's output. Later commands can resolve it to get the actual value.
 
+#### Projecting Fields from Structured Outputs
+
+When a command returns a structured type (like a record or class), you often want to store individual fields in your state rather than the entire object. Use `Var.map` (F#) or `.Select()` (C#) to project fields from the output:
+
+# [F#](#tab/fsharp)
+
+```fsharp
+// Command that returns a structured Person type
+type Person = {
+    Name: string
+    Age: int
+}
+
+type RegistryState = {
+    LastPersonName: Var<string>
+    LastPersonAge: Var<int>
+}
+
+type AddPersonCommand() =
+    inherit Command<PersonRegistry, RegistryState, string * int, Person>()
+    
+    override _.Execute(sut, env, state, (name, age)) =
+        let person = sut.AddPerson(name, age)
+        Task.FromResult(person)
+    
+    // Project individual fields from the Person output
+    override _.Update(state, input, personVar) =
+        { LastPersonName = Var.map (fun p -> p.Name) personVar
+          LastPersonAge = Var.map (fun p -> p.Age) personVar }
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+// Command that returns a structured Person type
+public record Person(string Name, int Age);
+
+public record RegistryState
+{
+    public Var<string> LastPersonName { get; init; }
+    public Var<int> LastPersonAge { get; init; }
+}
+
+public class AddPersonCommand : Command<PersonRegistry, RegistryState, (string, int), Person>
+{
+    public override Task<Person> Execute(PersonRegistry sut, Env env, RegistryState state, (string, int) input)
+    {
+        var (name, age) = input;
+        var person = sut.AddPerson(name, age);
+        return Task.FromResult(person);
+    }
+    
+    // Project individual fields from the Person output
+    public override RegistryState Update(RegistryState state, (string, int) input, Var<Person> personVar) =>
+        state with 
+        { 
+            LastPersonName = personVar.Select(p => p.Name),
+            LastPersonAge = personVar.Select(p => p.Age)
+        };
+}
+```
+
+---
+
+**How it works:** Both projected variables (`LastPersonName` and `LastPersonAge`) share the same underlying variable name - they point to the same `Person` object in the environment. When you resolve them, the projection function is applied to extract the specific field.
+
+**You can chain projections:**
+
+# [F#](#tab/fsharp)
+
+```fsharp
+override _.Update(state, input, personVar) =
+    let nameVar = Var.map (fun p -> p.Name) personVar
+    let nameLengthVar = Var.map String.length nameVar
+    { state with NameLength = nameLengthVar }
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+public override RegistryState Update(RegistryState state, (string, int) input, Var<Person> personVar)
+{
+    var nameVar = personVar.Select(p => p.Name);
+    var nameLengthVar = nameVar.Select(name => name.Length);
+    return state with { NameLength = nameLengthVar };
+}
+```
+
+---
+
+This is particularly useful when you need to pass different parts of a command's output to different subsequent commands.
+
 ### 6. Ensure: Verifying Correctness
 
 **When it runs:** After execution and state update
