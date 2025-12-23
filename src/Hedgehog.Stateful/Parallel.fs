@@ -152,7 +152,7 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
-                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
+                    do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay env state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     let name, env' = Env.freshName env
@@ -169,7 +169,7 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
-                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
+                    do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay env state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     prefixResults.Add(action.Id, output)
@@ -178,8 +178,9 @@ module Parallel =
                     env <- Env.add outputVar output env'
                     state <- action.Update state outputVar
 
-            // Save state before parallel branches (which is also before cleanup)
+            // Save state and env before parallel branches (which is also before cleanup)
             let stateBeforeBranches = state
+            let envBeforeBranches = env
 
             // Run branches in parallel
             let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(Name * obj) list, exn>> =
@@ -214,7 +215,7 @@ module Parallel =
                 | Error ex, _ | _, Error ex ->
                     // Branch failed - report state before branches
                     property {
-                        do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
+                        do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay envBeforeBranches stateBeforeBranches}")
                         return! Property.exn ex
                     }
                 | Ok results1, Ok results2 ->
@@ -228,7 +229,7 @@ module Parallel =
                     if not linearizable then
                         property {
                             do! Property.counterexample (fun () -> "No valid interleaving found")
-                            do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
+                            do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay envBeforeBranches stateBeforeBranches}")
                             return! Property.failure
                         }
                     else

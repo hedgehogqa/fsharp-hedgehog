@@ -23,8 +23,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.FSharp" />
+        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.FSharp" />
+    </ItemGroup>
+    
+    <ItemGroup>
       <Compile Include="Types.fs" />
       <Compile Include="Var.fs" />
+      <Compile Include="StateFormatter.fs" />
       <Compile Include="Action.fs" />
       <Compile Include="ICommand.fs" />
       <Compile Include="Command.fs" />

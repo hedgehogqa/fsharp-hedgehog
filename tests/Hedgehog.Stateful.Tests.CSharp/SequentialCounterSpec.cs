@@ -19,6 +19,7 @@ public class Counter
     public int AddRandom()
     {
         var rnd = new Random().Next(100);
+        if (_value > 20) throw new InvalidOperationException("Simulating bug");
         _value += rnd;
         return _value;
     }

@@ -41,6 +41,16 @@ type Var<'T> = private {
     /// Handles unboxing and any projections/mappings applied via Var.map.
     /// </summary>
     Transform: obj -> 'T
+    /// <summary>
+    /// Mutable field used internally for displaying resolved values in counterexamples.
+    /// Only mutated during test failure formatting, not during normal test execution.
+    ///
+    /// The purpose is to report failure with the concrete state values,
+    /// to make dev experience better when debugging failed tests.
+    ///
+    /// NOT INTENDED TO BE USED FOR ANY OTHER PURPOSE.
+    /// </summary>
+    mutable ResolvedValue: 'T option
 }
 with
     /// <summary>
@@ -54,14 +64,18 @@ with
     member this.IsBounded = this.Bounded
 
     member private this.DisplayText =
-        if this.Bounded then
-            match this.Default with
-            | Some d -> $"Var_%d{this.Name} (default=%A{d}))"
-            | None -> $"Var_%d{this.Name}"
-        else
-            match this.Default with
-            | Some d -> $"%A{d} (default)"
-            | None -> "<no value> (symbolic)"
+        // If resolved for display (during counterexample formatting), show the resolved value
+        match this.ResolvedValue with
+        | Some resolved -> $"%A{resolved}"
+        | None ->
+            if this.Bounded then
+                match this.Default with
+                | Some d -> $"%A{d}"
+                | None -> $"Var_%d{this.Name}"
+            else
+                match this.Default with
+                | Some d -> $"%A{d}"
+                | None -> "<no value> (symbolic)"
 
     /// <summary>
     /// Resolve the variable using its default if not found in the environment.
@@ -94,6 +108,21 @@ with
             match Map.tryFind (Name this.Name) env.values with
             | Some v -> this.Transform v
             | None -> fallback
+
+    /// <summary>
+    /// Set the resolved value for display purposes during counterexample formatting.
+    /// This should only be called internally by StateFormatter during test failure formatting.
+    /// </summary>
+    /// <param name="env">The environment to resolve the variable from.</param>
+    member internal this.SetResolvedValue(env: Env) : unit =
+        try
+            let resolved = this.Resolve(env)
+            this.ResolvedValue <- Some resolved
+        with
+            | _ -> () // If resolution fails, leave ResolvedForDisplay as None
+
+    static member internal CreateSymbolic(value: 'T) : Var<'T> =
+        { Name = -1; Bounded = false; Default = Some value; Transform = unbox<'T>; ResolvedValue = Some value }
 
 
 module internal Env =
