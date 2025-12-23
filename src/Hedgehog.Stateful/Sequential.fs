@@ -33,7 +33,7 @@ module Sequential =
                     | spec :: rest ->
                         match spec.TryGen category currentState currentEnv with
                         | None ->
-                            failwithf $"Required setup/cleanup command cannot generate in the current state (Category: %A{category})"
+                            failwithf $"Required %A{category} command failed to generate in current state. Command: %s{spec.GetType().Name}"
                         | Some actionGen ->
                             let seed1, seed2 = Seed.split seeds
 
@@ -200,6 +200,8 @@ module Sequential =
                         | ActionResult.Failure ex ->
                             // Add counterexample for the failing action before propagating the exception
                             do! Property.counterexample (fun () -> formatActionName action)
+                            if action.Category <> ActionCategory.Cleanup then
+                                do! Property.counterexample (fun () -> $"Failed at state: %A{state}")
                             do! Property.exn ex
 
                         | ActionResult.Success output ->
@@ -211,16 +213,22 @@ module Sequential =
 
                             do! Property.counterexample (fun () -> formatActionName action)
                             // Ensure returns bool - wrap it in a property that handles exceptions
-                            let ensureProperty =
+                            // If ensure fails, add final state before propagating
+                            do!
                                 try
                                     action.Ensure env'' state0 state1 output |> Property.ofBool
                                 with ex ->
-                                    Property.exn ex
-                            do! ensureProperty
+                                    if action.Category <> ActionCategory.Cleanup then
+                                        property {
+                                            do! Property.counterexample (fun () -> $"Failed at state: %A{state1}")
+                                            do! Property.exn ex
+                                        }
+                                    else
+                                        Property.exn ex
                             do! loop state1 env'' rest
                     }
 
         property {
-            do! Property.counterexample (fun () -> $"Final state: %A{actions.Initial}")
+            do! Property.counterexample (fun () -> $"Initial state: %A{actions.Initial}")
             do! loop actions.Initial Env.empty actions.Steps
         }

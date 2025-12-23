@@ -93,8 +93,9 @@ type Command<'TSystem, 'TState, 'TInput, 'TOutput>() =
             TryGen = fun category state env ->
                 if this.Precondition(state) then
                     Some (this.Generate(state) |> Gen.map (fun input ->
-                        let _, env' = Env.freshName env
+                        let actionId, env' = Env.freshName env
                         let action : Action<'TSystem, 'TState> = {
+                            Id = actionId
                             Name = $"%s{this.Name} %A{input}"
                             Input = box input
                             Category = category
@@ -207,7 +208,9 @@ type ActionCommand<'TSystem, 'TState, 'TInput>() =
             TryGen = fun category state env ->
                 if this.Precondition(state) then
                     Some (this.Generate(state) |> Gen.map (fun input ->
+                        let actionId, env' = Env.freshName env
                         let action : Action<'TSystem, 'TState> = {
+                            Id = actionId
                             Name = $"%s{this.Name} %A{input}"
                             Input = box input
                             Category = category
@@ -224,7 +227,7 @@ type ActionCommand<'TSystem, 'TState, 'TInput>() =
                             Update = fun s _ -> this.Update(s, input)  // Ignore Var parameter
                             Ensure = fun environment s0 s1 _ -> this.Ensure(environment, s0, s1, input)  // Ignore output parameter
                         }
-                        action, env  // Don't create fresh name since no output variable
+                        action, env'  // Return updated env with fresh name
                     ))
                 else
                     None
