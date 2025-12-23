@@ -201,7 +201,7 @@ module Sequential =
                             // Add counterexample for the failing action before propagating the exception
                             do! Property.counterexample (fun () -> formatActionName action)
                             if action.Category <> ActionCategory.Cleanup then
-                                do! Property.counterexample (fun () -> $"Failed at state: %A{state}")
+                                do! Property.counterexample (fun () -> $"Failed at state: %A{StateFormatter.formatForDisplay env state}")
                             do! Property.exn ex
 
                         | ActionResult.Success output ->
@@ -220,7 +220,7 @@ module Sequential =
                                 with ex ->
                                     if action.Category <> ActionCategory.Cleanup then
                                         property {
-                                            do! Property.counterexample (fun () -> $"Failed at state: %A{state1}")
+                                            do! Property.counterexample (fun () -> $"Failed at state: %A{StateFormatter.formatForDisplay env'' state1}")
                                             do! Property.exn ex
                                         }
                                     else
@@ -229,6 +229,6 @@ module Sequential =
                     }
 
         property {
-            do! Property.counterexample (fun () -> $"Initial state: %A{actions.Initial}")
+            do! Property.counterexample (fun () -> $"Initial state: %A{StateFormatter.formatForDisplay Env.empty actions.Initial}")
             do! loop actions.Initial Env.empty actions.Steps
         }

@@ -23,8 +23,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.FSharp" />
+        <InternalsVisibleTo Include="Hedgehog.Stateful.Tests.CSharp" />
+    </ItemGroup>
+    
+    <ItemGroup>
       <Compile Include="Types.fs" />
       <Compile Include="Var.fs" />
+      <Compile Include="StateFormatter.fs" />
       <Compile Include="Action.fs" />
       <Compile Include="ICommand.fs" />
       <Compile Include="Command.fs" />
@@ -32,7 +38,8 @@
       <Compile Include="Parallel.fs" />
       <Compile Include="SequentialSpecification.fs" />
       <Compile Include="ParallelSpecification.fs" />
-      <Compile Include="Linq\NoInput.fs" />
+      <Compile Include="Linq\VarExtensions.fs" />
+      <Compile Include="Linq\NoValue.fs" />
     </ItemGroup>
 
     <ItemGroup>

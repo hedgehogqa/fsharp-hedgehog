@@ -14,6 +14,8 @@
         <Compile Include="ParallelCounterWithSetupCleanupSpec.fs" />
         <Compile Include="SequentialCounterSpec.fs" />
         <Compile Include="ParallelCounterSpec.fs" />
+        <Compile Include="VarMapSpec.fs" />
+        <Compile Include="StateFormatterSpec.fs" />
     </ItemGroup>
 
     <ItemGroup>

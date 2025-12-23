@@ -41,27 +41,27 @@ public record CounterState
 /// <summary>
 /// Increment command - increments the counter and returns new value
 /// </summary>
-public class IncrementCommand : Command<Counter, CounterState, NoInput, int>
+public class IncrementCommand : Command<Counter, CounterState, NoValue, int>
 {
     public override string Name => "Increment";
 
     public override bool Precondition(CounterState state) => true;
-    public override bool Require(Env env, CounterState state, NoInput input) => Precondition(state);
+    public override bool Require(Env env, CounterState state, NoValue value) => Precondition(state);
 
-    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoInput input)
+    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoValue value)
     {
         sut.Increment();
         var result = sut.Get();
         return Task.FromResult(result);
     }
 
-    public override Gen<NoInput> Generate(CounterState state) =>
-        Gen.Constant(NoInput.Value);
+    public override Gen<NoValue> Generate(CounterState state) =>
+        Gen.Constant(NoValue.Value);
 
-    public override CounterState Update(CounterState state, NoInput input, Var<int> outputVar) =>
+    public override CounterState Update(CounterState state, NoValue value, Var<int> outputVar) =>
         state with { CurrentCount = outputVar };
 
-    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoInput input, int result)
+    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoValue value, int result)
     {
         var oldCount = oldState.CurrentCount.Resolve(env);
         return result == oldCount + 1;
@@ -71,51 +71,51 @@ public class IncrementCommand : Command<Counter, CounterState, NoInput, int>
 /// <summary>
 /// AddRandom command - adds a random value to the counter
 /// </summary>
-public class AddRandomCommand : Command<Counter, CounterState, NoInput, int>
+public class AddRandomCommand : Command<Counter, CounterState, NoValue, int>
 {
     public override string Name => "AddRandom";
 
     public override bool Precondition(CounterState state) => true;
-    public override bool Require(Env env, CounterState state, NoInput input) => Precondition(state);
+    public override bool Require(Env env, CounterState state, NoValue value) => Precondition(state);
 
-    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoInput input) =>
+    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoValue value) =>
         Task.FromResult(sut.AddRandom());
 
-    public override Gen<NoInput> Generate(CounterState state) =>
-        Gen.Constant(NoInput.Value);
+    public override Gen<NoValue> Generate(CounterState state) =>
+        Gen.Constant(NoValue.Value);
 
 
-    public override CounterState Update(CounterState state, NoInput input, Var<int> outputVar) =>
+    public override CounterState Update(CounterState state, NoValue value, Var<int> outputVar) =>
         state with { CurrentCount = outputVar };
 
-    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoInput input, int output) => true;
+    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoValue value, int output) => true;
 }
 
 /// <summary>
 /// Decrement command - decrements the counter and returns new value
 /// </summary>
-public class DecrementCommand : Command<Counter, CounterState, NoInput, int>
+public class DecrementCommand : Command<Counter, CounterState, NoValue, int>
 {
     public override string Name => "Decrement";
 
     public override bool Precondition(CounterState state) => true;
-    public override bool Require(Env env, CounterState state, NoInput input) => Precondition(state);
+    public override bool Require(Env env, CounterState state, NoValue value) => Precondition(state);
 
-    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoInput input)
+    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoValue value)
     {
         sut.Decrement();
         var result = sut.Get();
         return Task.FromResult(result);
     }
 
-    public override Gen<NoInput> Generate(CounterState state) =>
-        Gen.Constant(NoInput.Value);
+    public override Gen<NoValue> Generate(CounterState state) =>
+        Gen.Constant(NoValue.Value);
 
 
-    public override CounterState Update(CounterState state, NoInput input, Var<int> outputVar) =>
+    public override CounterState Update(CounterState state, NoValue value, Var<int> outputVar) =>
         state with { CurrentCount = outputVar };
 
-    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoInput input, int result)
+    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoValue value, int result)
     {
         var oldCount = oldState.CurrentCount.Resolve(env);
         return result == oldCount - 1;
@@ -125,28 +125,28 @@ public class DecrementCommand : Command<Counter, CounterState, NoInput, int>
 /// <summary>
 /// Reset command - resets the counter to 0
 /// </summary>
-public class ResetCommand : Command<Counter, CounterState, NoInput, int>
+public class ResetCommand : Command<Counter, CounterState, NoValue, int>
 {
     public override string Name => "Reset";
 
     public override bool Precondition(CounterState state) => true;
-    public override bool Require(Env env, CounterState state, NoInput input) => Precondition(state);
+    public override bool Require(Env env, CounterState state, NoValue value) => Precondition(state);
 
-    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoInput input)
+    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoValue value)
     {
         sut.Reset();
         var result = sut.Get();
         return Task.FromResult(result);
     }
 
-    public override Gen<NoInput> Generate(CounterState state) =>
-        Gen.Constant(NoInput.Value);
+    public override Gen<NoValue> Generate(CounterState state) =>
+        Gen.Constant(NoValue.Value);
 
 
-    public override CounterState Update(CounterState state, NoInput input, Var<int> outputVar) =>
+    public override CounterState Update(CounterState state, NoValue value, Var<int> outputVar) =>
         state with { CurrentCount = outputVar };
 
-    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoInput input, int result)
+    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoValue value, int result)
     {
         // Reset always sets to 0
         return result == 0;
@@ -186,23 +186,23 @@ public class SetCommand : Command<Counter, CounterState, int, int>
 /// <summary>
 /// Get command - returns the current counter value
 /// </summary>
-public class GetCommand : Command<Counter, CounterState, NoInput, int>
+public class GetCommand : Command<Counter, CounterState, NoValue, int>
 {
     public override string Name => "Get";
 
     public override bool Precondition(CounterState state) => true;
-    public override bool Require(Env env, CounterState state, NoInput input) => Precondition(state);
+    public override bool Require(Env env, CounterState state, NoValue value) => Precondition(state);
 
-    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoInput input) =>
+    public override Task<int> Execute(Counter sut, Env env, CounterState state, NoValue value) =>
         Task.FromResult(sut.Get());
 
-    public override Gen<NoInput> Generate(CounterState state) =>
-        Gen.Constant(NoInput.Value);
+    public override Gen<NoValue> Generate(CounterState state) =>
+        Gen.Constant(NoValue.Value);
 
-    public override CounterState Update(CounterState state, NoInput input, Var<int> outputVar) =>
+    public override CounterState Update(CounterState state, NoValue value, Var<int> outputVar) =>
         state with { CurrentCount = outputVar };
 
-    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoInput input, int result)
+    public override bool Ensure(Env env, CounterState oldState, CounterState newState, NoValue value, int result)
     {
         return result == oldState.CurrentCount.Resolve(env);
     }
