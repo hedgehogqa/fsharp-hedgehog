@@ -30,7 +30,6 @@
     <ItemGroup>
       <Compile Include="Types.fs" />
       <Compile Include="Var.fs" />
-      <Compile Include="StateFormatter.fs" />
       <Compile Include="Action.fs" />
       <Compile Include="ICommand.fs" />
       <Compile Include="Command.fs" />

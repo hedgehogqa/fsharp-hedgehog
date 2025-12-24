@@ -42,8 +42,8 @@ module Sequential =
 
                             // Use outcome to compute next state for subsequent actions
                             let outcomeAction, outcomeEnv = Tree.outcome actionAndEnvTree
-                            let name, nextEnv = Env.freshName outcomeEnv
-                            let outputVar = Var.bound name
+                            let _, nextEnv = Env.freshName outcomeEnv
+                            let outputVar = Var.symbolicEmpty()
                             let nextState = outcomeAction.Update currentState outputVar
 
                             // Recursively generate rest with updated state
@@ -94,8 +94,8 @@ module Sequential =
 
                     // Extract outcome for state evolution
                     let action, env' = Tree.outcome actionAndEnvTreeResult
-                    let name = fst (Env.freshName env)
-                    let outputVar = Var.bound name
+                    let _, _ = Env.freshName env
+                    let outputVar = Var.symbolicEmpty()
                     let state' = action.Update state outputVar
 
                     // Recurse with split seed
@@ -112,7 +112,7 @@ module Sequential =
             | [] -> true
             | action :: rest ->
                 if action.Require env state then
-                    let state' = action.Update state (Var.bound (Name counter))
+                    let state' = action.Update state (Var.symbolicEmpty())
                     validateSequence env state' (counter + 1) rest
                 else false
 
@@ -121,8 +121,8 @@ module Sequential =
             let allActions = setupActions @ testActions
             allActions
             |> List.indexed
-            |> List.fold (fun state (counter, action) ->
-                action.Update state (Var.bound (Name counter))
+            |> List.fold (fun state (_counter, action) ->
+                action.Update state (Var.symbolicEmpty())
             ) initial
 
         // Main generator
@@ -201,13 +201,12 @@ module Sequential =
                             // Add counterexample for the failing action before propagating the exception
                             do! Property.counterexample (fun () -> formatActionName action)
                             if action.Category <> ActionCategory.Cleanup then
-                                do! Property.counterexample (fun () -> $"Failed at state: %A{StateFormatter.formatForDisplay env state}")
+                                do! Property.counterexample (fun () -> $"Failed at state: %A{state}")
                             do! Property.exn ex
 
                         | ActionResult.Success output ->
-                            let name, env' = Env.freshName env
-                            let outputVar = Var.bound name
-                            let env'' = Env.add outputVar output env'
+                            let _, env' = Env.freshName env
+                            let outputVar = Concrete output
                             let state0 = state
                             let state1 = action.Update state outputVar
 
@@ -216,19 +215,19 @@ module Sequential =
                             // If ensure fails, add final state before propagating
                             do!
                                 try
-                                    action.Ensure env'' state0 state1 output |> Property.ofBool
+                                    action.Ensure env' state0 state1 output |> Property.ofBool
                                 with ex ->
                                     if action.Category <> ActionCategory.Cleanup then
                                         property {
-                                            do! Property.counterexample (fun () -> $"Failed at state: %A{StateFormatter.formatForDisplay env'' state1}")
+                                            do! Property.counterexample (fun () -> $"Failed at state: %A{state1}")
                                             do! Property.exn ex
                                         }
                                     else
                                         Property.exn ex
-                            do! loop state1 env'' rest
+                            do! loop state1 env' rest
                     }
 
         property {
-            do! Property.counterexample (fun () -> $"Initial state: %A{StateFormatter.formatForDisplay Env.empty actions.Initial}")
+            do! Property.counterexample (fun () -> $"Initial state: %A{actions.Initial}")
             do! loop actions.Initial Env.empty actions.Steps
         }

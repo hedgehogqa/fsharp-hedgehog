@@ -79,3 +79,6 @@ BenchmarkDotNet.Artifacts
 
 # docfx
 _site/
+
+# tests / verifier
+*.received.*

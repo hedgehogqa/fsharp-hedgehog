@@ -11,16 +11,18 @@
 
     <ItemGroup>
         <Compile Include="AsyncCounterSpec.fs" />
+        <Compile Include="Prelude.fs" />
         <Compile Include="ParallelCounterWithSetupCleanupSpec.fs" />
         <Compile Include="SequentialCounterSpec.fs" />
         <Compile Include="ParallelCounterSpec.fs" />
+        <Compile Include="VarDisplaySpec.fs" />
         <Compile Include="VarMapSpec.fs" />
-        <Compile Include="StateFormatterSpec.fs" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="Verify.XunitV3" Version="31.9.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
