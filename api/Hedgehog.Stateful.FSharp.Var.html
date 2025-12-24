@@ -149,10 +149,10 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L32"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve a variable using its default value if not found in the environment.</p>
+  <div class="markdown level1 summary"><p>Resolve a variable using its default value if symbolic.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><code>env</code>: The environment to resolve the variable from.</li>
+<li><code>env</code>: The environment capability token.</li>
 <li><code>v</code>: The variable to resolve.</li>
 </ul>
 </div>
@@ -195,11 +195,11 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L42"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve a variable with an explicit fallback value, overriding the variable's default.</p>
+  <div class="markdown level1 summary"><p>Resolve a variable with an explicit fallback value.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><code>fallback</code>: The fallback value to use if the variable is not found.</li>
-<li><code>env</code>: The environment to resolve the variable from.</li>
+<li><code>fallback</code>: The fallback value to use if the variable is symbolic without a default.</li>
+<li><code>env</code>: The environment capability token.</li>
 <li><code>v</code>: The variable to resolve.</li>
 </ul>
 </div>
@@ -242,11 +242,11 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
   <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L51"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve a variable, returning <code>Error</code> if not found in the environment or if resolution fails.</p>
+  <div class="markdown level1 summary"><p>Resolve a variable, returning <code>Error</code> if it's symbolic without a default value.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><code>v</code>: The variable to resolve.</li>
-<li><code>env</code>: The environment to resolve the variable from.</li>
+<li><code>env</code>: The environment capability token.</li>
 </ul>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -285,7 +285,7 @@ Class Var  <a class="header-action link-secondary" title="View source" href="htt
 
   <h3 id="Hedgehog_Stateful_FSharp_Var_map_T_Var" data-uid="Hedgehog.Stateful.FSharp.Var.map-T-Var">
   map
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L73"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Var.fs/#L65"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Map a function over a variable, creating a new variable that projects

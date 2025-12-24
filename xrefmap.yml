@@ -4267,12 +4267,6 @@ references:
   commentId: M:Hedgehog.Stateful.Var_T_.ResolveOr-Env-T
   fullName: Hedgehog.Stateful.Var_T_.ResolveOr-Env-T
   nameWithType: ResolveOr
-- uid: Hedgehog.Stateful.Var_T_.VarName
-  name: VarName
-  href: api/Hedgehog.Stateful.Var_T_.html#Hedgehog_Stateful_Var_T__VarName
-  commentId: M:Hedgehog.Stateful.Var_T_.VarName
-  fullName: Hedgehog.Stateful.Var_T_.VarName
-  nameWithType: VarName
 - uid: Hedgehog.Status
   name: Status
   href: api/Hedgehog.Status.html
