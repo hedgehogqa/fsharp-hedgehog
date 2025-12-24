@@ -32,8 +32,7 @@ module Parallel =
             let stateAfterSetup =
                 setup.Steps
                 |> List.fold (fun s a ->
-                    let name, _ = Env.freshName Env.empty
-                    a.Update s (Var.bound name)
+                    a.Update s (Var.symbolicEmpty())
                 ) initial
 
             // Generate prefix using state after setup
@@ -43,8 +42,7 @@ module Parallel =
             let stateAfterPrefix =
                 prefix.Steps
                 |> List.fold (fun s a ->
-                    let name, _ = Env.freshName Env.empty
-                    a.Update s (Var.bound name)
+                    a.Update s (Var.symbolicEmpty())
                 ) stateAfterSetup
 
             // Generate branches from state after prefix
@@ -85,11 +83,10 @@ module Parallel =
                 match Map.tryFind action.Id results with
                 | None -> None
                 | Some output ->
-                    let name, env' = Env.freshName env
-                    let outputVar = Var.bound name
-                    let env'' = Env.add outputVar output env'
+                    let _, env' = Env.freshName env
+                    let outputVar = Concrete output
                     let state' = action.Update state outputVar
-                    Some (state', env'')
+                    Some (state', env')
 
         /// Recursively search for a valid interleaving of the two branches.
         /// Returns true as soon as a valid interleaving is found (early termination).
@@ -152,12 +149,12 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
-                    do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay env state}")
+                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
-                    let name, env' = Env.freshName env
-                    let outputVar = Var.bound name
-                    env <- Env.add outputVar output env'
+                    let _, env' = Env.freshName env
+                    let outputVar = Concrete output
+                    env <- env'
                     state <- action.Update state outputVar
 
             // Run prefix sequentially
@@ -169,13 +166,13 @@ module Parallel =
                 match result with
                 | ActionResult.Failure ex ->
                     do! Property.counterexample (fun () -> formatActionName action)
-                    do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay env state}")
+                    do! Property.counterexample (fun () -> $"Final state: %A{state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     prefixResults.Add(action.Id, output)
-                    let name, env' = Env.freshName env
-                    let outputVar = Var.bound name
-                    env <- Env.add outputVar output env'
+                    let _, env' = Env.freshName env
+                    let outputVar = Concrete output
+                    env <- env'
                     state <- action.Update state outputVar
 
             // Save state and env before parallel branches (which is also before cleanup)
@@ -193,11 +190,10 @@ module Parallel =
                             | ActionResult.Failure ex ->
                                 return Error ex
                             | ActionResult.Success output ->
-                                let name, env' = Env.freshName branchEnv
-                                let outputVar = Var.bound name
-                                let newEnv = Env.add outputVar output env'
+                                let _, env' = Env.freshName branchEnv
+                                let outputVar = Concrete output
                                 let newState = action.Update branchState outputVar
-                                return! loop ((action.Id, output) :: results) newEnv newState rest
+                                return! loop ((action.Id, output) :: results) env' newState rest
                         }
                 loop [] env state branch
 
@@ -215,7 +211,7 @@ module Parallel =
                 | Error ex, _ | _, Error ex ->
                     // Branch failed - report state before branches
                     property {
-                        do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay envBeforeBranches stateBeforeBranches}")
+                        do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
                         return! Property.exn ex
                     }
                 | Ok results1, Ok results2 ->
@@ -229,7 +225,7 @@ module Parallel =
                     if not linearizable then
                         property {
                             do! Property.counterexample (fun () -> "No valid interleaving found")
-                            do! Property.counterexample (fun () -> $"Final state: %A{StateFormatter.formatForDisplay envBeforeBranches stateBeforeBranches}")
+                            do! Property.counterexample (fun () -> $"Final state: %A{stateBeforeBranches}")
                             return! Property.failure
                         }
                     else
@@ -249,9 +245,10 @@ module Parallel =
                         | ActionResult.Failure ex ->
                             cleanupError <- Some (formatActionName action, ex)
                         | ActionResult.Success output ->
-                            let name, env' = Env.freshName env
-                            let outputVar = Var.bound name
-                            env <- Env.add outputVar output env'
+                            let _, env' = Env.freshName env
+                            let outputVar = Concrete output
+                            env <- env'
+                            state <- action.Update state outputVar
 
             // Check linearizability first
             do! linearizabilityCheck

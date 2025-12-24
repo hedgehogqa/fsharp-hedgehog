@@ -8,11 +8,12 @@ type Name = internal Name of int
 
 
 /// <summary>
-/// Environment mapping symbolic variable names to concrete values.
+/// Environment used for generating unique action IDs and as a capability token
+/// to enforce compile-time safety. The presence of an Env parameter indicates
+/// the execution phase, where symbolic variables can be resolved.
 /// The SUT is passed separately to Execute, not stored in Env.
 /// </summary>
 type Env = private {
-    values: Map<Name, obj>
     nextId: int
 }
 
@@ -20,123 +21,67 @@ type Env = private {
 /// <summary>
 /// Symbolic variable referencing a command's output. Symbolic variables are placeholders
 /// that let us chain commands by using one command's result as input to another, even before execution.
-/// A symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.
+/// Variables can be either Symbolic (during generation, with optional default values) or
+/// Concrete (during execution, with actual runtime values).
 /// </summary>
 [<StructuredFormatDisplay("{DisplayText}")>]
-type Var<'T> = private {
+type Var<'T> =
+    internal
     /// <summary>
-    /// The unique integer name of the variable.
+    /// Symbolic variable with an optional default value.
+    /// None indicates a placeholder created during generation (not yet executed).
+    /// Some indicates an initial state default value.
     /// </summary>
-    Name: int
+    | Symbolic of 'T option
     /// <summary>
-    /// Indicates if the variable is bound to a generated value.
+    /// Concrete variable with an actual runtime value from execution.
     /// </summary>
-    Bounded: bool
-    /// <summary>
-    /// The optional default value for the variable.
-    /// </summary>
-    Default: 'T option
-    /// <summary>
-    /// Transform function applied when resolving the variable from the environment.
-    /// Handles unboxing and any projections/mappings applied via Var.map.
-    /// </summary>
-    Transform: obj -> 'T
-    /// <summary>
-    /// Mutable field used internally for displaying resolved values in counterexamples.
-    /// Only mutated during test failure formatting, not during normal test execution.
-    ///
-    /// The purpose is to report failure with the concrete state values,
-    /// to make dev experience better when debugging failed tests.
-    ///
-    /// NOT INTENDED TO BE USED FOR ANY OTHER PURPOSE.
-    /// </summary>
-    mutable ResolvedValue: 'T option
-}
+    | Concrete of 'T
 with
     /// <summary>
-    /// Gets the unique integer name of the variable.
+    /// Gets whether the variable has been bound to a concrete execution value.
     /// </summary>
-    member this.VarName = this.Name
-
-    /// <summary>
-    /// Gets whether the variable is bound to a generated value.
-    /// </summary>
-    member this.IsBounded = this.Bounded
+    member this.IsBounded =
+        match this with
+        | Concrete _ -> true
+        | Symbolic _ -> false
 
     member private this.DisplayText =
-        // If resolved for display (during counterexample formatting), show the resolved value
-        match this.ResolvedValue with
-        | Some resolved -> $"%A{resolved}"
-        | None ->
-            if this.Bounded then
-                match this.Default with
-                | Some d -> $"%A{d}"
-                | None -> $"Var_%d{this.Name}"
-            else
-                match this.Default with
-                | Some d -> $"%A{d}"
-                | None -> "<no value> (symbolic)"
+        match this with
+        | Concrete value -> $"%A{value}"
+        | Symbolic (Some defaultValue) -> $"%A{defaultValue}"
+        | Symbolic None -> "<symbolic>"
 
     /// <summary>
-    /// Resolve the variable using its default if not found in the environment.
+    /// Resolve the variable to its value.
+    /// Requires Env parameter as a capability token to enforce that resolution
+    /// only happens during execution phase (Execute, Require, Ensure methods).
     /// </summary>
-    /// <param name="env">The environment to resolve the variable from.</param>
+    /// <param name="env">The environment capability token.</param>
     /// <returns>The resolved value of the variable.</returns>
     member this.Resolve(env: Env) : 'T =
-        if not this.Bounded then
-            match this.Default with
-            | Some d -> d
-            | None -> failwithf "Symbolic var must have a default value"
-        else
-            match Map.tryFind (Name this.Name) env.values with
-            | Some v -> this.Transform v
-            | None ->
-                match this.Default with
-                | Some d -> d
-                | None -> failwithf $"Var %A{Name this.Name} not bound in environment and no default provided"
+        match this with
+        | Concrete value -> value
+        | Symbolic (Some defaultValue) -> defaultValue
+        | Symbolic None -> failwith "Cannot resolve symbolic variable without a default value"
 
     /// <summary>
-    /// Resolve the variable with an explicit fallback value, overriding the variable's default.
+    /// Resolve the variable with an explicit fallback value.
     /// </summary>
-    /// <param name="env">The environment to resolve the variable from.</param>
-    /// <param name="fallback">The fallback value to use if the variable is not found.</param>
-    /// <returns>The resolved value or the fallback if not found.</returns>
+    /// <param name="env">The environment capability token.</param>
+    /// <param name="fallback">The fallback value to use if the variable is symbolic without a default.</param>
+    /// <returns>The resolved value or the fallback.</returns>
     member this.ResolveOr(env: Env, fallback: 'T) : 'T =
-        if not this.Bounded then
-            fallback  // Override default for unbounded
-        else
-            match Map.tryFind (Name this.Name) env.values with
-            | Some v -> this.Transform v
-            | None -> fallback
-
-    /// <summary>
-    /// Set the resolved value for display purposes during counterexample formatting.
-    /// This should only be called internally by StateFormatter during test failure formatting.
-    /// </summary>
-    /// <param name="env">The environment to resolve the variable from.</param>
-    member internal this.SetResolvedValue(env: Env) : unit =
-        try
-            let resolved = this.Resolve(env)
-            this.ResolvedValue <- Some resolved
-        with
-            | _ -> () // If resolution fails, leave ResolvedForDisplay as None
-
-    static member internal CreateSymbolic(value: 'T) : Var<'T> =
-        { Name = -1; Bounded = false; Default = Some value; Transform = unbox<'T>; ResolvedValue = Some value }
+        match this with
+        | Concrete value -> value
+        | Symbolic (Some defaultValue) -> defaultValue
+        | Symbolic None -> fallback
 
 
 module internal Env =
     /// Empty environment
-    let empty : Env = { values = Map.empty; nextId = 0 }
+    let empty : Env = { nextId = 0 }
 
-    /// Generate a fresh variable name
+    /// Generate a fresh action ID
     let freshName (env: Env) : Name * Env =
         Name env.nextId, { env with nextId = env.nextId + 1 }
-    
-    /// Store a concrete value for a variable
-    let add (v: Var<'a>) (value: 'a) (env: Env) : Env =
-        { env with values = Map.add (Name v.Name) (box value) env.values }
-
-    /// Resolve a variable to its concrete value
-    let resolve<'T> (v: Var<'T>) (env: Env) : 'T =
-        v.Resolve(env)

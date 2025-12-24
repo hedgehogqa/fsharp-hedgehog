@@ -48,8 +48,8 @@ type AddPersonCommand() =
 
     // Use Var.map to project individual fields from the Person result
     override _.Update(_, _, personVar) =
-        { LastPersonName = Var.map (fun p -> p.Name) personVar
-          LastPersonAge = Var.map (fun p -> p.Age) personVar }
+        { LastPersonName = Var.map _.Name personVar
+          LastPersonAge = Var.map _.Age personVar }
 
     override _.Ensure(_env, _oldState, _, (name, age), result) =
         // Verify the returned person has correct values
@@ -107,17 +107,16 @@ let ``Var.map allows projecting fields from structured command outputs``() =
     VarMapSpec().ToProperty(sut).Check()
 
 [<Fact>]
-let ``Var.map preserves symbolic variable names``() =
+let ``Var.map preserves symbolic status``() =
     // Create a symbolic var with a default person
     let personVar = Var.symbolic { Name = "Alice"; Age = 30 }
 
     // Map to get name
-    let nameVar = Var.map (fun p -> p.Name) personVar
+    let nameVar = Var.map _.Name personVar
 
-    // Both vars should have the same Name (symbolic vars have Name = -1)
-    Assert.Equal(-1, personVar.VarName)
-    Assert.Equal(-1, nameVar.VarName)
-    Assert.Equal(personVar.IsBounded, nameVar.IsBounded)
+    // Both vars should be symbolic (not bounded)
+    Assert.False(personVar.IsBounded)
+    Assert.False(nameVar.IsBounded)
 
 [<Fact>]
 let ``Var.map chains multiple projections``() =
@@ -127,6 +126,5 @@ let ``Var.map chains multiple projections``() =
     let nameVar = Var.map _.Name personVar
     let nameLengthVar = Var.map String.length nameVar
 
-    // All should share the same symbolic name
-    Assert.Equal(-1, nameLengthVar.VarName)
+    // All should remain symbolic
     Assert.False(nameLengthVar.IsBounded)
