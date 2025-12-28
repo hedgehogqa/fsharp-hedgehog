@@ -1,4 +1,0 @@
-﻿{ OptionalVar = Some 42
-  ResultVar = Ok "test"
-  UnionField = CaseNoVars 123
-  ListOfVars = [] }
