@@ -63,10 +63,11 @@ module Var =
     /// <param name="v">The variable to map over.</param>
     /// <returns>A new variable with the projection applied.</returns>
     let map (f: 'T -> 'U) (v: Var<'T>) : Var<'U> =
+        let transform = v.Transform >> f
         { Name = v.Name
           Default = v.Default |> Option.map f
-          Transform = v.Transform >> f
-          ResolvedValue = None }
+          Transform = transform
+          ResolvedValue = v.ResolvedValue |> Option.map transform }
 
     /// Create a bounded var from a Name (used during generation)
     let internal bound (name: Name) : Var<'T> =
@@ -75,7 +76,8 @@ module Var =
 
     /// Convert from obj var to typed var (used internally)
     let internal convertFrom<'T> (v: Var<obj>) : Var<'T> =
+        let transform = v.Transform >> unbox<'T>
         { Name = v.Name
           Default = v.Default |> Option.map unbox<'T>
-          Transform = unbox<'T>
-          ResolvedValue = None }
+          Transform = transform
+          ResolvedValue = v.ResolvedValue |> Option.map transform }
