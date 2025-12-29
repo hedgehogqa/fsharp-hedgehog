@@ -313,8 +313,11 @@ public class KnockKnockDoorCommand : Command&lt;Door, DoorState, int, bool&gt;
 <p><strong>Returns:</strong> <code>true</code> to proceed with execution, <code>false</code> to skip this command (the test continues with remaining commands)</p>
 <p><strong>Important:</strong> Returning <code>false</code> does NOT fail the test - it simply skips the command. This is different from <code>Ensure</code>, which validates correctness.</p>
 <p><strong>Key difference from Precondition:</strong> <code>Require</code> DOES receive an <code>Env</code> parameter, so it CAN resolve symbolic variables! This is where you check concrete runtime values that weren't known during generation.</p>
-<p><strong>Best practice:</strong> Only override this method if you need to check runtime state values (resolved symbolic variables) or validate the generated input. Since <code>Precondition</code> is checked during both generation and shrinking, most commands can rely on the default <code>Require</code> implementation.</p>
-<p><strong>In practice:</strong> The default <code>Require</code> implementation returns <code>true</code>, which works for most commands.</p>
+<p><strong>When you need it:</strong> The most common case is when your <code>Generate</code> method returns <code>Var&lt;T&gt;</code> as part of the input (e.g., picking from a list of symbolic IDs). Since previous commands can be skipped, those symbolic variables might not be bound at execution time. Override <code>Require</code> to check if such variables can actually be resolved before attempting to use them.</p>
+<blockquote>
+<p><strong>💡 Tip:</strong> For a detailed explanation of when and how to use <code>Require</code>, including complete examples with symbolic variables in inputs, see <a href="require.html">Runtime Preconditions</a>.</p>
+</blockquote>
+<p><strong>In practice:</strong> The default <code>Require</code> implementation returns <code>true</code>, which works for most commands that don't use symbolic variables as input.</p>
 <h3 id="4-execute-running-the-real-operation">4. Execute: Running the Real Operation</h3>
 <p><strong>When it runs:</strong> During test execution</p>
 <p><strong>Purpose:</strong> Perform the actual operation on your system under test</p>

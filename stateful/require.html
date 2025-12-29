@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Runtime Preconditions with Require | Hedgehog .NET </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Runtime Preconditions with Require | Hedgehog .NET ">
+      
+      
+      <link rel="icon" href="../images/favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/docs/stateful/require.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="Hedgehog .NET">
+            Hedgehog .NET
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+        </div>
+
+        <article data-uid="">
+<h1 id="runtime-preconditions-with-require">Runtime Preconditions with Require</h1>
+
+<p>When you generate a test sequence, Hedgehog creates a plan of actions to execute. But what happens when that plan includes references to values that might not exist when execution time arrives?</p>
+<p>This is where the <code>Require</code> method becomes essential.</p>
+<h2 id="the-problem-symbolic-variables-as-input">The Problem: Symbolic Variables as Input</h2>
+<p>Consider a user registry system where commands can look up previously registered users. Your state might track registered user IDs:</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_fsharp" role="tab" aria-controls="tabpanel_1_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_csharp" role="tab" aria-controls="tabpanel_1_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_1_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type RegistryState = {
+    RegisteredIds: Var&lt;int&gt; list  // List of IDs from previous Register commands
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public record RegistryState
+{
+    public List&lt;Var&lt;int&gt;&gt; RegisteredIds { get; init; } = new();
+}
+</code></pre>
+</section>
+</div>
+
+<p>When generating a <code>LookupUser</code> command, you need to pick an ID from this list:</p>
+<div class="tabGroup" id="tabgroup_2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_2_fsharp" role="tab" aria-controls="tabpanel_2_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_2_csharp" role="tab" aria-controls="tabpanel_2_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_2_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type LookupUserCommand() =
+    inherit Command&lt;UserRegistry, RegistryState, Var&lt;int&gt;, UserInfo option&gt;()
+    
+    override _.Precondition(state) =
+        not (List.isEmpty state.RegisteredIds)
+    
+    override _.Generate(state) =
+        Gen.item state.RegisteredIds  // Returns a Var&lt;int&gt; from the list
+</code></pre>
+</section>
+<section id="tabpanel_2_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class LookupUserCommand : Command&lt;UserRegistry, RegistryState, Var&lt;int&gt;, UserInfo?&gt;
+{
+    public override bool Precondition(RegistryState state) =&gt;
+        state.RegisteredIds.Count &gt; 0;
+    
+    public override Gen&lt;Var&lt;int&gt;&gt; Generate(RegistryState state) =&gt;
+        Gen.Element(state.RegisteredIds);  // Returns a Var&lt;int&gt; from the list
+}
+</code></pre>
+</section>
+</div>
+
+<p><strong>Notice:</strong> <code>Generate</code> returns a <code>Var&lt;int&gt;</code> - a symbolic reference to an ID that some previous command produced.</p>
+<h3 id="the-hidden-danger-shrinking-can-leave-variables-unbound">The Hidden Danger: Shrinking Can Leave Variables Unbound</h3>
+<p>Here's the subtle problem. Imagine Hedgehog generates this sequence (which passes):</p>
+<pre><code class="lang-text">1. RegisterUser(&quot;Alice&quot;) → Var₁
+2. RegisterUser(&quot;Bob&quot;)   → Var₂  
+3. RegisterUser(&quot;Charlie&quot;) → Var₃
+4. LookupUser(Var₂)      ← succeeds
+5. DeleteUser(Var₃)      
+6. SomeOtherOperation()  ← THIS FAILS!
+</code></pre>
+<p>The test fails at step 6. Now Hedgehog tries to <strong>shrink</strong> the sequence to find the minimal failing case. It might try removing step 2:</p>
+<pre><code class="lang-text">1. RegisterUser(&quot;Alice&quot;) → Var₁
+   [step 2 removed - &quot;Bob&quot; never registered]
+3. RegisterUser(&quot;Charlie&quot;) → Var₃
+4. LookupUser(Var₂)      ← CRASH! Var₂ is unbound
+5. DeleteUser(Var₃)      
+6. SomeOtherOperation()
+</code></pre>
+<p><strong>What happened?</strong></p>
+<ul>
+<li>When step 4 was originally generated, the state had <code>[Var₁, Var₂]</code> in <code>RegisteredIds</code></li>
+<li><code>Generate</code> picked <code>Var₂</code> randomly from that list</li>
+<li>During shrinking, step 2 (which produced <code>Var₂</code>) was removed</li>
+<li>Step 4 still has <code>Var₂</code> as its input, but <code>Var₂</code> was never bound to a concrete value</li>
+<li>Without <code>Require</code>, calling <code>Var₂.Resolve(env)</code> will throw an exception</li>
+</ul>
+<p>This isn't a problem with the test logic—it's a fundamental aspect of how shrinking works. Actions are removed from sequences, but the inputs to remaining actions are fixed when they're generated.</p>
+<p><strong>The fix:</strong> Override <code>Require</code> to check <code>idVar.TryResolve(env, out var _)</code>. During shrinking, if the var can't be resolved, <code>Require</code> returns <code>false</code> and the action is skipped (not failed). The shrinking process continues and finds a valid minimal sequence.</p>
+<h2 id="the-solution-override-require">The Solution: Override Require</h2>
+<p>The <code>Require</code> method is your runtime safety check. Unlike <code>Precondition</code> (which only sees the structural state during generation), <code>Require</code> receives the <code>Env</code> parameter and can resolve symbolic variables to check if they're actually valid.</p>
+<p>Here's the safe version:</p>
+<div class="tabGroup" id="tabgroup_3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_3_fsharp" role="tab" aria-controls="tabpanel_3_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_3_csharp" role="tab" aria-controls="tabpanel_3_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_3_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type LookupUserCommand() =
+    inherit Command&lt;UserRegistry, RegistryState, Var&lt;int&gt;, UserInfo option&gt;()
+    
+    override _.Name = &quot;LookupUser&quot;
+    
+    // Structural precondition: we need at least one ID in our list
+    override _.Precondition(state) =
+        not (List.isEmpty state.RegisteredIds)
+    
+    // Pick a random ID from the list
+    override _.Generate(state) =
+        Gen.item state.RegisteredIds
+    
+    // Runtime check: can we actually resolve this ID?
+    override _.Require(env, state, idVar) =
+        idVar |&gt; Var.tryResolve env |&gt; Result.isOk
+    
+    override _.Execute(registry, env, state, idVar) =
+        let actualId = idVar.Resolve(env)
+        Task.FromResult(registry.Lookup(actualId))
+    
+    override _.Ensure(env, oldState, newState, idVar, result) =
+        result.IsSome  // Should always find the user
+</code></pre>
+</section>
+<section id="tabpanel_3_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public class LookupUserCommand : Command&lt;UserRegistry, RegistryState, Var&lt;int&gt;, UserInfo?&gt;
+{
+    public override string Name =&gt; &quot;LookupUser&quot;;
+    
+    // Structural precondition: we need at least one ID in our list
+    public override bool Precondition(RegistryState state) =&gt;
+        state.RegisteredIds.Count &gt; 0;
+    
+    // Pick a random ID from the list
+    public override Gen&lt;Var&lt;int&gt;&gt; Generate(RegistryState state) =&gt;
+        Gen.Element(state.RegisteredIds);
+    
+    // Runtime check: can we actually resolve this ID?
+    public override bool Require(Env env, RegistryState state, Var&lt;int&gt; idVar) =&gt;
+        idVar.TryResolve(env, out var _);  // Returns false if not bound yet
+    
+    public override Task&lt;UserInfo?&gt; Execute(UserRegistry sut, Env env, RegistryState state, Var&lt;int&gt; idVar)
+    {
+        var actualId = idVar.Resolve(env);
+        return Task.FromResult(sut.Lookup(actualId));
+    }
+    
+    public override bool Ensure(Env env, RegistryState oldState, RegistryState newState, Var&lt;int&gt; idVar, UserInfo? result) =&gt;
+        result is not null;  // Should always find the user
+}
+</code></pre>
+</section>
+</div>
+
+<p><strong>What changes:</strong></p>
+<ol>
+<li>We override <code>Require</code> to check if <code>idVar</code> can actually be resolved</li>
+<li>If <code>TryResolve</code> returns <code>false</code>, the command is <strong>skipped</strong> (not failed!)</li>
+<li>The test continues with the remaining actions</li>
+</ol>
+<p>This prevents trying to lookup a user ID that was never actually created.</p>
+<h2 id="when-to-override-require">When to Override Require</h2>
+<p><strong>Override <code>Require</code> when:</strong></p>
+<ol>
+<li><strong>Your <code>Generate</code> returns <code>Var&lt;T&gt;</code> as part of the input</strong> - You're selecting from a list of symbolic variables</li>
+<li><strong>Commands can be skipped</strong> - Previous commands might not execute, leaving vars unbound</li>
+<li><strong>You need runtime value checks</strong> - Validate concrete values that weren't available during generation</li>
+</ol>
+<p><strong>You can skip <code>Require</code> when:</strong></p>
+<ol>
+<li><strong><code>Generate</code> returns concrete values only</strong> - No symbolic variables in the input</li>
+<li><strong>Simple preconditions</strong> - Structural checks that <code>Precondition</code> already handles</li>
+<li><strong>All commands always execute</strong> - No risk of skipped actions (rare in practice)</li>
+</ol>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-use-tryresolve-for-safety">1. Use TryResolve for Safety</h3>
+<p>Don't use <code>Resolve</code> directly in <code>Require</code> - it throws if the variable isn't bound.</p>
+<p>In F#, use the idiomatic <code>Var.tryResolve</code> which returns a <code>Result</code>:</p>
+<div class="tabGroup" id="tabgroup_4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_4_fsharp" role="tab" aria-controls="tabpanel_4_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_4_csharp" role="tab" aria-controls="tabpanel_4_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_4_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">override _.Require(env, state, input) =
+    input.SomeVarField |&gt; Var.tryResolve env |&gt; Result.isOk
+</code></pre>
+</section>
+<section id="tabpanel_4_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<p>In C#, use <code>TryResolve</code> with an out parameter:</p>
+<pre><code class="lang-csharp">public override bool Require(Env env, MyState state, MyInput input) =&gt;
+    input.SomeVarField.TryResolve(env, out var _);
+</code></pre>
+</section>
+</div>
+<h3 id="2-check-the-symbolic-inputs-you-use">2. Check the Symbolic Inputs You Use</h3>
+<p>If your command's input contains <code>Var&lt;T&gt;</code> fields that come from previous command outputs, and your <code>Execute</code> method will resolve them, you should check those in <code>Require</code>:</p>
+<div class="tabGroup" id="tabgroup_5">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_5_fsharp" role="tab" aria-controls="tabpanel_5_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_5_csharp" role="tab" aria-controls="tabpanel_5_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_5_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">type TransferInput = {
+    FromAccount: Var&lt;AccountId&gt;  // From a previous CreateAccount command
+    ToAccount: Var&lt;AccountId&gt;    // From a previous CreateAccount command
+    Amount: decimal
+}
+
+override _.Require(env, state, input) =
+    // Check both vars since Execute will resolve both
+    (input.FromAccount |&gt; Var.tryResolve env |&gt; Result.isOk) &amp;&amp;
+    (input.ToAccount |&gt; Var.tryResolve env |&gt; Result.isOk)
+</code></pre>
+</section>
+<section id="tabpanel_5_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">public record TransferInput
+{
+    // From previous CreateAccount commands
+    public required Var&lt;AccountId&gt; FromAccount { get; init; }
+    public required Var&lt;AccountId&gt; ToAccount { get; init; }
+    public decimal Amount { get; init; }
+}
+
+public override bool Require(Env env, BankState state, TransferInput input) =&gt;
+    // Check both vars since Execute will resolve both
+    input.FromAccount.TryResolve(env, out var _) &amp;&amp;
+    input.ToAccount.TryResolve(env, out var _);
+</code></pre>
+</section>
+</div>
+
+<p><strong>Important distinctions:</strong></p>
+<ul>
+<li><strong>Vars from command inputs</strong> (produced by <code>Generate</code> picking from state lists): These can become unbound during shrinking and need to be checked in <code>Require</code></li>
+<li><strong>Vars in the state</strong> (created with <code>Var.symbolic</code> in <code>InitialState</code>): These always have default values and are always resolvable, so they don't need <code>Require</code> checks</li>
+<li><strong>Only check what you use</strong>: Only check the <code>Var&lt;T&gt;</code> fields that your <code>Execute</code> method actually resolves. If your command doesn't use a particular var from the input, you don't need to check it in <code>Require</code></li>
+</ul>
+<h2 id="require-vs-precondition">Require vs Precondition</h2>
+<p>It's important to understand the difference between these two methods:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Precondition</th>
+<th>Require</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>When called</strong></td>
+<td>During generation &amp; execution</td>
+<td>Only during execution</td>
+</tr>
+<tr>
+<td><strong>Has Env?</strong></td>
+<td>❌ No - cannot resolve vars</td>
+<td>✅ Yes - can resolve vars</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Structural check (&quot;do we have IDs?&quot;)</td>
+<td>Runtime check (&quot;can we resolve this ID?&quot;)</td>
+</tr>
+<tr>
+<td><strong>Return false means</strong></td>
+<td>Don't generate this command</td>
+<td>Skip this command (continue test)</td>
+</tr>
+<tr>
+<td><strong>Check frequency</strong></td>
+<td>Every candidate command</td>
+<td>Only generated commands</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In practice:</strong> Use <code>Precondition</code> for structural state checks, and <code>Require</code> for validating symbolic variable inputs.</p>
+<h2 id="summary">Summary</h2>
+<p><strong>The Rule:</strong> If your <code>Generate</code> method returns a <code>Var&lt;T&gt;</code> (or contains one as a part of a generated input),
+always override <code>Require</code> to check if that variable can be resolved.</p>
+<p><strong>Why:</strong> Commands can be skipped during execution, leaving symbolic variables unbound.
+Without <code>Require</code>, you'll crash trying to resolve non-existent values.</p>
+<p><strong>How:</strong> Use <code>TryResolve</code> to safely check if a variable is bound before attempting to use it in <code>Execute</code>.</p>
+<p>This pattern keeps your stateful tests robust and prevents mysterious failures from unresolved symbolic variables.</p>
+
+</article>
+
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

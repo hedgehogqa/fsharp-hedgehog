@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class Var&lt;&#39;T&gt; | Hedgehog .NET ">
       
-      <meta name="description" content="Symbolic variable referencing a command&#39;s output. Symbolic variables are placeholders that let us chain commands by using one command&#39;s result as input to another, even before execution. Variables can be either Symbolic (during generation, with optional default values) or Concrete (during execution, with actual runtime values).">
+      <meta name="description" content="Symbolic variable referencing a command&#39;s output. Symbolic variables are placeholders that let us chain commands by using one command&#39;s result as input to another, even before execution. A symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.">
       <link rel="icon" href="../images/favicon.ico">
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
@@ -98,8 +98,7 @@ Class Var&lt;&#39;T&gt;  <a class="header-action link-secondary" title="View sou
 
   <div class="markdown summary"><p>Symbolic variable referencing a command's output. Symbolic variables are placeholders
 that let us chain commands by using one command's result as input to another, even before execution.
-Variables can be either Symbolic (during generation, with optional default values) or
-Concrete (during execution, with actual runtime values).</p>
+A symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.</p>
 </div>
   <div class="markdown conceptual"></div>
 
@@ -115,15 +114,15 @@ Concrete (during execution, with actual runtime values).</p>
     <div class="tab-content">
       <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T_">
         <pre><code class="lang-fsharp hljs">type Var&lt;&#39;T&gt; =
-  member IsBounded : bool
   member Resolve : Env -&gt; &#39;T
-  member ResolveOr : env:Env * fallback:&#39;T -&gt; &#39;T</code></pre>
+  member ResolveOr : env:Env * fallback:&#39;T -&gt; &#39;T
+  member TryResolve : env:Env * value:byref&lt;&#39;T&gt; -&gt; bool</code></pre>
       </div>
       <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T_">
         <pre><code class="lang-csharp hljs">public class Var&lt;T&gt; {
-  public static bool IsBounded()
   public static T Resolve(Env env)
   public static T ResolveOr(Env env, T fallback)
+  public static bool TryResolve(Env env, byref&lt;T&gt; value)
 }</code></pre>
       </div>
     </div>
@@ -148,15 +147,13 @@ Concrete (during execution, with actual runtime values).</p>
 
   <h3 id="Hedgehog_Stateful_Var_T__Resolve_Env" data-uid="Hedgehog.Stateful.Var_T_.Resolve-Env">
   Resolve
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L63"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L70"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve the variable to its value.
-Requires Env parameter as a capability token to enforce that resolution
-only happens during execution phase (Execute, Require, Ensure methods).</p>
+  <div class="markdown level1 summary"><p>Resolve the variable using its default if not found in the environment.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><code>env</code>: The environment capability token.</li>
+<li><code>env</code>: The environment to resolve the variable from.</li>
 </ul>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -195,14 +192,14 @@ only happens during execution phase (Execute, Require, Ensure methods).</p>
 
   <h3 id="Hedgehog_Stateful_Var_T__ResolveOr_Env_T" data-uid="Hedgehog.Stateful.Var_T_.ResolveOr-Env-T">
   ResolveOr
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L75"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L86"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Resolve the variable with an explicit fallback value.</p>
+  <div class="markdown level1 summary"><p>Resolve the variable with an explicit fallback value, overriding the variable's default.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><code>env</code>: The environment capability token.</li>
-<li><code>fallback</code>: The fallback value to use if the variable is symbolic without a default.</li>
+<li><code>env</code>: The environment to resolve the variable from.</li>
+<li><code>fallback</code>: The fallback value to use if the variable is not found.</li>
 </ul>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -239,30 +236,35 @@ only happens during execution phase (Execute, Require, Ensure methods).</p>
 
 
 
-  <h3 id="Hedgehog_Stateful_Var_T__IsBounded" data-uid="Hedgehog.Stateful.Var_T_.IsBounded">
-  IsBounded
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L45"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_Stateful_Var_T__TryResolve_Env_byref" data-uid="Hedgehog.Stateful.Var_T_.TryResolve-Env-byref">
+  TryResolve
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog.Stateful/Types.fs/#L99"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Gets whether the variable has been bound to a concrete execution value.</p>
+  <div class="markdown level1 summary"><p>Attempts to resolve a variable from the environment.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>env</code>: The environment to resolve the variable from.</li>
+<li><code>value</code>: When this method returns, contains the resolved value if successful; otherwise, the default value for the type.</li>
+</ul>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Var_T__IsBounded" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_Stateful_Var_T__TryResolve_Env_byref" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Var_T__IsBounded" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_Stateful_Var_T__TryResolve_Env_byref" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T__IsBounded">
-        <pre><code class="lang-fsharp hljs">member IsBounded : bool</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_Stateful_Var_T__TryResolve_Env_byref">
+        <pre><code class="lang-fsharp hljs">member TryResolve : env:Env * value:byref&lt;&#39;T&gt; -&gt; bool</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T__IsBounded">
-        <pre><code class="lang-csharp hljs">public static bool IsBounded()</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_Stateful_Var_T__TryResolve_Env_byref">
+        <pre><code class="lang-csharp hljs">public static bool TryResolve(Env env, byref&lt;T&gt; value)</code></pre>
       </div>
     </div>
   </div>

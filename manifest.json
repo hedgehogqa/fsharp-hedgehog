@@ -736,7 +736,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Stateful.Env",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Env.yml\" sourcestartlinenumber=\"1\">Environment used for generating unique action IDs and as a capability token\nto enforce compile-time safety. The presence of an Env parameter indicates\nthe execution phase, where symbolic variables can be resolved.\nThe SUT is passed separately to Execute, not stored in Env.</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Env.yml\" sourcestartlinenumber=\"1\">Environment mapping symbolic variable names to concrete values.\nThe SUT is passed separately to Execute, not stored in Env.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -890,7 +890,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Hedgehog.Stateful.Var<'T>",
-      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Var_T_.yml\" sourcestartlinenumber=\"1\">Symbolic variable referencing a command's output. Symbolic variables are placeholders\nthat let us chain commands by using one command's result as input to another, even before execution.\nVariables can be either Symbolic (during generation, with optional default values) or\nConcrete (during execution, with actual runtime values).</p>\n"
+      "Summary": "<p sourcefile=\"api/Hedgehog.Stateful.Var_T_.yml\" sourcestartlinenumber=\"1\">Symbolic variable referencing a command's output. Symbolic variables are placeholders\nthat let us chain commands by using one command's result as input to another, even before execution.\nA symbolic variable is not yet bound to a generated value and is used to represent a value in the model before binding occurs.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -1464,6 +1464,16 @@
       "output": {
         ".html": {
           "relative_path": "stateful/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "stateful/require.md",
+      "output": {
+        ".html": {
+          "relative_path": "stateful/require.html"
         }
       },
       "version": ""
