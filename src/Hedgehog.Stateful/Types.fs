@@ -71,7 +71,10 @@ with
         if this.TryResolve(env, &value) then
             value
         else
-            failwithf $"Var %A{Name this.Name} not found in environment and no default provided"
+            failwithf $"Var<{typeof<'T>}>(%A{Name this.Name}) not found in environment and no default provided.
+This likely indicates a missing Require check in your command specification.
+Commands that use Var<T> inputs must override Require to call TryResolve and return false if the variable cannot be resolved."
+
 
     /// <summary>
     /// Resolve the variable with an explicit fallback value, overriding the variable's default.
