@@ -33,10 +33,7 @@ public class Counter
 /// <summary>
 /// Model state tracking the current count symbolically
 /// </summary>
-public record CounterState
-{
-    public required Var<int> CurrentCount { get; init; }
-}
+public record CounterState(Var<int> CurrentCount);
 
 /// <summary>
 /// Increment command - increments the counter and returns new value
@@ -219,7 +216,7 @@ public class CounterSpec : SequentialSpecification<Counter, CounterState>
         new ResetCommand()
     ];
 
-    public override CounterState InitialState => new() { CurrentCount = Var.Symbolic(0) };
+    public override CounterState InitialState => new(Var.Symbolic(0));
 
     public override Range<int> Range => Hedgehog.Linq.Range.LinearInt32(1, 50);
 

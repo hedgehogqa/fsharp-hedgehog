@@ -42,8 +42,8 @@ module Sequential =
 
                             // Use outcome to compute next state for subsequent actions
                             let outcomeAction, outcomeEnv = Tree.outcome actionAndEnvTree
-                            let _, nextEnv = Env.freshName outcomeEnv
-                            let outputVar = Var.symbolicEmpty()
+                            let name, nextEnv = Env.freshName outcomeEnv
+                            let outputVar = Var.bound name
                             let nextState = outcomeAction.Update currentState outputVar
 
                             // Recursively generate rest with updated state
@@ -94,8 +94,8 @@ module Sequential =
 
                     // Extract outcome for state evolution
                     let action, env' = Tree.outcome actionAndEnvTreeResult
-                    let _, _ = Env.freshName env
-                    let outputVar = Var.symbolicEmpty()
+                    let name = fst (Env.freshName env)
+                    let outputVar = Var.bound name
                     let state' = action.Update state outputVar
 
                     // Recurse with split seed
@@ -108,21 +108,20 @@ module Sequential =
         )
 
         // Validate a sequence of actions
-        let rec validateSequence env state counter = function
+        let rec validateSequence env state = function
             | [] -> true
             | action :: rest ->
                 if action.Require env state then
-                    let state' = action.Update state (Var.symbolicEmpty())
-                    validateSequence env state' (counter + 1) rest
+                    let state' = action.Update state (Var.bound action.Id)
+                    validateSequence env state' rest
                 else false
 
         // Project final state by applying Updates from action lists
         let projectFinalState (setupActions: Action<'TSystem, 'TState> list) (testActions: Action<'TSystem, 'TState> list) (initial: 'TState) : 'TState =
             let allActions = setupActions @ testActions
             allActions
-            |> List.indexed
-            |> List.fold (fun state (_counter, action) ->
-                action.Update state (Var.symbolicEmpty())
+            |> List.fold (fun state action ->
+                action.Update state (Var.bound action.Id)
             ) initial
 
         // Main generator
@@ -151,7 +150,7 @@ module Sequential =
                     else
                         actionTrees
                         |> Shrink.sequenceList
-                        |> Tree.filter (validateSequence envAfterSetup stateAfterSetup 0)
+                        |> Tree.filter (validateSequence envAfterSetup stateAfterSetup)
 
                 // Compute final state using outcomes
                 let testActionsOutcome = Tree.outcome testActionsTree
@@ -205,8 +204,9 @@ module Sequential =
                             do! Property.exn ex
 
                         | ActionResult.Success output ->
-                            let _, env' = Env.freshName env
-                            let outputVar = Concrete output
+                            let name, env' = Env.freshName env
+                            let outputVar = Var.bound name
+                            let env'' = Env.add outputVar output env'
                             let state0 = state
                             let state1 = action.Update state outputVar
 
@@ -224,7 +224,7 @@ module Sequential =
                                         }
                                     else
                                         Property.exn ex
-                            do! loop state1 env' rest
+                            do! loop state1 env'' rest
                     }
 
         property {

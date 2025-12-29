@@ -55,35 +55,6 @@ type AddPersonCommand() =
         // Verify the returned person has correct values
         result.Name = name && result.Age = age
 
-/// Command that verifies we can resolve the projected fields
-type VerifyLastPersonCommand() =
-    inherit Command<PersonRegistry, RegistryState, unit, bool>()
-
-    override _.Name = "VerifyLastPerson"
-    override _.Precondition state =
-        // Only run if we have a bounded var (at least one person added)
-        state.LastPersonName.IsBounded
-
-    override _.Execute(registry, _, _, _) =
-        let people = registry.GetPeople()
-        let hasData = not (List.isEmpty people)
-        Task.FromResult(hasData)
-
-    override _.Generate _ = Gen.constant ()
-
-    override _.Update(state, _, _) = state  // No state change
-
-    override _.Ensure(env, state, _, _, result) =
-        if result then
-            // Verify we can resolve the mapped fields
-            let name = state.LastPersonName.Resolve(env)
-            let age = state.LastPersonAge.Resolve(env)
-
-            // Name should be non-empty and age should be in valid range
-            not (System.String.IsNullOrWhiteSpace(name)) && age >= 0 && age <= 100
-        else
-            true
-
 /// Specification for testing Var.map
 type VarMapSpec() =
     inherit SequentialSpecification<PersonRegistry, RegistryState>()
@@ -98,7 +69,6 @@ type VarMapSpec() =
 
     override _.Commands = [|
         AddPersonCommand()
-        VerifyLastPersonCommand()
     |]
 
 [<Fact>]
@@ -107,16 +77,16 @@ let ``Var.map allows projecting fields from structured command outputs``() =
     VarMapSpec().ToProperty(sut).Check()
 
 [<Fact>]
-let ``Var.map preserves symbolic status``() =
+let ``Var.map preserves symbolic variable behavior``() =
     // Create a symbolic var with a default person
     let personVar = Var.symbolic { Name = "Alice"; Age = 30 }
 
-    // Map to get name
+    // Map to get name - should preserve symbolic behavior
     let nameVar = Var.map _.Name personVar
 
-    // Both vars should be symbolic (not bounded)
-    Assert.False(personVar.IsBounded)
-    Assert.False(nameVar.IsBounded)
+    // Resolve without environment should use default value
+    let resolvedName = nameVar.Resolve(Env.empty)
+    Assert.Equal("Alice", resolvedName)
 
 [<Fact>]
 let ``Var.map chains multiple projections``() =
@@ -126,5 +96,6 @@ let ``Var.map chains multiple projections``() =
     let nameVar = Var.map _.Name personVar
     let nameLengthVar = Var.map String.length nameVar
 
-    // All should remain symbolic
-    Assert.False(nameLengthVar.IsBounded)
+    // Should resolve through the chain correctly
+    let length = nameLengthVar.Resolve(Env.empty)
+    Assert.Equal(3, length) // "Bob" has length 3

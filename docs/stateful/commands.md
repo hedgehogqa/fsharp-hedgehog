@@ -242,9 +242,11 @@ public class KnockKnockDoorCommand : Command<Door, DoorState, int, bool>
 
 **Key difference from Precondition:** `Require` DOES receive an `Env` parameter, so it CAN resolve symbolic variables! This is where you check concrete runtime values that weren't known during generation.
 
-**Best practice:** Only override this method if you need to check runtime state values (resolved symbolic variables) or validate the generated input. Since `Precondition` is checked during both generation and shrinking, most commands can rely on the default `Require` implementation.
+**When you need it:** The most common case is when your `Generate` method returns `Var<T>` as part of the input (e.g., picking from a list of symbolic IDs). Since previous commands can be skipped, those symbolic variables might not be bound at execution time. Override `Require` to check if such variables can actually be resolved before attempting to use them.
 
-**In practice:** The default `Require` implementation returns `true`, which works for most commands.
+> **💡 Tip:** For a detailed explanation of when and how to use `Require`, including complete examples with symbolic variables in inputs, see [Runtime Preconditions](require.md).
+
+**In practice:** The default `Require` implementation returns `true`, which works for most commands that don't use symbolic variables as input.
 
 ### 4. Execute: Running the Real Operation
 

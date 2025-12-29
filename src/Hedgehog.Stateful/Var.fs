@@ -13,7 +13,7 @@ module Var =
     /// <returns>A new symbolic (unbound) <c>Var&lt;T&gt;</c> with the given default value.</returns>
     [<CompiledName("Symbolic")>]
     let symbolic (defaultValue: 'T) : Var<'T> =
-        Symbolic (Some defaultValue)
+        { Name = -1; Default = Some defaultValue; Transform = unbox<'T>; ResolvedValue = None }
 
 namespace Hedgehog.Stateful.FSharp
 
@@ -23,35 +23,36 @@ open Hedgehog.Stateful
 [<RequireQualifiedAccess>]
 module Var =
     /// <summary>
-    /// Resolve a variable using its default value if symbolic.
+    /// Resolve a variable using its default value if not found in the environment.
     /// </summary>
-    /// <param name="env">The environment capability token.</param>
+    /// <param name="env">The environment to resolve the variable from.</param>
     /// <param name="v">The variable to resolve.</param>
     /// <returns>The resolved value of the variable.</returns>
     let resolve (env: Env) (v: Var<'T>) : 'T =
         v.Resolve(env)
 
     /// <summary>
-    /// Resolve a variable with an explicit fallback value.
+    /// Resolve a variable with an explicit fallback value, overriding the variable's default.
     /// </summary>
-    /// <param name="fallback">The fallback value to use if the variable is symbolic without a default.</param>
-    /// <param name="env">The environment capability token.</param>
+    /// <param name="fallback">The fallback value to use if the variable is not found.</param>
+    /// <param name="env">The environment to resolve the variable from.</param>
     /// <param name="v">The variable to resolve.</param>
     /// <returns>The resolved value or the fallback if not found.</returns>
     let resolveOr (fallback: 'T) (env: Env) (v: Var<'T>) : 'T =
         v.ResolveOr(env, fallback)
 
     /// <summary>
-    /// Resolve a variable, returning <c>Error</c> if it's symbolic without a default value.
+    /// Resolve a variable, returning <c>Error</c> if not found in the environment or if resolution fails.
     /// </summary>
     /// <param name="v">The variable to resolve.</param>
-    /// <param name="env">The environment capability token.</param>
-    /// <returns>The resolved value as <c>Ok</c>, or <c>Error</c> with failure reason if symbolic without default.</returns>
+    /// <param name="env">The environment to resolve the variable from.</param>
+    /// <returns>The resolved value as <c>Ok</c>, or <c>Error</c> with failure reason if not found or transform fails.</returns>
     let tryResolve<'T> (v: Var<'T>) (env: Env) : Result<'T, string> =
-        match v with
-        | Concrete value -> Ok value
-        | Symbolic (Some defaultValue) -> Ok defaultValue
-        | Symbolic None -> Error "Symbolic variable has no default value"
+        let mutable value = Unchecked.defaultof<'T>
+        if v.TryResolve(env, &value) then
+            Ok value
+        else
+            Error $"Var_{v.Name} not found in environment and no default provided"
 
     /// <summary>
     /// Map a function over a variable, creating a new variable that projects
@@ -62,18 +63,21 @@ module Var =
     /// <param name="v">The variable to map over.</param>
     /// <returns>A new variable with the projection applied.</returns>
     let map (f: 'T -> 'U) (v: Var<'T>) : Var<'U> =
-        match v with
-        | Symbolic (Some defaultValue) -> Symbolic (Some (f defaultValue))
-        | Symbolic None -> Symbolic None
-        | Concrete value -> Concrete (f value)
+        let transform = v.Transform >> f
+        { Name = v.Name
+          Default = v.Default |> Option.map f
+          Transform = transform
+          ResolvedValue = v.ResolvedValue |> Option.map transform }
 
-    /// Create a symbolic var placeholder (used during generation)
-    let internal symbolicEmpty () : Var<'T> =
-        Symbolic None
+    /// Create a bounded var from a Name (used during generation)
+    let internal bound (name: Name) : Var<'T> =
+        let (Name n) = name
+        { Name = n; Default = None; Transform = unbox<'T>; ResolvedValue = None }
 
     /// Convert from obj var to typed var (used internally)
     let internal convertFrom<'T> (v: Var<obj>) : Var<'T> =
-        match v with
-        | Symbolic (Some value) -> Symbolic (Some (unbox<'T> value))
-        | Symbolic None -> Symbolic None
-        | Concrete value -> Concrete (unbox<'T> value)
+        let transform = v.Transform >> unbox<'T>
+        { Name = v.Name
+          Default = v.Default |> Option.map unbox<'T>
+          Transform = transform
+          ResolvedValue = v.ResolvedValue |> Option.map transform }

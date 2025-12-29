@@ -1,4 +1,0 @@
-﻿{ OptionalVar = None
-  ResultVar = Error "not used"
-  UnionField = CaseTwoVars ("world", true)
-  ListOfVars = [42] }

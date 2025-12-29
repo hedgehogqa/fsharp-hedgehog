@@ -32,7 +32,8 @@ module Parallel =
             let stateAfterSetup =
                 setup.Steps
                 |> List.fold (fun s a ->
-                    a.Update s (Var.symbolicEmpty())
+                    let name, _ = Env.freshName Env.empty
+                    a.Update s (Var.bound name)
                 ) initial
 
             // Generate prefix using state after setup
@@ -42,7 +43,7 @@ module Parallel =
             let stateAfterPrefix =
                 prefix.Steps
                 |> List.fold (fun s a ->
-                    a.Update s (Var.symbolicEmpty())
+                    a.Update s (Var.bound a.Id)
                 ) stateAfterSetup
 
             // Generate branches from state after prefix
@@ -83,8 +84,8 @@ module Parallel =
                 match Map.tryFind action.Id results with
                 | None -> None
                 | Some output ->
-                    let _, env' = Env.freshName env
-                    let outputVar = Concrete output
+                    let outputVar = Var.bound action.Id
+                    let env' = Env.add outputVar output env
                     let state' = action.Update state outputVar
                     Some (state', env')
 
@@ -152,9 +153,9 @@ module Parallel =
                     do! Property.counterexample (fun () -> $"Final state: %A{state}")
                     return! Property.exn ex
                 | ActionResult.Success output ->
-                    let _, env' = Env.freshName env
-                    let outputVar = Concrete output
-                    env <- env'
+                    let name, env' = Env.freshName env
+                    let outputVar = Var.bound name
+                    env <- Env.add outputVar output env'
                     state <- action.Update state outputVar
 
             // Run prefix sequentially
@@ -170,14 +171,12 @@ module Parallel =
                     return! Property.exn ex
                 | ActionResult.Success output ->
                     prefixResults.Add(action.Id, output)
-                    let _, env' = Env.freshName env
-                    let outputVar = Concrete output
-                    env <- env'
+                    let outputVar = Var.bound action.Id
+                    env <- Env.add outputVar output env
                     state <- action.Update state outputVar
 
-            // Save state and env before parallel branches (which is also before cleanup)
+            // Save state before parallel branches (which is also before cleanup)
             let stateBeforeBranches = state
-            let envBeforeBranches = env
 
             // Run branches in parallel
             let runBranch (branch: Action<'TSystem, 'TState> list) : Async<Result<(Name * obj) list, exn>> =
@@ -190,10 +189,10 @@ module Parallel =
                             | ActionResult.Failure ex ->
                                 return Error ex
                             | ActionResult.Success output ->
-                                let _, env' = Env.freshName branchEnv
-                                let outputVar = Concrete output
+                                let outputVar = Var.bound action.Id
+                                let newEnv = Env.add outputVar output branchEnv
                                 let newState = action.Update branchState outputVar
-                                return! loop ((action.Id, output) :: results) env' newState rest
+                                return! loop ((action.Id, output) :: results) newEnv newState rest
                         }
                 loop [] env state branch
 
@@ -245,10 +244,8 @@ module Parallel =
                         | ActionResult.Failure ex ->
                             cleanupError <- Some (formatActionName action, ex)
                         | ActionResult.Success output ->
-                            let _, env' = Env.freshName env
-                            let outputVar = Concrete output
-                            env <- env'
-                            state <- action.Update state outputVar
+                            let outputVar = Var.bound action.Id
+                            env <- Env.add outputVar output env
 
             // Check linearizability first
             do! linearizabilityCheck

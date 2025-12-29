@@ -1,4 +1,0 @@
-﻿{ OptionalVar = None
-  ResultVar = Error "not used"
-  UnionField = CaseNoVars 0
-  ListOfVars = [10; 20; 30] }
