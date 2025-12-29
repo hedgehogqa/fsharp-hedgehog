@@ -4,8 +4,9 @@
   items:
   - name: Commands
     href: commands.md
+  - name: Runtime Preconditions
+    href: require.md
   - name: Specifications
     href: specifications.md
 - name: Complete Example
   href: complete-example.md
-  
