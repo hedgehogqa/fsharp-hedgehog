@@ -63,7 +63,7 @@ type SequentialSpecification<'TSystem, 'TState>() =
         let testActions = this.Commands |> Seq.map _.ToActionGen() |> List.ofSeq
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
 
-        let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState
+        let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState Env.empty
 
         property {
             let! actions = gen
@@ -81,7 +81,7 @@ type SequentialSpecification<'TSystem, 'TState>() =
         let setupActions = this.SetupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
         let testActions = this.Commands |> Seq.map _.ToActionGen() |> List.ofSeq
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
-        let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState
+        let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState Env.empty
 
         property {
             let! actions = gen

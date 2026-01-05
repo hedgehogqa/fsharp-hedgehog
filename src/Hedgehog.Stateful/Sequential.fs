@@ -7,13 +7,14 @@ open Hedgehog.Stateful.FSharp
 [<RequireQualifiedAccess>]
 module Sequential =
 
-    let internal genActions
+    let internal genActionsWithState
         (range: Range<int>)
         (setupActions: ActionGen<'TSystem, 'TState> list)
         (testActions: ActionGen<'TSystem, 'TState> list)
         (cleanupActions: ActionGen<'TSystem, 'TState> list)
-        (initial: 'TState)
-        : Gen<Actions<'TSystem, 'TState>> =
+        (initialState: 'TState)
+        (initialEnv: Env)
+        : Gen<Actions<'TSystem, 'TState> * 'TState * Env> =
 
         // Generate a fixed list of actions from command specs (for setup/cleanup)
         // The list structure is fixed, but individual action parameters can shrink
@@ -83,46 +84,83 @@ module Sequential =
                 if List.isEmpty available then
                     [], env
                 else
+                    let seedSelect, seedRest = Seed.split seed
                     // Select one of the available action generators
                     let selectedGenTree = Gen.toRandom (Gen.item available)
-                    let selectedGen = Random.run seed size selectedGenTree
+                    let selectedGen = Random.run seedSelect size selectedGenTree
 
-                    // Generate the action tree from the selected generator
-                    let seed1, seed2 = Seed.split seed
-                    let actionAndEnvTree = Gen.toRandom (Tree.outcome selectedGen)
-                    let actionAndEnvTreeResult = Random.run seed1 size actionAndEnvTree
+                    // Extract the chosen Gen (discards command selection shrinks, keeps parameter shrinks)
+                    let chosenGen = Tree.outcome selectedGen
+
+                    // Run the chosen Gen to get Tree<Action * Env> with parameter shrinking preserved
+                    let seedAction, seedRecurse = Seed.split seedRest
+                    let actionAndEnvTree = chosenGen |> Gen.toRandom |> Random.run seedAction size
 
                     // Extract outcome for state evolution
-                    let action, env' = Tree.outcome actionAndEnvTreeResult
+                    let action, env' = Tree.outcome actionAndEnvTree
                     let name = fst (Env.freshName env)
                     let outputVar = Var.bound name
                     let state' = action.Update state outputVar
 
-                    // Recurse with split seed
+                    // Recurse to generate remaining actions
                     let restTrees, envFinal =
-                        Random.run seed2 size (collectTrees (n - 1) state' env')
+                        Random.run seedRecurse size (collectTrees (n - 1) state' env')
 
-                    // Map the tree to just extract the action (discard env for tree structure)
-                    let actionTree = Tree.map fst actionAndEnvTreeResult
+                    // Extract just the action from the tree (discard env), preserving shrinks
+                    let actionTree = Tree.map fst actionAndEnvTree
                     (actionTree :: restTrees), envFinal
         )
 
-        // Validate a sequence of actions
-        let rec validateSequence env state = function
-            | [] -> true
+        // Validate a sequence of actions during shrinking and return the final state if valid.
+        // Returns Some(finalState) if the sequence is valid, None if any action fails Precondition.
+        // Only checks Precondition (not Require) because:
+        // - During shrinking, we're still in generation phase - no execution has happened yet
+        // - Require is only checked during execution when we have real values
+        let rec validateSequence state = function
+            | [] -> Some state
             | action :: rest ->
-                if action.Require env state then
+                if action.Precondition state then
                     let state' = action.Update state (Var.bound action.Id)
-                    validateSequence env state' rest
-                else false
+                    validateSequence state' rest
+                else None
 
-        // Project final state by applying Updates from action lists
-        let projectFinalState (setupActions: Action<'TSystem, 'TState> list) (testActions: Action<'TSystem, 'TState> list) (initial: 'TState) : 'TState =
-            let allActions = setupActions @ testActions
-            allActions
+        // Filter a tree while computing and returning the projected state for valid outcomes.
+        // Similar to Tree.filter but returns (filteredTree, projectedState) tuple.
+        // This avoids re-projecting the state after filtering.
+        let rec filterTreeWithState (initialState: 'TState) (validate: 'TState -> Action<'TSystem, 'TState> list -> 'TState option) (tree: Tree<Action<'TSystem, 'TState> list>) : Tree<Action<'TSystem, 'TState> list> * 'TState =
+            let (Node (actions, shrinks)) = tree
+
+            // Validate and project the root outcome
+            match validate initialState actions with
+            | None ->
+                // Root outcome must always be valid (already validated during generation)
+                failwith "Root outcome validation failed - this should never happen"
+            | Some finalState ->
+                // Recursively filter shrinks, keeping only those that are valid
+                let rec filterShrinks shrinkSeq =
+                    shrinkSeq
+                    |> Seq.choose (fun shrinkTree ->
+                        let (Node (shrunkActions, _)) = shrinkTree
+                        match validate initialState shrunkActions with
+                        | Some _ ->
+                            let filteredShrink, _ = filterTreeWithState initialState validate shrinkTree
+                            Some filteredShrink
+                        | None -> None
+                    )
+
+                let filteredShrinks = filterShrinks shrinks
+                (Node (actions, filteredShrinks), finalState)
+
+        // Project the model state forward by applying Updates from action lists.
+        // Used only for setup actions to compute stateAfterSetup.
+        let projectState (actions: Action<'TSystem, 'TState> list) (initialState: 'TState) : 'TState =
+            actions
             |> List.fold (fun state action ->
-                action.Update state (Var.bound action.Id)
-            ) initial
+                if action.Precondition state then
+                    action.Update state (Var.bound action.Id)
+                else
+                    state  // Skip actions that don't satisfy precondition
+            ) initialState
 
         // Main generator
         gen {
@@ -135,44 +173,54 @@ module Sequential =
 
                 // Generate setup actions
                 let setupTree, envAfterSetup = Random.run seed1 size (genFixedActionsRandom ActionCategory.Setup
-                                                                          setupActions initial Env.empty)
+                                                                          setupActions initialState initialEnv)
 
-                // Compute state after setup
-                let setupActions = Tree.outcome setupTree
-                let stateAfterSetup = projectFinalState setupActions [] initial
+                // Project state forward through setup actions to know what state we'll be in
+                // after setup, so we can generate valid test actions for that state
+                let setupActionsOutcome = Tree.outcome setupTree
+                let stateAfterSetup = projectState setupActionsOutcome initialState
 
-                // Generate test actions
-                let actionTrees, _ = Random.run seed2a size (collectTrees count stateAfterSetup envAfterSetup)
+                // Generate test actions based on the projected state after setup
+                let actionTrees, envAfterTest = Random.run seed2a size (collectTrees count stateAfterSetup envAfterSetup)
 
-                let testActionsTree =
+                let testActionsTree, stateAfterTest =
                     if List.isEmpty actionTrees then
-                        Tree.singleton []
+                        Tree.singleton [], stateAfterSetup
                     else
                         actionTrees
                         |> Shrink.sequenceList
-                        |> Tree.filter (validateSequence envAfterSetup stateAfterSetup)
+                        |> filterTreeWithState stateAfterSetup validateSequence
 
-                // Compute final state using outcomes
-                let testActionsOutcome = Tree.outcome testActionsTree
-                let finalStateOutcome = projectFinalState setupActions testActionsOutcome initial
-
-                // Generate cleanup actions based on final state
-                let cleanupTree, _ = Random.run seed2b size (genFixedActionsRandom ActionCategory.Cleanup cleanupActions
-                                                                 finalStateOutcome envAfterSetup)
+                // Generate cleanup actions based on the projected final state
+                let cleanupTree, envAfterCleanup = Random.run seed2b size (genFixedActionsRandom ActionCategory.Cleanup cleanupActions
+                                                                 stateAfterTest envAfterTest)
 
                 // Combine all three trees
                 let combinedTree =
                     setupTree |> Tree.bind (fun setupShrunk ->
                         testActionsTree |> Tree.bind (fun testShrunk ->
                             cleanupTree |> Tree.map (fun cleanupShrunk ->
-                                { Initial = initial; Steps = setupShrunk @ testShrunk @ cleanupShrunk }
+                                { Initial = initialState; Steps = setupShrunk @ testShrunk @ cleanupShrunk }
                             )
                         )
                     )
 
-                combinedTree
+                // Return the combined tree, the final projected state, and the final environment
+                combinedTree |> Tree.map (fun actions -> actions, stateAfterTest, envAfterCleanup)
             ))
         }
+
+    // Wrapper that only returns Actions (for backward compatibility)
+    let internal genActions
+        (range: Range<int>)
+        (setupActions: ActionGen<'TSystem, 'TState> list)
+        (testActions: ActionGen<'TSystem, 'TState> list)
+        (cleanupActions: ActionGen<'TSystem, 'TState> list)
+        (initialState: 'TState)
+        (initialEnv: Env)
+        : Gen<Actions<'TSystem, 'TState>> =
+        genActionsWithState range setupActions testActions cleanupActions initialState initialEnv
+        |> Gen.map (fun (actions, _, _) -> actions)
 
     /// Execute actions with a SUT instance.
     /// The SUT is passed as a typed parameter to each command's Execute and Ensure methods.
@@ -204,9 +252,8 @@ module Sequential =
                             do! Property.exn ex
 
                         | ActionResult.Success output ->
-                            let name, env' = Env.freshName env
-                            let outputVar = Var.bound name
-                            let env'' = Env.add outputVar output env'
+                            let outputVar = Var.bound action.Id
+                            let env' = Env.add outputVar output env
                             let state0 = state
                             let state1 = action.Update state outputVar
 
@@ -224,7 +271,7 @@ module Sequential =
                                         }
                                     else
                                         Property.exn ex
-                            do! loop state1 env'' rest
+                            do! loop state1 env' rest
                     }
 
         property {
