@@ -4099,6 +4099,24 @@ references:
   commentId: M:Hedgehog.Stateful.Linq.NoValue.Value
   fullName: Hedgehog.Stateful.Linq.NoValue.Value
   nameWithType: Value
+- uid: Hedgehog.Stateful.Linq.SpecificationExtensions
+  name: SpecificationExtensions
+  href: api/Hedgehog.Stateful.Linq.SpecificationExtensions.html
+  commentId: T:Hedgehog.Stateful.Linq.SpecificationExtensions
+  fullName: Hedgehog.Stateful.Linq.SpecificationExtensions
+  nameWithType: SpecificationExtensions
+- uid: Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-ParallelSpecification-Func
+  name: ToPropertyWith(ParallelSpecification, Func)
+  href: api/Hedgehog.Stateful.Linq.SpecificationExtensions.html#Hedgehog_Stateful_Linq_SpecificationExtensions_ToPropertyWith_ParallelSpecification_Func
+  commentId: M:Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-ParallelSpecification-Func
+  fullName: Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-ParallelSpecification-Func
+  nameWithType: ToPropertyWith(ParallelSpecification, Func)
+- uid: Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-SequentialSpecification-Func
+  name: ToPropertyWith(SequentialSpecification, Func)
+  href: api/Hedgehog.Stateful.Linq.SpecificationExtensions.html#Hedgehog_Stateful_Linq_SpecificationExtensions_ToPropertyWith_SequentialSpecification_Func
+  commentId: M:Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-SequentialSpecification-Func
+  fullName: Hedgehog.Stateful.Linq.SpecificationExtensions.ToPropertyWith-SequentialSpecification-Func
+  nameWithType: ToPropertyWith(SequentialSpecification, Func)
 - uid: Hedgehog.Stateful.Linq.VarExtensions
   name: VarExtensions
   href: api/Hedgehog.Stateful.Linq.VarExtensions.html
