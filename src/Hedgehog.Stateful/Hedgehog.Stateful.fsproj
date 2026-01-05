@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Version>0.7.0-beta1</Version>
+        <Version>0.7.0-beta2</Version>
         <Description>Stateful testing for Hedgehog</Description>
         <Authors>Alexey Raga</Authors>
         <Copyright>Copyright © 2025</Copyright>
