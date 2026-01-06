@@ -83,8 +83,7 @@ type SequentialSpecification<'TSystem, 'TState>() =
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
         let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState Env.empty
 
-        property {
-            let! actions = gen
-            let sut = createSut()  // Create fresh SUT for this test run
-            do! Sequential.executeWithSUT sut actions
-        }
+        gen |> Property.forAll (fun actions ->
+            let sut = createSut()
+            Sequential.executeWithSUT sut actions
+        )

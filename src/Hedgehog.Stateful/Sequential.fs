@@ -231,50 +231,45 @@ module Sequential =
             | ActionCategory.Test -> action.Name
             | ActionCategory.Cleanup -> $"- %s{action.Name}"
 
-        let rec loop state env steps : Property<unit> =
+        // Construct async loop that executes actions
+        let rec executeLoop state env steps = async {
             match steps with
-            | [] -> Property.ofBool true
+            | [] -> return ()
             | action :: rest ->
                 if not (action.Precondition state && action.Require env state) then
-                    // Skip this action and continue with the rest
-                    loop state env rest
+                    return! executeLoop state env rest
                 else
-                    property {
-                        // Execute always returns Task<ExecutionResult<obj>>
-                        let! result = Property.ofTask (action.Execute sut env state)
+                    // action.Execute is ONLY called when this async runs
+                    let! result = action.Execute sut env state |> Async.AwaitTask
 
-                        match result with
-                        | ActionResult.Failure ex ->
-                            // Add counterexample for the failing action before propagating the exception
-                            do! Property.counterexample (fun () -> formatActionName action)
+                    match result with
+                    | ActionResult.Failure ex ->
+                        printfn "%s" (formatActionName action)
+                        if action.Category <> ActionCategory.Cleanup then
+                            printfn "Failed at state: %A" state
+                        return raise ex
+
+                    | ActionResult.Success output ->
+                        let outputVar = Var.bound action.Id
+                        let env' = Env.add outputVar output env
+                        let state0 = state
+                        let state1 = action.Update state outputVar
+
+                        printfn "%s" (formatActionName action)
+
+                        if not (action.Ensure env' state0 state1 output) then
                             if action.Category <> ActionCategory.Cleanup then
-                                do! Property.counterexample (fun () -> $"Failed at state: %A{state}")
-                            do! Property.exn ex
-
-                        | ActionResult.Success output ->
-                            let outputVar = Var.bound action.Id
-                            let env' = Env.add outputVar output env
-                            let state0 = state
-                            let state1 = action.Update state outputVar
-
-                            do! Property.counterexample (fun () -> formatActionName action)
-                            // Ensure returns bool - wrap it in a property that handles exceptions
-                            // If ensure fails, add final state before propagating
-                            do!
-                                try
-                                    action.Ensure env' state0 state1 output |> Property.ofBool
-                                with ex ->
-                                    if action.Category <> ActionCategory.Cleanup then
-                                        property {
-                                            do! Property.counterexample (fun () -> $"Failed at state: %A{state1}")
-                                            do! Property.exn ex
-                                        }
-                                    else
-                                        Property.exn ex
-                            do! loop state1 env' rest
-                    }
-
-        property {
-            do! Property.counterexample (fun () -> $"Initial state: %A{actions.Initial}")
-            do! loop actions.Initial Env.empty actions.Steps
+                                printfn "Failed at state: %A" state1
+                            return failwith "Ensure failed"
+                        else
+                            return! executeLoop state1 env' rest
         }
+
+        // Directly create Gen<Lazy<PropertyResult>> to bypass Property.bind
+        let asyncProp = async {
+            printfn "Initial state: %A" actions.Initial
+            do! executeLoop actions.Initial Env.empty actions.Steps
+        }
+
+        // Use Property.ofAsync which creates the lazy wrapper
+        Property.ofAsync asyncProp
