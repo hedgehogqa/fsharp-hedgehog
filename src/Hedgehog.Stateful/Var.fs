@@ -13,7 +13,7 @@ module Var =
     /// <returns>A new symbolic (unbound) <c>Var&lt;T&gt;</c> with the given default value.</returns>
     [<CompiledName("Symbolic")>]
     let symbolic (defaultValue: 'T) : Var<'T> =
-        { Name = -1; Default = Some defaultValue; Transform = unbox<'T>; ResolvedValue = None }
+        { Name = -1; Default = Some defaultValue; Transform = unbox<'T> }
 
 namespace Hedgehog.Stateful.FSharp
 
@@ -66,18 +66,16 @@ module Var =
         let transform = v.Transform >> f
         { Name = v.Name
           Default = v.Default |> Option.map f
-          Transform = transform
-          ResolvedValue = v.ResolvedValue |> Option.map transform }
+          Transform = transform }
 
     /// Create a bounded var from a Name (used during generation)
     let internal bound (name: Name) : Var<'T> =
         let (Name n) = name
-        { Name = n; Default = None; Transform = unbox<'T>; ResolvedValue = None }
+        { Name = n; Default = None; Transform = unbox<'T> }
 
     /// Convert from obj var to typed var (used internally)
     let internal convertFrom<'T> (v: Var<obj>) : Var<'T> =
         let transform = v.Transform >> unbox<'T>
         { Name = v.Name
           Default = v.Default |> Option.map unbox<'T>
-          Transform = transform
-          ResolvedValue = v.ResolvedValue |> Option.map transform }
+          Transform = transform }

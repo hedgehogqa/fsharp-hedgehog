@@ -42,25 +42,11 @@ type Var<'T> = private {
     /// Handles unboxing and any projections/mappings applied via Var.map.
     /// </summary>
     Transform: obj -> 'T
-    /// <summary>
-    /// Mutable field used for caching resolved values to avoid redundant environment lookups and Transform applications.
-    /// Eagerly populated when a concrete value is bound via Env.add.
-    /// Also used for displaying resolved values in counterexamples.
-    ///
-    /// The cache eliminates the need to repeatedly look up values from Env and apply Transform,
-    /// which is especially beneficial since most Var instances are created with concrete values
-    /// that are immediately known, not from symbolic references that need delayed resolution.
-    /// </summary>
-    mutable ResolvedValue: 'T option
 }
 with
 
     member private this.DisplayText =
-        // If resolved for display (during counterexample formatting), show the resolved value
-        let value = this.ResolvedValue |> Option.orElse this.Default
-        match value with
-        | Some value -> $"%A{value}"
-        | None -> "<unused>"
+        $"Var_{this.Name}<{typeof<'T>}>"
 
     /// <summary>
     /// Resolve the variable using its default if not found in the environment.
@@ -97,36 +83,29 @@ Commands that use Var<T> inputs must override Require to call TryResolve and ret
     /// <param name="value">When this method returns, contains the resolved value if successful; otherwise, the default value for the type.</param>
     /// <returns>true if the variable was successfully resolved; otherwise, false.</returns>
     member this.TryResolve(env: Env, [<System.Runtime.InteropServices.Out>] [<NotNullWhen(true)>] value: byref<'T>) : bool =
-        // Check cache first to avoid redundant environment lookups and Transform applications
-        match this.ResolvedValue with
-        | Some cached ->
-            value <- cached
-            true
-        | None ->
             // Try to look up in environment
-            match Map.tryFind (Name this.Name) env.values with
-            | Some v ->
-                try
-                    let resolved = this.Transform v
-                    // Cache the resolved value for future calls (memoization)
-                    this.ResolvedValue <- Some resolved
-                    value <- resolved
-                    true
-                with _ ->
-                    value <- Unchecked.defaultof<'T>
-                    false
+        match Map.tryFind (Name this.Name) env.values with
+        | Some v ->
+            try
+                let resolved = this.Transform v
+                // Cache the resolved value for future calls (memoization)
+                value <- resolved
+                true
+            with _ ->
+                value <- Unchecked.defaultof<'T>
+                false
+        | None ->
+            // Try default value
+            match this.Default with
+            | Some d ->
+                value <- d
+                true
             | None ->
-                // Try default value
-                match this.Default with
-                | Some d ->
-                    value <- d
-                    true
-                | None ->
-                    value <- Unchecked.defaultof<'T>
-                    false
+                value <- Unchecked.defaultof<'T>
+                false
 
     static member internal CreateSymbolic(value: 'T) : Var<'T> =
-        { Name = -1; Default = Some value; Transform = unbox<'T>; ResolvedValue = None }
+        { Name = -1; Default = Some value; Transform = unbox<'T> }
 
     override this.Equals(other: obj) : bool =
         match other with
@@ -153,13 +132,6 @@ module internal Env =
     
     /// Store a concrete value for a variable
     let add (v: Var<'a>) (value: 'a) (env: Env) : Env =
-        // Eagerly cache the resolved value to avoid future environment lookups
-        // Apply Transform to ensure the cache contains the correctly transformed value
-        try
-            let resolved = v.Transform (box value)
-            v.ResolvedValue <- Some resolved
-        with
-            | _ -> () // If Transform fails, leave cache empty and let Resolve handle it later
         { env with values = Map.add (Name v.Name) (box value) env.values }
 
     /// Resolve a variable to its concrete value
