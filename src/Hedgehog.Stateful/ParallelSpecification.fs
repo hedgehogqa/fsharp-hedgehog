@@ -69,10 +69,7 @@ type ParallelSpecification<'TSystem, 'TState>() =
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
         let gen = Parallel.genActions this.PrefixRange this.BranchRange setupActions testActions cleanupActions this.InitialState
 
-        property {
-            let! actions = gen
-            do! Parallel.executeWithSUT sut actions
-        }
+        gen |> Property.forAll (Parallel.executeWithSUT sut)
 
     /// <summary>
     /// Convert this specification to a property using a SUT factory.
@@ -87,8 +84,7 @@ type ParallelSpecification<'TSystem, 'TState>() =
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
         let gen = Parallel.genActions this.PrefixRange this.BranchRange setupActions testActions cleanupActions this.InitialState
 
-        property {
-            let! actions = gen
+        gen |> Property.forAll (fun actions ->
             let sut = createSut()  // Create fresh SUT for this test run
-            do! Parallel.executeWithSUT sut actions
-        }
+            Parallel.executeWithSUT sut actions
+        )

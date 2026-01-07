@@ -17,7 +17,9 @@ module Sequential =
         : Gen<Actions<'TSystem, 'TState> * 'TState * Env> =
 
         // Generate a fixed list of actions from command specs (for setup/cleanup)
-        // The list structure is fixed, but individual action parameters can shrink
+        // The list structure is fixed, but individual action parameters can shrink.
+        // Note: For cleanup, the caller collapses the tree to disable shrinking -
+        // cleanup should run exactly as generated to ensure proper resource cleanup.
         // Returns a Random function that produces a Tree of action lists
         let rec genFixedActionsRandom
             (category: ActionCategory)
@@ -192,15 +194,18 @@ module Sequential =
                         |> filterTreeWithState stateAfterSetup validateSequence
 
                 // Generate cleanup actions based on the projected final state
-                let cleanupTree, envAfterCleanup = Random.run seed2b size (genFixedActionsRandom ActionCategory.Cleanup cleanupActions
+                // Cleanup actions don't shrink - they run exactly as generated to ensure proper resource cleanup
+                let cleanupTreeWithShrinks, envAfterCleanup = Random.run seed2b size (genFixedActionsRandom ActionCategory.Cleanup cleanupActions
                                                                  stateAfterTest envAfterTest)
+                let cleanupActions = Tree.outcome cleanupTreeWithShrinks
+                let cleanupTree = Tree.singleton cleanupActions  // No shrinking for cleanup
 
                 // Combine all three trees
                 let combinedTree =
                     setupTree |> Tree.bind (fun setupShrunk ->
                         testActionsTree |> Tree.bind (fun testShrunk ->
                             cleanupTree |> Tree.map (fun cleanupShrunk ->
-                                { Initial = initialState; Steps = setupShrunk @ testShrunk @ cleanupShrunk }
+                                { Initial = initialState; Setup = setupShrunk; Test = testShrunk; Cleanup = cleanupShrunk }
                             )
                         )
                     )
@@ -222,54 +227,170 @@ module Sequential =
         genActionsWithState range setupActions testActions cleanupActions initialState initialEnv
         |> Gen.map (fun (actions, _, _) -> actions)
 
+    /// Result of executing actions - separates journal from success/failure
+    type private ExecutionResult<'TState> = {
+        FinalState: 'TState
+        FinalEnv: Env
+        JournalEntries: (unit -> JournalLine) list
+        Error: exn option
+    }
+
     /// Execute actions with a SUT instance.
     /// The SUT is passed as a typed parameter to each command's Execute and Ensure methods.
+    ///
+    /// Note: This function constructs a single async computation that executes all actions,
+    /// wrapped in Property.ofGen. This ensures that action.Execute is only called when
+    /// the property's lazy result is forced (during evaluation), not during tree construction.
+    /// This is critical for recheck performance - avoiding redundant executions during tree navigation.
+    ///
+    /// Cleanup actions are guaranteed to run even if setup/test actions fail.
+    /// All cleanup actions are attempted even if one fails.
     let internal executeWithSUT (sut: 'TSystem) (actions: Actions<'TSystem, 'TState>) : Property<unit> =
         let formatActionName (action: Action<'TSystem, 'TState>) : string =
             match action.Category with
-            | ActionCategory.Setup -> $"+ %s{action.Name}"
+            | ActionCategory.Setup -> $"+ {action.Name}"
             | ActionCategory.Test -> action.Name
-            | ActionCategory.Cleanup -> $"- %s{action.Name}"
+            | ActionCategory.Cleanup -> $"- {action.Name}"
 
-        // Construct async loop that executes actions
-        let rec executeLoop state env steps = async {
+        // Execute actions and build journal entries as we go (stops on first failure)
+        let rec executeLoop state env steps journalEntries = async {
             match steps with
-            | [] -> return ()
+            | [] ->
+                return { FinalState = state; FinalEnv = env; JournalEntries = journalEntries; Error = None }
             | action :: rest ->
                 if not (action.Precondition state && action.Require env state) then
-                    return! executeLoop state env rest
+                    return! executeLoop state env rest journalEntries
                 else
-                    // action.Execute is ONLY called when this async runs
-                    let! result = action.Execute sut env state |> Async.AwaitTask
+                    let actionName = formatActionName action
+                    let journalEntry = fun () -> Counterexample actionName
 
-                    match result with
-                    | ActionResult.Failure ex ->
-                        printfn "%s" (formatActionName action)
-                        if action.Category <> ActionCategory.Cleanup then
-                            printfn "Failed at state: %A" state
-                        return raise ex
+                    try
+                        let! result = action.Execute sut env state |> Async.AwaitTask
 
-                    | ActionResult.Success output ->
-                        let outputVar = Var.bound action.Id
-                        let env' = Env.add outputVar output env
-                        let state0 = state
-                        let state1 = action.Update state outputVar
+                        match result with
+                        | ActionResult.Failure ex ->
+                            return {
+                                FinalState = state
+                                FinalEnv = env
+                                JournalEntries = journalEntry :: journalEntries
+                                Error = Some ex
+                            }
 
-                        printfn "%s" (formatActionName action)
+                        | ActionResult.Success output ->
+                            let outputVar = Var.bound action.Id
+                            let env' = Env.add outputVar output env
+                            let state1 = action.Update state outputVar
 
-                        if not (action.Ensure env' state0 state1 output) then
-                            if action.Category <> ActionCategory.Cleanup then
-                                printfn "Failed at state: %A" state1
-                            return failwith "Ensure failed"
-                        else
-                            return! executeLoop state1 env' rest
+                            // Verify postcondition
+                            if not (action.Ensure env' state state1 output) then
+                                let errorMsg = $"Postcondition failed for action: {actionName}"
+                                return {
+                                    FinalState = state1
+                                    FinalEnv = env'
+                                    JournalEntries = journalEntry :: journalEntries
+                                    Error = Some (System.Exception(errorMsg))
+                                }
+                            else
+                                // Continue with this action added to journal
+                                return! executeLoop state1 env' rest (journalEntry :: journalEntries)
+                    with ex ->
+                        // Unexpected exception during execution
+                        return {
+                            FinalState = state
+                            FinalEnv = env
+                            JournalEntries = journalEntry :: journalEntries
+                            Error = Some ex
+                        }
         }
 
-        // Directly create Gen<Lazy<PropertyResult>> to bypass Property.bind
-        let asyncProp = async {
-            printfn "Initial state: %A" actions.Initial
-            do! executeLoop actions.Initial Env.empty actions.Steps
+        // Execute cleanup actions - attempts all actions even if one fails
+        // Does not stop on first failure, collects all errors
+        let rec executeCleanup state env cleanupActions journalEntries errors = async {
+            match cleanupActions with
+            | [] ->
+                return { FinalState = state; FinalEnv = env; JournalEntries = journalEntries; Error = None }, errors
+            | action :: rest ->
+                if not (action.Precondition state && action.Require env state) then
+                    return! executeCleanup state env rest journalEntries errors
+                else
+                    let actionName = formatActionName action
+                    let journalEntry = fun () -> Counterexample actionName
+
+                    try
+                        let! result = action.Execute sut env state |> Async.AwaitTask
+
+                        match result with
+                        | ActionResult.Failure ex ->
+                            // Record error but continue with remaining cleanup actions
+                            let newErrors = (actionName, ex) :: errors
+                            return! executeCleanup state env rest (journalEntry :: journalEntries) newErrors
+
+                        | ActionResult.Success output ->
+                            let outputVar = Var.bound action.Id
+                            let env' = Env.add outputVar output env
+                            let state1 = action.Update state outputVar
+                            return! executeCleanup state1 env' rest (journalEntry :: journalEntries) errors
+                    with ex ->
+                        // Unexpected exception - record and continue
+                        let newErrors = (actionName, ex) :: errors
+                        return! executeCleanup state env rest (journalEntry :: journalEntries) newErrors
         }
 
-        // Use Property.ofAsync which creates the lazy wrapper
-        Property.ofAsync asyncProp
+        // Execute and convert result to Property with proper journal
+        let executionAsync = async {
+            let initialEntry = fun () -> Counterexample $"Initial state: {actions.Initial}\n"
+
+            // Execute setup actions first
+            let! setupResult = executeLoop actions.Initial Env.empty actions.Setup [initialEntry]
+
+            // Execute test actions only if setup succeeded
+            let! mainResult =
+                match setupResult.Error with
+                | Some _ -> async { return setupResult }  // Setup failed, skip test
+                | None -> executeLoop setupResult.FinalState setupResult.FinalEnv actions.Test setupResult.JournalEntries
+
+            // Always run cleanup actions, using the state/env from main execution
+            let! cleanupResult, cleanupErrors =
+                executeCleanup mainResult.FinalState mainResult.FinalEnv actions.Cleanup mainResult.JournalEntries []
+
+            let finalEntry = fun () -> Counterexample $"\nFailed at state: {cleanupResult.FinalState}"
+            let journal = Journal.ofSeq (List.rev (finalEntry :: cleanupResult.JournalEntries))
+
+            // Determine overall result - main error takes priority, then cleanup errors
+            match mainResult.Error, cleanupErrors with
+            | None, [] ->
+                // All actions succeeded
+                return (journal, Success ())
+            | Some ex, [] ->
+                // Main action failed, cleanup succeeded
+                return (Journal.append journal (Journal.exn ex), Failure)
+            | None, cleanupErrs ->
+                // Main succeeded but cleanup failed - report all cleanup errors
+                let cleanupJournal =
+                    cleanupErrs
+                    |> List.rev
+                    |> List.collect (fun (name, ex) ->
+                        [ fun () -> Counterexample $"Cleanup action failed: {name}"
+                          fun () -> Counterexample (ex.ToString()) ])
+                    |> Journal.ofSeq
+                return (Journal.append journal cleanupJournal, Failure)
+            | Some mainEx, cleanupErrs ->
+                // Both main and cleanup failed - report main error first, then cleanup errors
+                let cleanupJournal =
+                    cleanupErrs
+                    |> List.rev
+                    |> List.collect (fun (name, ex) ->
+                        [ fun () -> Counterexample $"Cleanup action also failed: {name}"
+                          fun () -> Counterexample (ex.ToString()) ])
+                    |> Journal.ofSeq
+                let combinedJournal =
+                    journal
+                    |> Journal.append (Journal.exn mainEx)
+                    |> Journal.append cleanupJournal
+                return (combinedJournal, Failure)
+        }
+
+        // Create property from async computation that returns (Journal, Outcome)
+        // The lazy ensures execution only happens when forced (during followPath in recheck)
+        Gen.constant (lazy (Async.RunSynchronously executionAsync))
+        |> Property.ofGen

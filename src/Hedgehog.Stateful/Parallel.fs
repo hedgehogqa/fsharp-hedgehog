@@ -35,20 +35,20 @@ module Parallel =
 
             // Generate branches from state and environment after prefix
             // Both branches start with the same state and environment (correct for parallel execution)
-            let! branch1 = Sequential.genActions branchRange [] testActions [] stateAfterPrefix envAfterPrefix
-            let! branch2 = Sequential.genActions branchRange [] testActions [] stateAfterPrefix envAfterPrefix
+            let! branch1Actions = Sequential.genActions branchRange [] testActions [] stateAfterPrefix envAfterPrefix
+            let! branch2Actions = Sequential.genActions branchRange [] testActions [] stateAfterPrefix envAfterPrefix
 
             // Generate cleanup based on state and environment after prefix (not after branches, since branches run in parallel)
-            let! cleanup =
+            let! cleanupActions =
                 Sequential.genActions (Range.singleton 0) cleanupActions [] [] stateAfterPrefix envAfterPrefix
 
             return
                 { Initial = initialState
-                  Setup = setup.Steps
-                  Prefix = prefix.Steps
-                  Branch1 = branch1.Steps
-                  Branch2 = branch2.Steps
-                  Cleanup = cleanup.Steps }
+                  Setup = setup.Setup @ setup.Test  // Setup phase from sequential gen
+                  Prefix = prefix.Setup @ prefix.Test  // Prefix phase from sequential gen
+                  Branch1 = branch1Actions.Setup @ branch1Actions.Test
+                  Branch2 = branch2Actions.Setup @ branch2Actions.Test
+                  Cleanup = cleanupActions.Setup @ cleanupActions.Test @ cleanupActions.Cleanup }
         }
 
     /// Check if there exists a valid interleaving of two action branches.
@@ -224,29 +224,30 @@ module Parallel =
                         Property.ofBool true
 
             // Run cleanup actions - these always run even if tests failed
-            // We catch any cleanup failures and report them after linearizability check
-            let mutable cleanupError = None
+            // All cleanup actions are attempted even if one fails
+            let mutable cleanupErrors = []
 
             for action in actions.Cleanup do
-                match cleanupError with
-                | Some _ -> () // Skip remaining cleanup if one fails
-                | None ->
-                    if action.Precondition state && action.Require env state then
-                        let! result = Property.ofTask (action.Execute sut env state)
+                if action.Precondition state && action.Require env state then
+                    let! result = Property.ofTask (action.Execute sut env state)
 
-                        match result with
-                        | ActionResult.Failure ex -> cleanupError <- Some(formatActionName action, ex)
-                        | ActionResult.Success output ->
-                            let outputVar = Var.bound action.Id
-                            env <- Env.add outputVar output env
+                    match result with
+                    | ActionResult.Failure ex ->
+                        cleanupErrors <- (formatActionName action, ex) :: cleanupErrors
+                    | ActionResult.Success output ->
+                        let outputVar = Var.bound action.Id
+                        env <- Env.add outputVar output env
 
             // Check linearizability first
             do! linearizabilityCheck
 
-            // Then report any cleanup errors
-            match cleanupError with
-            | Some(actionName, ex) ->
-                do! Property.counterexample (fun () -> actionName)
-                do! Property.exn ex
-            | None -> ()
+            // Then report any cleanup errors (all of them)
+            match cleanupErrors with
+            | [] -> ()
+            | errors ->
+                for (actionName, ex) in List.rev errors do
+                    do! Property.counterexample (fun () -> $"Cleanup action failed: {actionName}")
+                    do! Property.counterexample (fun () -> ex.ToString())
+                // Fail the property if any cleanup failed
+                return! Property.failure
         }

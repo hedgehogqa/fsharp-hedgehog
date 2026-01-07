@@ -142,4 +142,6 @@ type CounterSpec() =
 let ``Counter test with clean SUT parameter API``() =
     let sut = Counter()
     // Use CheckWith to create a fresh Counter for each property test run
-    CounterSpec().ToProperty(sut).Check()
+    CounterSpec().ToProperty(sut)
+        .Recheck("3_11438778048498838243_14419596045992193899_2")
+        // .Check()

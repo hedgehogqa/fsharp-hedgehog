@@ -62,13 +62,11 @@ type SequentialSpecification<'TSystem, 'TState>() =
         let setupActions = this.SetupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
         let testActions = this.Commands |> Seq.map _.ToActionGen() |> List.ofSeq
         let cleanupActions = this.CleanupCommands |> Seq.map _.ToActionGen() |> List.ofSeq
-
         let gen = Sequential.genActions this.Range setupActions testActions cleanupActions this.InitialState Env.empty
 
-        property {
-            let! actions = gen
-            do! Sequential.executeWithSUT sut actions
-        }
+        gen |> Property.forAll (fun actions ->
+            Sequential.executeWithSUT sut actions
+        )
 
     /// <summary>
     /// Convert this specification to a property using a SUT factory.

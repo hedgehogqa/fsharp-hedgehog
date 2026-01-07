@@ -46,5 +46,10 @@ with
 /// A sequence of actions to execute
 type internal Actions<'TSystem, 'TState> = {
     Initial: 'TState
-    Steps: Action<'TSystem, 'TState> list
+    /// Setup actions (executed first, in order, stops on first failure)
+    Setup: Action<'TSystem, 'TState> list
+    /// Test actions (executed after setup, in order, stops on first failure)
+    Test: Action<'TSystem, 'TState> list
+    /// Cleanup actions (always executed, even if Setup/Test fail; all are attempted)
+    Cleanup: Action<'TSystem, 'TState> list
 }
