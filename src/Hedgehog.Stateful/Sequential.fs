@@ -390,7 +390,4 @@ module Sequential =
                 return (combinedJournal, Failure)
         }
 
-        // Create property from async computation that returns (Journal, Outcome)
-        // The lazy ensures execution only happens when forced (during followPath in recheck)
-        Gen.constant (lazy (Async.RunSynchronously executionAsync))
-        |> Property.ofGen
+        Property.ofAsyncWithJournal executionAsync
