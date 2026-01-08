@@ -118,7 +118,12 @@ module Property =
     /// The property succeeds when the async computation completes successfully, and fails if it throws an exception.
     /// This enables testing of asynchronous F# code.
     let ofAsync (asyncComputation : Async<'T>) : Property<'T> =
-        Gen.constant (lazy (PropertyResult.ofAsyncWith asyncComputation))
+        Gen.constant (lazy (PropertyResult.ofAsync asyncComputation))
+        |> Property
+
+    /// Create Property from an async computation that produces a journal and outcome
+    let ofAsyncWithJournal (asyncComputation : Async<Journal * Outcome<'T>>) : Property<'T> =
+        Gen.constant (lazy (PropertyResult.ofAsyncWithJournal asyncComputation))
         |> Property
 
     /// Discards test cases where the predicate returns false, causing Hedgehog to generate a new test case.
