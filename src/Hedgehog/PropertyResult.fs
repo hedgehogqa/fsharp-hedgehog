@@ -14,11 +14,11 @@ module internal PropertyResult =
         PropertyResult.Sync (journal, outcome)
 
     /// Create an async PropertyResult from an async computation that produces a journal and outcome
-    let ofAsync (asyncResult : Async<Journal * Outcome<'a>>) : PropertyResult<'a> =
+    let ofAsyncWithJournal (asyncResult : Async<Journal * Outcome<'a>>) : PropertyResult<'a> =
         PropertyResult.Async asyncResult
 
     /// Create an async PropertyResult by capturing exceptions from an async computation
-    let ofAsyncWith (asyncComputation : Async<'a>) : PropertyResult<'a> =
+    let ofAsync (asyncComputation : Async<'a>) : PropertyResult<'a> =
         PropertyResult.Async (async {
             try
                 let! result = asyncComputation

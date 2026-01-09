@@ -126,7 +126,6 @@ let defaultConfig = {
     Assemblies = [
         ("src/Hedgehog/bin/Debug/net8.0/Hedgehog.dll", "Hedgehog")
         ("src/Hedgehog.Xunit/bin/Debug/net8.0/Hedgehog.Xunit.dll", "Hedgehog.Xunit")
-        ("src/Hedgehog.Stateful/bin/Debug/net8.0/Hedgehog.Stateful.dll", "Hedgehog.Stateful")
     ]
     OutputDir = "docs/api"
 
@@ -135,7 +134,7 @@ let defaultConfig = {
 
     RootUrl = "/"
     SkipAutoOpenWrappers = true
-    CSharpNamespaces = Set.ofList ["Hedgehog.Linq"; "Hedgehog.Stateful.Linq"]
+    CSharpNamespaces = Set.ofList ["Hedgehog.Linq"]
 }
 
 // ============================================================================
@@ -1155,7 +1154,6 @@ let runWithArgs (args: string[]) : unit =
     let assemblies = [
         ($"src/Hedgehog/bin/%s{buildConfiguration}/net8.0/Hedgehog.dll", "Hedgehog")
         ($"src/Hedgehog.Xunit/bin/%s{buildConfiguration}/net8.0/Hedgehog.Xunit.dll", "Hedgehog.Xunit")
-        ($"src/Hedgehog.Stateful/bin/%s{buildConfiguration}/net8.0/Hedgehog.Stateful.dll", "Hedgehog.Stateful")
     ]
     
     let config = { defaultConfig with Assemblies = assemblies }

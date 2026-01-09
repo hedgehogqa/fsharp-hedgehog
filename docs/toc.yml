@@ -1,9 +1,6 @@
 - name: Documentation
   href: articles/
   homepage: index.md
-- name: Stateful Testing
-  href: stateful/
-  homepage: stateful/index.md
 - name: XUnit Integration
   href: xunit/
   homepage: xunit/index.md
