@@ -42,9 +42,13 @@ type PropertyAttribute(autoGenConfig, autoGenConfigArgs, tests, shrinks, size) =
         member _.BuildFrom(mi: IMethodInfo, suite: Test) =
             let testMethod = HedgehogTestMethod(mi, suite)
 
-            // Apply IgnoreAttribute if present
-            mi.GetCustomAttributes<IgnoreAttribute>(true)
-            |> Array.iter (fun attr -> attr.ApplyToTest(testMethod))
+            // Apply all IApplyToTest attributes (Category, Description, Ignore, Retry, etc.)
+            // but exclude IPropertyAttribute implementations since they're handled separately
+            mi.GetCustomAttributes(true)
+            |> Seq.cast<obj>
+            |> Seq.filter (fun attr -> attr :? IApplyToTest && not (attr :? IPropertyAttribute))
+            |> Seq.cast<IApplyToTest>
+            |> Seq.iter _.ApplyToTest(testMethod)
 
             testMethod
 
