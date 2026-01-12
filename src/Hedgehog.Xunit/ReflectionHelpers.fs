@@ -10,14 +10,8 @@ open System.Threading.Tasks
 // Type Checking
 // ========================================
 
-let isTask (t: Type) =
-    typeof<Task>.IsAssignableFrom(t)
-
 let isGenericTask (t: Type) =
     t.IsGenericType && typeof<Task>.IsAssignableFrom(t)
-
-let isValueTask (t: Type) =
-    t = typeof<ValueTask> || (t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ValueTask<_>>)
 
 let isGenericValueTask (t: Type) =
     t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<ValueTask<_>>
@@ -48,7 +42,7 @@ let invokeAsyncRunSynchronously (asyncObj: obj) =
         .MakeGenericMethod(asyncObj.GetType().GetGenericArguments())
         .Invoke(null, [| asyncObj; None; Some CancellationToken.None |])
 
-let invokeResultIsOk (resultObj: obj) (markerType: Type) (resultIsOkMethodName: string) =
+let assertResultOk (resultObj: obj) (markerType: Type) (resultIsOkMethodName: string) =
     markerType
         .GetTypeInfo()
         .GetDeclaredMethod(resultIsOkMethodName)

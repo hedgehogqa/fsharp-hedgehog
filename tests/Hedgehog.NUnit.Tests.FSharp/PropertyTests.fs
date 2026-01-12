@@ -23,9 +23,9 @@ type Int6() =
     inherit GenAttribute<int>()
     override _.Generator = Gen.constant 6
 
-type IntConstantRange(max: int, min: int) =
+type IntConstantRange(min: int, max: int) =
     inherit GenAttribute<int>()
-    override _.Generator = Range.constant max min |> Gen.int32
+    override _.Generator = Range.constant min max |> Gen.int32
 
 module PropertyTest =
     let runReport methodName (typ: Type) instance =

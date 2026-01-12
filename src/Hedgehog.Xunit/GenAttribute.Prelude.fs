@@ -6,6 +6,11 @@ open Hedgehog.FSharp
 
 [<AutoOpen>]
 module private RangeHelpers =
+    [<Literal>]
+    let private LargeRangeThreshold = 1000L
+    [<Literal>]
+    let private MediumRangeThreshold = 100L
+
     /// Choose between constant, linear, and exponential range based on the range size.
     /// - For ranges > 1000: use exponential to ensure boundary values are tested
     /// - For ranges > 100: use linear for balanced shrinking
@@ -14,8 +19,8 @@ module private RangeHelpers =
         let rangeSize = int64 max - int64 min
         let origin = if min <= 0 && 0 <= max then 0 else min
         match rangeSize with
-        | size when size > 1000L -> Range.exponentialFrom origin min max
-        | size when size > 100L -> Range.linearFrom origin min max
+        | size when size > LargeRangeThreshold -> Range.exponentialFrom origin min max
+        | size when size > MediumRangeThreshold -> Range.linearFrom origin min max
         | _ -> Range.constantFrom origin min max
 
 /// <summary>Generates an integer within a specified range.</summary>

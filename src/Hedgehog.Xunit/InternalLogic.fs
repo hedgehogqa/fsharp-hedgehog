@@ -11,13 +11,13 @@ open System.Threading.Tasks
 // Type Utilities & Helpers
 // ========================================
 
-type private Marker = class end
+type private TypedReflectionMarker = class end
 
 [<Literal>]
 let private GenxAutoBoxMethodName = "genxAutoBoxWith"
 
 [<Literal>]
-let private ResultIsOkMethodName = "resultIsOk"
+let private AssertResultOkMethodName = "assertResultOk"
 
 [<Literal>]
 let private ConvertAsyncToObjMethodName = "convertAsyncToObj"
@@ -32,18 +32,18 @@ let private genxAutoBoxWith<'T> x =
     x |> Gen.autoWith<'T> |> Gen.map box
 
 let private genxAutoBoxWithMethodInfo =
-    typeof<Marker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(GenxAutoBoxMethodName)
+    typeof<TypedReflectionMarker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(GenxAutoBoxMethodName)
 
 let private convertAsyncToObjMethodInfo =
-    typeof<Marker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(ConvertAsyncToObjMethodName)
+    typeof<TypedReflectionMarker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(ConvertAsyncToObjMethodName)
 
 // ========================================
 // Result Validation
 // ========================================
 
-let resultIsOk r =
+let assertResultOk r =
     match r with
-    | Ok _ -> true
+    | Ok _ -> ()
     | Error e ->
         failwithf $"Result is in the Error case with the following value:%s{Environment.NewLine}%A{e}"
 
@@ -103,8 +103,7 @@ let rec wrapReturnValue (x: obj) : Property<unit> =
             // This ensures exceptions from resultIsOk are caught by Property.map
             Property.success x
             |> Property.map (fun r ->
-                let isOk = ReflectionHelpers.invokeResultIsOk r typeof<Marker>.DeclaringType ResultIsOkMethodName :?> bool
-                if not isOk then failwith "Result is Error")
+                ReflectionHelpers.assertResultOk r typeof<TypedReflectionMarker>.DeclaringType AssertResultOkMethodName |> ignore)
             
         | _ -> Property.success ()
 
@@ -127,7 +126,7 @@ let withTests = function
 
 let withShrinks = function
     | Some x -> PropertyConfig.withShrinks x
-    | None -> PropertyConfig.withoutShrinks
+    | None -> id
 
 // ========================================
 // Generator Creation
