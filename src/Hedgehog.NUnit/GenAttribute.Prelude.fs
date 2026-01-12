@@ -1,4 +1,4 @@
-namespace Hedgehog.Xunit
+namespace Hedgehog.NUnit
 
 open System
 open Hedgehog
@@ -6,6 +6,7 @@ open Hedgehog.FSharp
 
 [<AutoOpen>]
 module private RangeHelpers =
+
     [<Literal>]
     let private LargeRangeThreshold = 1000L
     [<Literal>]

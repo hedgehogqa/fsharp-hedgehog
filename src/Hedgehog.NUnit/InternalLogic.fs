@@ -2,7 +2,7 @@ module internal InternalLogic
 
 open Hedgehog
 open Hedgehog.FSharp
-open Hedgehog.Xunit
+open Hedgehog.NUnit
 open System
 open System.Reflection
 open System.Threading.Tasks
@@ -28,8 +28,7 @@ let private convertAsyncToObj<'T> (a: Async<'T>) : Async<obj> =
         return box x
     }
 
-let private genxAutoBoxWith<'T> x =
-    x |> Gen.autoWith<'T> |> Gen.map box
+let private genxAutoBoxWith<'T> x = x |> Gen.autoWith<'T> |> Gen.map box
 
 let private genxAutoBoxWithMethodInfo =
     typeof<TypedReflectionMarker>.DeclaringType.GetTypeInfo().GetDeclaredMethod(GenxAutoBoxMethodName)
@@ -44,17 +43,14 @@ let private convertAsyncToObjMethodInfo =
 let assertResultOk r =
     match r with
     | Ok _ -> ()
-    | Error e ->
-        failwithf $"Result is in the Error case with the following value:%s{Environment.NewLine}%A{e}"
+    | Error e -> failwithf $"Result is in the Error case with the following value:%s{Environment.NewLine}%A{e}"
 
 // ========================================
 // Return Value Processing
 // ========================================
 
 let private toAsyncObj (asyncVal: obj) (t: Type) : Async<obj> =
-    convertAsyncToObjMethodInfo
-        .MakeGenericMethod(t)
-        .Invoke(null, [| asyncVal |])
+    convertAsyncToObjMethodInfo.MakeGenericMethod(t).Invoke(null, [| asyncVal |])
     |> unbox<Async<obj>>
 
 /// Wraps a test method return value into a Property, handling async/task natively
@@ -64,47 +60,45 @@ let rec wrapReturnValue (x: obj) : Property<unit> =
     | :? bool as b -> Property.ofBool b
     | :? Property<unit> as p -> p
     | :? Property<bool> as p -> p |> Property.falseToFailure
-    
+
     // Non-generic Task
-    | :? Task as t when not (t.GetType().IsGenericType) ->
-        Property.ofTaskUnit t
-    
+    | :? Task as t when not (t.GetType().IsGenericType) -> Property.ofTaskUnit t
+
     // Non-generic ValueTask
-    | :? ValueTask as vt ->
-        vt.AsTask() |> Property.ofTaskUnit
-    
+    | :? ValueTask as vt -> vt.AsTask() |> Property.ofTaskUnit
+
     // Async<unit> - common case, avoid reflection
-    | :? Async<unit> as a ->
-        Property.ofAsync a |> Property.map (fun _ -> ())
-    
+    | :? Async<unit> as a -> Property.ofAsync a |> Property.map (fun _ -> ())
+
     // Generic types requiring reflection
     | x ->
         let t = x.GetType()
+
         match t with
         | t when ReflectionHelpers.isGenericTask t ->
-            let taskResultType = t.GetGenericArguments().[0]
+            let taskResultType = t.GetGenericArguments()[0]
             let asyncVal = ReflectionHelpers.invokeAwaitTask x
             // Use toAsyncObj to avoid InvalidCastException, then wrap in Property
             let asyncObj = toAsyncObj asyncVal taskResultType
             Property.ofAsync asyncObj |> Property.map wrapReturnValue |> Property.bind id
-            
+
         | t when ReflectionHelpers.isGenericValueTask t ->
             let task = t.GetMethod("AsTask").Invoke(x, null)
             wrapReturnValue task
-            
+
         | t when ReflectionHelpers.isAsync t ->
-            let asyncResultType = t.GetGenericArguments().[0]
+            let asyncResultType = t.GetGenericArguments()[0]
             // Use toAsyncObj to avoid InvalidCastException, then wrap in Property
             let asyncObj = toAsyncObj x asyncResultType
             Property.ofAsync asyncObj |> Property.map wrapReturnValue |> Property.bind id
-            
+
         | t when ReflectionHelpers.isResult t ->
             // Wrap the Result in a Property and use map to check it
             // This ensures exceptions from resultIsOk are caught by Property.map
             Property.success x
             |> Property.map (fun r ->
                 ReflectionHelpers.assertResultOk r typeof<TypedReflectionMarker>.DeclaringType AssertResultOkMethodName |> ignore)
-            
+
         | _ -> Property.success ()
 
 // ========================================
@@ -120,11 +114,13 @@ let dispose (o: obj) =
 // Configuration Helpers
 // ========================================
 
-let withTests = function
+let withTests =
+    function
     | Some x -> PropertyConfig.withTests x
     | None -> id
 
-let withShrinks = function
+let withShrinks =
+    function
     | Some x -> PropertyConfig.withShrinks x
     | None -> id
 
@@ -138,9 +134,10 @@ module private GeneratorFactory =
         parameterInfo.GetCustomAttributes()
         |> Seq.tryPick (fun attr ->
             let attrType = attr.GetType().BaseType
+
             let isGenAttribute =
-                attrType.IsGenericType &&
-                attrType.GetGenericTypeDefinition().IsAssignableFrom(typedefof<GenAttribute<_>>)
+                attrType.IsGenericType
+                && attrType.GetGenericTypeDefinition().IsAssignableFrom(typedefof<GenAttribute<_>>)
 
             if isGenAttribute then
                 let boxMethod = attrType.GetMethods() |> Array.find (fun m -> m.Name = "Box")
@@ -151,15 +148,11 @@ module private GeneratorFactory =
     /// Creates a generator for a parameter based on attribute or type
     let createGenerator (autoGenConfig: obj) (parameter: ParameterInfo) : Gen<obj> =
         match tryGetAttributeGenerator parameter, parameter.ParameterType.ContainsGenericParameters with
-        | Some gen, _ ->
-            gen
-        | _, true ->
-            Gen.constant Unchecked.defaultof<_>
+        | Some gen, _ -> gen
+        | _, true -> Gen.constant Unchecked.defaultof<_>
         | _, false ->
-            genxAutoBoxWithMethodInfo
-                .MakeGenericMethod(parameter.ParameterType)
-                .Invoke(null, [| autoGenConfig |])
-                :?> Gen<obj>
+            genxAutoBoxWithMethodInfo.MakeGenericMethod(parameter.ParameterType).Invoke(null, [| autoGenConfig |])
+            :?> Gen<obj>
 
     /// Creates a list generator for all test method parameters
     let createParameterListGenerator (context: PropertyContext) (parameters: ParameterInfo[]) : Gen<obj list> =
@@ -170,7 +163,7 @@ module private GeneratorFactory =
             |> Gen.sequenceList
 
         match context.Size, context.Recheck with
-        | _, Some _ -> gens  // Size from recheck data if present
+        | _, Some _ -> gens // Size from recheck data if present
         | Some size, _ -> gens |> Gen.resize size
         | None, _ -> gens
 
@@ -196,7 +189,8 @@ module private PropertyBuilder =
         (testMethod: MethodInfo)
         (testClassInstance: obj)
         (parameters: ParameterInfo[])
-        (gens: Gen<obj list>) : Property<unit> =
+        (gens: Gen<obj list>)
+        : Property<unit> =
 
         let invoke args =
             try
@@ -205,19 +199,18 @@ module private PropertyBuilder =
                 finally
                     List.iter dispose args
             with
-                // Unwrap TargetInvocationException to get the actual exception.
-                // It is safe to do it because invokeTestMethod uses reflection that adds this wrapper.
-                | :? TargetInvocationException as e when not (isNull e.InnerException) ->
-                    box e.InnerException
-                | e -> box e
+            // Unwrap TargetInvocationException to get the actual exception.
+            // It is safe to do it because invokeTestMethod uses reflection that adds this wrapper.
+            | :? TargetInvocationException as e when not (isNull e.InnerException) -> box e.InnerException
+            | e -> box e
 
         let createJournal args =
             args
             |> Seq.zip parameters
-            |> Seq.map (fun (param, value) -> fun () -> TestParameter (param.Name, value))
+            |> Seq.map (fun (param, value) -> fun () -> TestParameter(param.Name, value))
             |> Array.ofSeq // not sure if journal will do multiple enumerations
             |> Journal.ofSeq
-        
+
         let wrapWithExceptionHandling (result: obj) : Property<unit> =
             match result with
             | :? exn as e -> Property.exn e
@@ -227,12 +220,12 @@ module private PropertyBuilder =
         // Handle Property<unit> return type
         if testMethod.ReturnType = typeof<Property<unit>> then
             Property.bindWith createJournal (invoke >> unbox<Property<unit>>) gens
-        
+
         // Handle Property<bool> return type
         elif testMethod.ReturnType = typeof<Property<bool>> then
             Property.bindWith createJournal (invoke >> unbox<Property<bool>>) gens
             |> Property.falseToFailure
-        
+
         // Handle all other return types (Task, Async, bool, Result, etc.)
         else
             Property.bindWith createJournal (invoke >> wrapWithExceptionHandling) gens
@@ -245,7 +238,9 @@ module private PropertyBuilder =
 let reportAsync (context: PropertyContext) (testMethod: MethodInfo) testClassInstance : Async<Report> =
     let parameters = testMethod.GetParameters()
     let gens = GeneratorFactory.createParameterListGenerator context parameters
-    let property = PropertyBuilder.createProperty testMethod testClassInstance parameters gens
+
+    let property =
+        PropertyBuilder.createProperty testMethod testClassInstance parameters gens
 
     let config =
         PropertyConfig.defaults
@@ -253,7 +248,5 @@ let reportAsync (context: PropertyContext) (testMethod: MethodInfo) testClassIns
         |> withShrinks context.Shrinks
 
     match context.Recheck with
-    | Some recheckData -> 
-        Property.reportRecheckWith recheckData config property |> async.Return
-    | None -> 
-        Property.reportAsyncWith config property
+    | Some recheckData -> Property.reportRecheckWith recheckData config property |> async.Return
+    | None -> Property.reportAsyncWith config property

@@ -20,7 +20,7 @@ let isAsync (t: Type) =
     t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Async<_>>
 
 let isResult (t: Type) =
-    t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Result<_,_>>
+    t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Result<_, _>>
 
 // ========================================
 // Method Invocation
@@ -28,23 +28,16 @@ let isResult (t: Type) =
 
 let invokeAwaitTask (taskObj: obj) =
     let taskType = taskObj.GetType()
+
     let awaitTaskMethod =
         typeof<Async>.GetMethods()
         |> Array.find (fun m -> m.Name = "AwaitTask" && m.IsGenericMethod)
 
-    awaitTaskMethod
-        .MakeGenericMethod(taskType.GetGenericArguments().[0])
-        .Invoke(null, [|taskObj|])
-
-let invokeAsyncRunSynchronously (asyncObj: obj) =
-    typeof<Async>
-        .GetMethod("RunSynchronously")
-        .MakeGenericMethod(asyncObj.GetType().GetGenericArguments())
-        .Invoke(null, [| asyncObj; None; Some CancellationToken.None |])
+    awaitTaskMethod.MakeGenericMethod(taskType.GetGenericArguments().[0]).Invoke(null, [| taskObj |])
 
 let assertResultOk (resultObj: obj) (markerType: Type) (resultIsOkMethodName: string) =
     markerType
         .GetTypeInfo()
         .GetDeclaredMethod(resultIsOkMethodName)
         .MakeGenericMethod(resultObj.GetType().GetGenericArguments())
-        .Invoke(null, [|resultObj|])
+        .Invoke(null, [| resultObj |])

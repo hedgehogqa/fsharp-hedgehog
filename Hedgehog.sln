@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedgehog.Xunit.Tests.CSharp
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.Xunit.Tests.FSharp", "tests\Hedgehog.Xunit.Tests.FSharp\Hedgehog.Xunit.Tests.FSharp.fsproj", "{856960BF-6CD8-4BBB-949F-02A47BCF8EC7}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.NUnit", "src\Hedgehog.NUnit\Hedgehog.NUnit.fsproj", "{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.NUnit.Tests.FSharp", "tests\Hedgehog.NUnit.Tests.FSharp\Hedgehog.NUnit.Tests.FSharp.fsproj", "{70CB049A-FA03-4361-914A-8D2F4D291062}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,14 @@ Global
 		{856960BF-6CD8-4BBB-949F-02A47BCF8EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{856960BF-6CD8-4BBB-949F-02A47BCF8EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{856960BF-6CD8-4BBB-949F-02A47BCF8EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70CB049A-FA03-4361-914A-8D2F4D291062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70CB049A-FA03-4361-914A-8D2F4D291062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70CB049A-FA03-4361-914A-8D2F4D291062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70CB049A-FA03-4361-914A-8D2F4D291062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +107,7 @@ Global
 		{C7D1E5C7-0281-4752-A7C7-E0C2CB2EF13D} = {3C2CF07C-905B-4162-BE81-46060153841B}
 		{1E243C1E-563C-4D59-A270-9CB68B578540} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
 		{856960BF-6CD8-4BBB-949F-02A47BCF8EC7} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
+		{4F1FFCB9-BA0A-432A-97F0-D302DE1348BD} = {3C2CF07C-905B-4162-BE81-46060153841B}
+		{70CB049A-FA03-4361-914A-8D2F4D291062} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
 	EndGlobalSection
 EndGlobal
