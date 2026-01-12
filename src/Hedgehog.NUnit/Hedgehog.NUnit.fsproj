@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>1.0.0</Version>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <DebugType>Embedded</DebugType>
+        <EmbedAllSources>True</EmbedAllSources>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Description>Hedgehog with batteries for NUnit included.</Description>
+        <Authors>Alexey Raga</Authors>
+        <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog</PackageProjectUrl>
+        <PackageTags>f# fsharp c# csharp testing nunit</PackageTags>
+        <PackageIcon>hedgehog-logo.png</PackageIcon>
+        <PackageId>Hedgehog.NUnit</PackageId>
+        <PackageDescription>
+            Hedgehog with convenience attributes for NUnit.
+
+            - Test method arguments generated with a custom Gen.auto...
+            - ...or with a custom Generator.
+            - Property.check called for each test.
+        </PackageDescription>
+        <RootNamespace>Hedgehog.NUnit</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Hedgehog.NUnit.Tests.FSharp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Prelude.fs" />
+      <Compile Include="AutoGenConfig.fs" />
+      <Compile Include="IPropertyAttribute.fs" />
+      <Compile Include="RecheckAttribute.fs" />
+      <Compile Include="GenAttribute.fs" />
+      <Compile Include="GenAttribute.Prelude.fs" />
+      <Compile Include="PropertyContext.fs" />
+      <Compile Include="ReflectionHelpers.fs" />
+      <Compile Include="InternalLogic.fs" />
+      <Compile Include="PropertyAttribute.fs" />
+      <Compile Include="PropertiesAttribute.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Hedgehog\Hedgehog.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NUnit" Version="4.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\img\hedgehog-logo.png" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
+    </ItemGroup>
+
+</Project>
