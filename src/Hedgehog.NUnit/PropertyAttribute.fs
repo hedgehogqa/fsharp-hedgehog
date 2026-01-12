@@ -69,12 +69,17 @@ and HedgehogTestMethod(mi: IMethodInfo, parentSuite: Test) =
         TestExecutionContext.CurrentContext.CurrentResult <- testResult
 
         try
+            use _ = new TestExecutionContext.IsolatedContext()
+
+            // Run SetUp methods
             try
-                use _ = new TestExecutionContext.IsolatedContext()
                 x.RunSetUp()
-                x.RunPropertyTest(context, testResult)
             with ex ->
                 x.HandleException(ex, testResult, FailureSite.SetUp)
+
+            // Only run the test if SetUp succeeded
+            if testResult.ResultState = ResultState.Inconclusive then
+                x.RunPropertyTest(context, testResult)
         finally
             x.RunTearDown(testResult)
 
