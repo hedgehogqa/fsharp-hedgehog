@@ -15,7 +15,7 @@ Hedgehog automatically generates a comprehensive array of test cases, exercising
 Generate hundreds of test cases automatically, exposing even the most insidious of corner cases.
 Failures are automatically simplified, giving developers coherent, intelligible error messages.
     </PackageDescription>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://hedgehogqa.github.io/fsharp-hedgehog/</PackageProjectUrl>
     <PackageIcon>hedgehog-logo.png</PackageIcon>
     <PackageIconUrl>https://github.com/hedgehogqa/fsharp-hedgehog/raw/master/img/hedgehog-logo.png</PackageIconUrl>
@@ -87,7 +87,7 @@ Failures are automatically simplified, giving developers coherent, intelligible 
   <ItemGroup>
     <PackageReference Include="TypeShape" Version="9.0.0" Condition="'$(FABLE_COMPILER)' == ''" />
   </ItemGroup>
-  
+
   <!-- https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
   <ItemGroup>
     <None Include="*.fsproj; **\*.fs"
