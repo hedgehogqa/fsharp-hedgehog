@@ -56,8 +56,9 @@ let genTests = testList "Gen tests" [
         [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
 
         let actual =
-            (Range.constant DateTime.MinValue DateTime.MaxValue)
-            |> Gen.dateTime
+            Gen.dateTime
+                (Range.constant DateTime.MinValue DateTime.MaxValue)
+                (Gen.constant DateTimeKind.Unspecified)
             |> Gen.sample 0 count
             |> Seq.toList
 
@@ -65,7 +66,7 @@ let genTests = testList "Gen tests" [
         |> List.distinct
         |> List.length
         =! actual.Length
-        
+
 #if !FABLE_COMPILER
 // See production code
     yield! testCases "timeSpan creates TimeSpan instances"
@@ -111,8 +112,9 @@ let genTests = testList "Gen tests" [
             |> Random.run seed 0
 
         let actual =
-            Range.constant DateTime.MinValue DateTime.MaxValue
-            |> Gen.dateTime
+            Gen.dateTime
+                (Range.constant DateTime.MinValue DateTime.MaxValue)
+                (Gen.constant DateTimeKind.Unspecified)
             |> Gen.toRandom
             |> Random.run seed 0
             |> Tree.outcome
@@ -124,18 +126,20 @@ let genTests = testList "Gen tests" [
         let generatedValues =
             property {
                 let! actual =
-                  (Range.constantFrom
-                       (DateTime (2000, 1, 1))
-                        DateTime.MinValue
-                        DateTime.MaxValue)
-                  |> Gen.dateTime
+                    Gen.dateTime
+                        (Range.constantFrom
+                            (DateTime (2000, 1, 1))
+                                DateTime.MinValue
+                                DateTime.MaxValue)
+                        (Gen.constant DateTimeKind.Unspecified)
+
                 actual =! DateTime.Now
             }
             |> expectFailureWithGeneratedValues
 
         if List.isEmpty generatedValues then
             failwith "Should have generated values in journal"
-        
+
         let actual = generatedValues.[0] :?> DateTime
         actual =! DateTime (2000, 1, 1)
 
@@ -337,20 +341,20 @@ let genTests = testList "Gen tests" [
         let firstValues = System.Collections.Generic.HashSet<int>()
         let secondValues = System.Collections.Generic.HashSet<int>()
         let thirdValues = System.Collections.Generic.HashSet<int>()
-        
+
         property {
             let! x = Gen.int32 (Range.linear 1 100)
             let! y = Gen.int32 (Range.linear 1 100)
             let! z = Gen.int32 (Range.linear 1 100)
-            
+
             firstValues.Add(x) |> ignore
             secondValues.Add(y) |> ignore
             thirdValues.Add(z) |> ignore
-            
+
             return true
         }
         |> Property.checkBoolWith (PropertyConfig.withTests 100<tests> PropertyConfig.defaults)
-        
+
         // Each generator should produce multiple different values
         // If the seed wasn't threaded properly, they would all produce the same value
         firstValues.Count > 10 |> Expect.isTrue

@@ -142,8 +142,7 @@ type DateTimeAttribute(kind: DateTimeKind, from: DateTime, duration: TimeSpan) =
     new(from, duration) = DateTimeAttribute(DateTimeKind.Utc, from, duration)
     new(kind) = DateTimeAttribute(kind, DateTime(2000, 1, 1), TimeSpan.FromDays(3650))
     override _.Generator =
-        Gen.dateTime (Range.constant from (from + duration))
-        |> Gen.map (fun x -> DateTime.SpecifyKind(x, kind))
+        Gen.dateTime (Range.constant from (from + duration)) (Gen.constant kind)
 
 /// Generates a DateTimeOffset value.
 type DateTimeOffsetAttribute(from: DateTimeOffset, duration: TimeSpan) =

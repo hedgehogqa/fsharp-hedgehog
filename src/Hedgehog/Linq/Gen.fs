@@ -299,8 +299,10 @@ type Gen private () =
     /// </code>
     /// </example>
     /// <param name="range">Range determining the bounds of the <c>DateTime</c> that can be generated.</param>
-    static member DateTime (range : Range<DateTime>) : Gen<DateTime> =
-        Gen.dateTime range
+    /// <param name="kind">Generator for the <c>DateTimeKind</c> that can be generated.</param>
+    static member DateTime (range : Range<DateTime>, ?kind) : Gen<DateTime> =
+        let kind = defaultArg kind (Gen.constant DateTimeKind.Unspecified)
+        Gen.dateTime range kind
 
     /// Generates a random DateTimeOffset using the given range.
     static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
