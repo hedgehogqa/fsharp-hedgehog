@@ -98,30 +98,6 @@ let genTests = testList "Gen tests" [
             |> Seq.toList
         [] =! List.filter (fun ch -> ch = char nonchar) actual
 
-    testCase "dateTime randomly generates value between max and min ticks" <| fun _ ->
-        // This is a bad test because essentially the same logic used to
-        // implement Gen.dateTime appears in this test. However, keeping it for
-        // now.
-        let seed = Seed.random ()
-        let range =
-            Range.constant
-                DateTime.MinValue.Ticks
-                DateTime.MaxValue.Ticks
-        let ticks =
-            Random.integral range
-            |> Random.run seed 0
-
-        let actual =
-            Gen.dateTime
-                (Range.constant DateTime.MinValue DateTime.MaxValue)
-                (Gen.constant DateTimeKind.Unspecified)
-            |> Gen.toRandom
-            |> Random.run seed 0
-            |> Tree.outcome
-
-        let expected = DateTime ticks
-        actual =! expected
-
     testCase "dateTime shrinks to correct mid-value" <| fun _ ->
         let generatedValues =
             property {
