@@ -65,7 +65,7 @@ let genTests = testList "Gen tests" [
         |> List.distinct
         |> List.length
         =! actual.Length
-        
+
 #if !FABLE_COMPILER
 // See production code
     yield! testCases "timeSpan creates TimeSpan instances"
@@ -135,7 +135,7 @@ let genTests = testList "Gen tests" [
 
         if List.isEmpty generatedValues then
             failwith "Should have generated values in journal"
-        
+
         let actual = generatedValues.[0] :?> DateTime
         actual =! DateTime (2000, 1, 1)
 
@@ -337,23 +337,44 @@ let genTests = testList "Gen tests" [
         let firstValues = System.Collections.Generic.HashSet<int>()
         let secondValues = System.Collections.Generic.HashSet<int>()
         let thirdValues = System.Collections.Generic.HashSet<int>()
-        
+
         property {
             let! x = Gen.int32 (Range.linear 1 100)
             let! y = Gen.int32 (Range.linear 1 100)
             let! z = Gen.int32 (Range.linear 1 100)
-            
+
             firstValues.Add(x) |> ignore
             secondValues.Add(y) |> ignore
             thirdValues.Add(z) |> ignore
-            
+
             return true
         }
         |> Property.checkBoolWith (PropertyConfig.withTests 100<tests> PropertyConfig.defaults)
-        
+
         // Each generator should produce multiple different values
         // If the seed wasn't threaded properly, they would all produce the same value
         firstValues.Count > 10 |> Expect.isTrue
         secondValues.Count > 10 |> Expect.isTrue
         thirdValues.Count > 10 |> Expect.isTrue
+
+    testCase "Seed is deterministic" <| fun () ->
+        // `checkBoolWith` should always produce the same result for the same starting seed.
+        // The concrete value of the snapshot is unimportant.
+        // However, if this value changes it may be because you may have broken determinism.
+        let snapshot =
+            { Value = 14141672759607663454UL
+              Gamma = 16294208416658607535UL }
+
+        let config =
+            PropertyConfig.defaults
+            |> PropertyConfig.withTests 1<tests>
+
+        Property.checkBoolWith config <| property {
+            let! x =
+                Random.seed
+                |> Random.map Tree.singleton
+                |> Gen.ofRandom
+
+            return x = snapshot
+        }
 ]

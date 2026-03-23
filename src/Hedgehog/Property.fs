@@ -175,7 +175,7 @@ module Property =
         let applyWithExceptionHandling (j, outcome) =
             try
                 (j, outcome |> Outcome.map f)
-            with 
+            with
             | :? TestReturnedFalseException ->
                 // Don't include internal exception in journal - it's just a signal.
                 (j, Failure)
@@ -210,12 +210,12 @@ module Property =
     let private bindGen
             (f : 'a -> Gen<Lazy<PropertyResult<'b>>>)
             (m : Gen<Lazy<PropertyResult<'a>>>) : Gen<Lazy<PropertyResult<'b>>> =
-        
+
         // Use GenLazy.bind pattern (like before async was introduced) but handle PropertyResult.
         m |> GenLazy.bind (fun propertyResultA ->
             // This function is called with the FORCED PropertyResult (lazy was forced by GenLazy.bind).
             // This happens during tree construction for proper shrinking via Gen.bind.
-            
+
             match propertyResultA with
             | PropertyResult.Sync (journalA, outcomeA) ->
                 // Synchronous case: pattern match and continue (original behavior).
@@ -243,7 +243,7 @@ module Property =
 #else
                 // Block to get the result (this happens during generation phase).
                 let journalA, outcomeA = Async.RunSynchronously asyncResultA
-                
+
                 // Now handle just like the sync case.
                 match outcomeA with
                 | Failure -> shortCircuit journalA Failure
@@ -277,10 +277,10 @@ module Property =
     /// the failure output with information about the generated input values.
     let bindWith (journalFrom : 'a -> Journal) (k : 'a -> Property<'b>) (m : Gen<'a>) : Property<'b> =
         m
-        |> Gen.bind (fun a -> 
+        |> Gen.bind (fun a ->
             let customJournal = journalFrom a
             let innerProperty = k a
-            innerProperty 
+            innerProperty
             |> toGenInternal
             |> Gen.map (fun lazyResult ->
                 lazy (
@@ -329,7 +329,7 @@ module Property =
 
     /// Module containing shrinking logic for property test failures.
     module private Shrinking =
-        
+
         /// Shrink a failing test synchronously, finding the smallest input that still fails.
         let shrinkSync
                 (language: Language)
@@ -394,7 +394,7 @@ module Property =
                         }
                         return! loop ()
                     }
-                    
+
                     let! found = xs |> Seq.indexed |> findFirstFailure
                     match found with
                     | None -> return! getFailed ()
@@ -476,7 +476,8 @@ module Property =
     /// The report includes the number of tests run, discards, and failure information with shrunk counterexamples.
     /// This blocks until all tests complete.
     let reportWith (config : IPropertyConfig) (p : Property<unit>) : Report =
-        p |> reportWith' (PropertyArgs.init ()) config
+        let seed = SeedConfig.init config.SeedConfig
+        p |> reportWith' (PropertyArgs.init seed) config
 
     /// Runs a property test with default configuration and returns a detailed report.
     /// By default, runs 100 tests. This blocks until all tests complete.
@@ -625,7 +626,8 @@ module Property =
     /// This is non-blocking and properly handles async properties without blocking threads.
     /// Use this when testing async code or when you need non-blocking test execution.
     let reportAsyncWith (config : IPropertyConfig) (p : Property<unit>) : Async<Report> =
-        p |> reportWithAsync' (PropertyArgs.init ()) config
+        let seed = SeedConfig.init config.SeedConfig
+        p |> reportWithAsync' (PropertyArgs.init seed) config
 
     /// Runs a property test asynchronously with default configuration, returning an F# Async that produces a report.
     /// This is non-blocking and properly handles async properties without blocking threads.
