@@ -8,11 +8,11 @@ type PropertyArgs = internal {
 
 module PropertyArgs =
 
-    let init () = {
+    let init (seed : Seed) = {
         Language = Language.FSharp
         RecheckData = {
             Size = 0
-            Seed = Seed.random ()
+            Seed = seed
             ShrinkPath = []
         }
     }
