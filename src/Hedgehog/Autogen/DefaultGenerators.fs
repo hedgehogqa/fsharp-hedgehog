@@ -33,7 +33,7 @@ type DefaultGenerators =
                 DateTime.MinValue.Ticks
                 DateTime.MaxValue.Ticks
             |> Range.map DateTime
-        Gen.dateTime dateTimeRange |> Gen.map DateTimeOffset
+        Gen.dateTime dateTimeRange (Gen.constant DateTimeKind.Unspecified) |> Gen.map DateTimeOffset
 
     static member ImmutableList<'a>(context: AutoGenContext, valueGen: Gen<'a>) : Gen<ImmutableList<'a>> =
         if context.CanRecurse then

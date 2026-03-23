@@ -11,7 +11,18 @@ module GenDateTime =
     module Gen =
 
         /// <summary>
-        /// Generates a random DateTime using the given range.
+        /// Generates a random DateTimeKind uniformly.
+        /// </summary>
+        let dateTimeKind : Gen<DateTimeKind> =
+            Gen.item
+                [|
+                    DateTimeKind.Utc
+                    DateTimeKind.Local
+                    DateTimeKind.Unspecified
+                |]
+
+        /// <summary>
+        /// Generates a random DateTime using the given range and `DateTimeKind` generator.
         /// </summary>
         /// <example>
         /// <code>
@@ -22,11 +33,25 @@ module GenDateTime =
         /// </code>
         /// </example>
         /// <param name="range">Range determining the bounds of the <c>DateTime</c> that can be generated.</param>
-        let dateTime (range : Range<DateTime>) : Gen<DateTime> =
+        /// <param name="kind">Generator determining the <c>DateTimeKind</c>.</param>
+        let dateTime (range : Range<DateTime>) (kind : Gen<DateTimeKind>) : Gen<DateTime> =
             gen {
                 let! ticks = range |> Range.map _.Ticks |> Gen.integral
-                return DateTime ticks
+                and! kind = kind
+                return DateTime(ticks, kind)
             }
+
+        /// Generates a DateTime using the given range with UTC kind.
+        let dateTimeUtc (range : Range<DateTime>) : Gen<DateTime> =
+            dateTime range (Gen.constant DateTimeKind.Utc)
+
+        /// Generates a DateTime using the given range with Local kind.
+        let dateTimeLocal (range : Range<DateTime>) : Gen<DateTime> =
+            dateTime range (Gen.constant DateTimeKind.Local)
+
+        /// Generates a DateTime using the given range with Unspecified kind.
+        let dateTimeUnspecified (range : Range<DateTime>) : Gen<DateTime> =
+            dateTime range (Gen.constant DateTimeKind.Unspecified)
 
         /// Generates a random DateTimeOffset using the given range.
         let dateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
