@@ -7,7 +7,7 @@ type JournalLine =
     | Counterexample of message: string              // Property.counterexample user messages
     | Exception of exn: exn                          // Original exception, unwrap at render
     | Cancellation of message: string                // OperationCanceledException messages
-    | Text of message: string                        // Plane text messages (info, etc.)
+    | Text of message: string                        // Plain text messages (info, etc.)
 
 [<Struct>]
 type Journal =
