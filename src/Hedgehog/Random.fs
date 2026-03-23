@@ -94,3 +94,7 @@ module Random =
             let (lo, hi) = Range.bounds size range
             let x, _ = Seed.nextDouble lo hi seed
             x)
+
+    /// A random value that always matches the seed. Useful for testing.
+    let seed : Random<Seed> =
+        Random (fun seed _ -> seed)
