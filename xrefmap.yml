@@ -529,18 +529,42 @@ references:
   commentId: M:Hedgehog.FSharp.Gen.create-a-Random
   fullName: Hedgehog.FSharp.Gen.create-a-Random
   nameWithType: create
-- uid: Hedgehog.FSharp.Gen.dateTime-Range
+- uid: Hedgehog.FSharp.Gen.dateTime-Range-Gen
   name: dateTime
-  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTime_Range
-  commentId: M:Hedgehog.FSharp.Gen.dateTime-Range
-  fullName: Hedgehog.FSharp.Gen.dateTime-Range
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTime_Range_Gen
+  commentId: M:Hedgehog.FSharp.Gen.dateTime-Range-Gen
+  fullName: Hedgehog.FSharp.Gen.dateTime-Range-Gen
   nameWithType: dateTime
+- uid: Hedgehog.FSharp.Gen.dateTimeKind
+  name: dateTimeKind
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeKind
+  commentId: M:Hedgehog.FSharp.Gen.dateTimeKind
+  fullName: Hedgehog.FSharp.Gen.dateTimeKind
+  nameWithType: dateTimeKind
+- uid: Hedgehog.FSharp.Gen.dateTimeLocal-Range
+  name: dateTimeLocal
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeLocal_Range
+  commentId: M:Hedgehog.FSharp.Gen.dateTimeLocal-Range
+  fullName: Hedgehog.FSharp.Gen.dateTimeLocal-Range
+  nameWithType: dateTimeLocal
 - uid: Hedgehog.FSharp.Gen.dateTimeOffset-Range
   name: dateTimeOffset
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeOffset_Range
   commentId: M:Hedgehog.FSharp.Gen.dateTimeOffset-Range
   fullName: Hedgehog.FSharp.Gen.dateTimeOffset-Range
   nameWithType: dateTimeOffset
+- uid: Hedgehog.FSharp.Gen.dateTimeUnspecified-Range
+  name: dateTimeUnspecified
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeUnspecified_Range
+  commentId: M:Hedgehog.FSharp.Gen.dateTimeUnspecified-Range
+  fullName: Hedgehog.FSharp.Gen.dateTimeUnspecified-Range
+  nameWithType: dateTimeUnspecified
+- uid: Hedgehog.FSharp.Gen.dateTimeUtc-Range
+  name: dateTimeUtc
+  href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_dateTimeUtc_Range
+  commentId: M:Hedgehog.FSharp.Gen.dateTimeUtc-Range
+  fullName: Hedgehog.FSharp.Gen.dateTimeUtc-Range
+  nameWithType: dateTimeUtc
 - uid: Hedgehog.FSharp.Gen.decimal-Range
   name: decimal
   href: api/Hedgehog.FSharp.Gen.html#Hedgehog_FSharp_Gen_decimal_Range
@@ -2035,12 +2059,12 @@ references:
   commentId: M:Hedgehog.Linq.Gen.Create-Func-Random
   fullName: Hedgehog.Linq.Gen.Create-Func-Random
   nameWithType: Create(Func, Random)
-- uid: Hedgehog.Linq.Gen.DateTime-Range
-  name: DateTime(Range)
-  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_DateTime_Range
-  commentId: M:Hedgehog.Linq.Gen.DateTime-Range
-  fullName: Hedgehog.Linq.Gen.DateTime-Range
-  nameWithType: DateTime(Range)
+- uid: Hedgehog.Linq.Gen.DateTime-Range-Gen
+  name: DateTime(Range, Gen)
+  href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_DateTime_Range_Gen
+  commentId: M:Hedgehog.Linq.Gen.DateTime-Range-Gen
+  fullName: Hedgehog.Linq.Gen.DateTime-Range-Gen
+  nameWithType: DateTime(Range, Gen)
 - uid: Hedgehog.Linq.Gen.DateTimeOffset-Range
   name: DateTimeOffset(Range)
   href: api/Hedgehog.Linq.Gen.html#Hedgehog_Linq_Gen_DateTimeOffset_Range

@@ -128,8 +128,12 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   member choiceRec : Gen&lt;&#39;a&gt; seq -&gt; Gen&lt;&#39;a&gt; seq -&gt; Gen&lt;&#39;a&gt;
   member constant : &#39;a -&gt; Gen&lt;&#39;a&gt;
   member create : &#39;a -&gt; &#39;a seq -&gt; Random&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
-  member dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;
+  member dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTimeKind&gt; -&gt; Gen&lt;DateTime&gt;
+  member dateTimeKind : Gen&lt;DateTimeKind&gt;
+  member dateTimeLocal : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;
   member dateTimeOffset : Range&lt;DateTimeOffset&gt; -&gt; Gen&lt;DateTimeOffset&gt;
+  member dateTimeUnspecified : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;
+  member dateTimeUtc : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;
   member decimal : Range&lt;decimal&gt; -&gt; Gen&lt;decimal&gt;
   member delay : unit -&gt; Gen&lt;&#39;a&gt; -&gt; Gen&lt;&#39;a&gt;
   member digit : Gen&lt;char&gt;
@@ -229,8 +233,12 @@ Class Gen  <a class="header-action link-secondary" title="View source" href="htt
   public static Gen&lt;a&gt; choiceRec(Gen&lt;a&gt;IEnumerable nonrecs, Gen&lt;a&gt;IEnumerable recs)
   public static Gen&lt;a&gt; constant(a value)
   public static Gen&lt;a&gt; create(a -&gt; aIEnumerable shrink, Random&lt;a&gt; random)
-  public static Gen&lt;DateTime&gt; dateTime(Range&lt;DateTime&gt; range)
+  public static Gen&lt;DateTime&gt; dateTime(Range&lt;DateTime&gt; range, Gen&lt;DateTimeKind&gt; kind)
+  public static Gen&lt;DateTimeKind&gt; dateTimeKind()
+  public static Gen&lt;DateTime&gt; dateTimeLocal(Range&lt;DateTime&gt; range)
   public static Gen&lt;DateTimeOffset&gt; dateTimeOffset(Range&lt;DateTimeOffset&gt; range)
+  public static Gen&lt;DateTime&gt; dateTimeUnspecified(Range&lt;DateTime&gt; range)
+  public static Gen&lt;DateTime&gt; dateTimeUtc(Range&lt;DateTime&gt; range)
   public static Gen&lt;decimal&gt; decimal(Range&lt;decimal&gt; range)
   public static Gen&lt;a&gt; delay(void -&gt; Gen&lt;a&gt; f)
   public static Gen&lt;char&gt; digit()
@@ -2612,15 +2620,57 @@ followed by alphanumeric characters or underscores, up to the specified maximum 
 
 
 
-  <h3 id="Hedgehog_FSharp_Gen_dateTime_Range" data-uid="Hedgehog.FSharp.Gen.dateTime-Range">
-  dateTime
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L26"><i class="bi bi-code-slash"></i></a>
+  <h3 id="Hedgehog_FSharp_Gen_dateTimeKind" data-uid="Hedgehog.FSharp.Gen.dateTimeKind">
+  dateTimeKind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L17"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Generates a random DateTime using the given range.</p>
+  <div class="markdown level1 summary"><p>Generates a random DateTimeKind uniformly.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTimeKind" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTimeKind" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTimeKind">
+        <pre><code class="lang-fsharp hljs">member dateTimeKind : Gen&lt;DateTimeKind&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTimeKind">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTimeKind&gt; dateTimeKind()</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTime_Range_Gen" data-uid="Hedgehog.FSharp.Gen.dateTime-Range-Gen">
+  dateTime
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L38"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a random DateTime using the given range and <code>DateTimeKind</code> generator.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><code>range</code>: Range determining the bounds of the <code>DateTime</code> that can be generated.</li>
+<li><code>kind</code>: Generator determining the <code>DateTimeKind</code>.</li>
 </ul>
 <p><strong>Example:</strong></p>
 <pre><code> let range =
@@ -2635,18 +2685,141 @@ followed by alphanumeric characters or underscores, up to the specified maximum 
   <div class="codewrapper">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTime_Range" type="button">F#</button>
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTime_Range_Gen" type="button">F#</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTime_Range" type="button">C#</button>
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTime_Range_Gen" type="button">C#</button>
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTime_Range">
-        <pre><code class="lang-fsharp hljs">member dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTime_Range_Gen">
+        <pre><code class="lang-fsharp hljs">member dateTime : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTimeKind&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
       </div>
-      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTime_Range">
-        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; dateTime(Range&lt;DateTime&gt; range)</code></pre>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTime_Range_Gen">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; dateTime(Range&lt;DateTime&gt; range, Gen&lt;DateTimeKind&gt; kind)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTimeUtc_Range" data-uid="Hedgehog.FSharp.Gen.dateTimeUtc-Range">
+  dateTimeUtc
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a DateTime using the given range with UTC kind.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTimeUtc_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTimeUtc_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTimeUtc_Range">
+        <pre><code class="lang-fsharp hljs">member dateTimeUtc : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTimeUtc_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; dateTimeUtc(Range&lt;DateTime&gt; range)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTimeLocal_Range" data-uid="Hedgehog.FSharp.Gen.dateTimeLocal-Range">
+  dateTimeLocal
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a DateTime using the given range with Local kind.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTimeLocal_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTimeLocal_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTimeLocal_Range">
+        <pre><code class="lang-fsharp hljs">member dateTimeLocal : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTimeLocal_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; dateTimeLocal(Range&lt;DateTime&gt; range)</code></pre>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Hedgehog_FSharp_Gen_dateTimeUnspecified_Range" data-uid="Hedgehog.FSharp.Gen.dateTimeUnspecified-Range">
+  dateTimeUnspecified
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L54"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a DateTime using the given range with Unspecified kind.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-fsharp-Hedgehog_FSharp_Gen_dateTimeUnspecified_Range" type="button">F#</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-csharp-Hedgehog_FSharp_Gen_dateTimeUnspecified_Range" type="button">C#</button>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane show active" id="tab-fsharp-Hedgehog_FSharp_Gen_dateTimeUnspecified_Range">
+        <pre><code class="lang-fsharp hljs">member dateTimeUnspecified : Range&lt;DateTime&gt; -&gt; Gen&lt;DateTime&gt;</code></pre>
+      </div>
+      <div class="tab-pane" id="tab-csharp-Hedgehog_FSharp_Gen_dateTimeUnspecified_Range">
+        <pre><code class="lang-csharp hljs">public static Gen&lt;DateTime&gt; dateTimeUnspecified(Range&lt;DateTime&gt; range)</code></pre>
       </div>
     </div>
   </div>
@@ -2666,7 +2839,7 @@ followed by alphanumeric characters or underscores, up to the specified maximum 
 
   <h3 id="Hedgehog_FSharp_Gen_dateTimeOffset_Range" data-uid="Hedgehog.FSharp.Gen.dateTimeOffset-Range">
   dateTimeOffset
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L33"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L58"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random DateTimeOffset using the given range.</p>
@@ -2707,7 +2880,7 @@ followed by alphanumeric characters or underscores, up to the specified maximum 
 
   <h3 id="Hedgehog_FSharp_Gen_timeSpan_Range" data-uid="Hedgehog.FSharp.Gen.timeSpan-Range">
   timeSpan
-  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L51"><i class="bi bi-code-slash"></i></a>
+  <a class="header-action link-secondary" title="View source" href="https://github.com/hedgehogqa/fsharp-hedgehog/blob/master/src/Hedgehog/Gen.DateTime.fs/#L76"><i class="bi bi-code-slash"></i></a>
   </h3>
 
   <div class="markdown level1 summary"><p>Generates a random TimeSpan using the specified range.</p>
