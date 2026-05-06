@@ -26,7 +26,7 @@ module PropertyConfig =
     let defaults: IPropertyConfig =
         { TestLimit = 100<tests>
           ShrinkLimit = None
-          SeedConfig = FixedSeed (Seed.from 0UL) }
+          SeedConfig = RandomSeed }
 
     /// Set the number of times a property is allowed to shrink before the test
     /// runner gives up and displays the counterexample.
