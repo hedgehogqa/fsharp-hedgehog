@@ -357,16 +357,18 @@ let genTests = testList "Gen tests" [
         secondValues.Count > 10 |> Expect.isTrue
         thirdValues.Count > 10 |> Expect.isTrue
 
+    // The concrete value of the snapshot is unimportant.
+    // However, if this value changes it may be because you may have broken determinism.
+    let snapshot = {
+        Value = 14141672759607663454UL
+        Gamma = 16294208416658607535UL
+    }
+
     testCase "Seed is deterministic" <| fun () ->
         // `checkBoolWith` should always produce the same result for the same starting seed.
-        // The concrete value of the snapshot is unimportant.
-        // However, if this value changes it may be because you may have broken determinism.
-        let snapshot =
-            { Value = 14141672759607663454UL
-              Gamma = 16294208416658607535UL }
-
         let config =
             PropertyConfig.defaults
+            |> PropertyConfig.withSeed (Seed.from 0UL)
             |> PropertyConfig.withTests 1<tests>
 
         Property.checkBoolWith config <| property {
@@ -377,4 +379,62 @@ let genTests = testList "Gen tests" [
 
             return x = snapshot
         }
+
+    testCaseAsync "Seed is deterministic async" <| async {
+        // `checkBoolAsyncWith` should always produce the same result for the same starting seed.
+        let config =
+            PropertyConfig.defaults
+            |> PropertyConfig.withSeed (Seed.from 0UL)
+            |> PropertyConfig.withTests 1<tests>
+
+        do!
+            Property.checkBoolAsyncWith config <| property {
+                let! x =
+                    Random.seed
+                    |> Random.map Tree.singleton
+                    |> Gen.ofRandom
+
+                return x = snapshot
+            }
+    }
+
+    testCase "withRandomSeed differs from fixed-seed behavior" <| fun () ->
+        let config =
+            PropertyConfig.defaults
+            |> PropertyConfig.withRandomSeed
+            |> PropertyConfig.withTests 10<tests>
+
+        Property.checkBoolWith config <| property {
+            let! x =
+                Random.seed
+                |> Random.map Tree.singleton
+                |> Gen.ofRandom
+
+            return x <> snapshot
+        }
+
+    testCase "recheck path preserves configured seed semantics" <| fun () ->
+        let config =
+            PropertyConfig.defaults
+            |> PropertyConfig.withSeed (Seed.from 123UL)
+            |> PropertyConfig.withTests 1<tests>
+
+        // The concrete value of the snapshot is unimportant.
+        // However, if this value changes it may be because you may have broken determinism.
+        let snapshot = {
+            Value = 16826716191977273598UL
+            Gamma = 13032462758197477675UL
+        }
+
+        let p = property {
+            let! x =
+                Random.seed
+                |> Random.map Tree.singleton
+                |> Gen.ofRandom
+
+            return x = snapshot
+        }
+
+        Property.checkBoolWith config p
+        Property.recheckBoolWith "0_9208534749291869864_13032462758197477675_" config p
 ]
