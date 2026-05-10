@@ -11,7 +11,7 @@
       <link rel="stylesheet" href="../public/docfx.min.css">
       <link rel="stylesheet" href="../public/main.css">
       <meta name="docfx:navrel" content="../toc.html">
-      <meta name="docfx:tocrel" content="toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
       
       <meta name="docfx:rel" content="../">
       
@@ -63,23 +63,9 @@
     </header>
 
     <main class="container-xxl">
-      <div class="toc-offcanvas">
-        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <nav class="toc" id="toc"></nav>
-          </div>
-        </div>
-      </div>
 
       <div class="content">
         <div class="actionbar">
-          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-            <i class="bi bi-list"></i>
-          </button>
 
         </div>
 
@@ -92,9 +78,9 @@
 open Hedgehog.FSharp
 </code></pre>
 <ul>
-<li><a class="xref" href="Hedgehog.FSharp.Gen.html">Hedgehog.FSharp.Gen</a></li>
-<li><a class="xref" href="Hedgehog.FSharp.Property.html">Hedgehog.FSharp.Property</a></li>
-<li><a class="xref" href="Hedgehog.FSharp.Range.html">Hedgehog.FSharp.Range</a></li>
+<li><a href="xref:Hedgehog.FSharp.Gen">Hedgehog.FSharp.Gen</a></li>
+<li><a href="xref:Hedgehog.FSharp.Property">Hedgehog.FSharp.Property</a></li>
+<li><a href="xref:Hedgehog.FSharp.Range">Hedgehog.FSharp.Range</a></li>
 </ul>
 <h3 id="for-c-users">For C# Users</h3>
 <p>To use Hedgehog in C#, import the following namespaces:</p>
@@ -102,18 +88,18 @@ open Hedgehog.FSharp
 using Hedgehog.Linq;
 </code></pre>
 <ul>
-<li><a class="xref" href="Hedgehog.Linq.Gen.html">Hedgehog.Linq.Gen</a></li>
-<li><a class="xref" href="Hedgehog.Linq.Property.html">Hedgehog.Linq.Property</a></li>
-<li><a class="xref" href="Hedgehog.Linq.Range.html">Hedgehog.Linq.Range</a></li>
+<li><a href="xref:Hedgehog.Linq.Gen">Hedgehog.Linq.Gen</a></li>
+<li><a href="xref:Hedgehog.Linq.Property">Hedgehog.Linq.Property</a></li>
+<li><a href="xref:Hedgehog.Linq.Range">Hedgehog.Linq.Range</a></li>
 </ul>
 <h2 id="core-types">Core Types</h2>
 <p>The most important types in Hedgehog are:</p>
 <ul>
-<li><p><a class="xref" href="Hedgehog.Gen_a_.html">Gen&lt;T&gt;</a> - A generator for random values of type <code>T</code>. Generators can be composed and transformed to create complex data generators.</p>
+<li><p><a href="xref:Hedgehog.Gen_a_">Gen&lt;T&gt;</a> - A generator for random values of type <code>T</code>. Generators can be composed and transformed to create complex data generators.</p>
 </li>
-<li><p><a class="xref" href="Hedgehog.Range_a_.html">Range&lt;T&gt;</a> - Defines the range from which values are generated and controls shrinking behavior during property testing.</p>
+<li><p><a href="xref:Hedgehog.Range_a_">Range&lt;T&gt;</a> - Defines the range from which values are generated and controls shrinking behavior during property testing.</p>
 </li>
-<li><p><a class="xref" href="Hedgehog.Property_a_.html">Property&lt;T&gt;</a> - Represents a property to be tested. Properties combine generators with assertions to verify that certain conditions hold for all generated test cases.</p>
+<li><p><a href="xref:Hedgehog.Property_a_">Property&lt;T&gt;</a> - Represents a property to be tested. Properties combine generators with assertions to verify that certain conditions hold for all generated test cases.</p>
 </li>
 </ul>
 
