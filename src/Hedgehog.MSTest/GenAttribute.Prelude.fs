@@ -155,6 +155,28 @@ type DateTimeOffsetAttribute(from: DateTimeOffset, duration: TimeSpan) =
     override _.Generator =
         Gen.dateTimeOffset (Range.constant from (from + duration))
 
+/// Generates a DateOnly value from min to max, both included.
+/// Without arguments it generates within the 3650 days from 2000-01-01.
+type DateOnlyAttribute(min: DateOnly, max: DateOnly) =
+    inherit GenAttribute<DateOnly>()
+    new() = DateOnlyAttribute(DateOnly(2000, 1, 1), DateOnly(2000, 1, 1).AddDays(3650))
+    /// An attribute argument cannot be a DateOnly, so this constructor takes the two dates as integers.
+    new(minYear: int, minMonth: int, minDay: int, maxYear: int, maxMonth: int, maxDay: int) =
+        DateOnlyAttribute(DateOnly(minYear, minMonth, minDay), DateOnly(maxYear, maxMonth, maxDay))
+    override _.Generator =
+        Gen.int32 (Range.constant min.DayNumber max.DayNumber) |> Gen.map DateOnly.FromDayNumber
+
+/// Generates a TimeOnly value from min to max, both included.
+/// Without arguments it generates any time of day.
+type TimeOnlyAttribute(min: TimeOnly, max: TimeOnly) =
+    inherit GenAttribute<TimeOnly>()
+    new() = TimeOnlyAttribute(TimeOnly.MinValue, TimeOnly.MaxValue)
+    /// An attribute argument cannot be a TimeOnly, so this constructor takes the two times as hours and minutes.
+    new(minHour: int, minMinute: int, maxHour: int, maxMinute: int) =
+        TimeOnlyAttribute(TimeOnly(minHour, minMinute), TimeOnly(maxHour, maxMinute))
+    override _.Generator =
+        Gen.int64 (Range.constant min.Ticks max.Ticks) |> Gen.map TimeOnly
+
 /// Generates a string containing alphanumeric characters.
 type AlphaNumStringAttribute(minLength: int, maxLength: int) =
     inherit GenAttribute<string>()

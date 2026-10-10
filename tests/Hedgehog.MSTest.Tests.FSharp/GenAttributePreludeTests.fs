@@ -3,6 +3,7 @@ namespace Hedgehog.MSTest.Tests
 open System
 open System.Net
 open System.Net.Sockets
+open Hedgehog.FSharp
 open Hedgehog.MSTest
 open Microsoft.VisualStudio.TestTools.UnitTesting
 
@@ -104,3 +105,57 @@ type ``GenAttribute Prelude tests``() =
     [<Property>]
     member _.``DateTimeOffset generates valid dates`` ([<DateTimeOffset>] dto: DateTimeOffset) =
         Assert.IsGreaterThanOrEqualTo(DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero), dto, "The date lies in the default range.")
+
+    [<Property>]
+    member _.``DateOnly generates dates of the default range`` ([<DateOnly>] date: DateOnly) =
+        Assert.IsInRange(DateOnly(2000, 1, 1), DateOnly(2009, 12, 29), date, "The date lies in the 3650 days from 2000-01-01.")
+
+    [<Property>]
+    member _.``DateOnly generates dates of the given range`` ([<DateOnly(2024, 2, 28, 2024, 3, 1)>] date: DateOnly) =
+        Assert.IsInRange(DateOnly(2024, 2, 28), DateOnly(2024, 3, 1), date, "The date lies in the range.")
+
+    [<TestMethod>]
+    member _.``DateOnly generates every date of its range, both ends included`` () =
+        let generated =
+            DateOnlyAttribute(2024, 2, 28, 2024, 3, 1).Generator
+            |> Gen.sample 10 200
+            |> Seq.distinct
+            |> Seq.sort
+            |> Seq.toArray
+
+        CollectionAssert.AreEqual(
+            [| DateOnly(2024, 2, 28); DateOnly(2024, 2, 29); DateOnly(2024, 3, 1) |],
+            generated,
+            "200 values of a range of three dates hold each of them and nothing else."
+        )
+
+    [<Property>]
+    member _.``TimeOnly generates times of the given range`` ([<TimeOnly(9, 0, 17, 30)>] time: TimeOnly) =
+        Assert.IsInRange(TimeOnly(9, 0), TimeOnly(17, 30), time, "The time lies in the range.")
+
+    [<TestMethod>]
+    member _.``TimeOnly generates every time of its range, both ends included`` () =
+        // The constructor that derived attributes call: three values, 100 nanoseconds apart
+        let generated =
+            TimeOnlyAttribute(TimeOnly(0L), TimeOnly(2L)).Generator
+            |> Gen.sample 10 200
+            |> Seq.distinct
+            |> Seq.sort
+            |> Seq.toArray
+
+        CollectionAssert.AreEqual(
+            [| TimeOnly(0L); TimeOnly(1L); TimeOnly(2L) |],
+            generated,
+            "200 values of a range of three times hold each of them and nothing else."
+        )
+
+    [<TestMethod>]
+    member _.``TimeOnly without a range generates times of the whole day at full precision`` () =
+        let generated = TimeOnlyAttribute().Generator |> Gen.sample 99 200 |> Seq.toArray
+        Assert.IsTrue(generated |> Array.exists (fun time -> time.Hour < 12), "Some of 200 times lie before noon.")
+        Assert.IsTrue(generated |> Array.exists (fun time -> time.Hour >= 12), "Some of 200 times lie after noon.")
+
+        Assert.IsTrue(
+            generated |> Array.exists (fun time -> time.Ticks % TimeSpan.TicksPerSecond <> 0L),
+            "A time has the precision of TimeOnly, not whole seconds."
+        )
