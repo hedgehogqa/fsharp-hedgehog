@@ -87,9 +87,12 @@ type NonZeroIntAttribute(min: int, max: int) =
     new() = NonZeroIntAttribute(Int32.MinValue + 1, Int32.MaxValue)
     override _.Generator =
         match min, max with
+        | 0, 0 -> invalidArg (nameof min) "The range from 0 to 0 holds no non-zero value."
         | _, m when m < 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely negative
         | n, _ when n > 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely positive
-        | n, m ->                                                   // 0 is in range, split it
+        | 0, m -> Gen.int32 (chooseRangeInt32 1 m)                  // 0 is the lowest value, skip it
+        | n, 0 -> Gen.int32 (chooseRangeInt32 n -1)                 // 0 is the highest value, skip it
+        | n, m ->                                                   // 0 lies inside the range, split it
             Gen.choice [
                 Gen.int32 (chooseRangeInt32 n -1)
                 Gen.int32 (chooseRangeInt32 1 m)
