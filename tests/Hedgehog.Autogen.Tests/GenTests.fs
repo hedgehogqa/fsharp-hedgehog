@@ -449,6 +449,22 @@ let ``auto can generate DateTimeOffset`` () =
     }
 
 
+[<Fact>]
+let ``auto can generate DateOnly`` () =
+    Property.check <| property {
+        let! _ = Gen.auto<DateOnly>
+        ()
+    }
+
+
+[<Fact>]
+let ``auto can generate TimeOnly`` () =
+    Property.check <| property {
+        let! _ = Gen.auto<TimeOnly>
+        ()
+    }
+
+
 type TypeWithoutAccessibleCtor private (state: int) =
     static member CustomConstructor state = TypeWithoutAccessibleCtor state
     member this.State = state

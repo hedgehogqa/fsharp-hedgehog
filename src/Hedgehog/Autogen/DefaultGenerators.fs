@@ -35,6 +35,21 @@ type DefaultGenerators =
             |> Range.map DateTime
         Gen.dateTime dateTimeRange (Gen.constant DateTimeKind.Unspecified) |> Gen.map DateTimeOffset
 
+    static member DateOnly() : Gen<DateOnly> =
+        Range.exponentialFrom
+            (DateOnly(2000, 1, 1)).DayNumber
+            DateOnly.MinValue.DayNumber
+            DateOnly.MaxValue.DayNumber
+        |> Range.map DateOnly.FromDayNumber
+        |> Gen.dateOnly
+
+    // A linear range: an exponential one would keep the times of half of all sizes within the first tenth of a second
+    // after midnight, because a day has 864 billion ticks.
+    static member TimeOnly() : Gen<TimeOnly> =
+        Range.linear TimeOnly.MinValue.Ticks TimeOnly.MaxValue.Ticks
+        |> Range.map TimeOnly
+        |> Gen.timeOnly
+
     static member ImmutableList<'a>(context: AutoGenContext, valueGen: Gen<'a>) : Gen<ImmutableList<'a>> =
         if context.CanRecurse then
             valueGen |> Gen.list context.CollectionRange |> Gen.map ImmutableList.CreateRange

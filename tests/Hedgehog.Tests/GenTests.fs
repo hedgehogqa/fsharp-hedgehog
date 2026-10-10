@@ -82,6 +82,96 @@ let genTests = testList "Gen tests" [
         |> List.distinct
         |> List.length
         =! actual.Length
+
+    yield! testCases "dateOnly creates DateOnly instances in its range"
+        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
+
+        let earliest = DateOnly (2024, 2, 28)
+        let latest = DateOnly (2024, 3, 1)
+
+        let actual =
+            Range.constant earliest latest
+            |> Gen.dateOnly
+            |> Gen.sample 0 count
+            |> Seq.toList
+
+        [] =! List.filter (fun date -> date < earliest || date > latest) actual
+
+    testCase "dateOnly creates every DateOnly of its range" <| fun _ ->
+        let actual =
+            Range.constant (DateOnly (2024, 2, 28)) (DateOnly (2024, 3, 1))
+            |> Gen.dateOnly
+            |> Gen.sample 0 512
+            |> Seq.distinct
+            |> Seq.sort
+            |> Seq.toList
+
+        [ DateOnly (2024, 2, 28); DateOnly (2024, 2, 29); DateOnly (2024, 3, 1) ] =! actual
+
+    testCase "dateOnly shrinks to the origin of its range" <| fun _ ->
+        let generatedValues =
+            property {
+                let! actual =
+                    Gen.dateOnly
+                        (Range.constantFrom
+                            (DateOnly (2000, 1, 1))
+                                DateOnly.MinValue
+                                DateOnly.MaxValue)
+
+                actual.DayNumber =! -1
+            }
+            |> expectFailureWithGeneratedValues
+
+        if List.isEmpty generatedValues then
+            failwith "Should have generated values in journal"
+
+        let actual = generatedValues.[0] :?> DateOnly
+        actual =! DateOnly (2000, 1, 1)
+
+    yield! testCases "timeOnly creates TimeOnly instances"
+        [ 8; 16; 32; 64; 128; 256; 512 ] <| fun count ->
+
+        let actual =
+            (Range.constant TimeOnly.MinValue TimeOnly.MaxValue)
+            |> Gen.timeOnly
+            |> Gen.sample 0 count
+            |> Seq.toList
+
+        actual
+        |> List.distinct
+        |> List.length
+        =! actual.Length
+
+    testCase "timeOnly creates every TimeOnly of its range" <| fun _ ->
+        let actual =
+            Range.constant (TimeOnly 0L) (TimeOnly 2L)
+            |> Gen.timeOnly
+            |> Gen.sample 0 512
+            |> Seq.distinct
+            |> Seq.sort
+            |> Seq.toList
+
+        [ TimeOnly 0L; TimeOnly 1L; TimeOnly 2L ] =! actual
+
+    testCase "timeOnly shrinks to the origin of its range" <| fun _ ->
+        let generatedValues =
+            property {
+                let! actual =
+                    Gen.timeOnly
+                        (Range.constantFrom
+                            (TimeOnly (12, 0))
+                                TimeOnly.MinValue
+                                TimeOnly.MaxValue)
+
+                actual.Ticks =! -1L
+            }
+            |> expectFailureWithGeneratedValues
+
+        if List.isEmpty generatedValues then
+            failwith "Should have generated values in journal"
+
+        let actual = generatedValues.[0] :?> TimeOnly
+        actual =! TimeOnly (12, 0)
 #endif
 
     testCase "unicode does not return any surrogate" <| fun _ ->

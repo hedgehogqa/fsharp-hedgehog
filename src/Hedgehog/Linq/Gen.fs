@@ -308,6 +308,36 @@ type Gen private () =
     static member DateTimeOffset (range : Range<DateTimeOffset>) : Gen<DateTimeOffset> =
         Gen.dateTimeOffset range
 
+    /// <summary>
+    /// Generates a random DateOnly using the given range.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var TwentiethCentury = Gen.DateOnly(
+    ///     Range.Constant(
+    ///         new DateOnly(1900,  1,  1),
+    ///         new DateOnly(1999, 12, 31)));
+    /// </code>
+    /// </example>
+    /// <param name="range">Range determining the bounds of the <c>DateOnly</c> that can be generated.</param>
+    static member DateOnly (range : Range<DateOnly>) : Gen<DateOnly> =
+        Gen.dateOnly range
+
+    /// <summary>
+    /// Generates a random TimeOnly using the given range.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var OfficeHours = Gen.TimeOnly(
+    ///     Range.Constant(
+    ///         new TimeOnly( 9, 0),
+    ///         new TimeOnly(17, 0)));
+    /// </code>
+    /// </example>
+    /// <param name="range">Range determining the bounds of the <c>TimeOnly</c> that can be generated.</param>
+    static member TimeOnly (range : Range<TimeOnly>) : Gen<TimeOnly> =
+        Gen.timeOnly range
+
     /// Generates the subset of the provided items.
     /// The generated subset will be in the same order as the input items.
     static member SubsetOf<'T>(items: 'T seq): Gen<'T seq> =
