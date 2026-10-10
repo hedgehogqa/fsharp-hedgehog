@@ -83,21 +83,12 @@ let validate (testMethod: MethodInfo) =
 // ========================================
 
 module private GeneratorFactory =
-    /// Tries to get a custom generator from GenAttribute on a parameter
+    /// Tries to get a custom generator from a GenAttribute on a parameter, whatever its place in the inheritance chain
     let tryGetAttributeGenerator (parameterInfo: ParameterInfo) : Gen<obj> option =
         parameterInfo.GetCustomAttributes()
-        |> Seq.tryPick (fun attr ->
-            let attrType = attr.GetType().BaseType
-
-            let isGenAttribute =
-                attrType.IsGenericType
-                && attrType.GetGenericTypeDefinition().IsAssignableFrom(typedefof<GenAttribute<_>>)
-
-            if isGenAttribute then
-                let boxMethod = attrType.GetMethods() |> Array.find (fun m -> m.Name = "Box")
-                boxMethod.Invoke(attr, null) :?> Gen<obj> |> Some
-            else
-                None)
+        |> Seq.tryPick (function
+            | :? GenAttribute as attr -> Some(attr.Box())
+            | _ -> None)
 
     /// Creates a generator for a parameter based on attribute or type
     let createGenerator (autoGenConfig: obj) (parameter: ParameterInfo) : Gen<obj> =
