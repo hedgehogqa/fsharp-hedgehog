@@ -27,6 +27,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Hedgehog.MSTest.Tests.FSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Prelude.fs" />
     <Compile Include="AutoGenConfig.fs" />
     <Compile Include="IPropertyAttribute.fs" />
