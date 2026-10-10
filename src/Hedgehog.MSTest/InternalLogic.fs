@@ -47,6 +47,11 @@ let withShrinks =
     | Some x -> PropertyConfig.withShrinks x
     | None -> id
 
+let withSeed =
+    function
+    | Some x -> PropertyConfig.withSeed (Seed.from x)
+    | None -> id
+
 // ========================================
 // Method Validation
 // ========================================
@@ -278,6 +283,7 @@ let runAsync
             PropertyConfig.defaults
             |> withTests context.Tests
             |> withShrinks context.Shrinks
+            |> withSeed context.Seed
 
         let! report =
             match context.Recheck with

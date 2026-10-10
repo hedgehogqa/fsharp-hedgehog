@@ -10,6 +10,7 @@ type internal PropertyContext =
       Tests: int<tests> option
       Shrinks: int<shrinks> option
       Size: Size option
+      Seed: uint64 option
       Recheck: string option }
 
 module internal PropertyContext =
@@ -18,6 +19,7 @@ module internal PropertyContext =
           Tests = None
           Shrinks = None
           Size = None
+          Seed = None
           Recheck = None }
 
     let private append (ctx: PropertyContext) (attr: IPropertyAttribute) : PropertyContext =
@@ -32,7 +34,8 @@ module internal PropertyContext =
             AutoGenConfig = config
             Tests = attr.Tests |> Option.orElse ctx.Tests
             Shrinks = attr.Shrinks |> Option.orElse ctx.Shrinks
-            Size = attr.Size |> Option.orElse ctx.Size }
+            Size = attr.Size |> Option.orElse ctx.Size
+            Seed = attr.Seed |> Option.orElse ctx.Seed }
 
     let fromMethod (method: MethodInfo) =
         let propertyAttribute =

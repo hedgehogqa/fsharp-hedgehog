@@ -12,3 +12,4 @@ type internal IPropertyAttribute =
     abstract member Tests: int<tests> option with get, set
     abstract member Shrinks: int<shrinks> option with get, set
     abstract member Size: Size option with get, set
+    abstract member Seed: uint64 option with get, set

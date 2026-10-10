@@ -76,6 +76,7 @@ type PropertyAttribute
     let mutable _tests: int<tests> option = tests
     let mutable _shrinks: int<shrinks> option = shrinks
     let mutable _size: Size option = size
+    let mutable _seed: uint64 option = None
 
     /// <summary>
     /// A type with exactly one public static member that returns <see cref="T:Hedgehog.IAutoGenConfig"/>, optionally
@@ -107,6 +108,12 @@ type PropertyAttribute
     /// throws.
     /// </summary>
     member _.Size              with set v = _size              <- Some v and get ():Size         = failwith "this getter only exists to make C# named arguments work"
+
+    /// <summary>
+    /// The seed of the run, so that every run generates the same cases; without it every run draws a random seed.
+    /// Only for setting: reading it throws.
+    /// </summary>
+    member _.Seed              with set v = _seed              <- Some v and get ():uint64       = failwith "this getter only exists to make C# named arguments work"
 
     /// <summary>
     /// Runs the property with the settings of <see cref="T:Hedgehog.MSTest.PropertiesAttribute"/> or Hedgehog's
@@ -181,6 +188,7 @@ type PropertyAttribute
         member _.Tests with get () = _tests and set v = _tests <- v
         member _.Shrinks with get () = _shrinks and set v = _shrinks <- v
         member _.Size with get () = _size and set v = _size <- v
+        member _.Seed with get () = _seed and set v = _seed <- v
 
     /// <summary>
     /// Runs the test method as a property instead of invoking it once, and returns the single result of the property.
