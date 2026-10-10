@@ -1,9 +1,7 @@
-/// Reflection utilities for type checking and method invocation
+/// Reflection utilities for type checking
 module internal ReflectionHelpers
 
 open System
-open System.Reflection
-open System.Threading
 open System.Threading.Tasks
 
 // ========================================
@@ -21,23 +19,3 @@ let isAsync (t: Type) =
 
 let isResult (t: Type) =
     t.IsGenericType && t.GetGenericTypeDefinition() = typedefof<Result<_, _>>
-
-// ========================================
-// Method Invocation
-// ========================================
-
-let invokeAwaitTask (taskObj: obj) =
-    let taskType = taskObj.GetType()
-
-    let awaitTaskMethod =
-        typeof<Async>.GetMethods()
-        |> Array.find (fun m -> m.Name = "AwaitTask" && m.IsGenericMethod)
-
-    awaitTaskMethod.MakeGenericMethod(taskType.GetGenericArguments().[0]).Invoke(null, [| taskObj |])
-
-let assertResultOk (resultObj: obj) (markerType: Type) (resultIsOkMethodName: string) =
-    markerType
-        .GetTypeInfo()
-        .GetDeclaredMethod(resultIsOkMethodName)
-        .MakeGenericMethod(resultObj.GetType().GetGenericArguments())
-        .Invoke(null, [| resultObj |])

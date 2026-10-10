@@ -42,8 +42,11 @@ module internal PropertyContext =
             |> Seq.exactlyOne
             :?> IPropertyAttribute
 
+        // MSTest runs a property inherited from a base class once per derived test class: the class it runs is the
+        // reflected type of the method, while the declaring type is the base class. Type.getAllAttributes lists a class
+        // before its base classes; reversed, the settings of a derived class are applied last and win.
         let classAttributes =
-            method.DeclaringType |> Type.getAllAttributes<IPropertyAttribute>
+            method.ReflectedType |> Type.getAllAttributes<IPropertyAttribute> |> List.rev
 
         let context =
             [ propertyAttribute ] |> Seq.append classAttributes |> Seq.fold append defaults

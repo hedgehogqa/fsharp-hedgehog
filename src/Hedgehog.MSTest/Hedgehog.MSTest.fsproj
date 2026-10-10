@@ -36,11 +36,16 @@
     <Compile Include="PropertyContext.fs" />
     <Compile Include="ReflectionHelpers.fs" />
     <Compile Include="InternalLogic.fs" />
+    <Compile Include="PropertyAttribute.fs" />
     <Compile Include="PropertiesAttribute.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Hedgehog\Hedgehog.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest.TestFramework" Version="4.2.3" />
   </ItemGroup>
 
   <ItemGroup>
