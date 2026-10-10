@@ -24,6 +24,20 @@ module private RangeHelpers =
         | size when size > MediumRangeThreshold -> Range.linearFrom origin min max
         | _ -> Range.constantFrom origin min max
 
+    /// The range from min to max narrowed to its first and last odd or even value, so that moving a generated value
+    /// onto that parity cannot leave the range. A range without such a value is rejected.
+    let parityRangeInt32 (odd: bool) (min: int) (max: int) : Range<int> =
+        let isOffParity (value: int) = (value % 2 <> 0) <> odd
+        // int64, because the neighbour of Int32.MinValue or Int32.MaxValue would overflow
+        let first = if isOffParity min then int64 min + 1L else int64 min
+        let last = if isOffParity max then int64 max - 1L else int64 max
+
+        if first > last then
+            let parity = if odd then "odd" else "even"
+            invalidArg (nameof min) $"The range from %d{min} to %d{max} holds no %s{parity} value."
+
+        chooseRangeInt32 (int first) (int last)
+
 /// <summary>Generates an integer within a specified range.</summary>
 /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
 type IntAttribute(min: int, max: int) =
@@ -41,10 +55,13 @@ type OddAttribute(min: int, max: int) =
     /// <summary>Generates an odd integer from Int32.MinValue to Int32.MaxValue.</summary>
     /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = OddAttribute(Int32.MinValue, Int32.MaxValue)
-    override _.Generator = gen {
-        let! n = Gen.int32 (chooseRangeInt32 min max)
-        return n ||| 1
-    }
+    override _.Generator =
+        let range = parityRangeInt32 true min max
+
+        gen {
+            let! n = Gen.int32 range
+            return n ||| 1
+        }
 
 /// <summary>Generates an even integer.</summary>
 /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
@@ -53,10 +70,13 @@ type EvenAttribute(min: int, max: int) =
     /// <summary>Generates an even integer from Int32.MinValue to Int32.MaxValue.</summary>
     /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
     new() = EvenAttribute(Int32.MinValue, Int32.MaxValue)
-    override _.Generator = gen {
-        let! n = Gen.int32 (chooseRangeInt32 min max)
-        return n &&& ~~~1
-    }
+    override _.Generator =
+        let range = parityRangeInt32 false min max
+
+        gen {
+            let! n = Gen.int32 range
+            return n &&& ~~~1
+        }
 
 /// <summary>Generates a positive integer.</summary>
 /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>

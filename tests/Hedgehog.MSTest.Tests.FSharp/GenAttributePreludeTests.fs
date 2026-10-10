@@ -52,6 +52,48 @@ type ``GenAttribute Prelude tests``() =
         Assert.AreEqual(0, i % 2, "The value is even.")
 
     [<Property>]
+    member _.``Odd stays inside a range that ends with an even value`` ([<Odd(1, 10)>] i: int) =
+        Assert.IsInRange(1, 9, i, "The value lies in the range.")
+        Assert.AreNotEqual(0, i % 2, "The value is odd.")
+
+    [<Property>]
+    member _.``Odd generates the only odd value of its range`` ([<Odd(-1, 0)>] i: int) =
+        Assert.AreEqual(-1, i, "-1 is the only odd value from -1 to 0.")
+
+    [<Property>]
+    member _.``Odd reaches Int32.MaxValue without overflow`` ([<Odd(Int32.MaxValue - 1, Int32.MaxValue)>] i: int) =
+        Assert.AreEqual(Int32.MaxValue, i, "Int32.MaxValue is the only odd value of the range.")
+
+    [<Property>]
+    member _.``Even stays inside a range that starts with an odd value`` ([<Even(1, 10)>] i: int) =
+        Assert.IsInRange(2, 10, i, "The value lies in the range.")
+        Assert.AreEqual(0, i % 2, "The value is even.")
+
+    [<Property>]
+    member _.``Even generates the only even value of its range`` ([<Even(-1, 0)>] i: int) =
+        Assert.AreEqual(0, i, "0 is the only even value from -1 to 0.")
+
+    [<Property>]
+    member _.``Even reaches Int32.MinValue without overflow`` ([<Even(Int32.MinValue, Int32.MinValue + 1)>] i: int) =
+        Assert.AreEqual(Int32.MinValue, i, "Int32.MinValue is the only even value of the range.")
+
+    [<TestMethod>]
+    member _.``Odd rejects a range without an odd value`` () =
+        Assert.ThrowsExactly<ArgumentException>(
+            Action(fun () -> OddAttribute(0, 0).Generator |> ignore),
+            "The range from 0 to 0 holds no odd value."
+        )
+        |> ignore
+
+    [<TestMethod>]
+    member _.``Even rejects a range without an even value`` () =
+        Assert.ThrowsExactly<ArgumentException>(
+            Action(fun () -> EvenAttribute(1, 1).Generator |> ignore),
+            "The range from 1 to 1 holds no even value."
+        )
+        |> ignore
+
+    [<Property>]
     member _.``Email generates valid email addresses`` ([<Email>] email: string) =
         Assert.Contains("@", email, StringComparison.Ordinal, "An email address contains @.")
         Assert.Contains(".", email, StringComparison.Ordinal, "An email address contains a dot.")
