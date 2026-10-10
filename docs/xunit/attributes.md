@@ -559,6 +559,84 @@ public bool DateOffsetsPreserveTimezone([DateTimeOffset] DateTimeOffset dto)
 
 ---
 
+#### `DateOnly` Attribute
+Generates DateOnly values from a minimum to a maximum, both included.
+
+# [F#](#tab/fsharp)
+
+```fsharp
+open System
+
+[<Property>]
+let ``dates are in default range`` ([<DateOnly>] date: DateOnly) =
+    date >= DateOnly(2000, 1, 1) && date <= DateOnly(2009, 12, 29)
+
+// With custom range (min year, month, day; max year, month, day)
+[<Property>]
+let ``dates of 2024`` ([<DateOnly(2024, 1, 1, 2024, 12, 31)>] date: DateOnly) =
+    date.Year = 2024
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+using System;
+
+[Property]
+public bool DatesAreInDefaultRange([DateOnly] DateOnly date)
+{
+    return date >= new DateOnly(2000, 1, 1) && date <= new DateOnly(2009, 12, 29);
+}
+
+// With custom range (min year, month, day; max year, month, day)
+[Property]
+public bool DatesOf2024([DateOnly(2024, 1, 1, 2024, 12, 31)] DateOnly date)
+{
+    return date.Year == 2024;
+}
+```
+
+---
+
+#### `TimeOnly` Attribute
+Generates TimeOnly values from a minimum to a maximum, both included.
+
+# [F#](#tab/fsharp)
+
+```fsharp
+open System
+
+[<Property>]
+let ``any time of day`` ([<TimeOnly>] time: TimeOnly) =
+    time >= TimeOnly.MinValue && time <= TimeOnly.MaxValue
+
+// With custom range (min hour, minute; max hour, minute)
+[<Property>]
+let ``office hours`` ([<TimeOnly(9, 0, 17, 0)>] time: TimeOnly) =
+    time.Hour >= 9 && time <= TimeOnly(17, 0)
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+using System;
+
+[Property]
+public bool AnyTimeOfDay([TimeOnly] TimeOnly time)
+{
+    return time >= TimeOnly.MinValue && time <= TimeOnly.MaxValue;
+}
+
+// With custom range (min hour, minute; max hour, minute)
+[Property]
+public bool OfficeHours([TimeOnly(9, 0, 17, 0)] TimeOnly time)
+{
+    return time.Hour >= 9 && time <= new TimeOnly(17, 0);
+}
+```
+
+---
+
 ## Combining Multiple Attributes
 
 You can use multiple attributes in a single test to generate different types of data:

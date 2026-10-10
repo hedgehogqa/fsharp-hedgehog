@@ -818,6 +818,26 @@ module ``GenAttribute Tests`` =
   let ``Doesn't error with OtherAttribute`` ([<Other>][<Int5>] i) =
     i = 5
 
+  [<Property>]
+  let ``DateOnly generates dates of the default range`` ([<DateOnly>] date: DateOnly) =
+    date >= DateOnly(2000, 1, 1) && date <= DateOnly(2009, 12, 29)
+
+  [<Property>]
+  let ``DateOnly generates dates of the given range`` ([<DateOnly(2024, 2, 28, 2024, 3, 1)>] date: DateOnly) =
+    date >= DateOnly(2024, 2, 28) && date <= DateOnly(2024, 3, 1)
+
+  [<Property>]
+  let ``TimeOnly generates times of the given range`` ([<TimeOnly(9, 0, 17, 30)>] time: TimeOnly) =
+    time >= TimeOnly(9, 0) && time <= TimeOnly(17, 30)
+
+  [<Property>]
+  let ``TimeOnly generates any time of day`` ([<TimeOnly>] time: TimeOnly) =
+    time >= TimeOnly.MinValue && time <= TimeOnly.MaxValue
+
+  [<Property>]
+  let ``DateOnly and TimeOnly are generated without an attribute`` (date: DateOnly) (time: TimeOnly) =
+    date >= DateOnly.MinValue && time >= TimeOnly.MinValue
+
 [<Properties(typeof<Int13>)>]
 module ``GenAttribute with Properties Tests`` =
 
