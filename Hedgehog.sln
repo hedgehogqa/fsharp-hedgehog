@@ -39,6 +39,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.MSTest", "src\Hedg
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.MSTest.Tests.FSharp", "tests\Hedgehog.MSTest.Tests.FSharp\Hedgehog.MSTest.Tests.FSharp.fsproj", "{AF62C656-0AC8-4B6E-AF86-4C6A4029E960}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Hedgehog.MSTest.Tests.FSharp.MinimumMSTest", "tests\Hedgehog.MSTest.Tests.FSharp.MinimumMSTest\Hedgehog.MSTest.Tests.FSharp.MinimumMSTest.fsproj", "{4856CA9A-568F-4FD8-9488-277CCB8A29EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{AF62C656-0AC8-4B6E-AF86-4C6A4029E960}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF62C656-0AC8-4B6E-AF86-4C6A4029E960}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF62C656-0AC8-4B6E-AF86-4C6A4029E960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4856CA9A-568F-4FD8-9488-277CCB8A29EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4856CA9A-568F-4FD8-9488-277CCB8A29EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4856CA9A-568F-4FD8-9488-277CCB8A29EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4856CA9A-568F-4FD8-9488-277CCB8A29EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,5 +129,6 @@ Global
 		{70CB049A-FA03-4361-914A-8D2F4D291062} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
 		{AE7A49CE-8CA6-4986-B59A-5368B002C2E8} = {3C2CF07C-905B-4162-BE81-46060153841B}
 		{AF62C656-0AC8-4B6E-AF86-4C6A4029E960} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
+		{4856CA9A-568F-4FD8-9488-277CCB8A29EE} = {ED87B4D7-BBFF-4B2A-A924-91939E5C3F00}
 	EndGlobalSection
 EndGlobal

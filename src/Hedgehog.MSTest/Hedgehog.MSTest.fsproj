@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Hedgehog.MSTest.Tests.FSharp" />
+    <InternalsVisibleTo Include="Hedgehog.MSTest.Tests.FSharp.MinimumMSTest" />
   </ItemGroup>
 
   <ItemGroup>
