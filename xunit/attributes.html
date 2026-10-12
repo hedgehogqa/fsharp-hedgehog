@@ -711,8 +711,8 @@ public bool DateOffsetsPreserveTimezone([DateTimeOffset] DateTimeOffset dto)
 </code></pre>
 </section>
 </div>
-<h2 id="combining-multiple-attributes">Combining Multiple Attributes</h2>
-<p>You can use multiple attributes in a single test to generate different types of data:</p>
+<h4 id="dateonly-attribute"><code>DateOnly</code> Attribute</h4>
+<p>Generates DateOnly values from a minimum to a maximum, both included.</p>
 <div class="tabGroup" id="tabgroup_17">
 <ul role="tablist">
 <li role="presentation">
@@ -723,6 +723,94 @@ public bool DateOffsetsPreserveTimezone([DateTimeOffset] DateTimeOffset dto)
 </li>
 </ul>
 <section id="tabpanel_17_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open System
+
+[&lt;Property&gt;]
+let ``dates are in default range`` ([&lt;DateOnly&gt;] date: DateOnly) =
+    date &gt;= DateOnly(2000, 1, 1) &amp;&amp; date &lt;= DateOnly(2009, 12, 29)
+
+// With custom range (min year, month, day; max year, month, day)
+[&lt;Property&gt;]
+let ``dates of 2024`` ([&lt;DateOnly(2024, 1, 1, 2024, 12, 31)&gt;] date: DateOnly) =
+    date.Year = 2024
+</code></pre>
+</section>
+<section id="tabpanel_17_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using System;
+
+[Property]
+public bool DatesAreInDefaultRange([DateOnly] DateOnly date)
+{
+    return date &gt;= new DateOnly(2000, 1, 1) &amp;&amp; date &lt;= new DateOnly(2009, 12, 29);
+}
+
+// With custom range (min year, month, day; max year, month, day)
+[Property]
+public bool DatesOf2024([DateOnly(2024, 1, 1, 2024, 12, 31)] DateOnly date)
+{
+    return date.Year == 2024;
+}
+</code></pre>
+</section>
+</div>
+<h4 id="timeonly-attribute"><code>TimeOnly</code> Attribute</h4>
+<p>Generates TimeOnly values from a minimum to a maximum, both included.</p>
+<div class="tabGroup" id="tabgroup_18">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_18_fsharp" role="tab" aria-controls="tabpanel_18_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_18_csharp" role="tab" aria-controls="tabpanel_18_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_18_fsharp" role="tabpanel" data-tab="fsharp">
+
+<pre><code class="lang-fsharp">open System
+
+[&lt;Property&gt;]
+let ``any time of day`` ([&lt;TimeOnly&gt;] time: TimeOnly) =
+    time &gt;= TimeOnly.MinValue &amp;&amp; time &lt;= TimeOnly.MaxValue
+
+// With custom range (min hour, minute; max hour, minute)
+[&lt;Property&gt;]
+let ``office hours`` ([&lt;TimeOnly(9, 0, 17, 0)&gt;] time: TimeOnly) =
+    time.Hour &gt;= 9 &amp;&amp; time &lt;= TimeOnly(17, 0)
+</code></pre>
+</section>
+<section id="tabpanel_18_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-csharp">using System;
+
+[Property]
+public bool AnyTimeOfDay([TimeOnly] TimeOnly time)
+{
+    return time &gt;= TimeOnly.MinValue &amp;&amp; time &lt;= TimeOnly.MaxValue;
+}
+
+// With custom range (min hour, minute; max hour, minute)
+[Property]
+public bool OfficeHours([TimeOnly(9, 0, 17, 0)] TimeOnly time)
+{
+    return time.Hour &gt;= 9 &amp;&amp; time &lt;= new TimeOnly(17, 0);
+}
+</code></pre>
+</section>
+</div>
+<h2 id="combining-multiple-attributes">Combining Multiple Attributes</h2>
+<p>You can use multiple attributes in a single test to generate different types of data:</p>
+<div class="tabGroup" id="tabgroup_19">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_19_fsharp" role="tab" aria-controls="tabpanel_19_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_19_csharp" role="tab" aria-controls="tabpanel_19_csharp" data-tab="csharp" tabindex="-1">C#</a>
+</li>
+</ul>
+<section id="tabpanel_19_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">[&lt;Property&gt;]
 let ``user registration with generated data`` 
@@ -739,7 +827,7 @@ let ``user registration with generated data``
     user.Age &gt; 0
 </code></pre>
 </section>
-<section id="tabpanel_17_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_19_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">[Property]
 public bool UserRegistrationWithGeneratedData(
@@ -760,16 +848,16 @@ public bool UserRegistrationWithGeneratedData(
 </div>
 <h2 id="creating-custom-attributes">Creating Custom Attributes</h2>
 <p>You can create your own generator attributes by inheriting from <code>GenAttribute&lt;'T&gt;</code>:</p>
-<div class="tabGroup" id="tabgroup_18">
+<div class="tabGroup" id="tabgroup_20">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_18_fsharp" role="tab" aria-controls="tabpanel_18_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
+<a href="#tabpanel_20_fsharp" role="tab" aria-controls="tabpanel_20_fsharp" data-tab="fsharp" tabindex="0" aria-selected="true">F#</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_18_csharp" role="tab" aria-controls="tabpanel_18_csharp" data-tab="csharp" tabindex="-1">C#</a>
+<a href="#tabpanel_20_csharp" role="tab" aria-controls="tabpanel_20_csharp" data-tab="csharp" tabindex="-1">C#</a>
 </li>
 </ul>
-<section id="tabpanel_18_fsharp" role="tabpanel" data-tab="fsharp">
+<section id="tabpanel_20_fsharp" role="tabpanel" data-tab="fsharp">
 
 <pre><code class="lang-fsharp">open Hedgehog
 open Hedgehog.FSharp
@@ -789,7 +877,7 @@ let ``phone numbers are formatted correctly`` ([&lt;UsPhoneNumber&gt;] phone: st
     phone.Length = 14 &amp;&amp; phone.[0] = '(' &amp;&amp; phone.[4] = ')'
 </code></pre>
 </section>
-<section id="tabpanel_18_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_20_csharp" role="tabpanel" data-tab="csharp" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-csharp">using Hedgehog;
 using Hedgehog.Linq;
