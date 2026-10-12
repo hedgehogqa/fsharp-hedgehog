@@ -96,4 +96,20 @@ public sealed class AttributesTests
     public bool ToKebabCase_Should_Preserve_Valid_KebabCase_Input([KebabCase] string value) =>
         value.All(c => char.IsLower(c) || char.IsDigit(c) || c == '-');
 
+    [Property]
+    public bool DateOnly_Attribute_Should_Generate_Dates_In_Default_Range([DateOnly] DateOnly date) =>
+        date >= new DateOnly(2000, 1, 1) && date <= new DateOnly(2009, 12, 29);
+
+    [Property]
+    public bool DateOnly_Attribute_Should_Respect_Its_Range([DateOnly(2024, 2, 28, 2024, 3, 1)] DateOnly date) =>
+        date >= new DateOnly(2024, 2, 28) && date <= new DateOnly(2024, 3, 1);
+
+    [Property]
+    public bool TimeOnly_Attribute_Should_Respect_Its_Range([TimeOnly(9, 0, 17, 30)] TimeOnly time) =>
+        time >= new TimeOnly(9, 0) && time <= new TimeOnly(17, 30);
+
+    [Property]
+    public bool DateOnly_And_TimeOnly_Should_Be_Generated_Without_An_Attribute(DateOnly date, TimeOnly time) =>
+        date >= DateOnly.MinValue && time >= TimeOnly.MinValue;
+
 }

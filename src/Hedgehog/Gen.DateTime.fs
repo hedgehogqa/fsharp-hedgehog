@@ -77,4 +77,18 @@ module GenDateTime =
             |> Range.map (fun x -> x.Ticks (* Fable can't do this *))
             |> Gen.int64
             |> Gen.map TimeSpan.FromTicks
+
+        /// Generates a random DateOnly using the specified range.
+        let dateOnly (range : Range<DateOnly>) : Gen<DateOnly> =
+            range
+            |> Range.map _.DayNumber
+            |> Gen.int32
+            |> Gen.map DateOnly.FromDayNumber
+
+        /// Generates a random TimeOnly using the specified range.
+        let timeOnly (range : Range<TimeOnly>) : Gen<TimeOnly> =
+            range
+            |> Range.map _.Ticks
+            |> Gen.int64
+            |> Gen.map TimeOnly
 #endif

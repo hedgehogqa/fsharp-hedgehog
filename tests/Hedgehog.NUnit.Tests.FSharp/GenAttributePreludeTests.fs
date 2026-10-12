@@ -87,3 +87,23 @@ type ``GenAttribute Prelude tests``() =
     [<Property>]
     member _.``DateTimeOffset generates valid dates`` ([<DateTimeOffset>] dto: System.DateTimeOffset) =
         Assert.That(dto, Is.GreaterThanOrEqualTo(System.DateTimeOffset(2000, 1, 1, 0, 0, 0, System.TimeSpan.Zero)))
+
+    [<Property>]
+    member _.``DateOnly generates dates of the default range`` ([<DateOnly>] date: System.DateOnly) =
+        Assert.That(date, Is.GreaterThanOrEqualTo(System.DateOnly(2000, 1, 1)))
+        Assert.That(date, Is.LessThanOrEqualTo(System.DateOnly(2009, 12, 29)))
+
+    [<Property>]
+    member _.``DateOnly generates dates of the given range`` ([<DateOnly(2024, 2, 28, 2024, 3, 1)>] date: System.DateOnly) =
+        Assert.That(date, Is.GreaterThanOrEqualTo(System.DateOnly(2024, 2, 28)))
+        Assert.That(date, Is.LessThanOrEqualTo(System.DateOnly(2024, 3, 1)))
+
+    [<Property>]
+    member _.``TimeOnly generates times of the given range`` ([<TimeOnly(9, 0, 17, 30)>] time: System.TimeOnly) =
+        Assert.That(time, Is.GreaterThanOrEqualTo(System.TimeOnly(9, 0)))
+        Assert.That(time, Is.LessThanOrEqualTo(System.TimeOnly(17, 30)))
+
+    [<Property>]
+    member _.``TimeOnly generates any time of day`` ([<TimeOnly>] time: System.TimeOnly) =
+        Assert.That(time, Is.GreaterThanOrEqualTo(System.TimeOnly.MinValue))
+        Assert.That(time, Is.LessThanOrEqualTo(System.TimeOnly.MaxValue))
