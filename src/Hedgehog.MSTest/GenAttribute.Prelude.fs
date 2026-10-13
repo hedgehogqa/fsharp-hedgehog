@@ -1,0 +1,226 @@
+namespace Hedgehog.MSTest
+
+open System
+open Hedgehog
+open Hedgehog.FSharp
+
+[<AutoOpen>]
+module private RangeHelpers =
+
+    [<Literal>]
+    let private LargeRangeThreshold = 1000L
+    [<Literal>]
+    let private MediumRangeThreshold = 100L
+
+    /// Choose between constant, linear, and exponential range based on the range size.
+    /// - For ranges > 1000: use exponential to ensure boundary values are tested
+    /// - For ranges > 100: use linear for balanced shrinking
+    /// - For ranges <= 100: use constant (no shrinking needed for small ranges)
+    let inline chooseRangeInt32 (min: int) (max: int) : Range<int> =
+        let rangeSize = int64 max - int64 min
+        let origin = if min <= 0 && 0 <= max then 0 else min
+        match rangeSize with
+        | size when size > LargeRangeThreshold -> Range.exponentialFrom origin min max
+        | size when size > MediumRangeThreshold -> Range.linearFrom origin min max
+        | _ -> Range.constantFrom origin min max
+
+    /// The range from min to max narrowed to its first and last odd or even value, so that moving a generated value
+    /// onto that parity cannot leave the range. A range without such a value is rejected.
+    let parityRangeInt32 (odd: bool) (min: int) (max: int) : Range<int> =
+        let isOffParity (value: int) = (value % 2 <> 0) <> odd
+        // int64, because the neighbour of Int32.MinValue or Int32.MaxValue would overflow
+        let first = if isOffParity min then int64 min + 1L else int64 min
+        let last = if isOffParity max then int64 max - 1L else int64 max
+
+        if first > last then
+            let parity = if odd then "odd" else "even"
+            invalidArg (nameof min) $"The range from %d{min} to %d{max} holds no %s{parity} value."
+
+        chooseRangeInt32 (int first) (int last)
+
+/// <summary>Generates an integer within a specified range.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type IntAttribute(min: int, max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates an integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = IntAttribute(Int32.MinValue, Int32.MaxValue)
+    override _.Generator =
+        Gen.int32 (chooseRangeInt32 min max)
+
+/// <summary>Generates an odd integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type OddAttribute(min: int, max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates an odd integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = OddAttribute(Int32.MinValue, Int32.MaxValue)
+    override _.Generator =
+        let range = parityRangeInt32 true min max
+
+        gen {
+            let! n = Gen.int32 range
+            return n ||| 1
+        }
+
+/// <summary>Generates an even integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type EvenAttribute(min: int, max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates an even integer from Int32.MinValue to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = EvenAttribute(Int32.MinValue, Int32.MaxValue)
+    override _.Generator =
+        let range = parityRangeInt32 false min max
+
+        gen {
+            let! n = Gen.int32 range
+            return n &&& ~~~1
+        }
+
+/// <summary>Generates a positive integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type PositiveIntAttribute(max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates a positive integer from 1 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = PositiveIntAttribute(Int32.MaxValue)
+    override _.Generator =
+        Gen.int32 (chooseRangeInt32 1 max)
+
+/// <summary>Generates a non-negative integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type NonNegativeIntAttribute(max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates a non-negative integer from 0 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = NonNegativeIntAttribute(Int32.MaxValue)
+    override _.Generator =
+        Gen.int32 (chooseRangeInt32 0 max)
+
+/// <summary>Generates a non-zero integer.</summary>
+/// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+type NonZeroIntAttribute(min: int, max: int) =
+    inherit GenAttribute<int>()
+    /// <summary>Generates a non-zero integer from Int32.MinValue+1 to Int32.MaxValue.</summary>
+    /// <remarks>Range strategy: exponential (>1000), linear (>100), or constant (≤100).</remarks>
+    new() = NonZeroIntAttribute(Int32.MinValue + 1, Int32.MaxValue)
+    override _.Generator =
+        match min, max with
+        | 0, 0 -> invalidArg (nameof min) "The range from 0 to 0 holds no non-zero value."
+        | _, m when m < 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely negative
+        | n, _ when n > 0 -> Gen.int32 (chooseRangeInt32 min max)  // Range entirely positive
+        | 0, m -> Gen.int32 (chooseRangeInt32 1 m)                  // 0 is the lowest value, skip it
+        | n, 0 -> Gen.int32 (chooseRangeInt32 n -1)                 // 0 is the highest value, skip it
+        | n, m ->                                                   // 0 lies inside the range, split it
+            Gen.choice [
+                Gen.int32 (chooseRangeInt32 n -1)
+                Gen.int32 (chooseRangeInt32 1 m)
+            ]
+
+/// Generates a string that is a valid identifier.
+type IdentifierAttribute(maxLen: int) =
+    inherit GenAttribute<string>()
+    new() = IdentifierAttribute(25)
+    override _.Generator =
+        Gen.identifier maxLen
+
+/// Generates a string representing a Latin name.
+type LatinNameAttribute(maxLength: int) =
+    inherit GenAttribute<string>()
+    new() = LatinNameAttribute(20)
+    override _.Generator =
+        Gen.latinName maxLength
+
+/// Generates a string in snake_case.
+type SnakeCaseAttribute(maxWordLength: int, maxWordsCount: int) =
+    inherit GenAttribute<string>()
+    new() = SnakeCaseAttribute(5, 5)
+    override _.Generator =
+        Gen.snakeCase (Range.constant 1 maxWordLength) (Range.constant 1 maxWordsCount)
+
+/// Generates a string in kebab-case.
+type KebabCaseAttribute(maxWordLength: int, maxWordsCount: int) =
+    inherit GenAttribute<string>()
+    new() = KebabCaseAttribute(5, 5)
+    override _.Generator =
+        Gen.kebabCase (Range.constant 1 maxWordLength) (Range.constant 1 maxWordsCount)
+
+/// Generates a valid domain name.
+type DomainNameAttribute() =
+    inherit GenAttribute<string>()
+    override _.Generator =
+        Gen.domainName
+
+/// Generates a valid email address.
+type EmailAttribute() =
+    inherit GenAttribute<string>()
+    override _.Generator =
+        Gen.email
+
+/// Generates a DateTime value.
+type DateTimeAttribute(kind: DateTimeKind, from: DateTime, duration: TimeSpan) =
+    inherit GenAttribute<DateTime>()
+    new() = DateTimeAttribute(DateTimeKind.Utc, DateTime(2000, 1, 1), TimeSpan.FromDays(3650))
+    new(from, duration) = DateTimeAttribute(DateTimeKind.Utc, from, duration)
+    new(kind) = DateTimeAttribute(kind, DateTime(2000, 1, 1), TimeSpan.FromDays(3650))
+    override _.Generator =
+        Gen.dateTime (Range.constant from (from + duration)) (Gen.constant kind)
+
+/// Generates a DateTimeOffset value.
+type DateTimeOffsetAttribute(from: DateTimeOffset, duration: TimeSpan) =
+    inherit GenAttribute<DateTimeOffset>()
+    new() = DateTimeOffsetAttribute(DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero), TimeSpan.FromDays(3650))
+    new(from) = DateTimeOffsetAttribute(from, TimeSpan.FromDays(3650))
+    override _.Generator =
+        Gen.dateTimeOffset (Range.constant from (from + duration))
+
+/// Generates a DateOnly value from min to max, both included.
+/// Without arguments it generates within the 3650 days from 2000-01-01.
+type DateOnlyAttribute(min: DateOnly, max: DateOnly) =
+    inherit GenAttribute<DateOnly>()
+    new() = DateOnlyAttribute(DateOnly(2000, 1, 1), DateOnly(2000, 1, 1).AddDays(3650))
+    /// An attribute argument cannot be a DateOnly, so this constructor takes the two dates as integers.
+    new(minYear: int, minMonth: int, minDay: int, maxYear: int, maxMonth: int, maxDay: int) =
+        DateOnlyAttribute(DateOnly(minYear, minMonth, minDay), DateOnly(maxYear, maxMonth, maxDay))
+    override _.Generator =
+        Gen.int32 (Range.constant min.DayNumber max.DayNumber) |> Gen.map DateOnly.FromDayNumber
+
+/// Generates a TimeOnly value from min to max, both included.
+/// Without arguments it generates any time of day.
+type TimeOnlyAttribute(min: TimeOnly, max: TimeOnly) =
+    inherit GenAttribute<TimeOnly>()
+    new() = TimeOnlyAttribute(TimeOnly.MinValue, TimeOnly.MaxValue)
+    /// An attribute argument cannot be a TimeOnly, so this constructor takes the two times as hours and minutes.
+    new(minHour: int, minMinute: int, maxHour: int, maxMinute: int) =
+        TimeOnlyAttribute(TimeOnly(minHour, minMinute), TimeOnly(maxHour, maxMinute))
+    override _.Generator =
+        Gen.int64 (Range.constant min.Ticks max.Ticks) |> Gen.map TimeOnly
+
+/// Generates a string containing alphanumeric characters.
+type AlphaNumStringAttribute(minLength: int, maxLength: int) =
+    inherit GenAttribute<string>()
+    new() = AlphaNumStringAttribute(0, 256)
+    new(minLength) = AlphaNumStringAttribute(minLength, 256)
+    override _.Generator =
+        Gen.string (Range.constant minLength maxLength) Gen.alphaNum
+
+/// Generates a string containing unicode characters.
+type UnicodeStringAttribute(minLength: int, maxLength: int) =
+    inherit GenAttribute<string>()
+    new() = UnicodeStringAttribute(0, 256)
+    new(minLength) = UnicodeStringAttribute(minLength, 256)
+    override _.Generator =
+        Gen.string (Range.constant minLength maxLength) Gen.unicode
+
+/// Generates an IP address (IPv4).
+type Ipv4AddressAttribute() =
+    inherit GenAttribute<System.Net.IPAddress>()
+    override _.Generator =
+        Gen.ipv4Address
+
+/// Generates an IPv6 address.
+type Ipv6AddressAttribute() =
+    inherit GenAttribute<System.Net.IPAddress>()
+    override _.Generator =
+        Gen.ipv6Address

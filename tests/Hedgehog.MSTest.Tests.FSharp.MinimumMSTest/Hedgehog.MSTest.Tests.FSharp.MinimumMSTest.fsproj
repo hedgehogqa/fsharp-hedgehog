@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The tests of Hedgehog.MSTest.Tests.FSharp, compiled and run against the oldest MSTest that Hedgehog.MSTest supports -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Hedgehog.MSTest.Tests.FSharp\Common.fs" Link="Common.fs" />
+    <Compile Include="..\Hedgehog.MSTest.Tests.FSharp\Harness.fs" Link="Harness.fs" />
+    <Compile Include="..\Hedgehog.MSTest.Tests.FSharp\PropertyTests.fs" Link="PropertyTests.fs" />
+    <Compile Include="..\Hedgehog.MSTest.Tests.FSharp\GenAttributePreludeTests.fs" Link="GenAttributePreludeTests.fs" />
+    <Compile Include="..\Hedgehog.MSTest.Tests.FSharp\MSTestTests.fs" Link="MSTestTests.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Hedgehog.MSTest\Hedgehog.MSTest.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" Version="4.2.3" />
+  </ItemGroup>
+
+</Project>

@@ -226,6 +226,70 @@ public void ReverseTwiceIsIdentity()
 
 ---
 
+### MSTest
+
+# [F#](#tab/fsharp)
+
+```fsharp
+open Microsoft.VisualStudio.TestTools.UnitTesting
+open Hedgehog
+open Hedgehog.FSharp
+
+[<TestClass>]
+type ReverseTests() =
+
+    [<TestMethod>]
+    member _.``reverse twice is identity`` () =
+        property {
+            let! xs = Gen.list (Range.linear 0 100) Gen.alpha
+            return List.rev (List.rev xs) = xs
+        }
+        |> Property.checkBool
+```
+
+# [C#](#tab/csharp)
+
+```csharp
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Hedgehog;
+using Hedgehog.Linq;
+
+[TestClass]
+public class ReverseTests
+{
+    [TestMethod]
+    public void ReverseTwiceIsIdentity()
+    {
+        var property =
+            from xs in Gen.Alpha.List(Range.LinearInt32(0, 100)).ForAll()
+            select xs.Reverse().Reverse().SequenceEqual(xs);
+
+        property.Check();
+    }
+}
+```
+
+---
+
+> [!TIP]
+> The `Hedgehog.MSTest` package provides a `[<Property>]` attribute for MSTest 4: Hedgehog generates the arguments of
+> the test method, and a failure reports the shrunk arguments together with a `[<Recheck>]` attribute that replays it.
+>
+> ```fsharp
+> open Microsoft.VisualStudio.TestTools.UnitTesting
+> open Hedgehog.MSTest
+>
+> [<TestClass>]
+> type ReverseTests() =
+>
+>     [<Property>]
+>     member _.``reverse twice is identity`` (xs: int list) =
+>         Assert.AreEqual<int list>(xs, List.rev (List.rev xs))
+> ```
+>
+> A property method returns `unit`, `Task` or `ValueTask` and fails by throwing, because MSTest runs no test method
+> that returns anything else.
+
 ### Expecto (F# only)
 
 ```fsharp
