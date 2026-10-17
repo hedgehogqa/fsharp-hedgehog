@@ -82,7 +82,6 @@
 #r "nuget: FSharp.Formatting"
 #r "nuget: YamlDotNet"
 #r "nuget: ReverseMarkdown"
-#r "nuget: System.Text.Json"
 
 open System
 open System.IO
