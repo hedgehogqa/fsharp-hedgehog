@@ -9,6 +9,7 @@ open TestDsl
 let allTests = testList "All tests" [
     TreeTests.treeTests
     RangeTests.rangeTests
+    RandomTests.randomTests
     GenTests.genTests
     ListGenTests.listGenTests
     SeedTests.seedTests

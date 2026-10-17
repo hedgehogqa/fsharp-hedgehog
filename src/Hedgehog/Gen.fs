@@ -51,7 +51,7 @@ module Gen =
         mapTree (Tree.map f) g
 
     let private bindRandom (k : 'a -> Random<Tree<'b>>) (m : Random<Tree<'a>>) : Random<Tree<'b>> =
-        Hedgehog.Random (fun seed0 size ->
+        Random.variable (fun seed0 size ->
             let seed1, seed2 =
                 Seed.split seed0
 
