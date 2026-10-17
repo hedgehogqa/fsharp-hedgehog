@@ -1,8 +1,120 @@
-## Version 0.14.0
+## Unreleased
+
+Changes on `master` since the latest versions on NuGet: `Hedgehog` 2.0.4, `Hedgehog.Xunit.v3` 2.0.0 and `Hedgehog.NUnit` 1.0.0.
+
+- Add `Hedgehog.MSTest`, the adapter for MSTest 4, published as 1.0.0 on 2026-10-13 ([#487][487], [@xperiandri][xperiandri])
+  - It has the same attributes and settings as `Hedgehog.Xunit.v3` and `Hedgehog.NUnit`: `Property`, `Properties`, `Recheck`, `GenAttribute<'a>`, the generator attributes, `AutoGenConfig`, `AutoGenConfigArgs`, `Tests`, `Shrinks` and `Size`.
+  - It adds the `Seed` setting of `Property` and `Properties`, data rows (`DataRow` and `DynamicData`), `Assert.Inconclusive` to discard a case, and finding a `GenAttribute` anywhere in an inheritance chain.
+  - MSTest 4 runs only test methods that return `void`, `Task` or `ValueTask`, so a property fails by throwing. Results like `bool`, `Property<_>` and `Result` are not handled.
+- Add `Gen.dateOnly` and `Gen.timeOnly` (`Gen.DateOnly` and `Gen.TimeOnly` in LINQ) and default generators for `DateOnly` and `TimeOnly`. Previously, `Gen.auto` threw an exception for parameters of these types. ([#488][488], [@xperiandri][xperiandri])
+  - Add the `DateOnly` and `TimeOnly` attributes to `Hedgehog.Xunit.v3` and `Hedgehog.NUnit`.
+
+## Version 2.0.4 (2026-06-29)
+
+- Add a generator of `DateTimeKind` as a parameter of `Gen.dateTime` ([#480][480], [@njlr][njlr])
+  - Add `Gen.dateTimeKind`, `Gen.dateTimeUtc`, `Gen.dateTimeLocal` and `Gen.dateTimeUnspecified`. The LINQ `Gen.DateTime` takes an optional generator of `DateTimeKind` too.
+  - A (minor) breaking change. `Gen.dateTime` takes a second argument now. Pass `Gen.constant DateTimeKind.Unspecified` to keep the previous behavior.
+- Fix a typo in the comment of `JournalLine.Text` ([#481][481], [@njlr][njlr])
+- Make the seed part of the property config ([#482][482], [@njlr][njlr])
+  - Add `SeedConfig`, `PropertyConfig.withSeed` to fix the seed of all runs and `PropertyConfig.withRandomSeed` to draw a random seed for each run, which is the default.
+  - The seed of the config is the starting seed of a run, and so it is in the recheck data.
+- Add SourceLink to the `Hedgehog` package by embedding its sources in the PDB. Change the `rollForward` policy in `global.json` so that the repository can be opened with a later .NET SDK. ([#485][485], [@jwosty][jwosty])
+
+## Version 2.0.3 (2026-01-13)
+
+- Add `Hedgehog.NUnit`, the adapter for NUnit. It is published as 1.0.0 and has the same attributes as `Hedgehog.Xunit.v3`: `Property`, `Properties`, `Recheck`, `GenAttribute<'a>` and the generator attributes. ([#478][478], [@AlexeyRaga][AlexeyRaga])
+- Declare the license of the `Hedgehog` package as an SPDX expression instead of a file. The license file is still included in the package. ([#479][479], [@kchenery][kchenery])
+
+## Version 2.0.2 (2026-01-09)
+
+- Add `Property.ofAsyncWithJournal` to create a property from an async computation that produces a journal and an outcome ([#477][477], [@AlexeyRaga][AlexeyRaga])
+- Remove `Hedgehog.Stateful` from the repository ([#477][477], [@AlexeyRaga][AlexeyRaga])
+  - The last version that was published from this repository is 0.7.0-beta3.
+  - Before that, `Hedgehog.Stateful` was released as 0.6.0-beta1, 0.7.0-beta1, 0.7.0-beta2 and 0.7.0-beta3 with these changes:
+    - Fix bugs (0.6.0-beta1) ([#472][472], [@AlexeyRaga][AlexeyRaga])
+    - Allow to project the state with `Var.map` and show the resolved values of `Var`s in reports (0.6.0-beta1) ([#473][473], [@AlexeyRaga][AlexeyRaga])
+    - Simplify `Var` and `Env`: a `Var` holds its concrete value instead of looking it up in the `Env`, so that the state can be printed without reflection (0.6.0-beta1) ([#474][474], [@AlexeyRaga][AlexeyRaga])
+    - Allow commands to take symbolic variables as input: `Generate` can return a `Var<T>`, `Require` checks that it can be resolved, and `Resolve`, `ResolveOr` and `TryResolve` resolve it (0.7.0-beta1) ([#475][475], [@AlexeyRaga][AlexeyRaga])
+    - Add custom equality for `Env` (0.7.0-beta2) ([5a6f144][5a6f144], [@AlexeyRaga][AlexeyRaga])
+    - Add the C# extension method `ToPropertyWith` (0.7.0-beta3) ([a9fac48][a9fac48], [@AlexeyRaga][AlexeyRaga])
+
+## Version 2.0.1 (2025-12-15)
+
+- Add `Hedgehog.Stateful`, a library for state machine property-based testing, published as 0.5.0-beta1 ([#471][471], [@AlexeyRaga][AlexeyRaga])
+- Add the missing extension methods `Check`, `CheckAsync`, `Recheck`, `RecheckAsync`, `Render`, `Report`, `ReportAsync`, `ReportRecheck` and `ReportRecheckAsync` for `Property<unit>` to the LINQ API ([#471][471], [@AlexeyRaga][AlexeyRaga])
+- Add the chatmode of GitHub Copilot for writing C# tests with `Hedgehog.Xunit.v3` to the documentation ([aa3ced9][aa3ced9], [@AlexeyRaga][AlexeyRaga])
+
+## Version 2.0.0 (2025-12-08)
+
+- Use a different seed for each property. Previously, all properties of a test run used the same random seed, so different properties generated the same values. ([#468][468], [@AlexeyRaga][AlexeyRaga])
+- Add `Property.ignoreResult` (`IgnoreResult` in LINQ) to discard the result of a property, for example, the result of a fluent assertion ([#469][469], [@AlexeyRaga][AlexeyRaga])
+- Add tagged journal entries, so that writing to the journal is not concerned with turning values into strings and the report formatter knows the meaning of each entry ([#470][470], [@AlexeyRaga][AlexeyRaga])
+  - A breaking change. `Journal` holds entries of the new type `JournalLine` (`TestParameter`, `GeneratedValue`, `Counterexample`, `Exception`, `Cancellation` and `Text`) instead of strings.
+
+## Version 1.1.0 (2025-12-03)
+
+- Support async operations in properties ([#464][464], [@AlexeyRaga][AlexeyRaga])
+  - `Async<'T>` and `Task<'T>` can be bound with `let!` in the `property` CE and used in LINQ queries.
+  - Add `Property.ofAsync`, `Property.ofTask` and `Property.ofTaskUnit`, and `Property.reportAsync`, `Property.checkAsync` and their variants to run a property asynchronously.
+- Revise the README ([#466][466], [@moodmosaic][moodmosaic])
+- Fix small signature issues: move the date and time generators to the `Hedgehog.FSharp` namespace like the other F# generators, and make the LINQ `Sequence` and `Traverse` take `seq<_>` instead of a flexible type ([#467][467], [@AlexeyRaga][AlexeyRaga])
+
+## Version 1.0.2 (2025-12-01)
+
+- Unwrap `TargetInvocationException` and `AggregateException` with a single inner exception in failure reports, so that they show the exception that was actually thrown ([8cc514d][8cc514d], [@AlexeyRaga][AlexeyRaga])
+
+## Version 1.0.1 (2025-11-30)
+
+- Fix stack overflow in `Shrink.elems` for large lists ([#463][463], [@moodmosaic][moodmosaic])
+- Add missing LINQ combinators, such as `Sequence`, `Traverse`, `TryFinally`, `TryWith`, `WithMapTo` and `WithDistinctMapTo` ([#465][465], [@AlexeyRaga][AlexeyRaga])
+
+## Version 1.0.0 (2025-11-27)
+
+Highlights:
+
+- .NET 8 is the baseline now
+- `Hedgehog.Experimental` is merged in, so `Hedgehog` provides `Gen.auto` and `Gen.autoWith`
+- `Hedgehog.Xunit` is added to the repository. It uses xUnit v3 and reports failures better. It is published as `Hedgehog.Xunit.v3` with the same versions as `Hedgehog` up to 2.0.0.
+- The names of generators and combinators are unified between C# and F# (except the ones that are required for LINQ), and the support of C# is polished
+- Performance optimizations and generated documentation
+
+The pre-releases 1.0.0-beta1 (2025-11-25), 1.0.0-beta2 (2025-11-26), 1.0.0-beta3 and 1.0.0-rc1 (2025-11-27) are included.
+
+Detailed changes:
+
 - No longer targeting .NET Framework ([#417][417], [@LyndonGingerich][LyndonGingerich])
+- Fix the introductory examples in the documentation so that they compile ([#421][421], [@bmitc][bmitc])
 - The runtime of `Property.recheck` is now about the same as `Property.check`.  Previously, it was about ten times slower. ([#433][433], [@TysonMN][TysonMN])
+- Update dependencies ([#435][435], [@dharmaturtle][dharmaturtle])
 - The error message given when a deadend is reached during rechecking is improved to say that the cause is a change in generators. ([#436][436], [@TysonMN][TysonMN])
 - The implementation of `Property.falseToFailure` is now better.  As a result, `Property.recheckBool` now only tests the shrunken input. ([#437][437], [@TysonMN][TysonMN])
+- Fix the conversion of `bigint` to `decimal`, which went through `int32` ([#441][441], [@njlr][njlr])
+- Add `Gen.timeSpan` ([#442][442], [@njlr][njlr])
+- Add `Gen.bigint` ([#443][443], [@njlr][njlr])
+- Use Vite and the new Fable compiler for the Fable tests ([#444][444], [@ThisFunctionalTom][ThisFunctionalTom])
+- Work around a Fable bug with `decimal` ([#445][445], [@ThisFunctionalTom][ThisFunctionalTom])
+- Fix the links in the table of contents of the website, which did not work because of a mismatch in case ([#446][446], [@arialdomartini][arialdomartini])
+- Add XML documentation to `Hedgehog.Linq` ([#447][447], [@JohnEffo][JohnEffo])
+- Pin the version of the `YoloDev.Expecto.TestSdk` package of the tests to 0.14.3, which supports .NET 6 ([#452][452], [@jwChung][jwChung])
+- Clean up the C# API ([#453][453], [@AlexeyRaga][AlexeyRaga])
+  - Deconflict the C# and F# `Gen` and `Range`.
+  - Add `Gen.Constant` as the counterpart of the F# `Gen.constant` and make `Gen.FromValue` obsolete.
+  - Make the C# extensions that receive collections receive `params`.
+- Merge `Hedgehog.Experimental` into `Hedgehog` ([#454][454], [@AlexeyRaga][AlexeyRaga])
+  - Add `Gen.auto` and `Gen.autoWith` for auto-generation.
+  - Standardize the names of generators and combinators.
+  - A breaking change. The API that is specific to F# is in the `Hedgehog.FSharp` namespace now, so that the API does not look clunky from C#. F# code needs `open Hedgehog.FSharp`.
+- Make generating values about 2.5 times faster in most cases ([#456][456], [@AlexeyRaga][AlexeyRaga])
+- Add documentation with examples in C# and F#, generated with DocFX and published from CI ([#457][457], [@AlexeyRaga][AlexeyRaga])
+- Install .NET 8 in CI ([#458][458], [@AlexeyRaga][AlexeyRaga])
+- Merge `Hedgehog.Xunit` and its tests into this repository ([#459][459], [@AlexeyRaga][AlexeyRaga])
+- Remove the quick start link from the description of the `Hedgehog` package ([#460][460], [@moodmosaic][moodmosaic])
+- Report the failures of `Hedgehog.Xunit.v3` tests better ([#461][461], [@AlexeyRaga][AlexeyRaga])
+  - The report clearly specifies the names and values of the parameters, makes the recheck seed easy to find and shows the exception that caused the failure, without the noise of xUnit and Hedgehog internals and multiple stack traces.
+- Enrich and polish ([#462][462], [@AlexeyRaga][AlexeyRaga])
+  - Add the documentation of `Hedgehog.Xunit.v3`.
+  - Add more basic generators and improve the parity of generators between F# and C#.
+  - Add useful generator attributes for `Hedgehog.Xunit.v3`.
 
 ## Version 0.13.0 (2022-07-23)
 
@@ -172,6 +284,22 @@
 
 - First release of Hedgehog ([@jystic][jystic], [@moodmosaic][moodmosaic])
 
+[xperiandri]:
+  https://github.com/xperiandri
+[jwosty]:
+  https://github.com/jwosty
+[kchenery]:
+  https://github.com/kchenery
+[AlexeyRaga]:
+  https://github.com/AlexeyRaga
+[JohnEffo]:
+  https://github.com/JohnEffo
+[arialdomartini]:
+  https://github.com/arialdomartini
+[njlr]:
+  https://github.com/njlr
+[bmitc]:
+  https://github.com/bmitc
 [altxt]:
   https://github.com/altxt
 [lupin-de-mid]:
@@ -202,13 +330,97 @@
   https://github.com/ploeh
 [porges]:
   https://github.com/porges
-[LyndonGingerich]
+[LyndonGingerich]:
   https://github.com/LyndonGingerich
 
+[488]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/488
+[487]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/487
+[485]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/485
+[482]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/482
+[481]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/481
+[480]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/480
+[479]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/479
+[478]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/478
+[477]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/477
+[475]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/475
+[474]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/474
+[473]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/473
+[472]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/472
+[471]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/471
+[470]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/470
+[469]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/469
+[468]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/468
+[467]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/467
+[466]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/466
+[465]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/465
+[464]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/464
+[463]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/463
+[462]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/462
+[461]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/461
+[460]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/460
+[459]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/459
+[458]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/458
+[457]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/457
+[456]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/456
+[454]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/454
+[453]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/453
+[452]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/452
+[447]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/447
+[446]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/446
+[445]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/445
+[444]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/444
+[443]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/443
+[442]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/442
+[441]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/441
+[437]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/437
 [436]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/436
+[435]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/435
 [433]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/433
+[421]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/pull/421
 [417]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/417
 [416]:
@@ -407,3 +619,12 @@
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/91
 [90]:
   https://github.com/hedgehogqa/fsharp-hedgehog/pull/90
+
+[a9fac48]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/commit/a9fac4852ecdc32df9851c94eea708babaa50b2a
+[5a6f144]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/commit/5a6f14462574d0e4514463312eb59ad1cf18f9b7
+[aa3ced9]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/commit/aa3ced992ef8db3b6362c1ad4e484de4ab6228f2
+[8cc514d]:
+  https://github.com/hedgehogqa/fsharp-hedgehog/commit/8cc514d877e1d2739914de9e2a649095930900e9
