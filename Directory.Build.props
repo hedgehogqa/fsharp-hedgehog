@@ -8,4 +8,8 @@
     <FsDocsWarnOnMissingDocs>false</FsDocsWarnOnMissingDocs>
     <FsDocsTheme>default</FsDocsTheme>
   </PropertyGroup>
+  <!-- The packages require FSharp.Core 10.1.402, the version of the .NET 10 SDK, on every machine that packs them -->
+  <PropertyGroup>
+    <FSharpCoreImplicitPackageVersion>10.1.402</FSharpCoreImplicitPackageVersion>
+  </PropertyGroup>
 </Project>
