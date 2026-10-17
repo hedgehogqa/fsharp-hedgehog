@@ -12,6 +12,7 @@
     <Compile Include="TestDsl.fs" />
     <Compile Include="TreeTests.fs" />
     <Compile Include="RangeTests.fs" />
+    <Compile Include="RandomTests.fs" />
     <Compile Include="GenTests.fs" />
     <Compile Include="ListGenTests.fs" />
     <Compile Include="SeedTests.fs" />

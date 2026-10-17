@@ -243,6 +243,16 @@ let genTests = testList "Gen tests" [
         let _ : Gen<int> = (+) <!> (Gen.constant 1) <*> (Gen.constant 1)
         ()
 
+    // https://github.com/hedgehogqa/fsharp-hedgehog/issues/289
+    // Gen.map is built on Random.map, so a long chain of them used to overflow the stack.
+    testCase "map does not overflow the stack" <| fun _ ->
+        let n = 100_000
+        List.replicate n (fun x -> x + 1)
+        |> List.fold (fun g f -> Gen.map f g) (Gen.constant 0)
+        |> Gen.sample 1 1
+        |> Seq.head
+        =! n
+
     testCase "frequency shrink tree is free of duplicates" <| fun _ ->
         let actual =
             [(100, Gen.constant "a")]
