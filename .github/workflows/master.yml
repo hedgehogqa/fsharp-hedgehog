@@ -22,6 +22,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
+        dotnet-version: 8.0.x
 
     - name: Install dependencies
       run: |
@@ -62,6 +63,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
+        dotnet-version: 8.0.x
 
     - name: Setup NodeJs
       uses: actions/setup-node@v3
