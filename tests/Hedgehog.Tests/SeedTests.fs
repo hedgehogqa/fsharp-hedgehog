@@ -32,4 +32,35 @@ let seedTests = testList "Seed tests" [
         [ 0 .. 63 ] <| fun shift ->
         let value = 1UL <<< shift
         1UL =! Seed.bitCount value
+
+    // The values were recorded with the implementation that took the next seed twice and mixed the two.
+    yield! testCases "Seed.split gives the same two seeds as it always did"
+        [ (0UL, (14141672759607663454UL, 16294208416658607535UL), (10697439907134545880UL, 15321243935405834545UL))
+          (1UL, (15450470250919199918UL, 10451216379200822465UL), (16204969531660614133UL, 5610259966137620355UL))
+          (42UL, (18209985878117922550UL, 13679457532755275413UL), (1275548033995301424UL, 10514482549683702313UL))
+          (123456789UL, (15273134408196679032UL, 2466975172287755897UL), (4292043419236741472UL, 13924482691834310481UL)) ] <| fun (x, (value1, gamma1), (value2, gamma2)) ->
+
+        let seed1, seed2 = Seed.split (Seed.from x)
+        seed1 =! { Value = value1; Gamma = gamma1 }
+        seed2 =! { Value = value2; Gamma = gamma2 }
+
+    testCase "Seed.split gives the same seeds five levels down as it always did" <| fun _ ->
+        let rec leaves depth (seed : Seed) =
+            if depth = 0 then
+                [ seed ]
+            else
+                let seed1, seed2 = Seed.split seed
+                leaves (depth - 1) seed1 @ leaves (depth - 1) seed2
+        let actual = leaves 5 (Seed.from 7UL)
+        List.length actual =! 32
+        // The first leaf follows the first seed of every split, the second leaf the second seed of the last one.
+        actual.[0] =! { Value = 6484616903009328195UL; Gamma = 7191089600892374487UL }
+        actual.[1] =! { Value = 5113354820410970958UL; Gamma = 17709024770181158815UL }
+
+    testCase "the first seed of Seed.split continues the sequence of the seed" <| fun _ ->
+        // It is the seed after the next two numbers of the sequence.
+        let seed = Seed.from 99UL
+        let _, afterOne = Seed.nextUInt64 seed
+        let _, afterTwo = Seed.nextUInt64 afterOne
+        fst (Seed.split seed) =! afterTwo
 ]
