@@ -1,4 +1,4 @@
-﻿//
+//
 // This is a port of "Fast Splittable Pseudorandom Number Generators"
 // by Steele et. al. [1].
 //
@@ -210,6 +210,9 @@ module Seed =
 
     /// Splits a 'Seed' in to two.
     let split (seed : Seed) : Seed * Seed =
-        let (value, seed1) = next seed
-        let (gamma, seed2) = next seed1
-        (seed2, mixSeed value gamma)
+        // This takes the next seed twice and mixes the two values, but without the seed and the tuple in between,
+        // which are a good part of what a split allocates.
+        let g = seed.Gamma
+        let value = seed.Value + g
+        let gamma = value + g
+        (newSeed gamma g, mixSeed value gamma)
