@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="GenBenchmarks.fs" />
+    <Compile Include="CollectionBenchmarks.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
