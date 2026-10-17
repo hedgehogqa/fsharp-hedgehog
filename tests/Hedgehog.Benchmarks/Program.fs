@@ -50,7 +50,13 @@ type ScaledBenchmarks () =
 
 [<EntryPoint>]
 let main argv =
-    BenchmarkRunner.Run<Benchmarks> () |> ignore
-    BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
-    BenchmarkRunner.Run<GenBenchmarks>() |> ignore
+    match argv with
+    | [||] ->
+        BenchmarkRunner.Run<Benchmarks> () |> ignore
+        BenchmarkRunner.Run<ScaledBenchmarks> () |> ignore
+        BenchmarkRunner.Run<GenBenchmarks>() |> ignore
+        BenchmarkRunner.Run<CollectionBenchmarks>() |> ignore
+    | _ ->
+        // For example: -- --filter "*CollectionBenchmarks*"
+        BenchmarkSwitcher.FromAssembly(typeof<Benchmarks>.Assembly).Run(argv) |> ignore
     0

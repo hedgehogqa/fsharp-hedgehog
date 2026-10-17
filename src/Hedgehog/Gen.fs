@@ -349,24 +349,7 @@ module Gen =
     /// <param name="gen">Generates the items in the list.</param>
     /// <param name="range">Range determining the length of the list.</param>
     let list (range : Range<int>) (gen : Gen<'a>) : Gen<List<'a>> =
-        let sequence minLength trees =
-            trees
-            |> Seq.toList
-            |> Shrink.sequenceList
-            |> Tree.filter (fun list -> List.length list >= minLength)
-
-        let replicate minLength times =
-            toRandom gen
-            |> Random.replicate times
-            |> Random.map (sequence minLength)
-
-        let sizedList size =
-            let minLength = Range.lowerBound size range
-            range
-            |> Random.integral
-            |> Random.bind (replicate minLength)
-
-        Random.sized sizedList
+        ArrayCore.generate List.ofArray range (toRandom gen)
         |> ofRandom
 
     /// <summary>
@@ -374,11 +357,14 @@ module Gen =
     /// </summary>
     /// <param name="range">Range determining the length of the array.</param>
     let array (range : Range<int>) (gen : Gen<'a>) : Gen<array<'a>> =
-        list range gen |> map Array.ofList
+        ArrayCore.generate id range (toRandom gen)
+        |> ofRandom
 
     /// Generates an enumerable using a 'Range' to determine the length.
     let seq (range : Range<int>) (gen : Gen<'a>) : Gen<seq<'a>> =
-        list range gen |> map Seq.ofList
+        // The elements are in an F# list, like they were before the array core, so that they are printed the same way.
+        ArrayCore.generate (fun xs -> List.ofArray xs :> seq<'a>) range (toRandom gen)
+        |> ofRandom
 
     /// Generates null part of the time.
     let withNull (g : Gen<'a>) : Gen<'a> =
