@@ -42,6 +42,7 @@ Failures are automatically simplified, giving developers coherent, intelligible 
     <Compile Include="Range.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="Shrink.fs" />
+    <Compile Include="ArrayCore.fs" />
     <Compile Include="Gen.fs" />
     <Compile Include="Gen.Traversable.fs" />
     <Compile Include="Gen.Primitives.fs" />
