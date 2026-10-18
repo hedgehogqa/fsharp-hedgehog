@@ -12,8 +12,8 @@ Changes on `master` since the latest versions on NuGet: `Hedgehog` 2.0.4, `Hedge
 ## Version 2.0.4 (2026-06-29)
 
 - Add a generator of `DateTimeKind` as a parameter of `Gen.dateTime` ([#480][480], [@njlr][njlr])
-  - Add `Gen.dateTimeKind`, `Gen.dateTimeUtc`, `Gen.dateTimeLocal` and `Gen.dateTimeUnspecified`. The LINQ `Gen.DateTime` takes an optional generator of `DateTimeKind` too.
-  - A (minor) breaking change. `Gen.dateTime` takes a second argument now. Pass `Gen.constant DateTimeKind.Unspecified` to keep the previous behavior.
+  - Add `Gen.dateTimeKind`, `Gen.dateTimeUtc`, `Gen.dateTimeLocal` and `Gen.dateTimeUnspecified`. The LINQ `Gen.DateTime` gains a generator of `DateTimeKind` too.
+  - A breaking change for F# and C#. `Gen.dateTime` takes a second argument now; pass `Gen.constant DateTimeKind.Unspecified` to keep the previous behavior. C# callers must change `Gen.DateTime(range)` to `Gen.DateTime(range, null)` to keep the previous behavior.
 - Fix a typo in the comment of `JournalLine.Text` ([#481][481], [@njlr][njlr])
 - Make the seed part of the property config ([#482][482], [@njlr][njlr])
   - Add `SeedConfig`, `PropertyConfig.withSeed` to fix the seed of all runs and `PropertyConfig.withRandomSeed` to draw a random seed for each run, which is the default.
@@ -35,7 +35,7 @@ Changes on `master` since the latest versions on NuGet: `Hedgehog` 2.0.4, `Hedge
     - Allow to project the state with `Var.map` and show the resolved values of `Var`s in reports (0.6.0-beta1) ([#473][473], [@AlexeyRaga][AlexeyRaga])
     - Simplify `Var` and `Env`: a `Var` holds its concrete value instead of looking it up in the `Env`, so that the state can be printed without reflection (0.6.0-beta1) ([#474][474], [@AlexeyRaga][AlexeyRaga])
     - Allow commands to take symbolic variables as input: `Generate` can return a `Var<T>`, `Require` checks that it can be resolved, and `Resolve`, `ResolveOr` and `TryResolve` resolve it (0.7.0-beta1) ([#475][475], [@AlexeyRaga][AlexeyRaga])
-    - Add custom equality for `Env` (0.7.0-beta2) ([5a6f144][5a6f144], [@AlexeyRaga][AlexeyRaga])
+    - Add custom equality and comparison for `Var<'T>` (0.7.0-beta2) ([5a6f144][5a6f144], [@AlexeyRaga][AlexeyRaga])
     - Add the C# extension method `ToPropertyWith` (0.7.0-beta3) ([a9fac48][a9fac48], [@AlexeyRaga][AlexeyRaga])
 
 ## Version 2.0.1 (2025-12-15)
@@ -54,7 +54,7 @@ Changes on `master` since the latest versions on NuGet: `Hedgehog` 2.0.4, `Hedge
 ## Version 1.1.0 (2025-12-03)
 
 - Support async operations in properties ([#464][464], [@AlexeyRaga][AlexeyRaga])
-  - `Async<'T>` and `Task<'T>` can be bound with `let!` in the `property` CE and used in LINQ queries.
+  - `Async<'T>` and `Task<'T>` can be bound with `let!` in the `property` CE; LINQ queries can bind `Task<'T>` and `Task` directly.
   - Add `Property.ofAsync`, `Property.ofTask` and `Property.ofTaskUnit`, and `Property.reportAsync`, `Property.checkAsync` and their variants to run a property asynchronously.
 - Revise the README ([#466][466], [@moodmosaic][moodmosaic])
 - Fix small signature issues: move the date and time generators to the `Hedgehog.FSharp` namespace like the other F# generators, and make the LINQ `Sequence` and `Traverse` take `seq<_>` instead of a flexible type ([#467][467], [@AlexeyRaga][AlexeyRaga])
@@ -66,7 +66,7 @@ Changes on `master` since the latest versions on NuGet: `Hedgehog` 2.0.4, `Hedge
 ## Version 1.0.1 (2025-11-30)
 
 - Fix stack overflow in `Shrink.elems` for large lists ([#463][463], [@moodmosaic][moodmosaic])
-- Add missing LINQ combinators, such as `Sequence`, `Traverse`, `TryFinally`, `TryWith`, `WithMapTo` and `WithDistinctMapTo` ([#465][465], [@AlexeyRaga][AlexeyRaga])
+- Add missing LINQ combinators, such as `Sequence`, `Traverse`, `WithMapTo` and `WithDistinctMapTo`, and document the existing `TryFinally` and `TryWith` combinators ([#465][465], [@AlexeyRaga][AlexeyRaga])
 
 ## Version 1.0.0 (2025-11-27)
 
