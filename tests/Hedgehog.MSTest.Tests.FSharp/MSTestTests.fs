@@ -22,7 +22,7 @@ module Buggy =
 /// The recheck data that the seed-42 run of the buggy reverse property reports.
 module BuggyRecheck =
     [<Literal>]
-    let Data = "33_7178138842248401496_3704456211830240771_4-4-4"
+    let Data = "33_7178138842248401496_3704456211830240771_5-5-5"
 
 /// Records what the lifecycle test class does, one instance number per case.
 module LifecycleRecord =

@@ -28,10 +28,26 @@ module Shrink =
                 Some (x, x / two)
         Seq.unfold go n
 
+    /// Produce a list containing the progressive halving of a length, rounding up.
+    /// Unlike 'halves' it does not skip a number when starting from an odd one and
+    /// it always ends with 1, e.g. 3 gives [3; 2; 1] where 'halves' gives [3; 1].
+    let private ceilingHalves (n : int) : seq<int> =
+        let go k =
+            if k <= 0 then
+                None
+            elif k = 1 then
+                // Rounding up never gets past 1, so stop here.
+                Some (1, 0)
+            else
+                Some (k, (k + 1) / 2)
+        Seq.unfold go n
+
     /// Shrink a list by edging towards the empty list.
     /// Note we always try the empty list first, as that is the optimal shrink.
+    /// The size of the removed chunks is halved rounding up, so that no size is
+    /// skipped for a list of odd length (a list of 3 elements can shrink to 1).
     let list (xs : List<'a>) : seq<List<'a>> =
-        halves (List.length xs)
+        ceilingHalves (List.length xs)
         |> Seq.collect (fun k -> removes k xs)
 
     /// Shrink each of the elements in input list using the supplied shrinking

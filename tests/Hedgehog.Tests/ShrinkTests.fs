@@ -55,7 +55,7 @@ let shrinkTests = testList "Shrink tests" [
         let actual =
             Shrink.list [1; 2; 3]
             |> Seq.toList
-        actual =! [[]; [2; 3]; [1; 3]; [1; 2]]
+        actual =! [[]; [3]; [2; 3]; [1; 3]; [1; 2]]
 
     testCase "list shrinks a list by edging towards the empty list - example 2" <| fun _ ->
         let actual =
@@ -69,6 +69,33 @@ let shrinkTests = testList "Shrink tests" [
               [ "a"; "c"; "d" ]
               [ "a"; "b"; "d" ]
               [ "a"; "b"; "c" ] ]
+
+    testCase "list shrinks a list by edging towards the empty list - example 3" <| fun _ ->
+        let actual =
+            Shrink.list [1; 2; 3; 4; 5]
+            |> Seq.toList
+        actual =!
+            [ []
+              [ 4; 5 ]
+              [ 3; 4; 5 ]
+              [ 1; 2; 5 ]
+              [ 2; 3; 4; 5 ]
+              [ 1; 3; 4; 5 ]
+              [ 1; 2; 4; 5 ]
+              [ 1; 2; 3; 5 ]
+              [ 1; 2; 3; 4 ] ]
+
+    testCase "list does not shrink the empty list" <| fun _ ->
+        let actual =
+            Shrink.list ([] : List<int>)
+            |> Seq.toList
+        actual =! []
+
+    testCase "list shrinks a list of one element to the empty list only" <| fun _ ->
+        let actual =
+            Shrink.list [1]
+            |> Seq.toList
+        actual =! [[]]
 
     testCase "towards correct on input 0, 100" <| fun _ ->
         let actual =
@@ -124,6 +151,40 @@ let shrinkTests = testList "Shrink tests" [
         let xs = [ 1 .. n ]
         let actual = Shrink.list xs |> Seq.toList
         Expect.isTrue (actual |> List.forall (fun xs' -> xs.Length > xs'.Length))
+
+    yield! testCases "list tries the empty list first"
+        [ 1; 2; 3; 4; 5; 7; 30; 101 ] <| fun n ->
+        let actual = Shrink.list [ 1 .. n ] |> Seq.head
+        actual =! []
+
+    yield! testCases "list can halve a list in one step"
+        [ 2; 3; 4; 5; 6; 7; 9; 11; 30; 101 ] <| fun n ->
+        let actual = Shrink.list [ 1 .. n ] |> Seq.toList
+        Expect.isTrue (actual |> List.exists (fun xs' -> xs'.Length = n / 2))
+
+    yield! testCases "list lets a shrinker reach a singleton when only lists of odd length fail"
+        [ 1; 3; 5; 7; 9; 31; 101 ] <| fun n ->
+        // Like the shrinker of a property: commit to the first shrink that still
+        // fails and never go back.
+        let rec shrink xs =
+            match Shrink.list xs |> Seq.tryFind (fun xs' -> List.length xs' % 2 = 1) with
+            | Some xs' -> shrink xs'
+            | None -> xs
+        let actual = shrink [ 1 .. n ]
+        actual.Length =! 1
+
+    testCase "Gen.list shrinks to a singleton when only lists of odd length fail" <| fun _ ->
+        let generatedValues =
+            property {
+                let! xs =
+                    Range.constant 0 9
+                    |> Gen.int32
+                    |> Gen.list (Range.constant 0 100)
+                return List.length xs % 2 = 0
+            }
+            |> Property.falseToFailure
+            |> expectFailureWithGeneratedValues
+        generatedValues =! [ box [ 0 ] ]
 
     yield! testCases "elems shrinks each element in input list using a supplied shrinker"
         [ 1; 2; 3; 30; 128; 256; 512; 1024 ] <| fun n ->
